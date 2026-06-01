@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Background -->
+    <path
+        android:fillColor="#1C2333"
+        android:pathData="M0,0 L200,0 L200,200 L0,200 Z" />
+
+    <!-- Mountain silhouette -->
+    <path
+        android:fillColor="#2D3A4A"
+        android:pathData="M0,140 L60,70 L120,140 Z" />
+    <path
+        android:fillColor="#243040"
+        android:pathData="M80,140 L150,50 L200,140 Z" />
+
+    <!-- Sun -->
+    <path
+        android:fillColor="#F5A623"
+        android:pathData="M155,45 m-18,0 a18,18 0 1,0 36,0 a18,18 0 1,0 -36,0" />
+
+    <!-- Ground -->
+    <path
+        android:fillColor="#1A2535"
+        android:pathData="M0,140 L200,140 L200,200 L0,200 Z" />
+
+    <!-- "Gere as imagens primeiro" text hint area -->
+    <path
+        android:fillColor="#8B949E"
+        android:pathData="M60,165 L140,165 L140,167 L60,167 Z" />
+    <path
+        android:fillColor="#8B949E"
+        android:pathData="M75,172 L125,172 L125,174 L75,174 Z" />
+</vector>

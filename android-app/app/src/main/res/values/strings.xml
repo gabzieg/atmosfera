@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Atmosfera</string>
+    <string name="wallpaper_label">Atmosfera – Clima ao Vivo</string>
+    <string name="wallpaper_description">Wallpaper interativo com imagens reais de acordo com o clima atual</string>
+</resources>

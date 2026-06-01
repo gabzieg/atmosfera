@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Background circle -->
+    <path android:fillColor="#1A90D4"
+        android:pathData="M0,0 L108,0 L108,108 L0,108 Z"/>
+
+    <!-- Mountain -->
+    <path android:fillColor="#1F2B20"
+        android:pathData="M10,80 L54,30 L98,80 Z"/>
+    <path android:fillColor="#2D3A2E"
+        android:pathData="M0,80 L35,48 L70,80 Z"/>
+
+    <!-- Snow cap -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M54,30 L62,48 L46,48 Z" android:fillAlpha="0.85"/>
+
+    <!-- Sun -->
+    <path android:fillColor="#FFD700"
+        android:pathData="M82,28 m-12,0 a12,12 0 1,0 24,0 a12,12 0 1,0 -24,0"/>
+
+    <!-- Ground -->
+    <path android:fillColor="#142014"
+        android:pathData="M0,85 L108,85 L108,108 L0,108 Z"/>
+</vector>

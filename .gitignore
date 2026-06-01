@@ -1,0 +1,34 @@
+# --- Android / Gradle ---
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+bin/
+gen/
+out/
+build/
+.gradle/
+android-app/app/build/
+local.properties
+
+# --- Android Studio ---
+.idea/
+*.iml
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# --- Imagens Geradas ---
+# Ignoramos a pasta de output para não lotar o repositório,
+# mas as imagens dentro de android-app/app/src/main/assets/wallpapers/ serão enviadas.
+image-generator/output/
+
+# --- Segurança (MUITO IMPORTANTE) ---
+*.jks
+*.properties
+.env

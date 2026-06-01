@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="180dp"
+    android:height="320dp"
+    android:viewportWidth="180"
+    android:viewportHeight="320">
+
+    <!-- Sky gradient simulation -->
+    <path android:fillColor="#1A90D4"
+        android:pathData="M0,0 L180,0 L180,200 L0,200 Z"/>
+    <path android:fillColor="#56C8F5"
+        android:pathData="M0,100 L180,100 L180,220 L0,220 Z"/>
+    <path android:fillColor="#F7E08A"
+        android:pathData="M0,200 L180,200 L180,320 L0,320 Z"/>
+
+    <!-- Mountains -->
+    <path android:fillColor="#2D3A2E"
+        android:pathData="M0,240 L60,160 L120,240 Z"/>
+    <path android:fillColor="#1F2B20"
+        android:pathData="M80,240 L150,140 L220,240 Z"/>
+
+    <!-- Sun -->
+    <path android:fillColor="#FFD700"
+        android:pathData="M140,60 m-20,0 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0"/>
+
+    <!-- Clock text representation -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M55,55 L125,55 L125,62 L55,62 Z" android:fillAlpha="0.9"/>
+
+    <!-- Temp representation -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M20,270 L60,270 L60,277 L20,277 Z" android:fillAlpha="0.9"/>
+
+    <!-- Ground -->
+    <path android:fillColor="#142014"
+        android:pathData="M0,280 L180,280 L180,320 L0,320 Z"/>
+</vector>
