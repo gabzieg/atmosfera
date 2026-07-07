@@ -17,7 +17,13 @@ import java.util.concurrent.TimeUnit
 
 data class OpenMeteoResponse(
     @SerializedName("current") val current: CurrentWeather,
-    @SerializedName("current_units") val units: CurrentUnits? = null
+    @SerializedName("current_units") val units: CurrentUnits? = null,
+    @SerializedName("daily") val daily: DailyResponse? = null
+)
+
+data class DailyResponse(
+    @SerializedName("sunrise") val sunrise: List<String>? = null,
+    @SerializedName("sunset") val sunset: List<String>? = null
 )
 
 data class CurrentWeather(
@@ -41,6 +47,8 @@ interface OpenMeteoApi {
         @Query("latitude") latitude: Double,
         @Query("longitude") longitude: Double,
         @Query("current") current: String = "temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m,is_day",
+        @Query("daily") daily: String = "sunrise,sunset",
+        @Query("forecast_days") forecastDays: Int = 1,
         @Query("wind_speed_unit") windSpeedUnit: String = "kmh",
         @Query("timezone") timezone: String = "auto",
     ): OpenMeteoResponse
@@ -93,6 +101,17 @@ fun getDayPeriod(isDay: Int): DayPeriod {
     return if (hour < 12) DayPeriod.MORNING else DayPeriod.AFTERNOON
 }
 
+/** Converte ISO local "2026-07-07T06:12" em hora fracionária (6.2). */
+fun horaDeIso(iso: String?): Float? {
+    if (iso == null) return null
+    val t = iso.substringAfter('T', "")
+    val partes = t.split(':')
+    if (partes.size < 2) return null
+    val h = partes[0].toIntOrNull() ?: return null
+    val m = partes[1].take(2).toIntOrNull() ?: return null
+    return h + m / 60f
+}
+
 // ─── Repositório ──────────────────────────────────────────────────────────────
 
 class WeatherRepository {
@@ -135,6 +154,8 @@ class WeatherRepository {
                     description = current.weatherCode.toWeatherDescription(),
                     windspeedKmh = current.windSpeed,
                     humidity = current.humidity,
+                    sunriseHour = horaDeIso(response.daily?.sunrise?.firstOrNull()) ?: 6.0f,
+                    sunsetHour = horaDeIso(response.daily?.sunset?.firstOrNull()) ?: 18.5f,
                 )
                 Log.d(TAG, "Clima obtido: $state")
                 Result.success(state)

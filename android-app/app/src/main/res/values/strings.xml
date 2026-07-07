@@ -2,5 +2,5 @@
 <resources>
     <string name="app_name">Atmosfera</string>
     <string name="wallpaper_label">Atmosfera – Clima ao Vivo</string>
-    <string name="wallpaper_description">Wallpaper interativo com imagens reais de acordo com o clima atual</string>
+    <string name="wallpaper_description">Cenário animado que reage ao clima real: chuva, neve, sol, lua e mais</string>
 </resources>

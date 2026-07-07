@@ -16,6 +16,11 @@ local.properties
 .idea/
 *.iml
 
+# --- Arquivos compactados (não versionar backups) ---
+*.rar
+*.zip
+*.7z
+
 # --- Python ---
 __pycache__/
 *.py[cod]
@@ -25,10 +30,15 @@ venv/
 
 # --- Imagens Geradas ---
 # Ignoramos a pasta de output para não lotar o repositório,
-# mas as imagens dentro de android-app/app/src/main/assets/wallpapers/ serão enviadas.
+# mas os assets do motor (android-app/app/src/main/assets/atmosfera/) SÃO enviados.
 image-generator/output/
 
 # --- Segurança (MUITO IMPORTANTE) ---
+# ATENÇÃO: não use "*.properties" aqui — isso ignoraria gradle.properties e
+# gradle-wrapper.properties (essenciais do build). Ignore só os segredos:
 *.jks
-*.properties
+*.keystore
+keystore.properties
+secrets.properties
+local.properties
 .env

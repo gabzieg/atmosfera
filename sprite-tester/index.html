@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atmosfera | Sprite Sheet Tester</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Controls -->
+        <aside class="sidebar">
+            <header class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon">🌤</span>
+                    <span class="logo-text">Atmosfera</span>
+                </div>
+                <p class="tagline">Interactive Sprite Sheet Tester</p>
+            </header>
+
+            <section class="control-group">
+                <h3>Rendering Mode</h3>
+                <div class="radio-toggle">
+                    <input type="radio" id="mode-fullscreen" name="render-mode" value="fullscreen" checked>
+                    <label for="mode-fullscreen">
+                        <span class="title">Fullscreen Loop</span>
+                        <span class="desc">Plays sheet frames sequentially on viewport</span>
+                    </label>
+                    
+                    <input type="radio" id="mode-particles" name="render-mode" value="particles">
+                    <label for="mode-particles">
+                        <span class="title">Particle Simulation</span>
+                        <span class="desc">Simulates Android app's Canvas engine</span>
+                    </label>
+                </div>
+            </section>
+
+            <section class="control-group">
+                <h3>Sprite Preset</h3>
+                <div class="radio-toggle">
+                    <input type="radio" id="preset-leve" name="sprite-preset" value="leve" checked>
+                    <label for="preset-leve">
+                        <span class="title">Chuva Leve</span>
+                        <span class="desc">Gota fina (Top Grid)</span>
+                    </label>
+                    
+                    <input type="radio" id="preset-pesada" name="sprite-preset" value="pesada">
+                    <label for="preset-pesada">
+                        <span class="title">Chuva Pesada</span>
+                        <span class="desc">Gota grossa (Middle Grid)</span>
+                    </label>
+
+                    <input type="radio" id="preset-tiles" name="sprite-preset" value="tiles">
+                    <label for="preset-tiles">
+                        <span class="title">Tiles (Splash)</span>
+                        <span class="desc">Animação de colisão (Bottom)</span>
+                    </label>
+
+                    <input type="radio" id="preset-custom" name="sprite-preset" value="custom">
+                    <label for="preset-custom">
+                        <span class="title">Custom / Full</span>
+                        <span class="desc">Configurar manualmente</span>
+                    </label>
+                </div>
+
+                <div id="custom-crop-container" class="hidden" style="margin-top: 15px;">
+                    <div class="checkbox-field" style="margin-bottom: 10px;">
+                        <input type="checkbox" id="input-use-full" checked>
+                        <label for="input-use-full">Use Full Image</label>
+                    </div>
+                    <div class="input-grid" id="crop-inputs" style="opacity: 0.5; pointer-events: none;">
+                        <div class="input-field">
+                            <label for="input-crop-x">Start X</label>
+                            <input type="number" id="input-crop-x" value="0" min="0">
+                        </div>
+                        <div class="input-field">
+                            <label for="input-crop-y">Start Y</label>
+                            <input type="number" id="input-crop-y" value="0" min="0">
+                        </div>
+                        <div class="input-field">
+                            <label for="input-crop-w">Width</label>
+                            <input type="number" id="input-crop-w" value="0" min="0">
+                        </div>
+                        <div class="input-field">
+                            <label for="input-crop-h">Height</label>
+                            <input type="number" id="input-crop-h" value="0" min="0">
+                        </div>
+                    </div>
+                    <div style="border-top: 1px solid var(--border-color); margin: 5px 0;"></div>
+                    <div class="input-grid">
+                        <div class="input-field">
+                            <label for="input-cols">Columns</label>
+                            <input type="number" id="input-cols" value="2" min="1" max="20">
+                        </div>
+                        <div class="input-field">
+                            <label for="input-rows">Rows</label>
+                            <input type="number" id="input-rows" value="4" min="1" max="30">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-badge" style="margin-top: 10px;">
+                    Total Frames: <span id="info-total-frames">4</span> (<span id="info-frame-size">635 x 593</span> px)
+                </div>
+            </section>
+
+            <section class="control-group">
+                <h3>Animation Settings</h3>
+                <div class="range-field">
+                    <div class="range-labels">
+                        <label for="input-fps">Animation Speed (FPS)</label>
+                        <span class="value-display" id="val-fps">4</span>
+                    </div>
+                    <input type="range" id="input-fps" min="1" max="60" value="4">
+                </div>
+                
+                <div class="range-field" id="field-scale">
+                    <div class="range-labels">
+                        <label for="input-scale">Scale / Zoom</label>
+                        <span class="value-display" id="val-scale">1.0x</span>
+                    </div>
+                    <input type="range" id="input-scale" min="0.1" max="3.0" step="0.1" value="1.0">
+                </div>
+            </section>
+
+            <section class="control-group particles-only hidden">
+                <h3>Particle Parameters</h3>
+                <div class="range-field">
+                    <div class="range-labels">
+                        <label for="input-particle-count">Particle Count</label>
+                        <span class="value-display" id="val-particle-count">100</span>
+                    </div>
+                    <input type="range" id="input-particle-count" min="5" max="300" value="100">
+                </div>
+
+                <div class="range-field">
+                    <div class="range-labels">
+                        <label for="input-particle-length">Drop Size (Length)</label>
+                        <span class="value-display" id="val-particle-length">80</span>
+                    </div>
+                    <input type="range" id="input-particle-length" min="20" max="250" value="80">
+                </div>
+
+                <div class="range-field">
+                    <div class="range-labels">
+                        <label for="input-particle-speed">Speed Multiplier</label>
+                        <span class="value-display" id="val-particle-speed">1.0x</span>
+                    </div>
+                    <input type="range" id="input-particle-speed" min="0.2" max="3.0" step="0.1" value="1.0">
+                </div>
+
+                <div class="range-field">
+                    <div class="range-labels">
+                        <label for="input-particle-wind">Inclinação Horizontal (Vento VX)</label>
+                        <span class="value-display" id="val-particle-wind">1.5</span>
+                    </div>
+                    <input type="range" id="input-particle-wind" min="-5" max="5" step="0.1" value="1.5">
+                </div>
+                
+                <div class="checkbox-field">
+                    <input type="checkbox" id="input-stretch" checked>
+                    <label for="input-stretch">Stretch Drop Aspect Ratio</label>
+                </div>
+            </section>
+
+            <section class="control-group">
+                <h3>Background Canvas Style</h3>
+                <div class="bg-selector">
+                    <button class="bg-btn active" data-bg="gradient-dark" style="background: linear-gradient(135deg, #0f1423 0%, #1a1f38 100%);" title="Dark Stormy Gradient"></button>
+                    <button class="bg-btn" data-bg="gradient-sunset" style="background: linear-gradient(135deg, #2b1055 0%, #7597de 100%);" title="Sunset Purple"></button>
+                    <button class="bg-btn" data-bg="color-green" style="background: #00ff00;" title="Green Screen (Chroma Key)"></button>
+                    <button class="bg-btn" data-bg="color-black" style="background: #050505;" title="Solid Pitch Black"></button>
+                    <button class="bg-btn" data-bg="color-white" style="background: #ffffff; border: 1px solid #ccc;" title="Solid White"></button>
+                </div>
+            </section>
+
+            <div class="sidebar-footer">
+                <p>Sprite Path: <code>Sprite_Sheet_Transp.png</code></p>
+                <p>Original Size: <span id="info-original-size">1567 x 3000</span> px</p>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="workspace">
+            <header class="workspace-header">
+                <div class="title-area">
+                    <h1>Live Canvas Preview</h1>
+                    <div class="status-indicator">
+                        <span class="pulse"></span>
+                        <span id="status-text">Animating Sprite</span>
+                        <span class="fps-badge" style="margin-left: 10px; background: rgba(255,255,255,0.08); padding: 3px 8px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent); border: 1px solid rgba(255,255,255,0.05);">
+                            Actual: <span id="info-actual-fps">0</span> FPS
+                        </span>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <button id="btn-play-pause" class="toolbar-btn primary">
+                        <span class="icon">⏸</span> Pause
+                    </button>
+                    <button id="btn-reset" class="toolbar-btn">
+                        <span class="icon">🔄</span> Reset
+                    </button>
+                </div>
+            </header>
+
+            <div class="preview-area">
+                <div class="device-frame" id="canvas-container">
+                    <!-- Overlay clock to mimic Android Home Screen -->
+                    <div class="android-clock-overlay">
+                        <div class="time" id="mock-time">16:07</div>
+                        <div class="date" id="mock-date">Sunday, June 21</div>
+                        <div class="weather-row">
+                            <span class="temp">18°C</span>
+                            <span class="desc">Raining</span>
+                        </div>
+                    </div>
+                    <canvas id="animation-canvas"></canvas>
+                </div>
+            </div>
+
+            <!-- Frame Explorer Section -->
+            <section class="frame-explorer-section">
+                <header class="section-header">
+                    <h2>Sliced Frames Directory</h2>
+                    <p>Visual breakdown of every frame extracted from the Sprite Sheet</p>
+                </header>
+                <div class="frames-grid" id="frames-grid-container">
+                    <!-- Sliced frames will be loaded here dynamically -->
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="index.js"></script>
+</body>
+</html>

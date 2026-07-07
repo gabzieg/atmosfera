@@ -60,4 +60,10 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.google.android.gms:play-services-location:21.2.0'
+
+    // Cardview (usado no layout principal)
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    // Google Play Billing — Premium por compra única
+    implementation 'com.android.billingclient:billing-ktx:6.1.0'
 }

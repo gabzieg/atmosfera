@@ -30,6 +30,9 @@ data class WeatherState(
     val description: String,
     val windspeedKmh: Double = 0.0,
     val humidity: Int = 0,
+    // Nascer/pôr do sol como hora fracionária local (ex.: 6.2 = 06:12).
+    val sunriseHour: Float = 6.0f,
+    val sunsetHour: Float = 18.5f,
 )
 
 /**
