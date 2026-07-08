@@ -7,8 +7,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import com.atmosfera.wallpaper.BuildConfig
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -28,6 +32,10 @@ class MainActivity : AppCompatActivity() {
     private val weatherRepo by lazy { WeatherRepository() }
     private val weatherCache by lazy { WeatherCache(this) }
     private val billing by lazy { BillingManager(applicationContext) { onPremiumMudou(it) } }
+
+    // Desbloqueio de TESTE (só em debug): segurar 10s na preview liga/desliga Premium.
+    private val holdHandler = Handler(Looper.getMainLooper())
+    private var holdRunnable: Runnable? = null
 
     private val locationPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -69,6 +77,30 @@ class MainActivity : AppCompatActivity() {
             if (Plano.isPremium(this)) return@setOnClickListener
             if (billing.temProduto()) billing.comprar(this)
             else showToast("Loja indisponível. Tente novamente em instantes.")
+        }
+        if (BuildConfig.DEBUG) configurarDesbloqueioTeste()
+    }
+
+    /** Só em builds de debug: segurar 10s na preview alterna o Premium (para testar). */
+    private fun configurarDesbloqueioTeste() {
+        binding.ivPreview.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    holdRunnable = Runnable {
+                        val novo = !Plano.isPremium(this)
+                        Plano.setPremium(this, novo)
+                        atualizarPremium()
+                        showToast(if (novo) "🔓 TESTE: Premium LIGADO (volte à tela inicial)" else "TESTE: Premium desligado")
+                    }.also { holdHandler.postDelayed(it, 10_000L) }
+                    true
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    holdRunnable?.let { holdHandler.removeCallbacks(it) }
+                    v.performClick()
+                    true
+                }
+                else -> false
+            }
         }
     }
 
