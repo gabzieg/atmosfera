@@ -569,18 +569,22 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         val est = estadoChamine(estado.temp, estado.hora)
         if (est != "apagada") {
             val densa = est == "densa"; val taxa = if (densa) 5.5f else 3f
+            // deriva lateral guiada pelo vento (calmo = sobe reto; ventando =
+            // inclina junto com as folhas). Puff(x, y, vx, vy, t, dur, ...)
+            val ventoLean = 1.2f + max(0f, estado.vento) * 0.30f
             puffAcc += taxa * dt
             while (puffAcc >= 1) {
                 puffAcc -= 1
                 puffs.add(Puff(
-                    Atlas.Chamine.x + (rnd.nextFloat() - 0.5f) * Atlas.Chamine.w,
-                    Atlas.Chamine.y + (rnd.nextFloat() - 0.5f) * 3,
-                    -(if (densa) 22f else 15f) - rnd.nextFloat() * 8,
-                    (if (densa) 5f else 3f) + rnd.nextFloat() * 4, 0f,
-                    (if (densa) 4.2f else 3.6f) + rnd.nextFloat() * 1.2f,
-                    Atlas.fumacaSprites[rnd.nextInt(3)],
-                    if (densa) 0.7f else 0.55f, if (densa) 2.4f else 1.7f,
-                    if (densa) 0.85f else 0.62f, (rnd.nextFloat() - 0.5f) * 0.6f))
+                    Atlas.Chamine.x + (rnd.nextFloat() - 0.5f) * Atlas.Chamine.w,   // x
+                    Atlas.Chamine.y + (rnd.nextFloat() - 0.5f) * 3,                 // y
+                    ventoLean * (0.6f + rnd.nextFloat() * 0.7f),                    // vx (deriva)
+                    -(if (densa) 30f else 22f) - rnd.nextFloat() * 8,               // vy (sobe)
+                    0f,                                                             // t
+                    (if (densa) 4.2f else 3.6f) + rnd.nextFloat() * 1.2f,           // dur
+                    Atlas.fumacaSprites[rnd.nextInt(3)],                            // sp
+                    if (densa) 0.7f else 0.55f, if (densa) 2.4f else 1.7f,          // esc0, esc1
+                    if (densa) 0.85f else 0.62f, (rnd.nextFloat() - 0.5f) * 0.6f))  // aMax, giro
             }
         }
         val it = puffs.iterator()
