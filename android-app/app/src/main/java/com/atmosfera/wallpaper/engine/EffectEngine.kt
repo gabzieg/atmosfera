@@ -34,6 +34,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private lateinit var sprites: Bitmap
     private lateinit var neve: Bitmap
     private lateinit var neveForte: Bitmap
+    private lateinit var nevoa: Bitmap
     var pronto = false; private set
 
     // ── Zonas de impacto (coords da imagem) ─────────────────────────
@@ -55,6 +56,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private val leaves = ArrayList<Leaf>()
     private val wisps = ArrayList<Wisp>()
     private val flakes = ArrayList<Flake>()
+    private val fogBanks = ArrayList<FogBank>()
     private var snowAccum = 0f
     private var roofAcc = 0f
     private var lakeAcc = 0f
@@ -86,6 +88,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         sprites = bmp("sprites.png")
         neve = bmp("neve_acumulo.png")
         neveForte = bmp("neve_acumulo_forte.png")
+        nevoa = bmp("nevoa.png")
         extrairZonas(bmp("zonas.png"))
         initStars(); initFireflies()
         pronto = true
@@ -145,9 +148,10 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         desenharSol(canvas, tf)
         desenharNuvens(canvas, tf)
 
-        // 1d. frente + neve acumulada
+        // 1d. frente + neve acumulada + névoa
         blitFull(canvas, frente, tf, pSmooth)
         desenharAcumulo(canvas, tf)
+        desenharNevoa(canvas, tf, cw, ch)
 
         desenharFumaca(canvas, tf)
         desenharVento(canvas, tf)
@@ -210,6 +214,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         updateCadente(dt, escuro)
         updateFumaca(dt)
         updateVento(dt)
+        updateNevoa(dt)
 
         if (estado.clima == "chuva" && estado.nevando()) {
             bolt = null; impacts.clear()
@@ -245,6 +250,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         if (::sprites.isInitialized) sprites.recycle()
         if (::neve.isInitialized) neve.recycle()
         if (::neveForte.isInitialized) neveForte.recycle()
+        if (::nevoa.isInitialized) nevoa.recycle()
         pronto = false
     }
 
@@ -450,6 +456,46 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             } else blit(c, sp, x - dw / 2, f.y - dh / 2, dw, dh, pSprite)
         }
     }
+    // ── Névoa: bancos translúcidos derivando devagar, densos perto do chão ──
+    private fun initNevoa() {
+        fogBanks.clear()
+        val n = 7
+        for (i in 0 until n) fogBanks.add(FogBank(
+            (i * 700f) / n + rnd.nextFloat() * 140 - 70,
+            620f + rnd.nextFloat() * 780,
+            3f + rnd.nextFloat() * 5,
+            2.4f + rnd.nextFloat() * 2.2f,
+            rnd.nextFloat() * 6.283f,
+            0.3f + rnd.nextFloat() * 0.4f,
+            0.5f + rnd.nextFloat() * 0.5f))
+    }
+    private fun updateNevoa(dt: Float) {
+        if (estado.nevoa <= 0.01f) return
+        if (fogBanks.isEmpty()) initNevoa()
+        for (f in fogBanks) {
+            f.x += f.v * dt; f.fase += f.velFase * dt
+            val w = nevoa.width * f.esc
+            if (f.x - w / 2 > Atlas.CENA_W + 40) f.x = -w / 2 - 40
+        }
+    }
+    private fun desenharNevoa(c: Canvas, tf: Tf, cw: Float, ch: Float) {
+        if (estado.nevoa <= 0.01f) return
+        pSmooth.xfermode = null
+        for (f in fogBanks) {
+            val dw = nevoa.width * tf.s * f.esc; val dh = nevoa.height * tf.s * f.esc
+            val prof = min(1f, (f.y - 500f) / 900f)
+            val pulso = 0.75f + 0.25f * sin(f.fase)
+            setA(pSmooth, min(1f, estado.nevoa * f.aBase * (0.5f + 0.5f * prof) * pulso))
+            c.drawBitmap(nevoa, null, RectF(tf.ox + f.x * tf.s - dw / 2, tf.oy + f.y * tf.s - dh / 2,
+                tf.ox + f.x * tf.s + dw / 2, tf.oy + f.y * tf.s + dh / 2), pSmooth)
+        }
+        // véu suave geral
+        pFill.xfermode = null
+        pFill.color = Color.argb((estado.nevoa * 0.12f * 255).toInt(), 230, 234, 240)
+        c.drawRect(0f, 0f, cw, ch, pFill)
+        setA(pSmooth, 1f)
+    }
+
     // Nível da neve (0..1) pela intensidade (fraca 0 · forte .5 · temporal 1).
     private fun nivelNeve(): Float = ((estado.dropCount - 60) / 120f).coerceIn(0f, 1f)
 

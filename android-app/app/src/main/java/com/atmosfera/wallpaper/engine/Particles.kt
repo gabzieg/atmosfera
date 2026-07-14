@@ -52,6 +52,11 @@ class Wisp(
     }
 }
 
+class FogBank(
+    var x: Float, var y: Float, val v: Float, val esc: Float,
+    var fase: Float, val velFase: Float, val aBase: Float,
+)
+
 class Flake(
     var baseX: Float = 0f, var y: Float = 0f, var vy: Float = 0f,
     var swayAmp: Float = 0f, var swayFreq: Float = 0f, var phase: Float = 0f, var drift: Float = 0f,

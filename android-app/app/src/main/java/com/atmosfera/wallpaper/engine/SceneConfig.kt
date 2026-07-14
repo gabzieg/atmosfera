@@ -19,6 +19,7 @@ class SceneState {
     var luaFase = 0.5f             // 0=nova, 0.5=cheia, 1=nova
     var temp = 12f                 // °C
     var vento = 0f                 // km/h
+    var nevoa = 0f                 // névoa 0..1 (FOGGY da API)
     var nascer = Atlas.SolCfg.nascer
     var por = Atlas.SolCfg.por
 
@@ -46,8 +47,11 @@ class SceneState {
     // Plano
     var premium = false
 
-    /** Neve = precipitação quando congela (ou condição SNOW da API). */
-    fun nevando(): Boolean = clima == "chuva" && (forcarNeve || temp <= Atlas.NEVE_TEMP)
+    /**
+     * Neve NO APP = a API disse que é neve (código WMO), não é chuva fria.
+     * (forcarNeve vem da condição SNOW; assim uma chuva a 0°C segue chuva.)
+     */
+    fun nevando(): Boolean = clima == "chuva" && forcarNeve
 
     // ── Presets de chuva ────────────────────────────────────────────
     fun presetFraca() {
@@ -85,11 +89,13 @@ class SceneState {
             s.por = w.sunsetHour
             s.forcarNeve = w.condition == WeatherCondition.SNOW
             s.luaFase = if (premium) faseLua() else 0.5f
+            s.nevoa = 0f
 
             when (w.condition) {
                 WeatherCondition.SUNNY, WeatherCondition.CLEAR_NIGHT -> s.setSeco()
                 WeatherCondition.PARTLY_CLOUDY -> s.setSeco()
-                WeatherCondition.CLOUDY, WeatherCondition.FOGGY -> s.setNublado()
+                WeatherCondition.CLOUDY -> s.setNublado()
+                WeatherCondition.FOGGY -> { s.setSeco(); s.nevoa = 0.9f } // névoa densa sobre céu neutro
                 WeatherCondition.LIGHT_RAIN -> { s.clima = "chuva"; s.presetFraca() }
                 WeatherCondition.HEAVY_RAIN -> { s.clima = "chuva"; s.presetForte() }
                 WeatherCondition.STORM -> { s.clima = "chuva"; s.presetTemporal() }
