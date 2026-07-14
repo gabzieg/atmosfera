@@ -83,6 +83,8 @@ object Atlas {
         "folha_1" to Sprite(140, 1262, 15, 9),
         "folha_2" to Sprite(164, 1262, 13, 8),
         "folha_3" to Sprite(186, 1262, 14, 8),
+        // estalactite de gelo (pendura do beiral)
+        "estalactite" to Sprite(232, 1250, 10, 46),
     )
 
     operator fun get(name: String): Sprite = map.getValue(name)
@@ -148,6 +150,14 @@ object Atlas {
         const val y = 649f
         const val w = 24f
     }
+
+    // Pontos do beiral do telhado onde as estalactites de gelo penduram
+    // (topo do pingente em coords do fundo 688×1538).
+    val estalactites = listOf(
+        49f to 808f, 65f to 812f, 81f to 817f, 97f to 821f,
+        113f to 824f, 129f to 825f, 145f to 830f, 161f to 833f,
+        177f to 839f, 193f to 845f, 209f to 848f, 225f to 842f,
+    )
 
     const val VENTO_MIN = 8f     // km/h a partir do qual o vento aparece
     const val NEVE_TEMP = 1f     // ≤ isto, precipitação vira neve

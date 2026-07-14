@@ -28,6 +28,13 @@
             </intent-filter>
         </activity>
 
+        <!-- ── Painel de teste (só útil em debug; sem launcher) ───────── -->
+        <activity
+            android:name=".debug.DebugActivity"
+            android:exported="false"
+            android:label="Atmosfera — Teste"
+            android:screenOrientation="portrait" />
+
         <!-- ── Live Wallpaper Service ─────────────────────────────────── -->
         <service
             android:name=".service.AtmosferaWallpaperService"

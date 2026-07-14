@@ -6,7 +6,9 @@ import android.os.Looper
 import android.os.SystemClock
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
+import com.atmosfera.wallpaper.BuildConfig
 import com.atmosfera.wallpaper.billing.Plano
+import com.atmosfera.wallpaper.debug.DebugOverride
 import com.atmosfera.wallpaper.engine.EffectEngine
 import com.atmosfera.wallpaper.engine.SceneState
 import com.atmosfera.wallpaper.weather.LocationHelper
@@ -55,12 +57,19 @@ class AtmosferaWallpaperService : WallpaperService() {
         override fun onVisibilityChanged(visible: Boolean) {
             visivel = visible
             if (visible) {
-                estado.hora = SceneState.horaAtual()
+                estado.hora = horaEfetiva()
                 scope.launch(Dispatchers.IO) { carregarClima() }
                 if (motor.pronto) handler.post(frame)
             } else {
                 handler.removeCallbacks(frame)
             }
+        }
+
+        /** Hora do cenário: respeita o override de teste; senão o relógio real. */
+        private fun horaEfetiva(): Float {
+            val real = SceneState.horaAtual()
+            return if (BuildConfig.DEBUG && DebugOverride.ativo(applicationContext))
+                DebugOverride.horaEfetiva(applicationContext, real) else real
         }
 
         override fun onDestroy() {
@@ -72,6 +81,14 @@ class AtmosferaWallpaperService : WallpaperService() {
 
         /** Busca o clima (cache 30 min) e aplica ao estado do motor. */
         private suspend fun carregarClima() {
+            // Modo TESTE: força o clima escolhido no painel de debug.
+            if (BuildConfig.DEBUG && DebugOverride.ativo(applicationContext)) {
+                withContext(Dispatchers.Main) {
+                    DebugOverride.aplicar(applicationContext, estado)
+                    motor.aoMudarClima()
+                }
+                return
+            }
             try {
                 val cache = WeatherCache(applicationContext)
                 val loc = LocationHelper(applicationContext)
@@ -93,7 +110,7 @@ class AtmosferaWallpaperService : WallpaperService() {
 
         private fun desenhar() {
             if (!motor.pronto) return
-            estado.hora = SceneState.horaAtual()
+            estado.hora = horaEfetiva()
             val holder = surfaceHolder
             var canvas: Canvas? = null
             try {

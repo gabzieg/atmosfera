@@ -78,7 +78,14 @@ class MainActivity : AppCompatActivity() {
             if (billing.temProduto()) billing.comprar(this)
             else showToast("Loja indisponível. Tente novamente em instantes.")
         }
-        if (BuildConfig.DEBUG) configurarDesbloqueioTeste()
+        if (BuildConfig.DEBUG) {
+            configurarDesbloqueioTeste()
+            // Atalho para o painel de teste: segurar o botão "Atualizar".
+            binding.btnRefresh.setOnLongClickListener {
+                startActivity(Intent(this, com.atmosfera.wallpaper.debug.DebugActivity::class.java))
+                true
+            }
+        }
     }
 
     /** Só em builds de debug: segurar 10s na preview alterna o Premium (para testar). */

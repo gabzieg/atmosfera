@@ -148,9 +148,10 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         desenharSol(canvas, tf)
         desenharNuvens(canvas, tf)
 
-        // 1d. frente + neve acumulada + névoa
+        // 1d. frente + neve acumulada + estalactites + névoa
         blitFull(canvas, frente, tf, pSmooth)
         desenharAcumulo(canvas, tf)
+        desenharEstalactites(canvas, tf)
         desenharNevoa(canvas, tf, cw, ch)
 
         desenharFumaca(canvas, tf)
@@ -507,6 +508,29 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         val nf = nivelNeve()                     // acúmulo pesado (nível 3 = manto)
         if (nf > 0.01f) { setA(pSmooth, snowAccum * nf); blitFull(c, neveForte, tf, pSmooth) }
         setA(pSmooth, 1f)
+    }
+
+    // Estalactites de gelo crescendo do beiral com a neve acumulada.
+    // Só na neve 2+ (nivelNeve ≥ .4): médias na 2, longas na 3.
+    private fun desenharEstalactites(c: Canvas, tf: Tf) {
+        if (snowAccum <= 0.02f) return
+        val nv = nivelNeve()
+        if (nv < 0.4f) return
+        val sp = Atlas["estalactite"]
+        val cresc = min(1f, snowAccum * 1.4f)                     // brotam com o acúmulo
+        val compNivel = 0.55f + 0.45f * min(1f, (nv - 0.4f) / 0.6f) // média→longa
+        pSprite.xfermode = null
+        val pts = Atlas.estalactites
+        for (i in pts.indices) {
+            if (nv < 0.75f && i % 2 == 1) continue                // neve 2: metade dos pingentes
+            val (ix, iy) = pts[i]
+            val jitter = 0.82f + 0.36f * ((i * 47) % 100) / 100f  // variação de comprimento
+            val dw = sp.w * tf.s
+            val dh = sp.h * compNivel * cresc * jitter * tf.s
+            setA(pSprite, min(1f, cresc * 1.1f))
+            blit(c, sp, tf.ox + ix * tf.s - dw / 2, tf.oy + iy * tf.s, dw, dh, pSprite)
+        }
+        setA(pSprite, 1f)
     }
 
     // ─────────────────────────────────────────────────────────────────
