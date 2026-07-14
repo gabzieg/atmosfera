@@ -156,6 +156,7 @@ class WeatherRepository {
                     humidity = current.humidity,
                     sunriseHour = horaDeIso(response.daily?.sunrise?.firstOrNull()) ?: 6.0f,
                     sunsetHour = horaDeIso(response.daily?.sunset?.firstOrNull()) ?: 18.5f,
+                    weatherCode = current.weatherCode,
                 )
                 Log.d(TAG, "Clima obtido: $state")
                 Result.success(state)

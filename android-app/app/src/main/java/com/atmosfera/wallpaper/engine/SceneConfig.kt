@@ -93,7 +93,14 @@ class SceneState {
                 WeatherCondition.LIGHT_RAIN -> { s.clima = "chuva"; s.presetFraca() }
                 WeatherCondition.HEAVY_RAIN -> { s.clima = "chuva"; s.presetForte() }
                 WeatherCondition.STORM -> { s.clima = "chuva"; s.presetTemporal() }
-                WeatherCondition.SNOW -> { s.clima = "chuva"; s.presetForte() } // neve via nevando()
+                WeatherCondition.SNOW -> {
+                    s.clima = "chuva" // vira neve via nevando(); intensidade por código WMO
+                    when (w.weatherCode) {
+                        71, 77, 85 -> s.presetFraca()      // neve fraca / grãos / pancada leve
+                        75, 86 -> s.presetTemporal()       // neve forte / pancada forte
+                        else -> s.presetForte()            // 73 moderada e demais
+                    }
+                }
             }
             aplicarPlano(s)
         }

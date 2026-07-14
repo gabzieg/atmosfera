@@ -33,6 +33,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private lateinit var frente: Bitmap
     private lateinit var sprites: Bitmap
     private lateinit var neve: Bitmap
+    private lateinit var neveForte: Bitmap
     var pronto = false; private set
 
     // ── Zonas de impacto (coords da imagem) ─────────────────────────
@@ -84,6 +85,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         frente = bmp("frente.png")
         sprites = bmp("sprites.png")
         neve = bmp("neve_acumulo.png")
+        neveForte = bmp("neve_acumulo_forte.png")
         extrairZonas(bmp("zonas.png"))
         initStars(); initFireflies()
         pronto = true
@@ -242,6 +244,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         if (::frente.isInitialized) frente.recycle()
         if (::sprites.isInitialized) sprites.recycle()
         if (::neve.isInitialized) neve.recycle()
+        if (::neveForte.isInitialized) neveForte.recycle()
         pronto = false
     }
 
@@ -447,10 +450,17 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             } else blit(c, sp, x - dw / 2, f.y - dh / 2, dw, dh, pSprite)
         }
     }
+    // Nível da neve (0..1) pela intensidade (fraca 0 · forte .5 · temporal 1).
+    private fun nivelNeve(): Float = ((estado.dropCount - 60) / 120f).coerceIn(0f, 1f)
+
     private fun desenharAcumulo(c: Canvas, tf: Tf) {
         if (snowAccum <= 0.01f) return
-        pSmooth.xfermode = null; setA(pSmooth, snowAccum * 0.9f)
-        blitFull(c, neve, tf, pSmooth); setA(pSmooth, 1f)
+        pSmooth.xfermode = null
+        setA(pSmooth, snowAccum * 0.9f)          // acúmulo leve (sempre)
+        blitFull(c, neve, tf, pSmooth)
+        val nf = nivelNeve()                     // acúmulo pesado (nível 3 = manto)
+        if (nf > 0.01f) { setA(pSmooth, snowAccum * nf); blitFull(c, neveForte, tf, pSmooth) }
+        setA(pSmooth, 1f)
     }
 
     // ─────────────────────────────────────────────────────────────────

@@ -33,6 +33,8 @@ data class WeatherState(
     // Nascer/pôr do sol como hora fracionária local (ex.: 6.2 = 06:12).
     val sunriseHour: Float = 6.0f,
     val sunsetHour: Float = 18.5f,
+    // Código WMO cru (p/ diferenciar intensidade, ex.: níveis de neve).
+    val weatherCode: Int = 0,
 )
 
 /**
