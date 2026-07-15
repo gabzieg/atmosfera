@@ -43,12 +43,14 @@ class Leaf(
 }
 
 class Wisp(
-    var x: Float, var y: Float, var vx: Float, var len: Float,
+    var x: Float, var y: Float, var vx: Float, var vy: Float, var len: Float,
     var amp: Float, var waves: Float, var phase: Float, var curlR: Float, var curlDir: Float,
+    var t: Float, var dur: Float,
 ) {
     fun copyFrom(o: Wisp) {
-        x = o.x; y = o.y; vx = o.vx; len = o.len
+        x = o.x; y = o.y; vx = o.vx; vy = o.vy; len = o.len
         amp = o.amp; waves = o.waves; phase = o.phase; curlR = o.curlR; curlDir = o.curlDir
+        t = o.t; dur = o.dur
     }
 }
 

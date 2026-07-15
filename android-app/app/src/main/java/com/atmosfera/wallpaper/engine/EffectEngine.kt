@@ -701,11 +701,21 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         8f + rnd.nextFloat() * 22, rnd.nextFloat() * 6.283f, 1.4f + rnd.nextFloat() * 2.6f + intens * 2,
         rnd.nextFloat() * 6.283f, (rnd.nextFloat() - 0.5f) * (5 + intens * 8),
         Atlas.folhasSprites[rnd.nextInt(3)], 1.3f + rnd.nextFloat() * 0.9f)
+    // Rajada fluida que surge em qualquer ponto, deriva suave p/ a direita,
+    // ondula, rodopia e some (ciclo de vida). Espelha makeWisp do index.js.
     private fun makeWisp(intens: Float): Wisp = Wisp(
-        -60f - rnd.nextFloat() * 120, 30f + rnd.nextFloat() * 1350,
-        90f + intens * 240 + rnd.nextFloat() * 80, 60f + rnd.nextFloat() * 90,
-        6f + rnd.nextFloat() * 16, 1.2f + rnd.nextFloat() * 1.3f, rnd.nextFloat() * 6.283f,
-        5f + rnd.nextFloat() * 7, if (rnd.nextBoolean()) 1f else -1f)
+        rnd.nextFloat() * 688f,                          // x: surge de qualquer parte
+        30f + rnd.nextFloat() * 1350f,                   // y
+        30f + intens * 90f + rnd.nextFloat() * 30f,      // vx: deriva suave
+        -10f + rnd.nextFloat() * 16f,                    // vy: leve subida/queda
+        100f + rnd.nextFloat() * 140f,                   // len
+        10f + rnd.nextFloat() * 16f,                     // amp
+        0.6f + rnd.nextFloat() * 0.7f,                   // waves (< 1 → S suave)
+        rnd.nextFloat() * 6.283f,                        // phase
+        9f + rnd.nextFloat() * 9f,                       // curlR
+        if (rnd.nextBoolean()) 1f else -1f,              // curlDir
+        0f,                                              // t (vida)
+        1.8f + rnd.nextFloat() * 1.6f)                   // dur
     private fun updateVento(dt: Float) {
         val intens = ventoIntensidade()
         if (intens <= 0f) { leaves.clear(); wisps.clear(); return }
@@ -718,15 +728,21 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             l.x += l.vx * dt; l.baseY += l.vy * dt; l.wavePhase += l.waveSpeed * dt; l.rot += l.spin * dt
             if (l.x > 720) { val nl = makeLeaf(intens); l.copyFrom(nl) }
         }
-        for (w in wisps) { w.x += w.vx * dt; w.phase += 2.5f * dt; if (w.x - 30 > 700) { val nw = makeWisp(intens); w.copyFrom(nw) } }
+        for (w in wisps) {
+            w.t += dt; w.x += w.vx * dt; w.y += w.vy * dt; w.phase += 0.5f * dt
+            if (w.t >= w.dur) w.copyFrom(makeWisp(intens))   // some e renasce noutro lugar
+        }
     }
     private fun desenharVento(c: Canvas, tf: Tf) {
         val intens = ventoIntensidade()
         if (intens <= 0f) return
-        pStroke.color = Color.WHITE; pStroke.strokeWidth = max(1f, tf.s * 1.3f); pStroke.xfermode = null
+        pStroke.xfermode = null
         for (w in wisps) {
-            val borda = min(1f, min(w.x / 60f, (700 - w.x) / 60f))
-            desenharWisp(c, w, tf, max(0f, borda) * (0.25f + intens * 0.45f))
+            val p = w.t / w.dur                          // fade pelo ciclo de vida
+            val fin = min(1f, p / 0.30f)
+            val fout = min(1f, (1f - p) / 0.40f)
+            val lifeA = max(0f, min(fin, fout))
+            desenharWisp(c, w, tf, lifeA * (0.22f + intens * 0.40f))
         }
         pSprite.xfermode = null; setA(pSprite, 1f)
         for (l in leaves) {
@@ -738,20 +754,39 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         }
     }
     private fun desenharWisp(c: Canvas, w: Wisp, tf: Tf, alpha: Float) {
-        pStroke.alpha = (alpha.coerceIn(0f, 1f) * 255).toInt()
-        path.reset()
+        if (alpha <= 0.01f) return
+        val pi = Math.PI.toFloat()
+        pStroke.color = Color.rgb(236, 240, 246)
         val x0 = tf.ox + w.x * tf.s; val y0 = tf.oy + w.y * tf.s; val len = w.len * tf.s
-        val N = 22; var ex = x0; var ey = y0
-        for (i in 0..N) {
+        val baseW = max(1f, tf.s * 1.7f)
+        val N = 26
+        // corpo: amplitude em envelope sin(pi t) → calmo nas pontas, ondula no meio.
+        // Cada segmento afina/esmaece nas pontas = pincelada fluida (sem zigzag).
+        var pxPrev = x0; var pyPrev = y0
+        for (i in 1..N) {
             val t = i / N.toFloat()
+            val env = sin(pi * t)
             val px = x0 + t * len
-            val py = y0 + sin(t * w.waves * 6.283f + w.phase) * w.amp * tf.s * (0.35f + 0.65f * t)
-            if (i == 0) path.moveTo(px, py) else path.lineTo(px, py)
-            ex = px; ey = py
+            val py = y0 + sin(t * w.waves * 6.283f + w.phase) * w.amp * tf.s * env
+            pStroke.strokeWidth = baseW * (0.35f + 0.65f * env)
+            pStroke.alpha = ((alpha * (0.45f + 0.55f * env)).coerceIn(0f, 1f) * 255f).toInt()
+            c.drawLine(pxPrev, pyPrev, px, py, pStroke)
+            pxPrev = px; pyPrev = py
         }
-        var r = w.curlR * tf.s; var ang = w.phase
-        for (s in 0 until 8) { ang += 0.72f * w.curlDir; r *= 0.8f; path.lineTo(ex + cos(ang) * r, ey + sin(ang) * r) }
-        c.drawPath(path, pStroke)
+        // rodopio nascendo da ponta (centro deslocado perpendicular → sem "pulo")
+        val ex = pxPrev; val ey = pyPrev
+        val cx = ex; val cy = ey - w.curlDir * w.curlR * tf.s
+        var ang = if (w.curlDir > 0f) pi / 2f else -pi / 2f
+        var r = w.curlR * tf.s; var qx = ex; var qy = ey
+        for (s in 1..14) {
+            ang += 0.45f * w.curlDir; r *= 0.86f
+            val nx = cx + cos(ang) * r; val ny = cy + sin(ang) * r
+            val fade = 1f - s / 14f
+            pStroke.strokeWidth = baseW * (0.5f * fade + 0.15f)
+            pStroke.alpha = ((alpha * 0.5f * fade).coerceIn(0f, 1f) * 255f).toInt()
+            c.drawLine(qx, qy, nx, ny, pStroke)
+            qx = nx; qy = ny
+        }
     }
 
     // ─────────────────────────────────────────────────────────────────
