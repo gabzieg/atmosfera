@@ -38,6 +38,13 @@ object Catalogo {
             gratis = false,
             productId = "cenario_tanque",
         ),
+        Cenario(
+            id = "fiordes",
+            nome = "Fiordes — vila norueguesa",
+            descricao = "Vila à beira de um fiorde, com barcos e farol.",
+            gratis = false,
+            productId = "cenario_fiordes",
+        ),
     )
 
     fun por(id: String): Cenario? = cenarios.firstOrNull { it.id == id }

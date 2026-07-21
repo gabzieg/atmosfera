@@ -9,11 +9,11 @@ import android.view.SurfaceHolder
 import com.atmosfera.wallpaper.BuildConfig
 import com.atmosfera.wallpaper.billing.Plano
 import com.atmosfera.wallpaper.debug.DebugOverride
-import com.atmosfera.wallpaper.engine.EffectEngine
-import com.atmosfera.wallpaper.engine.SceneState
-import android.content.SharedPreferences
-import androidx.preference.PreferenceManager
+import com.atmosfera.wallpaper.engine.ArteFundo
 import com.atmosfera.wallpaper.engine.Cena
+import com.atmosfera.wallpaper.engine.EffectEngine
+import com.atmosfera.wallpaper.engine.EstiloEfeito
+import com.atmosfera.wallpaper.engine.SceneState
 import com.atmosfera.wallpaper.weather.LocationHelper
 import com.atmosfera.wallpaper.weather.WeatherCache
 import com.atmosfera.wallpaper.weather.WeatherRepository
@@ -22,6 +22,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 /**
@@ -32,7 +34,7 @@ class AtmosferaWallpaperService : WallpaperService() {
 
     override fun onCreateEngine(): Engine = AtmosferaEngine()
 
-    inner class AtmosferaEngine : Engine(), SharedPreferences.OnSharedPreferenceChangeListener {
+    inner class AtmosferaEngine : Engine() {
 
         private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
         private val handler = Handler(Looper.getMainLooper())
@@ -40,8 +42,7 @@ class AtmosferaWallpaperService : WallpaperService() {
         private val motor = EffectEngine(estado)
         private var visivel = false
         private val frameMs = 33L // ~30 fps (equilíbrio fluidez × bateria)
-        private lateinit var prefs: SharedPreferences
-        private lateinit var cenaPrefs: SharedPreferences
+        private val cargaMutex = Mutex()   // serializa carregar (troca cena/estilo)
 
         private val frame = object : Runnable {
             override fun run() {
@@ -52,45 +53,38 @@ class AtmosferaWallpaperService : WallpaperService() {
 
         override fun onCreate(holder: SurfaceHolder) {
             super.onCreate(holder)
-            prefs = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-            cenaPrefs = applicationContext.getSharedPreferences("atmosfera_cena", android.content.Context.MODE_PRIVATE)
-            prefs.registerOnSharedPreferenceChangeListener(this)
-            cenaPrefs.registerOnSharedPreferenceChangeListener(this)
-            
             scope.launch(Dispatchers.IO) {
-                // Future: read Cena.atual() and load specific assets
-                motor.carregar(assets)
+                carregarComSelecao()
                 carregarClima()
                 withContext(Dispatchers.Main) { if (visivel) handler.post(frame) }
-            }
-        }
-
-        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-            when {
-                sharedPreferences == prefs && (key == "KEY_WEATHER_UPDATE" || key == "KEY_PREMIUM_STATUS") -> {
-                    scope.launch(Dispatchers.IO) {
-                        carregarClima()
-                    }
-                }
-                sharedPreferences == cenaPrefs && key == "atual" -> {
-                    scope.launch(Dispatchers.IO) {
-                        // Future: carregar novos assets da cena
-                        val novaCenaId = Cena.atual(applicationContext)
-                        motor.carregar(assets)
-                        carregarClima()
-                    }
-                }
             }
         }
 
         override fun onVisibilityChanged(visible: Boolean) {
             visivel = visible
             if (visible) {
-                estado.hora = horaEfetiva()
-                scope.launch(Dispatchers.IO) { carregarClima() }
-                if (motor.pronto) handler.post(frame)
+                // recarrega assets se o usuário trocou cenário/arte/estilo,
+                // DEPOIS repõe o frame (o loop estava parado enquanto invisível,
+                // então não há corrida de bitmaps com o carregar).
+                scope.launch(Dispatchers.IO) {
+                    carregarComSelecao()
+                    carregarClima()
+                    withContext(Dispatchers.Main) {
+                        if (visivel) { estado.hora = horaEfetiva(); handler.post(frame) }
+                    }
+                }
             } else {
                 handler.removeCallbacks(frame)
+            }
+        }
+
+        /** Recarrega os assets se a seleção (cenário/arte/estilo) mudou. */
+        private suspend fun carregarComSelecao() = cargaMutex.withLock {
+            val cena = Cena.atual(applicationContext)
+            val arte = ArteFundo.atual(applicationContext)
+            val estilo = EstiloEfeito.atual(applicationContext)
+            if (!motor.pronto || cena != motor.cenaId || arte != motor.arteId || estilo != motor.estiloId) {
+                motor.carregar(assets, cena, arte, estilo)
             }
         }
 
@@ -106,8 +100,6 @@ class AtmosferaWallpaperService : WallpaperService() {
             handler.removeCallbacks(frame)
             scope.cancel()
             motor.liberar()
-            prefs.unregisterOnSharedPreferenceChangeListener(this)
-            cenaPrefs.unregisterOnSharedPreferenceChangeListener(this)
         }
 
         /** Busca o clima (cache 30 min) e aplica ao estado do motor. */

@@ -26,7 +26,7 @@ Documentação de apoio (leia sob demanda, não de cara):
 
 | Pacote | Responsabilidade | Fronteira |
 |---|---|---|
-| `engine/` | `EffectEngine`, `SceneState`, `Atlas`, `Catalogo`, `Cena` — desenha o wallpaper | Motor (ver HANDOFF-FRONTEND.md) |
+| `engine/` | `EffectEngine`, `SceneState`, `Atlas`, `Catalogo`, `Cena`, mais o suporte multi-cenário/multi-estilo (`Cenario.kt`/`Cenas`/`CenaCfg`, `Estilo.kt`/`Estilos`/`EstiloCfg`, prefs `ArteFundo` e `EstiloEfeito`) — desenha o wallpaper. `carregar(assets, cenaId, arte, estilo)` recarrega os assets do cenário/estilo escolhido | Motor (ver HANDOFF-FRONTEND.md) |
 | `service/` | `AtmosferaWallpaperService` — hospeda o motor, busca clima, repassa pro motor | Front |
 | `ui/` | Compose: `MainScreen` (Scaffold/NavHost/BottomNav), `HomeTab`, `StoreTab`, `SettingsTab`, `theme/`, `components/` | Front |
 | `weather/` | `WeatherRepository` (Open-Meteo/Retrofit), `WeatherCache`, `LocationHelper`, `WeatherWorker` | Front |

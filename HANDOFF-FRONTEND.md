@@ -180,19 +180,6 @@ o motor faz o "cover" para a tela; **o front não precisa saber disso**.
 > suba a versão do Billing junto com uma atualização do plugin Kotlin — os dois
 > andam juntos.
 
-## 7. Exceção já feita à regra "não mexer no motor"
-
-Numa rodada de correção de bugs (2026-07-21) um vazamento real foi corrigido
-dentro de `engine/EffectEngine.kt`: `carregar()` não reciclava bitmaps antigos
-e `extrairZonas()` não limpava `roofPts`/`lakePts` antes de repopular — toda
-troca de cenário (inclusive reaplicar o mesmo) acumulava memória e pontos de
-impacto duplicados. Ficou registrado aqui pra quem for atualizar o motor via
-snapshot saber que essas duas linhas específicas já têm a correção do lado do
-front e não são regressão se sumirem num merge — e pra evitar reintroduzir o
-mesmo bug num motor novo.
-
----
-
 ## 7. Como trabalhar sem colisão
 
 - Trabalhe numa **branch/fork** própria. Não edite `engine/**` nem `assets/atmosfera/**`.

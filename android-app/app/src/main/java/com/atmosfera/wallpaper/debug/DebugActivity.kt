@@ -18,6 +18,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.atmosfera.wallpaper.BuildConfig
 import com.atmosfera.wallpaper.billing.Plano
+import com.atmosfera.wallpaper.engine.ArteFundo
+import com.atmosfera.wallpaper.engine.Catalogo
+import com.atmosfera.wallpaper.engine.Cena
+import com.atmosfera.wallpaper.engine.EstiloEfeito
+import com.atmosfera.wallpaper.engine.Estilos
 import com.atmosfera.wallpaper.weather.WeatherCondition
 
 /**
@@ -69,6 +74,28 @@ class DebugActivity : AppCompatActivity() {
     }
 
     private fun montarControles(col: LinearLayout) {
+        // ── Seletores de CENÁRIO / ARTE DO FUNDO / ESTILO DOS EFEITOS ──
+        // (gravam a preferência lida pelo wallpaper de verdade + recarregam a prévia)
+        val cenarios = Catalogo.cenarios.map { it.id to it.nome }
+        col.addView(rotulo("Cenário (wallpaper)"))
+        col.addView(dropdown(cenarios, Cena.atual(this)) { id ->
+            Cena.definir(this, id); preview.trocarCenaEstilo()
+        })
+        val artes = listOf("pixel" to "🟦 Pixel Art", "clay" to "🧱 Clay", "aqua" to "🎨 Aquarela")
+        col.addView(rotulo("↳ Arte do cenário"))
+        col.addView(dropdown(artes, ArteFundo.atual(this)) { id ->
+            ArteFundo.definir(this, id); preview.trocarCenaEstilo()
+        })
+        val estilos = listOf(
+            "pixel" to "🟦 Pixel Art", "clay" to "🧱 Clay",
+            "bizantino" to "🏛️ Bizantino", "aqua" to "🎨 Aquarela"
+        ).filter { it.first in Estilos.ids }
+        col.addView(rotulo("Estilo dos efeitos"))
+        col.addView(dropdown(estilos, EstiloEfeito.atual(this)) { id ->
+            EstiloEfeito.definir(this, id); preview.trocarCenaEstilo()
+        })
+        col.addView(rotulo("——"))
+
         // Condição
         col.addView(rotulo("Condição"))
         val spinner = Spinner(this)
@@ -163,6 +190,22 @@ class DebugActivity : AppCompatActivity() {
     }
 
     // ── Helpers de UI ────────────────────────────────────────────────
+    /** Spinner de (id, rótulo); [onSel] só dispara em troca real do usuário. */
+    private fun dropdown(itens: List<Pair<String, String>>, atual: String, onSel: (String) -> Unit): Spinner {
+        val sp = Spinner(this)
+        sp.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, itens.map { it.second })
+        sp.setSelection(itens.indexOfFirst { it.first == atual }.coerceAtLeast(0))
+        var primeiro = true
+        sp.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p: AdapterView<*>?, v: View?, pos: Int, id: Long) {
+                if (primeiro) { primeiro = false; return }   // ignora o callback do init
+                onSel(itens[pos].first)
+            }
+            override fun onNothingSelected(p: AdapterView<*>?) {}
+        }
+        return sp
+    }
+
     private fun rotulo(txt: String) = TextView(this).apply {
         text = txt
         setTextColor(Color.parseColor("#C7D0DE")); textSize = 13f
