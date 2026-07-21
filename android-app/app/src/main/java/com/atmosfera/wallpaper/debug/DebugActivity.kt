@@ -16,6 +16,7 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.atmosfera.wallpaper.BuildConfig
 import com.atmosfera.wallpaper.billing.Plano
 import com.atmosfera.wallpaper.weather.WeatherCondition
 
@@ -44,6 +45,7 @@ class DebugActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!BuildConfig.DEBUG) { finish(); return } // defesa extra além do exported=false
         title = "Atmosfera — Teste"
 
         val raiz = LinearLayout(this).apply {

@@ -11,6 +11,9 @@ build/
 .gradle/
 android-app/app/build/
 local.properties
+# Distribuição do Gradle extraída localmente (baixada sob demanda pelo wrapper
+# a partir de gradle-wrapper.properties — não é código-fonte, ~140MB).
+android-app/gradle-8.6/
 
 # --- Android Studio ---
 .idea/

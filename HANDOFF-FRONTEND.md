@@ -1,5 +1,9 @@
 # Atmosfera — Handoff do FRONT (motor congelado)
 
+> Ver também: [README.md](README.md) (visão geral) · [CLAUDE.md](CLAUDE.md)
+> (contexto/comandos para o Claude Code) · [GUIA_COMPLETO.md](GUIA_COMPLETO.md)
+> (como rodar).
+
 > **Para quem recebe este documento:** você vai tocar o **front** do app Atmosfera em
 > paralelo, enquanto o **motor de efeitos** (a parte que desenha o wallpaper) continua
 > sendo evoluído por outra frente. Este documento é o seu ponto de partida: explica o
@@ -157,7 +161,7 @@ efeitos, mudar as assinaturas da seção 3.
   Premium liga os efeitos vivos.
 - **Tanque**: cenário #2, mapeado e funcionando no **protótipo web** (nosso
   laboratório). Porte pro motor Android vem por snapshot.
-- **Billing/Premium**: `Plano` + `BillingManager` (Play Billing 6.1.0, produto
+- **Billing/Premium**: `Plano` + `BillingManager` (Play Billing 6.2.1, produto
   `atmosfera_premium`) já existem.
 - **Clima**: `weather.*` (Open-Meteo, localização, cache 30 min) funcionando.
 - **CI**: GitHub Actions (`.github/workflows/build.yml`) compila `assembleDebug` e
@@ -166,9 +170,26 @@ efeitos, mudar as assinaturas da seção 3.
 ## 6. Stack técnica
 
 Kotlin 1.9.23 · AGP 8.3.0 · minSdk 26 · JDK 17 · Gradle (setup-gradle 8.6) ·
-Google Play Billing 6.1.0 · Gson (pacote weather) · `buildConfig true`.
+Google Play Billing 6.2.1 · Gson (pacote weather) · `buildConfig true`.
 Coordenadas de cena em espaço lógico (a cabana 688×1538; o tanque 688×1536) —
 o motor faz o "cover" para a tela; **o front não precisa saber disso**.
+
+> ⚠️ **Billing preso em 6.2.1 de propósito:** 7.0.0+ é compilado com metadata do
+> Kotlin 2.x, incompatível com o compilador Kotlin 1.9.23 deste projeto (erro
+> real de build, confirmado rodando `gradlew assembleDebug`, não suposição). Só
+> suba a versão do Billing junto com uma atualização do plugin Kotlin — os dois
+> andam juntos.
+
+## 7. Exceção já feita à regra "não mexer no motor"
+
+Numa rodada de correção de bugs (2026-07-21) um vazamento real foi corrigido
+dentro de `engine/EffectEngine.kt`: `carregar()` não reciclava bitmaps antigos
+e `extrairZonas()` não limpava `roofPts`/`lakePts` antes de repopular — toda
+troca de cenário (inclusive reaplicar o mesmo) acumulava memória e pontos de
+impacto duplicados. Ficou registrado aqui pra quem for atualizar o motor via
+snapshot saber que essas duas linhas específicas já têm a correção do lado do
+front e não são regressão se sumirem num merge — e pra evitar reintroduzir o
+mesmo bug num motor novo.
 
 ---
 

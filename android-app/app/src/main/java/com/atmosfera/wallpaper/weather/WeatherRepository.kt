@@ -1,6 +1,7 @@
 package com.atmosfera.wallpaper.weather
 
 import android.util.Log
+import com.atmosfera.wallpaper.BuildConfig
 import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -118,8 +119,9 @@ class WeatherRepository {
     private val TAG = "WeatherRepository"
 
     private val api: OpenMeteoApi by lazy {
+        // BASIC loga a URL da requisição (inclui lat/lon do usuário) — só em debug.
         val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BASIC
+            level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
         }
         val client = OkHttpClient.Builder()
             .addInterceptor(logging)

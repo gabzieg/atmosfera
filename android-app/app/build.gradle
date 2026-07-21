@@ -32,8 +32,12 @@ android {
     }
 
     buildFeatures {
-        viewBinding true
         buildConfig true
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.5.11'
     }
 
     // Comprime os assets WebP com mais agressividade no release
@@ -59,12 +63,24 @@ dependencies {
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.work:work-runtime-ktx:2.9.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.google.android.gms:play-services-location:21.2.0'
 
-    // Cardview (usado no layout principal)
-    implementation 'androidx.cardview:cardview:1.0.0'
-
     // Google Play Billing — Premium por compra única
-    implementation 'com.android.billingclient:billing-ktx:6.1.0'
+    // A mais recente publicada é 9.1.0, mas 7.0.0+ é compilada com um metadata
+    // de Kotlin (2.x) que o compilador Kotlin 1.9.23 deste projeto não consegue
+    // ler ("incompatible version of Kotlin"). 6.2.1 é o último patch da linha
+    // 6.x (mesma API já usada aqui) compatível com o Kotlin atual do projeto —
+    // confirmado rodando `gradlew assembleDebug` de verdade, não só a versão do
+    // Maven. Para ir além, é preciso subir o plugin Kotlin do projeto também.
+    implementation 'com.android.billingclient:billing-ktx:6.2.1'
+
+    // Jetpack Compose
+    def composeBom = platform('androidx.compose:compose-bom:2024.02.02')
+    implementation composeBom
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-graphics'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.activity:activity-compose:1.8.2'
+    implementation 'androidx.navigation:navigation-compose:2.7.7'
 }

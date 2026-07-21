@@ -36,22 +36,3 @@ data class WeatherState(
     // Código WMO cru (p/ diferenciar intensidade, ex.: níveis de neve).
     val weatherCode: Int = 0,
 )
-
-/**
- * Retorna o nome do arquivo de asset correspondente, ex: "sunny_morning.webp"
- * Lida com combinações especiais como clear_night que só existe à noite.
- */
-fun WeatherState.assetFileName(): String {
-    val cond = when {
-        condition == WeatherCondition.SUNNY && period == DayPeriod.NIGHT -> WeatherCondition.CLEAR_NIGHT
-        condition == WeatherCondition.CLEAR_NIGHT && period != DayPeriod.NIGHT -> WeatherCondition.PARTLY_CLOUDY
-        else -> condition
-    }
-    val per = when {
-        cond == WeatherCondition.CLEAR_NIGHT -> "night"
-        else -> period.code
-    }
-    // Foggy não tem versão noturna → usa afternoon
-    val safePeriod = if (cond == WeatherCondition.FOGGY && per == "night") "afternoon" else per
-    return "wallpapers/${cond.code}_${safePeriod}.webp"
-}

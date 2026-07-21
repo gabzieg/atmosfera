@@ -82,6 +82,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     //  Carregamento
     // ─────────────────────────────────────────────────────────────────
     fun carregar(assets: AssetManager) {
+        if (pronto) liberar() // recarregando (troca de cenário): recicla os bitmaps antigos antes de decodificar os novos
         fun bmp(nome: String) = assets.open("atmosfera/$nome").use { BitmapFactory.decodeStream(it) }
         fundo = bmp("fundo.png")
         frente = bmp("frente.png")
@@ -95,6 +96,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     }
 
     private fun extrairZonas(z: Bitmap) {
+        roofPts.clear(); lakePts.clear() // evita acumular pontos duplicados a cada recarga do motor
         val w = z.width; val h = z.height
         val px = IntArray(w * h)
         z.getPixels(px, 0, w, 0, 0, w, h)

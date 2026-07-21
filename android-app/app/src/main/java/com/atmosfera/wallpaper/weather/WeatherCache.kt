@@ -44,10 +44,11 @@ class WeatherCache(context: Context) {
 
     fun isStale(lat: Double, lon: Double): Boolean {
         val lastFetch = prefs.getLong(KEY_LAST_FETCH, 0L)
-        val cachedLat = prefs.getFloat(KEY_LAT, Float.MIN_VALUE).toDouble()
-        val cachedLon = prefs.getFloat(KEY_LON, Float.MIN_VALUE).toDouble()
+        if (lastFetch == 0L) return true // nunca cacheado
 
         val tooOld = System.currentTimeMillis() - lastFetch > CACHE_TTL_MS
+        val cachedLat = prefs.getFloat(KEY_LAT, 0f).toDouble()
+        val cachedLon = prefs.getFloat(KEY_LON, 0f).toDouble()
         val movedFar = Math.abs(lat - cachedLat) > LOCATION_DELTA ||
                        Math.abs(lon - cachedLon) > LOCATION_DELTA
         return tooOld || movedFar

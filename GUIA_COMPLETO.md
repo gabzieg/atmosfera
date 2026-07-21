@@ -1,328 +1,114 @@
-# Atmosfera — Guia Completo de Configuração e Execução
+# Atmosfera — Guia de Setup e Execução
 
-## Visão Geral do Projeto
+> Ver também: [README.md](README.md) (visão geral) · [HANDOFF-FRONTEND.md](HANDOFF-FRONTEND.md)
+> (arquitetura motor/front) · [CLAUDE.md](CLAUDE.md) (contexto para o Claude Code).
 
-```
-atmosfera/
-├── image-generator/          ← Script Python (roda 1x no seu PC)
-│   └── generate_wallpapers.py
-└── android-app/              ← Projeto Android (Android Studio)
-    ├── build.gradle
-    ├── settings.gradle
-    ├── gradle.properties
-    └── app/
-        ├── build.gradle
-        ├── proguard-rules.pro
-        └── src/main/
-            ├── AndroidManifest.xml
-            ├── assets/wallpapers/     ← Imagens geradas pelo script
-            ├── java/com/atmosfera/wallpaper/
-            │   ├── AtmosferaApp.kt
-            │   ├── service/
-            │   │   └── AtmosferaWallpaperService.kt
-            │   ├── weather/
-            │   │   ├── WeatherCondition.kt
-            │   │   ├── WeatherRepository.kt
-            │   │   ├── WeatherCache.kt
-            │   │   ├── LocationHelper.kt
-            │   │   └── BootReceiver.kt
-            │   └── ui/
-            │       └── MainActivity.kt
-            └── res/
-                ├── layout/activity_main.xml
-                ├── values/{strings, colors, themes}.xml
-                ├── xml/wallpaper_info.xml
-                └── drawable/...
-```
+Este guia cobre como abrir, rodar e testar o app — tanto pelo Android Studio
+quanto pelo terminal. Substitui os antigos `GUIA_COMPLETO.md` +
+`GUIA_PASSO_A_PASSO.md` (que descreviam uma arquitetura anterior baseada em
+imagens pré-renderizadas; o motor hoje é um renderizador de sprites em `Canvas` —
+ver [README.md](README.md)).
 
----
+## Pré-requisitos
 
-## PARTE 1 — Gerar as Imagens com Gemini Imagen
+- Android Studio (Hedgehog ou mais recente) **ou** apenas JDK 17 + Android SDK
+  se for usar só o terminal.
+- Android SDK com **API 34** instalada.
+- Um emulador (AVD) ou aparelho físico com **Android 8.0 (API 26)** ou superior.
 
-### 1.1 Pré-requisitos
+## Opção A — Pelo Android Studio
 
-- Python 3.9 ou superior instalado
-- Chave de API do Google AI Studio (https://aistudio.google.com/app/apikey)
+1. **Abrir**: Android Studio → **Open** → selecione a pasta `android-app/`
+   (não a raiz do repositório) → aguarde o Gradle sincronizar.
+2. **Dispositivo**: escolha um AVD no dropdown de dispositivos, ou conecte um
+   aparelho físico com Depuração USB ativada.
+3. **Rodar**: run configuration `app` → ▶ Run (`Shift+F10`).
+4. No app: conceda a permissão de localização (ou deixe negada — cai no
+   fallback de Guarapuava/PR) → toque em **"Definir papel de parede"** → o
+   Android abre o seletor → escolha "Atmosfera – Clima ao Vivo" → confirme →
+   Home para ver o wallpaper ativo.
 
-### 1.2 Instalar dependências Python
+## Opção B — Pelo terminal
 
-Abra o terminal na pasta `image-generator/` e execute:
+Com um emulador já rodando ou aparelho conectado (`adb devices` deve listar
+pelo menos um):
 
 ```bash
-pip install google-generativeai pillow
+cd android-app
+./gradlew installDebug            # compila e instala o debug APK
+adb shell am start -n com.atmosfera.wallpaper/.ui.MainActivity
 ```
 
-### 1.3 Executar o gerador
+Outros comandos úteis:
 
 ```bash
-# Opção A: passando a chave direto
-python generate_wallpapers.py --api_key SUA_CHAVE_AQUI
-
-# Opção B: via variável de ambiente (recomendado)
-export GEMINI_API_KEY=SUA_CHAVE_AQUI
-python generate_wallpapers.py
-
-# Gerar apenas algumas cenas específicas (para testar)
-python generate_wallpapers.py --api_key SUA_CHAVE --only sunny_morning cloudy_afternoon rainy_night
+./gradlew assembleDebug           # só compila, não instala
+./gradlew lintDebug                # lint (não roda na CI, ver observação abaixo)
+adb devices                        # lista dispositivos/emuladores conectados
+adb shell screencap -p /sdcard/x.png && adb pull /sdcard/x.png .   # screenshot
 ```
 
-O script vai:
-1. Criar a pasta `image-generator/output/` com as imagens `.webp`
-2. Copiar automaticamente para `android-app/app/src/main/assets/wallpapers/`
+> No Git Bash / MSYS no Windows, caminhos começando com `/` (como
+> `/sdcard/...`) são reescritos para caminho de disco Windows por padrão.
+> Prefixe o comando com `MSYS_NO_PATHCONV=1` quando isso quebrar (`adb pull`,
+> por exemplo).
 
-> ⏱ **Tempo estimado:** ~2 min para as 24 imagens (depende da API).
-> 💡 **Dica:** Se uma imagem falhar, execute novamente — o script pula as que já existem.
+## Testar climas diferentes sem esperar o clima real
 
-### 1.4 Verificar as imagens geradas
+O painel de debug (`DebugActivity`, só existe em builds debug) força
+condição/hora/vento/névoa e mostra uma prévia ao vivo do motor. Ele não tem
+nenhum botão que leve até ele na navegação normal do app (é intencional — é
+uma ferramenta interna). Pra abrir:
 
-Após rodar, confirme que existem arquivos `.webp` em:
-```
-android-app/app/src/main/assets/wallpapers/
-```
-
-Arquivos esperados:
-```
-sunny_morning.webp          partly_cloudy_morning.webp
-sunny_afternoon.webp        partly_cloudy_afternoon.webp
-cloudy_morning.webp         partly_cloudy_night.webp
-cloudy_afternoon.webp       light_rain_morning.webp
-cloudy_night.webp           light_rain_afternoon.webp
-heavy_rain_morning.webp     light_rain_night.webp
-heavy_rain_afternoon.webp   storm_morning.webp
-heavy_rain_night.webp       storm_afternoon.webp
-storm_night.webp            foggy_morning.webp
-foggy_afternoon.webp        snow_morning.webp
-snow_afternoon.webp         snow_night.webp
-clear_night.webp
+```bash
+adb shell am start -n com.atmosfera.wallpaper/.debug.DebugActivity
 ```
 
----
+Ou pelo Android Studio: **Run → Edit Configurations** → na run config `app`,
+em "Launch Options" troque `Default Activity` por `Specified Activity` e
+escolha `com.atmosfera.wallpaper.debug.DebugActivity`.
 
-## PARTE 2 — Configurar o Android Studio
+Ligue o switch **"Forçar este clima no wallpaper"** no painel pra fazer o
+wallpaper de verdade (não só a prévia) usar a condição escolhida.
 
-### 2.1 Instalar o Android Studio
+## Simular localização no emulador
 
-1. Baixe em: https://developer.android.com/studio
-2. Instale com as opções padrão (marque "Android Virtual Device" durante a instalação)
-3. Na primeira abertura, o Android Studio vai baixar o Android SDK automaticamente
+Sem GPS real, o emulador permite definir uma localização manual:
+**Extended Controls (⋮) → Location** → insira lat/long → **Send**.
 
-### 2.2 Abrir o projeto
+| Cidade | Lat | Long |
+|---|---|---|
+| Guarapuava, PR (padrão do app sem permissão) | -25.3947 | -51.4528 |
+| São Paulo, SP | -23.5505 | -46.6333 |
+| Recife, PE | -8.0476 | -34.8770 |
 
-1. Abra o Android Studio
-2. Clique em **"Open"** (não "New Project")
-3. Navegue até a pasta `atmosfera/android-app/`
-4. Clique em **OK**
-5. Aguarde o Gradle sincronizar (barra de progresso no rodapé — pode levar 3-5 min na primeira vez)
+## Build de release
 
-> ⚠️ Se aparecer a mensagem **"Gradle sync failed"**, vá para a seção "Solução de Problemas" no final deste guia.
-
-### 2.3 Verificar o SDK instalado
-
-1. No menu: **File → Project Structure → SDK Location**
-2. Confirme que o Android SDK está instalado (geralmente em `~/Android/Sdk` no Linux/Mac ou `C:\Users\SEU_USUARIO\AppData\Local\Android\Sdk` no Windows)
-3. Certifique-se de que o **JDK** é versão 17 ou superior
-
----
-
-## PARTE 3 — Criar o Emulador Android
-
-### 3.1 Abrir o AVD Manager
-
-- Menu: **Tools → Device Manager**
-- Ou clique no ícone de celular na barra lateral direita
-
-### 3.2 Criar um novo dispositivo virtual
-
-1. Clique em **"+" → Create Virtual Device**
-2. Em **"Category"**, selecione **Phone**
-3. Escolha o dispositivo: **Pixel 7** (recomendado — boa resolução para testar wallpaper)
-4. Clique em **Next**
-
-### 3.3 Selecionar a imagem do sistema
-
-1. Selecione a aba **"Recommended"**
-2. Baixe e selecione: **API 34 (Android 14) — x86_64**
-   - Clique no ícone de download ⬇ ao lado da versão se ainda não estiver instalada
-   - Aguarde o download concluir
-3. Clique em **Next**
-
-### 3.4 Configurar o AVD
-
-Na tela de configuração:
-- **AVD Name:** `Atmosfera_Pixel7`
-- **Startup orientation:** Portrait
-- Em **"Show Advanced Settings"**:
-  - **RAM:** 2048 MB
-  - **VM Heap:** 512 MB
-  - **Internal Storage:** 4096 MB
-- Clique em **Finish**
-
----
-
-## PARTE 4 — Executar o App no Emulador
-
-### 4.1 Iniciar o emulador
-
-1. No **Device Manager**, clique no botão ▶ (play) ao lado de `Atmosfera_Pixel7`
-2. Aguarde o emulador iniciar completamente (tela de desbloqueio aparecer)
-
-### 4.2 Rodar o app (companion activity)
-
-1. Na barra de ferramentas superior do Android Studio:
-   - **Run configuration:** selecione `app`
-   - **Device:** selecione `Atmosfera_Pixel7`
-2. Clique no botão **▶ Run** (ou `Shift+F10`)
-3. O app vai compilar e instalar no emulador automaticamente
-
-### 4.3 O que você verá
-
-O app companion vai abrir mostrando:
-- **Preview** do wallpaper atual baseado no clima
-- **Temperatura** e condição climática
-- Botão **"Definir como Wallpaper"**
-
-### 4.4 Ativar o Live Wallpaper no emulador
-
-1. Toque em **"Definir como Wallpaper"** no app
-2. O Android vai abrir o seletor de wallpaper
-3. Selecione **"Atmosfera – Clima ao Vivo"**
-4. Toque em **"Definir wallpaper"**
-5. Pressione o botão Home no emulador → o wallpaper estará ativo!
-
-> 💡 **Dica:** No emulador, o Live Wallpaper funciona normalmente. Você pode ver o relógio, temperatura e as partículas de chuva/neve na tela inicial.
-
----
-
-## PARTE 5 — Simular Condições Climáticas (para testar)
-
-Como o emulador não tem GPS real, você pode simular a localização:
-
-### 5.1 Simular localização no emulador
-
-1. No emulador, clique nos **"..."** (três pontinhos) na barra lateral
-2. Vá em **Location**
-3. Digite as coordenadas desejadas:
-   - Guarapuava, PR: Lat `-25.3947`, Long `-51.4528`
-   - São Paulo, SP: Lat `-23.5505`, Long `-46.6333`
-   - Recife, PE: Lat `-8.0476`, Long `-34.8770`
-4. Clique em **"Send"**
-
-### 5.2 Forçar um clima específico (modo debug)
-
-Para testar um clima específico sem depender da API, você pode editar temporariamente o `WeatherRepository.kt` e adicionar um retorno fixo:
-
-```kotlin
-// APENAS PARA TESTE — remova antes de publicar
-suspend fun fetchWeather(latitude: Double, longitude: Double): Result<WeatherState> {
-    return Result.success(WeatherState(
-        condition = WeatherCondition.STORM,   // ← troque aqui
-        period = DayPeriod.NIGHT,
-        temperatureCelsius = 14.0,
-        feelsLikeCelsius = 11.0,
-        description = "Tempestade"
-    ))
-}
-```
-
-Condições disponíveis para testar:
-- `WeatherCondition.SUNNY` + `DayPeriod.MORNING`
-- `WeatherCondition.STORM` + `DayPeriod.NIGHT`
-- `WeatherCondition.SNOW` + `DayPeriod.AFTERNOON`
-- `WeatherCondition.FOGGY` + `DayPeriod.MORNING`
-- *(todas as combinações da tabela no README)*
-
----
-
-## PARTE 6 — Build de Release (para publicar)
-
-Quando o app estiver pronto para publicação:
-
-### 6.1 Gerar a keystore (assinar o app)
-
-No terminal:
 ```bash
 keytool -genkey -v -keystore atmosfera-release.jks \
   -alias atmosfera -keyalg RSA -keysize 2048 -validity 10000
 ```
 
-Guarde o arquivo `.jks` e as senhas em local seguro!
+Configure a assinatura em `android-app/app/build.gradle` (`signingConfigs`) e
+gere o bundle: **Build → Generate Signed Bundle/APK → Android App Bundle**.
+Nunca versione a keystore nem senhas — o `.gitignore` já cobre `*.jks` e
+`*.keystore`. Antes de publicar, veja
+[CHECKLIST_PUBLICACAO.md](CHECKLIST_PUBLICACAO.md).
 
-### 6.2 Configurar assinatura no build.gradle
+## Solução de problemas comuns
 
-```gradle
-android {
-    signingConfigs {
-        release {
-            storeFile file('../atmosfera-release.jks')
-            storePassword 'SUA_SENHA'
-            keyAlias 'atmosfera'
-            keyPassword 'SUA_SENHA'
-        }
-    }
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-            // ...
-        }
-    }
-}
-```
+| Problema | Causa provável |
+|---|---|
+| "Gradle sync failed" | JDK errado — confirme JDK 17 em File → Project Structure → SDK Location |
+| App abre mas cai pro launcher sem erro aparente | Emulador não estava totalmente pronto no primeiro `am start` — tente de novo depois de alguns segundos |
+| Live Wallpaper não aparece na lista | Confirme instalação sem erros no Logcat; ou vá em Settings → Display → Wallpaper → Live Wallpapers |
+| "PERMISSION_DENIED" de localização | Normal sem conceder a permissão — o app usa Guarapuava/PR como padrão |
+| Emulador muito lento | Confirme virtualização por hardware ativa (HAXM/KVM) |
 
-### 6.3 Gerar o AAB (formato da Play Store)
-
-- Menu: **Build → Generate Signed Bundle/APK**
-- Selecione **Android App Bundle (.aab)**
-- Siga os passos e selecione a keystore criada
-
-O arquivo `.aab` gerado em `app/release/` é o que você vai fazer upload na Play Store.
-
----
-
-## Solução de Problemas Comuns
-
-### ❌ "Gradle sync failed"
-- Verifique sua conexão com a internet
-- Menu: **File → Invalidate Caches → Invalidate and Restart**
-- Verifique se o JDK 17 está instalado: **File → Project Structure → SDK Location → JDK**
-
-### ❌ "Asset não encontrado" (wallpaper preto)
-- Confirme que as imagens `.webp` estão em `app/src/main/assets/wallpapers/`
-- Execute o script Python novamente
-- Verifique os nomes dos arquivos (devem ser exatamente como listados na seção 1.4)
-
-### ❌ "PERMISSION_DENIED" para localização
-- No emulador: **Settings → Apps → Atmosfera → Permissions → Location → Allow**
-- O app usa Guarapuava, PR como fallback quando sem permissão
-
-### ❌ Live Wallpaper não aparece na lista
-- Certifique-se de que o app foi instalado com sucesso (sem erros no Logcat)
-- Tente via Settings → Display → Wallpaper → Live Wallpapers
-
-### ❌ Emulador muito lento
-- Verifique se a virtualização por hardware (HAXM/KVM) está habilitada:
-  - Windows: BIOS → Enable Virtualization Technology
-  - Linux: `sudo apt install qemu-kvm`
-
----
-
-## Logcat — Filtros úteis para debug
-
-No Android Studio, na aba **Logcat**, use estes filtros:
+## Logcat — filtros úteis
 
 ```
-tag:AtmosferaEngine    → logs do wallpaper (desenho, bitmap)
-tag:WeatherRepository  → logs da API Open-Meteo
-tag:LocationHelper     → logs de localização
-tag:WeatherCache       → logs de cache
+tag:WeatherRepository   → chamadas à API Open-Meteo
+tag:LocationHelper      → localização
+tag:WeatherCache        → cache de clima
 ```
-
----
-
-## Próximos Passos (Roadmap)
-
-- [ ] Nome da cidade dinâmico (Geocoder reverso)
-- [ ] Tela de configurações (cidade manual, unidade °C/°F)
-- [ ] Transição suave entre wallpapers (fade in/out)
-- [ ] Widget para tela inicial (AppWidgetProvider)
-- [ ] Publicação na Play Store (conta de dev: U$ 25 taxa única)
-- [ ] Testes em dispositivo físico
