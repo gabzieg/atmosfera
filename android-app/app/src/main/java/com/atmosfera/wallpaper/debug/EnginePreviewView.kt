@@ -7,7 +7,10 @@ import android.os.Looper
 import android.os.SystemClock
 import android.util.AttributeSet
 import android.view.View
+import com.atmosfera.wallpaper.engine.ArteFundo
+import com.atmosfera.wallpaper.engine.Cena
 import com.atmosfera.wallpaper.engine.EffectEngine
+import com.atmosfera.wallpaper.engine.EstiloEfeito
 import com.atmosfera.wallpaper.engine.SceneState
 
 /**
@@ -33,7 +36,7 @@ class EnginePreviewView @JvmOverloads constructor(
 
     init {
         Thread {
-            motor.carregar(context.assets)
+            motor.carregar(context.assets, Cena.atual(context), ArteFundo.atual(context), EstiloEfeito.atual(context))
             post { recarregar() }
         }.start()
     }
@@ -42,6 +45,19 @@ class EnginePreviewView @JvmOverloads constructor(
     fun recarregar() {
         DebugOverride.aplicar(context, estado)
         if (motor.pronto) motor.aoMudarClima()
+    }
+
+    /** Recarrega o cenário/arte/estilo escolhidos (para o tick durante a troca). */
+    fun trocarCenaEstilo() {
+        rodando = false
+        handler.removeCallbacks(tick)
+        Thread {
+            motor.carregar(context.assets, Cena.atual(context), ArteFundo.atual(context), EstiloEfeito.atual(context))
+            post {
+                recarregar()
+                if (isAttachedToWindow) { rodando = true; handler.post(tick) }
+            }
+        }.start()
     }
 
     override fun onAttachedToWindow() {

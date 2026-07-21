@@ -37,6 +37,16 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private lateinit var nevoa: Bitmap
     var pronto = false; private set
 
+    // ── Cena / estilo ativos (multi-cenário + multi-estilo) ─────────
+    private var cenaCfg: CenaCfg = Cenas.por("cabana")
+    private var estiloCfg: EstiloCfg = Estilos.por("pixel")
+    private var RES = 1               // src-rect × RES (folha do pack em res×)
+    private var cenaW = 688f
+    private var cenaH = 1538f
+    var cenaId = "cabana"; private set
+    var arteId = "pixel"; private set
+    var estiloId = "pixel"; private set
+
     // ── Zonas de impacto (coords da imagem) ─────────────────────────
     private val roofPts = ArrayList<IntArray>()
     private val lakePts = ArrayList<IntArray>()
@@ -81,17 +91,44 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     // ─────────────────────────────────────────────────────────────────
     //  Carregamento
     // ─────────────────────────────────────────────────────────────────
-    fun carregar(assets: AssetManager) {
+    /** Carrega os assets do cenário [cenaId] (arte de fundo [arte]) + o pack de
+     *  sprites do estilo de efeito [estilo]. Pode ser chamado de novo p/ trocar. */
+    fun carregar(assets: AssetManager, cenaId: String = "cabana",
+                 arte: String = "pixel", estilo: String = "pixel") {
+        pronto = false
+        liberarBitmaps()
+        this.cenaId = cenaId; this.arteId = arte; this.estiloId = estilo
+        cenaCfg = Cenas.por(cenaId)
+        estiloCfg = Estilos.por(estilo)
+        RES = estiloCfg.res
+        cenaW = cenaCfg.cenaW; cenaH = cenaCfg.cenaH
+        pSprite.isFilterBitmap = estiloCfg.suave   // pixel = cru; clay/aqua = suave
         fun bmp(nome: String) = assets.open("atmosfera/$nome").use { BitmapFactory.decodeStream(it) }
-        fundo = bmp("fundo.png")
-        frente = bmp("frente.png")
-        sprites = bmp("sprites.png")
+        val fp = cenaCfg.fundoPrefixo(arte)         // variante (clay/aqua) ou base
+        fundo = bmp(fp + "fundo.png")
+        frente = bmp(fp + "frente.png")
+        sprites = bmp(estiloCfg.arquivo)
         neve = bmp("neve_acumulo.png")
         neveForte = bmp("neve_acumulo_forte.png")
         nevoa = bmp("nevoa.png")
-        extrairZonas(bmp("zonas.png"))
-        initStars(); initFireflies()
+        roofPts.clear(); lakePts.clear()
+        extrairZonas(bmp(cenaCfg.prefixo + "zonas.png"))
+        // estado dependente da cena/dimensões
+        clouds.clear(); drops.clear(); flakes.clear(); impacts.clear()
+        fogBanks.clear(); leaves.clear(); wisps.clear(); puffs.clear()
+        bolt = null; snowAccum = 0f; roofAcc = 0f; lakeAcc = 0f; lastTs = 0L
+        initStars()
+        if (cenaCfg.vagalumes) initFireflies() else fireflies.clear()
         pronto = true
+    }
+
+    private fun liberarBitmaps() {
+        if (::fundo.isInitialized) fundo.recycle()
+        if (::frente.isInitialized) frente.recycle()
+        if (::sprites.isInitialized) sprites.recycle()
+        if (::neve.isInitialized) neve.recycle()
+        if (::neveForte.isInitialized) neveForte.recycle()
+        if (::nevoa.isInitialized) nevoa.recycle()
     }
 
     private fun extrairZonas(z: Bitmap) {
@@ -107,8 +144,10 @@ class EffectEngine(val estado: SceneState = SceneState()) {
                 val a = (c ushr 24) and 0xFF
                 if (a >= 128) {
                     val r = (c ushr 16) and 0xFF; val g = (c ushr 8) and 0xFF; val b = c and 0xFF
+                    // amarelo = parcial (telhado/terreno); vermelho E laranja =
+                    // completo (lago/poças) — o laranja é a poça de temporal.
                     if (r > 200 && g > 200 && b < 100) roofPts.add(intArrayOf(x, y))
-                    else if (r > 200 && g < 100 && b < 100) lakePts.add(intArrayOf(x, y))
+                    else if (r > 200 && b < 100 && g < 200) lakePts.add(intArrayOf(x, y))
                 }
                 x += step
             }
@@ -208,7 +247,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         for (nv in clouds) {
             nv.ix += nv.v * dt
             val w = Atlas[nv.sp].w * nv.escala
-            if (nv.ix > Atlas.CENA_W + 20) nv.ix = -w - 20
+            if (nv.ix > cenaW + 20) nv.ix = -w - 20
         }
         if (clouds.isEmpty()) initClouds()
         updateFireflies(dt)
@@ -245,20 +284,12 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     }
 
     /** Libera os bitmaps (chamar no onDestroy do wallpaper). */
-    fun liberar() {
-        if (::fundo.isInitialized) fundo.recycle()
-        if (::frente.isInitialized) frente.recycle()
-        if (::sprites.isInitialized) sprites.recycle()
-        if (::neve.isInitialized) neve.recycle()
-        if (::neveForte.isInitialized) neveForte.recycle()
-        if (::nevoa.isInitialized) nevoa.recycle()
-        pronto = false
-    }
+    fun liberar() { pronto = false; liberarBitmaps() }
 
     // ── Transform "cover" ───────────────────────────────────────────
     private fun cover(cw: Float, ch: Float): Tf {
-        val s = max(cw / Atlas.CENA_W, ch / Atlas.CENA_H)
-        return Tf(s, (cw - Atlas.CENA_W * s) / 2f, (ch - Atlas.CENA_H * s) / 2f)
+        val s = max(cw / cenaW, ch / cenaH)
+        return Tf(s, (cw - cenaW * s) / 2f, (ch - cenaH * s) / 2f)
     }
 
     private fun blitFull(c: Canvas, b: Bitmap, tf: Tf, p: Paint) {
@@ -267,7 +298,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     }
 
     private fun blit(c: Canvas, sp: Sprite, dx: Float, dy: Float, dw: Float, dh: Float, p: Paint) {
-        src.set(sp.x, sp.y, sp.x + sp.w, sp.y + sp.h)
+        src.set(sp.x * RES, sp.y * RES, (sp.x + sp.w) * RES, (sp.y + sp.h) * RES)
         dst.set(dx, dy, dx + dw, dy + dh)
         c.drawBitmap(sprites, src, dst, p)
     }
@@ -279,10 +310,10 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     // ─────────────────────────────────────────────────────────────────
     private fun desenharSol(c: Canvas, tf: Tf) {
         if (estado.clima != "seco") return
-        val S = Atlas.SolCfg
+        val A = cenaCfg.astros; val S = cenaCfg.sol
         val t = (estado.hora - estado.nascer) / (estado.por - estado.nascer)
         if (t < -0.02f || t > 1.02f) return
-        val ix = S.x1 + (S.x0 - S.x1) * t              // nasce à direita
+        val ix = A.x1 + (A.x0 - A.x1) * t              // nasce à direita
         val iy = S.yBase - (S.yBase - S.yPico) * 4f * t * (1 - t)
         val s = 1 - abs(2 * t - 1)                     // gradiente simétrico
         val base: String; val sobre: String; val k: Float
@@ -309,10 +340,10 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private fun desenharLua(c: Canvas, tf: Tf, escuro: Float) {
         if (escuro < 0.25f) return
         val t = luaProgresso(estado.hora) ?: return
-        val L = Atlas.LuaCfg
-        val ix = 700f + (-10f - 700f) * t
+        val A = cenaCfg.astros; val L = cenaCfg.lua
+        val ix = A.x1 + (A.x0 - A.x1) * t              // nasce à direita, põe à esquerda
         val iy = L.yBase - (L.yBase - L.yPico) * 4f * t * (1 - t)
-        val fadeAlt = ((215f - iy) / 35f).coerceIn(0f, 1f)
+        val fadeAlt = ((L.fadeY - iy) / 35f).coerceIn(0f, 1f)  // some atrás da silhueta
         if (fadeAlt <= 0.01f) return
         val idx = (estado.luaFase * (Atlas.luaFases.size - 1)).toInt().coerceIn(0, Atlas.luaFases.size - 1)
         val sp = Atlas[Atlas.luaFases[idx]]
@@ -378,7 +409,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         for (d in drops) blit(c, sp, d.x - dw / 2, d.y - dh / 2, dw, dh, pSprite)
     }
     private fun updateImpactSpawners(dt: Float) {
-        roofAcc += estado.roofRate * dt; lakeAcc += estado.lakeRate * dt
+        roofAcc += estado.roofRate * cenaCfg.taxaParcial * dt
+        lakeAcc += estado.lakeRate * cenaCfg.taxaCompleto * dt
         while (roofAcc >= 1) { spawnImpact(roofPts, Atlas.seqTelhado); roofAcc -= 1 }
         while (lakeAcc >= 1) { spawnImpact(lakePts, Atlas.seqLago); lakeAcc -= 1 }
     }
@@ -476,7 +508,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         for (f in fogBanks) {
             f.x += f.v * dt; f.fase += f.velFase * dt
             val w = nevoa.width * f.esc
-            if (f.x - w / 2 > Atlas.CENA_W + 40) f.x = -w / 2 - 40
+            if (f.x - w / 2 > cenaW + 40) f.x = -w / 2 - 40
         }
     }
     private fun desenharNevoa(c: Canvas, tf: Tf, cw: Float, ch: Float) {
@@ -501,6 +533,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private fun nivelNeve(): Float = ((estado.dropCount - 60) / 120f).coerceIn(0f, 1f)
 
     private fun desenharAcumulo(c: Canvas, tf: Tf) {
+        if (!cenaCfg.temAcumulo) return          // acúmulo é overlay próprio da cabana
         if (snowAccum <= 0.01f) return
         pSmooth.xfermode = null
         setA(pSmooth, snowAccum * 0.9f)          // acúmulo leve (sempre)
@@ -513,6 +546,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     // Estalactites de gelo crescendo do beiral com a neve acumulada.
     // Só na neve 2+ (nivelNeve ≥ .4): médias na 2, longas na 3.
     private fun desenharEstalactites(c: Canvas, tf: Tf) {
+        if (!cenaCfg.temAcumulo) return          // beiral da cabana
         if (snowAccum <= 0.02f) return
         val nv = nivelNeve()
         if (nv < 0.4f) return
@@ -542,9 +576,10 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     }
     private fun initStars() {
         stars.clear(); val r = Random(20260704)
+        val ceuAlt = cenaH * 0.13f               // estrelas no céu alto da cena
         for (i in 0 until 90) {
             val twinkle = r.nextFloat() < 0.4f
-            stars.add(Star(r.nextFloat() * 688, r.nextFloat() * 205 + 8,
+            stars.add(Star(r.nextFloat() * cenaW, r.nextFloat() * ceuAlt + 8,
                 if (r.nextFloat() < 0.7f) "estrela_1" else if (r.nextFloat() < 0.8f) "estrela_2" else "estrela_3",
                 twinkle, r.nextFloat() * 6.283f, 1.5f + r.nextFloat() * 2, 0.5f + r.nextFloat() * 0.5f))
         }
@@ -576,7 +611,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         }
     }
     private fun desenharVagalumes(c: Canvas, tf: Tf, escuro: Float) {
-        if (escuro < 0.2f || !estado.premium) return
+        if (!cenaCfg.vagalumes || escuro < 0.2f || !estado.premium) return
         val sp = Atlas.get("vagalume"); pSprite.xfermode = ADD
         for (f in fireflies) {
             val b = 0.35f + 0.65f * max(0f, sin(f.fase)); val sc = tf.s * 1.3f
@@ -611,7 +646,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private fun janelasAcesas(h: Float) = h >= estado.por - 0.3f
     private fun lampioesAcesos(h: Float) = h >= estado.por - 0.3f || h <= estado.nascer + 0.3f
     private fun desenharLuzes(c: Canvas, tf: Tf, escuro: Float, ts: Long) {
-        if (escuro < 0.12f) return
+        if (!cenaCfg.luzesCabana || escuro < 0.12f) return
         pSprite.xfermode = ADD
         if (janelasAcesas(estado.hora)) {
             val sp = Atlas.get("glow_janela")
@@ -646,6 +681,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         return if (refeicao || temp < Atlas.TEMP_INTENSO) "densa" else "fina"
     }
     private fun updateFumaca(dt: Float) {
+        if (!cenaCfg.chamine) { if (puffs.isNotEmpty()) puffs.clear(); return }
         val est = estadoChamine(estado.temp, estado.hora)
         if (est != "apagada") {
             val densa = est == "densa"; val taxa = if (densa) 5.5f else 3f
@@ -685,7 +721,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             setA(pSmooth, a)
             c.save(); c.translate(tf.ox + p.x * tf.s, tf.oy + p.y * tf.s)
             c.rotate(Math.toDegrees((p.giro * k).toDouble()).toFloat())
-            src.set(sp.x, sp.y, sp.x + sp.w, sp.y + sp.h); dst.set(-dw / 2, -dh / 2, dw / 2, dh / 2)
+            src.set(sp.x * RES, sp.y * RES, (sp.x + sp.w) * RES, (sp.y + sp.h) * RES)
+            dst.set(-dw / 2, -dh / 2, dw / 2, dh / 2)
             c.drawBitmap(sprites, src, dst, pSmooth); c.restore()
         }
         setA(pSmooth, 1f)
