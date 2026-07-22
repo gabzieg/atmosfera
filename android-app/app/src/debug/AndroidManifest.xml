@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Manifesto de DEBUG (mescla só em builds debug). Adiciona um ícone SEPARADO
+  no launcher — "Atmosfera Teste" — que abre o painel de debug (DebugActivity),
+  onde dá pra escolher cenário / arte do fundo / estilo dos efeitos e ver a
+  prévia ao vivo, sem depender da loja/compra.
+
+  A DebugActivity em si (exported=false) segue declarada no manifesto principal;
+  aqui só criamos um atalho de launcher via activity-alias.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity-alias
+            android:name=".debug.DebugLauncher"
+            android:targetActivity=".debug.DebugActivity"
+            android:exported="true"
+            android:label="Atmosfera Teste"
+            android:icon="@mipmap/ic_launcher">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+    </application>
+</manifest>
