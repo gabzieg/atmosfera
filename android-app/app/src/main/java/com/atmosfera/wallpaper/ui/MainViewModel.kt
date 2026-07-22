@@ -10,8 +10,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.atmosfera.wallpaper.billing.BillingManager
 import com.atmosfera.wallpaper.billing.Plano
+import com.atmosfera.wallpaper.engine.ArteFundo
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cena
+import com.atmosfera.wallpaper.engine.EstiloEfeito
 import com.atmosfera.wallpaper.weather.LocationHelper
 import com.atmosfera.wallpaper.weather.WeatherCache
 import com.atmosfera.wallpaper.weather.WeatherRepository
@@ -42,6 +44,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
 
     private val _isPremium = MutableStateFlow(Plano.isPremium(context))
     val isPremium: StateFlow<Boolean> = _isPremium
+
+    // Arte do fundo (pixel/clay/aqua) e estilo dos efeitos (pixel/clay/bizantino/aqua).
+    // O serviço do wallpaper relê essas prefs ao voltar à tela inicial.
+    private val _currentArt = MutableStateFlow(ArteFundo.atual(context))
+    val currentArt: StateFlow<String> = _currentArt
+
+    private val _currentEffectStyle = MutableStateFlow(EstiloEfeito.atual(context))
+    val currentEffectStyle: StateFlow<String> = _currentEffectStyle
 
     init {
         prefs.registerOnSharedPreferenceChangeListener(this)
@@ -117,6 +127,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     fun setScene(sceneId: String) {
         Cena.definir(context, sceneId)
         _currentSceneId.value = sceneId
+    }
+
+    fun setArt(arteId: String) {
+        ArteFundo.definir(context, arteId)
+        _currentArt.value = arteId
+    }
+
+    fun setEffectStyle(styleId: String) {
+        EstiloEfeito.definir(context, styleId)
+        _currentEffectStyle.value = styleId
     }
 
     fun isSceneUnlocked(cenario: com.atmosfera.wallpaper.engine.Cenario): Boolean {

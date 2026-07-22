@@ -1,8 +1,11 @@
 package com.atmosfera.wallpaper.ui
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,178 +14,226 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.atmosfera.wallpaper.billing.BillingManager
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cenario
-import com.atmosfera.wallpaper.ui.components.SceneThumbnail
+import com.atmosfera.wallpaper.engine.Cenas
+import com.atmosfera.wallpaper.engine.Estilos
+import com.atmosfera.wallpaper.ui.components.MasonryGrid
+import com.atmosfera.wallpaper.ui.components.MosaicCard
+import com.atmosfera.wallpaper.ui.components.PillSearchBar
+import com.atmosfera.wallpaper.ui.components.SectionCarousel
+import com.atmosfera.wallpaper.ui.components.StackedThumbnail
 import com.atmosfera.wallpaper.ui.components.StatusPill
+import com.atmosfera.wallpaper.ui.theme.Radius
+import com.atmosfera.wallpaper.ui.theme.Spacing
+
+// ── Helpers de domínio compartilhados entre a Loja e a tela de detalhe ────────
+
+/** Artes de fundo de um cenário: base "pixel" + variantes (clay/aqua) do motor. */
+internal fun artesDoCenario(id: String): List<String> =
+    listOf("pixel") + Cenas.por(id).variantes.keys.toList()
+
+/** Emoji + nome de exibição de um estilo de efeito. */
+internal fun estiloInfo(id: String): Pair<String, String> = when (id) {
+    "pixel" -> "🟦" to "Pixel Art"
+    "clay" -> "🧱" to "Clay"
+    "bizantino" -> "🏛️" to "Bizantino"
+    "aqua" -> "🎨" to "Aquarela"
+    else -> "✨" to id.replaceFirstChar { it.uppercase() }
+}
 
 @Composable
 fun StoreTab(viewModel: MainViewModel) {
+    // Substituir a Loja pelo browser: navegação interna lista ⇄ detalhe,
+    // sem tocar no NavHost de topo (a aba continua sendo "Loja").
+    var cenarioAberto by rememberSaveable { mutableStateOf<String?>(null) }
+
+    if (cenarioAberto != null) {
+        BackHandler { cenarioAberto = null }
+        SceneDetailScreen(
+            sceneId = cenarioAberto!!,
+            viewModel = viewModel,
+            onBack = { cenarioAberto = null },
+        )
+    } else {
+        StoreBrowser(viewModel = viewModel, onAbrir = { cenarioAberto = it })
+    }
+}
+
+@Composable
+private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit) {
     val isPremium by viewModel.isPremium.collectAsState()
     val currentSceneId by viewModel.currentSceneId.collectAsState()
-    val context = LocalContext.current
-    val activity = context as? android.app.Activity
+    val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
 
-    LazyColumn(
+    var query by remember { mutableStateOf("") }
+    val cenarios = remember(query) {
+        Catalogo.cenarios.filter { it.nome.contains(query.trim(), ignoreCase = true) }
+    }
+    // Alturas variadas → efeito escalonado do mosaico.
+    val aspectos = listOf(0.72f, 0.95f, 0.78f, 0.68f, 0.88f)
+
+    MasonryGrid(
+        items = cenarios,
         modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(20.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-    ) {
-        item {
-            Text(
-                "Loja",
-                style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-        }
-
-        item {
-            PremiumBanner(
-                isPremium = isPremium,
-                priceText = viewModel.billingManager.precoFormatado(BillingManager.PRODUTO_PREMIUM),
-                onBuy = { activity?.let { viewModel.buyPremium(it) } },
-            )
-        }
-
-        item {
-            Text(
-                "Cenários",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-        }
-
-        items(Catalogo.cenarios) { cenario ->
-            val isUnlocked = viewModel.isSceneUnlocked(cenario)
-            val isActive = currentSceneId == cenario.id
-            SceneCard(
-                cenario = cenario,
-                isUnlocked = isUnlocked,
-                isActive = isActive,
-                priceText = cenario.productId?.let { viewModel.billingManager.precoFormatado(it) },
-                onApply = { viewModel.setScene(cenario.id) },
-                onBuy = { cenario.productId?.let { pid -> activity?.let { a -> viewModel.buyScene(a, pid) } } },
-            )
-        }
-    }
-}
-
-@Composable
-private fun PremiumBanner(isPremium: Boolean, priceText: String?, onBuy: () -> Unit) {
-    val container = if (isPremium) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.primaryContainer
-    val onContainer = if (isPremium) MaterialTheme.colorScheme.onTertiaryContainer else MaterialTheme.colorScheme.onPrimaryContainer
-
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = container),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-    ) {
-        Column(modifier = Modifier.padding(20.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Default.Star, contentDescription = null, tint = onContainer, modifier = Modifier.size(20.dp))
-                Spacer(Modifier.width(8.dp))
-                Text(
-                    if (isPremium) "Você é Premium" else "Desbloquear efeitos vivos",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = onContainer,
-                    fontWeight = FontWeight.SemiBold,
+        columns = 2,
+        key = { it.id },
+        header = {
+            Column(verticalArrangement = Arrangement.spacedBy(Spacing.lg)) {
+                Text("Loja", style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground)
+                PillSearchBar(query = query, onQueryChange = { query = it })
+                PremiumBanner(
+                    isPremium = isPremium,
+                    priceText = viewModel.billingManager.precoFormatado(BillingManager.PRODUTO_PREMIUM),
+                    onBuy = { viewModel.buyPremium(it) },
                 )
-            }
-            Spacer(Modifier.height(6.dp))
-            Text(
-                if (isPremium) "Raios, vento, vagalumes, fumaça, fases da lua e acúmulo de neve ligados em todos os cenários."
-                else "Compra única que liga os efeitos climáticos vivos em TODOS os cenários.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = onContainer.copy(alpha = 0.9f),
-            )
-            if (!isPremium) {
-                Spacer(Modifier.height(14.dp))
-                Button(onClick = onBuy, shape = RoundedCornerShape(14.dp)) {
-                    Text("Comprar Premium${priceText?.let { " · $it" } ?: ""}")
+                // Carrossel de seção: categoria pequena + título grande + fileira rolável.
+                SectionCarousel(
+                    categoria = "Coleção",
+                    titulo = "Estilos de efeito",
+                    items = Estilos.ids,
+                    modifier = Modifier.padding(bottom = Spacing.xs),
+                    // alinhado ao conteúdo do grid (sem padding lateral extra do carrossel)
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 0.dp),
+                ) { estiloId ->
+                    EstiloChip(
+                        estiloId = estiloId,
+                        selecionado = estiloId == currentEffectStyle,
+                        onClick = { viewModel.setEffectStyle(estiloId) },
+                    )
                 }
+                Text("Cenários", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onBackground)
             }
-        }
+        },
+    ) { cenario ->
+        val idx = Catalogo.cenarios.indexOfFirst { it.id == cenario.id }.coerceAtLeast(0)
+        CenarioTile(
+            cenario = cenario,
+            isUnlocked = viewModel.isSceneUnlocked(cenario),
+            isActive = currentSceneId == cenario.id,
+            aspect = aspectos[idx % aspectos.size],
+            onClick = { onAbrir(cenario.id) },
+        )
     }
 }
 
+/** Padrão reproduzido: **card do mosaico** — imagem (ou pilha de coleção) no topo,
+ *  cantos arredondados, título + estado embaixo; altura definida pelo conteúdo. */
 @Composable
-private fun SceneCard(
+private fun CenarioTile(
     cenario: Cenario,
     isUnlocked: Boolean,
     isActive: Boolean,
-    priceText: String?,
-    onApply: () -> Unit,
-    onBuy: () -> Unit,
+    aspect: Float,
+    onClick: () -> Unit,
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-    ) {
-        Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-            SceneThumbnail(
-                sceneId = cenario.id,
-                modifier = Modifier
-                    .size(64.dp)
-                    .clip(RoundedCornerShape(14.dp)),
+    MosaicCard(onClick = onClick) {
+        StackedThumbnail(
+            sceneId = cenario.id,
+            artes = artesDoCenario(cenario.id),
+            aspectRatio = aspect,
+        )
+        Column(Modifier.padding(Spacing.md)) {
+            Text(
+                cenario.nome,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 2,
             )
-            Spacer(Modifier.width(14.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(cenario.nome, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
-                Spacer(Modifier.height(2.dp))
-                Text(
-                    cenario.descricao,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 2,
+            Spacer(Modifier.height(Spacing.sm))
+            when {
+                isActive -> StatusPill(
+                    "Atual",
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
-                Spacer(Modifier.height(8.dp))
-                when {
-                    isActive -> StatusPill(
-                        "Atual",
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    )
-                    cenario.gratis -> StatusPill(
-                        "Grátis",
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                    )
-                    isUnlocked -> StatusPill("Comprado")
-                }
+                cenario.gratis -> StatusPill(
+                    "Grátis",
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                )
+                isUnlocked -> StatusPill("Comprado")
+                else -> StatusPill(
+                    "Bloqueado",
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                )
             }
-            Spacer(Modifier.width(8.dp))
-            if (!isActive) {
-                Button(
-                    onClick = if (isUnlocked) onApply else onBuy,
-                    shape = RoundedCornerShape(12.dp),
-                    contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp),
-                ) {
-                    Text(if (isUnlocked) "Aplicar" else (priceText ?: "Comprar"))
-                }
+        }
+    }
+}
+
+@Composable
+internal fun EstiloChip(estiloId: String, selecionado: Boolean, onClick: () -> Unit) {
+    val (emoji, nome) = estiloInfo(estiloId)
+    val bg = if (selecionado) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
+    val fg = if (selecionado) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
+    Row(
+        modifier = Modifier
+            .background(bg, RoundedCornerShape(Radius.pill))
+            .clickable(onClick = onClick)
+            .padding(horizontal = Spacing.lg, vertical = Spacing.md),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(Spacing.sm),
+    ) {
+        Text(emoji, style = MaterialTheme.typography.titleMedium)
+        Text(nome, style = MaterialTheme.typography.labelLarge, color = fg, fontWeight = FontWeight.SemiBold)
+    }
+}
+
+@Composable
+internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onBuy: (android.app.Activity) -> Unit) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val activity = context as? android.app.Activity
+    val container = if (isPremium) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.primaryContainer
+    val onContainer = if (isPremium) MaterialTheme.colorScheme.onTertiaryContainer else MaterialTheme.colorScheme.onPrimaryContainer
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(container, RoundedCornerShape(Radius.card))
+            .padding(Spacing.xl),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Default.Star, contentDescription = null, tint = onContainer, modifier = Modifier.size(20.dp))
+            Spacer(Modifier.width(Spacing.sm))
+            Text(
+                if (isPremium) "Você é Premium" else "Desbloquear efeitos vivos",
+                style = MaterialTheme.typography.titleMedium,
+                color = onContainer,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
+        Spacer(Modifier.height(Spacing.sm))
+        Text(
+            if (isPremium) "Raios, vento, vagalumes, fumaça, fases da lua e acúmulo de neve ligados em todos os cenários."
+            else "Compra única que liga os efeitos climáticos vivos em TODOS os cenários.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = onContainer.copy(alpha = 0.9f),
+        )
+        if (!isPremium) {
+            Spacer(Modifier.height(Spacing.md))
+            Button(onClick = { activity?.let(onBuy) }, shape = RoundedCornerShape(Radius.pill)) {
+                Text("Comprar Premium${priceText?.let { " · $it" } ?: ""}")
             }
         }
     }
