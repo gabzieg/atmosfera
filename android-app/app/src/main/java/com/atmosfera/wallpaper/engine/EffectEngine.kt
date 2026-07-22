@@ -83,6 +83,9 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private val dst = RectF()
     private val path = Path()
     private val rnd = Random.Default
+    // Serializa carregar/draw/liberar: sem isso, recarregar (thread de fundo)
+    // recicla um bitmap que o draw (thread de UI) ainda está usando → crash.
+    private val lock = Any()
     private val ADD = PorterDuffXfermode(PorterDuff.Mode.ADD)
     private val MULT = PorterDuffXfermode(PorterDuff.Mode.MULTIPLY)
 
@@ -94,7 +97,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     /** Carrega os assets do cenário [cenaId] (arte de fundo [arte]) + o pack de
      *  sprites do estilo de efeito [estilo]. Pode ser chamado de novo p/ trocar. */
     fun carregar(assets: AssetManager, cenaId: String = "cabana",
-                 arte: String = "pixel", estilo: String = "pixel") {
+                 arte: String = "pixel", estilo: String = "pixel") = synchronized(lock) {
         pronto = false
         liberarBitmaps()
         this.cenaId = cenaId; this.arteId = arte; this.estiloId = estilo
@@ -159,8 +162,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     // ─────────────────────────────────────────────────────────────────
     //  Loop
     // ─────────────────────────────────────────────────────────────────
-    fun draw(canvas: Canvas, cw: Float, ch: Float, tsMs: Long) {
-        if (!pronto) return
+    fun draw(canvas: Canvas, cw: Float, ch: Float, tsMs: Long) = synchronized(lock) {
+        if (!pronto) return@synchronized
         var dt = if (lastTs == 0L) 0f else (tsMs - lastTs) / 1000f
         lastTs = tsMs
         if (dt > 0.05f) dt = 0.05f
@@ -284,7 +287,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     }
 
     /** Libera os bitmaps (chamar no onDestroy do wallpaper). */
-    fun liberar() { pronto = false; liberarBitmaps() }
+    fun liberar() = synchronized(lock) { pronto = false; liberarBitmaps() }
 
     // ── Transform "cover" ───────────────────────────────────────────
     private fun cover(cw: Float, ch: Float): Tf {

@@ -36,8 +36,10 @@ class EnginePreviewView @JvmOverloads constructor(
 
     init {
         Thread {
-            motor.carregar(context.assets, Cena.atual(context), ArteFundo.atual(context), EstiloEfeito.atual(context))
-            post { recarregar() }
+            try {
+                motor.carregar(context.assets, Cena.atual(context), ArteFundo.atual(context), EstiloEfeito.atual(context))
+                post { recarregar() }
+            } catch (_: Throwable) { /* preview falhou: não derruba o app */ }
         }.start()
     }
 
@@ -52,7 +54,9 @@ class EnginePreviewView @JvmOverloads constructor(
         rodando = false
         handler.removeCallbacks(tick)
         Thread {
-            motor.carregar(context.assets, Cena.atual(context), ArteFundo.atual(context), EstiloEfeito.atual(context))
+            try {
+                motor.carregar(context.assets, Cena.atual(context), ArteFundo.atual(context), EstiloEfeito.atual(context))
+            } catch (_: Throwable) { /* não derruba o app */ }
             post {
                 recarregar()
                 if (isAttachedToWindow) { rodando = true; handler.post(tick) }
