@@ -94,9 +94,12 @@ private fun BottomNavBar(navController: NavHostController) {
                 label = { Text(destino.titulo) },
                 selected = currentRoute == destino.rota,
                 colors = NavigationBarItemDefaults.colors(
+                    // Selecionado = ícone claro (primary) sobre uma pílula escura sutil
+                    // (surfaceVariant). No mono, primaryContainer é CLARO e colidiria
+                    // com o ícone claro — daí o indicador usar surfaceVariant.
                     selectedIconColor = MaterialTheme.colorScheme.primary,
                     selectedTextColor = MaterialTheme.colorScheme.primary,
-                    indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                    indicatorColor = MaterialTheme.colorScheme.surfaceVariant,
                     unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 ),

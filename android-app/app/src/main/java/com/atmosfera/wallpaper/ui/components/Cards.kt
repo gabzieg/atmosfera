@@ -1,5 +1,6 @@
 package com.atmosfera.wallpaper.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -53,9 +54,12 @@ fun StatChip(value: String, label: String, modifier: Modifier = Modifier) {
 }
 
 /**
- * Padrão reproduzido: **card com bordas bem arredondadas e sombra sutil**,
- * dimensionado pelo próprio conteúdo (essencial para o mosaico, onde cada card
- * tem altura variada). Clicável. Espaçamento vem dos tokens ([Spacing]/[Radius]).
+ * Padrão reproduzido: **card com bordas bem arredondadas**, dimensionado pelo
+ * próprio conteúdo (essencial para o mosaico, onde cada card tem altura variada).
+ * Clicável. Cores/espaçamento vêm dos tokens ([Spacing]/[Radius]/tema).
+ *
+ * No tema monocromático a separação vem de uma **borda hairline** (token
+ * `outline`), não de sombra — sombra some no quase-preto e destoa do minimalismo.
  */
 @Composable
 fun MosaicCard(
@@ -65,11 +69,12 @@ fun MosaicCard(
 ) {
     val shape = RoundedCornerShape(Radius.tile)
     val colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    val elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)  // sombra sutil
+    val elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    val border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     if (onClick != null) {
-        Card(onClick = onClick, modifier = modifier.fillMaxWidth(), shape = shape, colors = colors, elevation = elevation, content = content)
+        Card(onClick = onClick, modifier = modifier.fillMaxWidth(), shape = shape, colors = colors, elevation = elevation, border = border, content = content)
     } else {
-        Card(modifier = modifier.fillMaxWidth(), shape = shape, colors = colors, elevation = elevation, content = content)
+        Card(modifier = modifier.fillMaxWidth(), shape = shape, colors = colors, elevation = elevation, border = border, content = content)
     }
 }
 

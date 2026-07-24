@@ -2,6 +2,7 @@ package com.atmosfera.wallpaper.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -52,13 +53,13 @@ import com.atmosfera.wallpaper.ui.theme.Spacing
 internal fun artesDoCenario(id: String): List<String> =
     listOf("pixel") + Cenas.por(id).variantes.keys.toList()
 
-/** Emoji + nome de exibição de um estilo de efeito. */
-internal fun estiloInfo(id: String): Pair<String, String> = when (id) {
-    "pixel" -> "🟦" to "Pixel Art"
-    "clay" -> "🧱" to "Clay"
-    "bizantino" -> "🏛️" to "Bizantino"
-    "aqua" -> "🎨" to "Aquarela"
-    else -> "✨" to id.replaceFirstChar { it.uppercase() }
+/** Nome de exibição de um estilo de efeito (sem emoji — identidade monocromática). */
+internal fun estiloNome(id: String): String = when (id) {
+    "pixel" -> "Pixel Art"
+    "clay" -> "Clay"
+    "bizantino" -> "Bizantino"
+    "aqua" -> "Aquarela"
+    else -> id.replaceFirstChar { it.uppercase() }
 }
 
 @Composable
@@ -184,18 +185,18 @@ private fun CenarioTile(
 
 @Composable
 internal fun EstiloChip(estiloId: String, selecionado: Boolean, onClick: () -> Unit) {
-    val (emoji, nome) = estiloInfo(estiloId)
+    val nome = estiloNome(estiloId)
     val bg = if (selecionado) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
     val fg = if (selecionado) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
+    val borda = if (selecionado) bg else MaterialTheme.colorScheme.outline
     Row(
         modifier = Modifier
             .background(bg, RoundedCornerShape(Radius.pill))
+            .border(1.dp, borda, RoundedCornerShape(Radius.pill))
             .clickable(onClick = onClick)
             .padding(horizontal = Spacing.lg, vertical = Spacing.md),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(Spacing.sm),
     ) {
-        Text(emoji, style = MaterialTheme.typography.titleMedium)
         Text(nome, style = MaterialTheme.typography.labelLarge, color = fg, fontWeight = FontWeight.SemiBold)
     }
 }
@@ -204,8 +205,11 @@ internal fun EstiloChip(estiloId: String, selecionado: Boolean, onClick: () -> U
 internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onBuy: (android.app.Activity) -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val activity = context as? android.app.Activity
-    val container = if (isPremium) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.primaryContainer
-    val onContainer = if (isPremium) MaterialTheme.colorScheme.onTertiaryContainer else MaterialTheme.colorScheme.onPrimaryContainer
+    // Banner sempre em superfície ESCURA: no estado não-premium o CTA é um botão
+    // claro (primary) — sobre um container claro ele sumiria. Ênfase vem do botão,
+    // não do fundo. (tertiaryContainer/surface são só um degrau de tom.)
+    val container = if (isPremium) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.surface
+    val onContainer = if (isPremium) MaterialTheme.colorScheme.onTertiaryContainer else MaterialTheme.colorScheme.onSurface
 
     Column(
         modifier = Modifier

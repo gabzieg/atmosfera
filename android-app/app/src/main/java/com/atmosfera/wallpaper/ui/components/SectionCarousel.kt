@@ -25,10 +25,12 @@ fun SectionHeader(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
+        // Eyebrow discreto: rótulo pequeno e MUTED sobre o título grande.
+        // (Sem cor de acento, o contraste do par é que cria a hierarquia.)
         Text(
             categoria.uppercase(),
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontWeight = FontWeight.SemiBold,
         )
         Text(

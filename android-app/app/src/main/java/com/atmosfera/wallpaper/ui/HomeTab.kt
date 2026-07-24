@@ -50,13 +50,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.atmosfera.wallpaper.service.AtmosferaWallpaperService
 import com.atmosfera.wallpaper.ui.components.SceneThumbnail
 import com.atmosfera.wallpaper.ui.components.StatChip
-import com.atmosfera.wallpaper.ui.components.emoji
 import com.atmosfera.wallpaper.weather.WeatherState
 
 @Composable
@@ -206,15 +204,14 @@ private fun WeatherHeroCard(sceneId: String, weatherState: WeatherState?, onRefr
                     }
                 } else {
                     Column {
-                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Text(weatherState.condition.emoji(), fontSize = 26.sp)
-                            Text(
-                                "${weatherState.temperatureCelsius.toInt()}°C",
-                                style = MaterialTheme.typography.headlineSmall,
-                                color = Color.White,
-                                fontWeight = FontWeight.Bold,
-                            )
-                        }
+                        // Sem emoji de clima: a condição já vem no texto abaixo
+                        // ("Nublado"), e emoji colorido furaria a identidade mono.
+                        Text(
+                            "${weatherState.temperatureCelsius.toInt()}°C",
+                            style = MaterialTheme.typography.headlineSmall,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                        )
                         Text(
                             weatherState.description,
                             color = Color.White.copy(alpha = 0.85f),

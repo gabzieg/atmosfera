@@ -100,7 +100,7 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
             // ── Nome + ação principal ao lado ───────────────────────────
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("CENÁRIO", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
+                    Text("CENÁRIO", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, fontWeight = FontWeight.SemiBold)
                     Text(cenario.nome, style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground)
                 }
                 Spacer(Modifier.width(Spacing.md))
@@ -258,7 +258,7 @@ private fun ArteOption(sceneId: String, arte: String, selecionada: Boolean, onCl
                 .clickable(onClick = onClick),
         )
         Text(
-            estiloInfo(arte).second,
+            estiloNome(arte),
             style = MaterialTheme.typography.labelSmall,
             color = if (selecionada) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
         )
