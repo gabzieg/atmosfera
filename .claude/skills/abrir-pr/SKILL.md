@@ -1,0 +1,95 @@
+---
+name: abrir-pr
+description: Fluxo de pull request do Atmosfera — decide se a mudança exige PR ou pode ir direto na main, nomeia a branch, roda o gate de build e abre o PR já preenchido. Use ao abrir PR, preparar branch, ou antes de commitar/pushar qualquer coisa que toque motor, billing, manifesto, build.gradle ou CI.
+---
+
+# Abrir PR no Atmosfera
+
+Projeto de 2 pessoas: **Rafael** (motor) e **Gabriel** (front). Historicamente
+todo mundo commitava direto na `main` — isso já custou um merge conflitado no
+`EffectEngine`. A regra abaixo existe para evitar exatamente isso, sem virar
+burocracia no resto.
+
+## 1. Precisa de PR?
+
+**SIM — abra branch + PR** se o diff toca qualquer um destes:
+
+| Caminho | Por quê |
+|---|---|
+| `engine/**` · `assets/atmosfera/**` | Fronteira do motor. O Rafael evolui isso em paralelo — editar aqui sem avisar gera conflito de merge (já aconteceu). |
+| `billing/**` | Dinheiro. E a versão do Billing tem um teto frágil (ver §4). |
+| `AndroidManifest.xml` | Permissão nova muda o Data Safety Form da Play Store. |
+| `build.gradle` (app ou raiz) · `settings.gradle` | Quebra o build de todo mundo. |
+| `.github/**` | Muda o gate de CI. |
+
+**NÃO precisa** — pode commitar direto na `main`: documentação, texto, ajuste
+visual dentro de `ui/`, refactor local que não cruza as fronteiras acima.
+
+> Julgamento: se a mudança altera **que dado é coletado** (mesmo dentro de
+> `weather/`), trate como área de risco — é LGPD, não é refactor.
+
+## 2. Branch
+
+```
+motor/<slug>    # mudanças no engine/assets (combinar com o Rafael antes)
+front/<slug>    # ui, billing, weather, service
+fix/<slug>      # correção pontual
+doc/<slug>      # documentação
+```
+
+Sempre saindo da `main` atualizada:
+
+```bash
+git switch main && git pull --rebase origin main
+git switch -c front/loja-mosaico
+```
+
+## 3. Antes de abrir: rode o gate de verdade
+
+```bash
+cd android-app && ./gradlew assembleDebug
+```
+
+`assembleDebug` é o **único** gate da CI (`.github/workflows/build.yml`).
+`lintDebug` **não** roda na CI e tem 2 erros pré-existentes conhecidos
+(falso-positivo de permissão em `LocationHelper.kt` e um aviso do WorkManager
+no manifesto) — não tente "consertar" isso dentro de um PR de outro assunto.
+
+**Mudou UI? Anexe screenshot.** O projeto não tem nenhum teste automatizado —
+a verificação é visual. Use a skill `run` para instalar, abrir e capturar a tela.
+Não escreva "testado" sem ter rodado: coisas que compilam ainda quebram na tela
+(já pegamos chips fora do viewport e pilha de imagens invisível só olhando).
+
+## 4. Armadilhas que já morderam este projeto
+
+- **Billing preso em 6.2.1.** 7.0.0+ é compilado com metadata do Kotlin 2.x, que
+  o compilador Kotlin 1.9.23 do projeto não lê. Só suba junto com o plugin Kotlin.
+- **Motor "congelado".** Se precisar mesmo mexer, avise o Rafael e registre no PR
+  — o snapshot dele pode sobrescrever sua correção num merge futuro.
+- **Segredos.** `*.jks`, `*.keystore`, `local.properties` e a chave de licença do
+  Billing nunca entram no diff (o `.gitignore` cobre a maioria, não confie nele).
+- **Cor/espaçamento fora do tema.** Toda cor vem de `ui/theme`; nada de
+  `Color(0xFF…)` ou `dp` solto na tela.
+
+## 5. Abrir o PR
+
+```bash
+git push -u origin <branch>
+gh pr create --fill    # o template em .github/pull_request_template.md já vem junto
+```
+
+Preencha as três seções (**O que muda / Por que agora / Como verificar**) e
+marque só os itens que se aplicam — item marcado sem ter sido feito é pior que
+item desmarcado.
+
+## 6. Aprovação e merge
+
+O `.github/CODEOWNERS` pede o revisor sozinho:
+
+| Área | Aprova |
+|---|---|
+| `engine/` · `assets/atmosfera/` | Rafael |
+| `ui/` · `billing/` · `weather/` · `service/` | Gabriel |
+| doc, texto, protótipo | CI verde — pode mergear você mesmo |
+
+Ignorou um aviso do CI de propósito? Escreva o porquê em uma linha no PR.
