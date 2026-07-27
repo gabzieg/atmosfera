@@ -59,9 +59,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Binário direto em vez da action gitleaks-action@v2: a action tenta
+      # comentar no PR via API e falha sem permissão de escrita. `detect` roda
+      # local, escaneia o histórico e sai != 0 se achar segredo. Sem token,
+      # sem API, determinístico.
       - name: gitleaks
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          # Exigido pela action p/ escanear PR (mudança recente). É o token
-          # automático do próprio job — não é segredo que você precisa criar.
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.24.3 \
+            detect --source=/repo --redact --no-banner --exit-code=1
