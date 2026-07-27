@@ -36,6 +36,12 @@ jobs:
         working-directory: android-app
         run: gradle testDebugUnitTest --stacktrace --no-daemon
 
+      # Lint com baseline (app/lint-baseline.xml): falha só em erro NOVO — os
+      # pré-existentes estão congelados. Regenere o baseline se corrigir um.
+      - name: Rodar lint
+        working-directory: android-app
+        run: gradle lintDebug --stacktrace --no-daemon
+
       - name: Compilar APK de debug
         working-directory: android-app
         run: gradle assembleDebug --stacktrace --no-daemon
