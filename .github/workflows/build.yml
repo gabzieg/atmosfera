@@ -1,11 +1,16 @@
 name: Build APK (Atmosfera)
 
-# Compila o APK de debug na nuvem a cada push na main (ou manualmente).
-# Não precisa de Android Studio nem PC potente: o GitHub faz o build e
-# disponibiliza o APK pra baixar e instalar no celular.
+# Compila o APK de debug na nuvem a cada push na main, em cada PR pra main, ou
+# manualmente. Não precisa de Android Studio nem PC potente: o GitHub faz o
+# build e disponibiliza o APK pra baixar e instalar no celular.
+#
+# Rodar em PR (não só no push) é o que dá sentido ao fluxo abrir-pr: o gate
+# aparece verde/vermelho ANTES do merge, não depois.
 
 on:
   push:
+    branches: [ main ]
+  pull_request:
     branches: [ main ]
   workflow_dispatch:
 
@@ -27,6 +32,10 @@ jobs:
         with:
           gradle-version: '8.6'
 
+      - name: Rodar testes unit
+        working-directory: android-app
+        run: gradle testDebugUnitTest --stacktrace --no-daemon
+
       - name: Compilar APK de debug
         working-directory: android-app
         run: gradle assembleDebug --stacktrace --no-daemon
@@ -38,3 +47,17 @@ jobs:
           name: atmosfera-debug-apk
           path: android-app/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+
+  # Varredura de segredo: pega chave/keystore/token que escapou do .gitignore
+  # antes de virar histórico. O template de PR pede isso na confiança; aqui é
+  # verificado. Gratuito em conta individual (licença só é exigida em org).
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código (histórico completo)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
