@@ -61,3 +61,7 @@ jobs:
 
       - name: gitleaks
         uses: gitleaks/gitleaks-action@v2
+        env:
+          # Exigido pela action p/ escanear PR (mudança recente). É o token
+          # automático do próprio job — não é segredo que você precisa criar.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
