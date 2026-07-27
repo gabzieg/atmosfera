@@ -45,6 +45,15 @@ android {
     aaptOptions {
         noCompress "webp"
     }
+
+    lint {
+        // Congela os avisos/erros pré-existentes num baseline: o CI pega
+        // regressão NOVA sem quebrar pelos 2 conhecidos (falso-positivo de
+        // permissão em LocationHelper.kt e o aviso de init do WorkManager no
+        // manifesto). Ao corrigir um deles, regenere o baseline apagando o
+        // arquivo e rodando `gradlew lintDebug` de novo.
+        baseline = file("lint-baseline.xml")
+    }
 }
 
 dependencies {
