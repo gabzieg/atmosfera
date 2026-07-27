@@ -47,13 +47,14 @@ git switch -c front/loja-mosaico
 ## 3. Antes de abrir: rode o gate de verdade
 
 ```bash
-cd android-app && ./gradlew assembleDebug
+cd android-app && ./gradlew testDebugUnitTest lintDebug assembleDebug
 ```
 
-`assembleDebug` é o **único** gate da CI (`.github/workflows/build.yml`).
-`lintDebug` **não** roda na CI e tem 2 erros pré-existentes conhecidos
-(falso-positivo de permissão em `LocationHelper.kt` e um aviso do WorkManager
-no manifesto) — não tente "consertar" isso dentro de um PR de outro assunto.
+A CI (`.github/workflows/build.yml`) roda os três: testes unit, `lintDebug`
+(com baseline) e `assembleDebug`, além de uma varredura de segredo (gitleaks).
+O `lintDebug` tem um baseline (`app/lint-baseline.xml`) que congela os avisos
+pré-existentes — a CI só quebra em erro NOVO. Não tente "consertar" um aviso
+antigo dentro de um PR de outro assunto (se for corrigir, regenere o baseline).
 
 **Mudou UI? Anexe screenshot.** O projeto não tem nenhum teste automatizado —
 a verificação é visual. Use a skill `run` para instalar, abrir e capturar a tela.

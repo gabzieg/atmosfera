@@ -38,12 +38,14 @@ Documentação de apoio (leia sob demanda, não de cara):
 Rode sempre a partir de `android-app/`.
 
 ```bash
-./gradlew assembleDebug            # build — é o único gate real da CI (.github/workflows/build.yml)
+./gradlew assembleDebug            # build — gate da CI (.github/workflows/build.yml)
+./gradlew testDebugUnitTest        # testes unit (JVM puro) — também roda na CI, antes do APK
+./gradlew lintDebug                # lint — roda na CI com baseline (app/lint-baseline.xml).
+                                    # O baseline congela os avisos/erros pré-existentes (incl.
+                                    # RemoveWorkManagerInitializer no manifesto e o falso-positivo
+                                    # de permissão em LocationHelper.kt): a CI só quebra em erro
+                                    # NOVO. Pra corrigir um: apague o baseline e regenere com lintDebug.
 ./gradlew installDebug             # build + instala no device/emulador conectado
-./gradlew lintDebug                 # NÃO roda na CI; tem 2 erros pré-existentes conhecidos
-                                     # (falso-positivo em LocationHelper.kt, aviso do WorkManager
-                                     # init no manifesto) — não são deste projeto, não tente "corrigir"
-                                     # sem que seja pedido explicitamente.
 adb devices                         # confirma emulador/device antes de instalar
 adb shell am start -n com.atmosfera.wallpaper/.ui.MainActivity
 adb shell am start -n com.atmosfera.wallpaper/.debug.DebugActivity   # painel de debug

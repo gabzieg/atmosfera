@@ -17,7 +17,7 @@ Quando o PR é obrigatório, o que pode ir direto na main e os escape hatches:
 
 - [ ] Branch saiu da `main` atualizada
 - [ ] Sem segredo no diff: `*.jks`, `*.keystore`, `local.properties`, chave de licença do Billing
-- [ ] `./gradlew assembleDebug` passa (é o **único** gate da CI — `lintDebug` não roda e tem 2 erros pré-existentes conhecidos)
+- [ ] Gate da CI passa: `./gradlew testDebugUnitTest lintDebug assembleDebug` (lint roda com baseline — só quebra em erro NOVO)
 - [ ] Tocou `engine/**` ou `assets/atmosfera/**`? Combinou com o Rafael antes — é a fronteira do motor (ver [HANDOFF-FRONTEND.md](../HANDOFF-FRONTEND.md))
 - [ ] Mudou UI? Tem **screenshot** no PR (o projeto não tem teste automatizado — a verificação é visual)
 - [ ] Cor/espaçamento novo? Saiu de `ui/theme` (nada de `Color(0xFF…)` ou `dp` solto na tela)
