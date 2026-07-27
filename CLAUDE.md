@@ -94,8 +94,21 @@ em telas novas.
 
 ## Skills
 
-Este repo tem uma skill de projeto em `.claude/skills/run/SKILL.md` que
-encapsula o fluxo de build/instalar/abrir/tirar screenshot descrito acima —
-carregada automaticamente quando o pedido for rodar ou testar visualmente o
-app. Consistência de código (simplificação, revisão) pode usar as skills
-genéricas do Claude Code (`simplify`, `/code-review`) normalmente.
+Skills de projeto em `.claude/skills/`:
+
+- **`run`** — build/instalar/abrir/tirar screenshot no emulador. Carregada
+  quando o pedido for rodar ou testar visualmente o app.
+- **`abrir-pr`** — fluxo de pull request: decide se a mudança exige PR ou pode
+  ir direto na `main`, nomeia a branch, roda o gate e abre o PR. **Leia antes
+  de commitar/pushar** qualquer coisa que toque `engine/`, `assets/atmosfera/`,
+  `billing/`, `AndroidManifest.xml`, `build.gradle` ou `.github/`.
+
+Consistência de código (simplificação, revisão) pode usar as skills genéricas
+do Claude Code (`simplify`, `/code-review`) normalmente.
+
+## Regras de PR (resumo)
+
+PR obrigatório só nas **áreas de risco** acima; doc e ajuste de UI podem ir
+direto na `main`. Aprovação por área via `.github/CODEOWNERS`: motor (`engine/`,
+`assets/`) → Rafael; front (`ui/`, `billing/`, `weather/`, `service/`) → Gabriel.
+Detalhes e escape hatches em `.claude/skills/abrir-pr/SKILL.md`.
