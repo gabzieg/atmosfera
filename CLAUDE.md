@@ -19,7 +19,6 @@ Documentação de apoio (leia sob demanda, não de cara):
   `assets/atmosfera/**` — é tratado como "congelado" por convenção do time,
   mas pode ser editado se o pedido for explícito (já aconteceu — ver seção 7
   do próprio HANDOFF).
-- [GUIA_COMPLETO.md](GUIA_COMPLETO.md) — como rodar (Android Studio e terminal).
 - [CHECKLIST_PUBLICACAO.md](CHECKLIST_PUBLICACAO.md) — pendências de Play Store.
 
 ## Arquitetura em uma tabela

@@ -43,7 +43,6 @@ atmosfera/
 ├── README.md                 ← este arquivo
 ├── CLAUDE.md                 ← contexto do projeto p/ Claude Code (comandos, convenções)
 ├── HANDOFF-FRONTEND.md       ← divisão motor/front + interface estável entre eles
-├── GUIA_COMPLETO.md          ← como rodar o projeto (Android Studio e terminal)
 ├── CHECKLIST_PUBLICACAO.md   ← itens a revisar antes de publicar na Play Store
 ├── android-app/               ← app Android (Kotlin)
 │   └── app/src/main/
@@ -61,9 +60,63 @@ atmosfera/
 
 ## Documentação
 
-- **Começando agora?** → [GUIA_COMPLETO.md](GUIA_COMPLETO.md)
 - **Vai mexer no companion app (UI/loja/billing)?** → [HANDOFF-FRONTEND.md](HANDOFF-FRONTEND.md)
   descreve a fronteira entre o motor (congelado) e o front, e a interface estável entre os dois.
 - **Vai publicar uma versão?** → [CHECKLIST_PUBLICACAO.md](CHECKLIST_PUBLICACAO.md)
 - **Usando Claude Code neste repo?** → [CLAUDE.md](CLAUDE.md) tem os comandos de build/verificação
   e as convenções do projeto pra não precisar reler tudo a cada sessão.
+
+## Rodando o projeto
+
+**Pré-requisitos:** Android Studio (Hedgehog+) **ou** só JDK 17 + Android SDK
+(API 34) pra terminal. Emulador (AVD) ou aparelho físico Android 8.0+ (API 26+).
+
+**Pelo Android Studio:** abrir a pasta `android-app/` (não a raiz do repo) →
+aguardar o Gradle sincronizar → escolher device → run configuration `app` →
+▶ Run.
+
+**Pelo terminal**, com emulador/aparelho já conectado (`adb devices` deve listar):
+
+```bash
+cd android-app
+./gradlew installDebug            # compila e instala o debug APK
+adb shell am start -n com.atmosfera.wallpaper/.ui.MainActivity
+```
+
+No Git Bash/MSYS no Windows, prefixe `MSYS_NO_PATHCONV=1` quando um caminho
+`/sdcard/...` for reescrito pra path do Windows (`adb pull`, por exemplo).
+
+**Painel de debug** (só builds debug — força clima/hora/vento pra calibrar
+efeitos sem esperar o clima real):
+
+```bash
+adb shell am start -n com.atmosfera.wallpaper/.debug.DebugActivity
+```
+
+**Simular localização** no emulador sem GPS real: Extended Controls (⋮) →
+Location → lat/long → Send. Padrão do app sem permissão: Guarapuava, PR
+(-25.3947, -51.4528).
+
+**Build de release:**
+
+```bash
+keytool -genkey -v -keystore atmosfera-release.jks \
+  -alias atmosfera -keyalg RSA -keysize 2048 -validity 10000
+```
+
+Configure a assinatura em `android-app/app/build.gradle` (`signingConfigs`) e
+gere pelo Android Studio: **Build → Generate Signed Bundle/APK**. Nunca versione
+a keystore nem senhas — o `.gitignore` cobre `*.jks`/`*.keystore`. Antes de
+publicar, ver [CHECKLIST_PUBLICACAO.md](CHECKLIST_PUBLICACAO.md).
+
+**Problemas comuns:**
+
+| Problema | Causa provável |
+|---|---|
+| "Gradle sync failed" | JDK errado — confirme JDK 17 em File → Project Structure → SDK Location |
+| Live Wallpaper não aparece na lista | Confira instalação sem erro no Logcat; ou Settings → Display → Wallpaper → Live Wallpapers |
+| "PERMISSION_DENIED" de localização | Normal sem conceder a permissão — cai no fallback de Guarapuava/PR |
+| Emulador muito lento | Confirme virtualização por hardware ativa (HAXM/KVM) |
+
+**Logcat — filtros úteis:** `tag:WeatherRepository` (chamadas à Open-Meteo),
+`tag:LocationHelper`, `tag:WeatherCache`.

@@ -420,50 +420,6 @@
     </issue>
 
     <issue
-        id="UnusedResources"
-        message="The resource `R.color.card_bg` appears to be unused"
-        errorLine1="    &lt;color name=&quot;card_bg&quot;>#1C2333&lt;/color>"
-        errorLine2="           ~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/colors.xml"
-            line="4"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.color.white` appears to be unused"
-        errorLine1="    &lt;color name=&quot;white&quot;>#FFFFFF&lt;/color>"
-        errorLine2="           ~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/colors.xml"
-            line="6"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.color.text_secondary` appears to be unused"
-        errorLine1="    &lt;color name=&quot;text_secondary&quot;>#8B949E&lt;/color>"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/colors.xml"
-            line="7"
-            column="12"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
-        message="The resource `R.color.colorAccent` appears to be unused"
-        errorLine1="    &lt;color name=&quot;colorAccent&quot;>#378ADD&lt;/color>"
-        errorLine2="           ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/res/values/colors.xml"
-            line="10"
-            column="12"/>
-    </issue>
-
-    <issue
         id="SetTextI18n"
         message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
         errorLine1="            text = &quot;A prévia acima sempre mostra a configuração escolhida. &quot; +"

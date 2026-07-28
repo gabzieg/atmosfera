@@ -1,7 +1,6 @@
 # Checklist de publicação — Google Play
 
-> Ver também: [README.md](README.md) · [GUIA_COMPLETO.md](GUIA_COMPLETO.md)
-> (build de release).
+> Ver também: [README.md](README.md) (visão geral + build de release).
 >
 > Este arquivo substitui o antigo `estrutura.md`, que era uma resposta
 > genérica de IA sem nenhum dado real do projeto. Os itens abaixo são
