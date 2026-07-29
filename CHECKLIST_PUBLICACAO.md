@@ -34,6 +34,10 @@ Form declarado com o que o APK realmente pede).
 
 ## Antes de publicar (fazer, não só declarar)
 
+- [ ] **Keystore de release + `keystore.properties`** — gerar a keystore de
+  produção com `keytool` e preencher `android-app/keystore.properties` (ver
+  README.md → "Build de release"). Sem isso `assembleRelease` builda sem
+  assinar. Guarde a keystore em local seguro fora do repo.
 - [ ] **Política de privacidade** publicada e acessível por URL — obrigatória
   por causa da coleta de localização. Precisa cobrir: que dado é coletado
   (localização aproximada), pra que (clima do wallpaper), que não é
