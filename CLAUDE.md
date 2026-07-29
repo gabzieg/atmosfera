@@ -69,18 +69,20 @@ parâmetros — a versão com `PendingPurchasesParams` só existe a partir da 7.
 
 ## Design system (Compose)
 
-Tema em `ui/theme/` (`Color.kt`, `Theme.kt`, `Type.kt`) — dark + azul,
-reaproveita as cores do XML legado (`colors.xml`/`themes.xml`):
-`AtmBackground` #0D1117, `AtmSurface` #1C2333, `AtmAccent` #378ADD. Todo
-composable de tela deve usar `MaterialTheme.colorScheme.*`, nunca `Color(0xFF...)`
-solto — isso já causou uma inconsistência visual (banner Premium com cores de
-tema claro num app dark) corrigida numa rodada anterior.
+Tema em `ui/theme/` (`Color.kt`, `Theme.kt`, `Type.kt`) — **monocromático**
+(preto/cinzas/branco, sem matiz): hierarquia vem de contraste, peso e
+opacidade; estado "ativo" é resolvido por inversão (preenchimento claro sobre
+fundo escuro), não por cor de acento. Paleta isolada em `Color.kt` — pra trocar
+a identidade depois, edite só ali + o mapeamento em `Theme.kt`. Todo composable
+deve usar `MaterialTheme.colorScheme.*`, nunca `Color(0xFF...)` solto.
 
 Componentes reutilizáveis em `ui/components/`: `SectionCard`, `StatChip`,
-`StatusPill` (`Cards.kt`), `SceneThumbnail.kt` (carrega `fundo.png` de um
-cenário dos assets, com fallback pra cabana), `WeatherIcon.kt` (emoji por
-`WeatherCondition`). Reaproveite em vez de duplicar `Card { Column(padding...) }`
-em telas novas.
+`StatusPill`, `MosaicCard` (`Cards.kt`), `SceneThumbnail.kt` (carrega
+`fundo.png` de um cenário/arte dos assets, placeholder honesto se faltar),
+`StackedThumbnail.kt` (pilha de variantes de arte), `MasonryGrid.kt`,
+`PillSearchBar.kt`, `SectionCarousel.kt` (grid/busca/carrossel da Loja em
+mosaico). Reaproveite em vez de duplicar `Card { Column(padding...) }` em
+telas novas.
 
 ## Convenções
 
@@ -113,3 +115,9 @@ PR obrigatório só nas **áreas de risco** acima; doc e ajuste de UI podem ir
 direto na `main`. Aprovação por área via `.github/CODEOWNERS`: motor (`engine/`,
 `assets/`) → Rafael; front (`ui/`, `billing/`, `weather/`, `service/`) → Gabriel.
 Detalhes e escape hatches em `.claude/skills/abrir-pr/SKILL.md`.
+
+**Terceiro colaborador (Willian, `@uWillianG`)**: setor é o site de
+apresentação/marketing do Atmosfera — fora deste repo, em repositório próprio
+(nome a definir, ex. `atmosfera-site`) por causa da stack diferente (web, não
+Android/Gradle). Ainda não criado. Não editar `android-app/**` neste repo em
+nome dele sem antes atualizar esta seção.
