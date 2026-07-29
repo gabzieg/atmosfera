@@ -3,6 +3,18 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
+// Assinatura de release: lida de android-app/keystore.properties, que NUNCA é
+// commitado (coberto por .gitignore). Sem esse arquivo, o build de release
+// simplesmente não assina — não afeta assembleDebug nem a CI (que só builda
+// debug). Gere o arquivo real a partir de keystore.properties.example — ver
+// a seção "Build de release" no README.md para o passo a passo com keytool.
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+def temKeystore = keystorePropertiesFile.exists()
+if (temKeystore) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace 'com.atmosfera.wallpaper'
     compileSdk 34
@@ -15,10 +27,24 @@ android {
         versionName "1.0.0"
     }
 
+    signingConfigs {
+        if (temKeystore) {
+            release {
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (temKeystore) {
+                signingConfig signingConfigs.release
+            }
         }
     }
 

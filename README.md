@@ -97,16 +97,22 @@ adb shell am start -n com.atmosfera.wallpaper/.debug.DebugActivity
 Location → lat/long → Send. Padrão do app sem permissão: Guarapuava, PR
 (-25.3947, -51.4528).
 
-**Build de release:**
+**Build de release:** gerar a keystore de produção uma vez só (guarde em local
+seguro — perdê-la impede publicar updates do mesmo app):
 
 ```bash
 keytool -genkey -v -keystore atmosfera-release.jks \
   -alias atmosfera -keyalg RSA -keysize 2048 -validity 10000
 ```
 
-Configure a assinatura em `android-app/app/build.gradle` (`signingConfigs`) e
-gere pelo Android Studio: **Build → Generate Signed Bundle/APK**. Nunca versione
-a keystore nem senhas — o `.gitignore` cobre `*.jks`/`*.keystore`. Antes de
+Copiar `android-app/keystore.properties.example` para
+`android-app/keystore.properties` e preencher `storeFile`/senhas — o
+`build.gradle` lê esse arquivo sozinho e assina o release automaticamente
+quando ele existir (sem ele, `assembleRelease` builda sem assinar; não afeta
+`assembleDebug` nem a CI). Gerar pelo Android Studio: **Build → Generate
+Signed Bundle/APK**, ou `./gradlew bundleRelease` no terminal. Nunca versione
+a keystore, as senhas nem `keystore.properties` — o `.gitignore` já cobre
+`*.jks`/`*.keystore`/`keystore.properties`. Antes de
 publicar, ver [CHECKLIST_PUBLICACAO.md](CHECKLIST_PUBLICACAO.md).
 
 **Problemas comuns:**
