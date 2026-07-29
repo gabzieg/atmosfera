@@ -53,6 +53,13 @@ import com.atmosfera.wallpaper.ui.theme.Spacing
 internal fun artesDoCenario(id: String): List<String> =
     listOf("pixel") + Cenas.por(id).variantes.keys.toList()
 
+/**
+ * Cenários com entrada em [Catalogo] (motor) mas sem asset publicado ainda —
+ * filtro só de EXIBIÇÃO na Loja, não edita `engine/Catalogo.kt` (congelado).
+ * Remover o id daqui assim que o cenário tiver `fundo.png` nos assets.
+ */
+private val SEM_ASSET_PUBLICADO = setOf("fiordes")
+
 /** Nome de exibição de um estilo de efeito (sem emoji — identidade monocromática). */
 internal fun estiloNome(id: String): String = when (id) {
     "pixel" -> "Pixel Art"
@@ -88,7 +95,9 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit) {
 
     var query by remember { mutableStateOf("") }
     val cenarios = remember(query) {
-        Catalogo.cenarios.filter { it.nome.contains(query.trim(), ignoreCase = true) }
+        Catalogo.cenarios
+            .filterNot { it.id in SEM_ASSET_PUBLICADO }
+            .filter { it.nome.contains(query.trim(), ignoreCase = true) }
     }
     // Alturas variadas → efeito escalonado do mosaico.
     val aspectos = listOf(0.72f, 0.95f, 0.78f, 0.68f, 0.88f)
