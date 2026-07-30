@@ -44,6 +44,8 @@ atmosfera/
 ├── CLAUDE.md                 ← contexto do projeto p/ Claude Code (comandos, convenções)
 ├── HANDOFF-FRONTEND.md       ← divisão motor/front + interface estável entre eles
 ├── CHECKLIST_PUBLICACAO.md   ← itens a revisar antes de publicar na Play Store
+├── PRIVACIDADE.md            ← política de privacidade (texto canônico)
+├── docs/privacidade/          ← mesma política em HTML, pronta pra hospedar (URL da Play Store)
 ├── android-app/               ← app Android (Kotlin)
 │   └── app/src/main/
 │       ├── assets/atmosfera/     ← sprites e fundos do motor
@@ -63,6 +65,9 @@ atmosfera/
 - **Vai mexer no companion app (UI/loja/billing)?** → [HANDOFF-FRONTEND.md](HANDOFF-FRONTEND.md)
   descreve a fronteira entre o motor (congelado) e o front, e a interface estável entre os dois.
 - **Vai publicar uma versão?** → [CHECKLIST_PUBLICACAO.md](CHECKLIST_PUBLICACAO.md)
+- **Mexeu em `weather/`, `billing/` ou no manifesto?** → confira se
+  [PRIVACIDADE.md](PRIVACIDADE.md) continua verdadeira (é o texto publicado, não
+  um rascunho) e replique a mudança em [`docs/privacidade/index.html`](docs/privacidade/index.html).
 - **Usando Claude Code neste repo?** → [CLAUDE.md](CLAUDE.md) tem os comandos de build/verificação
   e as convenções do projeto pra não precisar reler tudo a cada sessão.
 
