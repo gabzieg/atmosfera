@@ -36,6 +36,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,6 +49,8 @@ import androidx.compose.ui.unit.dp
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Estilos
 import com.atmosfera.wallpaper.service.AtmosferaWallpaperService
+import com.atmosfera.wallpaper.ui.components.ConfirmarWallpaperDialog
+import com.atmosfera.wallpaper.ui.components.EngineLivePreview
 import com.atmosfera.wallpaper.ui.components.SceneThumbnail
 import com.atmosfera.wallpaper.ui.theme.Radius
 import com.atmosfera.wallpaper.ui.theme.Spacing
@@ -73,15 +78,52 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
     val isUnlocked = viewModel.isSceneUnlocked(cenario)
     val artes = artesDoCenario(sceneId)
     val arteExibida = if (artes.contains(currentArt)) currentArt else "pixel"
+    var mostrarConfirmacao by remember { mutableStateOf(false) }
+
+    fun aplicarWallpaper() {
+        try {
+            context.startActivity(
+                Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).putExtra(
+                    WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                    ComponentName(context, AtmosferaWallpaperService::class.java),
+                )
+            )
+        } catch (e: Exception) {
+            context.startActivity(Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
+        }
+    }
+
+    if (mostrarConfirmacao) {
+        ConfirmarWallpaperDialog(
+            sceneId = sceneId,
+            arte = arteExibida,
+            estilo = currentEffectStyle,
+            onConfirm = {
+                mostrarConfirmacao = false
+                aplicarWallpaper()
+            },
+            onDismiss = { mostrarConfirmacao = false },
+        )
+    }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
     ) {
-        // ── Imagem grande no topo + voltar ──────────────────────────────
+        // ── Prévia grande no topo + voltar ───────────────────────────────
+        // SceneThumbnail é o fallback estático (mostra na hora, ou "Em breve"
+        // se o cenário não tem asset); EngineLivePreview desenha por cima
+        // assim que o motor carrega — o usuário vê o cenário se mover de
+        // verdade antes de aplicar, não só uma imagem parada.
         Box(modifier = Modifier.fillMaxWidth().height(340.dp)) {
             SceneThumbnail(sceneId = sceneId, arte = arteExibida, modifier = Modifier.fillMaxSize())
+            EngineLivePreview(
+                sceneId = sceneId,
+                arte = arteExibida,
+                estilo = currentEffectStyle,
+                modifier = Modifier.fillMaxSize(),
+            )
             IconButton(
                 onClick = onBack,
                 modifier = Modifier
@@ -118,18 +160,7 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                 PilulaAcao(
                     texto = "Definir wallpaper",
                     modifier = Modifier.weight(1f),
-                    onClick = {
-                        try {
-                            context.startActivity(
-                                Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).putExtra(
-                                    WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                                    ComponentName(context, AtmosferaWallpaperService::class.java),
-                                )
-                            )
-                        } catch (e: Exception) {
-                            context.startActivity(Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
-                        }
-                    },
+                    onClick = { mostrarConfirmacao = true },
                 )
                 PilulaAcao(
                     icone = Icons.Default.Share,

@@ -248,6 +248,12 @@ internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onBuy: (andro
             Button(onClick = { activity?.let(onBuy) }, shape = RoundedCornerShape(Radius.pill)) {
                 Text("Comprar Premium${priceText?.let { " · $it" } ?: ""}")
             }
+            Spacer(Modifier.height(Spacing.sm))
+            Text(
+                "Ou compre só o cenário que quiser, dentro dele.",
+                style = MaterialTheme.typography.bodySmall,
+                color = onContainer.copy(alpha = 0.7f),
+            )
         }
     }
 }

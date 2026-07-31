@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.atmosfera.wallpaper.service.AtmosferaWallpaperService
+import com.atmosfera.wallpaper.ui.components.ConfirmarWallpaperDialog
 import com.atmosfera.wallpaper.ui.components.SceneThumbnail
 import com.atmosfera.wallpaper.ui.components.StatChip
 import com.atmosfera.wallpaper.weather.WeatherState
@@ -62,6 +63,10 @@ fun HomeTab(viewModel: MainViewModel) {
     val hasLocationPermission by viewModel.hasLocationPermission.collectAsState()
     val weatherState by viewModel.weatherState.collectAsState()
     val currentSceneId by viewModel.currentSceneId.collectAsState()
+    val currentArt by viewModel.currentArt.collectAsState()
+    val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
+    var mostrarConfirmacao by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     val locationPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -121,8 +126,34 @@ fun HomeTab(viewModel: MainViewModel) {
                 }
             }
 
-            SetWallpaperCta()
+            SetWallpaperCta(onDefinir = { mostrarConfirmacao = true })
         }
+    }
+
+    if (mostrarConfirmacao) {
+        ConfirmarWallpaperDialog(
+            sceneId = currentSceneId,
+            arte = currentArt,
+            estilo = currentEffectStyle,
+            onConfirm = {
+                mostrarConfirmacao = false
+                aplicarWallpaper(context)
+            },
+            onDismiss = { mostrarConfirmacao = false },
+        )
+    }
+}
+
+private fun aplicarWallpaper(context: Context) {
+    try {
+        context.startActivity(
+            Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).putExtra(
+                WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                ComponentName(context, AtmosferaWallpaperService::class.java),
+            )
+        )
+    } catch (e: Exception) {
+        context.startActivity(Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
     }
 }
 
@@ -225,7 +256,7 @@ private fun WeatherHeroCard(sceneId: String, weatherState: WeatherState?, onRefr
 }
 
 @Composable
-private fun SetWallpaperCta() {
+private fun SetWallpaperCta(onDefinir: () -> Unit) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     var isWallpaperActive by remember { mutableStateOf(isAtmosferaWallpaperActive(context)) }
@@ -264,19 +295,7 @@ private fun SetWallpaperCta() {
         }
     } else {
         Button(
-            onClick = {
-                try {
-                    val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).apply {
-                        putExtra(
-                            WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                            ComponentName(context, AtmosferaWallpaperService::class.java),
-                        )
-                    }
-                    context.startActivity(intent)
-                } catch (e: Exception) {
-                    context.startActivity(Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
-                }
-            },
+            onClick = onDefinir,
             modifier = Modifier.fillMaxWidth().height(52.dp),
             shape = RoundedCornerShape(16.dp),
         ) {
