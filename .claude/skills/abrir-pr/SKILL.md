@@ -1,6 +1,6 @@
 ---
 name: abrir-pr
-description: Fluxo de pull request do Atmosfera — decide se a mudança exige PR ou pode ir direto na main, nomeia a branch, roda o gate de build e abre o PR já preenchido. Use ao abrir PR, preparar branch, ou antes de commitar/pushar qualquer coisa que toque motor, billing, manifesto, build.gradle ou CI.
+description: Fluxo de pull request do Atmosfera — decide se a mudança exige PR ou pode ir direto na main, nomeia a branch, roda o gate de build, revisa o diff (/code-review) e abre o PR já preenchido. Use ao abrir PR, preparar branch, ou antes de commitar/pushar qualquer coisa que toque motor, billing, manifesto, build.gradle ou CI.
 ---
 
 # Abrir PR no Atmosfera
@@ -61,6 +61,20 @@ a verificação é visual. Use a skill `run` para instalar, abrir e capturar a t
 Não escreva "testado" sem ter rodado: coisas que compilam ainda quebram na tela
 (já pegamos chips fora do viewport e pilha de imagens invisível só olhando).
 
+## 3.5. Revisão do diff (passo separado, não é o mesmo que "gate verde")
+
+Gate verde (teste+lint+build) prova que o código roda — não prova que é a
+decisão certa. Antes de `git push`/`gh pr create`, rode `/code-review` no
+diff como passo próprio, especialmente em mudanças de código (não
+necessariamente pra doc solta).
+
+**Honestidade sobre o limite disto:** isto é uma revisão do **mesmo modelo**
+que escreveu o código — pega inconsistência com convenção do `CLAUDE.md`,
+edge case esquecido, lógica capenga, mas **não substitui revisão humana**
+(o Gabriel/Rafael enxergam contexto de produto e domínio que eu não tenho).
+Em área de risco (§1) o revisor humano continua sendo o gate real; isto só
+levanta o piso do que chega até ele.
+
 ## 4. Armadilhas que já morderam este projeto
 
 - **Billing preso em 6.2.1.** 7.0.0+ é compilado com metadata do Kotlin 2.x, que
@@ -90,7 +104,8 @@ O `.github/CODEOWNERS` pede o revisor sozinho:
 | Área | Aprova |
 |---|---|
 | `engine/` · `assets/atmosfera/` | Rafael |
-| `ui/` · `billing/` · `weather/` · `service/` | Gabriel |
+| `billing/` | Willian |
+| `ui/` · `weather/` · `service/` | Gabriel |
 | doc, texto, protótipo | CI verde — pode mergear você mesmo |
 
 Ignorou um aviso do CI de propósito? Escreva o porquê em uma linha no PR.

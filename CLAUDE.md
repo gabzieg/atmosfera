@@ -29,7 +29,7 @@ Documentação de apoio (leia sob demanda, não de cara):
 | `service/` | `AtmosferaWallpaperService` — hospeda o motor, busca clima, repassa pro motor | Front |
 | `ui/` | Compose: `MainScreen` (Scaffold/NavHost/BottomNav), `HomeTab`, `StoreTab`, `SettingsTab`, `theme/`, `components/` | Front |
 | `weather/` | `WeatherRepository` (Open-Meteo/Retrofit), `WeatherCache`, `LocationHelper`, `WeatherWorker` | Front |
-| `billing/` | `BillingManager`, `Plano` (flag Premium local) | Front |
+| `billing/` | `BillingManager`, `Plano` (flag Premium local) | Front (Willian) |
 | `debug/` | `DebugActivity`/`DebugOverride` — painel de teste, só builds debug, sem entrada na navegação normal | Front (ferramenta interna) |
 
 ## Comandos
@@ -102,7 +102,8 @@ Skills de projeto em `.claude/skills/`:
 - **`run`** — build/instalar/abrir/tirar screenshot no emulador. Carregada
   quando o pedido for rodar ou testar visualmente o app.
 - **`abrir-pr`** — fluxo de pull request: decide se a mudança exige PR ou pode
-  ir direto na `main`, nomeia a branch, roda o gate e abre o PR. **Leia antes
+  ir direto na `main`, nomeia a branch, roda o gate, revisa o diff (`/code-review`)
+  e abre o PR. **Leia antes
   de commitar/pushar** qualquer coisa que toque `engine/`, `assets/atmosfera/`,
   `billing/`, `AndroidManifest.xml`, `build.gradle` ou `.github/`.
 
@@ -113,11 +114,12 @@ do Claude Code (`simplify`, `/code-review`) normalmente.
 
 PR obrigatório só nas **áreas de risco** acima; doc e ajuste de UI podem ir
 direto na `main`. Aprovação por área via `.github/CODEOWNERS`: motor (`engine/`,
-`assets/`) → Rafael; front (`ui/`, `billing/`, `weather/`, `service/`) → Gabriel.
+`assets/`) → Rafael; billing (`billing/`) → Willian; resto do front (`ui/`,
+`weather/`, `service/`) → Gabriel.
 Detalhes e escape hatches em `.claude/skills/abrir-pr/SKILL.md`.
 
-**Terceiro colaborador (Willian, `@uWillianG`)**: setor é o site de
-apresentação/marketing do Atmosfera — fora deste repo, em repositório próprio
-(nome a definir, ex. `atmosfera-site`) por causa da stack diferente (web, não
-Android/Gradle). Ainda não criado. Não editar `android-app/**` neste repo em
-nome dele sem antes atualizar esta seção.
+**Terceiro colaborador (Willian, `@uWillianG`)**: dono de `billing/`
+(`BillingManager`, `Plano`, integração Google Play Billing) dentro deste repo.
+Também cuida do site de apresentação/marketing do Atmosfera — fora deste repo,
+em repositório próprio (nome a definir, ex. `atmosfera-site`) por causa da
+stack diferente (web, não Android/Gradle). Site ainda não criado.
