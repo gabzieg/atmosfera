@@ -31,8 +31,10 @@ Form declarado com o que o APK realmente pede).
 - **Nenhuma conta de usuário, nenhum identificador pessoal coletado.**
 - **Compras**: processadas pelo Google Play Billing — o app não vê nem
   armazena dados de pagamento, só o resultado da compra.
-- **Anúncios**: `AdMobBannerPlaceholder` na UI é só um placeholder visual —
-  **nenhum SDK de ads/analytics está integrado ainda**. No dia em que isso
+- **Anúncios**: **nenhum SDK de ads/analytics está integrado**, e não há mais
+  nem placeholder visual na UI (o antigo `AdMobBannerPlaceholder` foi removido
+  do `MainScreen.kt` por ser código morto). A decisão de lançar sem anúncios
+  está registrada em [SPEC.md](SPEC.md) → "Não-objetivos". No dia em que isso
   mudar, os itens abaixo (Data Safety Form, consentimento, política de
   privacidade) precisam ser atualizados antes do próximo release.
 
@@ -47,13 +49,27 @@ Form declarado com o que o APK realmente pede).
   (mesma coisa em HTML, pronta pra hospedar). Cobre coleta, finalidade, base
   legal LGPD, terceiros, transferência internacional, retenção, direitos do
   titular e contato.
-- [ ] **Preencher os `[PREENCHER: …]`** da política (controlador, e-mail de
-  contato, encarregado/DPO, URL, data de vigência) — ver "Política de
-  privacidade" no fim deste arquivo. Sem isso ela não pode ser publicada.
-- [ ] **Hospedar a política e ter a URL** pra colar no Play Console (Política do
-  app → Privacidade) e na ficha da loja.
-- [ ] **Link pra política dentro do app** (`ui/SettingsTab.kt`, seção "Sobre") —
-  boa prática na Play e obrigatório se um dia houver versão iOS.
+- [x] **Termos de Uso escritos** — [TERMOS.md](TERMOS.md) (texto canônico) +
+  [`docs/termos/index.html`](docs/termos/index.html). Cobrem licença de uso,
+  compra única (sem assinatura), reembolso via Google Play, direito de
+  arrependimento (art. 49 CDC), garantias, foro. **Rascunho não revisado
+  juridicamente** — ver "Revisão jurídica" no fim deste arquivo.
+- [x] **Página de contato escrita** — [CONTATO.md](CONTATO.md) +
+  [`docs/contato/index.html`](docs/contato/index.html). Canais de suporte e
+  privacidade + o que é feito com os dados de quem escreve (a política cobre o
+  app, não o e-mail que o usuário manda).
+- [ ] **Preencher os `[PREENCHER: …]`** dos três documentos (controlador/
+  desenvolvedor, e-mail de contato, encarregado/DPO, URL, foro, datas de
+  vigência) — ver "Política de privacidade" no fim deste arquivo. São os
+  **mesmos dados** nos três; preencha de uma vez. Sem isso nada pode ser
+  publicado.
+- [ ] **Hospedar as três páginas e ter as URLs** — a da política vai no Play
+  Console (Política do app → Privacidade) e na ficha da loja; as outras duas
+  são linkadas a partir dela e dos termos.
+- [x] **Política acessível dentro do app** — Ajustes → Informações → Política
+  de Privacidade abre a página numa WebView sobre asset local
+  (`ui/LegalWebViewScreen.kt`), então funciona offline e **não depende da URL
+  pública existir**. Termos de Uso e Contato entram pelo mesmo caminho.
 - [ ] **Data Safety Form** (Play Console) — declarar coleta de **localização
   precisa e aproximada** (o manifesto declara `ACCESS_FINE_LOCATION`, e o
   Google compara com o APK — declarar só "aproximada" é inconsistência, que é
@@ -66,6 +82,9 @@ Form declarado com o que o APK realmente pede).
   `PRIORITY_BALANCED_POWER_ACCURACY`, então a permissão fine não tem uso real.
   Isso mexe no manifesto → área de risco, exige PR (ver `.claude/skills/abrir-pr`).
 - [ ] **Content Rating Questionnaire** (IARC) — preencher no Play Console.
+
+> **Respostas prontas para os dois formulários acima**, derivadas do código e
+> com a linha que sustenta cada uma: [GUIA_PLAY_CONSOLE.md](GUIA_PLAY_CONSOLE.md).
 - [ ] **Ficha da loja**: título, descrição, screenshots (usar o app real, não
   só o `wallpaper_thumbnail.png`), ícone.
 - [ ] **Produtos no Play Console**: criar `atmosfera_premium` e
@@ -90,35 +109,54 @@ Form declarado com o que o APK realmente pede).
   novo: revisar [PRIVACIDADE.md](PRIVACIDADE.md) contra a tabela de rastreio
   abaixo, subir a versão da política e atualizar o Data Safety Form.
 
-## Política de privacidade
+## Documentos legais (privacidade, termos, contato)
+
+### Onde cada texto vive
+
+Cada documento existe em **três** cópias, e as três precisam bater:
+
+| Cópia | Caminho | Para quê |
+|---|---|---|
+| Canônica | `PRIVACIDADE.md` · `TERMOS.md` · `CONTATO.md` | Fonte da verdade, é o que se edita |
+| Web | `docs/<pagina>/index.html` | Publicada (GitHub Pages) — é a URL que o Play Console exige |
+| App | `android-app/app/src/main/assets/legal/<pagina>/index.html` | Embutida no APK, aberta offline em Ajustes |
+
+A cópia web e a cópia do app são idênticas byte a byte, e
+`PaginasLegaisSincronizadasTest` **quebra o gate** se divergirem — mas ele não
+sabe comparar o `.md` com o HTML. Editou o Markdown? Replique no HTML e copie
+pro asset no mesmo commit.
 
 ### Placeholders a preencher antes de publicar
 
-Aparecem nos dois arquivos (`PRIVACIDADE.md` e `docs/privacidade/index.html`,
-onde estão destacados em amarelo):
+Os **mesmos dados** aparecem nos três documentos (nos HTML estão destacados em
+amarelo). Preencha de uma vez:
 
-| Placeholder | O que entra |
-|---|---|
-| Controlador | Nome completo do desenvolvedor (pessoa física) ou razão social + CNPJ, se for empresa |
-| E-mail de contato | Caixa que alguém realmente lê — aparece em 4 lugares (seções 1, 10, 11 e 14). Prefira um endereço do produto (ex. `privacidade@…`) a um pessoal |
-| Encarregado (DPO) | Nome + e-mail. Pode ser a mesma pessoa; a LGPD (art. 41) exige o canal, não um cargo dedicado |
-| URL desta política | A URL pública onde a página for hospedada |
-| Data de vigência / histórico | Data da primeira publicação na Play |
+| Placeholder | O que entra | Onde |
+|---|---|---|
+| Controlador / desenvolvedor | Nome completo (pessoa física) ou razão social + CNPJ | Privacidade §1, Termos §1 |
+| E-mail de contato | Caixa que alguém realmente lê. Prefira um endereço do produto (ex. `contato@…`) a um pessoal | Privacidade §1/10/11/14, Termos §1/13, Contato |
+| Encarregado (DPO) | Nome + e-mail. Pode ser a mesma pessoa; a LGPD (art. 41) exige o canal, não um cargo dedicado | Privacidade §1, §14 |
+| URL pública | A URL onde cada página for hospedada | Privacidade §1, Termos §1 |
+| Foro / comarca | Cidade do desenvolvedor — ressalvado o foro do consumidor (art. 101, I do CDC) | Termos §12 |
+| Data de vigência / histórico | Data da primeira publicação na Play | Privacidade, Termos |
 
 ### Como hospedar
 
 Duas opções, ambas dão a URL que o Play Console pede:
 
 1. **GitHub Pages neste repo** (mais rápido): Settings → Pages → Source
-   "Deploy from a branch", branch `main`, pasta `/docs`. A página sai em
-   `https://<user>.github.io/<repo>/privacidade/`.
-2. **No site de apresentação** (destino final): copiar
-   `docs/privacidade/index.html` pro repo do site quando ele existir, servindo
-   em `/privacidade`. Se a URL mudar depois de publicado, atualize o Play
-   Console — a política precisa continuar acessível na URL declarada.
+   "Deploy from a branch", branch `main`, pasta `/docs`. As páginas saem em
+   `https://<user>.github.io/<repo>/privacidade/`, `/termos/` e `/contato/`.
+2. **No site de apresentação** (destino final): copiar as três pastas de
+   `docs/` pro repo do site quando ele existir. Se a URL mudar depois de
+   publicado, atualize o Play Console — a política precisa continuar acessível
+   na URL declarada.
 
-O HTML é autocontido (CSS inline, sem fontes/scripts externos), responsivo e
-segue claro/escuro, então funciona em qualquer host estático.
+Os HTML são autocontidos (CSS inline, sem fontes/scripts externos), responsivos
+e seguem claro/escuro, então funcionam em qualquer host estático.
+
+> Não é preciso hospedar para o app funcionar: as três páginas já são lidas do
+> APK. A URL é exigência da Play Store, não do aplicativo.
 
 ### Rastreio código → política
 
@@ -130,8 +168,10 @@ corrigida no mesmo PR.
 | `AndroidManifest.xml` (permissões) | Seção 5 (tabela de permissões) e 3.1 |
 | `LocationHelper.kt` — `PRIORITY_BALANCED_POWER_ACCURACY`, fallback Guarapuava | 3.1 ("precisão balanceada", "é opcional"), 10 |
 | `WeatherRepository.kt` — base URL `api.open-meteo.com`, HTTPS, sem chave de API | 3.1, 6.1, 9 |
-| `WeatherCache.kt` — TTL 30 min, delta ~5 km, só o registro mais recente | 3.1, 8 |
-| `BootReceiver.kt` / `WeatherWorker` — período de 30 min | 3.1 ("verificação periódica") |
+| `WeatherCache.kt` — TTL derivado do intervalo escolhido, delta ~5 km, só o registro mais recente | 3.1, 8 |
+| `IntervaloClima.kt` — opções 15/30/60 min, padrão 30 | 3.1 ("intervalo escolhido por você"), 8 |
+| `BootReceiver.kt` / `WeatherWorker` — período = intervalo escolhido | 3.1 ("verificação periódica") |
+| `BillingManager.kt` — só `ProductType.INAPP`, compra única, sem `SUBS` | Privacidade 3.5 e 9; **Termos §5.1** ("não há assinatura") — passar a vender assinatura invalida os dois |
 | `BillingManager.kt` — só resultado da compra + verificação de assinatura | 3.5, 9 |
 | `Plano.kt`, `Cena.kt`, `Estilo.kt` — prefs locais | 3.4 |
 | `AndroidManifest.xml` — `allowBackup="true"` | 3.6 |
@@ -144,8 +184,14 @@ se isso mudar, a seção 3.7 deixa de ser verdade.
 
 ### Revisão jurídica
 
-O texto foi escrito a partir do comportamento real do código e cobre o que a
-LGPD e a Play exigem, mas **não é parecer jurídico**. Antes de publicar, vale a
-leitura de um advogado — principalmente sobre a identificação do controlador
-(pessoa física vs. empresa) e a base legal escolhida para cada dado
-(consentimento para localização, legítimo interesse para IP e backup).
+Os textos foram escritos a partir do comportamento real do código e cobrem o
+que a LGPD e a Play exigem, mas **nenhum deles é parecer jurídico**. Antes de
+publicar, vale a leitura de um advogado:
+
+- **Privacidade** — identificação do controlador (pessoa física vs. empresa) e
+  a base legal escolhida para cada dado (consentimento para localização,
+  legítimo interesse para IP e backup).
+- **Termos** — cláusula de limitação de responsabilidade (§9) diante do CDC,
+  eleição de foro (§12), e a licença de uso (§4) sobre a arte dos cenários.
+  Escrito depois da privacidade, por outro autor e sem revisão cruzada; vale
+  conferir se as duas contam a mesma história sobre compras e dados.

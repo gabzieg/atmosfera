@@ -114,12 +114,17 @@ do Claude Code (`simplify`, `/code-review`) normalmente.
 
 PR obrigatório só nas **áreas de risco** acima; doc e ajuste de UI podem ir
 direto na `main`. Aprovação por área via `.github/CODEOWNERS`: motor (`engine/`,
-`assets/`) → Rafael; billing (`billing/`) → Willian; resto do front (`ui/`,
-`weather/`, `service/`) → Gabriel.
+`assets/`) → Rafael; billing (`billing/`) e documentos legais → Willian; resto
+do front (`ui/`, `weather/`, `service/`) → Gabriel.
 Detalhes e escape hatches em `.claude/skills/abrir-pr/SKILL.md`.
 
 **Terceiro colaborador (Willian, `@uWillianG`)**: dono de `billing/`
-(`BillingManager`, `Plano`, integração Google Play Billing) dentro deste repo.
-Também cuida do site de apresentação/marketing do Atmosfera — fora deste repo,
-em repositório próprio (nome a definir, ex. `atmosfera-site`) por causa da
-stack diferente (web, não Android/Gradle). Site ainda não criado.
+(`BillingManager`, `Plano`, integração Google Play Billing) e dos **documentos
+legais** (`PRIVACIDADE.md`, `TERMOS.md`, `CONTATO.md` + espelhos em `docs/` e
+`assets/legal/`). Também cuida do site de apresentação/marketing do Atmosfera —
+fora deste repo, em repositório próprio (nome a definir, ex. `atmosfera-site`)
+por causa da stack diferente (web, não Android/Gradle). Site ainda não criado.
+
+Compliance de publicação **não** é todo dele: o Data Safety Form declara o que
+o código coleta (área do Gabriel) e a conta do Play Console é do titular legal.
+Divisão completa em [SPEC.md](SPEC.md) → "Publicação na Play Store".

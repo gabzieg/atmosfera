@@ -45,7 +45,11 @@ atmosfera/
 ├── HANDOFF-FRONTEND.md       ← divisão motor/front + interface estável entre eles
 ├── CHECKLIST_PUBLICACAO.md   ← itens a revisar antes de publicar na Play Store
 ├── PRIVACIDADE.md            ← política de privacidade (texto canônico)
-├── docs/privacidade/          ← mesma política em HTML, pronta pra hospedar (URL da Play Store)
+├── TERMOS.md                 ← termos de uso (texto canônico)
+├── CONTATO.md                ← contato + uso de dados de quem escreve
+├── GUIA_PLAY_CONSOLE.md      ← respostas do Data Safety e do IARC
+├── docs/                      ← privacidade/, termos/, contato/ em HTML, prontos pra hospedar
+│                                (copiados byte a byte em assets/legal/ — o app os abre offline)
 ├── android-app/               ← app Android (Kotlin)
 │   └── app/src/main/
 │       ├── assets/atmosfera/     ← sprites e fundos do motor

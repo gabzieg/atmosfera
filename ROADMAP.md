@@ -21,7 +21,7 @@ regressão de teste/lint/segredo seja pega antes do merge, não depois.
 - [x] Fluxo de PR documentado (`.claude/skills/abrir-pr/`, `CODEOWNERS`,
   template de PR)
 
-## Fase 1 — Build de release assinável 🔄 em andamento
+## Fase 1 — Build de release assinável ✅ concluída (2026-08-01)
 
 **Objetivo:** existir um caminho real de `assembleRelease` → AAB assinado,
 publicável na Play Store.
@@ -29,10 +29,17 @@ publicável na Play Store.
 **Critério de saída:**
 - [x] `signingConfig` no `build.gradle` lendo `keystore.properties`
   (gitignored) — código pronto, mergeado
-- [ ] Keystore de produção gerada de verdade (`keytool`) e guardada em local
-  seguro — **ação do Gabriel, fora do que código resolve**
-- [ ] `keystore.properties` preenchido localmente e `./gradlew bundleRelease`
-  testado uma vez, gerando AAB assinado válido
+- [x] Keystore de produção gerada (`keytool`, RSA 2048, validade até dez/2053)
+  e guardada **fora da árvore do repositório** (`C:\Users\gbrus\Chaves\`)
+- [x] `keystore.properties` preenchido localmente e `bundleRelease` testado:
+  gera `app-release.aab` (22,2 MB) assinado, conferido com
+  `keytool -printcert -jarfile` — certificado SHA256withRSA em nome do
+  desenvolvedor
+
+**Pendência de higiene (não bloqueia a fase):** a senha da keystore é curta e
+só numérica. Trocar por uma forte com `keytool -storepasswd` / `-keypasswd`
+antes de publicar — a chave e o fingerprint não mudam, então não há efeito
+sobre a Play. Ver `TASKS.md`.
 
 ## Fase 2 — Billing testável ponta a ponta ⏳ não iniciada
 
@@ -48,17 +55,30 @@ publicável na Play Store.
 **Bloqueia em:** Fase 1 (precisa de build assinado pra registrar o app no
 Play Console com o `applicationId` de produção).
 
-## Fase 3 — Compliance de publicação ⏳ não iniciada
+## Fase 3 — Compliance de publicação 🔄 em andamento
 
 **Objetivo:** itens que a Play Store exige antes de aceitar qualquer release,
 independente de qualidade de código.
 
 **Critério de saída:**
 - [ ] Política de privacidade publicada por URL (cobre coleta de localização)
-- [ ] Data Safety Form preenchido no Play Console
-- [ ] Content Rating Questionnaire (IARC) preenchido
+  — texto pronto; falta preencher os `[PREENCHER]` e **decidir a hospedagem**
+  (repo é privado no plano free: GitHub Pages exige Pro ou repo público;
+  alternativa é Netlify/Cloudflare Pages)
+- [ ] Data Safety Form preenchido no Play Console — **em andamento**;
+  respostas derivadas do código em [GUIA_PLAY_CONSOLE.md](GUIA_PLAY_CONSOLE.md)
+- [ ] Content Rating Questionnaire (IARC) preenchido — respostas prontas no
+  mesmo guia; espera-se Livre/L
+
+**Já feito além do critério:** Termos de Uso e página de Contato escritos
+(`TERMOS.md`, `CONTATO.md` + espelhos), os três documentos acessíveis dentro
+do app por WebView sobre asset local — funciona offline, não depende da URL.
 
 **Pode rodar em paralelo** com a Fase 2 — não depende dela.
+
+**Caminho crítico:** conta de desenvolvedor no Play Console (US$ 25, aprovação
+pode levar dias) e a decisão de hospedagem. O Data Safety só aparece depois do
+app criado no console, e o formulário **exige a URL da política já no ar**.
 
 ## Fase 4 — Ficha da loja ⏳ não iniciada
 
