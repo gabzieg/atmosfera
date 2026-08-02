@@ -78,6 +78,13 @@ fun LegalWebViewScreen(pagina: PaginaLegal, onBack: () -> Unit) {
             update = { view ->
                 view.loadUrl("file:///android_asset/legal/${pagina.arquivo}")
             },
+            // WebView segura recursos nativos e uma referência ao contexto da
+            // Activity. Sem isto, cada ida e volta entre Privacidade/Termos/
+            // Contato deixava uma instância para trás.
+            onRelease = { view ->
+                view.stopLoading()
+                view.destroy()
+            },
         )
     }
 }
