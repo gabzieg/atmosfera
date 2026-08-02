@@ -1,0 +1,87 @@
+name: Aviso de push direto em área de risco
+
+# Sem GitHub Pro não dá pra ativar branch protection/ruleset em repo privado
+# (a API responde 403 "Upgrade to GitHub Pro"). Este workflow é o substituto
+# possível no plano free: não bloqueia nem reverte push nenhum, só abre uma
+# issue de alerta quando o push na main tocar área de risco (mesma lista do
+# CODEOWNERS: engine/, assets/atmosfera/, billing/, AndroidManifest.xml,
+# build.gradle, .github/) sem vir de PR mergeado (commit de merge/squash do
+# GitHub sempre carrega "#N" na mensagem). Doc/UI fora da lista passam quieto
+# — já é permitido pela convenção do time (CLAUDE.md).
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  aviso-push-direto:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código (histórico completo)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detectar push direto em área de risco
+        id: detectar
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.event.after }}
+          MSG: ${{ github.event.head_commit.message }}
+        run: |
+          if echo "$MSG" | grep -qE '#[0-9]+'; then
+            echo "Commit referencia PR (merge/squash do GitHub). Ignorando."
+            exit 0
+          fi
+
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            echo "Push cria a branch (before zerado). Ignorando."
+            exit 0
+          fi
+
+          CHANGED=$(git diff --name-only "$BEFORE" "$AFTER")
+
+          RISCO='^android-app/app/src/main/java/com/atmosfera/wallpaper/engine/|^android-app/app/src/main/assets/atmosfera/|^android-app/app/src/main/java/com/atmosfera/wallpaper/billing/|^android-app/app/src/main/AndroidManifest\.xml$|^android-app/app/build\.gradle$|^\.github/'
+
+          HIT=$(echo "$CHANGED" | grep -E "$RISCO" || true)
+
+          if [ -z "$HIT" ]; then
+            echo "Nenhum caminho de risco tocado. Ignorando."
+            exit 0
+          fi
+
+          {
+            echo "hit<<FIM_HIT"
+            echo "$HIT"
+            echo "FIM_HIT"
+          } >> "$GITHUB_OUTPUT"
+          echo "alerta=true" >> "$GITHUB_OUTPUT"
+
+      - name: Abrir issue de alerta
+        if: steps.detectar.outputs.alerta == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.sha }}
+          AUTOR: ${{ github.event.head_commit.author.username }}
+          MENSAGEM: ${{ github.event.head_commit.message }}
+          ARQUIVOS: ${{ steps.detectar.outputs.hit }}
+        run: |
+          BODY="Push direto na \`main\` (sem número de PR na mensagem) tocou área de risco.
+
+          **Commit:** $SHA
+          **Autor:** $AUTOR
+          **Mensagem:** $MENSAGEM
+
+          **Arquivos de risco tocados:**
+          \`\`\`
+          $ARQUIVOS
+          \`\`\`
+
+          Área de risco = mesma lista do CODEOWNERS (engine/, assets/atmosfera/, billing/, AndroidManifest.xml, build.gradle, .github/). Pelo CLAUDE.md essas áreas exigem PR + combinar com o dono (Rafael: engine/assets · Willian: billing/legal). Confirma se foi intencional."
+          gh issue create \
+            --title "Push direto em área de risco na main: ${SHA:0:7}" \
+            --body "$BODY"
