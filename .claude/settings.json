@@ -24,7 +24,11 @@
       "WebFetch(domain:play.google.com)",
       "WebFetch(domain:apps.apple.com)",
       "Read(//c/Users/gbrus/.claude/skills/deep-research/**)",
-      "Bash(python scripts/citation_manager.py --help)"
+      "Bash(python scripts/citation_manager.py --help)",
+      "Bash(./gradlew assembleDebug --console=plain)",
+      "Bash(./gradlew installDebug --console=plain --no-daemon)",
+      "Bash('C:\\\\Users\\\\gbrus/AppData/Local/Android/Sdk/platform-tools/adb.exe' shell *)",
+      "Bash('C:\\\\Users\\\\gbrus/AppData/Local/Android/Sdk/platform-tools/adb.exe' pull *)"
     ],
     "additionalDirectories": [
       "C:\\Users\\gbrus\\Documents"

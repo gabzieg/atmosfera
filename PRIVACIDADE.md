@@ -14,7 +14,7 @@
 
 **Versão da política:** 1.0
 **Aplica-se a:** Atmosfera Live Wallpaper (Android, `com.atmosfera.wallpaper`), a partir da versão 1.0.0
-**Última atualização:** 29 de julho de 2026
+**Última atualização:** 1º de agosto de 2026
 **Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
 
 ---
@@ -81,9 +81,11 @@ O Atmosfera não pede cadastro e não cria identificador de usuário. Tudo abaix
   sol) e traduzir isso na cena animada do papel de parede. É a função central do
   produto: sem clima do lugar certo, o app não faz o que promete.
 - **Quando acontece:** ao abrir o app, quando o papel de parede fica visível e
-  em uma verificação periódica em segundo plano (a cada 30 minutos, apenas com
-  rede disponível). Consultas são evitadas se o clima em cache ainda estiver
-  fresco (menos de 30 minutos) e você não tiver se deslocado mais de ~5 km.
+  em uma verificação periódica em segundo plano, apenas com rede disponível. O
+  intervalo dessa verificação é **escolhido por você** em Ajustes → Cenário →
+  Atualizar clima (15, 30 ou 60 minutos; o padrão é 30). Consultas são evitadas
+  se o clima em cache ainda estiver fresco (dentro do intervalo escolhido) e
+  você não tiver se deslocado mais de ~5 km.
 - **Para onde vai:** as coordenadas são enviadas ao serviço **Open-Meteo**
   (seção 6.1) por HTTPS, como parâmetros da consulta de previsão. Não são
   enviadas a mais ninguém. Não existe servidor do Atmosfera.
@@ -238,7 +240,7 @@ respectivos operadores.
 
 | Dado | Onde | Retenção |
 |---|---|---|
-| Coordenadas + último clima (cache) | Seu aparelho | Apenas o registro mais recente; sobrescrito a cada nova consulta (no máximo a cada 30 min). Apagado ao limpar os dados do app ou desinstalar |
+| Coordenadas + último clima (cache) | Seu aparelho | Apenas o registro mais recente; sobrescrito a cada nova consulta (no máximo uma vez por intervalo escolhido em Ajustes — 15, 30 ou 60 min). Apagado ao limpar os dados do app ou desinstalar |
 | Preferências (cenário, arte, estilo, Premium) | Seu aparelho | Enquanto o app estiver instalado |
 | Backup do sistema | Sua conta Google | Conforme a política de backup do Android/Google, sob seu controle |
 | Coordenadas em logs da Open-Meteo | Servidores da Open-Meteo | Até 90 dias, conforme a política deles |

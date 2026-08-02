@@ -62,9 +62,23 @@ bloqueia o "pronto", não todo o passo a passo.
 | Pacote | Dono | Fronteira |
 |---|---|---|
 | `engine/` + `assets/atmosfera/` | Rafael | Congelado por convenção — front lê a API pública (`EffectEngine.carregar/draw/pronto`, `Catalogo`, `Cena`, `Cenas`, `Estilos`), não edita os arquivos |
-| `ui/`, `billing/`, `weather/`, `service/` | Gabriel | Front |
+| `ui/`, `weather/`, `service/` | Gabriel | Front |
+| `billing/` | Willian | Front |
 | `debug/` | Gabriel | Ferramenta interna, só builds debug |
+| Documentos legais (`PRIVACIDADE.md`, `TERMOS.md`, `CONTATO.md`, `docs/`, `assets/legal/`) | Willian | Textos públicos + espelhos HTML |
 | Site de apresentação/marketing | Willian | Fora deste repo — repositório próprio (nome a definir), stack web |
+
+### Publicação na Play Store — quem faz o quê
+
+Compliance não é de um dono só: parte é texto, parte é declaração sobre o
+código, parte é titularidade legal.
+
+| Item | Quem | Por quê |
+|---|---|---|
+| Textos legais e mantê-los em dia com o código | Willian | Mesmo dono dos arquivos acima |
+| **Data Safety Form** | Gabriel (com apoio do Willian) | É declaração sobre o que o **código** coleta. Declarar diferente do que o APK pede é a causa nº1 de rejeição — exige conhecer `weather/`, `LocationHelper` e o manifesto. A tabela de rastreio em `CHECKLIST_PUBLICACAO.md` é a fonte |
+| Content Rating (IARC) | Quem estiver com o console aberto | Questionário de conteúdo, baixo risco |
+| **Conta do Google Play Console** | Gabriel | **Não delegável.** O titular é o publicador legal — recebe os pagamentos, assina os formulários fiscais, e é o **controlador** nomeado na política de privacidade e nos termos |
 
 ## Versões travadas (não subir sem ler o motivo)
 
