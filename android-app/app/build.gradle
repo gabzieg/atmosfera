@@ -82,6 +82,15 @@ android {
     }
 }
 
+// PaginasLegaisSincronizadasTest lê as páginas legais dos dois lados (docs/ e
+// assets/legal/). O Gradle não descobre isso sozinho: sem declarar as entradas,
+// editar um HTML deixava a task UP-TO-DATE e o teste nem rodava — falso verde
+// local. Em CI (clone limpo) sempre roda, mas não dá pra depender disso.
+tasks.matching { it.name.startsWith('test') && it.name.endsWith('UnitTest') }.configureEach {
+    inputs.dir(rootProject.file('../docs')).withPropertyName('paginasLegaisWeb')
+    inputs.dir('src/main/assets/legal').withPropertyName('paginasLegaisAsset')
+}
+
 dependencies {
     // Versões em gradle/libs.versions.toml (o teto Billing/Kotlin está lá).
 
@@ -113,6 +122,7 @@ dependencies {
     implementation libs.compose.ui.graphics
     implementation libs.compose.ui.tooling.preview
     implementation libs.compose.material3
+    implementation libs.compose.material.icons.extended
     implementation libs.androidx.activity.compose
     implementation libs.androidx.navigation.compose
 
