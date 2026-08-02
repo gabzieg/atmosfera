@@ -7,7 +7,10 @@ import com.google.gson.Gson
 
 /**
  * Cache leve em SharedPreferences para evitar chamadas desnecessárias à API.
- * O clima é re-buscado apenas se passaram mais de 30 minutos desde a última atualização.
+ * O clima é re-buscado quando o dado vence (TTL) ou quando o aparelho se
+ * deslocou o bastante. O TTL vem do intervalo escolhido pelo usuário
+ * ([IntervaloClima.ttlMs]) — não é fixo, senão a opção de 15min não teria
+ * efeito nenhum.
  */
 class WeatherCache(context: Context) {
 
@@ -20,7 +23,6 @@ class WeatherCache(context: Context) {
         private const val KEY_LAST_FETCH = "last_fetch_ms"
         private const val KEY_LAT = "cached_lat"
         private const val KEY_LON = "cached_lon"
-        private const val CACHE_TTL_MS = 30 * 60 * 1000L // 30 minutos
         private const val LOCATION_DELTA = 0.05           // ~5 km
     }
 
@@ -42,11 +44,15 @@ class WeatherCache(context: Context) {
         }
     }
 
-    fun isStale(lat: Double, lon: Double): Boolean {
+    /**
+     * @param ttlMs por quanto tempo o dado conta como fresco. Vem do intervalo
+     *   escolhido em Ajustes — ver [IntervaloClima.ttlMs].
+     */
+    fun isStale(lat: Double, lon: Double, ttlMs: Long): Boolean {
         val lastFetch = prefs.getLong(KEY_LAST_FETCH, 0L)
         if (lastFetch == 0L) return true // nunca cacheado
 
-        val tooOld = System.currentTimeMillis() - lastFetch > CACHE_TTL_MS
+        val tooOld = System.currentTimeMillis() - lastFetch > ttlMs
         val cachedLat = prefs.getFloat(KEY_LAT, 0f).toDouble()
         val cachedLon = prefs.getFloat(KEY_LON, 0f).toDouble()
         val movedFar = Math.abs(lat - cachedLat) > LOCATION_DELTA ||
