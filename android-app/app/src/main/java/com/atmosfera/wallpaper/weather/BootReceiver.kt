@@ -11,7 +11,7 @@ class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
             Log.d("BootReceiver", "Boot detectado, reagendando WeatherWorker.")
-            WeatherWorker.schedule(context)
+            WeatherWorker.schedule(context, IntervaloClima.atual(context).toLong())
         }
     }
 }
@@ -29,7 +29,7 @@ class WeatherWorker(
             val repo = WeatherRepository()
             val cache = WeatherCache(applicationContext)
 
-            if (cache.isStale(lat, lon)) {
+            if (cache.isStale(lat, lon, IntervaloClima.ttlMs(applicationContext))) {
                 repo.fetchWeather(lat, lon).onSuccess { state ->
                     cache.save(state, lat, lon)
                 }
@@ -43,19 +43,19 @@ class WeatherWorker(
     companion object {
         private const val WORK_NAME = "atmosfera_weather_sync"
 
-        fun schedule(context: Context) {
+        fun schedule(context: Context, minutos: Long = 30) {
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
-            val request = PeriodicWorkRequestBuilder<WeatherWorker>(30, TimeUnit.MINUTES)
+            val request = PeriodicWorkRequestBuilder<WeatherWorker>(minutos, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 5, TimeUnit.MINUTES)
                 .build()
 
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
                 WORK_NAME,
-                ExistingPeriodicWorkPolicy.KEEP,
+                ExistingPeriodicWorkPolicy.UPDATE,
                 request
             )
         }
