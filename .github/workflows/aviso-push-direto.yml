@@ -1,0 +1,146 @@
+name: Aviso de push direto em área de risco
+
+# Sem GitHub Pro não dá pra ativar branch protection/ruleset em repo privado
+# (a API responde 403 "Upgrade to GitHub Pro"). Este workflow é o substituto
+# possível no plano free: não bloqueia nem reverte push nenhum, só abre uma
+# issue de alerta quando um commit que NÃO veio de PR mergeado toca área de
+# risco (mesma lista do CODEOWNERS: engine/, assets/atmosfera/, billing/,
+# AndroidManifest.xml, build.gradle, .github/). Doc/UI fora da lista passam
+# quieto — já é permitido pela convenção do time (CLAUDE.md).
+#
+# "Veio de PR?" é perguntado à API (/commits/{sha}/pulls), não à mensagem do
+# commit. A primeira versão greppava "#N" no texto: qualquer commit direto
+# escrito "fix crash #42" desligava o alerta, e como só a mensagem do HEAD era
+# lida, bastava o último commit de um push citar um PR pra isentar o push
+# inteiro. Dois falsos negativos triviais num guard cuja única função é alertar.
+#
+# Erro de API conta como "não veio de PR": este guard só abre issue, então o
+# custo de um falso alerta é uma issue a fechar — barato perto de um push
+# silencioso em engine/.
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+jobs:
+  aviso-push-direto:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código (histórico completo)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detectar push direto em área de risco
+        id: detectar
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.event.after }}
+        run: |
+          set -euo pipefail
+
+          # Push que cria a branch não tem base pra comparar.
+          if [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            echo "Push cria a branch (before zerado). Ignorando."
+            exit 0
+          fi
+
+          # Force-push pode deixar BEFORE órfão; aí só dá pra olhar o HEAD.
+          if git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
+            COMMITS=$(git rev-list "${BEFORE}..${AFTER}")
+          else
+            echo "BEFORE inalcançável (force-push?). Olhando só o HEAD."
+            COMMITS="$AFTER"
+          fi
+
+          if [ -z "$COMMITS" ]; then
+            echo "Nenhum commit novo. Ignorando."
+            exit 0
+          fi
+
+          RISCO='^android-app/app/src/main/java/com/atmosfera/wallpaper/engine/|^android-app/app/src/main/assets/atmosfera/|^android-app/app/src/main/java/com/atmosfera/wallpaper/billing/|^android-app/app/src/main/AndroidManifest\.xml$|^android-app/app/build\.gradle$|^\.github/'
+
+          DIRETOS=""
+          HIT=""
+
+          for sha in $COMMITS; do
+            # A API associa ao PR tanto o commit de merge quanto os commits da
+            # branch — merge, squash e rebase caem todos aqui.
+            PR=$(gh api "repos/${REPO}/commits/${sha}/pulls" \
+                   --jq '[.[] | select(.merged_at != null and .base.ref == "main")] | length' \
+                 2>/dev/null || echo "0")
+
+            if [ "$PR" != "0" ]; then
+              echo "${sha:0:7}: veio de PR mergeado. OK."
+              continue
+            fi
+
+            # Merge commit sem PR associado: --name-only não mostra nada num
+            # merge, então -m compara com o primeiro pai.
+            ARQS=$(git show --pretty=format: --name-only -m --first-parent "$sha")
+            ACHOU=$(echo "$ARQS" | grep -E "$RISCO" || true)
+
+            if [ -n "$ACHOU" ]; then
+              echo "${sha:0:7}: push direto tocando área de risco."
+              DIRETOS="${DIRETOS}- \`${sha:0:7}\` $(git log -1 --format='%an — %s' "$sha")
+          "
+              HIT="${HIT}${ACHOU}
+          "
+            else
+              echo "${sha:0:7}: direto, mas fora da área de risco. OK."
+            fi
+          done
+
+          if [ -z "$HIT" ]; then
+            echo "Nada a alertar."
+            exit 0
+          fi
+
+          # Um arquivo tocado por 3 commits não precisa aparecer 3 vezes.
+          HIT=$(echo "$HIT" | grep -v '^$' | sort -u)
+
+          {
+            echo "hit<<FIM_HIT"
+            echo "$HIT"
+            echo "FIM_HIT"
+            echo "commits<<FIM_COMMITS"
+            echo "$DIRETOS"
+            echo "FIM_COMMITS"
+            echo "alerta=true"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Abrir issue de alerta
+        if: steps.detectar.outputs.alerta == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.sha }}
+          COMMITS: ${{ steps.detectar.outputs.commits }}
+          ARQUIVOS: ${{ steps.detectar.outputs.hit }}
+        run: |
+          set -euo pipefail
+          BODY=$(cat <<CORPO
+          Commits que não vieram de PR mergeado tocaram área de risco na \`main\`.
+
+          **Commits diretos:**
+          ${COMMITS}
+
+          **Arquivos de risco tocados:**
+          \`\`\`
+          ${ARQUIVOS}
+          \`\`\`
+
+          Área de risco = mesma lista do CODEOWNERS (engine/, assets/atmosfera/, billing/, AndroidManifest.xml, build.gradle, .github/). Pelo CLAUDE.md essas áreas exigem PR + combinar com o dono (Rafael: engine/assets · Willian: billing/legal). Confirma se foi intencional.
+
+          Este aviso é informativo — nada foi bloqueado nem revertido. Enquanto o repo for privado no plano free, branch protection e CODEOWNERS não funcionam, então este workflow é o único sinal que existe.
+          CORPO
+          )
+          gh issue create \
+            --title "Push direto em área de risco na main: ${SHA:0:7}" \
+            --body "$BODY"
