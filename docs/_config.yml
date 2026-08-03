@@ -1,0 +1,17 @@
+# Configuração do GitHub Pages para esta pasta.
+#
+# `docs/` acumula dois papéis: é a raiz que o Pages serve (privacidade/,
+# termos/, contato/ — as URLs públicas exigidas pela Play Store) E o lugar
+# onde a documentação do projeto passou a morar. Sem este arquivo, ligar o
+# Pages publicaria `dev/` junto — ROADMAP, TASKS, CHECKLIST e o
+# GUIA_PLAY_CONSOLE (que tem as respostas do Data Safety) virariam páginas
+# públicas indexáveis, sem ninguém perceber.
+#
+# `legal/` fica de fora por outro motivo: o .md ali é a fonte canônica, e o
+# que vai pro ar é o espelho HTML em <pagina>/index.html. Publicar os dois
+# criaria duas URLs pro mesmo texto legal — ruim justamente num documento
+# cuja versão vigente precisa ser inequívoca.
+
+exclude:
+  - dev/
+  - legal/

@@ -1,6 +1,6 @@
 # Checklist de publicação — Google Play
 
-> Ver também: [README.md](README.md) (visão geral + build de release).
+> Ver também: [README.md](../../README.md) (visão geral + build de release).
 >
 > Este arquivo substitui o antigo `estrutura.md`, que era uma resposta
 > genérica de IA sem nenhum dado real do projeto. Os itens abaixo são
@@ -21,7 +21,7 @@ Form declarado com o que o APK realmente pede).
 
 ## Dados coletados
 
-> O texto público disso está em [PRIVACIDADE.md](PRIVACIDADE.md) — que é o
+> O texto público disso está em [PRIVACIDADE.md](../legal/PRIVACIDADE.md) — que é o
 > documento que vai valer juridicamente. O resumo abaixo é a versão interna;
 > se um mudar, mude o outro (ver "Política de privacidade" no fim deste arquivo).
 
@@ -44,17 +44,17 @@ Form declarado com o que o APK realmente pede).
   produção com `keytool` e preencher `android-app/keystore.properties` (ver
   README.md → "Build de release"). Sem isso `assembleRelease` builda sem
   assinar. Guarde a keystore em local seguro fora do repo.
-- [x] **Política de privacidade escrita** — [PRIVACIDADE.md](PRIVACIDADE.md)
+- [x] **Política de privacidade escrita** — [PRIVACIDADE.md](../legal/PRIVACIDADE.md)
   (texto canônico) + [`docs/privacidade/index.html`](docs/privacidade/index.html)
   (mesma coisa em HTML, pronta pra hospedar). Cobre coleta, finalidade, base
   legal LGPD, terceiros, transferência internacional, retenção, direitos do
   titular e contato.
-- [x] **Termos de Uso escritos** — [TERMOS.md](TERMOS.md) (texto canônico) +
+- [x] **Termos de Uso escritos** — [TERMOS.md](../legal/TERMOS.md) (texto canônico) +
   [`docs/termos/index.html`](docs/termos/index.html). Cobrem licença de uso,
   compra única (sem assinatura), reembolso via Google Play, direito de
   arrependimento (art. 49 CDC), garantias, foro. **Rascunho não revisado
   juridicamente** — ver "Revisão jurídica" no fim deste arquivo.
-- [x] **Página de contato escrita** — [CONTATO.md](CONTATO.md) +
+- [x] **Página de contato escrita** — [CONTATO.md](../legal/CONTATO.md) +
   [`docs/contato/index.html`](docs/contato/index.html). Canais de suporte e
   privacidade + o que é feito com os dados de quem escreve (a política cobre o
   app, não o e-mail que o usuário manda).
@@ -106,7 +106,7 @@ Form declarado com o que o APK realmente pede).
 - [ ] Se a versão do Billing Library mudar, checar a nota no
   `HANDOFF-FRONTEND.md` sobre o teto do Kotlin 1.9.23.
 - [ ] Se houve mudança em `weather/`, `billing/`, no manifesto ou entrou um SDK
-  novo: revisar [PRIVACIDADE.md](PRIVACIDADE.md) contra a tabela de rastreio
+  novo: revisar [PRIVACIDADE.md](../legal/PRIVACIDADE.md) contra a tabela de rastreio
   abaixo, subir a versão da política e atualizar o Data Safety Form.
 
 ## Documentos legais (privacidade, termos, contato)

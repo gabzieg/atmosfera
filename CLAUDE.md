@@ -13,19 +13,19 @@ Premium + cenários extras via Google Play Billing.
 
 Documentação de apoio (leia sob demanda, não de cara):
 - [README.md](README.md) — visão geral e stack.
-- [HANDOFF-FRONTEND.md](HANDOFF-FRONTEND.md) — **fronteira entre motor
+- [docs/dev/HANDOFF-FRONTEND.md](docs/dev/HANDOFF-FRONTEND.md) — **fronteira entre motor
   (`engine/`) e front** (`ui/`, `billing/`, `service/`, `weather/`) e a
   interface estável entre os dois. Leia antes de mexer em `engine/**` ou
   `assets/atmosfera/**` — é tratado como "congelado" por convenção do time,
   mas pode ser editado se o pedido for explícito (já aconteceu — ver seção 7
   do próprio HANDOFF).
-- [CHECKLIST_PUBLICACAO.md](CHECKLIST_PUBLICACAO.md) — pendências de Play Store.
+- [docs/dev/CHECKLIST_PUBLICACAO.md](docs/dev/CHECKLIST_PUBLICACAO.md) — pendências de Play Store.
 
 ## Arquitetura em uma tabela
 
 | Pacote | Responsabilidade | Fronteira |
 |---|---|---|
-| `engine/` | `EffectEngine`, `SceneState`, `Atlas`, `Catalogo`, `Cena`, mais o suporte multi-cenário/multi-estilo (`Cenario.kt`/`Cenas`/`CenaCfg`, `Estilo.kt`/`Estilos`/`EstiloCfg`, prefs `ArteFundo` e `EstiloEfeito`) — desenha o wallpaper. `carregar(assets, cenaId, arte, estilo)` recarrega os assets do cenário/estilo escolhido | Motor (ver HANDOFF-FRONTEND.md) |
+| `engine/` | `EffectEngine`, `SceneState`, `Atlas`, `Catalogo`, `Cena`, mais o suporte multi-cenário/multi-estilo (`Cenario.kt`/`Cenas`/`CenaCfg`, `Estilo.kt`/`Estilos`/`EstiloCfg`, prefs `ArteFundo` e `EstiloEfeito`) — desenha o wallpaper. `carregar(assets, cenaId, arte, estilo)` recarrega os assets do cenário/estilo escolhido | Motor (ver docs/dev/HANDOFF-FRONTEND.md) |
 | `service/` | `AtmosferaWallpaperService` — hospeda o motor, busca clima, repassa pro motor | Front |
 | `ui/` | Compose: `MainScreen` (Scaffold/NavHost/BottomNav), `HomeTab`, `StoreTab`, `SettingsTab`, `theme/`, `components/` | Front |
 | `weather/` | `WeatherRepository` (Open-Meteo/Retrofit), `WeatherCache`, `LocationHelper`, `WeatherWorker` | Front |
@@ -118,13 +118,26 @@ direto na `main`. Aprovação por área via `.github/CODEOWNERS`: motor (`engine
 do front (`ui/`, `weather/`, `service/`) → Gabriel.
 Detalhes e escape hatches em `.claude/skills/abrir-pr/SKILL.md`.
 
+**Nada disso é aplicado pelo servidor.** O repo é privado no plano free:
+branch protection e CODEOWNERS respondem `403 Upgrade to GitHub Pro`, então o
+CODEOWNERS não pede revisor sozinho. O que existe de verdade hoje são duas
+redes, ambas contornáveis:
+
+- `.githooks/pre-push` (ligar com `./scripts/setup-hooks.sh`) — barra push
+  direto na `main` em área de risco. Escapa com `git push --no-verify`.
+- `.github/workflows/aviso-push-direto.yml` — abre issue quando um commit que
+  não veio de PR toca área de risco. Avisa depois, não bloqueia.
+
+A lista de caminhos de risco está duplicada nos dois + no CODEOWNERS. Mudou
+uma, mude as três.
+
 **Terceiro colaborador (Willian, `@uWillianG`)**: dono de `billing/`
 (`BillingManager`, `Plano`, integração Google Play Billing) e dos **documentos
-legais** (`PRIVACIDADE.md`, `TERMOS.md`, `CONTATO.md` + espelhos em `docs/` e
+legais** (`docs/legal/*.md` + espelhos em `docs/<pagina>/index.html` e
 `assets/legal/`). Também cuida do site de apresentação/marketing do Atmosfera —
 fora deste repo, em repositório próprio (nome a definir, ex. `atmosfera-site`)
 por causa da stack diferente (web, não Android/Gradle). Site ainda não criado.
 
 Compliance de publicação **não** é todo dele: o Data Safety Form declara o que
 o código coleta (área do Gabriel) e a conta do Play Console é do titular legal.
-Divisão completa em [SPEC.md](SPEC.md) → "Publicação na Play Store".
+Divisão completa em [docs/dev/SPEC.md](docs/dev/SPEC.md) → "Publicação na Play Store".

@@ -1,5 +1,5 @@
 # Donos por área — o GitHub pede a review sozinho quando o diff toca estes caminhos.
-# Espelha a fronteira motor/front descrita em HANDOFF-FRONTEND.md.
+# Espelha a fronteira motor/front descrita em docs/dev/HANDOFF-FRONTEND.md.
 #
 # ⚠️ INERTE no plano atual. CODEOWNERS (e branch protection) só valem em repo
 # PÚBLICO ou PRIVADO com GitHub Pro/Team. Este repo é privado no plano free:
@@ -21,20 +21,19 @@
 /android-app/app/src/main/java/com/atmosfera/wallpaper/service/  @gabzieg
 
 # ── Documentos legais ───────────────────────────────────────────────
-# Textos públicos (privacidade, termos, contato) e seus espelhos HTML.
-# O asset embutido no APK é cópia byte a byte de docs/ — ver
+# Textos públicos (privacidade, termos, contato): o .md canônico em
+# docs/legal/ e o espelho HTML em docs/<pagina>/, que é o que vai pro ar.
+# O asset embutido no APK é cópia byte a byte do HTML — ver
 # PaginasLegaisSincronizadasTest.
-/PRIVACIDADE.md                        @uWillianG
-/TERMOS.md                             @uWillianG
-/CONTATO.md                            @uWillianG
 /docs/                                 @uWillianG
+/docs/legal/                           @uWillianG
 /android-app/app/src/main/assets/legal/  @uWillianG
 
 # ── Build, CI e publicação ──────────────────────────────────────────
-# CHECKLIST_PUBLICACAO.md fica com @gabzieg mesmo contendo a seção dos
-# documentos legais: ele também rastreia código → política, e a coluna da
-# esquerda é front (weather/, manifesto, billing).
+# docs/dev/ vem DEPOIS de /docs/ de propósito: CODEOWNERS é último-que-casa
+# vence, então esta linha tira a documentação interna (ROADMAP, SPEC, TASKS,
+# HANDOFF, CHECKLIST, GUIA_PLAY_CONSOLE) do escopo do dono dos textos legais.
 /android-app/app/build.gradle          @gabzieg
 /android-app/app/src/main/AndroidManifest.xml  @gabzieg
 /.github/                              @gabzieg
-/CHECKLIST_PUBLICACAO.md               @gabzieg
+/docs/dev/                             @gabzieg
