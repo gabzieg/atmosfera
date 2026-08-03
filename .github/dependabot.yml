@@ -15,6 +15,10 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
+    groups:
+      gradle-deps:
+        patterns:
+          - "*"
     labels:
       - "dependencies"
     # Billing e Kotlin têm teto conhecido (ver libs.versions.toml) — o Dependabot
@@ -26,6 +30,10 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
+    groups:
+      actions-deps:
+        patterns:
+          - "*"
     labels:
       - "dependencies"
       - "ci"
