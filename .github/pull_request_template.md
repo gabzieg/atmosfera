@@ -18,18 +18,19 @@ Quando o PR é obrigatório, o que pode ir direto na main e os escape hatches:
 - [ ] Branch saiu da `main` atualizada
 - [ ] Sem segredo no diff: `*.jks`, `*.keystore`, `local.properties`, chave de licença do Billing
 - [ ] Gate da CI passa: `./gradlew testDebugUnitTest lintDebug assembleDebug` (lint roda com baseline — só quebra em erro NOVO)
-- [ ] Tocou `engine/**` ou `assets/atmosfera/**`? Combinou com o Rafael antes — é a fronteira do motor (ver [HANDOFF-FRONTEND.md](../HANDOFF-FRONTEND.md))
+- [ ] Tocou `engine/**` ou `assets/atmosfera/**`? Combinou com o Rafael antes — é a fronteira do motor (ver [HANDOFF-FRONTEND.md](../docs/dev/HANDOFF-FRONTEND.md))
 - [ ] Mudou UI? Tem **screenshot** no PR (o projeto não tem teste automatizado — a verificação é visual)
 - [ ] Cor/espaçamento novo? Saiu de `ui/theme` (nada de `Color(0xFF…)` ou `dp` solto na tela)
-- [ ] Permissão nova no `AndroidManifest`? Justificada aqui e refletida em [CHECKLIST_PUBLICACAO.md](../CHECKLIST_PUBLICACAO.md) (Data Safety Form)
+- [ ] Permissão nova no `AndroidManifest`? Justificada aqui e refletida em [CHECKLIST_PUBLICACAO.md](../docs/dev/CHECKLIST_PUBLICACAO.md) (Data Safety Form)
 - [ ] Subiu a versão do Billing? Confirmou o teto do Kotlin 1.9.23 — 7.0.0+ **quebra o build** (ver CLAUDE.md)
 - [ ] Asset novo pesado? Conferiu o tamanho (o repo já carrega PNGs de ~2 MB)
-- [ ] Doc afetada (`README` / `CLAUDE.md` / `HANDOFF-FRONTEND.md`) continua verdadeira
+- [ ] Doc afetada (`README` / `CLAUDE.md` / `docs/dev/HANDOFF-FRONTEND.md`) continua verdadeira
 
 <!--
 Aprovação por área — o CODEOWNERS pede o revisor sozinho:
   engine/ · assets/atmosfera/           → Rafael (dono do motor)
-  ui/ · billing/ · weather/ · service/  → Gabriel (front)
+  billing/ · docs/legal/                → Willian
+  ui/ · weather/ · service/ · docs/dev/ → Gabriel (front)
   doc, texto, protótipo                 → CI verde: pode mergear você mesmo
 
 Ignorou algum aviso do CI de propósito? Escreva o porquê em uma linha aqui,

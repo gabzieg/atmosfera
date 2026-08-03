@@ -3,7 +3,7 @@
 > Consolida num só lugar o que "pronto" significa, o que está fora de escopo,
 > e as travas técnicas/segurança que já foram decididas. Detalhe de arquitetura
 > fica em [HANDOFF-FRONTEND.md](HANDOFF-FRONTEND.md); comandos/convenções do
-> dia a dia ficam em [CLAUDE.md](CLAUDE.md). Este arquivo responde "o que
+> dia a dia ficam em [CLAUDE.md](../../CLAUDE.md). Este arquivo responde "o que
 > estamos construindo e onde termina", não "como".
 
 ## O que é

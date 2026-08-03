@@ -1,0 +1,19 @@
+# Escopo deliberadamente estreito: só o que QUEBRA com a terminação errada.
+# Um `* text=auto eol=lf` genérico renormalizaria a árvore inteira e produziria
+# um diff gigante no próximo checkout de cada pessoa — custo alto, ganho nenhum
+# num projeto que hoje só tem gente no Windows.
+#
+# O problema real: com `core.autocrlf=true` (padrão do Git for Windows, e o que
+# está configurado aqui) o índice guarda LF mas o checkout entrega CRLF. Script
+# de shell com CRLF não roda — o shebang vira `#!/bin/bash\r` e o interpretador
+# não existe. Vale pros hooks, pro setup e pro wrapper do Gradle.
+*.sh          text eol=lf
+.githooks/*   text eol=lf
+gradlew       text eol=lf
+
+# Binários: nunca converter, nunca tentar diff de texto.
+*.pdf   binary
+*.png   binary
+*.webp  binary
+*.jks   binary
+*.keystore binary
