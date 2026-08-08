@@ -13,6 +13,13 @@ Premium + cenários extras via Google Play Billing.
 
 Documentação de apoio (leia sob demanda, não de cara):
 - [README.md](README.md) — visão geral e stack.
+- [docs/dev/SPEC.md](docs/dev/SPEC.md) — o que é "pronto" (MVP publicável),
+  não-objetivos, versões travadas e requisitos de segurança. Responde "o que
+  estamos construindo", não "como".
+- [docs/dev/ROADMAP.md](docs/dev/ROADMAP.md) — fases até publicar, cada uma
+  com critério de saída explícito. Leia pra saber em que fase o projeto está.
+- [docs/dev/TASKS.md](docs/dev/TASKS.md) — o que está em andamento hoje. Mais
+  volátil que o ROADMAP; se contradizer `git log`/`git status`, confie no repo.
 - [docs/dev/HANDOFF-FRONTEND.md](docs/dev/HANDOFF-FRONTEND.md) — **fronteira entre motor
   (`engine/`) e front** (`ui/`, `billing/`, `service/`, `weather/`) e a
   interface estável entre os dois. Leia antes de mexer em `engine/**` ou
@@ -20,6 +27,9 @@ Documentação de apoio (leia sob demanda, não de cara):
   mas pode ser editado se o pedido for explícito (já aconteceu — ver seção 7
   do próprio HANDOFF).
 - [docs/dev/CHECKLIST_PUBLICACAO.md](docs/dev/CHECKLIST_PUBLICACAO.md) — pendências de Play Store.
+- [docs/dev/GUIA_PLAY_CONSOLE.md](docs/dev/GUIA_PLAY_CONSOLE.md) — respostas
+  prontas (com a linha de código que sustenta cada uma) pro Data Safety Form
+  e Content Rating Questionnaire.
 
 ## Arquitetura em uma tabela
 
@@ -45,6 +55,9 @@ Rode sempre a partir de `android-app/`.
                                     # de permissão em LocationHelper.kt): a CI só quebra em erro
                                     # NOVO. Pra corrigir um: apague o baseline e regenere com lintDebug.
 ./gradlew installDebug             # build + instala no device/emulador conectado
+./gradlew bundleRelease            # gera app-release.aab ASSINADO — exige keystore.properties
+                                    # preenchido (ver "Build de release" abaixo); sem isso builda
+                                    # sem assinar.
 adb devices                         # confirma emulador/device antes de instalar
 adb shell am start -n com.atmosfera.wallpaper/.ui.MainActivity
 adb shell am start -n com.atmosfera.wallpaper/.debug.DebugActivity   # painel de debug
@@ -53,9 +66,27 @@ adb shell am start -n com.atmosfera.wallpaper/.debug.DebugActivity   # painel de
 SDK Android local: `android-app/local.properties` (`sdk.dir`) — já configurado
 nesta máquina, não precisa de `ANDROID_HOME`.
 
+**JDK 17 obrigatório** (Gradle 8.6 — mesma versão travada na CI,
+`.github/workflows/build.yml`). JDK 25+ (ex.: o JBR embutido no Android
+Studio) quebra o build com `Unsupported class file major version`.
+`JAVA_HOME` deve apontar pro Temurin 17 instalado nesta máquina
+(`C:\Program Files\Eclipse Adoptium\jdk-17.0.20.8-hotspot`). **Gotcha
+Windows:** a variável só é lida por processos novos — se `gradlew` reclamar de
+versão de JDK numa sessão de terminal já aberta, abra um terminal novo (ou
+re-exporte `JAVA_HOME` manualmente) em vez de assumir que o ambiente está
+quebrado.
+
 **Windows/Git Bash:** caminhos `/sdcard/...` em `adb shell`/`adb pull` são
 reescritos para path do Windows pelo MSYS. Prefixe com `MSYS_NO_PATHCONV=1`
 quando isso quebrar um comando `adb`.
+
+**Build de release:** keystore de produção fica **fora do repo**, em
+`C:\Users\gbrus\Chaves\atmosfera-release.jks`, referenciada por
+`android-app/keystore.properties` (gitignored — nunca commitar). Sem esse
+arquivo local, `bundleRelease`/`assembleRelease` builda sem assinar. A CI
+roda `gitleaks` (job `secret-scan`) em todo push como segunda camada contra
+segredo vazado no diff — não é substituto pra checar `git status` antes de
+commitar em área que toca build/keystore.
 
 ## Gotcha grande: versão do Billing Library
 
@@ -66,6 +97,16 @@ metadata do Kotlin 2.x, que o compilador Kotlin 1.9.23 deste projeto não
 consegue ler (`Class was compiled with an incompatible version of Kotlin`).
 6.2.1 é o teto compatível com a API atual (`enablePendingPurchases()` sem
 parâmetros — a versão com `PendingPurchasesParams` só existe a partir da 7.x).
+
+**Isso deixou de ser só trava técnica — é bloqueio de publicação.** O Google
+exige Billing Library **v8+ pra qualquer app novo ou update**; o prazo pra
+v6.x já venceu em 31/ago/2025 (extensão até 01/nov/2025), ambos no passado
+([developer.android.com/google/play/billing/deprecation-faq](https://developer.android.com/google/play/billing/deprecation-faq)).
+Como o Atmosfera ainda não foi publicado, ele nasce sob a regra de "app novo":
+não dá pra criar a ficha na Play Store com Billing 6.2.1. Migrar o plugin
+Kotlin (1.9.23 → 2.x) deixa de ser "quando sobrar tempo" e vira pré-requisito
+antes da Fase 2 do `ROADMAP.md` (criação de produtos/teste de compra). Ainda
+não escalado pro ROADMAP/SPEC — decisão pendente do usuário sobre prioridade.
 
 ## Design system (Compose)
 
@@ -89,8 +130,9 @@ telas novas.
 - Identificadores em português no domínio do app (`estado`, `motor`,
   `desenhar`, `Cenario`), em inglês nas coisas genéricas de framework/Compose —
   siga o padrão já estabelecido no arquivo que estiver editando.
-- Sem testes automatizados no projeto ainda (não existe `test/`/`androidTest/`)
-  — não assuma que existem antes de tentar rodá-los.
+- Testes unit existem em `android-app/app/src/test/` (JVM puro, sem device) —
+  `WeatherMappingTest`, `IntervaloClimaTest`, `PaginasLegaisSincronizadasTest`.
+  Sem `androidTest/` (instrumentado) ainda.
 - Sem sistema de dependency injection — objetos são construídos direto
   (`BillingManager(context) { ... }`) ou são `object` singletons sobre
   `SharedPreferences` (`Plano`, `Cena`, `DebugOverride`).

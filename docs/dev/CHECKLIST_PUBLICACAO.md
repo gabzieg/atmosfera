@@ -96,6 +96,17 @@ Form declarado com o que o APK realmente pede).
   assinatura das compras fica desligada.
 - [ ] **Teste fechado** antes de produção — Google exige um período de teste
   fechado com testers reais para apps novos.
+- [ ] **Confirmar se o uso da Open-Meteo se enquadra como "comercial"** —
+  os termos do tier gratuito dizem "you may only use the free API services
+  for non-commercial purposes" e listam apps "com assinaturas ou anúncios"
+  como exemplo de uso comercial
+  ([open-meteo.com/en/terms](https://open-meteo.com/en/terms)). O Atmosfera
+  não tem assinatura nem anúncio, mas vende IAP (IAP não é mencionado
+  explicitamente nos termos — zona cinzenta, não uma violação confirmada).
+  Antes de publicar: confirmar com o Open-Meteo (contato deles) ou avaliar
+  contratar o plano comercial (sem limite diário) — ver
+  [open-meteo.com/en/pricing](https://open-meteo.com/en/pricing). Rate limit
+  do tier grátis hoje: 10.000 chamadas/dia, 5.000/hora, 600/minuto.
 
 ## Antes de cada release (recorrente)
 
