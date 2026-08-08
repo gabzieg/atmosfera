@@ -5,18 +5,17 @@
 > está pela metade, o que decidir, o que testar. Atualizar sempre que algo
 > muda de status, não deixar ficar mentiroso.
 
-**Última atualização:** 2026-08-01
+**Última atualização:** 2026-08-08
 
-## ⚠️ Trabalho acumulado sem commit
+## Estado do ambiente (confirmado 2026-08-08)
 
-A pausa de git de 2026-07-29 foi **levantada em 2026-07-30** ("pode commitar")
-— fluxo normal vale de novo. Mas o trabalho de 31/07 e 01/08 ficou todo no
-working tree: **30 arquivos** (18 modificados, 12 novos), mais 1 commit local
-não pushado (`4be1ac2`) na branch `chore/github-config-billing-dependabot`.
-
-Precisa ser quebrado em commits por assunto antes de virar um PR gigante.
-Áreas de risco no meio do bolo (exigem PR pela `abrir-pr`):
-`app/build.gradle`, `gradle/libs.versions.toml`, `.github/CODEOWNERS`.
+Árvore limpa, `main` sincronizada com `origin/main`. A keystore de produção
+foi perdida e regenerada em 2026-08-04 (máquina nova, nada publicado ainda —
+troca gratuita); JDK 17 (Temurin) e o SDK Android foram reinstalados na
+mesma sessão. Confirmado hoje, numa rodada limpa:
+`testDebugUnitTest lintDebug assembleDebug` juntos (gate da CI) e
+`bundleRelease` assinado com a keystore atual (`keytool -printcert -jarfile`
+bate com o certificado de 04/08) — ver `ROADMAP.md` Fase 1.
 
 ## Em andamento
 
@@ -212,26 +211,19 @@ Store"; mapeamento executável em `.github/CODEOWNERS`.
 
 ## Bloqueado, esperando o usuário
 
-- [ ] **Trocar a senha da keystore de produção por uma forte.** A atual tem 6
-  dígitos, só numérica — cerca de 1 milhão de combinações, quebrável offline em
-  segundos se o `.jks` vazar (backup, sincronização em nuvem, notebook
-  perdido). Nada foi publicado ainda, então a troca é barata e **não muda a
-  chave nem o fingerprint** (o certificado continua o mesmo; a senha só protege
-  o arquivo):
-
-  ```powershell
-  keytool -storepasswd -keystore "C:\Users\gbrus\Chaves\atmosfera-release.jks"
-  keytool -keypasswd  -keystore "C:\Users\gbrus\Chaves\atmosfera-release.jks" -alias atmosfera
-  ```
-
-  Depois atualizar `android-app/keystore.properties` e rodar `bundleRelease`
-  de novo pra confirmar. Guardar a senha nova num gerenciador.
-
+- [ ] **Mover a senha da keystore pra um gerenciador de senhas e apagar o
+  `.txt`.** A senha já é forte (28 caracteres, gerada na regeneração de
+  2026-08-04) — o que falta é só parar de deixá-la em texto puro em
+  `C:\Users\gbrus\Chaves\SENHA-LEIA-E-APAGUE.txt`. Ação do usuário: mover pro
+  gerenciador e apagar o arquivo (Claude Code evita ler/manipular esse
+  arquivo por princípio de segredo).
 - [ ] **Backup da keystore** — dois lugares offline. Perder a chave de upload
   exige reset via suporte do Google Play (dias de espera), ainda que com Play
   App Signing não seja definitivo como o README sugere.
-- Criar produtos no Play Console (Fase 2) — precisa de conta/acesso do
-  usuário.
+- [ ] **Abrir a conta do Google Play Console** (~US$25, aprovação em dias) —
+  não delegável (`SPEC.md` → "Publicação na Play Store"), maior lead time do
+  caminho crítico, bloqueia Fases 2 a 4.
+- Criar produtos no Play Console (Fase 2) — precisa da conta acima.
 - Ligar o emulador `Pixel_8` pra eu conseguir testar visualmente o preview
   ao vivo.
 

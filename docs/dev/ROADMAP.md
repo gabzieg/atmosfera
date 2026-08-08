@@ -21,7 +21,7 @@ regressão de teste/lint/segredo seja pega antes do merge, não depois.
 - [x] Fluxo de PR documentado (`.claude/skills/abrir-pr/`, `CODEOWNERS`,
   template de PR)
 
-## Fase 1 — Build de release assinável ✅ concluída (2026-08-01)
+## Fase 1 — Build de release assinável ✅ concluída (2026-08-01, reconfirmada 2026-08-08)
 
 **Objetivo:** existir um caminho real de `assembleRelease` → AAB assinado,
 publicável na Play Store.
@@ -30,16 +30,20 @@ publicável na Play Store.
 - [x] `signingConfig` no `build.gradle` lendo `keystore.properties`
   (gitignored) — código pronto, mergeado
 - [x] Keystore de produção gerada (`keytool`, RSA 2048, validade até dez/2053)
-  e guardada **fora da árvore do repositório** (`C:\Users\gbrus\Chaves\`)
+  e guardada **fora da árvore do repositório** (`C:\Users\gbrus\Chaves\`) —
+  regenerada em 2026-08-04 (a original desapareceu desta máquina; nada tinha
+  sido publicado ainda, então a troca foi gratuita), com senha forte
+  (28 caracteres, alfanumérica + símbolos) já definida na regeneração
 - [x] `keystore.properties` preenchido localmente e `bundleRelease` testado:
-  gera `app-release.aab` (22,2 MB) assinado, conferido com
-  `keytool -printcert -jarfile` — certificado SHA256withRSA em nome do
-  desenvolvedor
+  gera `app-release.aab` (~22,2 MB) assinado, conferido com
+  `keytool -printcert -jarfile` em 2026-08-08 — certificado SHA256withRSA
+  `Válido de: 04/08/2026`, batendo com a keystore atual (não a antiga)
 
-**Pendência de higiene (não bloqueia a fase):** a senha da keystore é curta e
-só numérica. Trocar por uma forte com `keytool -storepasswd` / `-keypasswd`
-antes de publicar — a chave e o fingerprint não mudam, então não há efeito
-sobre a Play. Ver `TASKS.md`.
+**Pendência de higiene (não bloqueia a fase):** a senha forte gerada em
+2026-08-04 está isolada em texto puro em
+`C:\Users\gbrus\Chaves\SENHA-LEIA-E-APAGUE.txt`. Mover pra um gerenciador de
+senhas, apagar o arquivo, e fazer um segundo backup offline do `.jks` — ação
+do usuário, ver `TASKS.md`.
 
 ## Fase 2 — Billing testável ponta a ponta ⏳ não iniciada
 
