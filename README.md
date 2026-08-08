@@ -118,8 +118,13 @@ No Git Bash/MSYS no Windows, prefixe `MSYS_NO_PATHCONV=1` quando um caminho
 efeitos sem esperar o clima real):
 
 ```bash
-adb shell am start -n com.atmosfera.wallpaper/.debug.DebugActivity
+adb shell am start -n com.atmosfera.wallpaper/.debug.DebugLauncher
 ```
+
+O alvo é o **alias** `.debug.DebugLauncher` — apontar direto para
+`.debug.DebugActivity` falha com `SecurityException`, porque a Activity é
+`exported=false`. Em build debug o painel também aparece na gaveta de apps
+como "Atmosfera Teste".
 
 **Simular localização** no emulador sem GPS real: Extended Controls (⋮) →
 Location → lat/long → Send. Padrão do app sem permissão: Guarapuava, PR

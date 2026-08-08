@@ -16,6 +16,8 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.atmosfera.wallpaper.BuildConfig
 import com.atmosfera.wallpaper.billing.Plano
 import com.atmosfera.wallpaper.engine.ArteFundo
@@ -69,6 +71,16 @@ class DebugActivity : AppCompatActivity() {
         scroll.addView(col)
         raiz.addView(scroll, LinearLayout.LayoutParams(MATCH_PARENT, 0, 2f))
         setContentView(raiz)
+
+        // Com targetSdk 35+ o edge-to-edge é imposto pelo sistema: sem tratar os
+        // insets, a prévia entra por baixo da barra de status e o botão "Fechar"
+        // some atrás da barra de navegação. As telas Compose já estão cobertas
+        // pelo Scaffold; esta aqui é View crua, então precisa aplicar na mão.
+        ViewCompat.setOnApplyWindowInsetsListener(raiz) { v, insets ->
+            val barras = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(barras.left, barras.top, barras.right, barras.bottom)
+            insets
+        }
 
         montarControles(col)
     }

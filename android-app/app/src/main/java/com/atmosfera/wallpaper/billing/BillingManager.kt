@@ -127,6 +127,44 @@ class BillingManager(
             // `aplicarCena = false`: restaurar acontece a cada abertura do app.
             // Trocar o cenário aqui sobrescreveria a escolha do usuário toda vez.
             compras.forEach { processar(it, aplicarCena = false) }
+            reconciliar(compras)
+        }
+    }
+
+    /**
+     * Revoga o que NÃO está mais entre as compras ativas — reembolso, estorno,
+     * ou cancelamento pelo Google. Sem isto, [processar] só concede e nunca tira:
+     * quem pedisse reembolso ficaria com Premium para sempre.
+     *
+     * **Só é chamado quando a consulta voltou OK.** Essa condição é o ponto
+     * central: se rodasse também no erro, um usuário legítimo offline (ou num
+     * device sem Play Store, como o emulador daqui) perderia o que pagou toda
+     * vez que abrisse o app sem rede. Na dúvida, mantém o acesso concedido.
+     */
+    private fun reconciliar(compras: List<Purchase>) {
+        val ativos = compras
+            .filter { it.purchaseState == Purchase.PurchaseState.PURCHASED && assinaturaValida(it) }
+            .flatMap { it.products }
+            .toSet()
+
+        if (PRODUTO_PREMIUM !in ativos && Plano.isPremium(context)) {
+            Log.w(TAG, "Premium não consta mais nas compras ativas — revogando.")
+            Plano.setPremium(context, false)
+            onMudou(false)
+        }
+
+        Catalogo.cenarios.forEach { cenario ->
+            val pid = cenario.productId ?: return@forEach
+            if (pid !in ativos && isAvulsoDesbloqueado(cenario.id)) {
+                Log.w(TAG, "Cenário ${cenario.id} não consta mais nas compras ativas — revogando.")
+                prefs.edit().putBoolean(PREF_AVULSO_PREFIX + cenario.id, false).apply()
+                // Se o cenário revogado é justamente o que está no ar, o wallpaper
+                // ficaria exibindo conteúdo pago não mais possuído. Volta pro padrão.
+                if (Cena.atual(context) == cenario.id) {
+                    Log.w(TAG, "Cenário revogado estava ativo — voltando para ${Catalogo.padrao.id}.")
+                    Cena.definir(context, Catalogo.padrao.id)
+                }
+            }
         }
     }
 
