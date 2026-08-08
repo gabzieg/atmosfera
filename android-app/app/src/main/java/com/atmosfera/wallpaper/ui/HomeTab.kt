@@ -68,16 +68,13 @@ fun HomeTab(viewModel: MainViewModel) {
     var mostrarConfirmacao by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
+    // Só a permissão aproximada: é a única que o app usa de fato (ver o
+    // comentário no AndroidManifest). Pedir a precisa junto mostrava ao usuário
+    // um pedido maior do que o necessário.
     val locationPermissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { perms ->
-        if (perms[Manifest.permission.ACCESS_FINE_LOCATION] == true ||
-            perms[Manifest.permission.ACCESS_COARSE_LOCATION] == true
-        ) {
-            viewModel.onPermissionGranted()
-        } else {
-            viewModel.onPermissionDenied()
-        }
+        ActivityResultContracts.RequestPermission()
+    ) { concedida ->
+        if (concedida) viewModel.onPermissionGranted() else viewModel.onPermissionDenied()
     }
 
     Column(
@@ -96,12 +93,7 @@ fun HomeTab(viewModel: MainViewModel) {
         if (!hasLocationPermission) {
             PermissionOnboardingCard(
                 onClick = {
-                    locationPermissionLauncher.launch(
-                        arrayOf(
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                        )
-                    )
+                    locationPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
                 }
             )
         } else {

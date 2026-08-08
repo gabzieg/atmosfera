@@ -12,7 +12,7 @@
 | Permissão | Usada onde | Justificativa pro Data Safety Form |
 |---|---|---|
 | `INTERNET` / `ACCESS_NETWORK_STATE` | `weather/WeatherRepository.kt` | Buscar o clima na Open-Meteo |
-| `ACCESS_COARSE_LOCATION` / `ACCESS_FINE_LOCATION` | `weather/LocationHelper.kt` | O wallpaper reage ao clima da região do usuário — é a funcionalidade principal do app |
+| `ACCESS_COARSE_LOCATION` | `weather/LocationHelper.kt` | O wallpaper reage ao clima da região do usuário — é a funcionalidade principal do app. **Só aproximada**: `ACCESS_FINE_LOCATION` foi removida em 2026-08-08 por não ter uso real (ver comentário no manifesto) |
 | `RECEIVE_BOOT_COMPLETED` | `weather/BootReceiver.kt` | Reagendar a atualização periódica de clima após reiniciar o aparelho |
 
 Nenhuma outra permissão deveria existir — se aparecer uma nova no manifesto,
@@ -71,16 +71,14 @@ Form declarado com o que o APK realmente pede).
   (`ui/LegalWebViewScreen.kt`), então funciona offline e **não depende da URL
   pública existir**. Termos de Uso e Contato entram pelo mesmo caminho.
 - [ ] **Data Safety Form** (Play Console) — declarar coleta de **localização
-  precisa e aproximada** (o manifesto declara `ACCESS_FINE_LOCATION`, e o
-  Google compara com o APK — declarar só "aproximada" é inconsistência, que é
-  a causa nº 1 de rejeição). Finalidade "funcionalidade do app", **não**
+  aproximada** apenas. `ACCESS_FINE_LOCATION` foi **removida do manifesto** em
+  2026-08-08 (não tinha uso real: o portão é `LocationHelper.hasPermission()`,
+  que só checa COARSE, e a busca pede `PRIORITY_BALANCED_POWER_ACCURACY`), então
+  declarar "precisa" agora seria inconsistente com o APK — e inconsistência é a
+  causa nº 1 de rejeição. Finalidade "funcionalidade do app", **não**
   compartilhada com terceiros para publicidade, compartilhada com a Open-Meteo
   para a funcionalidade, criptografada em trânsito, coleta **opcional** (o app
-  funciona sem permissão, com fallback pra Guarapuava/PR). Alternativa mais
-  limpa: **remover `ACCESS_FINE_LOCATION` do manifesto** — o código só checa
-  `ACCESS_COARSE_LOCATION` (`LocationHelper.hasPermission()`) e pede
-  `PRIORITY_BALANCED_POWER_ACCURACY`, então a permissão fine não tem uso real.
-  Isso mexe no manifesto → área de risco, exige PR (ver `.claude/skills/abrir-pr`).
+  funciona sem permissão, com fallback pra Guarapuava/PR).
 - [ ] **Content Rating Questionnaire** (IARC) — preencher no Play Console.
 
 > **Respostas prontas para os dois formulários acima**, derivadas do código e

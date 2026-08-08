@@ -181,7 +181,7 @@ Declarado de forma explícita, porque a ausência também é informação:
 | Permissão | Para que é usada | Se você negar |
 |---|---|---|
 | `INTERNET`, `ACCESS_NETWORK_STATE` | Consultar a previsão do tempo na Open-Meteo e checar se há rede | Sem previsão; o app usa o último clima em cache ou o estado padrão |
-| `ACCESS_COARSE_LOCATION`, `ACCESS_FINE_LOCATION` | Obter as coordenadas para a consulta de clima (seção 3.1). O app requisita precisão balanceada, não GPS de alta precisão | O app usa Guarapuava (PR) como local padrão e segue funcionando |
+| `ACCESS_COARSE_LOCATION` | Obter as coordenadas para a consulta de clima (seção 3.1). O app pede apenas **localização aproximada** — precisão balanceada, nunca GPS de alta precisão | O app usa Guarapuava (PR) como local padrão e segue funcionando |
 | `RECEIVE_BOOT_COMPLETED` | Reagendar a atualização periódica de clima depois de reiniciar o aparelho | A atualização periódica volta a ser agendada na próxima vez que você abrir o app |
 
 Nenhuma outra permissão é declarada pelo app.
