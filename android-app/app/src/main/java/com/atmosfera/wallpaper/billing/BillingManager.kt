@@ -17,6 +17,8 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cena
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.security.KeyFactory
 import java.security.Signature
 import java.security.spec.X509EncodedKeySpec
@@ -42,6 +44,19 @@ class BillingManager(
 
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     private var detalhesMap: Map<String, ProductDetails> = emptyMap()
+
+    private val _precos = MutableStateFlow<Map<String, String>>(emptyMap())
+
+    /**
+     * `productId` → preço formatado, como veio do Google Play. Fica **vazio**
+     * enquanto a consulta não responde e continua vazio se o produto não existe,
+     * se não há Play Store no device, ou se está offline — a UI trata mapa vazio
+     * como "compras indisponíveis" em vez de oferecer um botão que não faz nada.
+     *
+     * É um fluxo (não um getter) porque a consulta é assíncrona: lida direto na
+     * composição, ela sempre voltaria nula e o preço nunca apareceria.
+     */
+    val precos: StateFlow<Map<String, String>> = _precos
 
     private val client = BillingClient.newBuilder(context)
         .setListener(this)
@@ -74,6 +89,9 @@ class BillingManager(
         val params = QueryProductDetailsParams.newBuilder().setProductList(productList).build()
         client.queryProductDetailsAsync(params) { _, lista ->
             detalhesMap = lista.associateBy { it.productId }
+            _precos.value = detalhesMap.mapNotNull { (id, pd) ->
+                pd.oneTimePurchaseOfferDetails?.formattedPrice?.let { id to it }
+            }.toMap()
         }
     }
 
@@ -154,13 +172,6 @@ class BillingManager(
     fun isAvulsoDesbloqueado(cenarioId: String): Boolean {
         return prefs.getBoolean(PREF_AVULSO_PREFIX + cenarioId, false)
     }
-
-    fun getProdutoDetalhe(productId: String): ProductDetails? = detalhesMap[productId]
-    
-    fun temProduto(productId: String = PRODUTO_PREMIUM): Boolean = detalhesMap.containsKey(productId)
-    
-    fun precoFormatado(productId: String = PRODUTO_PREMIUM): String? = 
-        detalhesMap[productId]?.oneTimePurchaseOfferDetails?.formattedPrice
 
     fun encerrar() { if (client.isReady) client.endConnection() }
 }

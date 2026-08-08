@@ -92,6 +92,7 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit) {
     val isPremium by viewModel.isPremium.collectAsState()
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
+    val precos by viewModel.billingManager.precos.collectAsState()
 
     var query by remember { mutableStateOf("") }
     val cenarios = remember(query) {
@@ -113,7 +114,7 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit) {
                 PillSearchBar(query = query, onQueryChange = { query = it })
                 PremiumBanner(
                     isPremium = isPremium,
-                    priceText = viewModel.billingManager.precoFormatado(BillingManager.PRODUTO_PREMIUM),
+                    priceText = precos[BillingManager.PRODUTO_PREMIUM],
                     onBuy = { viewModel.buyPremium(it) },
                 )
                 // Carrossel de seção: categoria pequena + título grande + fileira rolável.
@@ -245,12 +246,21 @@ internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onBuy: (andro
         )
         if (!isPremium) {
             Spacer(Modifier.height(Spacing.md))
-            Button(onClick = { activity?.let(onBuy) }, shape = RoundedCornerShape(Radius.pill)) {
+            // priceText nulo = o Google Play não devolveu o produto (offline, sem
+            // Play Store, ou produto ainda não publicado). Botão desabilitado em
+            // vez de mudo: clicar sem efeito e sem explicação parece app quebrado.
+            val disponivel = priceText != null
+            Button(
+                onClick = { activity?.let(onBuy) },
+                enabled = disponivel,
+                shape = RoundedCornerShape(Radius.pill),
+            ) {
                 Text("Comprar Premium${priceText?.let { " · $it" } ?: ""}")
             }
             Spacer(Modifier.height(Spacing.sm))
             Text(
-                "Ou compre só o cenário que quiser, dentro dele.",
+                if (disponivel) "Ou compre só o cenário que quiser, dentro dele."
+                else "Compras indisponíveis agora. Verifique a conexão e se o Google Play está atualizado.",
                 style = MaterialTheme.typography.bodySmall,
                 color = onContainer.copy(alpha = 0.7f),
             )
