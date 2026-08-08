@@ -115,6 +115,16 @@ Tetos que ainda existem (confirmados quebrando o build, não suposição):
   Testar compra exige uma imagem de sistema **"Google Play"**, não só
   "Google APIs".
 
+  Consequência prática: sem isso o `tanque` fica **intestável**, apesar de os
+  assets já existirem em `assets/atmosfera/cenas/tanque/`. Para conseguir ver
+  e testar conteúdo pago, use o painel de debug (`adb shell am start -n
+  com.atmosfera.wallpaper/.debug.DebugActivity`) → **"Destravar cenários pagos
+  (teste)"**. A flag é lida num único ponto (`DebugOverride.destravarPagos`),
+  blindado por `BuildConfig.DEBUG` — em release o método devolve `false` sempre,
+  então não existe caminho para um APK publicado liberar conteúdo pago por aí.
+  O switch "Premium (efeitos vivos)" ao lado é outra coisa: liga os efeitos
+  vivos, **não** dá posse dos cenários pagos (são compras separadas).
+
 ## Design system (Compose)
 
 Tema em `ui/theme/` (`Color.kt`, `Theme.kt`, `Type.kt`) — **monocromático**

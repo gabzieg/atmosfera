@@ -164,6 +164,23 @@ class DebugActivity : AppCompatActivity() {
             Plano.setPremium(this, on); preview.recarregar()
         })
 
+        // Destrave de cenários pagos — sem isto o `tanque` é intestável, já que
+        // não há produto no Play Console nem Play Store no emulador.
+        col.addView(switch("Destravar cenários pagos (teste)", DebugOverride.destravarPagos(this)) { on ->
+            DebugOverride.setDestravarPagos(this, on)
+            Toast.makeText(
+                this,
+                if (on) "Cenários pagos liberados. Abra a Loja para escolher."
+                else "Cenários pagos voltaram a exigir compra.",
+                Toast.LENGTH_SHORT
+            ).show()
+        })
+        col.addView(TextView(this).apply {
+            text = "Só vale em build debug: no APK de release este destrave não existe."
+            setTextColor(Color.parseColor("#8A94A6")); textSize = 12f
+            setPadding(0, dp(2), 0, 0)
+        })
+
         // Master: forçar clima no wallpaper real
         col.addView(rotulo("——"))
         col.addView(switch("Forçar este clima no wallpaper", DebugOverride.ativo(this)) { on ->
