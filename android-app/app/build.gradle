@@ -73,10 +73,13 @@ android {
 
     lint {
         // Congela os avisos/erros pré-existentes num baseline: o CI pega
-        // regressão NOVA sem quebrar pelos 2 conhecidos (falso-positivo de
-        // permissão em LocationHelper.kt e o aviso de init do WorkManager no
+        // regressão NOVA sem quebrar pelo conhecido (init do WorkManager no
         // manifesto). Ao corrigir um deles, regenere o baseline apagando o
         // arquivo e rodando `gradlew lintDebug` de novo.
+        //
+        // O arquivo atual foi gerado pelo lint 8.3.0 e cita linhas/versões que
+        // a migração de 2026-08-08 já apagou. Continua verde (entrada que não
+        // casa é simplesmente ignorada), mas está devendo uma regeneração.
         baseline = file("lint-baseline.xml")
     }
 }

@@ -119,22 +119,42 @@ class BillingManager(
         client.queryPurchasesAsync(
             QueryPurchasesParams.newBuilder()
                 .setProductType(BillingClient.ProductType.INAPP).build()
-        ) { _, compras -> compras.forEach { processar(it) } }
+        ) { resultado, compras ->
+            if (resultado.responseCode != BillingClient.BillingResponseCode.OK) {
+                Log.w(TAG, "Restauração de compras falhou: ${resultado.debugMessage}")
+                return@queryPurchasesAsync
+            }
+            // `aplicarCena = false`: restaurar acontece a cada abertura do app.
+            // Trocar o cenário aqui sobrescreveria a escolha do usuário toda vez.
+            compras.forEach { processar(it, aplicarCena = false) }
+        }
     }
 
     fun comprar(activity: Activity, productId: String = PRODUTO_PREMIUM) {
-        val pd = detalhesMap[productId] ?: return
+        val pd = detalhesMap[productId]
+        if (pd == null) {
+            Log.w(TAG, "Compra de $productId ignorada: produto não carregado do Play.")
+            return
+        }
         val paramsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(pd).build()
         )
         val flow = BillingFlowParams.newBuilder()
             .setProductDetailsParamsList(paramsList).build()
-        client.launchBillingFlow(activity, flow)
+        // O resultado é síncrono e diz se a tela de compra chegou a abrir. Ignorá-lo
+        // reproduzia o bug do botão mudo: serviço caído ou produto indisponível
+        // devolvia erro aqui e nada aparecia pro usuário.
+        val resultado = client.launchBillingFlow(activity, flow)
+        if (resultado.responseCode != BillingClient.BillingResponseCode.OK) {
+            Log.w(TAG, "Não foi possível abrir a compra de $productId: ${resultado.debugMessage}")
+        }
     }
 
     override fun onPurchasesUpdated(result: BillingResult, compras: MutableList<Purchase>?) {
         if (result.responseCode == BillingClient.BillingResponseCode.OK && compras != null) {
-            compras.forEach { processar(it) }
+            // Compra recém-fechada: aqui aplicar o cenário é o comportamento
+            // desejado — o usuário acabou de comprar aquele cenário.
+            compras.forEach { processar(it, aplicarCena = true) }
         }
     }
 
@@ -161,7 +181,7 @@ class BillingManager(
         }
     }
 
-    private fun processar(p: Purchase) {
+    private fun processar(p: Purchase, aplicarCena: Boolean) {
         if (p.purchaseState == Purchase.PurchaseState.PURCHASED && !assinaturaValida(p)) {
             Log.w(TAG, "Compra ${p.orderId} rejeitada: assinatura inválida.")
             return
@@ -182,7 +202,7 @@ class BillingManager(
                     val cenario = Catalogo.cenarios.firstOrNull { it.productId == productId }
                     if (cenario != null) {
                         prefs.edit().putBoolean(PREF_AVULSO_PREFIX + cenario.id, true).apply()
-                        Cena.definir(context, cenario.id)
+                        if (aplicarCena) Cena.definir(context, cenario.id)
                     }
                 }
             }
@@ -193,5 +213,12 @@ class BillingManager(
         return prefs.getBoolean(PREF_AVULSO_PREFIX + cenarioId, false)
     }
 
-    fun encerrar() { if (client.isReady) client.endConnection() }
+    /**
+     * Encerra sempre, sem checar `isReady`. Com [enableAutoServiceReconnection]
+     * ligado, um cliente que nunca conectou (offline, device sem Play Store)
+     * fica retentando para sempre — e `isReady` nunca vira true, então o guarda
+     * antigo justamente NÃO fechava exatamente o cliente que mais precisava ser
+     * fechado, vazando um por ViewModel destruído.
+     */
+    fun encerrar() { client.endConnection() }
 }

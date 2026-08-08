@@ -50,10 +50,12 @@ Rode sempre a partir de `android-app/`.
 ./gradlew assembleDebug            # build — gate da CI (.github/workflows/build.yml)
 ./gradlew testDebugUnitTest        # testes unit (JVM puro) — também roda na CI, antes do APK
 ./gradlew lintDebug                # lint — roda na CI com baseline (app/lint-baseline.xml).
-                                    # O baseline congela os avisos/erros pré-existentes (incl.
-                                    # RemoveWorkManagerInitializer no manifesto e o falso-positivo
-                                    # de permissão em LocationHelper.kt): a CI só quebra em erro
-                                    # NOVO. Pra corrigir um: apague o baseline e regenere com lintDebug.
+                                    # O baseline congela os avisos/erros pré-existentes (o erro é
+                                    # RemoveWorkManagerInitializer no manifesto): a CI só quebra em
+                                    # erro NOVO. Pra corrigir um: apague o baseline e regenere.
+                                    # ATENÇÃO: o baseline foi gerado pelo lint 8.3.0 e cita linhas
+                                    # que já não existem — está desatualizado desde a migração de
+                                    # 2026-08-08, mas segue verde. Regenerar é tarefa em aberto.
 ./gradlew installDebug             # build + instala no device/emulador conectado
 ./gradlew bundleRelease            # gera app-release.aab ASSINADO — exige keystore.properties
                                     # preenchido (ver "Build de release" abaixo); sem isso builda
@@ -66,9 +68,11 @@ adb shell am start -n com.atmosfera.wallpaper/.debug.DebugActivity   # painel de
 SDK Android local: `android-app/local.properties` (`sdk.dir`) — já configurado
 nesta máquina, não precisa de `ANDROID_HOME`.
 
-**JDK 17 obrigatório** (Gradle 8.6 — mesma versão travada na CI,
-`.github/workflows/build.yml`). JDK 25+ (ex.: o JBR embutido no Android
-Studio) quebra o build com `Unsupported class file major version`.
+**JDK 17 obrigatório.** A versão do Gradle (8.14.5) vem do **wrapper**
+(`android-app/gradle/wrapper/gradle-wrapper.properties`) — a CI usa `./gradlew`
+e não pina versão própria, justamente pra não divergir de novo. JDK 25+ (ex.: o
+JBR embutido no Android Studio) quebra o build com
+`Unsupported class file major version`.
 `JAVA_HOME` deve apontar pro Temurin 17 instalado nesta máquina
 (`C:\Program Files\Eclipse Adoptium\jdk-17.0.20.8-hotspot`). **Gotcha
 Windows:** a variável só é lida por processos novos — se `gradlew` reclamar de
