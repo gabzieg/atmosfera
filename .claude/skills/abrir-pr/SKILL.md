@@ -77,8 +77,10 @@ levanta o piso do que chega até ele.
 
 ## 4. Armadilhas que já morderam este projeto
 
-- **Billing preso em 6.2.1.** 7.0.0+ é compilado com metadata do Kotlin 2.x, que
-  o compilador Kotlin 1.9.23 do projeto não lê. Só suba junto com o plugin Kotlin.
+- **Billing e `targetSdk` têm prazo do Google, não são preferência.** Hoje em
+  Billing 9.1.0 e `targetSdk` 36 (mínimos exigidos a partir de 31/ago/2026).
+  Antes de baixar qualquer um dos dois, leia a tabela de prazos no `CLAUDE.md` —
+  abaixar reprova a publicação.
 - **Motor "congelado".** Se precisar mesmo mexer, avise o Rafael e registre no PR
   — o snapshot dele pode sobrescrever sua correção num merge futuro.
 - **Segredos.** `*.jks`, `*.keystore`, `local.properties` e a chave de licença do

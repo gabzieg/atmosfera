@@ -88,25 +88,28 @@ roda `gitleaks` (job `secret-scan`) em todo push como segunda camada contra
 segredo vazado no diff — não é substituto pra checar `git status` antes de
 commitar em área que toca build/keystore.
 
-## Gotcha grande: versão do Billing Library
+## Prazos do Google que amarram a stack (não são preferência nossa)
 
-O projeto está travado em `com.android.billingclient:billing-ktx:6.2.1`
-(`android-app/app/build.gradle`). **Não suba essa versão sem também subir o
-plugin Kotlin.** Confirmado rodando o build de verdade: 7.0.0+ é compilado com
-metadata do Kotlin 2.x, que o compilador Kotlin 1.9.23 deste projeto não
-consegue ler (`Class was compiled with an incompatible version of Kotlin`).
-6.2.1 é o teto compatível com a API atual (`enablePendingPurchases()` sem
-parâmetros — a versão com `PendingPurchasesParams` só existe a partir da 7.x).
+A trava histórica "Kotlin 1.9.23 / Billing 6.2.1" **acabou em 2026-08-08**: foi
+migrada de uma vez para Kotlin 2.4.10 + Billing 9.1.0 + AGP 8.13.2 + Gradle
+8.14.5 + `compileSdk`/`targetSdk` 36. O motor (`engine/`) compilou **sem uma
+linha alterada** — ele só usa `android.graphics` e stdlib.
 
-**Isso deixou de ser só trava técnica — é bloqueio de publicação.** O Google
-exige Billing Library **v8+ pra qualquer app novo ou update**; o prazo pra
-v6.x já venceu em 31/ago/2025 (extensão até 01/nov/2025), ambos no passado
-([developer.android.com/google/play/billing/deprecation-faq](https://developer.android.com/google/play/billing/deprecation-faq)).
-Como o Atmosfera ainda não foi publicado, ele nasce sob a regra de "app novo":
-não dá pra criar a ficha na Play Store com Billing 6.2.1. Migrar o plugin
-Kotlin (1.9.23 → 2.x) deixa de ser "quando sobrar tempo" e vira pré-requisito
-antes da Fase 2 do `ROADMAP.md` (criação de produtos/teste de compra). Ainda
-não escalado pro ROADMAP/SPEC — decisão pendente do usuário sobre prioridade.
+Duas exigências do Google, ambas com o **mesmo prazo: 31/ago/2026** (extensão
+mediante pedido até 01/nov/2026). Não são opcionais para publicar:
+
+| Exigência | Onde vive | Validade da versão atual |
+|---|---|---|
+| Billing Library **v8+** ([FAQ](https://developer.android.com/google/play/billing/deprecation-faq)) | `libs.versions.toml` → `billing = "9.1.0"` | v9 vale até 31/ago/2028 |
+| `targetSdk` **36+** ([política](https://support.google.com/googleplay/android-developer/answer/11926878)) | `app/build.gradle` → `targetSdk 36` | — |
+
+Tetos que ainda existem (confirmados quebrando o build, não suposição):
+- **`lifecycle` 2.11.0 exige `compileSdk` 37**, acima do máximo da AGP 8.13.x —
+  por isso está em 2.10.0. Subir exige ir para AGP 9.x (que pede Gradle 9.5).
+- **Compras não funcionam em emulador sem Play Store.** O AVD `Pixel_8` atual
+  responde `In-app billing API version 3 is not supported on this device`.
+  Testar compra exige uma imagem de sistema **"Google Play"**, não só
+  "Google APIs".
 
 ## Design system (Compose)
 

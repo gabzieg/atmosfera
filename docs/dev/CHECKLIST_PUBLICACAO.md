@@ -96,6 +96,15 @@ Form declarado com o que o APK realmente pede).
   assinatura das compras fica desligada.
 - [ ] **Teste fechado** antes de produção — Google exige um período de teste
   fechado com testers reais para apps novos.
+- [x] **Billing Library v8+ e `targetSdk` 36+** — as duas exigências do Google
+  com prazo em **31/ago/2026** (extensão mediante pedido até 01/nov/2026).
+  Atendidas em 2026-08-08: Billing 9.1.0 e `targetSdk` 36. Fontes:
+  [deprecation-faq](https://developer.android.com/google/play/billing/deprecation-faq)
+  e [política de target API](https://support.google.com/googleplay/android-developer/answer/11926878).
+- [ ] **Emulador com Play Store para testar compra** — o AVD `Pixel_8` atual
+  não serve: responde `In-app billing API version 3 is not supported on this
+  device`. Criar uma AVD com imagem de sistema **"Google Play"** (não só
+  "Google APIs") antes de tentar validar o fluxo de compra.
 - [ ] **Confirmar se o uso da Open-Meteo se enquadra como "comercial"** —
   os termos do tier gratuito dizem "you may only use the free API services
   for non-commercial purposes" e listam apps "com assinaturas ou anúncios"
@@ -114,8 +123,9 @@ Form declarado com o que o APK realmente pede).
 - [ ] Testar o fluxo completo num emulador/aparelho: permissão de localização,
   "Definir papel de parede", troca de cenário na Loja, restaurar compras.
 - [ ] Conferir se alguma permissão nova foi introduzida sem necessidade.
-- [ ] Se a versão do Billing Library mudar, checar a nota no
-  `HANDOFF-FRONTEND.md` sobre o teto do Kotlin 1.9.23.
+- [ ] Conferir se o Billing Library e o `targetSdk` ainda atendem o mínimo
+  exigido pelo Google — os dois têm prazo com data marcada e mudam sozinhos com
+  o tempo, sem ninguém mexer no código. Tabela em `CLAUDE.md`.
 - [ ] Se houve mudança em `weather/`, `billing/`, no manifesto ou entrou um SDK
   novo: revisar [PRIVACIDADE.md](../legal/PRIVACIDADE.md) contra a tabela de rastreio
   abaixo, subir a versão da política e atualizar o Data Safety Form.

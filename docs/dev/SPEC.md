@@ -84,10 +84,14 @@ código, parte é titularidade legal.
 
 | Dependência | Versão presa | Por quê |
 |---|---|---|
-| Kotlin | 1.9.23 | Compilador não lê metadata Kotlin 2.x — trava tudo abaixo |
-| Billing | 6.2.1 | 7.0.0+ compilado com metadata Kotlin 2.x — erro real de build, confirmado, não suposição |
-| composeCompiler | 1.5.11 | Casado com Kotlin 1.9.23 |
-| compileSdk | 34 | `androidx.core:core-ktx` 1.15.0+ puxa compileSdk 35 — não subir isolado |
+| Billing | 9.1.0 | **Exigência do Google**: v8+ obrigatório para app novo/update em 31/ago/2026. v9 vale até 31/ago/2028 |
+| targetSdk / compileSdk | 36 | **Exigência do Google**: app novo precisa targetar API 36+ em 31/ago/2026 |
+| AGP | 8.13.2 | Última da linha 8.x; suporta compileSdk 36 e evita as quebras da AGP 9.x (que ainda exigiria Gradle 9.5) |
+| lifecycle | 2.10.0 | 2.11.0 exige compileSdk 37, acima do máximo da AGP 8.13.x — confirmado quebrando o build |
+
+O compilador do Compose deixou de ter versão própria: do Kotlin 2.0 em diante
+ele é o plugin `org.jetbrains.kotlin.plugin.compose`, sempre na versão do
+Kotlin. Não há mais um par `kotlin`/`composeCompiler` para manter em sincronia.
 
 Fonte da verdade dessas versões: `android-app/gradle/libs.versions.toml`
 (comentário no topo do arquivo). Subir qualquer uma exige subir as

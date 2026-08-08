@@ -26,8 +26,8 @@ nativo sobre uma arte de fundo fixa (sprites, não vídeo/imagens pré-renderiza
 | **UI** | Jetpack Compose (Material 3) |
 | **Clima** | Open-Meteo API (gratuita, sem chave) |
 | **Localização** | Google Play Services FusedLocationProvider |
-| **Compras** | Google Play Billing 6.2.1 |
-| **Build** | Kotlin 1.9.23 · AGP 8.3.0 · JDK 17 · compileSdk 34 · minSdk 26 |
+| **Compras** | Google Play Billing 9.1.0 |
+| **Build** | Kotlin 2.4.10 · AGP 8.13.2 · Gradle 8.14.5 · JDK 17 · compileSdk/targetSdk 36 · minSdk 26 |
 
 ## Cenários
 

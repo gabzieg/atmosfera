@@ -22,7 +22,7 @@ Quando o PR é obrigatório, o que pode ir direto na main e os escape hatches:
 - [ ] Mudou UI? Tem **screenshot** no PR (o projeto não tem teste automatizado — a verificação é visual)
 - [ ] Cor/espaçamento novo? Saiu de `ui/theme` (nada de `Color(0xFF…)` ou `dp` solto na tela)
 - [ ] Permissão nova no `AndroidManifest`? Justificada aqui e refletida em [CHECKLIST_PUBLICACAO.md](../docs/dev/CHECKLIST_PUBLICACAO.md) (Data Safety Form)
-- [ ] Subiu a versão do Billing? Confirmou o teto do Kotlin 1.9.23 — 7.0.0+ **quebra o build** (ver CLAUDE.md)
+- [ ] Mexeu na versão do Billing ou no `targetSdk`? Os dois têm **mínimo exigido pelo Google** (ver tabela de prazos no CLAUDE.md) — abaixar reprova a publicação
 - [ ] Asset novo pesado? Conferiu o tamanho (o repo já carrega PNGs de ~2 MB)
 - [ ] Doc afetada (`README` / `CLAUDE.md` / `docs/dev/HANDOFF-FRONTEND.md`) continua verdadeira
 

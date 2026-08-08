@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 }
 
 // Assinatura de release: lida de android-app/keystore.properties, que NUNCA é
@@ -17,12 +18,12 @@ if (temKeystore) {
 
 android {
     namespace 'com.atmosfera.wallpaper'
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.atmosfera.wallpaper"
         minSdk 26
-        targetSdk 34
+        targetSdk 36
         versionCode 1
         versionName "1.0.0"
     }
@@ -62,10 +63,8 @@ android {
         compose true
     }
 
-    composeOptions {
-        // Casado com a versão do Kotlin — ver aviso no libs.versions.toml.
-        kotlinCompilerExtensionVersion libs.versions.composeCompiler.get()
-    }
+    // Sem `composeOptions`: do Kotlin 2.0 em diante o compilador do Compose é o
+    // plugin `kotlin.plugin.compose` (declarado acima), na mesma versão do Kotlin.
 
     // Comprime os assets WebP com mais agressividade no release
     aaptOptions {
@@ -107,12 +106,13 @@ dependencies {
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.androidx.lifecycle.runtime.ktx
+    implementation libs.androidx.lifecycle.runtime.compose
     implementation libs.google.material
     implementation libs.androidx.work.runtime.ktx
     implementation libs.androidx.preference.ktx
     implementation libs.play.services.location
 
-    // Google Play Billing — Premium por compra única (teto 6.2.1, ver toml)
+    // Google Play Billing — Premium por compra única (v8+ exigido pelo Google, ver toml)
     implementation libs.billing.ktx
 
     // Jetpack Compose

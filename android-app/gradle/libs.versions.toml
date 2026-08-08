@@ -2,29 +2,31 @@
 # Gradle detecta este arquivo sozinho (gradle/libs.versions.toml ao lado do
 # settings.gradle) e expõe o acessor `libs.*` nos build.gradle.
 #
-# ⚠️ TETO FRÁGIL — leia antes de subir número aqui:
-#   kotlin 1.9.23  ─ trava o composeCompiler em 1.5.11 (par exato) e o billing
-#                    em 6.x. Subir Kotlin exige subir os dois juntos.
-#   billing 6.2.1  ─ 7.0.0+ é compilado com metadata do Kotlin 2.x que o
-#                    compilador 1.9.23 não lê ("incompatible version of Kotlin").
-#                    Confirmado rodando assembleDebug de verdade. Ver CLAUDE.md.
+# O antigo teto "Kotlin 1.9.23 / Billing 6.2.1" foi REMOVIDO em 2026-08-08: o
+# Google exige Billing v8+ para app novo ou update a partir de 31/ago/2026, e
+# 6.x já estava fora do prazo desde 2025. Migrado para Kotlin 2.x + Billing 9.x
+# de uma vez, já que a incompatibilidade era exatamente a metadata Kotlin 2.x.
+#
+# ⚠️ Prazos do Google que amarram estas versões (não são preferência nossa):
+#   billing 9.1.0  ─ v8+ obrigatório em 31/ago/2026; v9 vale até 31/ago/2028.
+#   targetSdk 36   ─ app novo precisa targetar API 36+ a partir de 31/ago/2026.
+#                    Fica em app/build.gradle, não aqui, mas anda junto.
 
 [versions]
-agp = "8.3.0"
-kotlin = "1.9.23"
-composeCompiler = "1.5.11"        # casado com kotlin 1.9.23
-composeBom = "2024.02.02"
+agp = "8.13.2"
+kotlin = "2.4.10"
+composeBom = "2026.06.01"
 coroutines = "1.7.3"
 retrofit = "2.9.0"
 okhttp = "4.12.0"
 coreKtx = "1.13.0"                 # 1.15.0 puxa compileSdk 35 — não subir sozinho
 appcompat = "1.6.1"
-lifecycle = "2.7.0"
+lifecycle = "2.10.0"               # 2.11.0 exige compileSdk 37 (acima do teto da AGP 8.13)
 material = "1.11.0"
 work = "2.9.0"
 preference = "1.2.1"
 playServicesLocation = "21.2.0"
-billing = "6.2.1"                  # teto do Kotlin 1.9.23 (ver aviso acima)
+billing = "9.1.0"                  # v8+ é exigência do Google (ver aviso acima)
 activityCompose = "1.8.2"
 navigationCompose = "2.7.7"
 junit = "4.13.2"
@@ -38,6 +40,9 @@ okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+# Onde mora o LocalLifecycleOwner a partir do Compose 1.7 — o antigo, em
+# androidx.compose.ui.platform, foi descontinuado.
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
 google-material = { module = "com.google.android.material:material", version.ref = "material" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preference" }
@@ -56,3 +61,8 @@ junit = { module = "junit:junit", version.ref = "junit" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+# A partir do Kotlin 2.0 o compilador do Compose vem dentro do próprio Kotlin:
+# deixou de ser artefato à parte (`composeOptions.kotlinCompilerExtensionVersion`)
+# e virou plugin, sempre na mesma versão do Kotlin. Por isso não existe mais uma
+# `composeCompiler` neste catálogo pra manter em sincronia na mão.
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

@@ -10,6 +10,7 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
@@ -60,7 +61,15 @@ class BillingManager(
 
     private val client = BillingClient.newBuilder(context)
         .setListener(this)
-        .enablePendingPurchases()
+        // Billing 8 removeu o `enablePendingPurchases()` sem parâmetro. Passar
+        // `enableOneTimeProducts()` é o equivalente exato do comportamento antigo
+        // — o Atmosfera só vende compra única (INAPP), nunca assinatura.
+        .enablePendingPurchases(
+            PendingPurchasesParams.newBuilder().enableOneTimeProducts().build()
+        )
+        // Reconexão automática: sem isso, uma queda do serviço do Play deixava o
+        // cliente morto até alguém chamar `conectar()` de novo.
+        .enableAutoServiceReconnection()
         .build()
 
     fun conectar() {
@@ -87,8 +96,19 @@ class BillingManager(
         }
 
         val params = QueryProductDetailsParams.newBuilder().setProductList(productList).build()
-        client.queryProductDetailsAsync(params) { _, lista ->
-            detalhesMap = lista.associateBy { it.productId }
+        // Billing 8 trocou a lista crua do callback por um QueryProductDetailsResult,
+        // que separa o que veio (`productDetailsList`) do que NÃO veio
+        // (`unfetchedProductList`, com o motivo). Antes, produto inexistente
+        // simplesmente sumia da resposta sem deixar rastro.
+        client.queryProductDetailsAsync(params) { resultado, detalhes ->
+            if (resultado.responseCode != BillingClient.BillingResponseCode.OK) {
+                Log.w(TAG, "Consulta de produtos falhou: ${resultado.debugMessage}")
+                return@queryProductDetailsAsync
+            }
+            detalhes.unfetchedProductList.forEach {
+                Log.w(TAG, "Produto não encontrado no Play: ${it.productId} (status ${it.statusCode})")
+            }
+            detalhesMap = detalhes.productDetailsList.associateBy { it.productId }
             _precos.value = detalhesMap.mapNotNull { (id, pd) ->
                 pd.oneTimePurchaseOfferDetails?.formattedPrice?.let { id to it }
             }.toMap()
