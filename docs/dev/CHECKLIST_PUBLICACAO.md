@@ -94,6 +94,28 @@ Form declarado com o que o APK realmente pede).
   assinatura das compras fica desligada.
 - [ ] **Teste fechado** antes de produção — Google exige um período de teste
   fechado com testers reais para apps novos.
+- [ ] **Medir o motor num aparelho ANTIGO de verdade** — decide se `minSdk 26`
+  se sustenta. É o único teste que ainda não temos dado nenhum: tudo até hoje
+  rodou em emulador Pixel 8, que é hardware moderno.
+
+  Por que importa mais aqui do que num app comum: o Atmosfera é live wallpaper,
+  desenha ~30 fps em `Canvas` continuamente, em segundo plano. Num aparelho de
+  2017 (o piso do `minSdk 26`) isso pode engasgar ou consumir bateria de forma
+  perceptível — e aí vira **avaliação 1 estrela**, não incompatibilidade. A
+  análise de concorrência (ver [SPEC.md](SPEC.md) → "Não-objetivos") aponta
+  review ruim como o eixo mais sensível deste mercado.
+
+  O que medir, com o wallpaper aplicado e a tela ligada por alguns minutos:
+  taxa de quadros estável (sem engasgo visível ao rolar a home), consumo em
+  Configurações → Bateria, e aquecimento. Vale testar o cenário mais pesado
+  (tanque, com chuva/neve forte pelo painel de debug).
+
+  **Como decidir:** se segurar, mantenha `minSdk 26` — hoje ele cobre ~96% dos
+  aparelhos e **não custa uma linha de código** (o projeto não tem nenhum
+  `SDK_INT`/`@RequiresApi`, então subir não apagaria complexidade nenhuma;
+  subir pra 28 jogaria fora ~2,6% dos aparelhos em troca de nada). Se NÃO
+  segurar, aí subir o `minSdk` passa a ter justificativa — baseada nesta
+  medição, não em preferência. Números de alcance: [apilevels.com](https://apilevels.com/).
 - [x] **Billing Library v8+ e `targetSdk` 36+** — as duas exigências do Google
   com prazo em **31/ago/2026** (extensão mediante pedido até 01/nov/2026).
   Atendidas em 2026-08-08: Billing 9.1.0 e `targetSdk` 36. Fontes:

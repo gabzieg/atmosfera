@@ -88,6 +88,12 @@ código, parte é titularidade legal.
 | targetSdk / compileSdk | 36 | **Exigência do Google**: app novo precisa targetar API 36+ em 31/ago/2026 |
 | AGP | 8.13.2 | Última da linha 8.x; suporta compileSdk 36 e evita as quebras da AGP 9.x (que ainda exigiria Gradle 9.5) |
 | lifecycle | 2.10.0 | 2.11.0 exige compileSdk 37, acima do máximo da AGP 8.13.x — confirmado quebrando o build |
+| minSdk | 26 | Cobre ~96% dos aparelhos e **não custa complexidade**: o projeto não tem um único `SDK_INT`/`@RequiresApi`, então subir não apagaria código — só perderia usuário (28 → ~93,5%). Baixar também não paga: 24 daria só +0,5%. Reavaliar **apenas** se a medição de desempenho em aparelho antigo reprovar (ver `CHECKLIST_PUBLICACAO.md`) |
+
+**`targetSdk` alto não briga com `minSdk` baixo** — é confusão comum. `targetSdk`
+declara contra qual comportamento o app foi testado; o sistema aplica modos de
+compatibilidade em aparelhos mais velhos. `targetSdk 36` + `minSdk 26` roda no
+Android 8 normalmente. O único eixo que decide alcance é o `minSdk`.
 
 O compilador do Compose deixou de ter versão própria: do Kotlin 2.0 em diante
 ele é o plugin `org.jetbrains.kotlin.plugin.compose`, sempre na versão do
