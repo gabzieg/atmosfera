@@ -106,6 +106,11 @@ android {
 tasks.matching { it.name.startsWith('test') && it.name.endsWith('UnitTest') }.configureEach {
     inputs.dir(rootProject.file('../docs')).withPropertyName('paginasLegaisWeb')
     inputs.dir('src/main/assets/legal').withPropertyName('paginasLegaisAsset')
+    // PermissoesDeclaradasTest lê o manifesto. Mesmo motivo dos dois acima:
+    // sem declarar a entrada, editar o manifesto deixava a task UP-TO-DATE e o
+    // teste NÃO rodava — falso verde. Confirmado na prática: readicionei
+    // ACCESS_FINE_LOCATION e o gate passou verde até declarar isto aqui.
+    inputs.file('src/main/AndroidManifest.xml').withPropertyName('manifesto')
 }
 
 dependencies {
