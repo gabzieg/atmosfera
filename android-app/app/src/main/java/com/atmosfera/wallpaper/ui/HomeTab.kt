@@ -53,7 +53,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.atmosfera.wallpaper.service.AtmosferaWallpaperService
+import androidx.compose.ui.draw.clipToBounds
 import com.atmosfera.wallpaper.ui.components.ConfirmarWallpaperDialog
+import com.atmosfera.wallpaper.ui.components.EngineLivePreview
 import com.atmosfera.wallpaper.ui.components.SceneThumbnail
 import com.atmosfera.wallpaper.ui.components.StatChip
 import com.atmosfera.wallpaper.weather.WeatherState
@@ -99,6 +101,8 @@ fun HomeTab(viewModel: MainViewModel) {
         } else {
             WeatherHeroCard(
                 sceneId = currentSceneId,
+                arte = currentArt,
+                estilo = currentEffectStyle,
                 weatherState = weatherState,
                 onRefresh = { viewModel.refreshWeather() },
             )
@@ -189,14 +193,37 @@ private fun PermissionOnboardingCard(onClick: () -> Unit) {
 }
 
 @Composable
-private fun WeatherHeroCard(sceneId: String, weatherState: WeatherState?, onRefresh: () -> Unit) {
+private fun WeatherHeroCard(
+    sceneId: String,
+    arte: String,
+    estilo: String,
+    weatherState: WeatherState?,
+    onRefresh: () -> Unit,
+) {
     Card(
         modifier = Modifier.fillMaxWidth().height(300.dp),
         shape = RoundedCornerShape(24.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            SceneThumbnail(sceneId, modifier = Modifier.fillMaxSize())
+        // `clipToBounds` porque o motor pinta além da altura da View e o Compose
+        // hospeda o AndroidView com clipChildren=false — sem isto a chuva vaza
+        // por cima dos chips e do botão abaixo do card.
+        Box(modifier = Modifier.fillMaxSize().clipToBounds()) {
+            // Estático primeiro (aparece na hora, ou diz "Em breve" se faltar
+            // asset); o motor entra por cima quando carrega. Mesma dupla usada
+            // na tela de detalhe e no diálogo de confirmação.
+            //
+            // Passar `arte` aqui não é detalhe: sem isso o SceneThumbnail caía no
+            // default "pixel" e a Home mostrava a arte ERRADA — quem escolhesse
+            // Clay ou Aquarela via a mudança na Loja e no diálogo, mas a tela
+            // principal seguia exibindo pixel art.
+            SceneThumbnail(sceneId = sceneId, arte = arte, modifier = Modifier.fillMaxSize())
+            EngineLivePreview(
+                sceneId = sceneId,
+                arte = arte,
+                estilo = estilo,
+                modifier = Modifier.fillMaxSize(),
+            )
 
             IconButton(
                 onClick = onRefresh,
