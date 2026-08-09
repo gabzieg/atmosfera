@@ -50,8 +50,14 @@ Todo item abaixo precisa estar **verdadeiro**, não só "parece pronto":
 - [ ] Teste fechado concluído com testers reais (exigência do Google pra
   apps novos)
 - [ ] Nenhum cenário no catálogo do motor (`engine/Catalogo.kt`) sem asset
-  publicado aparecendo na Loja sem tratamento (hoje: filtro
-  `SEM_ASSET_PUBLICADO` em `StoreTab.kt` cobre `fiordes`)
+  publicado aparecendo na Loja sem tratamento (hoje: cobertura via
+  `cenarioTemAsset` em `ui/components/SceneThumbnail.kt`)
+- [ ] **Arte de cenário PAGO não embarca no APK/AAB base** — baixa sob demanda
+  só depois da compra. Decisão de 2026-08-09: `assets/atmosfera/` saltou pra
+  ~140 MB com o motor novo (6 cenários + 12 estilos), e isso não pode ir pra
+  quem não comprou. Só a cabana (grátis) e o essencial do onboarding ficam
+  embarcados. Ver `CHECKLIST_PUBLICACAO.md` para o porquê isto não é ajuste de
+  Gradle — muda o contrato do motor documentado em `HANDOFF-FRONTEND.md` §3.1.
 
 Checklist completo e detalhado continua em
 [CHECKLIST_PUBLICACAO.md](CHECKLIST_PUBLICACAO.md) — este SPEC lista só o que

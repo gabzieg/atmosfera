@@ -87,6 +87,18 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     fun liberar()                // recicla bitmaps (onDestroy)
 }
 ```
+
+> ⚠️ **Esta seção precisa de conversa, não é mais garantia firme.** Decisão de
+> 2026-08-09: conteúdo pago não pode embarcar no APK/AAB base (assets/
+> passaram de 14,7 MB pra ~140 MB com o motor novo) — precisa baixar sob
+> demanda via Play Asset Delivery depois da compra. Só que asset pack
+> "on-demand" não é visível por `context.assets`/`AssetManager`; é lido por
+> uma API própria (`AssetPackManager`), que devolve caminho de arquivo. Ou
+> seja, `carregar(assets: AssetManager)` como único ponto de entrada deixa de
+> dar conta do caso pago. Ainda não implementado — sem urgência pro build de
+> debug/teste — mas quando entrar em pauta, esta assinatura é exatamente o que
+> vai precisar mudar. Ver `CHECKLIST_PUBLICACAO.md` → "Conteúdo pago não pode
+> embarcar no APK/AAB base".
 > O `WallpaperService` cria um `EffectEngine`, chama `carregar()` uma vez, e num
 > loop de ~33 ms faz `lockHardwareCanvas()` → `draw(...)` → `unlockCanvasAndPost()`.
 > Já está implementado em `AtmosferaWallpaperService`; use como referência.

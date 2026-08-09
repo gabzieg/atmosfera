@@ -85,23 +85,28 @@ Form declarado com o que o APK realmente pede).
 > com a linha que sustenta cada uma: [GUIA_PLAY_CONSOLE.md](GUIA_PLAY_CONSOLE.md).
 - [ ] **Ficha da loja**: título, descrição, screenshots (usar o app real, não
   só o `wallpaper_thumbnail.png`), ícone.
-- [ ] **Tamanho de `assets/atmosfera/`** — saltou de 14,7 MB pra **140 MB** na
-  integração do motor novo de 2026-08-09 (6 cenários + 12 estilos, muitos com
-  `frente.png`/`fundo.png` de 2-4 MB cada, mais dezenas de folhas de sprite
-  experimentais em `sprites_*.png`). Tudo em `assets/` embarca em TODA variante
-  do APK — não tem split por densidade/ABI como recurso teria.
+- [ ] **Conteúdo pago não pode embarcar no APK/AAB base** — decisão de
+  2026-08-09. `assets/atmosfera/` saltou de 14,7 MB pra **140 MB** na
+  integração do motor novo (6 cenários + 12 estilos), e quem não comprou não
+  pode carregar essa arte no install. Só a cabana (grátis) e o essencial do
+  onboarding ficam embarcados; o resto baixa sob demanda depois da compra.
 
-  Ainda não é bloqueio confirmado (não conferi o limite atual do Play pra AAB
-  sem Play Asset Delivery configurado, e o projeto não usa PAD), mas é
-  desproporcional pra um wallpaper — a maioria dos concorrentes fica na casa
-  de dezenas de MB, não centenas. Antes de publicar: (1) confirmar se algum
-  `sprites_*.png`/pasta de cena não tem `Cenario`/`Estilo` te referenciando
-  (órfão, cabe apagar) — `git ls-tree -r -l HEAD -- android-app/app/src/main/assets/atmosfera
-  | sort -k4 -nr` lista os maiores; (2) avaliar Play Asset Delivery pros
-  cenários pagos (baixar sob demanda em vez de embarcar todos no install
-  inicial); (3) comprimir os PNGs mais pesados sem perder a arte. Decisão de
-  motor (`engine/`/`assets/`) — alinhar com o Rafael antes de apagar qualquer
-  asset.
+  **Isto não é config de Gradle — muda o contrato do motor.** A ferramenta pra
+  isso é o Google Play Asset Delivery (PAD), mas conteúdo em asset pack
+  "on-demand" não aparece em `context.assets`/`AssetManager` — vive num
+  armazenamento à parte, lido via `AssetPackManager`, que devolve caminho de
+  arquivo, não um `AssetManager`. E `EffectEngine.carregar(assets: AssetManager,
+  ...)` é justamente a assinatura que `HANDOFF-FRONTEND.md` §3.1 documenta como
+  "**NÃO vai mudar**". Ou seja: implementar isto direito exige revisar essa
+  promessa com o Rafael antes de mexer — não dá pra resolver só no front.
+
+  Sem urgência pra build local/debug (confirmado com o usuário: tudo embarcado
+  serve pra teste). Bloqueia só a build de **release** que for pra Play Store.
+  Ao planejar com o Rafael: mapear cenário grátis vs. pago pra asset pack,
+  decidir a forma de `carregar()` receber os dois casos (AssetManager pro
+  embarcado, outro caminho pro baixado), e só então tocar em Gradle/manifesto
+  pros asset packs em si. `git ls-tree -r -l HEAD -- android-app/app/src/main/assets/atmosfera
+  | sort -k4 -nr` lista os maiores arquivos, útil pra decidir o que vira pack.
 - [ ] **Produtos no Play Console**: criar `atmosfera_premium` e
   `cenario_tanque` (INAPP, não-consumíveis) antes de testar compras — ver
   `Catalogo.kt` para os IDs valendo.
