@@ -53,9 +53,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.atmosfera.wallpaper.service.AtmosferaWallpaperService
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.text.style.TextAlign
+import com.atmosfera.wallpaper.engine.Catalogo
+import com.atmosfera.wallpaper.engine.Cenario
 import com.atmosfera.wallpaper.ui.components.ConfirmarWallpaperDialog
 import com.atmosfera.wallpaper.ui.components.EngineLivePreview
+import com.atmosfera.wallpaper.ui.components.cenarioTemAsset
 import com.atmosfera.wallpaper.ui.components.SceneThumbnail
 import com.atmosfera.wallpaper.ui.components.StatChip
 import com.atmosfera.wallpaper.weather.WeatherState
@@ -67,8 +75,21 @@ fun HomeTab(viewModel: MainViewModel) {
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentArt by viewModel.currentArt.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
+    val isPremium by viewModel.isPremium.collectAsState()
     var mostrarConfirmacao by remember { mutableStateOf(false) }
     val context = LocalContext.current
+
+    // Os cenários que o usuário PODE usar agora: grátis + comprados, e só os que
+    // têm arte publicada. É o que responde "quais wallpapers eu tenho?" sem
+    // mandar ninguém pra Loja — comprar um cenário faz ele aparecer aqui.
+    //
+    // Recalculado quando `isPremium` ou o cenário atual mudam: são os dois
+    // eventos que seguem uma compra ou um destrave, e evitam refazer a checagem
+    // de asset (que abre arquivo) a cada recomposição.
+    val assets = context.assets
+    val meusCenarios = remember(isPremium, currentSceneId) {
+        Catalogo.cenarios.filter { cenarioTemAsset(assets, it.id) && viewModel.isSceneUnlocked(it) }
+    }
 
     // Só a permissão aproximada: é a única que o app usa de fato (ver o
     // comentário no AndroidManifest). Pedir a precisa junto mostrava ao usuário
@@ -121,6 +142,13 @@ fun HomeTab(viewModel: MainViewModel) {
                     )
                 }
             }
+
+            MeusCenarios(
+                cenarios = meusCenarios,
+                atual = currentSceneId,
+                arte = currentArt,
+                onEscolher = { viewModel.setScene(it) },
+            )
 
             SetWallpaperCta(onDefinir = { mostrarConfirmacao = true })
         }
@@ -189,6 +217,89 @@ private fun PermissionOnboardingCard(onClick: () -> Unit) {
                 Text("Conceder permissão")
             }
         }
+    }
+}
+
+/**
+ * Os cenários que o usuário já possui, pra trocar o wallpaper sem sair da Home.
+ *
+ * Existe porque antes a única forma de trocar de cenário era Loja → card →
+ * tela de detalhe → "Aplicar": três níveis, dentro de uma aba chamada "Loja",
+ * que o usuário associa a comprar e não a configurar. Quem chegava na Home só
+ * conseguia aplicar o cenário que já estivesse selecionado.
+ *
+ * Mostra só o que é utilizável (grátis + comprado, com arte publicada) — o que
+ * ainda não foi comprado continua sendo assunto da Loja. Com um cenário só, a
+ * fileira vira uma vitrine da coleção; passa a ser seletor de verdade quando
+ * chega o segundo.
+ */
+@Composable
+private fun MeusCenarios(
+    cenarios: List<Cenario>,
+    atual: String,
+    arte: String,
+    onEscolher: (String) -> Unit,
+) {
+    if (cenarios.isEmpty()) return
+
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Text(
+            "Meus cenários",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            cenarios.forEach { cenario ->
+                CenarioOption(
+                    cenario = cenario,
+                    arte = arte,
+                    selecionado = cenario.id == atual,
+                    onClick = { onEscolher(cenario.id) },
+                )
+            }
+        }
+    }
+}
+
+/** Miniatura selecionável de um cenário possuído. */
+@Composable
+private fun CenarioOption(
+    cenario: Cenario,
+    arte: String,
+    selecionado: Boolean,
+    onClick: () -> Unit,
+) {
+    // Selecionado = borda clara (primary). No tema mono não há cor de acento,
+    // então o estado vem de contraste, igual ao resto do design system.
+    val borda = if (selecionado) MaterialTheme.colorScheme.primary else Color.Transparent
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+        modifier = Modifier.width(96.dp),
+    ) {
+        SceneThumbnail(
+            sceneId = cenario.id,
+            arte = arte,
+            modifier = Modifier
+                .size(width = 96.dp, height = 128.dp)
+                .clip(RoundedCornerShape(14.dp))
+                .border(2.dp, borda, RoundedCornerShape(14.dp))
+                .clickable(onClick = onClick),
+        )
+        Text(
+            cenario.nome,
+            style = MaterialTheme.typography.labelSmall,
+            color = if (selecionado) {
+                MaterialTheme.colorScheme.primary
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            },
+            maxLines = 2,
+            textAlign = TextAlign.Center,
+        )
     }
 }
 
