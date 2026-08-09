@@ -85,6 +85,23 @@ Form declarado com o que o APK realmente pede).
 > com a linha que sustenta cada uma: [GUIA_PLAY_CONSOLE.md](GUIA_PLAY_CONSOLE.md).
 - [ ] **Ficha da loja**: título, descrição, screenshots (usar o app real, não
   só o `wallpaper_thumbnail.png`), ícone.
+- [ ] **Tamanho de `assets/atmosfera/`** — saltou de 14,7 MB pra **140 MB** na
+  integração do motor novo de 2026-08-09 (6 cenários + 12 estilos, muitos com
+  `frente.png`/`fundo.png` de 2-4 MB cada, mais dezenas de folhas de sprite
+  experimentais em `sprites_*.png`). Tudo em `assets/` embarca em TODA variante
+  do APK — não tem split por densidade/ABI como recurso teria.
+
+  Ainda não é bloqueio confirmado (não conferi o limite atual do Play pra AAB
+  sem Play Asset Delivery configurado, e o projeto não usa PAD), mas é
+  desproporcional pra um wallpaper — a maioria dos concorrentes fica na casa
+  de dezenas de MB, não centenas. Antes de publicar: (1) confirmar se algum
+  `sprites_*.png`/pasta de cena não tem `Cenario`/`Estilo` te referenciando
+  (órfão, cabe apagar) — `git ls-tree -r -l HEAD -- android-app/app/src/main/assets/atmosfera
+  | sort -k4 -nr` lista os maiores; (2) avaliar Play Asset Delivery pros
+  cenários pagos (baixar sob demanda em vez de embarcar todos no install
+  inicial); (3) comprimir os PNGs mais pesados sem perder a arte. Decisão de
+  motor (`engine/`/`assets/`) — alinhar com o Rafael antes de apagar qualquer
+  asset.
 - [ ] **Produtos no Play Console**: criar `atmosfera_premium` e
   `cenario_tanque` (INAPP, não-consumíveis) antes de testar compras — ver
   `Catalogo.kt` para os IDs valendo.
