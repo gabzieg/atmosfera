@@ -113,6 +113,12 @@ fun HomeTab(viewModel: MainViewModel) {
             color = MaterialTheme.colorScheme.onBackground,
         )
 
+        // Este card deixou de ser o primeiro contato do app — quem pede a
+        // permissão agora é o passo 3 do onboarding, depois de já ter mostrado
+        // valor. Aqui ele sobrou como FALLBACK: para quem recusou no onboarding,
+        // escolheu "continuar com a cidade padrão", ou revogou depois nos
+        // ajustes do sistema. Sem ele, essas pessoas não teriam como voltar
+        // atrás sem procurar nas configurações do Android.
         if (!hasLocationPermission) {
             PermissionOnboardingCard(
                 onClick = {

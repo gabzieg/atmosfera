@@ -36,6 +36,19 @@ private class LivePreviewView(context: Context) : View(context) {
         }
     }
 
+    /**
+     * Liga/desliga os efeitos pagos nesta prévia. O motor lê `estado.premium` em
+     * cinco pontos (acúmulo de neve, vagalumes, estrela cadente, lampiões e
+     * fumaça de chaminé), então isto muda o que é desenhado sem recarregar nada.
+     *
+     * Serve pro comparador da tela de Premium mostrar os dois lados ao mesmo
+     * tempo, e não é a mesma coisa que `Plano.isPremium()`: aqui é só a prévia,
+     * o plano de verdade continua vindo do billing.
+     */
+    fun definirPremium(valor: Boolean) {
+        estado.premium = valor
+    }
+
     fun garantirCarregado(sceneId: String, arte: String, estilo: String) {
         val alvo = Triple(sceneId, arte, estilo)
         if (carregadoPara == alvo) return
@@ -69,11 +82,25 @@ private class LivePreviewView(context: Context) : View(context) {
     }
 }
 
+/**
+ * @param premium liga os efeitos pagos NESTA prévia. Só afeta o desenho local —
+ *   não confere nem altera o plano real (isso é do `BillingManager`/`Plano`).
+ *   O padrão segue o plano do aparelho, que é o comportamento das telas comuns.
+ */
 @Composable
-fun EngineLivePreview(sceneId: String, arte: String, estilo: String, modifier: Modifier = Modifier) {
+fun EngineLivePreview(
+    sceneId: String,
+    arte: String,
+    estilo: String,
+    modifier: Modifier = Modifier,
+    premium: Boolean? = null,
+) {
     AndroidView(
         modifier = modifier,
         factory = { context -> LivePreviewView(context) },
-        update = { view -> view.garantirCarregado(sceneId, arte, estilo) },
+        update = { view ->
+            premium?.let { view.definirPremium(it) }
+            view.garantirCarregado(sceneId, arte, estilo)
+        },
     )
 }
