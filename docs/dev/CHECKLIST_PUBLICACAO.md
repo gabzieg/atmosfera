@@ -116,6 +116,17 @@ Form declarado com o que o APK realmente pede).
   subir pra 28 jogaria fora ~2,6% dos aparelhos em troca de nada). Se NÃO
   segurar, aí subir o `minSdk` passa a ter justificativa — baseada nesta
   medição, não em preferência. Números de alcance: [apilevels.com](https://apilevels.com/).
+- [x] **Páginas de memória de 16 KB** — exigido pelo Google para app que target
+  API 35+ e embarca biblioteca nativa em 64 bits, **prazo 1º/fev/2027**. Nos
+  três critérios o Atmosfera se encaixa: `targetSdk` 36 e
+  `libandroidx.graphics.path.so` (puxada pelo Compose) nas 4 ABIs.
+
+  **Já conforme**, verificado em 2026-08-08 com
+  `zipalign -c -P 16 -v 4 app-debug.apk` → os quatro `.so` respondem `OK` e
+  "Verification successful". Veio de graça com a migração: o alinhamento é
+  automático a partir da AGP 8.5.1 e estamos na 8.13.2. Reconferir se alguma
+  dependência nova trouxer `.so` próprio. Doc:
+  [page-sizes](https://developer.android.com/guide/practices/page-sizes).
 - [x] **Billing Library v8+ e `targetSdk` 36+** — as duas exigências do Google
   com prazo em **31/ago/2026** (extensão mediante pedido até 01/nov/2026).
   Atendidas em 2026-08-08: Billing 9.1.0 e `targetSdk` 36. Fontes:
