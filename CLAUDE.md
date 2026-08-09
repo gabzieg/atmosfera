@@ -39,7 +39,7 @@ Documentação de apoio (leia sob demanda, não de cara):
 | `service/` | `AtmosferaWallpaperService` — hospeda o motor, busca clima, repassa pro motor | Front |
 | `ui/` | Compose: `MainScreen` (Scaffold/NavHost/BottomNav), `HomeTab`, `StoreTab`, `SettingsTab`, `theme/`, `components/` | Front |
 | `weather/` | `WeatherRepository` (Open-Meteo/Retrofit), `WeatherCache`, `LocationHelper`, `WeatherWorker` | Front |
-| `billing/` | `BillingManager`, `Plano` (flag Premium local) | Front (Willian) |
+| `billing/` | `BillingManager`, `Plano` (flag Premium local) | Front (Gabriel — era do Willian até 2026-08) |
 | `debug/` | `DebugActivity`/`DebugOverride` — painel de teste, só builds debug, sem entrada na navegação normal | Front (ferramenta interna) |
 
 ## Comandos
@@ -178,10 +178,20 @@ do Claude Code (`simplify`, `/code-review`) normalmente.
 
 ## Regras de PR (resumo)
 
-PR obrigatório só nas **áreas de risco** acima; doc e ajuste de UI podem ir
-direto na `main`. Aprovação por área via `.github/CODEOWNERS`: motor (`engine/`,
-`assets/`) → Rafael; billing (`billing/`) e documentos legais → Willian; resto
-do front (`ui/`, `weather/`, `service/`) → Gabriel.
+PR obrigatório **só em `engine/`, `assets/atmosfera/` e `.github/`**. Todo o
+resto — `ui/`, `weather/`, `service/`, `billing/`, manifesto, `build.gradle`,
+documentação — pode ir direto na `main`.
+
+A lista **encolheu em 2026-08-09** e o critério é: manter só o que nenhum teste
+cobre. `engine/`/`assets/` porque o Rafael trabalha em paralelo e entrega por
+snapshot (conflito de merge já aconteceu); `.github/` porque é o meta-guarda que
+desliga os outros. Saíram `AndroidManifest.xml` (agora coberto pelo
+`PermissoesDeclaradasTest`, que quebra o gate em qualquer mudança de permissão),
+`build.gradle` (a CI pega) e `billing/` (o teto frágil do Billing acabou na
+migração pra 9.1.0, e a área voltou pro Gabriel). Revisão solo não melhora com
+PR pra si mesmo — melhora com guarda automático.
+
+Aprovação: motor → Rafael; documentos legais → Willian; resto → Gabriel.
 Detalhes e escape hatches em `.claude/skills/abrir-pr/SKILL.md`.
 
 **Nada disso é aplicado pelo servidor.** O repo é privado no plano free:
@@ -197,10 +207,12 @@ redes, ambas contornáveis:
 A lista de caminhos de risco está duplicada nos dois + no CODEOWNERS. Mudou
 uma, mude as três.
 
-**Terceiro colaborador (Willian, `@uWillianG`)**: dono de `billing/`
-(`BillingManager`, `Plano`, integração Google Play Billing) e dos **documentos
-legais** (`docs/legal/*.md` + espelhos em `docs/<pagina>/index.html` e
-`assets/legal/`). Também cuida do site de apresentação/marketing do Atmosfera —
+**Terceiro colaborador (Willian, `@uWillianG`)**: dono dos **documentos legais**
+(`docs/legal/*.md` + espelhos em `docs/<pagina>/index.html` e `assets/legal/`).
+Era também dono de `billing/`, mas essa área **voltou pro Gabriel em 2026-08**:
+a integração está pronta (Billing 9.1.0, preços reativos, reconciliação de
+reembolso) e o que falta é cadastro no Play Console, que depende do titular da
+conta. Também cuida do site de apresentação/marketing do Atmosfera —
 fora deste repo, em repositório próprio (nome a definir, ex. `atmosfera-site`)
 por causa da stack diferente (web, não Android/Gradle). Site ainda não criado.
 

@@ -62,8 +62,7 @@ bloqueia o "pronto", não todo o passo a passo.
 | Pacote | Dono | Fronteira |
 |---|---|---|
 | `engine/` + `assets/atmosfera/` | Rafael | Congelado por convenção — front lê a API pública (`EffectEngine.carregar/draw/pronto`, `Catalogo`, `Cena`, `Cenas`, `Estilos`), não edita os arquivos |
-| `ui/`, `weather/`, `service/` | Gabriel | Front |
-| `billing/` | Willian | Front |
+| `ui/`, `weather/`, `service/`, `billing/` | Gabriel | Front. `billing/` era do Willian; voltou pro Gabriel em 2026-08, com a integração pronta |
 | `debug/` | Gabriel | Ferramenta interna, só builds debug |
 | Documentos legais (`PRIVACIDADE.md`, `TERMOS.md`, `CONTATO.md`, `docs/`, `assets/legal/`) | Willian | Textos públicos + espelhos HTML |
 | Site de apresentação/marketing | Willian | Fora deste repo — repositório próprio (nome a definir), stack web |

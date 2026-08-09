@@ -16,17 +16,31 @@ burocracia no resto.
 
 | Caminho | Por quê |
 |---|---|
-| `engine/**` · `assets/atmosfera/**` | Fronteira do motor. O Rafael evolui isso em paralelo — editar aqui sem avisar gera conflito de merge (já aconteceu). |
-| `billing/**` | Dinheiro. E a versão do Billing tem um teto frágil (ver §4). |
-| `AndroidManifest.xml` | Permissão nova muda o Data Safety Form da Play Store. |
-| `build.gradle` (app ou raiz) · `settings.gradle` | Quebra o build de todo mundo. |
-| `.github/**` | Muda o gate de CI. |
+| `engine/**` · `assets/atmosfera/**` | Fronteira do motor. O Rafael evolui isso em paralelo e entrega por snapshot — editar aqui sem avisar gera conflito de merge (já aconteceu, e é o incidente que originou esta regra). |
+| `.github/**` | É o meta-guarda: quebrar aqui desliga todos os outros. |
 
-**NÃO precisa** — pode commitar direto na `main`: documentação, texto, ajuste
-visual dentro de `ui/`, refactor local que não cruza as fronteiras acima.
+**NÃO precisa** — pode commitar direto na `main`: todo o resto. Documentação,
+texto, `ui/`, `weather/`, `service/`, `billing/`, manifesto, `build.gradle`.
 
-> Julgamento: se a mudança altera **que dado é coletado** (mesmo dentro de
-> `weather/`), trate como área de risco — é LGPD, não é refactor.
+> **A lista encolheu em 2026-08-09.** Antes incluía `billing/`,
+> `AndroidManifest.xml` e `build.gradle`. Saíram porque a proteção virou
+> automática e a revisão é solo — PR pra si mesmo não revisa nada, só adia:
+>
+> - `AndroidManifest.xml` → `PermissoesDeclaradasTest` quebra o gate em qualquer
+>   mudança de permissão, que era o risco real (Data Safety divergente do APK).
+>   Guarda mais forte que auto-revisão, e roda na CI.
+> - `build.gradle` → "quebra o build de todo mundo" é exatamente o que o gate
+>   pega, antes do merge.
+> - `billing/` → o motivo era "dinheiro + teto frágil do Billing". O teto acabou
+>   na migração pra 9.1.0, e a área voltou pro Gabriel.
+>
+> Ficou o que **nenhum teste cobre**: trabalho paralelo de outra pessoa, e o
+> arquivo que desliga os testes.
+
+> Julgamento que continua valendo: se a mudança altera **que dado é coletado**
+> (mesmo dentro de `weather/`), pare e pense antes — é LGPD. O teste de
+> permissões cobre o manifesto, mas não cobre, por exemplo, passar a mandar a
+> localização pra um endpoint novo.
 
 ## 2. Branch
 
@@ -101,13 +115,18 @@ item desmarcado.
 
 ## 6. Aprovação e merge
 
-O `.github/CODEOWNERS` pede o revisor sozinho:
+**O `.github/CODEOWNERS` NÃO pede revisor sozinho** — o repo é privado no plano
+free, e a API responde `403 Upgrade to GitHub Pro`. O arquivo existe como
+convenção e fica pronto pro dia que o plano mudar. Quem cobra é você.
 
 | Área | Aprova |
 |---|---|
-| `engine/` · `assets/atmosfera/` | Rafael |
-| `billing/` | Willian |
-| `ui/` · `weather/` · `service/` | Gabriel |
-| doc, texto, protótipo | CI verde — pode mergear você mesmo |
+| `engine/` · `assets/atmosfera/` | Rafael — combine ANTES, o snapshot dele pode sobrescrever sua correção |
+| Documentos legais (`docs/legal/`, espelhos HTML) | Willian — é texto que vale juridicamente |
+| Todo o resto (`ui/`, `weather/`, `service/`, `billing/`, build, manifesto) | Gabriel — na prática, gate verde e merge |
+
+Como a revisão é solo na maior parte do repo, **o gate é o revisor de verdade**:
+testes + lint + build + gitleaks. Vale mais investir em guarda automático (como
+o `PermissoesDeclaradasTest`) do que em cerimônia de PR que ninguém lê.
 
 Ignorou um aviso do CI de propósito? Escreva o porquê em uma linha no PR.
