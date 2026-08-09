@@ -93,14 +93,41 @@ class DebugActivity : AppCompatActivity() {
         col.addView(dropdown(cenarios, Cena.atual(this)) { id ->
             Cena.definir(this, id); preview.trocarCenaEstilo()
         })
-        val artes = listOf("pixel" to "🟦 Pixel Art", "clay" to "🧱 Clay", "aqua" to "🎨 Aquarela")
+        // "pixel" = arte BASE da cena (na cabana é pixel art, no tanque é o
+        // diorama clay). As demais só existem em algumas cenas — escolher uma
+        // que a cena não tem cai no fundo base (fundoPrefixo faz o fallback).
+        val artes = listOf(
+            "pixel" to "🟦 Arte base",
+            "aqua" to "🎨 Aquarela",
+            "clay" to "🧱 Clay",
+            "doodle" to "✏️ Doodle",
+            "needle" to "🧶 Needle Felting",
+            "pixelart" to "🟦 Pixel Art",
+            "ukiyoe" to "🎴 Ukiyo-e",
+        )
         col.addView(rotulo("↳ Arte do cenário"))
         col.addView(dropdown(artes, ArteFundo.atual(this)) { id ->
             ArteFundo.definir(this, id); preview.trocarCenaEstilo()
         })
         val estilos = listOf(
-            "pixel" to "🟦 Pixel Art", "clay" to "🧱 Clay",
-            "bizantino" to "🏛️ Bizantino", "aqua" to "🎨 Aquarela"
+            "aqua" to "🎨 Aquarela",
+            "bizantino" to "🏛️ Bizantino",
+            "clay" to "🧱 Clay",
+            "lowpoly" to "🔷 Low Poly",
+            "needle_felting" to "🧶 Needle Felting",
+            "papel_mache" to "📰 Papel-maché", "papel_mache_2" to "📰 Papel-maché 2",
+            "paper_cutout" to "✂️ Paper Cutout", "paper_cutout_2" to "✂️ Paper Cutout 2",
+            "paper_cutout_3" to "✂️ Paper Cutout 3",
+            "pixel" to "🟦 Pixel Art", "pixel_art2" to "🟩 Pixel Art 2",
+            "pixel_mario" to "🍄 Pixel Mario", "pixel_zelda" to "🗡️ Pixel Zelda",
+            "pointilismo" to "🖌️ Pontilhismo",
+            "point_gpt" to "🖌️ Pontilhismo GPT", "point_gpt_2" to "🖌️ Pontilhismo GPT 2",
+            "rpg" to "⚔️ RPG",
+            "rupestre_og" to "🪨 Rupestre", "rupestre_1" to "🪨 Rupestre 2",
+            "rupestre_2" to "🪨 Rupestre 3", "rupestre_gemini" to "🪨 Rupestre Gemini",
+            "simplao" to "✏️ Simplão",
+            "talhe_doce_og" to "🪵 Talhe Doce", "talhe_doce" to "🪵 Talhe Doce Rico",
+            "ukiyoe" to "🎴 Ukiyo-e"
         ).filter { it.first in Estilos.ids }
         col.addView(rotulo("Estilo dos efeitos"))
         col.addView(dropdown(estilos, EstiloEfeito.atual(this)) { id ->
