@@ -1,0 +1,58 @@
+# Catálogo de versões — fonte única das versões de biblioteca do projeto.
+# Gradle detecta este arquivo sozinho (gradle/libs.versions.toml ao lado do
+# settings.gradle) e expõe o acessor `libs.*` nos build.gradle.
+#
+# ⚠️ TETO FRÁGIL — leia antes de subir número aqui:
+#   kotlin 1.9.23  ─ trava o composeCompiler em 1.5.11 (par exato) e o billing
+#                    em 6.x. Subir Kotlin exige subir os dois juntos.
+#   billing 6.2.1  ─ 7.0.0+ é compilado com metadata do Kotlin 2.x que o
+#                    compilador 1.9.23 não lê ("incompatible version of Kotlin").
+#                    Confirmado rodando assembleDebug de verdade. Ver CLAUDE.md.
+
+[versions]
+agp = "8.3.0"
+kotlin = "1.9.23"
+composeCompiler = "1.5.11"        # casado com kotlin 1.9.23
+composeBom = "2024.02.02"
+coroutines = "1.7.3"
+retrofit = "2.9.0"
+okhttp = "4.12.0"
+coreKtx = "1.13.0"                 # 1.15.0 puxa compileSdk 35 — não subir sozinho
+appcompat = "1.6.1"
+lifecycle = "2.7.0"
+material = "1.11.0"
+work = "2.9.0"
+preference = "1.2.1"
+playServicesLocation = "21.2.0"
+billing = "6.2.1"                  # teto do Kotlin 1.9.23 (ver aviso acima)
+activityCompose = "1.8.2"
+navigationCompose = "2.7.7"
+junit = "4.13.2"
+
+[libraries]
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
+google-material = { module = "com.google.android.material:material", version.ref = "material" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work" }
+androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preference" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billing" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
+compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+junit = { module = "junit:junit", version.ref = "junit" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

@@ -1,8 +1,7 @@
 # Atmosfera — Handoff do FRONT (motor congelado)
 
-> Ver também: [README.md](README.md) (visão geral) · [CLAUDE.md](CLAUDE.md)
-> (contexto/comandos para o Claude Code) · [GUIA_COMPLETO.md](GUIA_COMPLETO.md)
-> (como rodar).
+> Ver também: [README.md](../../README.md) (visão geral + como rodar) ·
+> [CLAUDE.md](../../CLAUDE.md) (contexto/comandos para o Claude Code).
 
 > **Para quem recebe este documento:** você vai tocar o **front** do app Atmosfera em
 > paralelo, enquanto o **motor de efeitos** (a parte que desenha o wallpaper) continua

@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew.bat lintDebug testDebugUnitTest assembleDebug --no-daemon --console=plain)",
+      "Bash(git rebase *)",
+      "Bash(git stash *)",
+      "Bash(git fsck *)",
+      "Bash(git cherry-pick *)",
+      "Read(//c/Users/gbrus/Downloads/Prints/**)",
+      "Bash(powershell -Command \"Get-ChildItem 'C:\\\\Users\\\\gbrus\\\\Downloads\\\\Prints'\")",
+      "Read(//c/Users/gbrus/.claude/skills/deep-research/reference/**)",
+      "Bash(date +%Y-%m-%d && echo \"---screenshots---\" && ls -la \"C:/Users/gbrus/Downloads/Prints\" 2>&1)",
+      "Bash(mkdir -p \"/c/Users/gbrus/Documents/Atmosfera_Competidores_Research_20260729\" && echo ok)",
+      "Bash(search --help)",
+      "Bash(ls \"C:/Users/gbrus/.claude/skills/deep-research/scripts/\" 2>&1 && python3 --version 2>&1 || python --version 2>&1)",
+      "Read(//c/Users/gbrus/.claude/skills/deep-research/scripts/**)",
+      "Bash(python -c \"import weasyprint; print\\(weasyprint.__version__\\)\")",
+      "Bash(pip install *)",
+      "Bash(command -v msedge)",
+      "Read(//c/Program Files \\\\\\(x86\\\\\\)/Microsoft/Edge/Application/**)",
+      "Read(//c/Program Files/Google/Chrome/Application/**)",
+      "Bash(where pandoc *)",
+      "WebSearch",
+      "WebFetch(domain:play.google.com)",
+      "WebFetch(domain:apps.apple.com)",
+      "Read(//c/Users/gbrus/.claude/skills/deep-research/**)",
+      "Bash(python scripts/citation_manager.py --help)",
+      "Bash(./gradlew assembleDebug --console=plain)",
+      "Bash(./gradlew installDebug --console=plain --no-daemon)",
+      "Bash('C:\\\\Users\\\\gbrus/AppData/Local/Android/Sdk/platform-tools/adb.exe' shell *)",
+      "Bash('C:\\\\Users\\\\gbrus/AppData/Local/Android/Sdk/platform-tools/adb.exe' pull *)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\gbrus\\Documents"
+    ]
+  }
+}

@@ -1,11 +1,16 @@
 name: Build APK (Atmosfera)
 
-# Compila o APK de debug na nuvem a cada push na main (ou manualmente).
-# Não precisa de Android Studio nem PC potente: o GitHub faz o build e
-# disponibiliza o APK pra baixar e instalar no celular.
+# Compila o APK de debug na nuvem a cada push na main, em cada PR pra main, ou
+# manualmente. Não precisa de Android Studio nem PC potente: o GitHub faz o
+# build e disponibiliza o APK pra baixar e instalar no celular.
+#
+# Rodar em PR (não só no push) é o que dá sentido ao fluxo abrir-pr: o gate
+# aparece verde/vermelho ANTES do merge, não depois.
 
 on:
   push:
+    branches: [ main ]
+  pull_request:
     branches: [ main ]
   workflow_dispatch:
 
@@ -14,18 +19,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Baixar o código
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Instalar JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
 
       - name: Preparar Gradle 8.6
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6.2.0
         with:
           gradle-version: '8.6'
+
+      - name: Rodar testes unit
+        working-directory: android-app
+        run: gradle testDebugUnitTest --stacktrace --no-daemon
+
+      # Lint com baseline (app/lint-baseline.xml): falha só em erro NOVO — os
+      # pré-existentes estão congelados. Regenere o baseline se corrigir um.
+      - name: Rodar lint
+        working-directory: android-app
+        run: gradle lintDebug --stacktrace --no-daemon
 
       - name: Compilar APK de debug
         working-directory: android-app
@@ -33,8 +48,28 @@ jobs:
 
       - name: Publicar o APK como artefato
         if: success()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: atmosfera-debug-apk
           path: android-app/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+
+  # Varredura de segredo: pega chave/keystore/token que escapou do .gitignore
+  # antes de virar histórico. O template de PR pede isso na confiança; aqui é
+  # verificado. Gratuito em conta individual (licença só é exigida em org).
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código (histórico completo)
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      # Binário direto em vez da action gitleaks-action@v2: a action tenta
+      # comentar no PR via API e falha sem permissão de escrita. `detect` roda
+      # local, escaneia o histórico e sai != 0 se achar segredo. Sem token,
+      # sem API, determinístico.
+      - name: gitleaks
+        run: |
+          docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.24.3 \
+            detect --source=/repo --redact --no-banner --exit-code=1

@@ -1,0 +1,39 @@
+# Donos por área — o GitHub pede a review sozinho quando o diff toca estes caminhos.
+# Espelha a fronteira motor/front descrita em docs/dev/HANDOFF-FRONTEND.md.
+#
+# ⚠️ INERTE no plano atual. CODEOWNERS (e branch protection) só valem em repo
+# PÚBLICO ou PRIVADO com GitHub Pro/Team. Este repo é privado no plano free:
+#   gh api .../branches/main/protection
+#   → 403 "Upgrade to GitHub Pro or make this repository public"
+# Então isto NÃO pede revisor sozinho hoje — é convenção + arquivo pronto pro
+# dia que o plano/visibilidade mudar. A regra real vive na skill abrir-pr.
+
+# ── Motor (congelado por convenção) ─────────────────────────────────
+/android-app/app/src/main/java/com/atmosfera/wallpaper/engine/   @RHuppes
+/android-app/app/src/main/assets/atmosfera/                      @RHuppes
+
+# ── Billing ──────────────────────────────────────────────────────────
+/android-app/app/src/main/java/com/atmosfera/wallpaper/billing/  @uWillianG
+
+# ── Front ───────────────────────────────────────────────────────────
+/android-app/app/src/main/java/com/atmosfera/wallpaper/ui/       @gabzieg
+/android-app/app/src/main/java/com/atmosfera/wallpaper/weather/  @gabzieg
+/android-app/app/src/main/java/com/atmosfera/wallpaper/service/  @gabzieg
+
+# ── Documentos legais ───────────────────────────────────────────────
+# Textos públicos (privacidade, termos, contato): o .md canônico em
+# docs/legal/ e o espelho HTML em docs/<pagina>/, que é o que vai pro ar.
+# O asset embutido no APK é cópia byte a byte do HTML — ver
+# PaginasLegaisSincronizadasTest.
+/docs/                                 @uWillianG
+/docs/legal/                           @uWillianG
+/android-app/app/src/main/assets/legal/  @uWillianG
+
+# ── Build, CI e publicação ──────────────────────────────────────────
+# docs/dev/ vem DEPOIS de /docs/ de propósito: CODEOWNERS é último-que-casa
+# vence, então esta linha tira a documentação interna (ROADMAP, SPEC, TASKS,
+# HANDOFF, CHECKLIST, GUIA_PLAY_CONSOLE) do escopo do dono dos textos legais.
+/android-app/app/build.gradle          @gabzieg
+/android-app/app/src/main/AndroidManifest.xml  @gabzieg
+/.github/                              @gabzieg
+/docs/dev/                             @gabzieg

@@ -34,7 +34,7 @@ nativo sobre uma arte de fundo fixa (sprites, não vídeo/imagens pré-renderiza
 O catálogo (`engine/Catalogo.kt`) é a fonte da verdade dos wallpapers disponíveis.
 Hoje: **Cabana na floresta** (grátis, disponível) e **Tanque — campo de batalha**
 (avulso; assets prontos em `assets/atmosfera/cenas/tanque/`, ainda não plugado na
-troca de cenário do motor — ver `HANDOFF-FRONTEND.md`).
+troca de cenário do motor — ver `docs/dev/HANDOFF-FRONTEND.md`).
 
 ## Estrutura do repositório
 
@@ -42,9 +42,14 @@ troca de cenário do motor — ver `HANDOFF-FRONTEND.md`).
 atmosfera/
 ├── README.md                 ← este arquivo
 ├── CLAUDE.md                 ← contexto do projeto p/ Claude Code (comandos, convenções)
-├── HANDOFF-FRONTEND.md       ← divisão motor/front + interface estável entre eles
-├── GUIA_COMPLETO.md          ← como rodar o projeto (Android Studio e terminal)
-├── CHECKLIST_PUBLICACAO.md   ← itens a revisar antes de publicar na Play Store
+├── .githooks/                 ← hooks versionados (pre-push); ligar com scripts/setup-hooks.sh
+├── docs/                      ← documentação + páginas públicas
+│   ├── dev/                  ← doc interna: HANDOFF, SPEC, ROADMAP, TASKS, CHECKLIST, GUIA_PLAY_CONSOLE
+│   ├── legal/                ← privacidade, termos, contato (texto canônico em .md)
+│   ├── privacidade/          ← espelho HTML — é o que vai pro ar e o que o app embute
+│   ├── termos/                  (idem)
+│   ├── contato/                 (idem)
+│   └── _config.yml           ← mantém dev/ e legal/ fora do GitHub Pages
 ├── android-app/               ← app Android (Kotlin)
 │   └── app/src/main/
 │       ├── assets/atmosfera/     ← sprites e fundos do motor
@@ -61,9 +66,90 @@ atmosfera/
 
 ## Documentação
 
-- **Começando agora?** → [GUIA_COMPLETO.md](GUIA_COMPLETO.md)
-- **Vai mexer no companion app (UI/loja/billing)?** → [HANDOFF-FRONTEND.md](HANDOFF-FRONTEND.md)
+- **Vai mexer no companion app (UI/loja/billing)?** → [docs/dev/HANDOFF-FRONTEND.md](docs/dev/HANDOFF-FRONTEND.md)
   descreve a fronteira entre o motor (congelado) e o front, e a interface estável entre os dois.
-- **Vai publicar uma versão?** → [CHECKLIST_PUBLICACAO.md](CHECKLIST_PUBLICACAO.md)
+- **Vai publicar uma versão?** → [docs/dev/CHECKLIST_PUBLICACAO.md](docs/dev/CHECKLIST_PUBLICACAO.md)
+- **Mexeu em `weather/`, `billing/` ou no manifesto?** → confira se
+  [docs/legal/PRIVACIDADE.md](docs/legal/PRIVACIDADE.md) continua verdadeira (é o texto publicado, não
+  um rascunho) e replique a mudança em [`docs/privacidade/index.html`](docs/privacidade/index.html).
 - **Usando Claude Code neste repo?** → [CLAUDE.md](CLAUDE.md) tem os comandos de build/verificação
   e as convenções do projeto pra não precisar reler tudo a cada sessão.
+
+## Primeiro clone: ligue os hooks
+
+```bash
+./scripts/setup-hooks.sh
+```
+
+Aponta o `core.hooksPath` pra [.githooks/](.githooks/). O `pre-push` barra push
+direto na `main` quando o diff toca **área de risco** (`engine/`,
+`assets/atmosfera/`, `billing/`, `AndroidManifest.xml`, `build.gradle`,
+`.github/`) — essas exigem branch + PR. Doc e ajuste de UI continuam podendo
+ir direto na `main`, de propósito.
+
+É uma rede local, não uma trava: `git push --no-verify` passa por cima. Como o
+repositório é privado no plano free do GitHub, **branch protection e CODEOWNERS
+não funcionam** (a API responde `403 Upgrade to GitHub Pro`), então o hook mais
+o workflow [aviso-push-direto](.github/workflows/aviso-push-direto.yml) — que
+abre uma issue quando algo escapa — são o que existe hoje no lugar de um gate
+de servidor.
+
+## Rodando o projeto
+
+**Pré-requisitos:** Android Studio (Hedgehog+) **ou** só JDK 17 + Android SDK
+(API 34) pra terminal. Emulador (AVD) ou aparelho físico Android 8.0+ (API 26+).
+
+**Pelo Android Studio:** abrir a pasta `android-app/` (não a raiz do repo) →
+aguardar o Gradle sincronizar → escolher device → run configuration `app` →
+▶ Run.
+
+**Pelo terminal**, com emulador/aparelho já conectado (`adb devices` deve listar):
+
+```bash
+cd android-app
+./gradlew installDebug            # compila e instala o debug APK
+adb shell am start -n com.atmosfera.wallpaper/.ui.MainActivity
+```
+
+No Git Bash/MSYS no Windows, prefixe `MSYS_NO_PATHCONV=1` quando um caminho
+`/sdcard/...` for reescrito pra path do Windows (`adb pull`, por exemplo).
+
+**Painel de debug** (só builds debug — força clima/hora/vento pra calibrar
+efeitos sem esperar o clima real):
+
+```bash
+adb shell am start -n com.atmosfera.wallpaper/.debug.DebugActivity
+```
+
+**Simular localização** no emulador sem GPS real: Extended Controls (⋮) →
+Location → lat/long → Send. Padrão do app sem permissão: Guarapuava, PR
+(-25.3947, -51.4528).
+
+**Build de release:** gerar a keystore de produção uma vez só (guarde em local
+seguro — perdê-la impede publicar updates do mesmo app):
+
+```bash
+keytool -genkey -v -keystore atmosfera-release.jks \
+  -alias atmosfera -keyalg RSA -keysize 2048 -validity 10000
+```
+
+Copiar `android-app/keystore.properties.example` para
+`android-app/keystore.properties` e preencher `storeFile`/senhas — o
+`build.gradle` lê esse arquivo sozinho e assina o release automaticamente
+quando ele existir (sem ele, `assembleRelease` builda sem assinar; não afeta
+`assembleDebug` nem a CI). Gerar pelo Android Studio: **Build → Generate
+Signed Bundle/APK**, ou `./gradlew bundleRelease` no terminal. Nunca versione
+a keystore, as senhas nem `keystore.properties` — o `.gitignore` já cobre
+publicar, ver [docs/dev/CHECKLIST_PUBLICACAO.md](docs/dev/CHECKLIST_PUBLICACAO.md).
+
+**Problemas comuns:**
+
+| Problema | Causa provável |
+|---|---|
+| "Gradle sync failed" | JDK errado — confirme JDK 17 em File → Project Structure → SDK Location |
+| Live Wallpaper não aparece na lista | Confira instalação sem erro no Logcat; ou Settings → Display → Wallpaper → Live Wallpapers |
+| "PERMISSION_DENIED" de localização | Normal sem conceder a permissão — cai no fallback de Guarapuava/PR |
+| Emulador muito lento | Confirme virtualização por hardware ativa (HAXM/KVM) |
+
+**Logcat — filtros úteis:** `tag:WeatherRepository` (chamadas à Open-Meteo),
+`tag:LocationHelper`, `tag:WeatherCache`.

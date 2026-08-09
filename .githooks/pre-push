@@ -1,0 +1,57 @@
+#!/bin/bash
+# Barra push direto na `main` quando o diff toca ÁREA DE RISCO.
+#
+# Por que pre-push e não pre-commit: commitar na main local não faz mal a
+# ninguém — o estrago começa quando aquilo chega no remoto. Bloquear no commit
+# atrapalha o trabalho local e ainda impede commitar a própria correção.
+#
+# Por que só área de risco e não toda a main: o CLAUDE.md permite doc e ajuste
+# de UI direto na main, de propósito. Um hook que barra tudo contradiz a regra
+# escrita — e regra contraditória é a que ninguém segue.
+#
+# ⚠️ A lista RISCO abaixo é a MESMA de .github/workflows/aviso-push-direto.yml
+# e de .github/CODEOWNERS. Mudou aqui, muda nos dois.
+#
+# Instalar: ./scripts/setup-hooks.sh
+# Escapar de propósito: git push --no-verify (e explique no PR depois).
+
+RISCO='^android-app/app/src/main/java/com/atmosfera/wallpaper/engine/|^android-app/app/src/main/assets/atmosfera/|^android-app/app/src/main/java/com/atmosfera/wallpaper/billing/|^android-app/app/src/main/AndroidManifest\.xml$|^android-app/app/build\.gradle$|^\.github/'
+
+ZERO='0000000000000000000000000000000000000000'
+BLOQUEAR=0
+
+# O git alimenta a stdin com uma linha por ref sendo enviada:
+#   <ref local> <sha local> <ref remota> <sha remoto>
+while read -r _ SHA_LOCAL REF_REMOTA SHA_REMOTO; do
+  [ "$REF_REMOTA" = "refs/heads/main" ] || continue
+  [ "$SHA_LOCAL" = "$ZERO" ] && continue   # deletando a ref, não é o nosso caso
+
+  if [ "$SHA_REMOTO" = "$ZERO" ]; then
+    # main ainda não existe no remoto: compara com a raiz do histórico.
+    ALCANCE=$(git rev-list --max-parents=0 "$SHA_LOCAL" | tail -1)
+  else
+    ALCANCE="$SHA_REMOTO"
+  fi
+
+  HIT=$(git diff --name-only "$ALCANCE" "$SHA_LOCAL" | grep -E "$RISCO")
+
+  if [ -n "$HIT" ]; then
+    echo ""
+    echo "  ✖  Push direto na main tocando área de risco:"
+    echo ""
+    echo "$HIT" | sed 's/^/       /'
+    echo ""
+    echo "  Essas áreas exigem branch + PR (Rafael: engine/assets · Willian:"
+    echo "  billing · Gabriel: build/CI). Doc e UI podem ir direto na main —"
+    echo "  estes arquivos não."
+    echo ""
+    echo "     git switch -c front/<slug>   # ou motor/ chore/ doc/ fix/"
+    echo "     git push -u origin front/<slug> && gh pr create --fill"
+    echo ""
+    echo "  Se for intencional mesmo assim: git push --no-verify"
+    echo ""
+    BLOQUEAR=1
+  fi
+done
+
+exit $BLOQUEAR

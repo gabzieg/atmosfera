@@ -10,12 +10,16 @@ import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.atmosfera.wallpaper.billing.BillingManager
 import com.atmosfera.wallpaper.billing.Plano
+import com.atmosfera.wallpaper.engine.ArteFundo
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cena
+import com.atmosfera.wallpaper.engine.EstiloEfeito
+import com.atmosfera.wallpaper.weather.IntervaloClima
 import com.atmosfera.wallpaper.weather.LocationHelper
 import com.atmosfera.wallpaper.weather.WeatherCache
 import com.atmosfera.wallpaper.weather.WeatherRepository
 import com.atmosfera.wallpaper.weather.WeatherState
+import com.atmosfera.wallpaper.weather.WeatherWorker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -42,6 +46,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
 
     private val _isPremium = MutableStateFlow(Plano.isPremium(context))
     val isPremium: StateFlow<Boolean> = _isPremium
+
+    // Arte do fundo (pixel/clay/aqua) e estilo dos efeitos (pixel/clay/bizantino/aqua).
+    // O serviço do wallpaper relê essas prefs ao voltar à tela inicial.
+    private val _currentArt = MutableStateFlow(ArteFundo.atual(context))
+    val currentArt: StateFlow<String> = _currentArt
+
+    private val _currentEffectStyle = MutableStateFlow(EstiloEfeito.atual(context))
+    val currentEffectStyle: StateFlow<String> = _currentEffectStyle
+
+    private val _intervaloClimaMinutos = MutableStateFlow(IntervaloClima.atual(context))
+    val intervaloClimaMinutos: StateFlow<Int> = _intervaloClimaMinutos
 
     init {
         prefs.registerOnSharedPreferenceChangeListener(this)
@@ -117,6 +132,41 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     fun setScene(sceneId: String) {
         Cena.definir(context, sceneId)
         _currentSceneId.value = sceneId
+    }
+
+    fun setArt(arteId: String) {
+        ArteFundo.definir(context, arteId)
+        _currentArt.value = arteId
+    }
+
+    fun setEffectStyle(styleId: String) {
+        EstiloEfeito.definir(context, styleId)
+        _currentEffectStyle.value = styleId
+    }
+
+    fun setIntervaloClima(minutos: Int) {
+        IntervaloClima.definir(context, minutos)
+        _intervaloClimaMinutos.value = minutos
+        WeatherWorker.schedule(context, minutos.toLong())
+    }
+
+    /** Tamanho atual do cache descartável, em bytes (exibido na tela de Ajustes). */
+    fun tamanhoCache(): Long =
+        context.cacheDir.walkTopDown().filter { it.isFile }.sumOf { it.length() }
+
+    /**
+     * Limpa só o `cacheDir` (cache do WebView das páginas legais, temporários) —
+     * conteúdo genuinamente descartável, recriado sozinho.
+     *
+     * NÃO limpa o [WeatherCache] de propósito: apesar do nome, ele é estado
+     * funcional, não descarte. Apagá-lo deixaria quem está offline sem clima
+     * nenhum até a próxima conexão — "limpar cache" não deve piorar o app.
+     * Retorna quantos bytes foram liberados.
+     */
+    fun limparCache(): Long {
+        val bytes = tamanhoCache()
+        context.cacheDir.listFiles()?.forEach { it.deleteRecursively() }
+        return bytes
     }
 
     fun isSceneUnlocked(cenario: com.atmosfera.wallpaper.engine.Cenario): Boolean {

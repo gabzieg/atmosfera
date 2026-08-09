@@ -1,10 +1,5 @@
 package com.atmosfera.wallpaper.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -19,11 +14,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -44,12 +36,7 @@ fun MainScreen(viewModel: MainViewModel) {
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = {
-            Column {
-                AdPlaceholder()
-                BottomNavBar(navController)
-            }
-        }
+        bottomBar = { BottomNavBar(navController) }
     ) { innerPadding ->
         NavHost(
             navController = navController,
@@ -60,25 +47,6 @@ fun MainScreen(viewModel: MainViewModel) {
             composable("store") { StoreTab(viewModel) }
             composable("settings") { SettingsTab(viewModel) }
         }
-    }
-}
-
-/** Espaço reservado para banner de anúncio — ainda sem SDK integrado. */
-@Composable
-private fun AdPlaceholder() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(36.dp)
-            .background(MaterialTheme.colorScheme.surfaceVariant),
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(
-            "Espaço reservado para anúncio",
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-        )
     }
 }
 
@@ -94,9 +62,12 @@ private fun BottomNavBar(navController: NavHostController) {
                 label = { Text(destino.titulo) },
                 selected = currentRoute == destino.rota,
                 colors = NavigationBarItemDefaults.colors(
+                    // Selecionado = ícone claro (primary) sobre uma pílula escura sutil
+                    // (surfaceVariant). No mono, primaryContainer é CLARO e colidiria
+                    // com o ícone claro — daí o indicador usar surfaceVariant.
                     selectedIconColor = MaterialTheme.colorScheme.primary,
                     selectedTextColor = MaterialTheme.colorScheme.primary,
-                    indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                    indicatorColor = MaterialTheme.colorScheme.surfaceVariant,
                     unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 ),

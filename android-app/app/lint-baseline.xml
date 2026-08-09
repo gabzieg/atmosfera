@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 8.3.0" type="baseline" client="gradle" dependencies="false" name="AGP (8.3.0)" variant="all" version="8.3.0">
+
+    <issue
+        id="RemoveWorkManagerInitializer"
+        message="Remove androidx.work.WorkManagerInitializer from your AndroidManifest.xml when using on-demand initialization."
+        errorLine1="    &lt;application"
+        errorLine2="    ^">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="10"
+            column="5"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 8.3.0 is available: 9.3.1. (There is also a newer version of 8.3.𝑥 available, if upgrading to 9.3.1 is difficult: 8.3.2)"
+        errorLine1="agp = &quot;8.3.0&quot;"
+        errorLine2="      ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="13"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 8.3.0 is available: 9.3.1. (There is also a newer version of 8.3.𝑥 available, if upgrading to 9.3.1 is difficult: 8.3.2)"
+        errorLine1="agp = &quot;8.3.0&quot;"
+        errorLine2="      ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="13"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="AndroidGradlePluginVersion"
+        message="A newer version of com.android.application than 8.3.0 is available: 9.3.1. (There is also a newer version of 8.3.𝑥 available, if upgrading to 9.3.1 is difficult: 8.3.2)"
+        errorLine1="agp = &quot;8.3.0&quot;"
+        errorLine2="      ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="13"
+            column="7"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose:compose-bom than 2024.02.02 is available: 2026.06.01"
+        errorLine1="composeBom = &quot;2024.02.02&quot;"
+        errorLine2="             ~~~~~~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="16"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose:compose-bom than 2024.02.02 is available: 2026.06.01"
+        errorLine1="composeBom = &quot;2024.02.02&quot;"
+        errorLine2="             ~~~~~~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="16"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.compose:compose-bom than 2024.02.02 is available: 2026.06.01"
+        errorLine1="composeBom = &quot;2024.02.02&quot;"
+        errorLine2="             ~~~~~~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="16"
+            column="14"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.core:core-ktx than 1.13.0 is available: 1.19.0"
+        errorLine1="coreKtx = &quot;1.13.0&quot;                 # 1.15.0 puxa compileSdk 35 — não subir sozinho"
+        errorLine2="          ~~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="20"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.core:core-ktx than 1.13.0 is available: 1.19.0"
+        errorLine1="coreKtx = &quot;1.13.0&quot;                 # 1.15.0 puxa compileSdk 35 — não subir sozinho"
+        errorLine2="          ~~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="20"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.core:core-ktx than 1.13.0 is available: 1.19.0"
+        errorLine1="coreKtx = &quot;1.13.0&quot;                 # 1.15.0 puxa compileSdk 35 — não subir sozinho"
+        errorLine2="          ~~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="20"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.appcompat:appcompat than 1.6.1 is available: 1.7.1"
+        errorLine1="appcompat = &quot;1.6.1&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="21"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.appcompat:appcompat than 1.6.1 is available: 1.7.1"
+        errorLine1="appcompat = &quot;1.6.1&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="21"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.appcompat:appcompat than 1.6.1 is available: 1.7.1"
+        errorLine1="appcompat = &quot;1.6.1&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="21"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.lifecycle:lifecycle-runtime-ktx than 2.7.0 is available: 2.11.0"
+        errorLine1="lifecycle = &quot;2.7.0&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="22"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.lifecycle:lifecycle-runtime-ktx than 2.7.0 is available: 2.11.0"
+        errorLine1="lifecycle = &quot;2.7.0&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="22"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.lifecycle:lifecycle-runtime-ktx than 2.7.0 is available: 2.11.0"
+        errorLine1="lifecycle = &quot;2.7.0&quot;"
+        errorLine2="            ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="22"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.material:material than 1.11.0 is available: 1.14.0"
+        errorLine1="material = &quot;1.11.0&quot;"
+        errorLine2="           ~~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="23"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.material:material than 1.11.0 is available: 1.14.0"
+        errorLine1="material = &quot;1.11.0&quot;"
+        errorLine2="           ~~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="23"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.material:material than 1.11.0 is available: 1.14.0"
+        errorLine1="material = &quot;1.11.0&quot;"
+        errorLine2="           ~~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="23"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.work:work-runtime-ktx than 2.9.0 is available: 2.11.2"
+        errorLine1="work = &quot;2.9.0&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="24"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.work:work-runtime-ktx than 2.9.0 is available: 2.11.2"
+        errorLine1="work = &quot;2.9.0&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="24"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.work:work-runtime-ktx than 2.9.0 is available: 2.11.2"
+        errorLine1="work = &quot;2.9.0&quot;"
+        errorLine2="       ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="24"
+            column="8"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.gms:play-services-location than 21.2.0 is available: 21.4.0"
+        errorLine1="playServicesLocation = &quot;21.2.0&quot;"
+        errorLine2="                       ~~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="26"
+            column="24"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.gms:play-services-location than 21.2.0 is available: 21.4.0"
+        errorLine1="playServicesLocation = &quot;21.2.0&quot;"
+        errorLine2="                       ~~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="26"
+            column="24"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.google.android.gms:play-services-location than 21.2.0 is available: 21.4.0"
+        errorLine1="playServicesLocation = &quot;21.2.0&quot;"
+        errorLine2="                       ~~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="26"
+            column="24"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.android.billingclient:billing-ktx than 6.2.1 is available: 9.1.0"
+        errorLine1="billing = &quot;6.2.1&quot;                  # teto do Kotlin 1.9.23 (ver aviso acima)"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="27"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.android.billingclient:billing-ktx than 6.2.1 is available: 9.1.0"
+        errorLine1="billing = &quot;6.2.1&quot;                  # teto do Kotlin 1.9.23 (ver aviso acima)"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="27"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of com.android.billingclient:billing-ktx than 6.2.1 is available: 9.1.0"
+        errorLine1="billing = &quot;6.2.1&quot;                  # teto do Kotlin 1.9.23 (ver aviso acima)"
+        errorLine2="          ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="27"
+            column="11"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.activity:activity-compose than 1.8.2 is available: 1.13.0"
+        errorLine1="activityCompose = &quot;1.8.2&quot;"
+        errorLine2="                  ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="28"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.activity:activity-compose than 1.8.2 is available: 1.13.0"
+        errorLine1="activityCompose = &quot;1.8.2&quot;"
+        errorLine2="                  ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="28"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.activity:activity-compose than 1.8.2 is available: 1.13.0"
+        errorLine1="activityCompose = &quot;1.8.2&quot;"
+        errorLine2="                  ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="28"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.navigation:navigation-compose than 2.7.7 is available: 2.9.8"
+        errorLine1="navigationCompose = &quot;2.7.7&quot;"
+        errorLine2="                    ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="29"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.navigation:navigation-compose than 2.7.7 is available: 2.9.8"
+        errorLine1="navigationCompose = &quot;2.7.7&quot;"
+        errorLine2="                    ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="29"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="GradleDependency"
+        message="A newer version of androidx.navigation:navigation-compose than 2.7.7 is available: 2.9.8"
+        errorLine1="navigationCompose = &quot;2.7.7&quot;"
+        errorLine2="                    ~~~~~~~">
+        <location
+            file="$HOME/Downloads/Projetos/Atmosfera/android-app/gradle/libs.versions.toml"
+            line="29"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="LockedOrientationActivity"
+        message="Expecting `android:screenOrientation=&quot;unspecified&quot;` or `&quot;fullSensor&quot;` for this activity so the user can use the application in any orientation and provide a great experience on Chrome OS devices"
+        errorLine1="            android:screenOrientation=&quot;portrait&quot;>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="23"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="LockedOrientationActivity"
+        message="Expecting `android:screenOrientation=&quot;unspecified&quot;` or `&quot;fullSensor&quot;` for this activity so the user can use the application in any orientation and provide a great experience on Chrome OS devices"
+        errorLine1="            android:screenOrientation=&quot;portrait&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="35"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="DiscouragedApi"
+        message="Should not restrict activity to fixed orientation. This may not be suitable for different form factors, causing the app to be letterboxed."
+        errorLine1="            android:screenOrientation=&quot;portrait&quot;>"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="23"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="DiscouragedApi"
+        message="Should not restrict activity to fixed orientation. This may not be suitable for different form factors, causing the app to be letterboxed."
+        errorLine1="            android:screenOrientation=&quot;portrait&quot; />"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/AndroidManifest.xml"
+            line="35"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="            text = &quot;A prévia acima sempre mostra a configuração escolhida. &quot; +"
+        errorLine2="                   ^">
+        <location
+            file="src/main/java/com/atmosfera/wallpaper/debug/DebugActivity.kt"
+            line="179"
+            column="20"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        errorLine1="            text = &quot;A prévia acima sempre mostra a configuração escolhida. &quot; +"
+        errorLine2="                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/atmosfera/wallpaper/debug/DebugActivity.kt"
+            line="179"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        errorLine1="                &quot;O switch acima decide se o wallpaper de verdade também usa ela.&quot;"
+        errorLine2="                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/atmosfera/wallpaper/debug/DebugActivity.kt"
+            line="180"
+            column="18"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        errorLine1="            text = &quot;Fechar&quot;"
+        errorLine2="                    ~~~~~~">
+        <location
+            file="src/main/java/com/atmosfera/wallpaper/debug/DebugActivity.kt"
+            line="186"
+            column="21"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        tv.text = &quot;$label:  ${fmt(valor)}&quot;"
+        errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/atmosfera/wallpaper/debug/DebugActivity.kt"
+            line="234"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="                val v = valDe(p); tv.text = &quot;$label:  ${fmt(v)}&quot;"
+        errorLine2="                                            ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/atmosfera/wallpaper/debug/DebugActivity.kt"
+            line="238"
+            column="45"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="        tv.text = &quot;$label:  ${fmt(valor)}&quot;"
+        errorLine2="                  ~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/atmosfera/wallpaper/debug/DebugActivity.kt"
+            line="253"
+            column="19"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders."
+        errorLine1="                val v = min + p; tv.text = &quot;$label:  ${fmt(v)}&quot;"
+        errorLine2="                                           ~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/java/com/atmosfera/wallpaper/debug/DebugActivity.kt"
+            line="257"
+            column="44"/>
+    </issue>
+
+</issues>

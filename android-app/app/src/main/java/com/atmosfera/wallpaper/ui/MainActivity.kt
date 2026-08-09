@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import com.atmosfera.wallpaper.ui.theme.AtmosferaTheme
+import com.atmosfera.wallpaper.weather.IntervaloClima
 import com.atmosfera.wallpaper.weather.WeatherWorker
 
 class MainActivity : ComponentActivity() {
@@ -14,7 +15,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        WeatherWorker.schedule(this)
+        WeatherWorker.schedule(this, IntervaloClima.atual(this).toLong())
 
         setContent {
             AtmosferaTheme {

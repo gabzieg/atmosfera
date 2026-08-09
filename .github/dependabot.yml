@@ -1,0 +1,39 @@
+# Dependabot — grátis mesmo em repo privado (ao contrário do CodeQL, que
+# exige GitHub Advanced Security/plano pago pra repo privado — verificado
+# 2026-07-29, por isso não tem workflow de CodeQL neste repo).
+#
+# Abre PR sozinho quando uma dependência tem update — o PR passa pelo mesmo
+# gate normal (testDebugUnitTest + lintDebug + assembleDebug + secret-scan)
+# antes de poder mergear. NÃO mergear automático: o teto de versão do
+# Billing/Kotlin (ver gradle/libs.versions.toml) é frágil o bastante pra
+# exigir revisão manual sempre — ver CLAUDE.md, seção "Gotcha grande".
+
+version: 2
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/android-app"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      gradle-deps:
+        patterns:
+          - "*"
+    labels:
+      - "dependencies"
+    # Billing e Kotlin têm teto conhecido (ver libs.versions.toml) — o Dependabot
+    # ainda vai abrir PR sugerindo a versão nova (não sabe do teto), mas não
+    # mergear sem revisar contra a nota do arquivo.
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      actions-deps:
+        patterns:
+          - "*"
+    labels:
+      - "dependencies"
+      - "ci"

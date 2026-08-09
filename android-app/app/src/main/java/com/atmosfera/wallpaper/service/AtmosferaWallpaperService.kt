@@ -14,6 +14,7 @@ import com.atmosfera.wallpaper.engine.Cena
 import com.atmosfera.wallpaper.engine.EffectEngine
 import com.atmosfera.wallpaper.engine.EstiloEfeito
 import com.atmosfera.wallpaper.engine.SceneState
+import com.atmosfera.wallpaper.weather.IntervaloClima
 import com.atmosfera.wallpaper.weather.LocationHelper
 import com.atmosfera.wallpaper.weather.WeatherCache
 import com.atmosfera.wallpaper.weather.WeatherRepository
@@ -122,7 +123,8 @@ class AtmosferaWallpaperService : WallpaperService() {
                 val loc = LocationHelper(applicationContext)
                 val repo = WeatherRepository()
                 val (lat, lon) = loc.getLocation()
-                val state = if (!cache.isStale(lat, lon)) cache.get()
+                val ttl = IntervaloClima.ttlMs(applicationContext)
+                val state = if (!cache.isStale(lat, lon, ttl)) cache.get()
                 else repo.fetchWeather(lat, lon).getOrNull()?.also { cache.save(it, lat, lon) } ?: cache.get()
 
                 state ?: return

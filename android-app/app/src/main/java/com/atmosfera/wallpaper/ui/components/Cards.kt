@@ -1,5 +1,6 @@
 package com.atmosfera.wallpaper.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.atmosfera.wallpaper.ui.theme.Radius
+import com.atmosfera.wallpaper.ui.theme.Spacing
 
 /** Card padrão do app: cantos generosos, sem sombra pesada (superfície tonal, não elevação). */
 @Composable
@@ -47,6 +50,31 @@ fun StatChip(value: String, label: String, modifier: Modifier = Modifier) {
     ) {
         Text(value, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
         Text(label, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}
+
+/**
+ * Padrão reproduzido: **card com bordas bem arredondadas**, dimensionado pelo
+ * próprio conteúdo (essencial para o mosaico, onde cada card tem altura variada).
+ * Clicável. Cores/espaçamento vêm dos tokens ([Spacing]/[Radius]/tema).
+ *
+ * No tema monocromático a separação vem de uma **borda hairline** (token
+ * `outline`), não de sombra — sombra some no quase-preto e destoa do minimalismo.
+ */
+@Composable
+fun MosaicCard(
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    val shape = RoundedCornerShape(Radius.tile)
+    val colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    val elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    val border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+    if (onClick != null) {
+        Card(onClick = onClick, modifier = modifier.fillMaxWidth(), shape = shape, colors = colors, elevation = elevation, border = border, content = content)
+    } else {
+        Card(modifier = modifier.fillMaxWidth(), shape = shape, colors = colors, elevation = elevation, border = border, content = content)
     }
 }
 
