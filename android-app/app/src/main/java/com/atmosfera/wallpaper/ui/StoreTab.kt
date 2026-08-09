@@ -71,7 +71,14 @@ internal fun estiloNome(id: String): String = when (id) {
     "clay" -> "Clay"
     "bizantino" -> "Bizantino"
     "aqua" -> "Aquarela"
-    else -> id.replaceFirstChar { it.uppercase() }
+    "ukiyoe" -> "Ukiyo-e"
+    // Fallback genérico em vez de uma lista fixa: os ids de arte/estilo vêm de
+    // `engine/` (Rafael) e crescem a cada snapshot — travar um nome por id aqui
+    // quebraria a cada estilo novo até alguém lembrar de atualizar esta lista.
+    // "paper_cutout_2" -> "Paper Cutout 2"; "rupestre_og" -> "Rupestre Og". Não
+    // fica perfeito pra toda sigla (ex.: "point_gpt" -> "Point Gpt"), mas nunca
+    // pior que o id cru com underscore.
+    else -> id.replace('_', ' ').split(' ').joinToString(" ") { it.replaceFirstChar(Char::uppercase) }
 }
 
 @Composable

@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -184,7 +185,14 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
             // ── Seção: arte do cenário (só quem tem variantes) ──────────
             if (artes.size > 1) {
                 SecaoDetalhe(titulo = "Arte do cenário") {
-                    Row(horizontalArrangement = Arrangement.spacedBy(Spacing.md)) {
+                    // Rolável: a cabana tinha só 3 artes e cabia na tela sem
+                    // rolar, mas cenários novos (ex.: jardim) chegam com até 6 —
+                    // sem isto a fileira estourava a largura e o texto do último
+                    // item quebrava letra por letra na lateral da tela.
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(Spacing.md),
+                        modifier = Modifier.horizontalScroll(rememberScrollState()),
+                    ) {
                         artes.forEach { arte ->
                             ArteOption(
                                 sceneId = sceneId,
