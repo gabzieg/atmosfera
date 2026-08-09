@@ -121,10 +121,13 @@ Form declarado com o que o APK realmente pede).
   Atendidas em 2026-08-08: Billing 9.1.0 e `targetSdk` 36. Fontes:
   [deprecation-faq](https://developer.android.com/google/play/billing/deprecation-faq)
   e [política de target API](https://support.google.com/googleplay/android-developer/answer/11926878).
-- [ ] **Emulador com Play Store para testar compra** — o AVD `Pixel_8` atual
-  não serve: responde `In-app billing API version 3 is not supported on this
-  device`. Criar uma AVD com imagem de sistema **"Google Play"** (não só
-  "Google APIs") antes de tentar validar o fluxo de compra.
+- [ ] **Logar uma conta Google no emulador para testar compra** — o AVD
+  `Pixel_8` responde `In-app billing API version 3 is not supported on this
+  device`, mas **não** é falta de Play Store: a imagem é
+  `android-34/google_apis_playstore` e o `com.android.vending` está instalado.
+  Falta **conta logada** (`adb shell dumpsys account` volta vazio). Logar em
+  Configurações → Contas destrava o serviço de billing. (Produto criado no Play
+  Console segue sendo requisito separado pra compra real.)
 - [ ] **Confirmar se o uso da Open-Meteo se enquadra como "comercial"** —
   os termos do tier gratuito dizem "you may only use the free API services
   for non-commercial purposes" e listam apps "com assinaturas ou anúncios"

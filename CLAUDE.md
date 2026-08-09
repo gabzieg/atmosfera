@@ -113,10 +113,14 @@ mediante pedido até 01/nov/2026). Não são opcionais para publicar:
 Tetos que ainda existem (confirmados quebrando o build, não suposição):
 - **`lifecycle` 2.11.0 exige `compileSdk` 37**, acima do máximo da AGP 8.13.x —
   por isso está em 2.10.0. Subir exige ir para AGP 9.x (que pede Gradle 9.5).
-- **Compras não funcionam em emulador sem Play Store.** O AVD `Pixel_8` atual
-  responde `In-app billing API version 3 is not supported on this device`.
-  Testar compra exige uma imagem de sistema **"Google Play"**, não só
-  "Google APIs".
+- **Compras exigem Play Store E conta Google logada.** O AVD `Pixel_8` responde
+  `In-app billing API version 3 is not supported on this device` — mas **não** é
+  por falta de Play Store: a imagem é `android-34/google_apis_playstore` e o
+  `com.android.vending` está instalado (confirmado com `pm list packages`). O
+  que falta é **conta Google logada** (`dumpsys account` volta vazio). Logar uma
+  conta no emulador (Configurações → Contas) é o que destrava o serviço de
+  billing; produto criado no Play Console continua sendo requisito à parte pra
+  compra de verdade.
 
   Consequência prática: sem isso o `tanque` fica **intestável**, apesar de os
   assets já existirem em `assets/atmosfera/cenas/tanque/`. Para conseguir ver
