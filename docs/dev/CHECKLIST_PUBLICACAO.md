@@ -116,14 +116,30 @@ Form declarado com o que o APK realmente pede).
   subir pra 28 jogaria fora ~2,6% dos aparelhos em troca de nada). Se NÃO
   segurar, aí subir o `minSdk` passa a ter justificativa — baseada nesta
   medição, não em preferência. Números de alcance: [apilevels.com](https://apilevels.com/).
+- [x] **Tela grande / orientação no Android 16** — verificado em 2026-08-08 num
+  AVD real de tela grande (API 36, 1280×800dp, páginas de 16 KB).
+
+  Confirmado na prática, não em teoria: o Android 16 **ignora** a trava
+  `android:screenOrientation="portrait"` do manifesto quando a tela tem ≥600dp —
+  o app abriu em **paisagem**. Simular com `wm size` num AVD de celular NÃO
+  reproduz isso (o sistema manteve o retrato lá); é preciso AVD de tela grande.
+
+  Resultado: sem crash, layout legível. O teto de 600dp centralizado
+  (`MainScreen`) é o que evita o conteúdo esticar — Início com a arte na
+  proporção certa, Loja com mosaico em duas colunas e chips numa linha.
+
+  Segue **não** otimizado pra tablet (coluna única, muito espaço vertical
+  ocioso). Layout de duas colunas é decisão de produto em aberto, não bloqueio.
 - [x] **Páginas de memória de 16 KB** — exigido pelo Google para app que target
   API 35+ e embarca biblioteca nativa em 64 bits, **prazo 1º/fev/2027**. Nos
   três critérios o Atmosfera se encaixa: `targetSdk` 36 e
   `libandroidx.graphics.path.so` (puxada pelo Compose) nas 4 ABIs.
 
-  **Já conforme**, verificado em 2026-08-08 com
-  `zipalign -c -P 16 -v 4 app-debug.apk` → os quatro `.so` respondem `OK` e
-  "Verification successful". Veio de graça com a migração: o alinhamento é
+  **Já conforme**, verificado em 2026-08-08 de duas formas: estaticamente com
+  `zipalign -c -P 16 -v 4 app-debug.apk` (os quatro `.so` respondem `OK`,
+  "Verification successful") e **em execução**, num AVD com páginas de 16 KB de
+  verdade (`getconf PAGE_SIZE` → 16384): o app abre e roda sem erro de `dlopen`
+  ou `UnsatisfiedLinkError`. Veio de graça com a migração — o alinhamento é
   automático a partir da AGP 8.5.1 e estamos na 8.13.2. Reconferir se alguma
   dependência nova trouxer `.so` próprio. Doc:
   [page-sizes](https://developer.android.com/guide/practices/page-sizes).
