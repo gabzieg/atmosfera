@@ -77,9 +77,24 @@ android {
         // manifesto). Ao corrigir um deles, regenere o baseline apagando o
         // arquivo e rodando `gradlew lintDebug` de novo.
         //
-        // O arquivo atual foi gerado pelo lint 8.3.0 e cita linhas/versões que
-        // a migração de 2026-08-08 já apagou. Continua verde (entrada que não
-        // casa é simplesmente ignorada), mas está devendo uma regeneração.
+        // Regenerado em 2026-08-08 pelo lint 8.13.2 (o anterior era do 8.3.0 e
+        // citava linhas/versões que a migração apagou).
+        //
+        // **Zero erros no baseline.** O único que havia,
+        // RemoveWorkManagerInitializer, era bug real — a Configuration de
+        // AtmosferaApp era descartada em silêncio — e foi CORRIGIDO no
+        // manifesto, não recongelado. O que resta são 54 avisos/hints:
+        //   · 32 UseKtx        — sugestão de estilo; a maioria em engine/ (congelado)
+        //   · 15 versão de lib — subir retrofit 3.x, okhttp 5.x etc. é decisão
+        //                        própria, não arrasto desta migração
+        //   ·  4 orientação    — LockedOrientationActivity + DiscouragedApi:
+        //                        orientação fixa passa a ser IGNORADA no
+        //                        Android 16; é decisão de produto
+        //   ·  1 OldTargetApi  — pede targetSdk 37, acima do teto da AGP 8.13
+        //   ·  2 Compose       — AutoboxingStateCreation + 1 hint
+        //
+        // Ao corrigir algum, apague o arquivo e rode `gradlew lintDebug` DUAS
+        // vezes: a primeira recria o baseline e falha de propósito.
         baseline = file("lint-baseline.xml")
     }
 }

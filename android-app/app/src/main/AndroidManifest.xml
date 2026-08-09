@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -41,6 +42,31 @@
             android:exported="false"
             android:label="Atmosfera — Teste"
             android:screenOrientation="portrait" />
+
+        <!--
+          Remove o inicializador automático do WorkManager.
+
+          `AtmosferaApp` implementa `Configuration.Provider` para fornecer a
+          própria Configuration (nível de log). Só que o WorkManager mescla no
+          manifesto um inicializador via androidx.startup que roda ANTES disso e
+          inicializa com a configuração padrão — a nossa era descartada em
+          silêncio, e o WorkManager subia ansiosamente em todo start do app,
+          justamente o que a inicialização sob demanda evita.
+
+          Era o erro `RemoveWorkManagerInitializer`, que estava congelado no
+          baseline do lint desde sempre e tratado como ruído. Não era: o lint
+          estava certo.
+        -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
 
         <!-- ── Live Wallpaper Service ─────────────────────────────────── -->
         <service

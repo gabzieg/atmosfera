@@ -49,13 +49,12 @@ Rode sempre a partir de `android-app/`.
 ```bash
 ./gradlew assembleDebug            # build — gate da CI (.github/workflows/build.yml)
 ./gradlew testDebugUnitTest        # testes unit (JVM puro) — também roda na CI, antes do APK
-./gradlew lintDebug                # lint — roda na CI com baseline (app/lint-baseline.xml).
-                                    # O baseline congela os avisos/erros pré-existentes (o erro é
-                                    # RemoveWorkManagerInitializer no manifesto): a CI só quebra em
-                                    # erro NOVO. Pra corrigir um: apague o baseline e regenere.
-                                    # ATENÇÃO: o baseline foi gerado pelo lint 8.3.0 e cita linhas
-                                    # que já não existem — está desatualizado desde a migração de
-                                    # 2026-08-08, mas segue verde. Regenerar é tarefa em aberto.
+./gradlew lintDebug                # lint — roda na CI com baseline (app/lint-baseline.xml),
+                                    # regenerado em 2026-08-08 pelo lint 8.13.2. O baseline hoje
+                                    # tem ZERO erros: só avisos (estilo UseKtx, versões de lib,
+                                    # orientação fixa). A CI quebra em qualquer erro novo.
+                                    # Pra regenerar: apague o arquivo e rode lintDebug DUAS vezes —
+                                    # a primeira recria o baseline e falha de propósito.
 ./gradlew installDebug             # build + instala no device/emulador conectado
 ./gradlew bundleRelease            # gera app-release.aab ASSINADO — exige keystore.properties
                                     # preenchido (ver "Build de release" abaixo); sem isso builda
