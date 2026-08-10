@@ -115,7 +115,8 @@ class DebugActivity : AppCompatActivity() {
             "rupestre_2" to "🪨 Rupestre 3", "rupestre_gemini" to "🪨 Rupestre Gemini",
             "simplao" to "✏️ Simplão",
             "talhe_doce_og" to "🪵 Talhe Doce", "talhe_doce" to "🪵 Talhe Doce Rico",
-            "ukiyoe" to "🎴 Ukiyo-e"
+            "ukiyoe" to "🎴 Ukiyo-e",
+            "van_gogh" to "🌌 Van Gogh"
         ).filter { it.first in Estilos.ids }
         col.addView(rotulo("Estilo dos efeitos"))
         col.addView(dropdown(estilos, EstiloEfeito.atual(this)) { id ->

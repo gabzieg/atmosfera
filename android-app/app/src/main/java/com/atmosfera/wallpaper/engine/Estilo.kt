@@ -52,6 +52,8 @@ object Estilos {
         "needle_felting" to EstiloCfg("needle_felting", "sprites_needle_felting.png", 3, true),
         "pixel_mario" to EstiloCfg("pixel_mario", "sprites_pixel_mario.png", 3, false),
         "pixel_zelda" to EstiloCfg("pixel_zelda", "sprites_pixel_zelda.png", 3, false),
+        // ── Van Gogh (folha 887x1774, recorte 2026-08-09) ──
+        "van_gogh" to EstiloCfg("van_gogh", "sprites_van_gogh.png", 3, true),
     )
 
     fun por(id: String): EstiloCfg = map[id] ?: map.getValue("pixel")
