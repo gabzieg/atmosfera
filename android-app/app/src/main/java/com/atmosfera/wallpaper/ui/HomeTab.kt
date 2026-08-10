@@ -62,7 +62,6 @@ import androidx.compose.ui.text.style.TextAlign
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cenario
 import com.atmosfera.wallpaper.ui.components.ConfirmarWallpaperDialog
-import com.atmosfera.wallpaper.ui.components.EngineLivePreview
 import com.atmosfera.wallpaper.ui.components.cenarioTemAsset
 import com.atmosfera.wallpaper.ui.components.SceneThumbnail
 import com.atmosfera.wallpaper.ui.components.StatChip
@@ -129,7 +128,6 @@ fun HomeTab(viewModel: MainViewModel) {
             WeatherHeroCard(
                 sceneId = currentSceneId,
                 arte = currentArt,
-                estilo = currentEffectStyle,
                 weatherState = weatherState,
                 onRefresh = { viewModel.refreshWeather() },
             )
@@ -313,7 +311,6 @@ private fun CenarioOption(
 private fun WeatherHeroCard(
     sceneId: String,
     arte: String,
-    estilo: String,
     weatherState: WeatherState?,
     onRefresh: () -> Unit,
 ) {
@@ -322,25 +319,24 @@ private fun WeatherHeroCard(
         shape = RoundedCornerShape(24.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
     ) {
-        // `clipToBounds` porque o motor pinta além da altura da View e o Compose
-        // hospeda o AndroidView com clipChildren=false — sem isto a chuva vaza
-        // por cima dos chips e do botão abaixo do card.
         Box(modifier = Modifier.fillMaxSize().clipToBounds()) {
-            // Estático primeiro (aparece na hora, ou diz "Em breve" se faltar
-            // asset); o motor entra por cima quando carrega. Mesma dupla usada
-            // na tela de detalhe e no diálogo de confirmação.
+            // Miniatura ESTÁTICA de propósito, não por limitação.
+            //
+            // Já teve um `EngineLivePreview` aqui por cima. Medido com
+            // `dumpsys gfxinfo` (Pixel 8): com o motor rodando, a Início
+            // desenhava ~300 quadros a cada 12 s com mediana de 26 ms e 86% de
+            // jank; a tela de Ajustes, sem prévia, desenha ZERO quadro no mesmo
+            // intervalo. Como o motor roda na thread de UI, isso deixava a
+            // rolagem e os toques pastosos na tela em que o usuário mais fica —
+            // e a Início não precisa vender a cena: quem vende é o Onboarding,
+            // o detalhe da Loja e o comparador do Premium, onde a prévia ao
+            // vivo continua.
             //
             // Passar `arte` aqui não é detalhe: sem isso o SceneThumbnail caía no
             // default "pixel" e a Home mostrava a arte ERRADA — quem escolhesse
             // Clay ou Aquarela via a mudança na Loja e no diálogo, mas a tela
             // principal seguia exibindo pixel art.
             SceneThumbnail(sceneId = sceneId, arte = arte, modifier = Modifier.fillMaxSize())
-            EngineLivePreview(
-                sceneId = sceneId,
-                arte = arte,
-                estilo = estilo,
-                modifier = Modifier.fillMaxSize(),
-            )
 
             IconButton(
                 onClick = onRefresh,

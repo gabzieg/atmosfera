@@ -13,6 +13,29 @@ import com.atmosfera.wallpaper.engine.EffectEngine
 import com.atmosfera.wallpaper.engine.SceneState
 
 /**
+ * Intervalo entre quadros da prévia — ~20 fps, contra os ~30 fps do wallpaper
+ * de verdade em [com.atmosfera.wallpaper.service.AtmosferaWallpaperService].
+ *
+ * Não é chute: medido com `dumpsys gfxinfo` num Pixel 8 (emulador), a tela
+ * Início com uma prévia a 30 fps dava 86% de quadros com jank e mediana de
+ * 26 ms — a thread de UI ficava ocupada ~79% do tempo só desenhando cena, e
+ * era isso que deixava a rolagem e os toques pastosos. A tela de Ajustes, sem
+ * prévia, desenha ZERO quadro no mesmo intervalo.
+ *
+ * O motor calcula o passo a partir do timestamp que recebe, então mudar o
+ * intervalo muda a taxa de quadros, não a velocidade da animação.
+ */
+private const val INTERVALO_MS = 50L
+
+/**
+ * Já foi tentado desenhar a cena num bitmap reduzido e ampliar (pra tocar menos
+ * pixels por quadro). **Piorou**: a mediana subiu de 25 ms pra 38 ms, porque
+ * `Canvas(Bitmap)` é rasterização por software — a CPU perde mais do que a
+ * economia de área devolve. O motor precisa do canvas acelerado da View, igual
+ * ao `lockHardwareCanvas()` que o serviço do wallpaper usa. Não repetir.
+ */
+
+/**
  * Prévia do motor rodando AO VIVO (não é screenshot nem simulação) — reaproveita
  * o mesmo [EffectEngine] que desenha o wallpaper de verdade. Usada na tela de
  * detalhe da Loja pra reduzir a incerteza de compra: o usuário vê o cenário se
@@ -21,18 +44,31 @@ import com.atmosfera.wallpaper.engine.SceneState
  * Desenha nada (fica transparente) até [EffectEngine.pronto] — cabe ao caller
  * empilhar isto sobre um [SceneThumbnail] estático como fallback honesto
  * enquanto carrega ou se o cenário não tiver assets ainda.
+ *
+ * **Cada instância carrega o conjunto inteiro de bitmaps do cenário** (fundo,
+ * frente, sprites, neve, névoa…) — dezenas de MB com as artes do snapshot de
+ * 2026-08. Como o app chega a ter duas prévias vivas ao mesmo tempo (o
+ * comparador da tela de Premium) e várias ao longo de uma navegação, a devolução
+ * dessa memória é obrigatória, não otimização: ver `descartar()`.
  */
 private class LivePreviewView(context: Context) : View(context) {
     val estado = SceneState()
     val motor = EffectEngine(estado)
-    private var carregadoPara: Triple<String, String, String>? = null
+
+    /** O que o Compose pediu pra mostrar. */
+    private var alvo: Triple<String, String, String>? = null
+    /** O que está de fato decodificado no motor agora. */
+    private var carregado: Triple<String, String, String>? = null
+    private var carregando = false
+    /** Composable já saiu de cena: a memória tem que voltar assim que der. */
+    private var descartado = false
 
     private val handler = Handler(Looper.getMainLooper())
     private var rodando = false
     private val tick = object : Runnable {
         override fun run() {
             invalidate()
-            if (rodando) handler.postDelayed(this, 33L)
+            if (rodando) handler.postDelayed(this, INTERVALO_MS)
         }
     }
 
@@ -50,29 +86,87 @@ private class LivePreviewView(context: Context) : View(context) {
     }
 
     fun garantirCarregado(sceneId: String, arte: String, estilo: String) {
-        val alvo = Triple(sceneId, arte, estilo)
-        if (carregadoPara == alvo) return
-        carregadoPara = alvo
+        alvo = Triple(sceneId, arte, estilo)
+        dispararCarga()
+    }
+
+    /**
+     * Decodifica fora da thread de UI. Só uma carga por vez: se o alvo mudar no
+     * meio (usuário varrendo as variantes de arte na tela de detalhe), a troca é
+     * aplicada quando a atual terminar, em vez de disparar uma thread por toque.
+     */
+    private fun dispararCarga() {
+        val alvoAtual = alvo ?: return
+        if (carregando || descartado || carregado == alvoAtual) return
+        carregando = true
         Thread {
-            try {
-                motor.carregar(context.assets, sceneId, arte, estilo)
+            val ok = try {
+                motor.carregar(context.assets, alvoAtual.first, alvoAtual.second, alvoAtual.third)
+                true
             } catch (_: Throwable) {
                 // Cenário sem asset plugado ainda: motor.pronto fica false,
                 // onDraw não desenha nada — o SceneThumbnail por baixo mostra.
+                false
+            }
+            // handler, não View.post: uma View destacada engaveta o post até
+            // reanexar, e aqui justamente o caso a tratar é o que nunca reanexa.
+            handler.post {
+                carregando = false
+                carregado = if (ok) alvoAtual else null
+                if (descartado) liberarMotor() else dispararCarga()
             }
         }.start()
     }
 
+    /**
+     * Devolve os bitmaps. Chamado quando o composable sai da composição — não no
+     * `onDetachedFromWindow`, que também dispara em troca de aba e faria a prévia
+     * recarregar dezenas de MB toda vez que o usuário fosse e voltasse.
+     */
+    fun descartar() {
+        descartado = true
+        pararLoop()
+        // Se há decodificação em curso, `liberar()` ficaria bloqueado no mesmo
+        // lock esperando ela acabar — na thread de UI. Quem libera, nesse caso,
+        // é o fim da própria carga.
+        if (!carregando) liberarMotor()
+    }
+
+    private fun liberarMotor() {
+        motor.liberar()
+        carregado = null
+    }
+
+    private fun pararLoop() {
+        rodando = false
+        handler.removeCallbacks(tick)
+    }
+
+    private fun ajustarLoop() {
+        val deveRodar = !descartado && isAttachedToWindow && windowVisibility == VISIBLE
+        if (deveRodar == rodando) return
+        if (deveRodar) {
+            rodando = true
+            handler.post(tick)
+        } else {
+            pararLoop()
+        }
+    }
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        rodando = true
-        handler.post(tick)
+        ajustarLoop()
     }
 
     override fun onDetachedFromWindow() {
-        rodando = false
-        handler.removeCallbacks(tick)
+        pararLoop()
         super.onDetachedFromWindow()
+    }
+
+    /** App foi pro segundo plano: parar de invalidar 30×/s enquanto ninguém vê. */
+    override fun onWindowVisibilityChanged(visibility: Int) {
+        super.onWindowVisibilityChanged(visibility)
+        ajustarLoop()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -102,5 +196,6 @@ fun EngineLivePreview(
             premium?.let { view.definirPremium(it) }
             view.garantirCarregado(sceneId, arte, estilo)
         },
+        onRelease = { view -> view.descartar() },
     )
 }
