@@ -1180,39 +1180,68 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             blit(c, sp, -dw / 2, -dh / 2, dw, dh, pSprite); c.restore()
         }
     }
-    private fun desenharWisp(c: Canvas, w: Wisp, tf: Tf, alpha: Float) {
-        if (alpha <= 0.01f) return
+    /**
+     * A curva da rajada em pontos (x, y, peso da largura): corpo ondulado +
+     * rodopio na ponta. Sai daqui separado do desenho porque o Van Gogh passa o
+     * pincel VÁRIAS vezes sobre a MESMA curva (ver [FitaVento]).
+     */
+    private fun caminhoWisp(w: Wisp, tf: Tf): FloatArray {
         val pi = Math.PI.toFloat()
-        pStroke.color = Color.rgb(236, 240, 246)
+        val N = 26; val S = 14
+        val out = FloatArray((N + S + 1) * 3)
         val x0 = tf.ox + w.x * tf.s; val y0 = tf.oy + w.y * tf.s; val len = w.len * tf.s
-        val baseW = max(1f, tf.s * 1.7f)
-        val N = 26
-        // corpo: amplitude em envelope sin(pi t) → calmo nas pontas, ondula no meio.
-        // Cada segmento afina/esmaece nas pontas = pincelada fluida (sem zigzag).
-        var pxPrev = x0; var pyPrev = y0
+        var k = 0
+        out[k++] = x0; out[k++] = y0; out[k++] = 0.35f
         for (i in 1..N) {
             val t = i / N.toFloat()
             val env = sin(pi * t)
-            val px = x0 + t * len
-            val py = y0 + sin(t * w.waves * 6.283f + w.phase) * w.amp * tf.s * env
-            pStroke.strokeWidth = baseW * (0.35f + 0.65f * env)
-            pStroke.alpha = ((alpha * (0.45f + 0.55f * env)).coerceIn(0f, 1f) * 255f).toInt()
-            c.drawLine(pxPrev, pyPrev, px, py, pStroke)
-            pxPrev = px; pyPrev = py
+            out[k++] = x0 + t * len
+            out[k++] = y0 + sin(t * w.waves * 6.283f + w.phase) * w.amp * tf.s * env
+            out[k++] = 0.35f + 0.65f * env
         }
-        // rodopio nascendo da ponta (centro deslocado perpendicular → sem "pulo")
-        val ex = pxPrev; val ey = pyPrev
+        val ex = out[k - 3]; val ey = out[k - 2]
         val cx = ex; val cy = ey - w.curlDir * w.curlR * tf.s
         var ang = if (w.curlDir > 0f) pi / 2f else -pi / 2f
-        var r = w.curlR * tf.s; var qx = ex; var qy = ey
-        for (s in 1..14) {
+        var r = w.curlR * tf.s
+        for (s in 1..S) {
             ang += 0.45f * w.curlDir; r *= 0.86f
-            val nx = cx + cos(ang) * r; val ny = cy + sin(ang) * r
-            val fade = 1f - s / 14f
-            pStroke.strokeWidth = baseW * (0.5f * fade + 0.15f)
-            pStroke.alpha = ((alpha * 0.5f * fade).coerceIn(0f, 1f) * 255f).toInt()
-            c.drawLine(qx, qy, nx, ny, pStroke)
-            qx = nx; qy = ny
+            out[k++] = cx + cos(ang) * r
+            out[k++] = cy + sin(ang) * r
+            out[k++] = 0.5f * (1f - s / S.toFloat()) + 0.15f
+        }
+        return out
+    }
+
+    private fun desenharWisp(c: Canvas, w: Wisp, tf: Tf, alpha: Float) {
+        if (alpha <= 0.01f) return
+        val pts = caminhoWisp(w, tf)
+        val n = pts.size / 3
+        val baseW = max(1f, tf.s * 1.7f)
+        val fitas = estiloCfg.wisp ?: FITA_PADRAO
+        val dab = estiloCfg.wispDab
+        for (f in fitas) {
+            pStroke.color = f.cor
+            for (i in 1 until n) {
+                val ax = pts[(i - 1) * 3]; val ay = pts[(i - 1) * 3 + 1]
+                val bx = pts[i * 3]; val by = pts[i * 3 + 1]
+                var a = alpha * f.aMul * pts[i * 3 + 2]
+                if (dab > 0f) {
+                    val d = abs(sin((i * 2.2f) + w.phase))
+                    a *= 1f - dab + dab * d
+                }
+                if (a <= 0.012f) continue
+                // deslocamento PERPENDICULAR: é o que põe as fitas de tinta lado
+                // a lado em vez de uma sombra diagonal.
+                var dx = 0f; var dy = 0f
+                if (f.off != 0f) {
+                    val vx = bx - ax; val vy = by - ay
+                    val m = max(0.001f, kotlin.math.hypot(vx, vy))
+                    dx = -vy / m * f.off * tf.s; dy = vx / m * f.off * tf.s
+                }
+                pStroke.strokeWidth = baseW * pts[i * 3 + 2] * f.wMul
+                pStroke.alpha = (a.coerceIn(0f, 1f) * 255f).toInt()
+                c.drawLine(ax + dx, ay + dy, bx + dx, by + dy, pStroke)
+            }
         }
     }
 
@@ -1237,6 +1266,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     companion object {
         /** Gravidade da goteira, em px de CENA por s². */
         private const val GOT_G = 900f
+        /** Rajada sem receita de estilo: um risco claro só. */
+        private val FITA_PADRAO = listOf(FitaVento(Color.rgb(236, 240, 246), 1f, 0f, 1f))
         private val TINT_KEYS = listOf(
             TintKey(0f, intArrayOf(55, 65, 120)),
             TintKey(5.0f, intArrayOf(72, 78, 125)),

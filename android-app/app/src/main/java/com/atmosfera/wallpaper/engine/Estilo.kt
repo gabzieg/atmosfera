@@ -1,6 +1,7 @@
 package com.atmosfera.wallpaper.engine
 
 import android.content.Context
+import android.graphics.Color
 
 /**
  * Estilos de arte dos EFEITOS — porte das ESTILOS do protótipo web.
@@ -20,7 +21,18 @@ class EstiloCfg(
      * (padrão), o motor ACENDE o lampião com um halo radial quente.
      */
     val lampiaoSprite: Boolean = false,
+    /**
+     * Receita da RAJADA de vento. Cada [FitaVento] é uma passada de pincel sobre
+     * a mesma curva, deslocada PERPENDICULAR ao traço — é o que empilha fitas de
+     * tinta lado a lado (Van Gogh). null = risco claro único (padrão).
+     */
+    val wisp: List<FitaVento>? = null,
+    /** 0..1: quanto o alpha oscila ao longo da curva (pincelada em toques). */
+    val wispDab: Float = 0f,
 )
+
+/** Uma passada de pincel da rajada: cor, peso do alpha, deslocamento e largura. */
+class FitaVento(val cor: Int, val aMul: Float, val off: Float, val wMul: Float)
 
 object Estilos {
     private val map: Map<String, EstiloCfg> = mapOf(
@@ -53,7 +65,15 @@ object Estilos {
         "pixel_mario" to EstiloCfg("pixel_mario", "sprites_pixel_mario.png", 3, false),
         "pixel_zelda" to EstiloCfg("pixel_zelda", "sprites_pixel_zelda.png", 3, false),
         // ── Van Gogh (folha 887x1774, recorte 2026-08-09) ──
-        "van_gogh" to EstiloCfg("van_gogh", "sprites_van_gogh.png", 3, true),
+        // A rajada do Van Gogh é FITA DE TINTA: azul-noite por baixo, creme e
+        // amarelo no miolo, azul-claro por cima. Cores medidas na folha dele.
+        "van_gogh" to EstiloCfg("van_gogh", "sprites_van_gogh.png", 3, true,
+            wisp = listOf(
+                FitaVento(Color.rgb(24, 40, 96), 0.60f, 2.0f, 1.7f),
+                FitaVento(Color.rgb(58, 96, 168), 0.50f, -1.9f, 1.2f),
+                FitaVento(Color.rgb(246, 238, 186), 1.00f, 0.0f, 0.85f),
+                FitaVento(Color.rgb(250, 206, 88), 0.85f, 1.1f, 0.55f)),
+            wispDab = 0.55f),
     )
 
     fun por(id: String): EstiloCfg = map[id] ?: map.getValue("pixel")
