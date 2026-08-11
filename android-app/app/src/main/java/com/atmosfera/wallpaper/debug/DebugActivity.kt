@@ -91,6 +91,11 @@ class DebugActivity : AppCompatActivity() {
             "doodle" to "✏️ Doodle",
             "needle" to "🧶 Needle Felting",
             "pixelart" to "🟦 Pixel Art",
+            "pixel2" to "🟦 Pixel Art 2",
+            "doodleinf" to "🖍️ Doodle Infantil",
+            "point" to "🖌️ Pontilhismo",
+            "point2" to "🖌️ Pontilhismo 2",
+            "vangogh" to "🌌 Van Gogh",
             "ukiyoe" to "🎴 Ukiyo-e",
         )
         col.addView(rotulo("↳ Arte do cenário"))

@@ -160,6 +160,29 @@ object Cenas {
                 "ukiyoe" to VarFundo("cenas/jardim_ukiyo/", 1),
             ),
         ),
+        // MURALHA DA CHINA — 8 artes, ainda SEM marcação dele. Céu, água e luzes
+        // vieram de medição minha (tools/cena_auto.py → MEDIDO): o rio tem o mesmo
+        // azul da serra e precisou de sementes conferidas na arte; as lanternas do
+        // portão são vermelhas, que o detector automático não pega. A distância é
+        // geométrica (horizonte coluna a coluna), não marcada.
+        "muralha" to CenaCfg(
+            id = "muralha", prefixo = "cenas/muralha/", tipo = "muralha",
+            cenaW = 841f, cenaH = 1870f,
+            astros = Astros(-12f, 853f),
+            sol = Astro(2.2f, 520f, 110f),
+            lua = Astro(1.7f, 520f, 125f, fadeY = 500f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f,
+            variantes = mapOf(
+                "pixel2" to VarFundo("cenas/muralha_pixel2/", 1),
+                "clay" to VarFundo("cenas/muralha_clay/", 1),
+                "doodle" to VarFundo("cenas/muralha_doodle/", 1),
+                "doodleinf" to VarFundo("cenas/muralha_doodleinf/", 1),
+                "point" to VarFundo("cenas/muralha_point/", 1),
+                "point2" to VarFundo("cenas/muralha_point2/", 1),
+                "vangogh" to VarFundo("cenas/muralha_vangogh/", 1),
+            ),
+        ),
         // VELHO OESTE — da marcação (.psd): pingo sólido em tudo (sem água) e
         // distância em 6 níveis. Céu derivado da arte (ele não marcou).
         "velhooeste" to CenaCfg(

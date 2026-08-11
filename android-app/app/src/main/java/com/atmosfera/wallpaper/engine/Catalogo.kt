@@ -67,6 +67,13 @@ object Catalogo {
             productId = "cenario_heroi",
         ),
         Cenario(
+            id = "muralha",
+            nome = "Muralha da China",
+            descricao = "A muralha serpenteando entre os picos, com o rio ao fundo.",
+            gratis = false,
+            productId = "cenario_muralha",
+        ),
+        Cenario(
             id = "jardim",
             nome = "Jardim japonês",
             descricao = "Cerejeiras, ponte vermelha e lago ao pé do monte.",
