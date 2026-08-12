@@ -402,6 +402,31 @@ class EffectEngine(val estado: SceneState = SceneState()) {
 
     // ─────────────────────────────────────────────────────────────────
     //  Sol / Lua / céu diurno
+    /**
+     * TELA MAIS LARGA QUE A ARTE (tablet, ou celular 16:9): o "cover" escala pela
+     * LARGURA, a arte fica mais alta que a tela e o corte come o TOPO — que é
+     * exatamente onde o astro passa no zênite. Medido: num tablet 4:3 a arte
+     * perde 374px em cima e o sol da cabana fica fora da tela 11,8 das 12 horas
+     * de dia (num celular 16:9, 7,3h). Aqui o arco é comprimido pra dentro da
+     * faixa de céu que sobrou — entre o topo visível e o solo/silhueta, porque
+     * não serve trazer o astro pra tela e deixá-lo atrás da montanha.
+     *
+     * Não conserta cena cuja faixa de céu foi cortada INTEIRA (cabana e tanque
+     * num 4:3 ficam com 0% de céu): ali só arte mais larga resolve.
+     */
+    private fun arcoVisivel(tf: Tf, ch: Float, yBase: Float, yPico: Float,
+                            raio: Float, ySolo: Float): Pair<Float, Float> {
+        val topo = -tf.oy / tf.s
+        val base = (ch - tf.oy) / tf.s
+        if (yPico >= topo + raio) return yBase to yPico
+        val teto = topo + raio
+        val piso = min(base - raio, ySolo - raio)
+        if (piso <= teto) return yBase to yPico
+        val yb = min(max(yBase, teto), piso)
+        val yp = min(max(yPico, teto), max(teto, yb - 20f))
+        return yb to yp
+    }
+
     // ─────────────────────────────────────────────────────────────────
     private fun desenharSol(c: Canvas, tf: Tf) {
         if (estado.clima != "seco") return
@@ -409,7 +434,9 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         val t = (estado.hora - estado.nascer) / (estado.por - estado.nascer)
         if (t < -0.02f || t > 1.02f) return
         val ix = A.x1 + (A.x0 - A.x1) * t              // nasce à direita
-        val iy = S.yBase - (S.yBase - S.yPico) * 4f * t * (1 - t)
+        val (yb, yp) = arcoVisivel(tf, c.height.toFloat(), S.yBase, S.yPico,
+                                   Atlas["sol_2"].h * S.escala / 2f, S.yBase)
+        val iy = yb - (yb - yp) * 4f * t * (1 - t)
         val s = 1 - abs(2 * t - 1)                     // gradiente simétrico
         val base: String; val sobre: String; val k: Float
         if (s < 0.5f) { base = "sol_3"; sobre = "sol_2"; k = s * 2 }
@@ -437,7 +464,10 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         val t = luaProgresso(estado.hora) ?: return
         val A = cenaCfg.astros; val L = cenaCfg.luaDe(arteId)
         val ix = A.x1 + (A.x0 - A.x1) * t              // nasce à direita, põe à esquerda
-        val iy = L.yBase - (L.yBase - L.yPico) * 4f * t * (1 - t)
+        val (yb, yp) = arcoVisivel(tf, c.height.toFloat(), L.yBase, L.yPico,
+                                   Atlas["lua_4"].h * L.escala / 2f,
+                                   if (L.fadeY > 0f) L.fadeY else L.yBase)
+        val iy = yb - (yb - yp) * 4f * t * (1 - t)
         val fadeAlt = ((L.fadeY - iy) / 35f).coerceIn(0f, 1f)  // some atrás da silhueta
         if (fadeAlt <= 0.01f) return
         val idx = (estado.luaFase * (Atlas.luaFases.size - 1)).toInt().coerceIn(0, Atlas.luaFases.size - 1)
