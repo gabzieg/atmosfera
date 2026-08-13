@@ -96,6 +96,12 @@ class DebugActivity : AppCompatActivity() {
             "point" to "🖌️ Pontilhismo",
             "point2" to "🖌️ Pontilhismo 2",
             "vangogh" to "🌌 Van Gogh",
+            "doodle2" to "✏️ Doodle 2", "papel" to "📰 Papier-mâché",
+            "noite" to "🌙 Pixel Noite", "chibi" to "🎎 Anime Chibi",
+            "kodomo" to "🎈 Anime Kodomo", "seinen" to "🗡️ Anime Seinen",
+            "impress" to "🖼️ Impressionismo", "cozy" to "🛋️ Cozy Fantasy",
+            "lowpoly" to "🔷 Low Poly", "vivid" to "🌈 Vivid",
+            "cartoon" to "💫 Cartoon", "cutout" to "✂️ Paper Cutout",
             "ukiyoe" to "🎴 Ukiyo-e",
         )
         col.addView(rotulo("↳ Arte do cenário"))

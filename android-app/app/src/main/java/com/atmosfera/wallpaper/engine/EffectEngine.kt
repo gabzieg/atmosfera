@@ -557,7 +557,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             val fi = min((im.t / estado.frameMs).toInt(), im.seq.size - 1)
             val sp = Atlas[im.seq[fi]]
             val px = tf.ox + im.ix * tf.s; val py = tf.oy + im.iy * tf.s
-            val dw = sp.w * sc * im.esc; val dh = sp.h * sc * im.esc
+            val e = im.esc * cenaCfg.escImpacto
+            val dw = sp.w * sc * e; val dh = sp.h * sc * e
             blit(c, sp, px - dw / 2, py - dh, dw, dh, pSprite)
         }
     }

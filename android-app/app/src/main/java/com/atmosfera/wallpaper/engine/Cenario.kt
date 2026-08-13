@@ -55,6 +55,13 @@ class CenaCfg(
     val vagalumes: Boolean,        // vagalumes na vegetação
     val taxaParcial: Float,        // multiplicador do spawn de impacto parcial
     val taxaCompleto: Float,
+    /**
+     * Multiplicador do tamanho do respingo, por cena. Existe porque o "cover"
+     * escala diferente conforme a PROPORÇÃO da arte: cena 9:20 (841x1870) chega
+     * na tela em 1.28x, cena 3:4 (1086x1448) em 1.66x — e o respingo sairia 30%
+     * maior nas 3:4 sem nada mudar no sprite. Espelha o `escImpacto` do tester.
+     */
+    val escImpacto: Float = 1f,
     val faixas: Faixas? = null,    // profundidade → escala do impacto (tanque)
     val feixe: Feixe? = null,      // farol: lanterna giratória
     val bandeira: Bandeira? = null,// mastro com pano desenhado pelo motor
@@ -196,6 +203,89 @@ object Cenas {
                 "point" to VarFundo("cenas/muralha/point/", 1),
                 "point2" to VarFundo("cenas/muralha/point2/", 1),
                 "vangogh" to VarFundo("cenas/muralha/vangogh/", 1),
+            ),
+        ),
+        // CASTELO NA MONTANHA — lote 3:4 (1086x1448), sem marcação dele: zona de pingo
+        // derivada do terreno e distância geométrica. escImpacto 0.78 porque nesta
+        // proporção o cover escala 1.66x (contra 1.28x das cenas 9:20).
+        "castelo" to CenaCfg(
+            id = "castelo", prefixo = "cenas/castelo/", tipo = "castelo",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 700f, 130f),
+            lua = Astro(1.7f, 700f, 145f, fadeY = 690f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/castelo/pixel/", 1),
+                "clay" to VarFundo("cenas/castelo/clay/", 1),
+                "doodle" to VarFundo("cenas/castelo/doodle/", 1),
+                "doodle2" to VarFundo("cenas/castelo/doodle2/", 1),
+                "needle" to VarFundo("cenas/castelo/needle/", 1),
+                "papel" to VarFundo("cenas/castelo/papel/", 1),
+            ),
+        ),
+        // BECO JAPONÊS — lote 3:4 (1086x1448), sem marcação dele: zona de pingo
+        // derivada do terreno e distância geométrica. escImpacto 0.78 porque nesta
+        // proporção o cover escala 1.66x (contra 1.28x das cenas 9:20).
+        "beco" to CenaCfg(
+            id = "beco", prefixo = "cenas/beco/", tipo = "beco",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 420f, 90f),
+            lua = Astro(1.7f, 420f, 105f, fadeY = 400f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/beco/pixel/", 1),
+                "noite" to VarFundo("cenas/beco/noite/", 1),
+                "chibi" to VarFundo("cenas/beco/chibi/", 1),
+                "kodomo" to VarFundo("cenas/beco/kodomo/", 1),
+                "seinen" to VarFundo("cenas/beco/seinen/", 1),
+                "impress" to VarFundo("cenas/beco/impress/", 1),
+                "ukiyoe" to VarFundo("cenas/beco/ukiyoe/", 1),
+            ),
+        ),
+        // TEMPLO GREGO — lote 3:4 (1086x1448), sem marcação dele: zona de pingo
+        // derivada do terreno e distância geométrica. escImpacto 0.78 porque nesta
+        // proporção o cover escala 1.66x (contra 1.28x das cenas 9:20).
+        "templo" to CenaCfg(
+            id = "templo", prefixo = "cenas/templo/", tipo = "templo",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 560f, 120f),
+            lua = Astro(1.7f, 560f, 135f, fadeY = 540f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/templo/pixel/", 1),
+                "clay" to VarFundo("cenas/templo/clay/", 1),
+                "cozy" to VarFundo("cenas/templo/cozy/", 1),
+                "lowpoly" to VarFundo("cenas/templo/lowpoly/", 1),
+                "point" to VarFundo("cenas/templo/point/", 1),
+                "point2" to VarFundo("cenas/templo/point2/", 1),
+                "ukiyoe" to VarFundo("cenas/templo/ukiyoe/", 1),
+                "vivid" to VarFundo("cenas/templo/vivid/", 1),
+            ),
+        ),
+        // VALE ALPINO — lote 3:4 (1086x1448), sem marcação dele: zona de pingo
+        // derivada do terreno e distância geométrica. escImpacto 0.78 porque nesta
+        // proporção o cover escala 1.66x (contra 1.28x das cenas 9:20).
+        "vale" to CenaCfg(
+            id = "vale", prefixo = "cenas/vale/", tipo = "vale",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 430f, 110f),
+            lua = Astro(1.7f, 430f, 125f, fadeY = 410f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/vale/pixel/", 1),
+                "cartoon" to VarFundo("cenas/vale/cartoon/", 1),
+                "clay" to VarFundo("cenas/vale/clay/", 1),
+                "impress" to VarFundo("cenas/vale/impress/", 1),
+                "lowpoly" to VarFundo("cenas/vale/lowpoly/", 1),
+                "cutout" to VarFundo("cenas/vale/cutout/", 1),
             ),
         ),
         // VELHO OESTE — da marcação (.psd): pingo sólido em tudo (sem água) e
