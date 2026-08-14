@@ -1038,11 +1038,25 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     }
 
     /** Luzes MAPEADAS na cena: halo quente com o horário do seu tipo. */
+    /**
+     * LOTE DA NOITE: nem toda janela acende. Uma vila com 88 janelas todas
+     * acesas parece prédio comercial; o que dá vida é cada noite ter um lote
+     * diferente. Sorteio determinístico pelo DIA — estável a noite inteira, muda
+     * à meia-noite. Só vale pra janela ('parcial'); lampião e farol não sorteiam.
+     */
+    private fun luzDoLote(l: LuzCena, i: Int): Boolean {
+        if (l.tipo == "completa") return true
+        val dia = (System.currentTimeMillis() / 86_400_000L).toInt()
+        var h = (dia + 1) * -1640531527 xor ((i + 1) * 40503)
+        h = (h xor (h ushr 15)) * -2048144789
+        return ((h ushr 8) % 1000) / 1000f < LUZ_PROB
+    }
+
     private fun desenharLuzesCena(c: Canvas, tf: Tf, escuro: Float, ts: Long) {
-        for (l in marca.luzes) {
+        for ((i, l) in marca.luzes.withIndex()) {
             val aceso = if (l.tipo == "completa") lampioesAcesos(estado.hora)
                         else janelasAcesas(estado.hora)
-            if (!aceso) continue
+            if (!aceso || !luzDoLote(l, i)) continue
             val osc = if (l.tipo == "completa")
                 0.72f + 0.28f * sin(ts / 1000f * 7 + l.x) * sin(ts / 1000f * 3.3f + l.y)
             else 0.85f + 0.15f * sin(ts / 1000f * 1.3f + l.x)
@@ -1301,6 +1315,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
 
     private class TintKey(val h: Float, val c: IntArray)
     companion object {
+        /** Fração das janelas que acende em cada noite (ver luzDoLote). */
+        private const val LUZ_PROB = 0.55f
         /** Gravidade da goteira, em px de CENA por s². */
         private const val GOT_G = 900f
         /** Rajada sem receita de estilo: um risco claro só. */
