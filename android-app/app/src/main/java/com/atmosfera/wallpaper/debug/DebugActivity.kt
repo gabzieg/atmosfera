@@ -103,6 +103,7 @@ class DebugActivity : AppCompatActivity() {
             "lowpoly" to "🔷 Low Poly", "vivid" to "🌈 Vivid",
             "cartoon" to "💫 Cartoon", "cutout" to "✂️ Paper Cutout",
             "cera" to "🕯️ Cera", "sfumato" to "🌫️ Sfumato", "iso" to "📐 Isométrico",
+            "rupestre" to "🪨 Rupestre", "xilo" to "🪵 Xilogravura", "clay2" to "🧱 Clay 2",
             "ukiyoe" to "🎴 Ukiyo-e",
         )
         col.addView(rotulo("↳ Arte do cenário"))

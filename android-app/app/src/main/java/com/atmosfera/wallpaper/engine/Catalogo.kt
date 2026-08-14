@@ -67,6 +67,20 @@ object Catalogo {
             productId = "cenario_heroi",
         ),
         Cenario(
+            id = "savana",
+            nome = "Savana",
+            descricao = "Acácia e poço d'água na planície.",
+            gratis = false,
+            productId = "cenario_savana",
+        ),
+        Cenario(
+            id = "oasis",
+            nome = "Oásis",
+            descricao = "Cidade de pedra ao redor do lago no deserto.",
+            gratis = false,
+            productId = "cenario_oasis",
+        ),
+        Cenario(
             id = "elfico",
             nome = "Refúgio élfico",
             descricao = "Casa nas raízes da árvore antiga.",

@@ -286,6 +286,7 @@ object Cenas {
                 "impress" to VarFundo("cenas/vale/impress/", 1),
                 "lowpoly" to VarFundo("cenas/vale/lowpoly/", 1),
                 "cutout" to VarFundo("cenas/vale/cutout/", 1),
+                "cartoon" to VarFundo("cenas/vale/cartoon/", 1),
             ),
         ),
         // REFÚGIO ÉLFICO — lote 3:4. SEM LUZ: o prompt V2 pede a luminária
@@ -327,6 +328,46 @@ object Cenas {
                 "needle" to VarFundo("cenas/postapoc/needle/", 1),
                 "cutout" to VarFundo("cenas/postapoc/cutout/", 1),
                 "vangogh" to VarFundo("cenas/postapoc/vangogh/", 1),
+            ),
+        ),
+        // SAVANA — lote 3:4, sem marcação. Luz zerada de propósito
+        // (a luminária vem apagada; ver MAPA.md).
+        "savana" to CenaCfg(
+            id = "savana", prefixo = "cenas/savana/", tipo = "savana",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 820f, 140f),
+            lua = Astro(1.7f, 820f, 155f, fadeY = 800f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/savana/pixel/", 1),
+                "clay" to VarFundo("cenas/savana/clay/", 1),
+                "impress" to VarFundo("cenas/savana/impress/", 1),
+                "papel" to VarFundo("cenas/savana/papel/", 1),
+                "point" to VarFundo("cenas/savana/point/", 1),
+                "rupestre" to VarFundo("cenas/savana/rupestre/", 1),
+                "ukiyoe" to VarFundo("cenas/savana/ukiyoe/", 1),
+            ),
+        ),
+        // OÁSIS — lote 3:4, sem marcação. Luz zerada de propósito
+        // (a luminária vem apagada; ver MAPA.md).
+        "oasis" to CenaCfg(
+            id = "oasis", prefixo = "cenas/oasis/", tipo = "oasis",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 560f, 110f),
+            lua = Astro(1.7f, 560f, 125f, fadeY = 540f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/oasis/pixel/", 1),
+                "clay" to VarFundo("cenas/oasis/clay/", 1),
+                "clay2" to VarFundo("cenas/oasis/clay2/", 1),
+                "cera" to VarFundo("cenas/oasis/cera/", 1),
+                "cutout" to VarFundo("cenas/oasis/cutout/", 1),
+                "pixel2" to VarFundo("cenas/oasis/pixel2/", 1),
+                "xilo" to VarFundo("cenas/oasis/xilo/", 1),
             ),
         ),
         // VELHO OESTE — da marcação (.psd): pingo sólido em tudo (sem água) e
