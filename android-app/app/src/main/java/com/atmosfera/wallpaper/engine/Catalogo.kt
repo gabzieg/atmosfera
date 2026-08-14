@@ -67,6 +67,20 @@ object Catalogo {
             productId = "cenario_heroi",
         ),
         Cenario(
+            id = "elfico",
+            nome = "Refúgio élfico",
+            descricao = "Casa nas raízes da árvore antiga.",
+            gratis = false,
+            productId = "cenario_elfico",
+        ),
+        Cenario(
+            id = "postapoc",
+            nome = "Cidade tomada",
+            descricao = "Metrópole em ruínas, engolida pela mata.",
+            gratis = false,
+            productId = "cenario_postapoc",
+        ),
+        Cenario(
             id = "castelo",
             nome = "Castelo na Montanha",
             descricao = "Castelo no pico, acima de um mar de nuvens.",

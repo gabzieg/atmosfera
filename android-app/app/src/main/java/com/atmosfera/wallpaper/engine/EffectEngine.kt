@@ -1046,9 +1046,15 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             val osc = if (l.tipo == "completa")
                 0.72f + 0.28f * sin(ts / 1000f * 7 + l.x) * sin(ts / 1000f * 3.3f + l.y)
             else 0.85f + 0.15f * sin(ts / 1000f * 1.3f + l.x)
-            val raio = max(l.w, l.h) * tf.s * Atlas.SPILL_LAMPIAO * 0.6f
+            // LUZ LONGE BRILHA MENOS. Sem isso, cena com muita luz pequena no
+            // ponto de fuga (o beco japonês tem 10 placas ali) empilha halo em
+            // modo aditivo e o fundo da rua estoura em branco, com cara de
+            // amanhecer. Usa o mesmo mapa de profundidade que pesa no respingo.
+            val pf = profEm(l.cx, l.cy)
+            val peso = if (pf < 0f) 1f else 0.40f + 0.60f * pf
+            val raio = max(l.w, l.h) * tf.s * Atlas.SPILL_LAMPIAO * 0.6f * (0.6f + 0.4f * peso)
             glowQuente(c, tf.ox + l.cx * tf.s, tf.oy + l.cy * tf.s, raio,
-                min(1f, escuro * osc))
+                min(1f, escuro * osc * peso))
         }
     }
 

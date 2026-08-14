@@ -288,6 +288,47 @@ object Cenas {
                 "cutout" to VarFundo("cenas/vale/cutout/", 1),
             ),
         ),
+        // REFÚGIO ÉLFICO — lote 3:4. SEM LUZ: o prompt V2 pede a luminária
+        // DESENHADA APAGADA, então não sobra brilho pra detectar. Luz aqui só com
+        // a marcação dele.
+        "elfico" to CenaCfg(
+            id = "elfico", prefixo = "cenas/elfico/", tipo = "elfico",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 430f, 95f),
+            lua = Astro(1.7f, 430f, 110f, fadeY = 410f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/elfico/pixel/", 1),
+                "cartoon" to VarFundo("cenas/elfico/cartoon/", 1),
+                "clay" to VarFundo("cenas/elfico/clay/", 1),
+                "cera" to VarFundo("cenas/elfico/cera/", 1),
+                "lowpoly" to VarFundo("cenas/elfico/lowpoly/", 1),
+                "sfumato" to VarFundo("cenas/elfico/sfumato/", 1),
+                "vangogh" to VarFundo("cenas/elfico/vangogh/", 1),
+            ),
+        ),
+        // CIDADE TOMADA — lote 3:4. SEM LUZ: o prompt V2 pede a luminária
+        // DESENHADA APAGADA, então não sobra brilho pra detectar. Luz aqui só com
+        // a marcação dele.
+        "postapoc" to CenaCfg(
+            id = "postapoc", prefixo = "cenas/postapoc/", tipo = "postapoc",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 600f, 120f),
+            lua = Astro(1.7f, 600f, 135f, fadeY = 580f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/postapoc/pixel/", 1),
+                "cozy" to VarFundo("cenas/postapoc/cozy/", 1),
+                "iso" to VarFundo("cenas/postapoc/iso/", 1),
+                "needle" to VarFundo("cenas/postapoc/needle/", 1),
+                "cutout" to VarFundo("cenas/postapoc/cutout/", 1),
+                "vangogh" to VarFundo("cenas/postapoc/vangogh/", 1),
+            ),
+        ),
         // VELHO OESTE — da marcação (.psd): pingo sólido em tudo (sem água) e
         // distância em 6 níveis. Céu derivado da arte (ele não marcou).
         "velhooeste" to CenaCfg(
