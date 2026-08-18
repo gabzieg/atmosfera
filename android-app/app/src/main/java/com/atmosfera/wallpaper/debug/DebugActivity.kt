@@ -130,6 +130,7 @@ class DebugActivity : AppCompatActivity() {
             "simplao" to "✏️ Simplão",
             "talhe_doce_og" to "🪵 Talhe Doce", "talhe_doce" to "🪵 Talhe Doce Rico",
             "ukiyoe" to "🎴 Ukiyo-e",
+            "doodle_kinder" to "🧸 Doodle Kinder", "doodle_rabisco" to "🖋️ Doodle Rabisco",
             "van_gogh" to "🌌 Van Gogh"
         ).filter { it.first in Estilos.ids }
         col.addView(rotulo("Estilo dos efeitos"))

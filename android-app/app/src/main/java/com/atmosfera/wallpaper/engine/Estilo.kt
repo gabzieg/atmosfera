@@ -59,6 +59,9 @@ object Estilos {
         "talhe_doce" to EstiloCfg("talhe_doce", "sprites_talhe_doce.png", 3, true),
         "pixel_art2" to EstiloCfg("pixel_art2", "sprites_pixel_art2.png", 3, false),
         "doodle" to EstiloCfg("doodle", "sprites_doodle.png", 3, true),
+        // kinder e rabisco saem da MESMA folha 2816x1536 do doodle, mesmo grid
+        "doodle_kinder" to EstiloCfg("doodle_kinder", "sprites_doodle_kinder.png", 3, true),
+        "doodle_rabisco" to EstiloCfg("doodle_rabisco", "sprites_doodle_rabisco.png", 3, true),
         "papel_mache" to EstiloCfg("papel_mache", "sprites_papel_mache.png", 3, true),
         "papel_mache_2" to EstiloCfg("papel_mache_2", "sprites_papel_mache_2.png", 3, true),
         "needle_felting" to EstiloCfg("needle_felting", "sprites_needle_felting.png", 3, true),
