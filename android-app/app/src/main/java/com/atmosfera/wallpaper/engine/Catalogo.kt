@@ -67,6 +67,20 @@ object Catalogo {
             productId = "cenario_heroi",
         ),
         Cenario(
+            id = "esfinge",
+            nome = "Esfinge",
+            descricao = "Esfinge e pirâmides ao fim do dia.",
+            gratis = false,
+            productId = "cenario_esfinge",
+        ),
+        Cenario(
+            id = "sitio",
+            nome = "Sítio",
+            descricao = "Celeiro vermelho à beira do lago.",
+            gratis = false,
+            productId = "cenario_sitio",
+        ),
+        Cenario(
             id = "savana",
             nome = "Savana",
             descricao = "Acácia e poço d'água na planície.",

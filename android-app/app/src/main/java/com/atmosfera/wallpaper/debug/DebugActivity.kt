@@ -104,6 +104,7 @@ class DebugActivity : AppCompatActivity() {
             "cartoon" to "💫 Cartoon", "cutout" to "✂️ Paper Cutout",
             "cera" to "🕯️ Cera", "sfumato" to "🌫️ Sfumato", "iso" to "📐 Isométrico",
             "rupestre" to "🪨 Rupestre", "xilo" to "🪵 Xilogravura", "clay2" to "🧱 Clay 2",
+            "giz" to "🖍️ Giz", "clau" to "🎨 Clau", "impamer" to "🖼️ Imp. Americano", "simpsons" to "📺 Simpsons",
             "ukiyoe" to "🎴 Ukiyo-e",
         )
         col.addView(rotulo("↳ Arte do cenário"))

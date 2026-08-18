@@ -370,6 +370,42 @@ object Cenas {
                 "xilo" to VarFundo("cenas/oasis/xilo/", 1),
             ),
         ),
+        "esfinge" to CenaCfg(
+            id = "esfinge", prefixo = "cenas/esfinge/", tipo = "esfinge",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 700f, 120f),
+            lua = Astro(1.7f, 700f, 135f, fadeY = 680f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/esfinge/pixel/", 1),
+                "giz" to VarFundo("cenas/esfinge/giz/", 1),
+                "needle" to VarFundo("cenas/esfinge/needle/", 1),
+                "ukiyoe" to VarFundo("cenas/esfinge/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/esfinge/vangogh/", 1),
+                "xilo" to VarFundo("cenas/esfinge/xilo/", 1),
+            ),
+        ),
+        "sitio" to CenaCfg(
+            id = "sitio", prefixo = "cenas/sitio/", tipo = "sitio",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 620f, 110f),
+            lua = Astro(1.7f, 620f, 125f, fadeY = 600f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/sitio/pixel/", 1),
+                "clau" to VarFundo("cenas/sitio/clau/", 1),
+                "impamer" to VarFundo("cenas/sitio/impamer/", 1),
+                "impress" to VarFundo("cenas/sitio/impress/", 1),
+                "pixel2" to VarFundo("cenas/sitio/pixel2/", 1),
+                "simpsons" to VarFundo("cenas/sitio/simpsons/", 1),
+                "vangogh" to VarFundo("cenas/sitio/vangogh/", 1),
+                "xilo" to VarFundo("cenas/sitio/xilo/", 1),
+            ),
+        ),
         // VELHO OESTE — da marcação (.psd): pingo sólido em tudo (sem água) e
         // distância em 6 níveis. Céu derivado da arte (ele não marcou).
         "velhooeste" to CenaCfg(
