@@ -484,6 +484,69 @@ object Cenas {
                 "pixel" to VarFundo("cenas/camboja/pixel/", 1),
             ),
         ),
+        // LOTE "SÓ PIXEL" — a cena nasce só na arte pixel e as outras vêm
+        // depois. Zonas derivadas da arte (cena_auto), sem marcação ainda.
+        "caverna" to CenaCfg(
+            id = "caverna", prefixo = "cenas/caverna/", tipo = "caverna",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 600f, 115f),
+            lua = Astro(1.7f, 600f, 130f, fadeY = 580f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/caverna/pixel/", 1),
+            ),
+        ),
+        "estacionamento" to CenaCfg(
+            id = "estacionamento", prefixo = "cenas/estacionamento/", tipo = "estacionamento",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 660f, 120f),
+            lua = Astro(1.7f, 660f, 135f, fadeY = 640f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/estacionamento/pixel/", 1),
+            ),
+        ),
+        "mureta" to CenaCfg(
+            id = "mureta", prefixo = "cenas/mureta/", tipo = "mureta",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 700f, 125f),
+            lua = Astro(1.7f, 700f, 140f, fadeY = 680f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/mureta/pixel/", 1),
+                "pixel2" to VarFundo("cenas/mureta/pixel2/", 1),
+            ),
+        ),
+        "porto" to CenaCfg(
+            id = "porto", prefixo = "cenas/porto/", tipo = "porto",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 690f, 120f),
+            lua = Astro(1.7f, 690f, 135f, fadeY = 670f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/porto/pixel/", 1),
+            ),
+        ),
+        "terrao" to CenaCfg(
+            id = "terrao", prefixo = "cenas/terrao/", tipo = "terrao",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 800f, 135f),
+            lua = Astro(1.7f, 800f, 150f, fadeY = 780f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/terrao/pixel/", 1),
+            ),
+        ),
         // VELHO OESTE — da marcação (.psd): pingo sólido em tudo (sem água) e
         // distância em 6 níveis. Céu derivado da arte (ele não marcou).
         "velhooeste" to CenaCfg(
