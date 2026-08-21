@@ -33,6 +33,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     // ── Bitmaps ─────────────────────────────────────────────────────
     private lateinit var fundo: Bitmap
     private var luzesOff: Bitmap? = null      // luzes da arte na versão apagada
+    private var ceu: Bitmap? = null           // céu rolante (panorama), opcional
+    private var ceuOff = 0f                   // o quanto a tira já rolou, em px de cena
     private var bandPixel: Bitmap? = null     // tira de frames do pano (arte pixel)
     private var bandClay: Bitmap? = null      // idem, arte clay
     private lateinit var frente: Bitmap
@@ -158,6 +160,11 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         bandPixel = try { bmp("bandeira_pixel.png") } catch (e: Exception) { null }
         bandClay = try { bmp("bandeira_clay.png") } catch (e: Exception) { null }
         roofPts.clear(); lakePts.clear()
+        // CÉU ROLANTE (opcional, por CENA): tira larga que substitui o céu
+        // pintado — ver tools/ceu_movel.py.
+        ceu = if (cenaCfg.ceuMovel == null) null else
+            baixado(dCena, "ceu") ?: try { bmp(cenaCfg.prefixo + "ceu.png") } catch (e: Exception) { null }
+        ceuOff = 0f
         extrairZonas(baixado(dCena, "zonas") ?: bmp(cenaCfg.prefixo + "zonas.png"))
         carregarProf(baixado(dCena, "profundidade")
             ?: try { bmp(cenaCfg.prefixo + "profundidade.png") } catch (e: Exception) { null })
@@ -179,6 +186,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private fun liberarBitmaps() {
         if (::fundo.isInitialized) fundo.recycle()
         luzesOff?.recycle(); luzesOff = null
+        ceu?.recycle(); ceu = null
         bandPixel?.recycle(); bandPixel = null
         bandClay?.recycle(); bandClay = null
         if (::frente.isInitialized) frente.recycle()
@@ -263,18 +271,23 @@ class EffectEngine(val estado: SceneState = SceneState()) {
 
         // fundo
         canvas.drawColor(Color.BLACK)
-        blitFull(canvas, fundo, tf, pSmooth)
-        // Luzes APAGADAS enquanto é dia: janelas/lampiões vêm PINTADOS acesos na
-        // arte. O overlay some ao anoitecer, quando o glow entra por cima.
-        luzesOff?.let { lo ->
-            // normalizado: escuro não chega a 1 (a noite fecha em ~0.85), então
-            // à noite o overlay some DE VEZ e a luz pintada aparece inteira.
-            val dia = max(0f, 1f - escuro / 0.75f)
-            if (dia > 0.01f) {
-                setA(pSmooth, dia)
-                blitFull(canvas, lo, tf, pSmooth)
-                setA(pSmooth, 1f)
+        val tira = ceu
+        if (tira != null) {
+            // CÉU ROLANTE no lugar do pintado. A troca é segura porque a
+            // `frente` é a arte inteira com só o céu transparente — ela repõe
+            // tudo que o fundo desenhava fora do céu. O loop fecha porque a
+            // tira é espelhada (tools/ceu_movel.py).
+            ceuOff = (ceuOff + (cenaCfg.ceuMovel?.vel ?: 8f) * dt) % tira.width
+            val w = tira.width * tf.s
+            var x = tf.ox - ceuOff * tf.s - w
+            val lim = tf.ox + fundo.width * tf.s
+            while (x < lim) {
+                dst.set(x, tf.oy, x + w, tf.oy + tira.height * tf.s)
+                canvas.drawBitmap(tira, null, dst, pSmooth)
+                x += w
             }
+        } else {
+            blitFull(canvas, fundo, tf, pSmooth)
         }
 
         // updates
@@ -301,6 +314,23 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         // que é o que dá a sensação de distância
         desenharVulcao(canvas, tf)
         blitFull(canvas, frente, tf, pSmooth)
+        // Luzes APAGADAS enquanto é dia: janelas/lampiões vêm PINTADOS acesos na
+        // arte. O overlay some ao anoitecer, quando o glow entra por cima.
+        // TEM DE SER AQUI, depois da frente: a frente é a MESMA arte com só o
+        // céu transparente (medido: opaca + céu = 100% em toda cena), então ela
+        // cobre toda janela/lampião. Enquanto este overlay era desenhado logo
+        // após o fundo (como nasceu), ficava 100% coberto — no tester, alternar
+        // o overlay mudava ZERO pixel.
+        luzesOff?.let { lo ->
+            // normalizado: escuro não chega a 1 (a noite fecha em ~0.85), então
+            // à noite o overlay some DE VEZ e a luz pintada aparece inteira.
+            val dia = max(0f, 1f - escuro / 0.75f)
+            if (dia > 0.01f) {
+                setA(pSmooth, dia)
+                blitFull(canvas, lo, tf, pSmooth)
+                setA(pSmooth, 1f)
+            }
+        }
         // bandeira por cima da frente: é o objeto mais à frente naquele ponto
         desenharBandeira(canvas, tf, ts)
         // brilho d'água por cima da frente: ali o mar É a camada de cima

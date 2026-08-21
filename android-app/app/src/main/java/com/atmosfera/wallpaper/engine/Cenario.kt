@@ -40,6 +40,8 @@ data class VarFundo(val prefixo: String, val v: Int,
                     /** bandeira própria desta arte (folha/posição diferentes). */
                     val bandeira: Bandeira? = null)
 
+class CeuMovel(val vel: Float = 8f)
+
 class CenaCfg(
     val id: String,
     val prefixo: String,           // pasta base dos assets ("" = raiz/cabana)
@@ -65,6 +67,10 @@ class CenaCfg(
     val faixas: Faixas? = null,    // profundidade → escala do impacto (tanque)
     val feixe: Feixe? = null,      // farol: lanterna giratória
     val bandeira: Bandeira? = null,// mastro com pano desenhado pelo motor
+    // CÉU ROLANTE ("panorama rolante", o pano de teatro num rolo): quando a
+    // cena tem `ceu.png`, o motor deixa de desenhar o céu PINTADO e passa essa
+    // tira larga em loop atrás da silhueta. `vel` em px de cena por segundo.
+    val ceuMovel: CeuMovel? = null,
     val variantes: Map<String, VarFundo> = emptyMap(),
 ) {
     /** Pasta do fundo/frente para a ARTE escolhida (variante ou base=pixel). */
@@ -439,6 +445,7 @@ object Cenas {
         ),
         "telhados" to CenaCfg(
             id = "telhados", prefixo = "cenas/telhados/", tipo = "telhados",
+            ceuMovel = CeuMovel(vel = 8f),
             cenaW = 1086f, cenaH = 1448f,
             astros = Astros(-12f, 1098f),
             sol = Astro(2.2f, 640f, 120f),
