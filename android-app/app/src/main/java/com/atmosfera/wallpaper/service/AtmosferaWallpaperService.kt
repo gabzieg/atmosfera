@@ -86,7 +86,7 @@ class AtmosferaWallpaperService : WallpaperService() {
             val estilo = EstiloEfeito.atual(applicationContext)
             if (!motor.pronto || cena != motor.cenaId || arte != motor.arteId || estilo != motor.estiloId) {
                 try {
-                    motor.carregar(assets, cena, arte, estilo)
+                    motor.carregar(applicationContext, cena, arte, estilo)
                 } catch (_: Throwable) {
                     // falha de asset/memória: não derruba o app; tenta de novo
                     // na próxima visibilidade (o motor fica pronto=false até lá).

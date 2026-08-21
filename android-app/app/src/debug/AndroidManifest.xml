@@ -7,9 +7,15 @@
 
   A DebugActivity em si (exported=false) segue declarada no manifesto principal;
   aqui só criamos um atalho de launcher via activity-alias.
+
+  `usesCleartextTraffic` existe só aqui: o acervo de teste é servido pelo
+  servidor do tester em `http://10.0.2.2:8123/dist/` (HTTP puro). Em release o
+  acervo vem do bucket por HTTPS e a permissão NÃO existe — este manifesto não
+  mescla no build de release.
 -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application android:usesCleartextTraffic="true" tools:ignore="UnusedAttribute">
         <activity-alias
             android:name=".debug.DebugLauncher"
             android:targetActivity=".debug.DebugActivity"

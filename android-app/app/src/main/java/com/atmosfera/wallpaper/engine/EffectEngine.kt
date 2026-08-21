@@ -1,5 +1,6 @@
 package com.atmosfera.wallpaper.engine
 
+import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,6 +12,7 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.Rect
 import android.graphics.RectF
+import java.io.File
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -113,8 +115,18 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     // ─────────────────────────────────────────────────────────────────
     /** Carrega os assets do cenário [cenaId] (arte de fundo [arte]) + o pack de
      *  sprites do estilo de efeito [estilo]. Pode ser chamado de novo p/ trocar. */
+    /**
+     * Mesmo carregamento, resolvendo o ACERVO baixado a partir do [Context] —
+     * é por aqui que entra cena que não veio dentro do app. Cena sem download
+     * cai nos assets embutidos (o wallpaper grátis), então nunca fica preto.
+     */
+    fun carregar(c: Context, cenaId: String = "cabana",
+                 arte: String = "pixel", estilo: String = "pixel") =
+        carregar(c.assets, cenaId, arte, estilo, Acervo.raiz(c))
+
     fun carregar(assets: AssetManager, cenaId: String = "cabana",
-                 arte: String = "pixel", estilo: String = "pixel") = synchronized(lock) {
+                 arte: String = "pixel", estilo: String = "pixel",
+                 raizAcervo: File? = null) = synchronized(lock) {
         pronto = false
         liberarBitmaps()
         this.cenaId = cenaId; this.arteId = arte; this.estiloId = estilo
@@ -125,10 +137,20 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         pSprite.isFilterBitmap = estiloCfg.suave   // pixel = cru; clay/aqua = suave
         fun bmp(nome: String) = assets.open("atmosfera/$nome").use { BitmapFactory.decodeStream(it) }
         val fp = cenaCfg.fundoPrefixo(arte)         // variante (clay/aqua) ou base
-        fundo = bmp(fp + "fundo.png")
-        frente = bmp(fp + "frente.png")
+        // ACERVO: a arte baixada (WebP, em filesDir) tem precedência sobre a
+        // embutida (PNG, nos assets). Só o wallpaper grátis vem dentro do app —
+        // ver Acervo.kt e docs/dev/ENTREGA-DE-ARTE.md.
+        val dArte = raizAcervo?.let { Acervo.pastaArte(it, cenaId, arte) }
+        val dCena = raizAcervo?.let { Acervo.pastaCena(it, cenaId) }
+        fun baixado(d: File?, base: String): Bitmap? {
+            val f = File(d ?: return null, "$base.webp")
+            return if (f.exists()) BitmapFactory.decodeFile(f.path) else null
+        }
+        fundo = baixado(dArte, "fundo") ?: bmp(fp + "fundo.png")
+        frente = baixado(dArte, "frente") ?: bmp(fp + "frente.png")
         // opcional por ARTE (nem toda cena tem luz pintada) — ver tools/luzes_off.py
-        luzesOff = try { bmp(fp + "luzes_off.png") } catch (e: Exception) { null }
+        luzesOff = baixado(dArte, "luzes_off")
+            ?: try { bmp(fp + "luzes_off.png") } catch (e: Exception) { null }
         sprites = bmp(estiloCfg.arquivo)
         neve = bmp("neve_acumulo.png")
         neveForte = bmp("neve_acumulo_forte.png")
@@ -136,11 +158,14 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         bandPixel = try { bmp("bandeira_pixel.png") } catch (e: Exception) { null }
         bandClay = try { bmp("bandeira_clay.png") } catch (e: Exception) { null }
         roofPts.clear(); lakePts.clear()
-        extrairZonas(bmp(cenaCfg.prefixo + "zonas.png"))
-        carregarProf(try { bmp(cenaCfg.prefixo + "profundidade.png") } catch (e: Exception) { null })
+        extrairZonas(baixado(dCena, "zonas") ?: bmp(cenaCfg.prefixo + "zonas.png"))
+        carregarProf(baixado(dCena, "profundidade")
+            ?: try { bmp(cenaCfg.prefixo + "profundidade.png") } catch (e: Exception) { null })
         // luzes e saída de fumaça da MARCAÇÃO da cena (cena sem isso cai nas
         // constantes da cabana no Atlas — ver Marcacao.kt)
-        marca = DadosMarcacao.ler(assets, cenaCfg.prefixo)
+        val zonasBaixado = dCena?.let { File(it, "zonas.json") }?.takeIf { it.exists() }
+        marca = if (zonasBaixado != null) DadosMarcacao.ler(zonasBaixado.readText())
+                else DadosMarcacao.ler(assets, cenaCfg.prefixo)
         // estado dependente da cena/dimensões
         clouds.clear(); drops.clear(); flakes.clear(); impacts.clear()
         brilhos.clear(); puffsVulcao.clear(); puffVulcAcc = 0f

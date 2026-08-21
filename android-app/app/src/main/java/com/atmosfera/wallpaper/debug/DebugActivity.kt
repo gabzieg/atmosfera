@@ -16,8 +16,11 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import com.atmosfera.wallpaper.BuildConfig
 import com.atmosfera.wallpaper.billing.Plano
+import com.atmosfera.wallpaper.engine.Acervo
 import com.atmosfera.wallpaper.engine.ArteFundo
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cena
@@ -226,11 +229,77 @@ class DebugActivity : AppCompatActivity() {
             setPadding(0, dp(6), 0, 0)
         })
 
+        secaoAcervo(col)
+
         col.addView(Button(this).apply {
             text = "Fechar"
             setOnClickListener { finish() }
             layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply { topMargin = dp(16) }
         })
+    }
+
+    /**
+     * ACERVO — baixar a arte da cena escolhida de um servidor, em vez de tirar
+     * dos assets. É a única forma de exercitar o download antes de a Loja ter
+     * botão pra isso (ver docs/dev/ENTREGA-DE-ARTE.md). No emulador, o servidor
+     * do tester responde em `http://10.0.2.2:8123/dist/`.
+     */
+    private fun secaoAcervo(col: LinearLayout) {
+        col.addView(rotulo("—— Acervo (download da arte) ——"))
+        val estado = TextView(this).apply {
+            setTextColor(Color.parseColor("#8A94A6")); textSize = 12f
+        }
+        fun atualizar() {
+            val cena = Cena.atual(this); val arte = ArteFundo.atual(this)
+            estado.text = buildString {
+                append(if (Acervo.temArte(this@DebugActivity, cena, arte))
+                    "$cena/$arte: baixado" else "$cena/$arte: usando o asset embutido")
+                append("  ·  disco ")
+                append("%.1f MB".format(Acervo.bytesEmDisco(this@DebugActivity) / 1e6))
+                val b = Acervo.base(this@DebugActivity)
+                append("\nservidor: ").append(if (b.isEmpty()) "(nenhum)" else b)
+            }
+        }
+        val campo = android.widget.EditText(this).apply {
+            hint = "http://10.0.2.2:8123/dist/"
+            setText(Acervo.base(this@DebugActivity))
+            setTextColor(Color.WHITE); textSize = 13f
+        }
+        col.addView(campo)
+        col.addView(Button(this).apply {
+            text = "Salvar servidor"
+            setOnClickListener {
+                Acervo.definirBase(this@DebugActivity, campo.text.toString().trim())
+                atualizar()
+            }
+        })
+        col.addView(Button(this).apply {
+            text = "Baixar arte desta cena"
+            setOnClickListener {
+                val cena = Cena.atual(this@DebugActivity)
+                val arte = ArteFundo.atual(this@DebugActivity)
+                estado.text = "baixando $cena/$arte…"
+                lifecycleScope.launch {
+                    Acervo.baixarArte(this@DebugActivity, cena, arte).collect { p ->
+                        when (p) {
+                            is Acervo.Progresso.Baixando ->
+                                estado.text = "baixando $cena/$arte… %.0f%%".format(p.fracao * 100)
+                            is Acervo.Progresso.Erro -> estado.text = "erro: ${p.motivo}"
+                            Acervo.Progresso.Ok -> { atualizar(); preview.trocarCenaEstilo() }
+                        }
+                    }
+                }
+            }
+        })
+        col.addView(Button(this).apply {
+            text = "Apagar o que foi baixado desta cena"
+            setOnClickListener {
+                Acervo.apagarCena(this@DebugActivity, Cena.atual(this@DebugActivity))
+                atualizar(); preview.recarregar()
+            }
+        })
+        col.addView(estado)
+        atualizar()
     }
 
     // ── Helpers de UI ────────────────────────────────────────────────

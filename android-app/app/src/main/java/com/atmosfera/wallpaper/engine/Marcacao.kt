@@ -44,8 +44,15 @@ class DadosMarcacao(
 
         /** Lê `<prefixo>zonas.json` dos assets. Ausência/erro = VAZIO. */
         fun ler(assets: AssetManager, prefixo: String): DadosMarcacao = try {
-            val txt = assets.open("atmosfera/${prefixo}zonas.json")
-                .bufferedReader().use { it.readText() }
+            ler(assets.open("atmosfera/${prefixo}zonas.json")
+                .bufferedReader().use { it.readText() })
+        } catch (e: Exception) {
+            VAZIO
+        }
+
+        /** Mesmo parser, a partir do TEXTO — é assim que entra o `zonas.json`
+         *  do acervo baixado, que não mora nos assets. Ver Acervo.kt. */
+        fun ler(txt: String): DadosMarcacao = try {
             val o = JSONObject(txt)
             val luzes = ArrayList<LuzCena>()
             o.optJSONArray("luzes")?.let { arr ->
