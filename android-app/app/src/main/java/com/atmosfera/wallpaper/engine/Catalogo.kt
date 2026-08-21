@@ -137,6 +137,20 @@ object Catalogo {
             productId = "cenario_terrao",
         ),
         Cenario(
+            id = "cyberpunk",
+            nome = "Cyberpunk — canal",
+            descricao = "Passarelas de neon sobre o canal cheio.",
+            gratis = false,
+            productId = "cenario_cyberpunk",
+        ),
+        Cenario(
+            id = "cyberseco",
+            nome = "Cyberpunk — rua",
+            descricao = "A mesma cidade pela rua seca, entre letreiros.",
+            gratis = false,
+            productId = "cenario_cyberseco",
+        ),
+        Cenario(
             id = "esfinge",
             nome = "Esfinge",
             descricao = "Esfinge e pirâmides ao fim do dia.",

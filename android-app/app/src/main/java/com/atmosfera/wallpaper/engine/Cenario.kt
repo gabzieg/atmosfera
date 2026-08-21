@@ -445,13 +445,30 @@ object Cenas {
             lua = Astro(1.7f, 640f, 135f, fadeY = 620f),
             temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            // 21 artes. A base virou a EMOLDURADA (a vista sai por um arco de
+            // pedra), que é como vieram 20 das 21; a antiga sem moldura ficou
+            // como `terraco`.
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/telhados/pixel/", 1),
+                "terraco" to VarFundo("cenas/telhados/terraco/", 1),
                 "anime" to VarFundo("cenas/telhados/anime/", 1),
+                "cartoon" to VarFundo("cenas/telhados/cartoon/", 1),
                 "clay" to VarFundo("cenas/telhados/clay/", 1),
+                "cozy" to VarFundo("cenas/telhados/cozy/", 1),
+                "cutout" to VarFundo("cenas/telhados/cutout/", 1),
                 "dark" to VarFundo("cenas/telhados/dark/", 1),
+                "doodle" to VarFundo("cenas/telhados/doodle/", 1),
+                "doodle2" to VarFundo("cenas/telhados/doodle2/", 1),
+                "giz" to VarFundo("cenas/telhados/giz/", 1),
+                "impress" to VarFundo("cenas/telhados/impress/", 1),
+                "lowpoly" to VarFundo("cenas/telhados/lowpoly/", 1),
+                "needle" to VarFundo("cenas/telhados/needle/", 1),
                 "papel" to VarFundo("cenas/telhados/papel/", 1),
+                "point" to VarFundo("cenas/telhados/point/", 1),
+                "puppet" to VarFundo("cenas/telhados/puppet/", 1),
                 "ukiyoe" to VarFundo("cenas/telhados/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/telhados/vangogh/", 1),
+                "vangoghnoite" to VarFundo("cenas/telhados/vangoghnoite/", 1),
                 "xilo" to VarFundo("cenas/telhados/xilo/", 1),
             ),
         ),
@@ -521,6 +538,13 @@ object Cenas {
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/mureta/pixel/", 1),
                 "pixel2" to VarFundo("cenas/mureta/pixel2/", 1),
+                "pixel16" to VarFundo("cenas/mureta/pixel16/", 1),
+                // xilogravura: veio dele em CAMADAS separadas por profundidade
+                // (céu/colinas/árvore/muro/primeiro plano). As camadas têm vãos
+                // retangulares — não fecham a imagem —, então usei a composta e
+                // recortei o céu por cor. As camadas seguem guardadas: se um dia
+                // o motor ganhar parallax de verdade, é daqui que ele sai.
+                "xilo" to VarFundo("cenas/mureta/xilo/", 1),
             ),
         ),
         "porto" to CenaCfg(
@@ -533,6 +557,39 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/porto/pixel/", 1),
+            ),
+        ),
+        // CYBERPUNK — duas cenas irmãs, mesma cidade: canal cheio e rua seca.
+        // Separadas porque só a inundada tem pingo na água.
+        "cyberpunk" to CenaCfg(
+            id = "cyberpunk", prefixo = "cenas/cyberpunk/", tipo = "cyberpunk",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 700f, 120f),
+            lua = Astro(1.7f, 700f, 135f, fadeY = 680f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/cyberpunk/pixel/", 1),
+                "pixel16" to VarFundo("cenas/cyberpunk/pixel16/", 1),
+                "cozy" to VarFundo("cenas/cyberpunk/cozy/", 1),
+                "impress" to VarFundo("cenas/cyberpunk/impress/", 1),
+            ),
+        ),
+        "cyberseco" to CenaCfg(
+            id = "cyberseco", prefixo = "cenas/cyberseco/", tipo = "cyberseco",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 650f, 110f),
+            lua = Astro(1.7f, 650f, 125f, fadeY = 630f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/cyberseco/pixel/", 1),
+                "pixel2" to VarFundo("cenas/cyberseco/pixel2/", 1),
+                "cozy" to VarFundo("cenas/cyberseco/cozy/", 1),
+                "cozynoite" to VarFundo("cenas/cyberseco/cozynoite/", 1),
+                "xilo" to VarFundo("cenas/cyberseco/xilo/", 1),
             ),
         ),
         "terrao" to CenaCfg(
