@@ -165,14 +165,25 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         ceu = if (cenaCfg.ceuMovel == null) null else
             baixado(dCena, "ceu") ?: try { bmp(cenaCfg.prefixo + "ceu.png") } catch (e: Exception) { null }
         ceuOff = 0f
-        extrairZonas(baixado(dCena, "zonas") ?: bmp(cenaCfg.prefixo + "zonas.png"))
+        // ZONAS POR ARTE: arte com enquadramento próprio (a cabana doodle bate
+        // só 0.58 com a base) não pode usar a zona da CENA — o pingo cairia no
+        // lugar errado. Se a pasta da arte tem zonas, ela MANDA.
+        val zonasArte = baixado(dArte, "zonas")
+            ?: try { bmp(fp + "zonas.png") } catch (e: Exception) { null }
+        extrairZonas(zonasArte ?: baixado(dCena, "zonas") ?: bmp(cenaCfg.prefixo + "zonas.png"))
         carregarProf(baixado(dCena, "profundidade")
             ?: try { bmp(cenaCfg.prefixo + "profundidade.png") } catch (e: Exception) { null })
         // luzes e saída de fumaça da MARCAÇÃO da cena (cena sem isso cai nas
         // constantes da cabana no Atlas — ver Marcacao.kt)
-        val zonasBaixado = dCena?.let { File(it, "zonas.json") }?.takeIf { it.exists() }
-        marca = if (zonasBaixado != null) DadosMarcacao.ler(zonasBaixado.readText())
-                else DadosMarcacao.ler(assets, cenaCfg.prefixo)
+        val zonasBaixado = (dArte?.let { File(it, "zonas.json") }?.takeIf { it.exists() }
+            ?: dCena?.let { File(it, "zonas.json") }?.takeIf { it.exists() })
+        // mesma precedência do zonas.png: a marcação da ARTE ganha da cena
+        val marcaArte = if (zonasArte != null) DadosMarcacao.ler(assets, fp) else DadosMarcacao.VAZIO
+        marca = when {
+            zonasBaixado != null -> DadosMarcacao.ler(zonasBaixado.readText())
+            marcaArte !== DadosMarcacao.VAZIO -> marcaArte
+            else -> DadosMarcacao.ler(assets, cenaCfg.prefixo)
+        }
         // estado dependente da cena/dimensões
         clouds.clear(); drops.clear(); flakes.clear(); impacts.clear()
         brilhos.clear(); puffsVulcao.clear(); puffVulcAcc = 0f

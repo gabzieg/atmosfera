@@ -546,6 +546,21 @@ object Cenas {
                 "pixel" to VarFundo("cenas/mureta/pixel/", 1),
                 "pixel2" to VarFundo("cenas/mureta/pixel2/", 1),
                 "pixel16" to VarFundo("cenas/mureta/pixel16/", 1),
+                "bordado" to VarFundo("cenas/mureta/bordado/", 1),
+                "ceramica" to VarFundo("cenas/mureta/ceramica/", 1),
+                "ceramica2" to VarFundo("cenas/mureta/ceramica2/", 1),
+                "clay" to VarFundo("cenas/mureta/clay/", 1),
+                "clay2" to VarFundo("cenas/mureta/clay2/", 1),
+                "cozy" to VarFundo("cenas/mureta/cozy/", 1),
+                "fauvismo" to VarFundo("cenas/mureta/fauvismo/", 1),
+                "giz" to VarFundo("cenas/mureta/giz/", 1),
+                "impalemao" to VarFundo("cenas/mureta/impalemao/", 1),
+                "impress" to VarFundo("cenas/mureta/impress/", 1),
+                "lowpoly" to VarFundo("cenas/mureta/lowpoly/", 1),
+                "point" to VarFundo("cenas/mureta/point/", 1),
+                "simpsons" to VarFundo("cenas/mureta/simpsons/", 1),
+                "tapecaria" to VarFundo("cenas/mureta/tapecaria/", 1),
+                "vangogh" to VarFundo("cenas/mureta/vangogh/", 1),
                 // xilogravura: veio dele em CAMADAS separadas por profundidade
                 // (céu/colinas/árvore/muro/primeiro plano). As camadas têm vãos
                 // retangulares — não fecham a imagem —, então usei a composta e
