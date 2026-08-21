@@ -78,6 +78,10 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private var puffAcc = 0f
     // praia: brilho d'água + fumaça permanente do vulcão
     private val brilhos = ArrayList<Brilho>()
+    /** Risco claro descendo dentro de uma cachoeira (ver Marcacao.Queda). */
+    private class RiscoAgua(var q: Int, var i: Float, var vel: Float,
+                            var comp: Float, var a: Float)
+    private val riscosAgua = ArrayList<RiscoAgua>()
     private val puffsVulcao = ArrayList<Puff>()
     private var puffVulcAcc = 0f
     private val leaves = ArrayList<Leaf>()
@@ -187,6 +191,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         // estado dependente da cena/dimensões
         clouds.clear(); drops.clear(); flakes.clear(); impacts.clear()
         brilhos.clear(); puffsVulcao.clear(); puffVulcAcc = 0f
+        riscosAgua.clear()
         fogBanks.clear(); leaves.clear(); wisps.clear(); puffs.clear()
         bolt = null; snowAccum = 0f; roofAcc = 0f; lakeAcc = 0f; lastTs = 0L
         initStars()
@@ -305,6 +310,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         atualizar(dt, cw, ch, escuro)
         updateVulcao(dt)
         updateBrilhos(dt)
+        updateCachoeiras(dt)
         updateGoteiras(dt)
 
         // 1a0. tint de clima (só o céu — antes do sol/nuvens/frente)
@@ -346,6 +352,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         desenharBandeira(canvas, tf, ts)
         // brilho d'água por cima da frente: ali o mar É a camada de cima
         desenharBrilhos(canvas, tf)
+        // água correndo: por cima da frente, que ali É a rocha da queda
+        desenharCachoeiras(canvas, tf)
         // goteira por cima da frente: a folhagem da frente.png é toda opaca ali
         desenharGoteiras(canvas, tf)
         desenharAcumulo(canvas, tf)
@@ -876,6 +884,59 @@ class EffectEngine(val estado: SceneState = SceneState()) {
      * e borra o pixel art), passo lampejos claros por cima, DENTRO das faixas de
      * mar mapeadas — assim o brilho respeita a costa e o casco do barco.
      */
+    /**
+     * ÁGUA CORRENDO. O motor não deforma pixel (caro, e borra o pixel art):
+     * a queda é feita de RISCOS CLAROS que descem dentro da faixa mapeada —
+     * mesma ideia dos lampejos do mar da praia, virada na vertical. Como a
+     * faixa vem linha a linha, o risco segue a curva da queda sozinho.
+     */
+    private fun updateCachoeiras(dt: Float) {
+        val quedas = marca.cachoeiras
+        if (quedas.isEmpty()) { if (riscosAgua.isNotEmpty()) riscosAgua.clear(); return }
+        if (riscosAgua.isEmpty()) {
+            quedas.forEachIndexed { q, queda ->
+                val n = maxOf(3, Math.round(queda.faixas.size / 28f))
+                repeat(n) {
+                    riscosAgua.add(RiscoAgua(q, rnd.nextFloat() * queda.faixas.size,
+                        190f + rnd.nextFloat() * 130f, 10f + rnd.nextFloat() * 16f,
+                        0.30f + rnd.nextFloat() * 0.35f))
+                }
+            }
+        }
+        for (r in riscosAgua) {
+            val f = quedas.getOrNull(r.q) ?: continue
+            r.i += r.vel * dt
+            if (r.i - r.comp > f.faixas.size) {
+                r.i = -rnd.nextFloat() * 40f; r.vel = 190f + rnd.nextFloat() * 130f
+                r.comp = 10f + rnd.nextFloat() * 16f; r.a = 0.30f + rnd.nextFloat() * 0.35f
+            }
+        }
+    }
+
+    private fun desenharCachoeiras(c: Canvas, tf: Tf) {
+        if (riscosAgua.isEmpty()) return
+        val quedas = marca.cachoeiras
+        pFill.xfermode = ADD
+        for (r in riscosAgua) {
+            val f = quedas.getOrNull(r.q) ?: continue
+            val ini = maxOf(0, (r.i - r.comp).toInt())
+            val fim = minOf(f.faixas.size - 1, r.i.toInt())
+            if (fim < ini) continue
+            for (k in ini..fim) {
+                val fa = f.faixas[k]
+                val t = (k - ini).toFloat() / maxOf(1, fim - ini)
+                val al = r.a * t * t * (0.75f + 0.25f * kotlin.math.sin(k * 0.7f))
+                if (al < 0.02f) continue
+                pFill.color = Color.argb((al * 255).toInt().coerceIn(0, 255), 226, 244, 255)
+                val larg = maxOf(1f, (fa.x1 - fa.x0 + 1f) * 0.55f)
+                val cx = fa.x0 + (fa.x1 - fa.x0 + 1f - larg) * 0.5f
+                c.drawRect(tf.ox + cx * tf.s, tf.oy + fa.y * tf.s,
+                           tf.ox + (cx + larg) * tf.s, tf.oy + (fa.y + 1f) * tf.s, pFill)
+            }
+        }
+        pFill.xfermode = null
+    }
+
     private fun updateBrilhos(dt: Float) {
         val mar = marca.mar
         if (mar.isEmpty()) { if (brilhos.isNotEmpty()) brilhos.clear(); return }

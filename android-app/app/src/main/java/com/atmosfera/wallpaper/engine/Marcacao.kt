@@ -29,6 +29,13 @@ data class BocaFumaca(val x: Float, val y: Float, val w: Float)
  *  isto p/ respeitar a costa em vez de vazar num retângulo. */
 data class FaixaMar(val y: Float, val x0: Float, val x1: Float)
 
+/**
+ * CACHOEIRA: a queda d'água mapeada LINHA A LINHA (tools/cachoeira.py). Uma
+ * lista por queda, porque o risco que desce precisa seguir a curva de UMA
+ * cachoeira — misturadas, ele saltaria de uma pra outra no meio do caminho.
+ */
+data class Queda(val faixas: List<FaixaMar>)
+
 /** GOTEIRA: pinga de [x],[y] e estoura em [ychao] (só chuva forte/temporal). */
 data class Goteira(val x: Float, val y: Float, val ychao: Float)
 
@@ -36,6 +43,7 @@ class DadosMarcacao(
     val luzes: List<LuzCena> = emptyList(),
     val fumaca: List<BocaFumaca> = emptyList(),
     val mar: List<FaixaMar> = emptyList(),
+    val cachoeiras: List<Queda> = emptyList(),
     val vulcao: BocaFumaca? = null,
     val goteiras: List<Goteira> = emptyList(),
 ) {
@@ -100,7 +108,21 @@ class DadosMarcacao(
                                     g.optDouble("ychao", 0.0).toFloat()))
                 }
             }
-            DadosMarcacao(luzes, fum, mar, vul, got)
+            val quedas = ArrayList<Queda>()
+            o.optJSONArray("cachoeira")?.let { arr ->
+                for (i in 0 until arr.length()) {
+                    val fa = arr.getJSONArray(i)
+                    val lst = ArrayList<FaixaMar>(fa.length())
+                    for (j in 0 until fa.length()) {
+                        val f = fa.getJSONArray(j)
+                        lst.add(FaixaMar(f.getDouble(0).toFloat(),
+                                         f.getDouble(1).toFloat(),
+                                         f.getDouble(2).toFloat()))
+                    }
+                    if (lst.size >= 20) quedas.add(Queda(lst))
+                }
+            }
+            DadosMarcacao(luzes, fum, mar, quedas, vul, got)
         } catch (e: Exception) {
             VAZIO
         }
