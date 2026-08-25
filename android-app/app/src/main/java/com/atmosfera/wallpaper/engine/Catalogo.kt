@@ -137,6 +137,27 @@ object Catalogo {
             productId = "cenario_terrao",
         ),
         Cenario(
+            id = "bruxa",
+            nome = "Casa da bruxa",
+            descricao = "Casario torto de bruxa à beira do lago.",
+            gratis = false,
+            productId = "cenario_bruxa",
+        ),
+        Cenario(
+            id = "eiffel",
+            nome = "Torre Eiffel",
+            descricao = "Campo de Marte com a torre ao fundo.",
+            gratis = false,
+            productId = "cenario_eiffel",
+        ),
+        Cenario(
+            id = "simpsons",
+            nome = "Casa amarela",
+            descricao = "Rua de subúrbio com a casa amarela.",
+            gratis = false,
+            productId = "cenario_simpsons",
+        ),
+        Cenario(
             id = "cyberpunk",
             nome = "Cyberpunk — canal",
             descricao = "Passarelas de neon sobre o canal cheio.",
