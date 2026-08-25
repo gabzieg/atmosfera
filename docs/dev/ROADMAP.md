@@ -165,7 +165,10 @@ isso está combinado. Bloqueia só o release destinado à Play Store.
   ainda. É peça de arte; não dá pra derivar de screenshot
 - [ ] **Ícone 512×512** — o adaptive icon é 100% vetorial (`mipmap-*/*.xml`,
   nenhum PNG no repo), então o ícone da ficha precisa ser renderizado
-- [ ] Descrição curta (80 caracteres) + longa (4.000)
+- [x] Descrição curta (80 caracteres) + longa (4.000) — rascunho em
+  [docs/loja/FICHA.md](../loja/FICHA.md), com contagem de caracteres conferida
+  e uma tabela ligando cada afirmação ao código que a sustenta. **Falta a
+  revisão do Gabriel** antes de ir pro Console
 
 **Não depende de nada** — nem da conta, nem do Rafael. É a fase com o menor
 custo de entrada hoje.

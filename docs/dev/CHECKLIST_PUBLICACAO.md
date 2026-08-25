@@ -92,7 +92,9 @@ Form declarado com o que o APK realmente pede).
   - [ ] **Feature graphic 1024×500** — obrigatório, ainda não existe.
   - [ ] **Ícone 512×512** — precisa ser renderizado: o adaptive icon é só
     vetor (`mipmap-*/*.xml`), não há PNG no repo.
-  - [ ] Descrição curta (80) e longa (4.000).
+  - [x] **Descrição curta (80) e longa (4.000)** — rascunho em
+    `docs/loja/FICHA.md`, dentro dos limites (57 e 1.618 caracteres) e com
+    cada afirmação rastreada ao código. Pendente de revisão do Gabriel.
 - [ ] **Conteúdo pago não pode embarcar no APK/AAB base** — decisão de
   2026-08-09. `assets/atmosfera/` saltou de 14,7 MB pra **140 MB** na
   integração do motor novo (6 cenários + 12 estilos), e quem não comprou não
