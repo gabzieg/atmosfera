@@ -83,8 +83,16 @@ Form declarado com o que o APK realmente pede).
 
 > **Respostas prontas para os dois formulários acima**, derivadas do código e
 > com a linha que sustenta cada uma: [GUIA_PLAY_CONSOLE.md](GUIA_PLAY_CONSOLE.md).
-- [ ] **Ficha da loja**: título, descrição, screenshots (usar o app real, não
-  só o `wallpaper_thumbnail.png`), ícone.
+- [ ] **Ficha da loja**: título, descrição, screenshots, ícone.
+  - [x] **Screenshots** — 6 capturas do app real em `docs/loja/`, validadas
+    contra as regras da Play (1080×1920, razão ≤ 2:1, PNG 24-bit sem alfa).
+    Duas armadilhas descobertas na prática, documentadas em
+    `docs/loja/README.md`: a captura crua do emulador é 2,22:1 e **seria
+    rejeitada**, e o `screencap` grava canal alfa, que a Play não aceita.
+  - [ ] **Feature graphic 1024×500** — obrigatório, ainda não existe.
+  - [ ] **Ícone 512×512** — precisa ser renderizado: o adaptive icon é só
+    vetor (`mipmap-*/*.xml`), não há PNG no repo.
+  - [ ] Descrição curta (80) e longa (4.000).
 - [ ] **Conteúdo pago não pode embarcar no APK/AAB base** — decisão de
   2026-08-09. `assets/atmosfera/` saltou de 14,7 MB pra **140 MB** na
   integração do motor novo (6 cenários + 12 estilos), e quem não comprou não

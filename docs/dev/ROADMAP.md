@@ -156,14 +156,24 @@ isso está combinado. Bloqueia só o release destinado à Play Store.
 **Objetivo:** listagem pronta pra revisão do Google.
 
 **Critério de saída:**
-- [ ] Screenshots reais do app rodando (onboarding, Home, Loja, detalhe com
-  preview ao vivo, tela de Premium, Ajustes) — não só `wallpaper_thumbnail.png`
-- [ ] Descrição curta + longa da ficha
-- [ ] Ícone final validado (adaptive icon já existe, confirmar em contexto
-  real de launcher)
+- [x] Screenshots reais do app rodando — **6 capturas em `docs/loja/`**
+  (onboarding, wallpaper aplicado no launcher, Início, Loja, detalhe com
+  prévia ao vivo, Premium), feitas em 2026-08-25 e validadas uma a uma contra
+  as regras da Play: 1080×1920, razão 1,78 (teto é 2:1), PNG 24-bit sem canal
+  alfa. Ver [docs/loja/README.md](../loja/README.md)
+- [ ] **Feature graphic 1024×500** — obrigatório em toda ficha, não existe
+  ainda. É peça de arte; não dá pra derivar de screenshot
+- [ ] **Ícone 512×512** — o adaptive icon é 100% vetorial (`mipmap-*/*.xml`,
+  nenhum PNG no repo), então o ícone da ficha precisa ser renderizado
+- [ ] Descrição curta (80 caracteres) + longa (4.000)
 
 **Não depende de nada** — nem da conta, nem do Rafael. É a fase com o menor
-custo de entrada hoje, e o app já está visualmente completo pra ser fotografado.
+custo de entrada hoje.
+
+> **Aprendido ao capturar:** a captura crua do `Pixel_8` sai 1080×2400, que é
+> 2,22:1 e **seria rejeitada** pela Play. O emulador precisa ir pra 1080×1920
+> antes. E o `screencap` grava com canal alfa, que a Play também não aceita.
+> Detalhes e o passo a passo pra refazer em `docs/loja/README.md`.
 
 ## Fase 6 — Teste fechado → produção ⏳ não iniciada
 
