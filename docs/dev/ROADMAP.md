@@ -132,21 +132,90 @@ pronto em [SPEC.md](SPEC.md). O snapshot do motor levou `assets/atmosfera/` de
 install de quem não comprou, e distribui de graça o conteúdo que deveria ser
 pago.
 
+### Decisão de mecanismo (2026-08-25): Play Asset Delivery, modo on-demand
+
+Um **asset pack por cenário pago**, baixado só depois da compra. Limites da
+Play: 50 packs e 2 GB no total — com 9 cenários e ~140 MB, folga larga.
+
+**Por que não servidor próprio.** Quatro custos que se somam, e o terceiro é o
+que costuma passar despercebido:
+
+1. *Operacional* — hospedagem, uptime, TLS, CDN viram responsabilidade
+   permanente num projeto que hoje não tem infraestrutura nenhuma.
+2. *Segurança* — para o download ser realmente gated, o servidor precisa
+   verificar a compra pela Google Play Developer API, com conta de serviço e
+   credencial privada. Passa a existir um segredo de produção para administrar.
+3. *Compliance* — a política de privacidade afirma hoje que **o projeto não tem
+   backend** e que nada sai do aparelho além da consulta de clima, e está
+   amarrada ao código pela tabela de rastreio do `CHECKLIST_PUBLICACAO.md`.
+   Subir um servidor invalida a política **e** o Data Safety Form: os dois
+   teriam de ser reescritos e reenviados. Trocaríamos um problema de entrega
+   por um problema jurídico.
+4. *Manutenção* — servidor fora do ar significa conteúdo pago inacessível,
+   reembolso e avaliação de uma estrela.
+
+A PAD elimina os quatro: é o CDN do Google, sai de graça, já vem no AAB e não
+muda uma linha da política.
+
+**Por que on-demand e não os outros dois modos.** `install-time` entra no
+install — é exatamente o problema que estamos resolvendo. `fast-follow` baixa
+sozinho logo após instalar, para todo mundo: colocaria arte paga no aparelho de
+quem não comprou e ainda gastaria a internet da pessoa. Só o `on-demand` baixa
+quando o app pede.
+
+**Por que um pack por cenário.** O pack passa a ser a mesma unidade da compra:
+comprou o Farol, baixa o Farol. Agrupar faria baixar conteúdo não comprado, e aí
+a separação viraria teatro.
+
+**Por que uma interface, e não um caminho de arquivo.** Se `carregar()` receber
+um `File`, o motor precisa saber qual é o caso — assets ou disco — e isso mete
+um `if` de modo de entrega dentro do `engine/`, arrastando conceito de Play
+Asset Delivery para a área do Rafael. Com uma interface de um método só, o motor
+mantém a forma que já tem e nunca descobre que asset pack existe:
+
+```kotlin
+fun interface FonteDeAssets { fun abrir(caminho: String): InputStream }
+fun carregar(fonte: FonteDeAssets, cenaId: String, arte: String, estilo: String)
+```
+
+São **três pontos de contato**, não uma refatoração: `EffectEngine.kt:126`
+(`bmp()`), `EffectEngine.kt:143` (`DadosMarcacao.ler`) e `Marcacao.kt:47` — os
+três já têm a forma `abrir(caminho) → InputStream`.
+
+Efeito colateral que vale por si: uma `FonteDeAssets` falsa permite testar
+`carregar()` **sem aparelho**. Hoje não existe um único teste tocando o motor,
+justamente porque tocá-lo exige `AssetManager`.
+
 **Critério de saída:**
-- [ ] Mapa explícito de grátis vs pago, por cenário e por estilo (hoje isso só
-  existe implícito no `Catalogo.gratis`/`productId`)
+- [ ] Mapa explícito de grátis vs pago, por cenário e por estilo — para estilos,
+  ver "Regra de estilos" em [SPEC.md](SPEC.md)
 - [ ] Asset packs configurados; **AAB base medido** e sem arte paga dentro
-- [ ] `EffectEngine.carregar(...)` aceita conteúdo fora do `AssetManager` —
-  contrato novo, **acordado com o Rafael antes de escrever código**
+- [ ] `carregar()` recebendo `FonteDeAssets` em vez de `AssetManager`
+- [ ] **Teste travando essa assinatura** — ver "guarda" abaixo
 - [ ] Compra → download → cenário aplicável, testado ponta a ponta
 - [ ] Falha/interrupção de download tratada na UI, sem crash e sem cenário
   meio-carregado
 
-**Bloqueia em:** conversa com o Rafael. Asset pack "on-demand" **não é visível
-por `context.assets`** — é lido pelo `AssetPackManager`, que devolve caminho de
-arquivo. Ou seja, `carregar(assets: AssetManager, …)`, documentada como
-congelada em [HANDOFF-FRONTEND.md](HANDOFF-FRONTEND.md) §3.1, é exatamente o que
-precisa mudar. Não é ajuste de Gradle.
+**Guarda obrigatória, não opcional.** O Rafael entrega o `engine/` por
+**snapshot**, não por diff: ele manda o arquivo inteiro. Se alterarmos
+`EffectEngine.kt` e o próximo snapshot chegar sem a mudança, ela some em
+silêncio e o conteúdo pago para de carregar sem ninguém perceber. Um teste que
+falhe quando a assinatura voltar a receber `AssetManager` direto é o que
+transforma isso em erro visível — mesmo padrão do
+`PermissoesDeclaradasTest`. Isto vale com ou sem revisor: é problema de merge,
+não de revisão.
+
+### O que a PAD **não** resolve
+
+**Não é proteção de conteúdo.** O pack não é trancado por compra — quem souber
+pedir, baixa. O que impede é o app só pedir depois que `Plano`/compra confirma.
+Alguém determinado consegue a arte sem pagar. Proteção real exigiria servidor
+autenticado, ou seja, os quatro custos acima. Para wallpaper isso é o padrão do
+mercado, mas fica registrado como **escolha consciente**, não descuido.
+
+**O pack é preso à versão do app.** Cenário novo = versão nova publicada. Não dá
+para soltar conteúdo sem update. Se um dia isso for requisito, aí sim entra
+servidor próprio — e a conta muda.
 
 **Não bloqueia o desenvolvimento:** build de debug segue com tudo embarcado, e
 isso está combinado. Bloqueia só o release destinado à Play Store.

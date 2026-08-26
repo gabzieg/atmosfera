@@ -32,6 +32,44 @@ Google Play Billing.
   interstitial. Reavaliar só com dado real de conversão pós-lançamento — não
   antes.
 
+## Monetização — o que é grátis e o que é pago
+
+Três eixos de venda, independentes entre si:
+
+| Eixo | Regra |
+|---|---|
+| **Cenários** | A cabana é grátis. Os demais são compra avulsa (`productId` em `engine/Catalogo.kt`) |
+| **Premium** | Compra única global. Liga os 8 efeitos vivos em **todos** os cenários |
+| **Estilos de efeito** | 4 livres, o restante no Premium — ver a regra abaixo |
+
+### Regra de estilos (decidida em 2026-08-25)
+
+**4 estilos livres, os demais no Premium**, sobre um catálogo **curado para ~12**
+(hoje `engine/Estilo.kt` tem 28 arquivos, mas ~15 ideias visuais — o resto é
+histórico de iteração; ver `TASKS.md`).
+
+Três condições, e cada uma existe por um motivo:
+
+**Os 4 livres precisam ser diferentes entre si.** Pixel, aquarela, clay e doodle,
+por exemplo — não 4 variações do mesmo traço. Diversidade comunica "isto é um
+produto"; similaridade comunica "isto é uma amostra". A conta que o usuário faz
+não é de quantidade, é de variedade.
+
+**Estilo pago aparece na lista, não é escondido.** Esconder significa que ninguém
+descobre que o Premium existe. E o risco de afastar cliente não está aqui: a
+análise de concorrência aponta **anúncio** como a reclamação nº 1 deste mercado,
+não paywall — mostrar conteúdo bloqueado não entra no ponto de fricção do setor.
+
+**Tocar num estilo pago dá prévia, não parede.** O estilo é aplicado na prévia ao
+vivo, com a marca "Premium" e um caminho claro para comprar. O usuário **recebe
+antes de ser convidado a pagar** — que é o oposto de insistente. Bloquear no
+toque é o que gera sensação de muro, e é o comportamento a evitar. Mesma lógica
+do comparador que já existe em `ui/PremiumScreen.kt`.
+
+> O que perde cliente não é o bloqueio visível: é a razão parecer demonstração
+> ("3 de 28") e a interrupção se repetir. Curar o catálogo resolve a primeira;
+> prévia em vez de bloqueio resolve a segunda.
+
 ## Critério de "pronto" (MVP publicável)
 
 Todo item abaixo precisa estar **verdadeiro**, não só "parece pronto":

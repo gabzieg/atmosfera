@@ -28,6 +28,40 @@ agente.
 
 ## Em andamento
 
+- [ ] **⚠️ Origem dos sprites `pixel_mario` e `pixel_zelda`** — `engine/Estilo.kt`
+  linhas 53-54. São marcas da Nintendo, o titular mais agressivo do setor em
+  proteção de propriedade intelectual. Se a arte for derivada dos jogos, isso é
+  remoção da Play e possível suspensão da conta — **antes** de qualquer
+  discussão sobre preço. Confirmar a origem com o Rafael; na dúvida, tirar do
+  catálogo. Não é polimento, é risco de publicação.
+
+- [ ] **Curadoria dos estilos de efeito — pré-requisito pra vendê-los.**
+  `engine/Estilo.kt` tem **28 estilos, mas ~15 ideias visuais**: o resto é
+  histórico de iteração exposto ao usuário.
+
+  | Família | Arquivos hoje |
+  |---|---|
+  | Rupestre | `rupestre_og`, `rupestre_1`, `rupestre_2`, `rupestre_gemini` |
+  | Paper cutout | `paper_cutout`, `_2`, `_3` |
+  | Pontilhismo | `point_gpt`, `point_gpt_2`, `pointilismo` |
+  | Pixel | `pixel`, `pixel_art2`, `pixel_mario`, `pixel_zelda` |
+  | Papel machê | `papel_mache`, `_2` |
+  | Talhe doce | `talhe_doce_og`, `talhe_doce` |
+
+  Vender "Rupestre Og, Rupestre 1, Rupestre 2 e Rupestre Gemini" lado a lado não
+  parece catálogo grande — parece inflado, e paywall inflado é o que faz o
+  usuário sentir que está sendo espremido. Alvo: **~12 estilos, um por família**.
+
+  Junto vem o problema de nome: hoje o usuário lê **"Point Gpt", "Simplao",
+  "Rupestre Og", "Talhe Doce Og"** na tela de detalhe. O fallback em
+  `ui/StoreTab.kt` (`estiloNome`) só capitaliza o id — não inventa nome. Isso era
+  tolerável enquanto era de graça; passa a ser inaceitável no momento em que se
+  cobra por eles.
+
+  Como a lista vive em `engine/` (área do Rafael), a curadoria é decisão de
+  produto nossa, mas a remoção dos arquivos é snapshot dele — ou a gente filtra
+  no front, que é o que `cenarioTemAsset` já faz pros cenários.
+
 - [ ] **A branch inteira ainda não virou PR.** São 27 commits — migração de
   Kotlin/Billing, onboarding, tela de Premium, merge do snapshot do motor,
   correções de Loja e a otimização de desempenho. O usuário já sinalizou que a

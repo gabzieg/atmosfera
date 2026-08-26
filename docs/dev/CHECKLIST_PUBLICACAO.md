@@ -117,6 +117,14 @@ Form declarado com o que o APK realmente pede).
   embarcado, outro caminho pro baixado), e só então tocar em Gradle/manifesto
   pros asset packs em si. `git ls-tree -r -l HEAD -- android-app/app/src/main/assets/atmosfera
   | sort -k4 -nr` lista os maiores arquivos, útil pra decidir o que vira pack.
+- [ ] **⚠️ Propriedade intelectual nos estilos de efeito** — `engine/Estilo.kt`
+  declara `pixel_mario` e `pixel_zelda`. São marcas da Nintendo. Se os sprites
+  forem derivados dos jogos, o risco não é rejeição de ficha: é **remoção do app
+  e possível suspensão da conta de desenvolvedor**, sob o processo de denúncia de
+  IP da Play, que é rápido e não espera argumentação. Confirmar a origem da arte
+  com o Rafael antes de qualquer publicação; na dúvida, remover do catálogo.
+  Vale a mesma checagem para o resto dos packs — arte gerada a partir de obra
+  protegida é problema mesmo quando o nome não denuncia.
 - [ ] **Produtos no Play Console**: criar `atmosfera_premium` e
   `cenario_tanque` (INAPP, não-consumíveis) antes de testar compras — ver
   `Catalogo.kt` para os IDs valendo.
