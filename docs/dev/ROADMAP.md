@@ -230,8 +230,10 @@ isso está combinado. Bloqueia só o release destinado à Play Store.
   prévia ao vivo, Premium), feitas em 2026-08-25 e validadas uma a uma contra
   as regras da Play: 1080×1920, razão 1,78 (teto é 2:1), PNG 24-bit sem canal
   alfa. Ver [docs/loja/README.md](../loja/README.md)
-- [ ] **Feature graphic 1024×500** — obrigatório em toda ficha, não existe
-  ainda. É peça de arte; não dá pra derivar de screenshot
+- [x] **Feature graphic 1024×500** — `docs/loja/feature-graphic-1024x500.png`,
+  composto a partir da arte existente: fundo escuro do app, três ladrilhos
+  (cabana/fiordes/tanque) e o bloco kicker+título+tagline no padrão do próprio
+  app. PNG 24-bit sem alfa, validado
 - [x] **Ícone 512×512** — `docs/loja/icone-512.png`, rasterizado do vetor e
   conferido pixel a pixel (512×512, PNG 32-bit, 9 KB, zero pixel transparente).
   **Mas o ícone em si tem dois problemas** que o arquivo só reproduz fielmente:

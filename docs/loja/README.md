@@ -79,8 +79,41 @@ aplica o próprio arredondamento de 30%.
 
 Nenhum dos dois bloqueia o upload; os dois custam conversão.
 
+## Feature graphic — `feature-graphic-1024x500.png`
+
+1024×500, PNG **24-bit sem canal alfa** (a Play não aceita alfa aqui), 371 KB.
+
+Composição: fundo no mesmo `#0D1117` do app, três ladrilhos arredondados com
+cabana, fiordes e tanque, e o bloco de texto no padrão que o próprio app usa
+(kicker miúdo em maiúsculas → título → tagline). A ideia é que a peça pareça o
+Atmosfera, não um banner genérico: quem vê a ficha e depois abre o app reconhece
+o mesmo desenho.
+
+Os três ladrilhos existem para comunicar **variedade** — o argumento de venda é
+que há cenários diferentes, e uma imagem só não diz isso. A tagline "Chove lá
+fora, chove na sua tela." ecoa de propósito a descrição curta da `FICHA.md`;
+repetir a mesma promessa nos dois lugares é o que faz ela grudar.
+
+Texto e ladrilhos ficam dentro de margem de 64 px porque **a Play corta as
+bordas** em algumas telas.
+
+## Ícone — três opções para decidir
+
+| Arquivo | O que é |
+|---|---|
+| `icone-512.png` | O atual: montanha e sol vetoriais. Genérico, e com o sol fora da zona segura |
+| `icone-512-cabana.png` | Recorte 512×512 da cabana em escala **1:1** — zero reamostragem, mas a cabana fica pequena no tamanho real de ícone |
+| `icone-512-cabana-medio.png` | Recorte 384×384 ampliado 4/3. **Recomendado**: a cabana preenche o quadro e mantém silhueta legível a 48 px |
+
+Uma quarta variante foi gerada e descartada: recorte de 256×256 em 2×. Ficou tão
+fechado que virou textura de madeira — sem silhueta, irreconhecível em tamanho
+de ícone.
+
+> **Se trocar o ícone da ficha, troque também o do app.** Hoje o ícone instalado
+> é o vetor da montanha (`res/mipmap-*/ic_launcher.xml`). Ficha e aparelho
+> mostrando ícones diferentes confunde quem instala — e é a Play que fica
+> estranha, não o app. Isso é mudança em `res/`, área nossa, sem PR.
+
 ## O que ainda falta pra fechar a Fase 5
 
-- [ ] **Feature graphic 1024×500** — obrigatório em toda ficha. É peça de arte;
-  não dá pra derivar de screenshot.
-- [ ] Decidir se o ícone continua sendo este ou vira arte de verdade (ver acima).
+- [ ] Escolher entre as três opções de ícone e, se mudar, atualizar `res/`.
