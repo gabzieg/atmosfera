@@ -48,10 +48,39 @@ Duas capturas exigem preparo de estado:
   artefato do ambiente de teste, não do produto: ligue **Destravar cenários
   pagos (teste)** no painel de debug antes de capturar, e desligue depois.
 
+## Ícone da ficha — `icone-512.png`
+
+512×512, PNG 32-bit, 9 KB, **zero pixel transparente** (a Play rejeita fundo
+transparente na ficha: ela renderiza por cima um preto ou branco que você não
+escolheu). Conferido pixel a pixel, não assumido.
+
+O ícone do app é 100% vetorial (`res/mipmap-*/ic_launcher.xml` → cor sólida +
+`drawable/ic_launcher_foreground.xml`), sem nenhum PNG no repo. Como o vetor são
+seis formas geométricas simples e o primeiro plano já preenche os 108×108 com
+azul opaco (a cor de fundo `colorPrimaryDark` fica coberta), ele foi
+rasterizado diretamente das coordenadas do `pathData` — sem precisar mexer no
+app. Conferido contra o ícone real na gaveta de apps do emulador: mesmas cores,
+mesma montanha, mesma posição do sol.
+
+O arquivo é a versão **sem máscara** (quadrado cheio), que é o correto: a Play
+aplica o próprio arredondamento de 30%.
+
+### ⚠️ Dois problemas com o ícone, que este arquivo só reproduz fielmente
+
+1. **O sol é cortado pela máscara do launcher.** No aparelho ele aparece como um
+   pedaço de amarelo grudado na borda. O `pathData` põe o sol em x 70–94 de 108,
+   e a máscara adaptativa corta tudo fora da zona central (~x 18–90). É defeito
+   do vetor, não da renderização — conteúdo de adaptive icon precisa caber na
+   zona segura.
+2. **É um ícone genérico de template.** Montanha e sol chapados não dizem nada
+   sobre um app cuja proposta é cena pintada à mão com motor de partículas — e
+   vai competir na Play ao lado de apps que usam a própria arte. Um recorte da
+   cabana comunicaria o produto em vez de escondê-lo.
+
+Nenhum dos dois bloqueia o upload; os dois custam conversão.
+
 ## O que ainda falta pra fechar a Fase 5
 
 - [ ] **Feature graphic 1024×500** — obrigatório em toda ficha. É peça de arte;
   não dá pra derivar de screenshot.
-- [ ] **Ícone 512×512** — o ícone do app é 100% vetorial (`mipmap-*/*.xml`),
-  sem nenhum PNG; precisa ser renderizado.
-- [ ] **Descrição curta (80 caracteres) e longa (4.000)**.
+- [ ] Decidir se o ícone continua sendo este ou vira arte de verdade (ver acima).

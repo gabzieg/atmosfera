@@ -232,8 +232,12 @@ isso está combinado. Bloqueia só o release destinado à Play Store.
   alfa. Ver [docs/loja/README.md](../loja/README.md)
 - [ ] **Feature graphic 1024×500** — obrigatório em toda ficha, não existe
   ainda. É peça de arte; não dá pra derivar de screenshot
-- [ ] **Ícone 512×512** — o adaptive icon é 100% vetorial (`mipmap-*/*.xml`,
-  nenhum PNG no repo), então o ícone da ficha precisa ser renderizado
+- [x] **Ícone 512×512** — `docs/loja/icone-512.png`, rasterizado do vetor e
+  conferido pixel a pixel (512×512, PNG 32-bit, 9 KB, zero pixel transparente).
+  **Mas o ícone em si tem dois problemas** que o arquivo só reproduz fielmente:
+  o sol fica fora da zona segura e é cortado pela máscara do launcher, e o
+  desenho é um template genérico que não comunica o produto. Nenhum bloqueia o
+  upload; os dois custam conversão. Ver `docs/loja/README.md`
 - [x] Descrição curta (80 caracteres) + longa (4.000) — rascunho em
   [docs/loja/FICHA.md](../loja/FICHA.md), com contagem de caracteres conferida
   e uma tabela ligando cada afirmação ao código que a sustenta. **Falta a
