@@ -42,6 +42,11 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private lateinit var neve: Bitmap
     private lateinit var neveForte: Bitmap
     private lateinit var nevoa: Bitmap
+    // MAPA DE LUZ (ver desenharMapaLuz): o tint de noite deixa de ser chapado
+    private var lmBmp: Bitmap? = null
+    private var lmCv: Canvas? = null
+    private var aoMask: Bitmap? = null        // onde a superfície VÊ O CÉU
+    private var aoCob = 1f                    // quanto da tela a zona cobre
     var pronto = false; private set
 
     // ── Cena / estilo ativos (multi-cenário + multi-estilo) ─────────
@@ -210,6 +215,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         if (::neve.isInitialized) neve.recycle()
         if (::neveForte.isInitialized) neveForte.recycle()
         if (::nevoa.isInitialized) nevoa.recycle()
+        aoMask?.recycle(); aoMask = null
+        lmBmp?.recycle(); lmBmp = null; lmCv = null
     }
 
     // ── PROFUNDIDADE (mapa cinza da cena): 0 = longe, 1 = perto, -1 = céu.
@@ -269,6 +276,17 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             }
             y += step
         }
+        // MÁSCARA DE CÉU-VISÍVEL. Onde ele marcou pingo é onde a chuva bate, ou
+        // seja, onde a superfície VÊ O CÉU — e de noite é o céu que ilumina a
+        // rua vazia. Serve de oclusão de ambiente (ver desenharMapaLuz). Vale só
+        // quando a zona veio da MÃO: zona derivada cobre 60-90% da tela e não
+        // separa nada.
+        aoCob = (roofPts.size + lakePts.size) * (step * step).toFloat() /
+            (w * h).toFloat()
+        aoMask?.recycle()
+        aoMask = if (aoCob > 0.002f && aoCob < AO_LIMIAR)
+            Bitmap.createScaledBitmap(z, maxOf(8, w / 14), maxOf(8, h / 14), true)
+        else null
         z.recycle()
     }
 
@@ -384,9 +402,13 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             }
         }
 
-        // day tint (multiply) sobre tudo
+        // Tint da hora (multiply) sobre tudo. De noite, numa cena COM luz
+        // mapeada, o mesmo multiply passa a ser o MAPA DE LUZ — é o que acende
+        // a parede em volta do lampião em vez de só somar brilho por cima.
         val tc = tintColor(estado.hora)
-        if (tc[0] != 255 || tc[1] != 255 || tc[2] != 255) {
+        if (escuro >= 0.12f && marca.luzes.isNotEmpty()) {
+            desenharMapaLuz(canvas, tf, escuro, ts, cw, ch, tc)
+        } else if (tc[0] != 255 || tc[1] != 255 || tc[2] != 255) {
             pFill.xfermode = MULT
             pFill.color = Color.rgb(tc[0], tc[1], tc[2])
             canvas.drawRect(0f, 0f, cw, ch, pFill)
@@ -1179,24 +1201,139 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         return ((h ushr 8) % 1000) / 1000f < LUZ_PROB
     }
 
-    private fun desenharLuzesCena(c: Canvas, tf: Tf, escuro: Float, ts: Long) {
-        for ((i, l) in marca.luzes.withIndex()) {
-            val aceso = if (l.tipo == "completa") lampioesAcesos(estado.hora)
-                        else janelasAcesas(estado.hora)
-            if (!aceso || !luzDoLote(l, i)) continue
-            val osc = if (l.tipo == "completa")
-                0.72f + 0.28f * sin(ts / 1000f * 7 + l.x) * sin(ts / 1000f * 3.3f + l.y)
-            else 0.85f + 0.15f * sin(ts / 1000f * 1.3f + l.x)
-            // LUZ LONGE BRILHA MENOS. Sem isso, cena com muita luz pequena no
-            // ponto de fuga (o beco japonês tem 10 placas ali) empilha halo em
-            // modo aditivo e o fundo da rua estoura em branco, com cara de
-            // amanhecer. Usa o mesmo mapa de profundidade que pesa no respingo.
-            val pf = profEm(l.cx, l.cy)
-            val peso = if (pf < 0f) 1f else 0.40f + 0.60f * pf
-            val raio = max(l.w, l.h) * tf.s * Atlas.SPILL_LAMPIAO * 0.6f * (0.6f + 0.4f * peso)
-            glowQuente(c, tf.ox + l.cx * tf.s, tf.oy + l.cy * tf.s, raio,
-                min(1f, escuro * osc * peso))
+    // ─────────────────────────────────────────────────────────────────
+    //  ACENDER, e não pôr brilho por cima (2026-08-27)
+    // ─────────────────────────────────────────────────────────────────
+    // Porte do index.js — lá está o registro completo do que foi medido na arte
+    // de NOITE de referência (`contato/fundos/beco/artes/pixel noite.png`). Em
+    // três linhas: o AZUL CAI perto da luz (o modo aditivo só sabe somar, então
+    // nunca chegava lá — a luz tem de entrar no MULTIPLY, como mapa); o alcance
+    // é ~88 px numa arte de 1086 de largura, contra os 627 px do halo antigo; e
+    // JANELA não é LAMPIÃO — o vidro de janela quase não derrama, porque a luz
+    // está atrás do papel.
+    private fun luzAcesa(l: LuzCena, i: Int): Boolean {
+        val h = if (l.tipo == "completa") lampioesAcesos(estado.hora)
+                else janelasAcesas(estado.hora)
+        return h && luzDoLote(l, i)
+    }
+
+    /** O lampião tremula (chama); a janela só pulsa de leve. */
+    private fun luzOsc(l: LuzCena, ts: Long) =
+        if (l.tipo == "completa")
+            0.72f + 0.28f * sin(ts / 1000f * 7 + l.vx) * sin(ts / 1000f * 3.3f + l.vy)
+        else 0.85f + 0.15f * sin(ts / 1000f * 1.3f + l.vx)
+
+    /** LUZ LONGE BRILHA MENOS E ALCANÇA MENOS — o mesmo mapa de profundidade
+     *  que pesa no respingo. Sem isso, cena com muita luz pequena no ponto de
+     *  fuga (o beco tem 10 placas ali) empilha halo e o fundo estoura. */
+    private fun luzPeso(l: LuzCena): Float {
+        val pf = profEm(l.cx, l.cy)
+        return if (pf < 0f) 1f else 0.40f + 0.60f * pf
+    }
+
+    /** Alcance do derrame em px de CENA (medido numa arte de 1086 de largura). */
+    private fun luzAlcance(l: LuzCena, peso: Float) =
+        (if (l.tipo == "completa") LUZ_ALCANCE else LUZ_ALCANCE_JANELA) *
+            (cenaW / 1086f) * peso
+
+    private fun desenharMapaLuz(c: Canvas, tf: Tf, escuro: Float, ts: Long,
+                                cw: Float, ch: Float, tc: IntArray) {
+        val w = maxOf(1, (cw / LM_ESC).toInt())
+        val h = maxOf(1, (ch / LM_ESC).toInt())
+        var bm = lmBmp
+        if (bm == null || bm.width != w || bm.height != h) {
+            bm?.recycle()
+            bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+            lmBmp = bm; lmCv = Canvas(bm)
         }
+        val lc = lmCv ?: return
+        // AMBIENTE. Com marcação: `abrigo` do tint em tudo, e o resto só onde a
+        // superfície vê o céu (a marca de pingo). Sem marcação: tint chapado.
+        val mask = aoMask
+        val abrigo = if (mask != null) 1f - (1f - AO_ABRIGO) * min(1f, escuro / 0.8f) else 1f
+        lc.drawColor(Color.rgb((tc[0] * abrigo).toInt(), (tc[1] * abrigo).toInt(),
+            (tc[2] * abrigo).toInt()), android.graphics.PorterDuff.Mode.SRC)
+        if (mask != null && abrigo < 0.999f) {
+            val k = 1f - abrigo
+            pSmooth.xfermode = ADD
+            pSmooth.colorFilter = android.graphics.PorterDuffColorFilter(
+                Color.rgb((tc[0] * k).toInt(), (tc[1] * k).toInt(), (tc[2] * k).toInt()),
+                android.graphics.PorterDuff.Mode.SRC_IN)
+            lc.drawBitmap(mask,
+                android.graphics.Rect(0, 0, mask.width, mask.height),
+                android.graphics.RectF(tf.ox / LM_ESC, tf.oy / LM_ESC,
+                    (tf.ox + cenaW * tf.s) / LM_ESC, (tf.oy + cenaH * tf.s) / LM_ESC),
+                pSmooth)
+            pSmooth.xfermode = null; pSmooth.colorFilter = null
+        }
+        // o derrame de cada lampião, somado ao ambiente
+        pGlow.xfermode = ADD
+        for ((i, l) in marca.luzes.withIndex()) {
+            if (!luzAcesa(l, i)) continue
+            val peso = luzPeso(l)
+            val gh = max(l.vw, l.vh) / 2f
+            val alc = luzAlcance(l, peso)
+            val r = (gh + alc) * tf.s / LM_ESC
+            if (r < 0.7f) continue
+            val px = (tf.ox + l.cx * tf.s) / LM_ESC
+            val py = (tf.oy + l.cy * tf.s) / LM_ESC
+            val a = min(1f, escuro * luzOsc(l, ts)) * (0.45f + 0.55f * peso)
+            val cores = IntArray(LUZ_QUEDA.size)
+            val paradas = FloatArray(LUZ_QUEDA.size)
+            for (j in LUZ_QUEDA.indices) {
+                val f = LUZ_QUEDA[j][0]; val kq = LUZ_QUEDA[j][1]
+                paradas[j] = min(1f, (gh + f * alc) / (gh + alc))
+                cores[j] = Color.argb((kq * a * 255).toInt().coerceIn(0, 255),
+                    Color.red(l.cor), Color.green(l.cor), Color.blue(l.cor))
+            }
+            pGlow.shader = android.graphics.RadialGradient(px, py, r, cores, paradas,
+                android.graphics.Shader.TileMode.CLAMP)
+            lc.drawCircle(px, py, r, pGlow)
+            pGlow.shader = null
+        }
+        pGlow.xfermode = null
+        // o mapa MULTIPLICA a cena (o borrão do upscale É o degradê)
+        pSmooth.xfermode = MULT
+        c.drawBitmap(bm, android.graphics.Rect(0, 0, w, h),
+            android.graphics.RectF(0f, 0f, cw, ch), pSmooth)
+        pSmooth.xfermode = null
+    }
+
+    /** O VIDRO aceso: a única parte que continua ADITIVA, porque acesa ela fica
+     *  mais clara que a cor de dia e nenhum multiply chega lá. Do tamanho do
+     *  vidro (mais um estouro curto), não do tamanho da luminária. */
+    private fun desenharLuzesCena(c: Canvas, tf: Tf, escuro: Float, ts: Long) {
+        pGlow.xfermode = ADD
+        for ((i, l) in marca.luzes.withIndex()) {
+            if (!luzAcesa(l, i)) continue
+            val peso = luzPeso(l)
+            val a = min(1f, escuro * luzOsc(l, ts)) * (0.45f + 0.55f * peso)
+            val px = tf.ox + l.cx * tf.s; val py = tf.oy + l.cy * tf.s
+            // 1,06× a caixa do vidro: a elipse inscrita deixaria os cantos da
+            // placa retangular apagados, e o vidro já vem apertado.
+            val rx = max(1f, l.vw / 2f * 1.06f * tf.s)
+            val ry = max(1f, l.vh / 2f * 1.06f * tf.s)
+            val cr = Color.red(l.cor); val cg = Color.green(l.cor); val cb = Color.blue(l.cor)
+            // UM gradiente só: o vidro e o estouro curto em volta dele. Eram
+            // dois (elipse do vidro + halo) e no fiordes, com 88 janelas, o
+            // frame de noite ia de 2,2 ms pra 5,4 — o caro não é a área
+            // pintada, é criar o gradiente. O estouro é curto de propósito: na
+            // arte de noite o AR em volta do lampião é escuro, quem brilha é a
+            // superfície que recebe a luz, e disso cuida o mapa de luz.
+            val rb = ry * 1.9f
+            c.save(); c.translate(px, py); c.scale(rx / ry, 1f)
+            pGlow.shader = android.graphics.RadialGradient(0f, 0f, rb,
+                intArrayOf(Color.argb((0.78f * a * 255).toInt().coerceIn(0, 255), cr, cg, cb),
+                           Color.argb((0.66f * a * 255).toInt().coerceIn(0, 255), cr, cg, cb),
+                           Color.argb((0.20f * a * 255).toInt().coerceIn(0, 255), cr, cg, cb),
+                           Color.argb(0, cr, cg, cb)),
+                floatArrayOf(0f, 0.368f, 0.526f, 1f),   // 0,70 do vidro · borda do vidro
+                android.graphics.Shader.TileMode.CLAMP)
+            c.drawCircle(0f, 0f, rb, pGlow)
+            pGlow.shader = null
+            c.restore()
+        }
+        pGlow.xfermode = null
     }
 
     private fun desenharLuzes(c: Canvas, tf: Tf, escuro: Float, ts: Long) {
@@ -1444,13 +1581,33 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     companion object {
         /** Fração das janelas que acende em cada noite (ver luzDoLote). */
         private const val LUZ_PROB = 0.55f
+        // ── Luz de verdade (ver desenharMapaLuz) ────────────────────
+        /** Alcance do derrame do lampião, em px de arte (base 1086 de largura). */
+        private const val LUZ_ALCANCE = 88f
+        /** Janela/placa: a luz está ATRÁS do papel, quase não derrama. */
+        private const val LUZ_ALCANCE_JANELA = 22f
+        /** Queda medida: [fração do alcance, quanto da luz sobra]. */
+        private val LUZ_QUEDA = arrayOf(
+            floatArrayOf(0f, 1f), floatArrayOf(0.09f, 0.60f), floatArrayOf(0.25f, 0.36f),
+            floatArrayOf(0.41f, 0.21f), floatArrayOf(0.61f, 0.13f),
+            floatArrayOf(0.86f, 0.04f), floatArrayOf(1f, 0f))
+        /** Mapa de luz em 1/N da resolução: luz é sinal de baixa frequência. */
+        private const val LM_ESC = 3f
+        /** Acima disso a zona é DERIVADA (cobre a tela toda) e não vira oclusão. */
+        private const val AO_LIMIAR = 0.35f
+        /** Quanto do ambiente sobra onde a superfície não vê o céu. */
+        private const val AO_ABRIGO = 0.62f
         /** Gravidade da goteira, em px de CENA por s². */
         private const val GOT_G = 900f
         /** Rajada sem receita de estilo: um risco claro só. */
         private val FITA_PADRAO = listOf(FitaVento(Color.rgb(236, 240, 246), 1f, 0f, 1f))
         private val TINT_KEYS = listOf(
-            TintKey(0f, intArrayOf(55, 65, 120)),
-            TintKey(5.0f, intArrayOf(72, 78, 125)),
+            // NOITE MEDIDA (2026-08-27): comparando a arte de DIA e a de NOITE
+            // do beco na MESMA calçada, longe de lampião, o multiply que leva
+            // uma na outra é (63, 68, 101) — R e G batiam, o B estava 20% acima.
+            // Era isso que deixava a pedra lavanda em vez de cinza-escuro.
+            TintKey(0f, intArrayOf(55, 63, 101)),
+            TintKey(5.0f, intArrayOf(72, 76, 108)),
             TintKey(6.0f, intArrayOf(200, 140, 130)),
             TintKey(7.0f, intArrayOf(255, 200, 175)),
             TintKey(9.0f, intArrayOf(255, 245, 232)),
@@ -1460,8 +1617,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             TintKey(18.0f, intArrayOf(255, 158, 110)),
             TintKey(18.75f, intArrayOf(225, 120, 115)),
             TintKey(19.75f, intArrayOf(120, 92, 145)),
-            TintKey(20.75f, intArrayOf(70, 72, 122)),
-            TintKey(24f, intArrayOf(55, 65, 120)),
+            TintKey(20.75f, intArrayOf(70, 71, 105)),
+            TintKey(24f, intArrayOf(55, 63, 101)),
         )
     }
 }

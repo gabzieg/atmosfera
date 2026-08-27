@@ -18,9 +18,18 @@ data class LuzCena(
     val x: Float, val y: Float, val w: Float, val h: Float,
     /** "parcial" = apaga à meia-noite (janela) · "completa" = até o amanhecer. */
     val tipo: String,
+    /**
+     * Caixa APERTADA no vidro que emite (`tools/luz_vidro.py`). A caixa marcada
+     * é a luminária INTEIRA — lampião com haste, placa com moldura — e usá-la
+     * como fonte punha o halo no meio do poste, do tamanho do poste. Cena cujo
+     * `zonas.json` ainda não passou pela ferramenta cai na caixa marcada.
+     */
+    val vx: Float = x, val vy: Float = y, val vw: Float = w, val vh: Float = h,
+    /** Cor ACESA desta luz: a lanterna vermelha não acende laranja. */
+    val cor: Int = android.graphics.Color.rgb(255, 186, 104),
 ) {
-    val cx get() = x + w / 2f
-    val cy get() = y + h / 2f
+    val cx get() = vx + vw / 2f
+    val cy get() = vy + vh / 2f
 }
 
 data class BocaFumaca(val x: Float, val y: Float, val w: Float)
@@ -70,9 +79,21 @@ class DadosMarcacao(
                     // pântano) não têm e seguem apenas pintadas na arte.
                     val tipo = l.optString("tipo", "")
                     if (tipo.isEmpty()) continue
+                    val bx = l.optDouble("x", 0.0).toFloat()
+                    val by = l.optDouble("y", 0.0).toFloat()
+                    val bw = l.optDouble("w", 1.0).toFloat()
+                    val bh = l.optDouble("h", 1.0).toFloat()
+                    val v = l.optJSONArray("vidro")
+                    val c = l.optJSONArray("cor")
                     luzes.add(LuzCena(
-                        l.optDouble("x", 0.0).toFloat(), l.optDouble("y", 0.0).toFloat(),
-                        l.optDouble("w", 1.0).toFloat(), l.optDouble("h", 1.0).toFloat(), tipo))
+                        bx, by, bw, bh, tipo,
+                        if (v != null) v.getDouble(0).toFloat() else bx,
+                        if (v != null) v.getDouble(1).toFloat() else by,
+                        if (v != null) v.getDouble(2).toFloat() else bw,
+                        if (v != null) v.getDouble(3).toFloat() else bh,
+                        if (c != null) android.graphics.Color.rgb(
+                            c.getInt(0), c.getInt(1), c.getInt(2))
+                        else android.graphics.Color.rgb(255, 186, 104)))
                 }
             }
             val fum = ArrayList<BocaFumaca>()
