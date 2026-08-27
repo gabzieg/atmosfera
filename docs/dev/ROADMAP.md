@@ -234,12 +234,11 @@ isso está combinado. Bloqueia só o release destinado à Play Store.
   composto a partir da arte existente: fundo escuro do app, três ladrilhos
   (cabana/fiordes/tanque) e o bloco kicker+título+tagline no padrão do próprio
   app. PNG 24-bit sem alfa, validado
-- [x] **Ícone 512×512** — `docs/loja/icone-512.png`, rasterizado do vetor e
-  conferido pixel a pixel (512×512, PNG 32-bit, 9 KB, zero pixel transparente).
-  **Mas o ícone em si tem dois problemas** que o arquivo só reproduz fielmente:
-  o sol fica fora da zona segura e é cortado pela máscara do launcher, e o
-  desenho é um template genérico que não comunica o produto. Nenhum bloqueia o
-  upload; os dois custam conversão. Ver `docs/loja/README.md`
+- [x] **Ícone 512×512** — `docs/loja/icone-512.png`: recorte da cabana, escolhido
+  por legibilidade no tamanho real de ícone. Substituiu a montanha vetorial, que
+  era genérica e tinha o sol fora da zona segura do adaptive icon. **O ícone do
+  app foi trocado junto** (`res/mipmap-*`), senão ficha e aparelho mostrariam
+  ícones diferentes. Verificado na gaveta de apps do emulador
 - [x] Descrição curta (80 caracteres) + longa (4.000) — rascunho em
   [docs/loja/FICHA.md](../loja/FICHA.md), com contagem de caracteres conferida
   e uma tabela ligando cada afirmação ao código que a sustenta. **Falta a

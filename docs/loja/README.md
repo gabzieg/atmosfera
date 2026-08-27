@@ -97,23 +97,43 @@ repetir a mesma promessa nos dois lugares é o que faz ela grudar.
 Texto e ladrilhos ficam dentro de margem de 64 px porque **a Play corta as
 bordas** em algumas telas.
 
-## Ícone — três opções para decidir
+## Ícone — `icone-512.png`
 
-| Arquivo | O que é |
-|---|---|
-| `icone-512.png` | O atual: montanha e sol vetoriais. Genérico, e com o sol fora da zona segura |
-| `icone-512-cabana.png` | Recorte 512×512 da cabana em escala **1:1** — zero reamostragem, mas a cabana fica pequena no tamanho real de ícone |
-| `icone-512-cabana-medio.png` | Recorte 384×384 ampliado 4/3. **Recomendado**: a cabana preenche o quadro e mantém silhueta legível a 48 px |
+Recorte 384×384 da cabana ampliado 4/3 (escala regular: cada 3 pixels da fonte
+viram 4, sem borrar o pixel art). 512×512, zero pixel transparente.
 
-Uma quarta variante foi gerada e descartada: recorte de 256×256 em 2×. Ficou tão
-fechado que virou textura de madeira — sem silhueta, irreconhecível em tamanho
-de ícone.
+**Critério da escolha foi legibilidade, não fidelidade.** Duas alternativas
+foram geradas e descartadas:
 
-> **Se trocar o ícone da ficha, troque também o do app.** Hoje o ícone instalado
-> é o vetor da montanha (`res/mipmap-*/ic_launcher.xml`). Ficha e aparelho
-> mostrando ícones diferentes confunde quem instala — e é a Play que fica
-> estranha, não o app. Isso é mudança em `res/`, área nossa, sem PR.
+- *Recorte 512×512 em escala 1:1* — tecnicamente mais puro, zero reamostragem,
+  mas a cabana ficava pequena demais no tamanho em que ícone é realmente visto.
+- *Recorte 256×256 em 2×* — tão fechado que virou textura de madeira. Sem
+  silhueta, irreconhecível.
 
-## O que ainda falta pra fechar a Fase 5
+O ícone anterior (montanha e sol vetoriais) também saiu: genérico, não dizia nada
+sobre o produto, e tinha o sol fora da zona segura do adaptive icon — a máscara
+do launcher cortava, e no aparelho aparecia um pedaço de amarelo grudado na
+borda.
 
-- [ ] Escolher entre as três opções de ícone e, se mudar, atualizar `res/`.
+### O ícone do app foi trocado junto
+
+`res/mipmap-*/ic_launcher.xml` agora aponta a camada de **fundo** para
+`res/drawable-nodpi/cena_icone.png` (432 px = 108dp em xxxhdpi), e a camada de
+**frente** virou um vetor transparente. Cena vai no fundo porque é lá que o
+Android espera arte que sangra até a borda; a frente é a camada que os launchers
+deslocam em parallax, e arte de cena ali ficaria descolada ao animar.
+
+**A camada fica em `drawable`, não em `mipmap`** — e isso não é detalhe de
+gosto. Na primeira tentativa ela foi parar em `mipmap-*/ic_launcher_bg.png`, e o
+lint disparou 10 avisos novos (`IconLauncherShape`, `IconExpectedSize`,
+`IconMissingDensityFolder`): ele tratou a *camada* como se fosse um ícone de
+launcher inteiro, e reclamou que arte quadrada não tem silhueta. A convenção do
+Android é que só o XML do adaptive icon mora em `mipmap`; as camadas moram em
+`drawable`. Movido pra lá, os 10 avisos sumiram — corrigindo a causa, sem
+precisar engordar o `lint-baseline.xml`.
+
+**A composição do ícone do app não é a mesma da ficha, de propósito.** O adaptive
+icon tem 108dp, mas só os 72dp centrais sobrevivem à máscara. Para o resultado
+*mascarado* equivaler ao recorte aprovado de 384 px, a camada inteira precisa
+cobrir `384 × 108/72 = 576` px da fonte. Conferido na gaveta de apps do
+emulador: dentro do círculo aparece a cabana enquadrada como na ficha.
