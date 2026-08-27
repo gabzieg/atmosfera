@@ -683,7 +683,6 @@ object Cenas {
                 "anime1" to VarFundo("cenas/konoha/anime1/", 1),
                 "clay" to VarFundo("cenas/konoha/clay/", 1),
                 "clay2" to VarFundo("cenas/konoha/clay2/", 1),
-                "longe" to VarFundo("cenas/konoha/longe/", 1),
             ),
         ),
         "trincheira" to CenaCfg(

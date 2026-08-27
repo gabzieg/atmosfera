@@ -623,11 +623,36 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private fun initDrops(cw: Float, ch: Float) {
         drops.clear(); for (i in 0 until estado.dropCount) { val d = Drop(); makeDrop(d, cw, ch, true); drops.add(d) }
     }
+    /**
+     * CHUVA DE INTERIOR: cena de dentro de um ambiente (o cofre é a primeira)
+     * não pode chover na tela inteira — choveria dentro da câmara-forte. Quando
+     * a cena traz as faixas da CLARABOIA (`chuva` no zonas.json, mesmo formato
+     * do `mar`), o pingo só aparece ali. Sem isso, chove em tudo como sempre.
+     */
+    private fun chuvaAqui(ix: Float, iy: Float): Boolean {
+        val f = marca.chuva
+        if (f.isEmpty()) return true
+        var lo = 0; var hi = f.size - 1; val y = iy.toInt()
+        while (lo <= hi) {
+            val md = (lo + hi) ushr 1; val fa = f[md]
+            when {
+                fa.y < y -> lo = md + 1
+                fa.y > y -> hi = md - 1
+                else -> return ix >= fa.x0 && ix <= fa.x1
+            }
+        }
+        return false
+    }
+
     private fun desenharPingos(c: Canvas, tf: Tf) {
         val sp = Atlas.get("pingo"); val sc = tf.s * estado.scaleMult
         val dw = sp.w * sc; val dh = sp.h * sc
         pSprite.xfermode = null; setA(pSprite, 1f)
-        for (d in drops) blit(c, sp, d.x - dw / 2, d.y - dh / 2, dw, dh, pSprite)
+        val interior = marca.chuva.isNotEmpty()
+        for (d in drops) {
+            if (interior && !chuvaAqui((d.x - tf.ox) / tf.s, (d.y - tf.oy) / tf.s)) continue
+            blit(c, sp, d.x - dw / 2, d.y - dh / 2, dw, dh, pSprite)
+        }
     }
     private fun updateImpactSpawners(dt: Float) {
         roofAcc += estado.roofRate * cenaCfg.taxaParcial * dt

@@ -53,6 +53,8 @@ class DadosMarcacao(
     val fumaca: List<BocaFumaca> = emptyList(),
     val mar: List<FaixaMar> = emptyList(),
     val cachoeiras: List<Queda> = emptyList(),
+    /** Faixas da CLARABOIA numa cena de interior: fora delas não chove. */
+    val chuva: List<FaixaMar> = emptyList(),
     val vulcao: BocaFumaca? = null,
     val goteiras: List<Goteira> = emptyList(),
 ) {
@@ -143,7 +145,15 @@ class DadosMarcacao(
                     if (lst.size >= 20) quedas.add(Queda(lst))
                 }
             }
-            DadosMarcacao(luzes, fum, mar, quedas, vul, got)
+            val chuva = ArrayList<FaixaMar>()
+            o.optJSONArray("chuva")?.let { arr ->
+                for (i in 0 until arr.length()) {
+                    val f = arr.getJSONArray(i)
+                    chuva.add(FaixaMar(f.getDouble(0).toFloat(),
+                                       f.getDouble(1).toFloat(), f.getDouble(2).toFloat()))
+                }
+            }
+            DadosMarcacao(luzes, fum, mar, quedas, chuva, vul, got)
         } catch (e: Exception) {
             VAZIO
         }
