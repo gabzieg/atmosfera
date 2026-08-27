@@ -62,6 +62,13 @@ agente.
   produto nossa, mas a remoção dos arquivos é snapshot dele — ou a gente filtra
   no front, que é o que `cenarioTemAsset` já faz pros cenários.
 
+- [ ] **Revisão dos textos da ficha — 4 decisões em aberto**, listadas no fim de
+  [docs/loja/FICHA.md](../loja/FICHA.md). Três são preferência (qual descrição
+  curta, incluir números ou não, confirmar "fases da lua" como Premium). A
+  quarta é **bloqueio de publicação**: a descrição longa promete jardim japonês,
+  farol, pântano e praia, e a estratégia é lançar com poucos cenários — se eles
+  não entrarem, a ficha vira promessa não cumprida.
+
 - [ ] **A branch inteira ainda não virou PR.** São 27 commits — migração de
   Kotlin/Billing, onboarding, tela de Premium, merge do snapshot do motor,
   correções de Loja e a otimização de desempenho. O usuário já sinalizou que a

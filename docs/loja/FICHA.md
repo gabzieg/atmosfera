@@ -7,6 +7,9 @@ app, não de promessa: cada afirmação abaixo tem código por trás (ver
 > **Revisar antes de publicar.** Descrição de loja é peça de marketing e de
 > compliance ao mesmo tempo: afirmação que o app não cumpre é motivo de
 > rejeição e de avaliação ruim.
+>
+> **Há quatro decisões em aberto** — ver "Em aberto" no fim do arquivo. Uma
+> delas é bloqueio, não preferência.
 
 ---
 
@@ -98,3 +101,40 @@ ficha isso só geraria dúvida em quem não é da região.
 **"fases da lua" aparece só no Premium.** O tier grátis mostra a lua, mas as
 fases são efeito pago (`estado.premium` no motor) — dizer o contrário nos dois
 lugares seria contradição dentro da própria descrição.
+
+---
+
+## Em aberto — decisões do Gabriel
+
+Quatro pontos que o rascunho não resolve sozinho. O terceiro é bloqueio; os
+outros três são preferência.
+
+### 1. Qual descrição curta
+
+A escolhida é a mais memorável, mas é a única que **não usa "animado" nem
+"wallpaper"** — pode custar em busca. As alternativas são mais explicativas e
+menos marcantes. Troca direta entre memorabilidade e descoberta.
+
+### 2. Incluir números ou não
+
+"9 cenários e 27 estilos" vende mais do que "uma cabana, uma vila norueguesa…".
+Ficou de fora porque esses números mudam a cada snapshot do motor e a descrição
+envelheceria em silêncio. **Só incluir se alguém assumir mantê-los a cada
+release.**
+
+### 3. ⚠️ A descrição promete cenários que talvez não estejam à venda
+
+O texto cita **jardim japonês, farol, pântano e praia**. A estratégia definida em
+2026-08-25 é lançar com **poucos cenários** (ver `ROADMAP.md` → Fase 4). Se esses
+não entrarem no lançamento, a ficha vira **promessa não cumprida** — motivo de
+avaliação ruim e potencialmente de rejeição.
+
+**Não publicar antes de definir quais cenários entram** e ajustar a lista do
+parágrafo "CENÁRIOS E ESTILOS" para conter só eles.
+
+### 4. Confirmar "fases da lua" como Premium
+
+É a única afirmação da descrição que **não foi verificada direto no motor** —
+foi deduzida da lista `EFEITOS_PREMIUM` em `ui/PremiumScreen.kt`. Se o tier
+grátis já mostrar as fases, a descrição está errada nos dois lugares onde toca
+no assunto.
