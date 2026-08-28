@@ -1,6 +1,5 @@
 package com.atmosfera.wallpaper.engine
 
-import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -112,8 +111,11 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     //  Carregamento
     // ─────────────────────────────────────────────────────────────────
     /** Carrega os assets do cenário [cenaId] (arte de fundo [arte]) + o pack de
-     *  sprites do estilo de efeito [estilo]. Pode ser chamado de novo p/ trocar. */
-    fun carregar(assets: AssetManager, cenaId: String = "cabana",
+     *  sprites do estilo de efeito [estilo]. Pode ser chamado de novo p/ trocar.
+     *
+     *  [fonte] diz de ONDE ler — APK ou conteúdo baixado. O motor não sabe a
+     *  diferença, e não deve saber: ver [FonteDeAssets]. */
+    fun carregar(fonte: FonteDeAssets, cenaId: String = "cabana",
                  arte: String = "pixel", estilo: String = "pixel") = synchronized(lock) {
         pronto = false
         liberarBitmaps()
@@ -123,7 +125,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         RES = estiloCfg.res
         cenaW = cenaCfg.cenaW; cenaH = cenaCfg.cenaH
         pSprite.isFilterBitmap = estiloCfg.suave   // pixel = cru; clay/aqua = suave
-        fun bmp(nome: String) = assets.open("atmosfera/$nome").use { BitmapFactory.decodeStream(it) }
+        fun bmp(nome: String) = fonte.abrir("atmosfera/$nome").use { BitmapFactory.decodeStream(it) }
         val fp = cenaCfg.fundoPrefixo(arte)         // variante (clay/aqua) ou base
         fundo = bmp(fp + "fundo.png")
         frente = bmp(fp + "frente.png")
@@ -140,7 +142,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         carregarProf(try { bmp(cenaCfg.prefixo + "profundidade.png") } catch (e: Exception) { null })
         // luzes e saída de fumaça da MARCAÇÃO da cena (cena sem isso cai nas
         // constantes da cabana no Atlas — ver Marcacao.kt)
-        marca = DadosMarcacao.ler(assets, cenaCfg.prefixo)
+        marca = DadosMarcacao.ler(fonte, cenaCfg.prefixo)
         // estado dependente da cena/dimensões
         clouds.clear(); drops.clear(); flakes.clear(); impacts.clear()
         brilhos.clear(); puffsVulcao.clear(); puffVulcAcc = 0f

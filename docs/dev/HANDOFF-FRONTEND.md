@@ -81,24 +81,41 @@ Todo o contato passa por **poucos pontos estáveis**. Assinaturas que NÃO vão 
 ```kotlin
 class EffectEngine(val estado: SceneState = SceneState()) {
     var pronto: Boolean          // true depois de carregar()
-    fun carregar(assets: AssetManager)   // decodifica os bitmaps do cenário ativo
+    fun carregar(fonte: FonteDeAssets, cenaId: String, arte: String, estilo: String)
     fun draw(canvas: Canvas, cw: Float, ch: Float, tsMs: Long)  // 1 frame
     fun aoMudarClima()           // chamar quando o SceneState mudou de clima
     fun liberar()                // recicla bitmaps (onDestroy)
 }
+
+fun interface FonteDeAssets { fun abrir(caminho: String): InputStream }
 ```
 
-> ⚠️ **Esta seção precisa de conversa, não é mais garantia firme.** Decisão de
-> 2026-08-09: conteúdo pago não pode embarcar no APK/AAB base (assets/
-> passaram de 14,7 MB pra ~140 MB com o motor novo) — precisa baixar sob
-> demanda via Play Asset Delivery depois da compra. Só que asset pack
-> "on-demand" não é visível por `context.assets`/`AssetManager`; é lido por
-> uma API própria (`AssetPackManager`), que devolve caminho de arquivo. Ou
-> seja, `carregar(assets: AssetManager)` como único ponto de entrada deixa de
-> dar conta do caso pago. Ainda não implementado — sem urgência pro build de
-> debug/teste — mas quando entrar em pauta, esta assinatura é exatamente o que
-> vai precisar mudar. Ver `CHECKLIST_PUBLICACAO.md` → "Conteúdo pago não pode
-> embarcar no APK/AAB base".
+> ⚠️ **MUDANÇA DE CONTRATO em 2026-08-28 — leia antes de mandar snapshot novo.**
+> `carregar()` recebia um `AssetManager`; agora recebe uma [`FonteDeAssets`], que
+> é uma interface de um método só.
+>
+> **Por quê.** Conteúdo pago não pode embarcar no APK/AAB base (`assets/` foi de
+> 14,7 MB pra ~140 MB): ele baixa sob demanda via Play Asset Delivery depois da
+> compra. Asset pack "on-demand" **não é visível** por `context.assets` — vive
+> num armazenamento à parte, lido pelo `AssetPackManager`, que devolve caminho de
+> arquivo. Um motor acoplado a `AssetManager` não consegue ler conteúdo comprado.
+>
+> **O que muda pra você: quase nada.** São três linhas, e a forma é idêntica à
+> de antes (`abrir(caminho)` devolvendo `InputStream`, no lugar de
+> `assets.open(caminho)`). O motor **não sabe** e não deve saber de onde vem o
+> arquivo; quem decide isso é o front, onde a compra e o download já vivem. O
+> adaptador do conteúdo embarcado mora fora do motor, em `ConteudoEmbarcado.kt`.
+>
+> **`engine/` não pode mais importar `AssetManager`** — nem em `EffectEngine.kt`,
+> nem em `Marcacao.kt`. `ContratoFonteDeAssetsTest` quebra o gate se isso voltar.
+> O teste existe porque snapshot substitui arquivo inteiro: sem ele, um snapshot
+> com a assinatura antiga reverteria a mudança em silêncio, o front seria
+> "consertado" voltando a passar `context.assets`, tudo compilaria, e o conteúdo
+> pago simplesmente não carregaria em produção.
+>
+> Se um snapshot seu vier com a assinatura antiga, **reaplique esta migração em
+> vez de reverter o front.** Ver `ROADMAP.md` → Fase 4.
+
 > O `WallpaperService` cria um `EffectEngine`, chama `carregar()` uma vez, e num
 > loop de ~33 ms faz `lockHardwareCanvas()` → `draw(...)` → `unlockCanvasAndPost()`.
 > Já está implementado em `AtmosferaWallpaperService`; use como referência.

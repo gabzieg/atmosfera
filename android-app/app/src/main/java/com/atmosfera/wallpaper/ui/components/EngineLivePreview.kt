@@ -9,6 +9,7 @@ import android.view.View
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
+import com.atmosfera.wallpaper.comoFonte
 import com.atmosfera.wallpaper.engine.EffectEngine
 import com.atmosfera.wallpaper.engine.SceneState
 
@@ -101,7 +102,7 @@ private class LivePreviewView(context: Context) : View(context) {
         carregando = true
         Thread {
             val ok = try {
-                motor.carregar(context.assets, alvoAtual.first, alvoAtual.second, alvoAtual.third)
+                motor.carregar(context.assets.comoFonte(), alvoAtual.first, alvoAtual.second, alvoAtual.third)
                 true
             } catch (_: Throwable) {
                 // Cenário sem asset plugado ainda: motor.pronto fica false,

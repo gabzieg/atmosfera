@@ -190,8 +190,13 @@ justamente porque tocá-lo exige `AssetManager`.
 - [ ] Mapa explícito de grátis vs pago, por cenário e por estilo — para estilos,
   ver "Regra de estilos" em [SPEC.md](SPEC.md)
 - [ ] Asset packs configurados; **AAB base medido** e sem arte paga dentro
-- [ ] `carregar()` recebendo `FonteDeAssets` em vez de `AssetManager`
-- [ ] **Teste travando essa assinatura** — ver "guarda" abaixo
+- [x] `carregar()` recebendo `FonteDeAssets` em vez de `AssetManager` — feito em
+  2026-08-28. Os 3 pontos de contato migrados (`EffectEngine.bmp()`,
+  `DadosMarcacao.ler()`), os 4 chamadores do front atualizados, e o adaptador do
+  APK movido pra fora do motor (`ConteudoEmbarcado.kt`)
+- [x] **Teste travando essa assinatura** — `ContratoFonteDeAssetsTest`.
+  **Verificado que pega a regressão**: reintroduzindo `import
+  android.content.res.AssetManager` em `Marcacao.kt`, o gate falha
 - [ ] Compra → download → cenário aplicável, testado ponta a ponta
 - [ ] Falha/interrupção de download tratada na UI, sem crash e sem cenário
   meio-carregado

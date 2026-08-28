@@ -1,6 +1,5 @@
 package com.atmosfera.wallpaper.engine
 
-import android.content.res.AssetManager
 import org.json.JSONObject
 
 /**
@@ -42,9 +41,9 @@ class DadosMarcacao(
     companion object {
         val VAZIO = DadosMarcacao()
 
-        /** Lê `<prefixo>zonas.json` dos assets. Ausência/erro = VAZIO. */
-        fun ler(assets: AssetManager, prefixo: String): DadosMarcacao = try {
-            val txt = assets.open("atmosfera/${prefixo}zonas.json")
+        /** Lê `<prefixo>zonas.json` da [fonte]. Ausência/erro = VAZIO. */
+        fun ler(fonte: FonteDeAssets, prefixo: String): DadosMarcacao = try {
+            val txt = fonte.abrir("atmosfera/${prefixo}zonas.json")
                 .bufferedReader().use { it.readText() }
             val o = JSONObject(txt)
             val luzes = ArrayList<LuzCena>()
