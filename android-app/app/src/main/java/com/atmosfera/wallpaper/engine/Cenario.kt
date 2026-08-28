@@ -731,6 +731,61 @@ object Cenas {
                 "pixelv0" to VarFundo("cenas/ruinas/pixelv0/", 1),
             ),
         ),
+        "baobas" to CenaCfg(
+            id = "baobas", prefixo = "cenas/baobas/", tipo = "baobas",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 700f, 120f),
+            lua = Astro(1.7f, 700f, 135f, fadeY = 680f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/baobas/pixel/", 1),
+                "mache" to VarFundo("cenas/baobas/mache/", 1),
+            ),
+        ),
+        "cafeparis" to CenaCfg(
+            id = "cafeparis", prefixo = "cenas/cafeparis/", tipo = "cafeparis",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 520f, 100f),
+            lua = Astro(1.7f, 520f, 115f, fadeY = 500f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/cafeparis/pixel/", 1),
+                "16bits" to VarFundo("cenas/cafeparis/16bits/", 1),
+                "clay" to VarFundo("cenas/cafeparis/clay/", 1),
+                "mache" to VarFundo("cenas/cafeparis/mache/", 1),
+            ),
+        ),
+        "estrada" to CenaCfg(
+            id = "estrada", prefixo = "cenas/estrada/", tipo = "estrada",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 680f, 120f),
+            lua = Astro(1.7f, 680f, 135f, fadeY = 660f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/estrada/pixel/", 1),
+            ),
+        ),
+        "praiaeuropa" to CenaCfg(
+            id = "praiaeuropa", prefixo = "cenas/praiaeuropa/", tipo = "praiaeuropa",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 640f, 115f),
+            lua = Astro(1.7f, 640f, 130f, fadeY = 620f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/praiaeuropa/pixel/", 1),
+                "16bits" to VarFundo("cenas/praiaeuropa/16bits/", 1),
+                "clay" to VarFundo("cenas/praiaeuropa/clay/", 1),
+                "mache" to VarFundo("cenas/praiaeuropa/mache/", 1),
+            ),
+        ),
         // CYBERPUNK — duas cenas irmãs, mesma cidade: canal cheio e rua seca.
         // Separadas porque só a inundada tem pingo na água.
         "cyberpunk" to CenaCfg(
