@@ -16,12 +16,31 @@ app, não de promessa: cada afirmação abaixo tem código por trás (ver
 ## Título (máx. 30 caracteres)
 
 ```
-Atmosfera – Clima ao Vivo
+Atmosfera Clima Ao Vivo
 ```
 
-É o mesmo nome que o Android mostra no seletor de papel de parede
-(`wallpaper_label` em `strings.xml`) — vale manter idêntico para o usuário
-reconhecer o app depois de instalar.
+23 caracteres. Praticamente o mesmo nome que o Android mostra no seletor de
+papel de parede (`wallpaper_label` em `strings.xml`), que hoje traz um travessão
+— **divergem só na pontuação**.
+
+**Decidido em 2026-08-28, com o custo conhecido.** Dez alternativas foram
+comparadas e a recomendação técnica era `Atmosfera: Papel de Parede`, por dois
+motivos que continuam valendo:
+
+- O título é o campo de maior peso no ranking da Play, e este não contém
+  nenhuma palavra da categoria. Ninguém busca "atmosfera"; busca-se "papel de
+  parede animado".
+- "Clima ao Vivo" pode ser lido como app de previsão do tempo, o que atrai
+  usuário errado — e avaliação ruim é o eixo sensível deste mercado.
+
+A escolha foi manter o nome mesmo assim. **A consequência prática é que a
+descoberta passa a depender inteiramente das descrições**, já que o título não
+carrega palavra-chave nenhuma. Ver "Em aberto" → item 5.
+
+Verificado: existem 8+ apps chamados "Atmosfera" na Play (clube de tênis,
+estúdio de yoga, gestão de condomínio), **nenhum em clima ou papel de parede** —
+não há colisão na nossa categoria. Isso é checagem de nome na loja, **não de
+marca registrada**: consulta ao INPI é assunto à parte.
 
 ## Descrição curta (máx. 80 caracteres)
 
@@ -131,6 +150,23 @@ avaliação ruim e potencialmente de rejeição.
 
 **Não publicar antes de definir quais cenários entram** e ajustar a lista do
 parágrafo "CENÁRIOS E ESTILOS" para conter só eles.
+
+### 5. ⚠️ A descrição longa não contém "papel de parede"
+
+Consequência direta da decisão de título (2026-08-28). Com o título sem palavra
+da categoria, **as descrições viram o único caminho de descoberta** — e hoje o
+texto longo não usa a expressão "papel de parede" uma única vez. Ele fala em
+"cenário", "cena" e "celular".
+
+Resultado: o app fica praticamente invisível para quem busca o termo que as
+pessoas realmente digitam. A descrição curta salva parcialmente, porque a
+escolhida contém "papel de parede" — mas ela sozinha pesa menos que o texto
+longo, que a Play indexa inteiro.
+
+Correção sugerida no primeiro parágrafo, sem forçar a frase:
+
+> "O Atmosfera é um **papel de parede animado** que desenha um cenário quadro a
+> quadro no seu celular e faz ele seguir o tempo de verdade da sua região."
 
 ### 4. Confirmar "fases da lua" como Premium
 
