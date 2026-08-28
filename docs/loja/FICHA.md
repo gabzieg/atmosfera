@@ -63,13 +63,16 @@ Uma cena viva na sua tela, que muda com o tempo lá fora.
 ```
 Não é uma imagem. É uma cena viva.
 
-O Atmosfera desenha um cenário quadro a quadro no seu celular e faz ele seguir o tempo de verdade da sua região. Se está chovendo lá fora, chove na sua tela. Anoiteceu? As janelas acendem e as estrelas saem.
+O Atmosfera é um papel de parede animado que desenha um cenário quadro a quadro no seu celular e faz ele seguir o tempo de verdade da sua região. Se está chovendo lá fora, chove na sua tela. Anoiteceu? As janelas acendem e as estrelas saem.
 
 O QUE A CENA ACOMPANHA
 • Chuva, neve, névoa e céu nublado, conforme a previsão real
 • A hora do dia — amanhecer, tarde, noite — com a luz mudando junto
 • O nascer e o pôr do sol da sua região
 • A temperatura e o vento
+
+COMO FUNCIONA
+Escolha um cenário, escolha a arte dele e escolha o estilo dos efeitos. Depois é só aplicar como papel de parede: a cena passa a rodar na sua tela inicial e na tela de bloqueio. Dá para trocar quando quiser, quantas vezes quiser, sem perder nada do que já comprou.
 
 CENÁRIOS E ESTILOS
 Uma cabana na floresta, uma vila norueguesa nos fiordes, um jardim japonês, um farol, um pântano, uma praia tropical. Cada cenário vem em mais de uma arte — pixel art, argila, aquarela, ukiyo-e e outras — e você escolhe separadamente o estilo dos efeitos. A combinação é sua.
@@ -84,8 +87,16 @@ O QUE É PAGO
 SEM ASSINATURA. SEM ANÚNCIO.
 Compra única de verdade: você paga uma vez e acabou. Não há mensalidade, não há renovação e não existe anúncio em lugar nenhum do app — nem na versão gratuita.
 
+PARA QUEM É
+Para quem gosta de tela calma e quer um papel de parede que muda sozinho, sem precisar mexer. Se você já achou bonito ver a chuva pela janela, a ideia é essa.
+
+Uma coisa que é justo dizer antes de você instalar: o Atmosfera NÃO é um app de previsão do tempo. Ele usa o clima para desenhar a cena, mas não mostra previsão para os próximos dias, alertas, radar nem mapas. Se é previsão que você procura, este não é o app.
+
 SOBRE A SUA LOCALIZAÇÃO
 O Atmosfera usa a localização aproximada apenas para consultar a previsão do tempo. Não há cadastro, não há conta e não há rastreamento. E se você preferir não dar a permissão, o app funciona igual, com o clima de uma cidade padrão.
+
+REQUISITOS
+Android 8.0 ou mais recente. A internet é usada só para atualizar o clima de tempos em tempos — e, se você ficar sem conexão, a cena continua rodando normalmente com a última informação recebida.
 ```
 
 ---
@@ -103,6 +114,9 @@ O Atmosfera usa a localização aproximada apenas para consultar a previsão do 
 | "não existe anúncio" | Nenhum SDK de ads no projeto — ver `SPEC.md` → Não-objetivos |
 | "localização aproximada" | Só `ACCESS_COARSE_LOCATION` no manifesto; `ACCESS_FINE` removida em 2026-08-08 |
 | "funciona sem a permissão" | `weather/LocationHelper` cai para cidade padrão (Guarapuava, PR) |
+| "Android 8.0 ou mais recente" | `minSdk 26` em `app/build.gradle` |
+| "sem conexão, a cena continua rodando" | `weather/WeatherCache` guarda a última leitura; o motor desenha a partir do `SceneState`, sem depender de rede |
+| "sem perder nada do que já comprou" | Compras são não-consumíveis (`INAPP`) e `Cena`/`ArteFundo`/`EstiloEfeito` são prefs locais — trocar de cenário não revoga posse |
 
 ## Decisões de redação
 
@@ -151,22 +165,15 @@ avaliação ruim e potencialmente de rejeição.
 **Não publicar antes de definir quais cenários entram** e ajustar a lista do
 parágrafo "CENÁRIOS E ESTILOS" para conter só eles.
 
-### 5. ⚠️ A descrição longa não contém "papel de parede"
+### ~~5. A descrição longa não contém "papel de parede"~~ — resolvido em 2026-08-28
 
-Consequência direta da decisão de título (2026-08-28). Com o título sem palavra
-da categoria, **as descrições viram o único caminho de descoberta** — e hoje o
-texto longo não usa a expressão "papel de parede" uma única vez. Ele fala em
-"cenário", "cena" e "celular".
+O texto longo não usava a expressão uma única vez: falava em "cenário", "cena" e
+"celular". Com o título sem palavra da categoria, isso deixava o app quase
+invisível para quem busca o termo que as pessoas de fato digitam.
 
-Resultado: o app fica praticamente invisível para quem busca o termo que as
-pessoas realmente digitam. A descrição curta salva parcialmente, porque a
-escolhida contém "papel de parede" — mas ela sozinha pesa menos que o texto
-longo, que a Play indexa inteiro.
-
-Correção sugerida no primeiro parágrafo, sem forçar a frase:
-
-> "O Atmosfera é um **papel de parede animado** que desenha um cenário quadro a
-> quadro no seu celular e faz ele seguir o tempo de verdade da sua região."
+Corrigido na expansão do texto: a expressão agora aparece no primeiro parágrafo
+(antes da dobra, que é o trecho que mais pesa), em "COMO FUNCIONA" e em "PARA
+QUEM É".
 
 ### 4. Confirmar "fases da lua" como Premium
 
