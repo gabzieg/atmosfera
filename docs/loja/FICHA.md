@@ -45,18 +45,38 @@ marca registrada**: consulta ao INPI é assunto à parte.
 ## Descrição curta (máx. 80 caracteres)
 
 ```
-O papel de parede que chove quando está chovendo lá fora.
+Papel de parede animado: quando chove lá fora, chove na sua tela.
 ```
 
-Alternativas, se preferir algo mais explicativo e menos direto:
+65 caracteres. **Decidida em 2026-08-28**, depois de comparar sete versões.
 
-```
-Papel de parede animado que segue o clima real da sua região.
-```
+**Por que esta.** Ela é a única que faz as duas coisas ao mesmo tempo. As palavras
+que as pessoas digitam — "papel de parede animado" — ficam **no começo**, que é
+onde pesam mais; e a segunda metade entrega a imagem concreta que gruda na
+cabeça. As candidatas anteriores escolhiam entre exemplificar *ou* ser
+encontrada:
 
-```
-Uma cena viva na sua tela, que muda com o tempo lá fora.
-```
+- *"O papel de parede que chove quando está chovendo lá fora."* (57) — memorável,
+  mas sem "animado", que é modificador buscado junto.
+- *"Papel de parede animado que segue o clima real da sua região."* (61) — as
+  palavras certas, mas chapada, sem imagem.
+- *"Uma cena viva na sua tela, que muda com o tempo lá fora."* (56) — **descartada
+  de saída**: zero palavra-chave. Com o título também sem nenhuma, o app ficaria
+  invisível na busca.
+
+**Ela conserta o buraco que o título deixou.** Na listagem, as duas aparecem
+coladas:
+
+> **Atmosfera Clima Ao Vivo**
+> Papel de parede animado: quando chove lá fora, chove na sua tela.
+
+O título diz "clima", a curta diz "papel de parede animado". Uma cobre a lacuna
+da outra.
+
+Uma versão mais longa (*"…que segue a chuva, o sol e a lua da sua região."*, 71)
+cobria mais termos, mas lê como lista. A descrição longa já cobre chuva, neve,
+sol, lua e vento com folga, e é ela que a Play indexa por inteiro — a curta rende
+mais sendo boa de ler.
 
 ## Descrição longa (máx. 4.000 caracteres)
 
@@ -142,11 +162,11 @@ lugares seria contradição dentro da própria descrição.
 Quatro pontos que o rascunho não resolve sozinho. O terceiro é bloqueio; os
 outros três são preferência.
 
-### 1. Qual descrição curta
+### ~~1. Qual descrição curta~~ — resolvido em 2026-08-28
 
-A escolhida é a mais memorável, mas é a única que **não usa "animado" nem
-"wallpaper"** — pode custar em busca. As alternativas são mais explicativas e
-menos marcantes. Troca direta entre memorabilidade e descoberta.
+O impasse era entre memorabilidade e descoberta. Resolvido escrevendo uma versão
+nova que faz as duas: palavras-chave na frente, imagem concreta atrás. Ver a
+seção "Descrição curta" acima.
 
 ### 2. Incluir números ou não
 
