@@ -27,6 +27,15 @@ data class LuzCena(
     val vx: Float = x, val vy: Float = y, val vw: Float = w, val vh: Float = h,
     /** Cor ACESA desta luz: a lanterna vermelha não acende laranja. */
     val cor: Int = android.graphics.Color.rgb(255, 186, 104),
+    /**
+     * COMPORTAMENTO da luz, carimbado por cena em `tools/marcacao.py`
+     * (`MODO_LUZ`). O tipo diz o horário; o modo diz como ela se comporta:
+     *  - `null` — o de sempre: janela pulsa de leve, lampião tremula.
+     *  - `"fogueira"` — fogo de sobrevivente: tremeluz forte e irregular, cor de
+     *    chama, queima até o amanhecer e SÓ UMA acende por noite.
+     *  - `"agonizando"` — lâmpada elétrica no fim: acesa, mas com apagões curtos.
+     */
+    val modo: String? = null,
 ) {
     val cx get() = vx + vw / 2f
     val cy get() = vy + vh / 2f
@@ -93,9 +102,12 @@ class DadosMarcacao(
                         if (v != null) v.getDouble(1).toFloat() else by,
                         if (v != null) v.getDouble(2).toFloat() else bw,
                         if (v != null) v.getDouble(3).toFloat() else bh,
-                        if (c != null) android.graphics.Color.rgb(
+                        if (l.optString("modo", "") == "fogueira")
+                            android.graphics.Color.rgb(255, 146, 58)
+                        else if (c != null) android.graphics.Color.rgb(
                             c.getInt(0), c.getInt(1), c.getInt(2))
-                        else android.graphics.Color.rgb(255, 186, 104)))
+                        else android.graphics.Color.rgb(255, 186, 104),
+                        l.optString("modo", "").ifEmpty { null }))
                 }
             }
             val fum = ArrayList<BocaFumaca>()

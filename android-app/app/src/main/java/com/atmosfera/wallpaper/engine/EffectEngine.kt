@@ -1219,6 +1219,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
      * à meia-noite. Só vale pra janela ('parcial'); lampião e farol não sorteiam.
      */
     private fun luzDoLote(l: LuzCena, i: Int): Boolean {
+        if (l.modo == "fogueira") return i == fogoNoite
         if (l.tipo == "completa") return true
         val dia = (System.currentTimeMillis() / 86_400_000L).toInt()
         var h = (dia + 1) * -1640531527 xor ((i + 1) * 40503)
@@ -1236,17 +1237,70 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     // é ~88 px numa arte de 1086 de largura, contra os 627 px do halo antigo; e
     // JANELA não é LAMPIÃO — o vidro de janela quase não derrama, porque a luz
     // está atrás do papel.
+    /**
+     * FOGUEIRA (cidade tomada): não é janela de prédio habitado, é sobrevivente
+     * acampado. Pedido dele: "não devem ser ao mesmo tempo — uma noite uma,
+     * outra noite uma terceira sozinha, como se fossem sobreviventes migrando
+     * entre apartamentos". Das 15 marcadas, UMA acende por noite, sorteada pelo
+     * dia (estável a noite inteira, troca à meia-noite) e nunca a mesma duas
+     * noites seguidas. Porte do index.js — os dois têm de sortear igual.
+     */
+    private var fogoNoite = -1
+    private var fogoDia = Int.MIN_VALUE
+
+    private fun atualizarFogueira(luzes: List<LuzCena>) {
+        val dia = (System.currentTimeMillis() / 86_400_000L).toInt()
+        if (dia == fogoDia) return
+        fogoDia = dia
+        val idx = luzes.indices.filter { luzes[it].modo == "fogueira" }
+        if (idx.isEmpty()) { fogoNoite = -1; return }
+        fun escolhe(d: Int): Int {
+            var h = (d + 1) * -1640531527
+            h = (h xor (h ushr 15)) * -2048144789
+            return idx[((h ushr 8) % idx.size)]
+        }
+        var a = escolhe(dia)
+        if (idx.size > 1 && a == escolhe(dia - 1)) a = idx[(idx.indexOf(a) + 1) % idx.size]
+        fogoNoite = a
+    }
+
     private fun luzAcesa(l: LuzCena, i: Int): Boolean {
-        val h = if (l.tipo == "completa") lampioesAcesos(estado.hora)
+        // a fogueira do acampamento queima até o amanhecer, mesmo marcada de
+        // amarelo: é o único fogo da cidade, apagar à meia-noite deixa a cena cega.
+        val h = if (l.tipo == "completa" || l.modo == "fogueira")
+                    lampioesAcesos(estado.hora)
                 else janelasAcesas(estado.hora)
         return h && luzDoLote(l, i)
     }
 
-    /** O lampião tremula (chama); a janela só pulsa de leve. */
-    private fun luzOsc(l: LuzCena, ts: Long) =
-        if (l.tipo == "completa")
-            0.72f + 0.28f * sin(ts / 1000f * 7 + l.vx) * sin(ts / 1000f * 3.3f + l.vy)
-        else 0.85f + 0.15f * sin(ts / 1000f * 1.3f + l.vx)
+    /** O lampião tremula (chama); a janela só pulsa de leve. Modo manda mais
+     *  que tipo — ver [LuzCena.modo]. Porte do index.js. */
+    private fun luzOsc(l: LuzCena, ts: Long): Float {
+        val t = ts / 1000f
+        // FOGUEIRA: chama, não lâmpada. Três senoides incomensuráveis somadas
+        // nunca repetem o desenho — é o que separa fogo de pulso eletrônico.
+        if (l.modo == "fogueira") {
+            val f = sin(t * 7.3f + l.vx) * 0.5f +
+                    sin(t * 11.7f + l.vy * 0.7f) * 0.3f +
+                    sin(t * 2.9f + l.vx * 0.3f) * 0.2f
+            return (0.78f + 0.32f * f).coerceIn(0.42f, 1f)
+        }
+        // AGONIZANDO: lâmpada elétrica no fim. Acesa, mas a cada ~2,4 s sorteia
+        // um apagão CURTO (0,18 s) — mais longo que isso vira pisca-pisca. A
+        // semente leva a posição do vidro, então dois postes não piscam juntos.
+        if (l.modo == "agonizando") {
+            val jan = (t / 2.4f).toInt()
+            var h = (jan + 1) * -1640531527 xor ((l.vx.toInt() + 7) * 40503)
+            h = (h xor (h ushr 15)) * -2048144789
+            val r = ((h ushr 8) % 1000) / 1000f
+            val fase = t / 2.4f - jan
+            val base = 0.80f + 0.20f * sin(t * 17 + l.vx) * sin(t * 5.1f + l.vy)
+            return if (r < 0.45f && fase > 0.5f && fase < 0.575f) base * 0.12f else base
+        }
+        return if (l.tipo == "completa")
+            0.72f + 0.28f * sin(t * 7 + l.vx) * sin(t * 3.3f + l.vy)
+        else 0.85f + 0.15f * sin(t * 1.3f + l.vx)
+    }
 
     /** LUZ LONGE BRILHA MENOS E ALCANÇA MENOS — o mesmo mapa de profundidade
      *  que pesa no respingo. Sem isso, cena com muita luz pequena no ponto de
@@ -1258,8 +1312,11 @@ class EffectEngine(val estado: SceneState = SceneState()) {
 
     /** Alcance do derrame em px de CENA (medido numa arte de 1086 de largura). */
     private fun luzAlcance(l: LuzCena, peso: Float) =
-        (if (l.tipo == "completa") LUZ_ALCANCE else LUZ_ALCANCE_JANELA) *
-            (cenaW / 1086f) * peso
+        (when {
+            l.modo == "fogueira" -> LUZ_ALCANCE_FOGO
+            l.tipo == "completa" -> LUZ_ALCANCE
+            else -> LUZ_ALCANCE_JANELA
+        }) * (cenaW / 1086f) * peso
 
     private fun desenharMapaLuz(c: Canvas, tf: Tf, escuro: Float, ts: Long,
                                 cw: Float, ch: Float, tc: IntArray) {
@@ -1293,6 +1350,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         }
         // o derrame de cada lampião, somado ao ambiente
         pGlow.xfermode = ADD
+        atualizarFogueira(marca.luzes)
         for ((i, l) in marca.luzes.withIndex()) {
             if (!luzAcesa(l, i)) continue
             val peso = luzPeso(l)
@@ -1329,6 +1387,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
      *  vidro (mais um estouro curto), não do tamanho da luminária. */
     private fun desenharLuzesCena(c: Canvas, tf: Tf, escuro: Float, ts: Long) {
         pGlow.xfermode = ADD
+        atualizarFogueira(marca.luzes)
         for ((i, l) in marca.luzes.withIndex()) {
             if (!luzAcesa(l, i)) continue
             val peso = luzPeso(l)
@@ -1611,6 +1670,9 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         private const val LUZ_ALCANCE = 88f
         /** Janela/placa: a luz está ATRÁS do papel, quase não derrama. */
         private const val LUZ_ALCANCE_JANELA = 22f
+        /** Fogo dentro do cômodo: derrama mais que o papel da janela, menos
+         *  que o lampião na rua aberta (modo "fogueira"). */
+        private const val LUZ_ALCANCE_FOGO = 44f
         /** Queda medida: [fração do alcance, quanto da luz sobra]. */
         private val LUZ_QUEDA = arrayOf(
             floatArrayOf(0f, 1f), floatArrayOf(0.09f, 0.60f), floatArrayOf(0.25f, 0.36f),
