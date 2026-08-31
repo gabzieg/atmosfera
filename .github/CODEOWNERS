@@ -13,9 +13,6 @@
 /android-app/app/src/main/assets/atmosfera/                      @RHuppes
 
 # ── Front (billing incluído) ────────────────────────────────────────
-# billing/ era do @uWillianG. Voltou pro @gabzieg em 2026-08: a integração está
-# pronta (Billing 9.1.0, preços reativos, reconciliação de reembolso) e o que
-# falta é cadastro no Play Console, que é do titular da conta.
 /android-app/app/src/main/java/com/atmosfera/wallpaper/billing/  @gabzieg
 /android-app/app/src/main/java/com/atmosfera/wallpaper/ui/       @gabzieg
 /android-app/app/src/main/java/com/atmosfera/wallpaper/weather/  @gabzieg
@@ -26,14 +23,17 @@
 # docs/legal/ e o espelho HTML em docs/<pagina>/, que é o que vai pro ar.
 # O asset embutido no APK é cópia byte a byte do HTML — ver
 # PaginasLegaisSincronizadasTest.
-/docs/                                 @uWillianG
-/docs/legal/                           @uWillianG
-/android-app/app/src/main/assets/legal/  @uWillianG
+#
+# Era do @uWillianG até 2026-08-28, quando ele saiu do projeto. Como o time
+# agora são duas pessoas e o Rafael só toca o motor, TUDO que não é engine/ ou
+# assets/atmosfera/ é do @gabzieg — o que torna as linhas por área abaixo
+# quase decorativas. Ficam porque documentam a intenção, e porque no dia em que
+# entrar mais alguém o arquivo já está estruturado.
+/docs/                                 @gabzieg
+/docs/legal/                           @gabzieg
+/android-app/app/src/main/assets/legal/  @gabzieg
 
 # ── Build, CI e publicação ──────────────────────────────────────────
-# docs/dev/ vem DEPOIS de /docs/ de propósito: CODEOWNERS é último-que-casa
-# vence, então esta linha tira a documentação interna (ROADMAP, SPEC, TASKS,
-# HANDOFF, CHECKLIST, GUIA_PLAY_CONSOLE) do escopo do dono dos textos legais.
 /android-app/app/build.gradle          @gabzieg
 /android-app/app/src/main/AndroidManifest.xml  @gabzieg
 /.github/                              @gabzieg

@@ -109,23 +109,33 @@ bloqueia o "pronto", não todo o passo a passo.
 
 ## Arquitetura (resumo — detalhe completo em HANDOFF-FRONTEND.md)
 
+**O time são duas pessoas** (desde 2026-08-28): Gabriel e Rafael. O Willian
+saiu do projeto — as áreas que estavam no nome dele passaram para o Gabriel.
+
 | Pacote | Dono | Fronteira |
 |---|---|---|
 | `engine/` + `assets/atmosfera/` | Rafael | Congelado por convenção — front lê a API pública (`EffectEngine.carregar/draw/pronto`, `Catalogo`, `Cena`, `Cenas`, `Estilos`), não edita os arquivos |
-| `ui/`, `weather/`, `service/`, `billing/` | Gabriel | Front. `billing/` era do Willian; voltou pro Gabriel em 2026-08, com a integração pronta |
+| `ui/`, `weather/`, `service/`, `billing/` | Gabriel | Front |
 | `debug/` | Gabriel | Ferramenta interna, só builds debug |
-| Documentos legais (`PRIVACIDADE.md`, `TERMOS.md`, `CONTATO.md`, `docs/`, `assets/legal/`) | Willian | Textos públicos + espelhos HTML |
-| Site de apresentação/marketing | Willian | Fora deste repo — repositório próprio (nome a definir), stack web |
+| Documentos legais (`docs/legal/*.md`, `docs/<pagina>/index.html`, `assets/legal/`) | Gabriel | Textos públicos + espelhos HTML |
+| Site de apresentação/marketing | — | Sem dono. Era do Willian, nunca começou |
+
+> **Sobre a saída do Willian.** Ele escreveu a política de privacidade
+> (`2bb49ff`, 29/jul) e nada mais: `TERMOS.md` e `CONTATO.md` foram redigidos
+> depois, sem ele, e o `PRIVACIDADE.md` foi corrigido pelo Gabriel em agosto. A
+> divisão de trabalho ficou desatualizada por um mês, e o efeito prático disso é
+> pior que a ausência: **todo mundo achava que alguém estava olhando os arquivos
+> legais, e ninguém estava.** Dono errado no papel é pior que nenhum dono.
 
 ### Publicação na Play Store — quem faz o quê
 
-Compliance não é de um dono só: parte é texto, parte é declaração sobre o
+Compliance não é uma coisa só: parte é texto, parte é declaração sobre o
 código, parte é titularidade legal.
 
 | Item | Quem | Por quê |
 |---|---|---|
-| Textos legais e mantê-los em dia com o código | Willian | Mesmo dono dos arquivos acima |
-| **Data Safety Form** | Gabriel (com apoio do Willian) | É declaração sobre o que o **código** coleta. Declarar diferente do que o APK pede é a causa nº1 de rejeição — exige conhecer `weather/`, `LocationHelper` e o manifesto. A tabela de rastreio em `CHECKLIST_PUBLICACAO.md` é a fonte |
+| Textos legais e mantê-los em dia com o código | Gabriel | Mesmo dono dos arquivos acima |
+| **Data Safety Form** | Gabriel | É declaração sobre o que o **código** coleta. Declarar diferente do que o APK pede é a causa nº1 de rejeição — exige conhecer `weather/`, `LocationHelper` e o manifesto. A tabela de rastreio em `CHECKLIST_PUBLICACAO.md` é a fonte |
 | Content Rating (IARC) | Quem estiver com o console aberto | Questionário de conteúdo, baixo risco |
 | **Conta do Google Play Console** | Gabriel | **Não delegável.** O titular é o publicador legal — recebe os pagamentos, assina os formulários fiscais, e é o **controlador** nomeado na política de privacidade e nos termos |
 

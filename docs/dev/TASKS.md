@@ -91,7 +91,7 @@ agente.
 
 - [ ] **Validar o formato de docs inspirado no workflow do Chris Titus.**
   `SPEC.md`/`ROADMAP.md`/`TASKS.md` commitados em `02360bf`; falta a rodada de
-  uso real com o time (Rafael, Willian) pra decidir se vira convenção fixa. Esta
+  uso real com o time (hoje só o Rafael) pra decidir se vira convenção fixa. Esta
   reconciliação de 2026-08-10 é a primeira prova de que o formato exige
   manutenção ativa pra não mentir.
 
@@ -143,21 +143,30 @@ agente.
 Fonte completa em [SPEC.md](SPEC.md) → arquitetura e "Publicação na Play
 Store"; mapeamento executável em `.github/CODEOWNERS`.
 
+**Duas pessoas desde 2026-08-28**: Gabriel e Rafael. O Willian saiu; tudo que
+estava no nome dele passou pro Gabriel. Ver `SPEC.md` para o porquê disso ter
+sido corrigido em vez de deixado como estava.
+
 | Setor | Dono | Estado |
 |---|---|---|
-| `engine/` + `assets/atmosfera/` | Rafael | **Snapshot novo entregue e mergeado em 2026-08-09** — 6 cenários, 12 estilos, marcação por cena. Próximo assunto com ele é o contrato de `carregar()` (Fase 4) |
-| `ui/`, `weather/`, `service/` | Gabriel | Ativo |
-| `billing/` | Gabriel (era do Willian) | Integração pronta — Billing 9.1.0, preços reativos, reconciliação de reembolso. Falta cadastrar os produtos no Play Console |
-| Documentos legais | Willian | Textos prontos, faltam os `[PREENCHER]` e a hospedagem |
-| Data Safety Form | Gabriel (+ Willian conferindo) | Não iniciado — depende do app existir no console |
-| Content Rating (IARC) | Quem abrir o console | Não iniciado |
+| `engine/` + `assets/atmosfera/` | Rafael | Congelado, **mas cada vez mais perto do merge**. Produzindo ~215 imagens e decidindo o agrupamento em packs; também define o mapa grátis vs pago |
+| `ui/`, `weather/`, `service/`, `billing/` | Gabriel | Ativo. Billing pronto — falta cadastrar produtos no Play Console |
+| Documentos legais | Gabriel | Textos prontos; faltam os `[PREENCHER]` e a hospedagem. A conferência contra o código virou teste (`PoliticaBatecomManifestoTest`) |
+| Data Safety Form | Gabriel | Não iniciado — depende do app existir no console |
+| Content Rating (IARC) | Gabriel | Não iniciado |
 | Conta Play Console | Gabriel | Não delegável, **adiada** |
-| Site de apresentação | Willian | Repo próprio, não criado |
+| Site de apresentação | — | Sem dono, nunca começado. Não bloqueia publicação |
 
 ## Backlog (não é a fase atual, não puxar sem avisar)
 
 - Ampliar cobertura de teste pra comportamento (ver `ROADMAP.md` → trabalho
-  contínuo). Hoje: 4 testes unitários, zero instrumentado.
+  contínuo). Hoje: **6 testes unitários**, zero instrumentado.
+- **Revisão cruzada entre `TERMOS.md` e `PRIVACIDADE.md`** — foram escritos por
+  autores diferentes, em momentos diferentes, e nunca conferidos um contra o
+  outro. Os dois falam de compra, dados e reembolso; se divergirem, divergem
+  publicamente.
+- **Revisão jurídica dos três documentos** — nenhum é parecer jurídico. Pontos
+  sensíveis: limitação de responsabilidade frente ao CDC, eleição de foro, e a
+  base legal escolhida para cada dado.
 - Módulos Gradle `:engine`/`:app` — precisa alinhar com o Rafael, e agora
   concorre com a Fase 4, que já vai mexer no contrato dele.
-- Setor do Willian — site em repo próprio, ainda não criado.

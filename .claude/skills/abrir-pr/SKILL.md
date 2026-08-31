@@ -122,8 +122,14 @@ convenção e fica pronto pro dia que o plano mudar. Quem cobra é você.
 | Área | Aprova |
 |---|---|
 | `engine/` · `assets/atmosfera/` | Rafael — combine ANTES, o snapshot dele pode sobrescrever sua correção |
-| Documentos legais (`docs/legal/`, espelhos HTML) | Willian — é texto que vale juridicamente |
-| Todo o resto (`ui/`, `weather/`, `service/`, `billing/`, build, manifesto) | Gabriel — na prática, gate verde e merge |
+| Todo o resto, documentos legais incluídos | Gabriel — na prática, gate verde e merge |
+
+Os documentos legais tinham revisor próprio (o Willian) até 2026-08-28, quando
+ele saiu do projeto. **Não substitua isso por uma cerimônia de PR consigo
+mesmo** — não é revisão. O que protege texto legal aqui é o guarda automático:
+`PaginasLegaisSincronizadasTest` (as três cópias batem) e
+`PoliticaBatecomManifestoTest` (a política não pode listar permissão que o app
+não pede, nem omitir uma que pede).
 
 Como a revisão é solo na maior parte do repo, **o gate é o revisor de verdade**:
 testes + lint + build + gitleaks. Vale mais investir em guarda automático (como

@@ -40,10 +40,12 @@ Form declarado com o que o APK realmente pede).
 
 ## Antes de publicar (fazer, não só declarar)
 
-- [ ] **Keystore de release + `keystore.properties`** — gerar a keystore de
-  produção com `keytool` e preencher `android-app/keystore.properties` (ver
-  README.md → "Build de release"). Sem isso `assembleRelease` builda sem
-  assinar. Guarde a keystore em local seguro fora do repo.
+- [x] **Keystore de release + `keystore.properties`** — feito. Keystore de
+  produção em `C:\Users\gbrus\Chaves\` (fora do repo), `keystore.properties`
+  preenchido localmente, e `bundleRelease` gera AAB assinado — conferido com
+  `keytool -printcert -jarfile`. **Pendências de higiene, não da fase:** mover a
+  senha do `.txt` pra um gerenciador e fazer segundo backup offline do `.jks`
+  (ver `TASKS.md`).
 - [x] **Política de privacidade escrita** — [PRIVACIDADE.md](../legal/PRIVACIDADE.md)
   (texto canônico) + [`docs/privacidade/index.html`](docs/privacidade/index.html)
   (mesma coisa em HTML, pronta pra hospedar). Cobre coleta, finalidade, base
@@ -89,34 +91,40 @@ Form declarado com o que o APK realmente pede).
     Duas armadilhas descobertas na prática, documentadas em
     `docs/loja/README.md`: a captura crua do emulador é 2,22:1 e **seria
     rejeitada**, e o `screencap` grava canal alfa, que a Play não aceita.
-  - [ ] **Feature graphic 1024×500** — obrigatório, ainda não existe.
-  - [ ] **Ícone 512×512** — precisa ser renderizado: o adaptive icon é só
-    vetor (`mipmap-*/*.xml`), não há PNG no repo.
-  - [x] **Descrição curta (80) e longa (4.000)** — rascunho em
-    `docs/loja/FICHA.md`, dentro dos limites (57 e 1.618 caracteres) e com
-    cada afirmação rastreada ao código. Pendente de revisão do Gabriel.
+  - [x] **Feature graphic 1024×500** — `docs/loja/feature-graphic-1024x500.png`,
+    composto da arte existente (fundo escuro do app + três ladrilhos + bloco de
+    texto no padrão do próprio app). PNG 24-bit sem alfa, validado.
+  - [x] **Ícone 512×512** — `docs/loja/icone-512.png`: recorte da cabana, que
+    substituiu a montanha vetorial genérica. O ícone do app em `res/mipmap-*`
+    foi trocado junto, pra ficha e aparelho não mostrarem coisas diferentes.
+  - [x] **Título e descrições** — `docs/loja/FICHA.md`. Título "Atmosfera Clima
+    Ao Vivo" (23/30), curta (65/80) e longa (2.572/4.000), com cada afirmação
+    rastreada ao código.
+  - [ ] **Lista de cenários dentro da descrição longa** — **bloqueio**: o texto
+    hoje promete jardim japonês, farol, pântano e praia, e a estratégia é lançar
+    com poucos cenários. Ajustar quando o Rafael definir o que entra; publicar
+    antes disso é promessa não cumprida.
 - [ ] **Conteúdo pago não pode embarcar no APK/AAB base** — decisão de
   2026-08-09. `assets/atmosfera/` saltou de 14,7 MB pra **140 MB** na
   integração do motor novo (6 cenários + 12 estilos), e quem não comprou não
   pode carregar essa arte no install. Só a cabana (grátis) e o essencial do
   onboarding ficam embarcados; o resto baixa sob demanda depois da compra.
 
-  **Isto não é config de Gradle — muda o contrato do motor.** A ferramenta pra
-  isso é o Google Play Asset Delivery (PAD), mas conteúdo em asset pack
-  "on-demand" não aparece em `context.assets`/`AssetManager` — vive num
-  armazenamento à parte, lido via `AssetPackManager`, que devolve caminho de
-  arquivo, não um `AssetManager`. E `EffectEngine.carregar(assets: AssetManager,
-  ...)` é justamente a assinatura que `HANDOFF-FRONTEND.md` §3.1 documenta como
-  "**NÃO vai mudar**". Ou seja: implementar isto direito exige revisar essa
-  promessa com o Rafael antes de mexer — não dá pra resolver só no front.
+  **O contrato do motor já foi resolvido** (`a20732d`, 2026-08-28):
+  `carregar()` recebe uma `FonteDeAssets` em vez de `AssetManager`, os três
+  pontos de contato migraram, e o `ContratoFonteDeAssetsTest` quebra o gate se
+  alguém voltar atrás — o que importa porque o Rafael entrega por snapshot e a
+  mudança sumiria em silêncio.
 
-  Sem urgência pra build local/debug (confirmado com o usuário: tudo embarcado
-  serve pra teste). Bloqueia só a build de **release** que for pra Play Store.
-  Ao planejar com o Rafael: mapear cenário grátis vs. pago pra asset pack,
-  decidir a forma de `carregar()` receber os dois casos (AssetManager pro
-  embarcado, outro caminho pro baixado), e só então tocar em Gradle/manifesto
-  pros asset packs em si. `git ls-tree -r -l HEAD -- android-app/app/src/main/assets/atmosfera
-  | sort -k4 -nr` lista os maiores arquivos, útil pra decidir o que vira pack.
+  **O que falta é decisão, não código:**
+  - mapa de grátis vs pago (Rafael);
+  - tamanho dos packs — **o teto que morde é 50 packs, não os 2 GB**: 215
+    imagens projetam ~244 MB, mas agrupadas de 5 em 5 dão 43 packs, 86% do
+    limite. Ver `ROADMAP.md` → Fase 4;
+  - configurar os asset packs em Gradle/manifesto e **medir o AAB base**.
+
+  Sem urgência pra build local/debug — tudo embarcado serve pra teste. Bloqueia
+  só a build de **release** que for pra Play Store.
 - [ ] **⚠️ Propriedade intelectual nos estilos de efeito** — `engine/Estilo.kt`
   declara `pixel_mario` e `pixel_zelda`. São marcas da Nintendo. Se os sprites
   forem derivados dos jogos, o risco não é rejeição de ficha: é **remoção do app
@@ -253,12 +261,25 @@ amarelo). Preencha de uma vez:
 
 ### Como hospedar
 
-Duas opções, ambas dão a URL que o Play Console pede:
+Três opções, todas dão a URL que o Play Console pede:
 
-1. **GitHub Pages neste repo** (mais rápido): Settings → Pages → Source
-   "Deploy from a branch", branch `main`, pasta `/docs`. As páginas saem em
-   `https://<user>.github.io/<repo>/privacidade/`, `/termos/` e `/contato/`.
-2. **No site de apresentação** (destino final): copiar as três pastas de
+1. **Cloudflare Pages (recomendado)** — grátis, sem exigir repo público nem
+   assinatura. No dashboard, ao criar o projeto conectado a este repo:
+   - Root directory: `docs`
+   - Build command: `bash build-legal-pages.sh`
+   - Build output directory: `_site`
+
+   O script (`docs/build-legal-pages.sh`) copia só `privacidade/`, `termos/`
+   e `contato/` pra saída — é a versão "lista de permissão" do que o
+   `_config.yml` faz pro GitHub Pages (ver comentário nos dois arquivos). As
+   páginas saem em `https://<projeto>.pages.dev/privacidade/`, `/termos/` e
+   `/contato/`, com domínio próprio opcional depois.
+2. **GitHub Pages neste repo** — mesmo resultado, mas **exige GitHub Pro**
+   enquanto o repo for privado (Pages em repo privado não está no plano
+   free). Só é "grátis" se o repo virar público. Se optar por isso: Settings
+   → Pages → Source "Deploy from a branch", branch `main`, pasta `/docs`
+   (usa o `_config.yml` já existente pra excluir `dev/` e `legal/`).
+3. **No site de apresentação** (destino final): copiar as três pastas de
    `docs/` pro repo do site quando ele existir. Se a URL mudar depois de
    publicado, atualize o Play Console — a política precisa continuar acessível
    na URL declarada.
@@ -287,6 +308,13 @@ corrigida no mesmo PR.
 | `Plano.kt`, `Cena.kt`, `Estilo.kt` — prefs locais | 3.4 |
 | `AndroidManifest.xml` — `allowBackup="true"` | 3.6 |
 | Ausência de SDK de ads/analytics | 4 e 12 — **integrar um SDK invalida a política** |
+| **Play Asset Delivery (Fase 4, ainda não implementado)** | Quando entrar, o app passa a **baixar conteúdo do Google durante o uso**. A seção 6.3 já cita o Google Play como operador, mas fala de *compra*, não de *download de conteúdo* — revisar 6.3 e 3.5 no mesmo PR que ligar os asset packs. Não inventa coleta de dado novo (o download é do próprio Play), mas afirmar menos do que acontece também é divergência |
+
+**Guarda automático nesta tabela.** Duas linhas já não dependem de alguém
+lembrar: `PermissoesDeclaradasTest` trava o manifesto, e
+`PoliticaBatecomManifestoTest` quebra o gate se a política citar permissão que
+o app não pede — ou omitir uma que pede — em qualquer das três cópias. O resto
+da tabela ainda é conferência humana.
 
 Nota de debug (não vai na política pública, porque não vale pro APK publicado):
 `WeatherRepository` liga o `HttpLoggingInterceptor` em nível `BASIC` só quando

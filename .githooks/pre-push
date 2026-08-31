@@ -57,8 +57,8 @@ while read -r _ SHA_LOCAL REF_REMOTA SHA_REMOTO; do
     echo ""
     echo "$HIT" | sed 's/^/       /'
     echo ""
-    echo "  Essas áreas exigem branch + PR (Rafael: engine/assets · Willian:"
-    echo "  billing · Gabriel: build/CI). Doc e UI podem ir direto na main —"
+    echo "  Essas áreas exigem branch + PR (Rafael: engine/assets ·"
+    echo "  Gabriel: .github/CI). Doc e UI podem ir direto na main —"
     echo "  estes arquivos não."
     echo ""
     echo "     git switch -c front/<slug>   # ou motor/ chore/ doc/ fix/"

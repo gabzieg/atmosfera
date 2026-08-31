@@ -39,7 +39,7 @@ Documentação de apoio (leia sob demanda, não de cara):
 | `service/` | `AtmosferaWallpaperService` — hospeda o motor, busca clima, repassa pro motor | Front |
 | `ui/` | Compose: `MainScreen` (Scaffold/NavHost/BottomNav), `HomeTab`, `StoreTab`, `SettingsTab`, `theme/`, `components/` | Front |
 | `weather/` | `WeatherRepository` (Open-Meteo/Retrofit), `WeatherCache`, `LocationHelper`, `WeatherWorker` | Front |
-| `billing/` | `BillingManager`, `Plano` (flag Premium local) | Front (Gabriel — era do Willian até 2026-08) |
+| `billing/` | `BillingManager`, `Plano` (flag Premium local) | Front (Gabriel) |
 | `debug/` | `DebugActivity`/`DebugOverride` — painel de teste, só builds debug, sem entrada na navegação normal | Front (ferramenta interna) |
 
 ## Comandos
@@ -191,7 +191,7 @@ desliga os outros. Saíram `AndroidManifest.xml` (agora coberto pelo
 migração pra 9.1.0, e a área voltou pro Gabriel). Revisão solo não melhora com
 PR pra si mesmo — melhora com guarda automático.
 
-Aprovação: motor → Rafael; documentos legais → Willian; resto → Gabriel.
+Aprovação: motor → Rafael; **todo o resto → Gabriel**.
 Detalhes e escape hatches em `.claude/skills/abrir-pr/SKILL.md`.
 
 **Nada disso é aplicado pelo servidor.** O repo é privado no plano free:
@@ -207,14 +207,19 @@ redes, ambas contornáveis:
 A lista de caminhos de risco está duplicada nos dois + no CODEOWNERS. Mudou
 uma, mude as três.
 
-**Terceiro colaborador (Willian, `@uWillianG`)**: dono dos **documentos legais**
-(`docs/legal/*.md` + espelhos em `docs/<pagina>/index.html` e `assets/legal/`).
-Era também dono de `billing/`, mas essa área **voltou pro Gabriel em 2026-08**:
-a integração está pronta (Billing 9.1.0, preços reativos, reconciliação de
-reembolso) e o que falta é cadastro no Play Console, que depende do titular da
-conta. Também cuida do site de apresentação/marketing do Atmosfera —
-fora deste repo, em repositório próprio (nome a definir, ex. `atmosfera-site`)
-por causa da stack diferente (web, não Android/Gradle). Site ainda não criado.
+**O time são duas pessoas (desde 2026-08-28): Gabriel e Rafael.** O Rafael toca
+`engine/` e `assets/atmosfera/`, e entrega por snapshot. Todo o resto é do
+Gabriel — front, billing, documentos legais, publicação.
+
+Houve um terceiro (Willian, `@uWillianG`), que saiu. Ele escreveu a política de
+privacidade (`2bb49ff`, 29/jul) e nada mais — `TERMOS.md` e `CONTATO.md` foram
+redigidos depois, sem ele. O site de apresentação, que era responsabilidade dele,
+**nunca foi começado e hoje está sem dono**.
+
+Vale a lição, porque ela vai se repetir: a divisão de trabalho ficou apontando
+para ele por um mês depois de ele parar de contribuir. Isso é pior do que não ter
+dono nenhum — com um nome errado no papel, todo mundo assume que alguém está
+olhando aquele arquivo. Quando alguém sair, corrija os documentos no mesmo dia.
 
 Compliance de publicação **não** é todo dele: o Data Safety Form declara o que
 o código coleta (área do Gabriel) e a conta do Play Console é do titular legal.

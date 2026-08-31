@@ -30,7 +30,6 @@ Quando o PR é obrigatório, o que pode ir direto na main e os escape hatches:
 Aprovação por área — o CODEOWNERS NÃO pede revisor sozinho (repo privado no
 plano free responde 403). É convenção; quem cobra é você:
   engine/ · assets/atmosfera/  → Rafael — combine ANTES, ele entrega por snapshot
-  docs/legal/                  → Willian — texto que vale juridicamente
   todo o resto                 → Gabriel: gate verde e merge
 
 PR só é OBRIGATÓRIO em engine/, assets/atmosfera/ e .github/. O resto pode ir

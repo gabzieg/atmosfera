@@ -7,8 +7,10 @@
 > diz o que revisar.
 >
 > **Divisão de responsabilidade** (ver [SPEC.md](SPEC.md)): o Data Safety é
-> declaração sobre o que o código faz — preenchido pelo Gabriel, com o Willian
-> conferindo contra os textos legais. A conta do console é do titular legal.
+> declaração sobre o que o código faz, e é do Gabriel — junto com os textos
+> legais, desde a saída do Willian em 2026-08-28. A conferência que era dele
+> agora é feita por teste: `PoliticaBatecomManifestoTest` quebra o gate se a
+> política divergir das permissões do manifesto.
 
 **Última atualização:** 1º de agosto de 2026 · confere com o app 1.0.0
 
