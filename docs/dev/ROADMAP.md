@@ -6,23 +6,41 @@
 > [CHECKLIST_PUBLICACAO.md](CHECKLIST_PUBLICACAO.md); o que "pronto" significa
 > no total, em [SPEC.md](SPEC.md).
 
-## Status atual (2026-08-10)
+## Status atual (2026-08-28)
 
 App **funcionalmente completo** para o que não depende do Google: onboarding de
-3 passos, Home com seletor de cenários, Loja com 8 cenários e 12 estilos de
-efeito, tela de venda do Premium, Ajustes, páginas legais offline. Trabalho
-recente na branch `front/kotlin-2-billing-9` (27 commits à frente da `main`).
+3 passos, Home com seletor de cenários, Loja, tela de venda do Premium, Ajustes,
+páginas legais offline. Branch `front/kotlin-2-billing-9`, **39 commits à frente
+da `main`** — e ainda sem virar PR, o que segue sendo o maior risco acumulado.
 
-**O caminho crítico está parado numa decisão, não num impedimento técnico:** a
-conta do Play Console (US$ 25) foi adiada pelo usuário em 2026-08-08 ("deixar o
-app 100% antes"). Ela bloqueia as Fases 2, 6 e metade da 3.
+**A Fase 5 (ficha da loja) está quase fechada.** Prontos e validados: 6
+screenshots, ícone 512×512, feature graphic 1024×500, título e as duas
+descrições. Falta um item só, e ele não é nosso: a lista de cenários dentro da
+descrição longa depende de quais cenários entram no lançamento.
 
-Vale saber que "100% antes" tem teto: a Fase 2 (compra real fechando) **só pode
-ser validada com produto criado no console**. Dá pra deixar o app completo em
-tudo, menos exatamente na parte que precisa da conta.
+**A Fase 4 destravou pela metade.** O contrato do motor já migrou (`a20732d`):
+`carregar()` recebe `FonteDeAssets`, os 3 pontos de contato saíram do
+`AssetManager` e o `ContratoFonteDeAssetsTest` trava a regressão — que era o
+único item com risco de sumir no próximo snapshot do Rafael. O que falta agora é
+decisão, não código: mapa de grátis vs pago, tamanho dos packs e a configuração
+em si.
 
-**Destravado e sem depender de ninguém:** Fase 4 (conteúdo sob demanda, precisa
-alinhar com o Rafael) e Fase 5 (ficha da loja).
+**Duas decisões passaram para o Rafael (2026-08-28):**
+1. **Tamanho dos packs de conteúdo** — ele está produzindo ~215 imagens e avalia
+   agrupá-las de 10 em 10 ou de 5 em 5. Ver a Fase 4: a restrição que morde não
+   é a que parecia.
+2. **O que é grátis e o que é pago** — incluindo fases da lua e os demais
+   efeitos. Isso substitui a regra provisória que está em `SPEC.md`.
+
+**O caminho crítico segue parado numa decisão, não num impedimento técnico:** a
+conta do Play Console (US$ 25), adiada em 2026-08-08 ("deixar o app 100% antes").
+Ela bloqueia as Fases 2, 6 e metade da 3.
+
+"100% antes" tem teto: a Fase 2 (compra real fechando) **só pode ser validada com
+produto criado no console**. E o teste fechado exige **12 testers por 14 dias
+contínuos**, com uso real verificado — um relógio de calendário que só começa
+depois da conta aprovada e do AAB no canal fechado. Adiar a conta adia semanas,
+não dinheiro.
 
 ## Fase 0 — Infra de qualidade ✅ concluída (2026-07-28)
 
@@ -135,7 +153,33 @@ pago.
 ### Decisão de mecanismo (2026-08-25): Play Asset Delivery, modo on-demand
 
 Um **asset pack por cenário pago**, baixado só depois da compra. Limites da
-Play: 50 packs e 2 GB no total — com 9 cenários e ~140 MB, folga larga.
+Play: **50 packs e 2 GB no total**.
+
+### Tamanho dos packs — a restrição não é a que parecia (2026-08-28)
+
+O Rafael está produzindo **~215 imagens** e avalia agrupá-las de 10 em 10 ou de
+5 em 5. Medido contra o repo de hoje (123 imagens, 139,6 MB, média de 1,14 MB
+por arquivo):
+
+| Agrupamento | Packs | Folga até o teto de 50 |
+|---|---|---|
+| 10 imagens por pack | 22 | 28 |
+| 5 imagens por pack | **43** | **7** |
+
+**O gargalo é a quantidade de packs, não o tamanho.** 215 imagens projetam ~244
+MB — pouco mais de um décimo dos 2 GB permitidos. Já 43 packs consomem 86% do
+teto de 50, e o catálogo continua crescendo: cada cenário ou arte nova empurra
+esse número, e não há como passar de 50 sem reestruturar tudo.
+
+Isso inverte a premissa que abriu esta fase. O problema que nos trouxe aqui era
+**peso** (os 140 MB no install); o problema que limita a solução é **contagem**.
+
+**Critério para decidir, que vale mais que o número redondo:** o pack deve ser a
+mesma unidade da compra. Se o usuário compra um cenário, ele baixa aquele
+cenário — nem mais, nem menos. Agrupar por quantidade fixa de imagens só funciona
+se cada grupo corresponder a algo que se vende; senão, o usuário baixa conteúdo
+que não comprou (o que anula o objetivo) ou precisa de dois packs para um item só
+(o que gasta o teto duas vezes mais rápido).
 
 **Por que não servidor próprio.** Quatro custos que se somam, e o terceiro é o
 que costuma passar despercebido:
@@ -187,8 +231,11 @@ Efeito colateral que vale por si: uma `FonteDeAssets` falsa permite testar
 justamente porque tocá-lo exige `AssetManager`.
 
 **Critério de saída:**
-- [ ] Mapa explícito de grátis vs pago, por cenário e por estilo — para estilos,
-  ver "Regra de estilos" em [SPEC.md](SPEC.md)
+- [ ] Mapa explícito de grátis vs pago, por cenário e por estilo — **definição do
+  Rafael (2026-08-28)**, incluindo fases da lua e os demais efeitos. A "Regra de
+  estilos" em [SPEC.md](SPEC.md) é provisória e vale até essa definição chegar
+- [ ] Tamanho do pack decidido (ver "Tamanho dos packs" acima) — o teto de 50
+  packs é a restrição real, não o de 2 GB
 - [ ] Asset packs configurados; **AAB base medido** e sem arte paga dentro
 - [x] `carregar()` recebendo `FonteDeAssets` em vez de `AssetManager` — feito em
   2026-08-28. Os 3 pontos de contato migrados (`EffectEngine.bmp()`,

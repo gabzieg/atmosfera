@@ -42,7 +42,13 @@ Três eixos de venda, independentes entre si:
 | **Premium** | Compra única global. Liga os 8 efeitos vivos em **todos** os cenários |
 | **Estilos de efeito** | 4 livres, o restante no Premium — ver a regra abaixo |
 
-### Regra de estilos (decidida em 2026-08-25)
+### Regra de estilos — provisória, aguardando o Rafael
+
+> **Atualização 2026-08-28:** a definição do que é grátis e do que é pago —
+> incluindo fases da lua e os demais efeitos — passou a ser do Rafael. A regra
+> abaixo continua valendo como padrão até essa definição chegar, e o raciocínio
+> dela (por que mostrar bloqueado, por que prévia em vez de parede) segue válido
+> independentemente de onde a linha for traçada.
 
 **4 estilos livres, os demais no Premium**, sobre um catálogo **curado para ~12**
 (hoje `engine/Estilo.kt` tem 28 arquivos, mas ~15 ideias visuais — o resto é

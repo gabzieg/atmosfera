@@ -195,9 +195,12 @@ Corrigido na expansão do texto: a expressão agora aparece no primeiro parágra
 (antes da dobra, que é o trecho que mais pesa), em "COMO FUNCIONA" e em "PARA
 QUEM É".
 
-### 4. Confirmar "fases da lua" como Premium
+### 4. Confirmar "fases da lua" como Premium — **com o Rafael** (2026-08-28)
 
-É a única afirmação da descrição que **não foi verificada direto no motor** —
-foi deduzida da lista `EFEITOS_PREMIUM` em `ui/PremiumScreen.kt`. Se o tier
-grátis já mostrar as fases, a descrição está errada nos dois lugares onde toca
-no assunto.
+É a única afirmação da descrição que **não foi verificada direto no motor** — foi
+deduzida da lista `EFEITOS_PREMIUM` em `ui/PremiumScreen.kt`. Se o tier grátis já
+mostrar as fases, a descrição está errada nos dois lugares onde toca no assunto.
+
+Deixou de ser uma checagem de código e virou decisão de produto: o Rafael vai
+definir o que é grátis e o que é pago entre as fases da lua e os demais efeitos.
+Só ajustar o texto depois que a linha estiver traçada — mudar agora é retrabalho.
