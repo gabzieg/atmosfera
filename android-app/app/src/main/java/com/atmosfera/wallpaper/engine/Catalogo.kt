@@ -277,6 +277,13 @@ object Catalogo {
             productId = "cenario_postapoc",
         ),
         Cenario(
+            id = "navio",
+            nome = "Navio viking",
+            descricao = "Drakkar a remo em mar aberto.",
+            gratis = false,
+            productId = "cenario_navio",
+        ),
+        Cenario(
             id = "castelo",
             nome = "Castelo na Montanha",
             descricao = "Castelo no pico, acima de um mar de nuvens.",

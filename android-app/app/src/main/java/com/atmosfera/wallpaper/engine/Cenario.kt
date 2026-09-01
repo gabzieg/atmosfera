@@ -35,12 +35,42 @@ data class Bandeira(val x: Float, val y: Float, val comp: Float,
  */
 data class VarFundo(val prefixo: String, val v: Int,
                     val sol: Astro? = null, val lua: Astro? = null,
+                    /** sprite de remo desta arte (o navio ao longe usa o menor). */
+                    val remoSprite: String? = null,
                     /** true = esta arte já tem a bandeira PINTADA, não desenhar. */
                     val semBandeira: Boolean = false,
                     /** bandeira própria desta arte (folha/posição diferentes). */
                     val bandeira: Bandeira? = null)
 
 class CeuMovel(val vel: Float = 8f)
+
+/**
+ * REMOS (navio viking). A primeira cena em que o que se mexe faz parte do
+ * OBJETO, e não do clima: a arte vem SEM remo nenhum, só com as portinholas
+ * (ver `Ppt - Navio Viking.txt`), e o motor põe UM sprite girado uma vez por
+ * portinhola, com um atraso entre um e o vizinho. É o atraso que faz a
+ * centopeia. Os eixos e a linha d'água saem de `tools/remos.py`, na
+ * `remos.json` de cada ARTE.
+ *
+ * @param comp comprimento do remo em ESPAÇAMENTOS de portinhola (num drakkar o
+ *   remo dá umas 5 vezes a distância entre um banco e o outro) — amarrar no
+ *   espaçamento faz o navio de longe herdar a proporção sem número novo.
+ * @param pivo onde fica o eixo, em fração do sprite. 0.05 e não 0.30 (que é
+ *   onde o remo de verdade apoia) porque a parte de DENTRO fica escondida no
+ *   casco: desenhá-la punha o cabo por cima da fileira de escudos.
+ * @param passo fração de ciclo entre um remo e o vizinho. 0 = remada militar
+ *   (todos juntos), 0.055 = a centopeia.
+ */
+class CfgRemos(
+    val sprite: String = "remo.png",
+    val comp: Float = 4.6f,
+    val pivo: Float = 0.05f,
+    val ang: Float = 134f,
+    val curso: Float = 14f,
+    val periodo: Float = 3600f,
+    val passo: Float = 0.055f,
+    val espuma: Float = 0.22f,
+)
 
 class CenaCfg(
     val id: String,
@@ -71,6 +101,8 @@ class CenaCfg(
     // cena tem `ceu.png`, o motor deixa de desenhar o céu PINTADO e passa essa
     // tira larga em loop atrás da silhueta. `vel` em px de cena por segundo.
     val ceuMovel: CeuMovel? = null,
+    /** Cena com REMOS animados (navio viking). Ver [CfgRemos]. */
+    val remos: CfgRemos? = null,
     val variantes: Map<String, VarFundo> = emptyMap(),
 ) {
     /** Pasta do fundo/frente para a ARTE escolhida (variante ou base=pixel). */
@@ -82,6 +114,10 @@ class CenaCfg(
      */
     fun fundoPrefixo(arte: String): String =
         variantes[arte]?.prefixo ?: variantes["pixel"]?.prefixo ?: prefixo
+
+    /** Sprite de remo da ARTE ativa (o navio ao longe usa o menor). */
+    fun remoSpriteDe(arte: String): String =
+        variantes[arte]?.remoSprite ?: remos?.sprite ?: "remo.png"
 
     /** Trajetória do sol/lua da ARTE ativa (a variante pode ter a sua). */
     fun solDe(arte: String): Astro = variantes[arte]?.sol ?: sol
@@ -334,6 +370,24 @@ object Cenas {
                 "needle" to VarFundo("cenas/postapoc/needle/", 1),
                 "cutout" to VarFundo("cenas/postapoc/cutout/", 1),
                 "vangogh" to VarFundo("cenas/postapoc/vangogh/", 1),
+            ),
+        ),
+        // NAVIO VIKING — a primeira cena em que o que se mexe faz parte do
+        // OBJETO, e não do clima: os remos remam e a espuma quebra no casco.
+        // Duas artes com ENQUADRAMENTO diferente (perto e longe), então cada
+        // uma tem zona e fila de remos próprias.
+        "navio" to CenaCfg(
+            id = "navio", prefixo = "cenas/navio/", tipo = "navio",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 440f, 110f),
+            lua = Astro(1.7f, 440f, 125f, fadeY = 430f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 14f, escImpacto = 0.78f,
+            remos = CfgRemos(),
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/navio/pixel/", 1),
+                "longe" to VarFundo("cenas/navio/longe/", 1, remoSprite = "remo_longe.png"),
             ),
         ),
         // SAVANA — lote 3:4, sem marcação. Luz zerada de propósito

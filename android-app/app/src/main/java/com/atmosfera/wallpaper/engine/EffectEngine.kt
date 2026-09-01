@@ -4,14 +4,17 @@ import android.content.Context
 import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
+import android.graphics.RadialGradient
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.Shader
 import java.io.File
 import kotlin.math.abs
 import kotlin.math.atan2
@@ -201,7 +204,153 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         bolt = null; snowAccum = 0f; roofAcc = 0f; lakeAcc = 0f; lastTs = 0L
         initStars()
         if (cenaCfg.vagalumes) initFireflies() else fireflies.clear()
+        carregarRemos(assets, fp)
         pronto = true
+    }
+
+    // ── REMOS (navio viking) ─────────────────────────────────────────
+    // A arte vem SEM remo nenhum, só com as portinholas: remo pintado é remo
+    // parado para sempre. Quem põe o remo é o motor — UM sprite girado uma vez
+    // por portinhola, com um atraso entre um e o vizinho, e é o atraso que faz
+    // a centopeia. Eixos e linha d'água saem de `tools/remos.py`. Porte do
+    // index.js: os dois têm de desenhar igual.
+    private var remoBmp: Bitmap? = null
+    private var remoPivos: FloatArray = FloatArray(0)   // x0,y0,x1,y1,...
+    private var remoEsp = 0f
+    private var linhaDagua: FloatArray = FloatArray(0)
+
+    private fun carregarRemos(assets: AssetManager, fp: String) {
+        remoBmp?.recycle(); remoBmp = null
+        remoPivos = FloatArray(0); linhaDagua = FloatArray(0); remoEsp = 0f
+        cenaCfg.remos ?: return
+        try {
+            val o = org.json.JSONObject(
+                assets.open("atmosfera/" + fp + "remos.json")
+                    .bufferedReader().use { it.readText() })
+            val pv = o.optJSONArray("pivos") ?: return
+            val out = FloatArray(pv.length() * 2)
+            for (i in 0 until pv.length()) {
+                val p = pv.getJSONArray(i)
+                out[i * 2] = p.getDouble(0).toFloat()
+                out[i * 2 + 1] = p.getDouble(1).toFloat()
+            }
+            remoPivos = out
+            remoEsp = o.optDouble("espacamento", 30.0).toFloat()
+            o.optJSONArray("linhaDagua")?.let { ld ->
+                val l = FloatArray(ld.length() * 2)
+                for (i in 0 until ld.length()) {
+                    val p = ld.getJSONArray(i)
+                    l[i * 2] = p.getDouble(0).toFloat()
+                    l[i * 2 + 1] = p.getDouble(1).toFloat()
+                }
+                linhaDagua = l
+            }
+            val spr = cenaCfg.remoSpriteDe(arteId)
+            remoBmp = assets.open("atmosfera/" + fp + spr).use {
+                BitmapFactory.decodeStream(it)
+            }
+        } catch (e: Exception) {
+            remoBmp = null; remoPivos = FloatArray(0); linhaDagua = FloatArray(0)
+        }
+    }
+
+    /** Fase da remada de um remo: 0..1, com o atraso que faz a onda andar. */
+    private fun remoFase(i: Int, ts: Long, r: CfgRemos): Float {
+        val f = (ts / r.periodo + i * r.passo) % 1f
+        return if (f < 0) f + 1f else f
+    }
+
+    /**
+     * Ângulo do remo nessa fase. A remada NÃO é senoide: a puxada (pá na água)
+     * é mais lenta que o recuo (pá no ar). 55% de puxada e 45% de recuo, com
+     * easing em cada trecho — sem isso o movimento fica de metrônomo, e é a
+     * diferença entre os dois tempos que dá vida.
+     */
+    private fun remoAng(f: Float, r: CfgRemos): Float {
+        val puxa = 0.55f
+        var u = if (f < puxa) f / puxa else 1f - (f - puxa) / (1f - puxa)
+        u = u * u * (3f - 2f * u)
+        val rep = Math.toRadians(r.ang.toDouble()).toFloat()
+        val cur = Math.toRadians(r.curso.toDouble()).toFloat()
+        return rep - cur + 2f * cur * u
+    }
+
+    private val mRemo = Matrix()
+
+    private fun desenharRemos(c: Canvas, tf: Tf, ts: Long) {
+        val r = cenaCfg.remos ?: return
+        val bm = remoBmp ?: return
+        if (remoPivos.isEmpty()) return
+        val comp = remoEsp * r.comp
+        val esc = comp / bm.width * tf.s
+        val pivoX = bm.width * r.pivo
+        for (i in 0 until remoPivos.size / 2) {
+            val ang = remoAng(remoFase(i, ts, r), r)
+            mRemo.reset()
+            mRemo.postTranslate(-pivoX, -bm.height / 2f)
+            mRemo.postScale(esc, esc)
+            mRemo.postRotate(Math.toDegrees(ang.toDouble()).toFloat())
+            mRemo.postTranslate(tf.ox + remoPivos[i * 2] * tf.s,
+                                tf.oy + remoPivos[i * 2 + 1] * tf.s)
+            c.drawBitmap(bm, mRemo, pSmooth)
+        }
+    }
+
+    /** Respingo na PÁ: nasce na entrada e na saída da pá, quase nada no meio. */
+    private fun desenharRespingoRemo(c: Canvas, tf: Tf, ts: Long) {
+        val r = cenaCfg.remos ?: return
+        if (remoPivos.isEmpty()) return
+        val comp = remoEsp * r.comp
+        val fora = comp * (1f - r.pivo)
+        pGlow.xfermode = ADD
+        for (i in 0 until remoPivos.size / 2) {
+            val f = remoFase(i, ts, r)
+            if (f >= 0.55f) continue                     // pá no ar
+            var u = f / 0.55f
+            u = u * u * (3f - 2f * u)
+            val forca = max(0f, 1f - abs(u - 0.5f) * 2.4f)
+            val a = (1f - forca) * 0.5f
+            if (a < 0.04f) continue
+            val ang = remoAng(f, r)
+            val bx = tf.ox + (remoPivos[i * 2] + cos(ang) * fora) * tf.s
+            val by = tf.oy + (remoPivos[i * 2 + 1] + sin(ang) * fora) * tf.s
+            val rr = comp * 0.10f * tf.s * (0.7f + 0.6f * (1f - forca))
+            pGlow.shader = RadialGradient(bx, by, max(1f, rr),
+                Color.argb((a * 140).toInt(), 255, 255, 255), Color.TRANSPARENT,
+                Shader.TileMode.CLAMP)
+            c.drawOval(bx - rr, by - rr * 0.55f, bx + rr, by + rr * 0.55f, pGlow)
+        }
+        pGlow.shader = null; pGlow.xfermode = null
+    }
+
+    /**
+     * Espuma na LINHA D'ÁGUA: a onda quebrando no costado. Três ondas de
+     * períodos diferentes ao longo do casco — pulsa sem repetir. Achatada e
+     * larga de propósito: redonda demais vira nuvem boiando.
+     */
+    private fun desenharEspumaCasco(c: Canvas, tf: Tf, ts: Long) {
+        val r = cenaCfg.remos ?: return
+        if (linhaDagua.isEmpty()) return
+        val esc = remoEsp * 0.42f * tf.s
+        val t = ts / 1000f
+        pGlow.xfermode = ADD
+        for (k in 0 until linhaDagua.size / 2) {
+            val x = linhaDagua[k * 2]
+            val v = sin(x * 0.06f - t * 1.7f) * 0.5f +
+                    sin(x * 0.021f - t * 1.05f) * 0.32f +
+                    sin(x * 0.13f - t * 2.6f) * 0.18f
+            val a = max(0f, v) * r.espuma
+            if (a < 0.03f) continue
+            val px = tf.ox + x * tf.s
+            val py = tf.oy + linhaDagua[k * 2 + 1] * tf.s
+            val rx = esc * 2.4f
+            val ry = esc * 0.42f
+            pGlow.shader = RadialGradient(px, py, max(1f, rx),
+                Color.argb((a * 255).toInt(), 255, 255, 255), Color.TRANSPARENT,
+                Shader.TileMode.CLAMP)
+            c.drawOval(px - rx, py - ry, px + rx, py + ry, pGlow)
+        }
+        pGlow.shader = null; pGlow.xfermode = null
     }
 
     private fun liberarBitmaps() {
@@ -372,6 +521,12 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         desenharBrilhos(canvas, tf)
         // água correndo: por cima da frente, que ali É a rocha da queda
         desenharCachoeiras(canvas, tf)
+        // remo: sai do costado e a pá cai na água À FRENTE do casco, então nada
+        // da arte passa por cima dele. A espuma vem ANTES do remo, senão a faixa
+        // clara apagaria a pá que está entrando ali.
+        desenharEspumaCasco(canvas, tf, ts)
+        desenharRemos(canvas, tf, ts)
+        desenharRespingoRemo(canvas, tf, ts)
         // goteira por cima da frente: a folhagem da frente.png é toda opaca ali
         desenharGoteiras(canvas, tf)
         desenharAcumulo(canvas, tf)
