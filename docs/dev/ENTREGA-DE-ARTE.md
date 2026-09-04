@@ -1,7 +1,8 @@
 # Entrega de arte por download (o app deixa de carregar a biblioteca dentro)
 
-Status: **plano aprovado na hospedagem (Cloudflare R2), implementação não
-começou.** Escrito em 2026-08-20. Dono do subsistema: Rafael (motor).
+Status: **fase 1 pronta no código; fase 2 travada esperando a URL do bucket.**
+Escrito em 2026-08-20, números remedidos em 2026-09-03. Dono do subsistema:
+Rafael (motor).
 
 ## 1. Por que
 
@@ -9,15 +10,20 @@ Hoje toda a arte mora em `assets/atmosfera/` e vai dentro do APK.
 
 | | hoje | com download |
 |---|---|---|
-| app instalado (motor + sprites + 1 wp grátis) | **844 MB** | **~16 MB** |
-| biblioteca inteira (31 cenas / 131 artes) | dentro do app | 114 MB no bucket |
-| baixar 1 wallpaper comprado | — | **0,5–1,2 MB** |
-| grade da Loja inteira em thumbnail | — | 2,7 MB (~14 KB cada) |
-| preview de pré-venda (543×724) | — | ~113 KB cada |
+| `assets/atmosfera/` dentro do APK | **1,58 GB** | **0,6 MB** (só o wp grátis) |
+| biblioteca inteira (55 cenas / 255 artes) | dentro do app | **266 MB** no bucket |
+| baixar 1 wallpaper comprado | — | **0,27–2,21 MB** (mediana 0,93) |
+| grade da Loja inteira em thumbnail | — | 5,2 MB (~20 KB cada) |
+| preview de pré-venda (543×724) | — | ~115 KB cada |
+| índice (`manifest.json`) | — | 77 KB |
 
 A Play aceita no máximo **500 MB** no módulo base — ou seja, hoje o app **não
-pode ser publicado**. Números medidos, não estimados: rodar
-`python tools/pacote_cenas.py` (na pasta `atmosfera 2.0/`) reproduz.
+pode ser publicado**, e a distância só cresce: em 2026-08-20 eram 31 cenas e
+770 MB de arte, hoje são 55 cenas e 1,58 GB. Números medidos, não estimados:
+rodar `python tools/pacote_cenas.py` (na pasta `atmosfera 2.0/`) reproduz.
+
+O maior download (`telhados`/`point`, 2,21 MB) é o teto atual; ele passou de
+1,2 MB porque entraram cenas com arte mais detalhada que a média de agosto.
 
 Formato: **WebP q92** nas artes (1,88 MB → 0,26 MB; PSNR 40 dB, sem artefato
 visível a 3× de zoom em pixel art) e **WebP lossless** em `zonas` e
@@ -136,10 +142,21 @@ instalado vai rebaixar a arte do cenário que estiver usando (0,5–1,2 MB).
 | Fase | O quê | Depende de |
 |---|---|---|
 | 0 ✅ | `tools/pacote_cenas.py`: `dist/` com manifest, thumb, preview e packs | — |
-| 1 | `Acervo` + motor lendo de `filesDir`, testado contra um servidor local | nada (dá pra fazer já) |
-| 2 | Subir `dist/` no R2, apontar a URL base, medir download real no aparelho | conta R2 + URL |
-| 3 | Tirar a biblioteca do `assets/`, converter sprites p/ WebP, medir o AAB | fase 2 verde |
+| 1 ✅ | `Acervo` + motor lendo de `filesDir`, testado contra um servidor local | nada (dá pra fazer já) |
+| 2 ⛔ | Subir `dist/` no R2, apontar a URL base, medir download real no aparelho | conta R2 + URL |
+| 3 ⛔ | Tirar a biblioteca do `assets/`, converter sprites p/ WebP, medir o AAB | fase 2 verde |
 | 4 | UX de download na Loja/Ajustes | Gabriel, quando quiser |
+
+O que a fase 1 entregou: [`engine/Acervo.kt`](../../android-app/app/src/main/java/com/atmosfera/wallpaper/engine/Acervo.kt)
+(manifesto, sha256, download cancelável com `Flow<Progresso>`, cache em
+`filesDir/acervo/`, `bytesEmDisco`/`apagarArte`), `EffectEngine` carregando do
+acervo com queda pros assets, e a seção **Acervo** do painel de debug (campo do
+servidor + "baixar arte desta cena"). `Acervo.BASE_PADRAO` continua `""` — é a
+única linha que a fase 2 precisa preencher.
+
+`SceneThumbnail.kt` ainda lê `assets.open("atmosfera/…fundo.png")`: é a troca de
+7 linhas da tabela acima e só faz sentido junto com a fase 3, senão a Loja
+passaria a baixar thumb de arte que já está dentro do APK.
 
 A fase 1 roda inteira contra `http://localhost:8123/dist/` — o mesmo servidor
 do tester. Não fico parado esperando o bucket.
