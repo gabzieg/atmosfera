@@ -24,14 +24,17 @@ class WeatherWorker(
     override suspend fun doWork(): Result {
         return try {
             val locationHelper = LocationHelper(applicationContext)
-            val (lat, lon) = locationHelper.getLocation()
+            val onde = locationHelper.getLocalizacao()
 
             val repo = WeatherRepository()
             val cache = WeatherCache(applicationContext)
 
-            if (cache.isStale(lat, lon, IntervaloClima.ttlMs(applicationContext))) {
-                repo.fetchWeather(lat, lon).onSuccess { state ->
-                    cache.save(state, lat, lon)
+            if (cache.isStale(onde.lat, onde.lon, IntervaloClima.ttlMs(applicationContext))) {
+                repo.fetchWeather(onde.lat, onde.lon).onSuccess { state ->
+                    // sem nome de lugar: o worker roda em background, onde o
+                    // Geocoder costuma não responder. O cache mantém o nome
+                    // anterior enquanto o aparelho não se mover.
+                    cache.save(state, onde.lat, onde.lon, localPadrao = onde.padrao)
                 }
             }
             Result.success()

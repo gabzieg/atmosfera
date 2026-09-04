@@ -35,4 +35,10 @@ data class WeatherState(
     val sunsetHour: Float = 18.5f,
     // Código WMO cru (p/ diferenciar intensidade, ex.: níveis de neve).
     val weatherCode: Int = 0,
+    // Chuva do quarto de hora corrente, em mm (0 quando não está chovendo).
+    val precipMm15: Double = 0.0,
+    // De onde veio a condição: "15 min" (minutely_15) ou "hora cheia" (current).
+    // Só pra diagnóstico na tela — quando o wallpaper discorda do app de clima,
+    // essa linha diz se o dado é fresco ou se a API não deu o passo curto.
+    val fonte: String? = null,
 )

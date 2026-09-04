@@ -62,6 +62,7 @@ import com.atmosfera.wallpaper.weather.WeatherState
 fun HomeTab(viewModel: MainViewModel) {
     val hasLocationPermission by viewModel.hasLocationPermission.collectAsState()
     val weatherState by viewModel.weatherState.collectAsState()
+    val climaInfo by viewModel.climaInfo.collectAsState()
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentArt by viewModel.currentArt.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
@@ -108,6 +109,7 @@ fun HomeTab(viewModel: MainViewModel) {
             WeatherHeroCard(
                 sceneId = currentSceneId,
                 weatherState = weatherState,
+                climaInfo = climaInfo,
                 onRefresh = { viewModel.refreshWeather() },
             )
 
@@ -197,7 +199,12 @@ private fun PermissionOnboardingCard(onClick: () -> Unit) {
 }
 
 @Composable
-private fun WeatherHeroCard(sceneId: String, weatherState: WeatherState?, onRefresh: () -> Unit) {
+private fun WeatherHeroCard(
+    sceneId: String,
+    weatherState: WeatherState?,
+    climaInfo: ClimaInfo,
+    onRefresh: () -> Unit,
+) {
     Card(
         modifier = Modifier.fillMaxWidth().height(300.dp),
         shape = RoundedCornerShape(24.dp),
@@ -248,6 +255,20 @@ private fun WeatherHeroCard(sceneId: String, weatherState: WeatherState?, onRefr
                             color = Color.White.copy(alpha = 0.85f),
                             style = MaterialTheme.typography.bodyMedium,
                         )
+                        // ONDE e QUANDO. Sem esta linha, "o wallpaper não bate
+                        // com o clima lá fora" não tem resposta: pode ser dado
+                        // velho, pode ser a cidade errada (sem localização o app
+                        // cai num padrão, calado). O aviso de local padrão é
+                        // destacado porque é o único caso em que o usuário
+                        // precisa fazer alguma coisa — dar a permissão.
+                        climaInfo.resumo()?.let { info ->
+                            Text(
+                                info,
+                                color = if (climaInfo.localPadrao) Color(0xFFFFC46B)
+                                        else Color.White.copy(alpha = 0.62f),
+                                style = MaterialTheme.typography.bodySmall,
+                            )
+                        }
                     }
                 }
             }

@@ -103,6 +103,23 @@ class CenaCfg(
     val ceuMovel: CeuMovel? = null,
     /** Cena com REMOS animados (navio viking). Ver [CfgRemos]. */
     val remos: CfgRemos? = null,
+    /**
+     * Cena de INTERIOR com janelão: tem `vidro.png` (máscara de onde há vidro,
+     * gerada por tools/vidro.py) e ganha a água escorrendo. Ver o apê fino.
+     */
+    val vidro: Boolean = false,
+    /**
+     * Multiplicador do tamanho do PINGO por cena. No apê fino a chuva que
+     * aparece está do outro lado do vidro, a dezenas de metros: com o pingo do
+     * tamanho padrão parecia chuva caindo dentro da sala.
+     */
+    val escChuva: Float = 1f,
+    /**
+     * CÉU POLAR: cortinas de aurora à noite, desenhadas pelo motor (a arte
+     * entrega o céu vazio). A banda vai do topo da arte até o horizonte que
+     * sol/lua já declaram em `yBase`. Ver EffectEngine.desenharAurora.
+     */
+    val aurora: Boolean = false,
     val variantes: Map<String, VarFundo> = emptyMap(),
 ) {
     /** Pasta do fundo/frente para a ARTE escolhida (variante ou base=pixel). */
@@ -174,6 +191,7 @@ object Cenas {
             lua = Astro(1.9f, 570f, 365f, fadeY = 540f),
             temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
             taxaParcial = 4f, taxaCompleto = 6f,
+            aurora = true,                           // céu polar
             // mastro em x≈737: o pano é do motor (a arte clay tem a dela pintada)
             bandeira = Bandeira(737f, 516f, 110f),   // comp = pano esticado
             variantes = mapOf(
@@ -871,6 +889,125 @@ object Cenas {
                 "cozy" to VarFundo("cenas/cyberseco/cozy/", 1),
                 "cozynoite" to VarFundo("cenas/cyberseco/cozynoite/", 1),
                 "xilo" to VarFundo("cenas/cyberseco/xilo/", 1),
+            ),
+        ),
+        // DUOMO — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
+        "duomo" to CenaCfg(
+            id = "duomo", prefixo = "cenas/duomo/", tipo = "duomo",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 547f, 109f),
+            lua = Astro(1.7f, 547f, 124f, fadeY = 527f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/duomo/pixel/", 1),
+            ),
+        ),
+        // COLISEU — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
+        "coliseu" to CenaCfg(
+            id = "coliseu", prefixo = "cenas/coliseu/", tipo = "coliseu",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 511f, 102f),
+            lua = Astro(1.7f, 511f, 117f, fadeY = 491f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/coliseu/pixel/", 1),
+            ),
+        ),
+        // NOTRE DAME — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
+        "notredame" to CenaCfg(
+            id = "notredame", prefixo = "cenas/notredame/", tipo = "notredame",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 798f, 160f),
+            lua = Astro(1.7f, 798f, 175f, fadeY = 778f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/notredame/pixel/", 1),
+            ),
+        ),
+        // CIDADE PROIBIDA — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
+        "cidadeproibida" to CenaCfg(
+            id = "cidadeproibida", prefixo = "cenas/cidadeproibida/", tipo = "cidadeproibida",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 618f, 124f),
+            lua = Astro(1.7f, 618f, 139f, fadeY = 598f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/cidadeproibida/pixel/", 1),
+            ),
+        ),
+        // BURJ KHALIFA — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
+        "burj" to CenaCfg(
+            id = "burj", prefixo = "cenas/burj/", tipo = "burj",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 1010f, 202f),
+            lua = Astro(1.7f, 1010f, 217f, fadeY = 990f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/burj/pixel/", 1),
+            ),
+        ),
+        // TIMES SQUARE — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
+        "timessquare" to CenaCfg(
+            id = "timessquare", prefixo = "cenas/timessquare/", tipo = "timessquare",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 522f, 104f),
+            lua = Astro(1.7f, 522f, 119f, fadeY = 502f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/timessquare/pixel/", 1),
+            ),
+        ),
+        // PIZZA AUTÊNTICA — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
+        "pizzaria" to CenaCfg(
+            id = "pizzaria", prefixo = "cenas/pizzaria/", tipo = "pizzaria",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 307f, 61f),
+            lua = Astro(1.7f, 307f, 76f, fadeY = 287f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/pizzaria/pixel/", 1),
+            ),
+        ),
+        // VILA VIKING — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
+        "vilaviking" to CenaCfg(
+            id = "vilaviking", prefixo = "cenas/vilaviking/", tipo = "vilaviking",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 593f, 119f),
+            lua = Astro(1.7f, 593f, 134f, fadeY = 573f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            aurora = true,                           // vila nórdica: mesma aurora do fiorde
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/vilaviking/pixel/", 1),
+            ),
+        ),
+        // APÊ FINO — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
+        "apefino" to CenaCfg(
+            id = "apefino", prefixo = "cenas/apefino/", tipo = "apefino",
+            cenaW = 1086f, cenaH = 1448f,
+            astros = Astros(-12f, 1098f),
+            sol = Astro(2.2f, 719f, 144f),
+            lua = Astro(1.7f, 719f, 159f, fadeY = 699f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
+            vidro = true, escChuva = 0.5f,
+            variantes = mapOf(
+                "pixel" to VarFundo("cenas/apefino/pixel/", 2),
             ),
         ),
         "terrao" to CenaCfg(

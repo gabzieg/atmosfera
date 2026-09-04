@@ -48,6 +48,16 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     // MAPA DE LUZ (ver desenharMapaLuz): o tint de noite deixa de ser chapado
     private var lmBmp: Bitmap? = null
     private var lmCv: Canvas? = null
+    // AURORA BOREAL (ver desenharAurora): a cortina é montada num bitmap à
+    // parte e recortada pela silhueta da arte antes de somar na cena.
+    private var auBmp: Bitmap? = null
+    private var auCv: Canvas? = null
+    private var auTira: Bitmap? = null       // o "pano" de uma coluna, em cache
+    private var auroraT = 0f
+    private val auFitas = ArrayList<FitaAurora>()
+    private var vidro: Bitmap? = null         // máscara do VIDRO (cena de interior)
+    private var vidroBmp: Bitmap? = null      // camada solta onde o escorrido é pintado
+    private var vidroCv: Canvas? = null
     private var aoMask: Bitmap? = null        // onde a superfície VÊ O CÉU
     private var aoCob = 1f                    // quanto da tela a zona cobre
     var pronto = false; private set
@@ -121,6 +131,9 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         xfermode = PorterDuffXfermode(PorterDuff.Mode.ADD)
     }
     private val MULT = PorterDuffXfermode(PorterDuff.Mode.MULTIPLY)
+    // recorte da aurora pela silhueta (apaga o que a arte cobre)
+    private val DSTOUT = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
+    private val pAurora = Paint(Paint.ANTI_ALIAS_FLAG).apply { isFilterBitmap = true }
 
     private class Tf(val s: Float, val ox: Float, val oy: Float)
 
@@ -196,6 +209,18 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             marcaArte !== DadosMarcacao.VAZIO -> marcaArte
             else -> DadosMarcacao.ler(assets, cenaCfg.prefixo)
         }
+        // IMPACTO DENTRO DA CHUVA. Cena de INTERIOR (faixas `chuva`) só tem
+        // pingo sob a claraboia/vidro, mas o RESPINGO nascia da zona amarela
+        // inteira — no apê fino ela é derivada e cobre a sala toda: respingo no
+        // tapete e no braço da poltrona, com a chuva lá fora. Onde o pingo não
+        // chega, não há o que respingar. Apê fino 8.122 -> 1.396 pontos; no
+        // cofre não muda nada (73 de 73 já estavam sob a claraboia).
+        if (marca.chuva.isNotEmpty()) {
+            val rp = roofPts.filter { chuvaAqui(it[0].toFloat(), it[1].toFloat()) }
+            val lp = lakePts.filter { chuvaAqui(it[0].toFloat(), it[1].toFloat()) }
+            roofPts.clear(); roofPts.addAll(rp)
+            lakePts.clear(); lakePts.addAll(lp)
+        }
         // estado dependente da cena/dimensões
         clouds.clear(); drops.clear(); flakes.clear(); impacts.clear()
         brilhos.clear(); puffsVulcao.clear(); puffVulcAcc = 0f
@@ -205,6 +230,10 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         initStars()
         if (cenaCfg.vagalumes) initFireflies() else fireflies.clear()
         carregarRemos(assets, fp)
+        vidro = if (!cenaCfg.vidro) null else
+            baixado(dCena, "vidro") ?: try { bmp(cenaCfg.prefixo + "vidro.png") } catch (e: Exception) { null }
+        escorridos.clear(); grudadas.clear()
+        if (vidro != null) initEscorridos()
         pronto = true
     }
 
@@ -366,6 +395,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         if (::nevoa.isInitialized) nevoa.recycle()
         aoMask?.recycle(); aoMask = null
         lmBmp?.recycle(); lmBmp = null; lmCv = null
+        auBmp?.recycle(); auBmp = null; auCv = null
+        auTira?.recycle(); auTira = null
     }
 
     // ── PROFUNDIDADE (mapa cinza da cena): 0 = longe, 1 = perto, -1 = céu.
@@ -542,6 +573,9 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         // precipitação
         if (estado.nevando()) desenharFlocos(canvas, tf) else desenharPingos(canvas, tf)
 
+        // água escorrendo no vidro (cena de interior com janelão)
+        desenharVidro(canvas, tf, cw, ch)
+
         // raio + clarão
         var flash = 0f
         bolt?.let { b ->
@@ -572,6 +606,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
 
         // noite (aditivo, por cima da escuridão)
         if (st.a < 0.3f) {
+            // aurora ANTES das estrelas: elas seguem visíveis através dela
+            desenharAurora(canvas, tf, escuro, cw, ch)
             desenharEstrelas(canvas, tf, escuro, ts)
             desenharLua(canvas, tf, escuro)
             desenharCadente(canvas, tf)
@@ -598,7 +634,9 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         updateCadente(dt, escuro)
         updateFumaca(dt)
         updateVento(dt)
+        updateAurora(dt)
         updateNevoa(dt)
+        updateEscorridos(dt)
 
         if (estado.clima == "chuva" && estado.nevando()) {
             bolt = null; impacts.clear()
@@ -787,21 +825,164 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private fun chuvaAqui(ix: Float, iy: Float): Boolean {
         val f = marca.chuva
         if (f.isEmpty()) return true
-        var lo = 0; var hi = f.size - 1; val y = iy.toInt()
+        val y = iy.toInt()
+        // VÁRIAS FAIXAS NA MESMA LINHA. A claraboia do cofre é um buraco só, e a
+        // busca binária achava a faixa da linha e pronto. O apê fino tem TRÊS
+        // vidros lado a lado: a mesma linha aparece 3 vezes e a binária devolvia
+        // uma delas por acaso — o pingo sumia em 2 dos 3 vidros. Acha a linha e
+        // depois varre as vizinhas com o mesmo y.
+        var lo = 0; var hi = f.size - 1; var achou = -1
         while (lo <= hi) {
             val md = (lo + hi) ushr 1; val fa = f[md]
             when {
                 fa.y < y -> lo = md + 1
                 fa.y > y -> hi = md - 1
-                else -> return ix >= fa.x0 && ix <= fa.x1
+                else -> { achou = md; break }
             }
+        }
+        if (achou < 0) return false
+        var i = achou
+        while (i >= 0 && f[i].y.toInt() == y) {
+            if (ix >= f[i].x0 && ix <= f[i].x1) return true
+            i--
+        }
+        i = achou + 1
+        while (i < f.size && f[i].y.toInt() == y) {
+            if (ix >= f[i].x0 && ix <= f[i].x1) return true
+            i++
         }
         return false
     }
 
+
+    // ── ÁGUA ESCORRENDO NO VIDRO ─────────────────────────────────────
+    // Porte do mesmo efeito do tester (index.js → drawVidro). Pedido dele pro
+    // apê fino (01/09): a cena é vista de DENTRO, então a chuva que importa não
+    // é o pingo lá fora — é a água correndo no vidro.
+    //
+    //  · o escorrido não é sprite: a cabeça anda e o RASTRO é o caminho que ela
+    //    já fez, o que dá comprimento livre. Sprite pronto exigiria um por
+    //    comprimento.
+    //  · a gota não desce reta — trava, deslancha e escorrega de lado. É isso
+    //    que separa "chuva na janela" de "risco branco caindo".
+    //  · as GRUDADAS (as que não descem) são metade do efeito: vidro molhado é
+    //    quase todo gota parada.
+    //  · tudo vai numa camada solta e é recortado pela máscara `vidro.png` com
+    //    DST_IN — o mesmo que o `destination-in` do canvas web.
+    private class Escorrido(var x: Float, var y: Float, var v: Float, var r: Float,
+                            var travado: Float, var desvio: Float, var a: Float) {
+        val rastro = ArrayList<Float>(64)
+    }
+    private class Grudada(val x: Float, val y: Float, val r: Float, val a: Float, var fase: Float)
+    private val escorridos = ArrayList<Escorrido>()
+    private val grudadas = ArrayList<Grudada>()
+    private val pVidro = Paint()
+    private val pRecorte = Paint().apply { xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_IN) }
+
+    private fun initEscorridos() {
+        grudadas.clear()
+        val w = cenaCfg.cenaW; val h = cenaCfg.cenaH
+        repeat(170) {
+            grudadas.add(Grudada(rnd.nextFloat() * w, rnd.nextFloat() * h, 1.6f + rnd.nextFloat() * 3.2f,
+                0.20f + rnd.nextFloat() * 0.35f, rnd.nextFloat() * 6.28f))
+        }
+    }
+
+    private fun novoEscorrido(meio: Boolean): Escorrido = Escorrido(
+        x = rnd.nextFloat() * cenaCfg.cenaW,
+        y = if (meio) rnd.nextFloat() * cenaCfg.cenaH else -10f - rnd.nextFloat() * 60f,
+        v = 0f, r = 2.4f + rnd.nextFloat() * 4.4f,
+        travado = rnd.nextFloat() * 0.5f, desvio = (rnd.nextFloat() - 0.5f) * 22f,
+        a = 0.30f + rnd.nextFloat() * 0.45f)
+
+    private fun alvoEscorridos(): Int {
+        if (estado.clima != "chuva" || estado.nevando()) return 0
+        return (6 + (estado.dropCount / 180f) * 42f).toInt()
+    }
+
+    private fun updateEscorridos(dt: Float) {
+        if (vidro == null) return
+        val alvo = alvoEscorridos()
+        while (escorridos.size < alvo) escorridos.add(novoEscorrido(escorridos.size < 8))
+        while (escorridos.size > alvo) escorridos.removeAt(escorridos.size - 1)
+        for (e in escorridos) {
+            if (e.travado > 0f) { e.travado -= dt; continue }
+            e.v = min(430f, e.v + (150f + e.r * 55f) * dt)
+            val ant = e.y
+            e.y += e.v * dt
+            e.x += sin(e.y / 90f) * e.desvio * dt
+            e.rastro.add(ant)
+            if (e.rastro.size > 40) e.rastro.removeAt(0)
+            if (rnd.nextFloat() < dt * 0.55f) { e.travado = 0.10f + rnd.nextFloat() * 0.45f; e.v *= 0.35f }
+            if (e.y > cenaCfg.cenaH + 20f) {
+                val n = novoEscorrido(false)
+                e.x = n.x; e.y = n.y; e.v = 0f; e.r = n.r
+                e.travado = n.travado; e.desvio = n.desvio; e.a = n.a
+                e.rastro.clear()
+            }
+        }
+        for (g in grudadas) g.fase += dt * 1.6f
+    }
+
+    private fun desenharVidro(c: Canvas, tf: Tf, cw: Float, ch: Float) {
+        val mask = vidro ?: return
+        if (estado.clima != "chuva" || estado.nevando()) return
+        val w = cw.toInt(); val h = ch.toInt()
+        if (w <= 0 || h <= 0) return
+        var bmp = vidroBmp
+        if (bmp == null || bmp.width != w || bmp.height != h) {
+            bmp?.recycle()
+            bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+            vidroBmp = bmp; vidroCv = Canvas(bmp)
+        }
+        val g = vidroCv ?: return
+        bmp.eraseColor(Color.TRANSPARENT)
+        val molhado = min(1f, 0.35f + estado.dropCount / 260f)
+
+        // 1) gotas GRUDADAS: o vidro molhado inteiro, sem nenhuma correr
+        for (gt in grudadas) {
+            val r = gt.r * tf.s
+            val brilho = 0.75f + 0.25f * sin(gt.fase)
+            pVidro.color = Color.rgb(240, 249, 255)
+            setA(pVidro, gt.a * molhado * brilho * 0.85f)
+            val x = tf.ox + gt.x * tf.s; val y = tf.oy + gt.y * tf.s
+            g.drawRect(x - r / 2f, y - r / 2f, x + r / 2f, y + r / 2f, pVidro)
+        }
+        // 2) o RASTRO — cada segmento FECHA até o seguinte, senão vira tracejado
+        //    (a 430 px/s a gota anda 14 px entre quadros)
+        pVidro.color = Color.rgb(226, 240, 252)
+        for (e in escorridos) {
+            val n = e.rastro.size
+            for (i in 0 until n) {
+                val k = (i + 1f) / n
+                val larg = max(1f, e.r * (0.30f + 0.50f * k) * tf.s)
+                val y0 = e.rastro[i]
+                val y1 = if (i + 1 < n) e.rastro[i + 1] else e.y
+                val alt = max(1f, (y1 - y0) * tf.s + 1f)
+                setA(pVidro, e.a * k * 0.80f)
+                val x = tf.ox + e.x * tf.s; val y = tf.oy + y0 * tf.s
+                g.drawRect(x - larg / 2f, y, x + larg / 2f, y + alt, pVidro)
+            }
+        }
+        // 3) a CABEÇA: fio escuro em cima e clarão embaixo (a luz atravessa a
+        //    lente da gota) — é o que dá volume no pixel art
+        for (e in escorridos) {
+            val r = e.r * tf.s
+            val x = tf.ox + e.x * tf.s; val y = tf.oy + e.y * tf.s
+            pVidro.color = Color.rgb(30, 45, 60); setA(pVidro, e.a * 0.45f)
+            g.drawRect(x - r / 2f, y - r, x + r / 2f, y, pVidro)
+            pVidro.color = Color.WHITE; setA(pVidro, min(0.95f, e.a + 0.25f))
+            g.drawRect(x - r / 2f, y - r * 0.35f, x + r / 2f, y + r * 0.55f, pVidro)
+        }
+        // 4) recorta pelo vidro e joga na cena
+        dst.set(tf.ox, tf.oy, tf.ox + mask.width * tf.s, tf.oy + mask.height * tf.s)
+        g.drawBitmap(mask, null, dst, pRecorte)
+        c.drawBitmap(bmp, 0f, 0f, null)
+    }
+
     private fun desenharPingos(c: Canvas, tf: Tf) {
         val sp = Atlas.get("pingo"); val sc = tf.s * estado.scaleMult
-        val dw = sp.w * sc; val dh = sp.h * sc
+        val dw = sp.w * sc * cenaCfg.escChuva; val dh = sp.h * sc * cenaCfg.escChuva
         pSprite.xfermode = null; setA(pSprite, 1f)
         val interior = marca.chuva.isNotEmpty()
         for (d in drops) {
@@ -992,6 +1173,187 @@ class EffectEngine(val estado: SceneState = SceneState()) {
                 twinkle, r.nextFloat() * 6.283f, 1.5f + r.nextFloat() * 2, 0.5f + r.nextFloat() * 0.5f))
         }
     }
+    // ── AURORA BOREAL ───────────────────────────────────────────────
+    // Porte do `drawAurora` do tester. As duas decisões do protótipo valem
+    // igual aqui:
+    //
+    // 1. ONDE ENTRA NA PILHA. A aurora é LUZ. Desenhada antes da `frente` (o
+    //    jeito fácil de o relevo occluí-la), o multiply da noite (rgb 55,63,101
+    //    à meia-noite) cortaria o verde a ~25% e ela sairia verde-chumbo. Então
+    //    vai DEPOIS do tint, junto das estrelas, e a oclusão vem por outro
+    //    caminho: monto a cortina num bitmap à parte e APAGO dele a silhueta com
+    //    DST_OUT + `frente` — a arte inteira com só o céu transparente.
+    //
+    // 2. RESOLUÇÃO. O bitmap auxiliar é 1/AU_ESC da tela, igual ao mapa de luz:
+    //    o borrão do upscale É o degradê, e a silhueta apagada em baixa
+    //    resolução deixa um sangramento curto de luz na crista da montanha —
+    //    que é o que a aurora faz atrás do relevo.
+    private class FitaAurora(
+        val topo: Float, val alt: Float, val amp: Float,
+        val xa: Float, val xb: Float,
+        val k1: Float, val k2: Float, val k3: Float,
+        val k4: Float, val k5: Float, val k6: Float,
+        val v1: Float, val v2: Float, val v3: Float,
+        val v4: Float, val v5: Float, val v6: Float,
+        val fase: Float, val peso: Float, val deriva: Float,
+    )
+
+    /** Uma cortina = um feixe de colunas verticais que sobem e descem em onda.
+     *  Os parâmetros são FRAÇÕES da banda de céu, não pixels: a mesma cortina
+     *  serve o fiorde (841 de largura) e a vila viking (1086).
+     *  `xa`/`xb` dão a cada cortina um TRECHO do céu — as três atravessando a
+     *  tela inteira lado a lado somavam num véu verde parelho, sem começo. */
+    private fun initAurora() {
+        auFitas.clear()
+        val r = Random(20260904)
+        for (i in 0 until AU_FITAS) {
+            auFitas.add(FitaAurora(
+                topo = 0.05f + i * 0.20f + r.nextFloat() * 0.06f,
+                alt = 0.30f + r.nextFloat() * 0.18f,
+                amp = 0.07f + r.nextFloat() * 0.06f,
+                xa = -0.20f + r.nextFloat() * 0.22f,
+                xb = 0.96f + r.nextFloat() * 0.24f,
+                k1 = 0.5f + r.nextFloat() * 0.5f,
+                k2 = 1.4f + r.nextFloat() * 1.0f,
+                k3 = 1.4f + r.nextFloat() * 1.4f,
+                k4 = 5f + r.nextFloat() * 6f,
+                k5 = 13f + r.nextFloat() * 10f,
+                k6 = 8.7f + r.nextFloat() * 7f,
+                v1 = 0.05f + r.nextFloat() * 0.05f,
+                v2 = -0.03f - r.nextFloat() * 0.05f,
+                v3 = 0.02f + r.nextFloat() * 0.03f,
+                v4 = 0.05f + r.nextFloat() * 0.06f,
+                v5 = -0.08f - r.nextFloat() * 0.07f,
+                v6 = 0.04f + r.nextFloat() * 0.05f,
+                fase = r.nextFloat() * 6.2832f,
+                peso = 0.5f + r.nextFloat() * 0.5f,
+                deriva = (if (r.nextFloat() < 0.5f) -1f else 1f) * (0.005f + r.nextFloat() * 0.008f),
+            ))
+        }
+    }
+
+    /** Tira vertical em cache: é o "pano" de UMA coluna. Violeta ralo em cima,
+     *  turquesa no meio, verde forte embaixo e a borda inferior nítida — que é
+     *  a leitura da aurora real (o corte de baixo é onde ela bate no ar). */
+    private fun tiraAurora(): Bitmap {
+        auTira?.let { if (!it.isRecycled) return it }
+        val bm = Bitmap.createBitmap(4, 128, Bitmap.Config.ARGB_8888)
+        val c = Canvas(bm)
+        val p = Paint(Paint.ANTI_ALIAS_FLAG)
+        p.shader = android.graphics.LinearGradient(0f, 0f, 0f, 128f,
+            intArrayOf(
+                Color.argb(0, 140, 80, 210),
+                Color.argb(36, 150, 88, 215),
+                Color.argb(82, 80, 205, 190),
+                Color.argb(199, 80, 250, 150),
+                Color.argb(255, 190, 255, 215),
+                Color.argb(0, 190, 255, 215),
+            ),
+            floatArrayOf(0f, 0.12f, 0.45f, 0.80f, 0.95f, 1f),
+            Shader.TileMode.CLAMP)
+        c.drawRect(0f, 0f, 4f, 128f, p)
+        auTira = bm
+        return bm
+    }
+
+    private fun auroraLigada() = cenaCfg.aurora
+
+    private fun updateAurora(dt: Float) {
+        if (auroraLigada()) auroraT += dt
+    }
+
+    private fun desenharAurora(c: Canvas, tf: Tf, escuro: Float, cw: Float, ch: Float) {
+        if (!auroraLigada() || !::frente.isInitialized || frente.isRecycled) return
+        if (auFitas.isEmpty()) initAurora()
+        // Sobe com a noite e apaga na névoa. O piso 0.45 é alto de propósito:
+        // até as ~20h o tint ainda está roxo/laranja de crepúsculo, e verde por
+        // cima daquilo não lê como aurora, lê como mancha.
+        val forca = ((escuro - 0.45f) / 0.40f).coerceIn(0f, 1f) *
+            (1f - 0.7f * estado.nevoa.coerceIn(0f, 1f))
+        if (forca <= 0.01f) return
+
+        // Banda de céu VISÍVEL: do topo da arte até o horizonte da cena
+        // (o `yBase` que sol/lua já declaram). Recortada pela tela porque no
+        // cover a arte sangra para fora em cima.
+        val base = cenaCfg.luaDe(arteId).yBase
+        val y0 = max(0f, tf.oy)
+        val y1 = min(ch, tf.oy + base * tf.s)
+        if (y1 - y0 < 8f) return
+
+        val w = maxOf(1, (cw / AU_ESC).toInt())
+        val h = maxOf(1, ((y1 - y0) / AU_ESC).toInt())
+        var bm = auBmp
+        if (bm == null || bm.isRecycled || bm.width != w || bm.height != h) {
+            bm?.recycle()
+            bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+            auBmp = bm; auCv = Canvas(bm)
+        }
+        val ac = auCv ?: return
+        ac.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+
+        val tira = tiraAurora()
+        val tsrc = Rect(0, 0, tira.width, tira.height)
+        val hb = base                       // altura da banda, em coords da cena
+        val t = auroraT
+        val tau = 6.2832f
+
+        // ADD dentro do auxiliar: cortinas que se cruzam somam como luz, e o
+        // alpha soma junto — é ele que o DST_OUT recorta depois.
+        pAurora.xfermode = ADD
+        for (f in auFitas) {
+            val xa = f.xa * cenaW; val xb = f.xb * cenaW
+            val passo = (xb - xa) / (AU_COLS - 1)
+            val colW = max(1f, passo * tf.s / AU_ESC * 1.35f)   // sobreposição curta
+            for (i in 0 until AU_COLS) {
+                val u = i.toFloat() / (AU_COLS - 1)
+                val p = u + t * f.deriva            // a cortina desliza de lado
+                val onda = sin(f.k1 * p * tau + t * f.v1 * tau + f.fase) * 0.65f +
+                    sin(f.k2 * p * tau + t * f.v2 * tau) * 0.35f
+                val ay = (f.topo + f.amp * onda) * hb
+                val ah = f.alt * hb *
+                    (0.62f + 0.38f * sin(f.k3 * p * tau + t * f.v3 * tau + f.fase))
+                if (ah <= 1f) continue
+                // pontas ralas + dobras. TRÊS frequências sem relação inteira
+                // entre si: com duas, os raios saem em listra regular e a
+                // cortina vira cortina de banheiro.
+                val env = Math.pow(sin(Math.PI.toFloat() * u).toDouble(), 0.6).toFloat()
+                val r1 = 0.5f + 0.5f * sin(f.k4 * p * tau + t * f.v4 * tau + f.fase)
+                val r2 = 0.5f + 0.5f * sin(f.k5 * p * tau + t * f.v5 * tau)
+                val r3 = 0.5f + 0.5f * sin(f.k6 * p * tau + t * f.v6 * tau + 1.7f)
+                val a = 0.21f * f.peso * env *
+                    (0.15f + 0.85f * Math.pow(r1.toDouble(), 1.4).toFloat()) *
+                    (0.55f + 0.45f * r2) * (0.70f + 0.30f * r3)
+                if (a < 0.004f) continue
+                val lx = (tf.ox + (xa + i * passo) * tf.s) / AU_ESC - colW / 2f
+                val ly = (tf.oy + ay * tf.s - y0) / AU_ESC
+                val lh = ah * tf.s / AU_ESC
+                if (lx > w || lx + colW < 0 || ly > h || ly + lh < 0) continue
+                pAurora.alpha = (a * 255f).toInt().coerceIn(0, 255)
+                dst.set(lx, ly, lx + colW, ly + lh)
+                ac.drawBitmap(tira, tsrc, dst, pAurora)
+            }
+        }
+        pAurora.xfermode = null
+        pAurora.alpha = 255
+
+        // OCLUSÃO: apaga do auxiliar tudo que a arte cobre. `frente` é a cena
+        // inteira com só o céu transparente — o que sobra é exatamente o céu.
+        pSmooth.xfermode = DSTOUT
+        src.set(0, 0, frente.width, frente.height)
+        dst.set(tf.ox / AU_ESC, (tf.oy - y0) / AU_ESC,
+            (tf.ox + cenaW * tf.s) / AU_ESC, (tf.oy + cenaH * tf.s) / AU_ESC)
+        ac.drawBitmap(frente, src, dst, pSmooth)
+        pSmooth.xfermode = null
+
+        pSmooth.xfermode = ADD
+        pSmooth.alpha = (forca * 255f).toInt().coerceIn(0, 255)
+        src.set(0, 0, w, h)
+        dst.set(0f, y0, cw, y1)
+        c.drawBitmap(bm, src, dst, pSmooth)   // o borrão do upscale é o brilho
+        pSmooth.xfermode = null
+        pSmooth.alpha = 255
+    }
+
     private fun desenharEstrelas(c: Canvas, tf: Tf, escuro: Float, ts: Long) {
         if (escuro < 0.15f) return
         pSprite.xfermode = null
@@ -1835,6 +2197,11 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             floatArrayOf(0.86f, 0.04f), floatArrayOf(1f, 0f))
         /** Mapa de luz em 1/N da resolução: luz é sinal de baixa frequência. */
         private const val LM_ESC = 3f
+        /** Aurora: bitmap auxiliar em 1/N da tela (luz é sinal de baixa
+         *  frequência, igual ao mapa de luz), cortinas e colunas por cortina. */
+        private const val AU_ESC = 3f
+        private const val AU_FITAS = 3
+        private const val AU_COLS = 56
         /** Acima disso a zona é DERIVADA (cobre a tela toda) e não vira oclusão. */
         private const val AO_LIMIAR = 0.35f
         /** Quanto do ambiente sobra onde a superfície não vê o céu. */

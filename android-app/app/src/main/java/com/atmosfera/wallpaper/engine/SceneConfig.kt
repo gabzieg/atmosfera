@@ -73,6 +73,19 @@ class SceneState {
         clima = "seco"; cloudSet = "leves"; skyTint = SkyTint(0, 0, 0, 0f)
         cloudMin = 0.9f; cloudMax = 1.3f; cloudN = 3; raios = false
     }
+    /**
+     * PARCIALMENTE NUBLADO (código WMO 2) — sol entre nuvens.
+     *
+     * Isto era `setSeco()`, e era a queixa mais fácil de reproduzir: o app de
+     * clima dizia "parcialmente nublado" e o wallpaper mostrava céu limpo, sem
+     * uma nuvem. Não é chuva nem encoberto: a chuva continua desligada e o céu
+     * não ganha o véu cinza do nublado — o que muda é a QUANTIDADE de nuvem
+     * (3 → 6) e um tint mínimo, só o bastante pra tirar o azul de dia perfeito.
+     */
+    fun setParcialNublado() {
+        clima = "seco"; cloudSet = "leves"; skyTint = SkyTint(150, 160, 176, 0.15f)
+        cloudMin = 1.4f; cloudMax = 2.0f; cloudN = 6; raios = false
+    }
     fun setNublado() {
         clima = "nublado"; cloudSet = "medias"; skyTint = SkyTint(130, 137, 150, 0.90f)
         cloudMin = 2.6f; cloudMax = 3.6f; cloudN = 9; raios = false
@@ -93,7 +106,7 @@ class SceneState {
 
             when (w.condition) {
                 WeatherCondition.SUNNY, WeatherCondition.CLEAR_NIGHT -> s.setSeco()
-                WeatherCondition.PARTLY_CLOUDY -> s.setSeco()
+                WeatherCondition.PARTLY_CLOUDY -> s.setParcialNublado()
                 WeatherCondition.CLOUDY -> s.setNublado()
                 WeatherCondition.FOGGY -> { s.setSeco(); s.nevoa = 0.9f } // névoa densa sobre céu neutro
                 WeatherCondition.LIGHT_RAIN -> { s.clima = "chuva"; s.presetFraca() }
