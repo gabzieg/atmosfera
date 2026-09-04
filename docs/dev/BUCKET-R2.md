@@ -117,3 +117,49 @@ metadata**, ou o header no upload.
 - No app debug: apontar o servidor, escolher um cenário e usar **"Baixar arte
   desta cena"** — o painel mostra o progresso e a prévia recarrega com a arte
   baixada.
+
+## 6. Vigia de cota e de mudança no bucket
+
+`atmosfera 2.0/tools/quota_r2.py`. Existe porque o plano grátis do R2 **não é um
+teto que trava**: passar do limite não dá erro, dá fatura — e agora tem cartão
+na conta. E porque a conta é pessoal do Rafael; quando o Gabriel tiver acesso,
+o que ele subir entra no mesmo cartão.
+
+```bash
+python tools/quota_r2.py
+```
+
+**Medidores** (limites mensais do plano grátis):
+
+| medidor | limite | quem gasta | hoje |
+|---|---|---|---|
+| armazenamento | 10 GB | o acervo parado no bucket | 266 MB — **2,66%** |
+| classe A (escrita) | 1.000.000 | subir arte (821 ops por upload cheio) | desprezível |
+| classe B (leitura) | 10.000.000 | usuário baixando wallpaper | cresce com a base |
+| egress | **ilimitado** | — | não é medidor; é o motivo de ter escolhido R2 |
+
+**Régua de marcos** (definida pelo Rafael em 2026-09-03) — cada marco é
+anunciado uma vez por medidor; se o consumo cair e voltar a subir, anuncia de
+novo:
+
+```
+até 80%   a cada 25%   →  25  50  75
+de 80%    a cada 5%    →  80  85  90  95
+de 97%    a cada 0,5%  →  97  97,5  98  98,5  99  99,5  100
+```
+
+Cruzar **mais de um marco de uma vez** é sinalizado à parte: significa salto
+grande entre duas leituras, que é exatamente o formato do acidente que a régua
+existe pra pegar (alguém subiu muita coisa de uma vez).
+
+**Detecção de mudança de terceiro:** cada rodada guarda o inventário do bucket
+(chave, tamanho, ETag, data) em `tools/_quota_r2.json` e compara com a rodada
+anterior — reporta o que **apareceu**, **sumiu** ou foi **sobrescrito**, com
+data. Isso é diferente de "o `dist/` local tem arquivo que o bucket não tem",
+que é upload pendente e sai como nota separada, não como alerta.
+
+Armazenamento é medido listando o próprio bucket, então basta o token de Object
+Read & Write. Classe A/B vêm da API de analytics da Cloudflare e precisam de um
+**segundo** token com `Account Analytics: Read` em `R2_ANALYTICS_TOKEN`; sem
+ele, o script mede o armazenamento e diz que operações ficaram sem medição —
+não inventa número.

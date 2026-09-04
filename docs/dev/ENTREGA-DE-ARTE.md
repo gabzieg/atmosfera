@@ -169,3 +169,8 @@ do tester. Não fico parado esperando o bucket.
 - **Segundo wallpaper grátis**: hoje o plano leva só a cabana pixel. Cabe outro
   em ~0,8 MB se ele quiser dois na instalação.
 - **Política de faxina**: apagar arte não usada depois de X dias, ou só manual.
+- **Quem mais entra na conta.** O R2 está numa conta pessoal do Rafael, com
+  cartão. O Gabriel ainda não sabe dela; quando souber, decidir se ganha token
+  próprio (rastreável, revogável) ou se todo upload continua passando por aqui.
+  `tools/quota_r2.py` já vigia a cota e denuncia mudança que não veio do nosso
+  `dist/` — ver §6 do BUCKET-R2.md.
