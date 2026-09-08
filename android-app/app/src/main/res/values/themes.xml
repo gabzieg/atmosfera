@@ -5,7 +5,29 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/accent_blue</item>
         <item name="android:windowBackground">@color/bg_dark</item>
+
+        <!--
+          statusBarColor/navigationBarColor valem só em API 26..34. A partir do
+          targetSdk 35 o Android impõe edge-to-edge: as barras ficam
+          transparentes e estas duas cores são IGNORADAS. Como o minSdk é 26,
+          continuam servindo os aparelhos antigos — por isso ficam aqui em vez
+          de serem apagadas.
+        -->
         <item name="android:statusBarColor">@color/bg_dark</item>
         <item name="android:navigationBarColor">@color/bg_dark</item>
+
+        <!--
+          O que realmente decide a aparência das barras nos aparelhos modernos:
+          ícones CLAROS, porque o app é sempre escuro (design system
+          monocromático de fundo preto, ver ui/theme/). Sem declarar, o valor
+          depende do tema do sistema e os ícones podem sair escuros sobre fundo
+          escuro — ilegíveis.
+
+          Só o da barra de status: `windowLightNavigationBar` exige API 27 e o
+          minSdk é 26 (o lint reprova com NewApi). Como `false` já é o padrão de
+          um tema Dark, não vale criar um values-v27 inteiro pra repetir o
+          padrão — a barra de navegação sai correta de qualquer forma.
+        -->
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

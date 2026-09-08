@@ -10,6 +10,7 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
@@ -17,6 +18,8 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cena
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.security.KeyFactory
 import java.security.Signature
 import java.security.spec.X509EncodedKeySpec
@@ -43,9 +46,30 @@ class BillingManager(
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     private var detalhesMap: Map<String, ProductDetails> = emptyMap()
 
+    private val _precos = MutableStateFlow<Map<String, String>>(emptyMap())
+
+    /**
+     * `productId` → preço formatado, como veio do Google Play. Fica **vazio**
+     * enquanto a consulta não responde e continua vazio se o produto não existe,
+     * se não há Play Store no device, ou se está offline — a UI trata mapa vazio
+     * como "compras indisponíveis" em vez de oferecer um botão que não faz nada.
+     *
+     * É um fluxo (não um getter) porque a consulta é assíncrona: lida direto na
+     * composição, ela sempre voltaria nula e o preço nunca apareceria.
+     */
+    val precos: StateFlow<Map<String, String>> = _precos
+
     private val client = BillingClient.newBuilder(context)
         .setListener(this)
-        .enablePendingPurchases()
+        // Billing 8 removeu o `enablePendingPurchases()` sem parâmetro. Passar
+        // `enableOneTimeProducts()` é o equivalente exato do comportamento antigo
+        // — o Atmosfera só vende compra única (INAPP), nunca assinatura.
+        .enablePendingPurchases(
+            PendingPurchasesParams.newBuilder().enableOneTimeProducts().build()
+        )
+        // Reconexão automática: sem isso, uma queda do serviço do Play deixava o
+        // cliente morto até alguém chamar `conectar()` de novo.
+        .enableAutoServiceReconnection()
         .build()
 
     fun conectar() {
@@ -72,8 +96,22 @@ class BillingManager(
         }
 
         val params = QueryProductDetailsParams.newBuilder().setProductList(productList).build()
-        client.queryProductDetailsAsync(params) { _, lista ->
-            detalhesMap = lista.associateBy { it.productId }
+        // Billing 8 trocou a lista crua do callback por um QueryProductDetailsResult,
+        // que separa o que veio (`productDetailsList`) do que NÃO veio
+        // (`unfetchedProductList`, com o motivo). Antes, produto inexistente
+        // simplesmente sumia da resposta sem deixar rastro.
+        client.queryProductDetailsAsync(params) { resultado, detalhes ->
+            if (resultado.responseCode != BillingClient.BillingResponseCode.OK) {
+                Log.w(TAG, "Consulta de produtos falhou: ${resultado.debugMessage}")
+                return@queryProductDetailsAsync
+            }
+            detalhes.unfetchedProductList.forEach {
+                Log.w(TAG, "Produto não encontrado no Play: ${it.productId} (status ${it.statusCode})")
+            }
+            detalhesMap = detalhes.productDetailsList.associateBy { it.productId }
+            _precos.value = detalhesMap.mapNotNull { (id, pd) ->
+                pd.oneTimePurchaseOfferDetails?.formattedPrice?.let { id to it }
+            }.toMap()
         }
     }
 
@@ -81,22 +119,80 @@ class BillingManager(
         client.queryPurchasesAsync(
             QueryPurchasesParams.newBuilder()
                 .setProductType(BillingClient.ProductType.INAPP).build()
-        ) { _, compras -> compras.forEach { processar(it) } }
+        ) { resultado, compras ->
+            if (resultado.responseCode != BillingClient.BillingResponseCode.OK) {
+                Log.w(TAG, "Restauração de compras falhou: ${resultado.debugMessage}")
+                return@queryPurchasesAsync
+            }
+            // `aplicarCena = false`: restaurar acontece a cada abertura do app.
+            // Trocar o cenário aqui sobrescreveria a escolha do usuário toda vez.
+            compras.forEach { processar(it, aplicarCena = false) }
+            reconciliar(compras)
+        }
+    }
+
+    /**
+     * Revoga o que NÃO está mais entre as compras ativas — reembolso, estorno,
+     * ou cancelamento pelo Google. Sem isto, [processar] só concede e nunca tira:
+     * quem pedisse reembolso ficaria com Premium para sempre.
+     *
+     * **Só é chamado quando a consulta voltou OK.** Essa condição é o ponto
+     * central: se rodasse também no erro, um usuário legítimo offline (ou num
+     * device sem Play Store, como o emulador daqui) perderia o que pagou toda
+     * vez que abrisse o app sem rede. Na dúvida, mantém o acesso concedido.
+     */
+    private fun reconciliar(compras: List<Purchase>) {
+        val ativos = compras
+            .filter { it.purchaseState == Purchase.PurchaseState.PURCHASED && assinaturaValida(it) }
+            .flatMap { it.products }
+            .toSet()
+
+        if (PRODUTO_PREMIUM !in ativos && Plano.isPremium(context)) {
+            Log.w(TAG, "Premium não consta mais nas compras ativas — revogando.")
+            Plano.setPremium(context, false)
+            onMudou(false)
+        }
+
+        Catalogo.cenarios.forEach { cenario ->
+            val pid = cenario.productId ?: return@forEach
+            if (pid !in ativos && isAvulsoDesbloqueado(cenario.id)) {
+                Log.w(TAG, "Cenário ${cenario.id} não consta mais nas compras ativas — revogando.")
+                prefs.edit().putBoolean(PREF_AVULSO_PREFIX + cenario.id, false).apply()
+                // Se o cenário revogado é justamente o que está no ar, o wallpaper
+                // ficaria exibindo conteúdo pago não mais possuído. Volta pro padrão.
+                if (Cena.atual(context) == cenario.id) {
+                    Log.w(TAG, "Cenário revogado estava ativo — voltando para ${Catalogo.padrao.id}.")
+                    Cena.definir(context, Catalogo.padrao.id)
+                }
+            }
+        }
     }
 
     fun comprar(activity: Activity, productId: String = PRODUTO_PREMIUM) {
-        val pd = detalhesMap[productId] ?: return
+        val pd = detalhesMap[productId]
+        if (pd == null) {
+            Log.w(TAG, "Compra de $productId ignorada: produto não carregado do Play.")
+            return
+        }
         val paramsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(pd).build()
         )
         val flow = BillingFlowParams.newBuilder()
             .setProductDetailsParamsList(paramsList).build()
-        client.launchBillingFlow(activity, flow)
+        // O resultado é síncrono e diz se a tela de compra chegou a abrir. Ignorá-lo
+        // reproduzia o bug do botão mudo: serviço caído ou produto indisponível
+        // devolvia erro aqui e nada aparecia pro usuário.
+        val resultado = client.launchBillingFlow(activity, flow)
+        if (resultado.responseCode != BillingClient.BillingResponseCode.OK) {
+            Log.w(TAG, "Não foi possível abrir a compra de $productId: ${resultado.debugMessage}")
+        }
     }
 
     override fun onPurchasesUpdated(result: BillingResult, compras: MutableList<Purchase>?) {
         if (result.responseCode == BillingClient.BillingResponseCode.OK && compras != null) {
-            compras.forEach { processar(it) }
+            // Compra recém-fechada: aqui aplicar o cenário é o comportamento
+            // desejado — o usuário acabou de comprar aquele cenário.
+            compras.forEach { processar(it, aplicarCena = true) }
         }
     }
 
@@ -123,7 +219,7 @@ class BillingManager(
         }
     }
 
-    private fun processar(p: Purchase) {
+    private fun processar(p: Purchase, aplicarCena: Boolean) {
         if (p.purchaseState == Purchase.PurchaseState.PURCHASED && !assinaturaValida(p)) {
             Log.w(TAG, "Compra ${p.orderId} rejeitada: assinatura inválida.")
             return
@@ -144,7 +240,7 @@ class BillingManager(
                     val cenario = Catalogo.cenarios.firstOrNull { it.productId == productId }
                     if (cenario != null) {
                         prefs.edit().putBoolean(PREF_AVULSO_PREFIX + cenario.id, true).apply()
-                        Cena.definir(context, cenario.id)
+                        if (aplicarCena) Cena.definir(context, cenario.id)
                     }
                 }
             }
@@ -155,12 +251,12 @@ class BillingManager(
         return prefs.getBoolean(PREF_AVULSO_PREFIX + cenarioId, false)
     }
 
-    fun getProdutoDetalhe(productId: String): ProductDetails? = detalhesMap[productId]
-    
-    fun temProduto(productId: String = PRODUTO_PREMIUM): Boolean = detalhesMap.containsKey(productId)
-    
-    fun precoFormatado(productId: String = PRODUTO_PREMIUM): String? = 
-        detalhesMap[productId]?.oneTimePurchaseOfferDetails?.formattedPrice
-
-    fun encerrar() { if (client.isReady) client.endConnection() }
+    /**
+     * Encerra sempre, sem checar `isReady`. Com [enableAutoServiceReconnection]
+     * ligado, um cliente que nunca conectou (offline, device sem Play Store)
+     * fica retentando para sempre — e `isReady` nunca vira true, então o guarda
+     * antigo justamente NÃO fechava exatamente o cliente que mais precisava ser
+     * fechado, vazando um por ViewModel destruído.
+     */
+    fun encerrar() { client.endConnection() }
 }

@@ -59,20 +59,32 @@ class LocationHelper(private val context: Context) {
                 val cts = CancellationTokenSource()
                 val fusedClient = LocationServices.getFusedLocationProviderClient(context)
 
-                fusedClient.getCurrentLocation(Priority.PRIORITY_BALANCED_POWER_ACCURACY, cts.token)
-                    .addOnSuccessListener { location: Location? ->
-                        if (location != null) {
-                            Log.d(TAG, "Localização obtida: ${location.latitude}, ${location.longitude}")
-                            cont.resume(Localizacao(location.latitude, location.longitude, false))
-                        } else {
-                            Log.w(TAG, "Localização nula, usando padrão.")
+                // O hasPermission() acima cobre o caminho normal, mas a permissão
+                // pode ser revogada ENTRE aquela checagem e esta chamada: o
+                // wallpaper roda continuamente e rebusca clima em ciclo, então a
+                // janela existe de verdade. Sem este catch, revogar a permissão
+                // com o app aberto vira crash em vez de cair no padrão.
+                try {
+                    fusedClient.getCurrentLocation(Priority.PRIORITY_BALANCED_POWER_ACCURACY, cts.token)
+                        .addOnSuccessListener { location: Location? ->
+                            if (location != null) {
+                                Log.d(TAG, "Localização obtida: ${location.latitude}, ${location.longitude}")
+                                cont.resume(Localizacao(location.latitude, location.longitude, false))
+                            } else {
+                                Log.w(TAG, "Localização nula, usando padrão.")
+                                cont.resume(Localizacao(DEFAULT_LAT, DEFAULT_LON, true))
+                            }
+                        }
+                        .addOnFailureListener { e ->
+                            Log.e(TAG, "Erro ao obter localização: ${e.message}")
                             cont.resume(Localizacao(DEFAULT_LAT, DEFAULT_LON, true))
                         }
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e(TAG, "Erro ao obter localização: ${e.message}")
-                        cont.resume(Localizacao(DEFAULT_LAT, DEFAULT_LON, true))
-                    }
+                } catch (e: SecurityException) {
+                    // Lançada antes de qualquer listener ser registrado, então não
+                    // há risco de retomar a continuation duas vezes.
+                    Log.w(TAG, "Permissão revogada durante a busca, usando padrão.")
+                    cont.resume(Localizacao(DEFAULT_LAT, DEFAULT_LON, true))
+                }
 
                 cont.invokeOnCancellation { cts.cancel() }
             }

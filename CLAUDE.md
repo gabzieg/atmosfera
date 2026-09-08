@@ -39,7 +39,7 @@ Documentação de apoio (leia sob demanda, não de cara):
 | `service/` | `AtmosferaWallpaperService` — hospeda o motor, busca clima, repassa pro motor | Front |
 | `ui/` | Compose: `MainScreen` (Scaffold/NavHost/BottomNav), `HomeTab`, `StoreTab`, `SettingsTab`, `theme/`, `components/` | Front |
 | `weather/` | `WeatherRepository` (Open-Meteo/Retrofit), `WeatherCache`, `LocationHelper`, `WeatherWorker` | Front |
-| `billing/` | `BillingManager`, `Plano` (flag Premium local) | Front (Willian) |
+| `billing/` | `BillingManager`, `Plano` (flag Premium local) | Front (Gabriel — era do Willian até 2026-08) |
 | `debug/` | `DebugActivity`/`DebugOverride` — painel de teste, só builds debug, sem entrada na navegação normal | Front (ferramenta interna) |
 
 ## Comandos
@@ -49,26 +49,33 @@ Rode sempre a partir de `android-app/`.
 ```bash
 ./gradlew assembleDebug            # build — gate da CI (.github/workflows/build.yml)
 ./gradlew testDebugUnitTest        # testes unit (JVM puro) — também roda na CI, antes do APK
-./gradlew lintDebug                # lint — roda na CI com baseline (app/lint-baseline.xml).
-                                    # O baseline congela os avisos/erros pré-existentes (incl.
-                                    # RemoveWorkManagerInitializer no manifesto e o falso-positivo
-                                    # de permissão em LocationHelper.kt): a CI só quebra em erro
-                                    # NOVO. Pra corrigir um: apague o baseline e regenere com lintDebug.
+./gradlew lintDebug                # lint — roda na CI com baseline (app/lint-baseline.xml),
+                                    # regenerado em 2026-08-08 pelo lint 8.13.2. O baseline hoje
+                                    # tem ZERO erros: só avisos (estilo UseKtx, versões de lib,
+                                    # orientação fixa). A CI quebra em qualquer erro novo.
+                                    # Pra regenerar: apague o arquivo e rode lintDebug DUAS vezes —
+                                    # a primeira recria o baseline e falha de propósito.
 ./gradlew installDebug             # build + instala no device/emulador conectado
 ./gradlew bundleRelease            # gera app-release.aab ASSINADO — exige keystore.properties
                                     # preenchido (ver "Build de release" abaixo); sem isso builda
                                     # sem assinar.
 adb devices                         # confirma emulador/device antes de instalar
 adb shell am start -n com.atmosfera.wallpaper/.ui.MainActivity
-adb shell am start -n com.atmosfera.wallpaper/.debug.DebugActivity   # painel de debug
+adb shell am start -n com.atmosfera.wallpaper/.debug.DebugLauncher   # painel de debug
+                                    # É o ALIAS (exported=true) que abre a DebugActivity. Mirar
+                                    # direto em .debug.DebugActivity falha com SecurityException:
+                                    # ela é exported=false. Só existe em build debug — na gaveta
+                                    # de apps aparece como "Atmosfera Teste".
 ```
 
 SDK Android local: `android-app/local.properties` (`sdk.dir`) — já configurado
 nesta máquina, não precisa de `ANDROID_HOME`.
 
-**JDK 17 obrigatório** (Gradle 8.6 — mesma versão travada na CI,
-`.github/workflows/build.yml`). JDK 25+ (ex.: o JBR embutido no Android
-Studio) quebra o build com `Unsupported class file major version`.
+**JDK 17 obrigatório.** A versão do Gradle (8.14.5) vem do **wrapper**
+(`android-app/gradle/wrapper/gradle-wrapper.properties`) — a CI usa `./gradlew`
+e não pina versão própria, justamente pra não divergir de novo. JDK 25+ (ex.: o
+JBR embutido no Android Studio) quebra o build com
+`Unsupported class file major version`.
 `JAVA_HOME` deve apontar pro Temurin 17 instalado nesta máquina
 (`C:\Program Files\Eclipse Adoptium\jdk-17.0.20.8-hotspot`). **Gotcha
 Windows:** a variável só é lida por processos novos — se `gradlew` reclamar de
@@ -88,25 +95,42 @@ roda `gitleaks` (job `secret-scan`) em todo push como segunda camada contra
 segredo vazado no diff — não é substituto pra checar `git status` antes de
 commitar em área que toca build/keystore.
 
-## Gotcha grande: versão do Billing Library
+## Prazos do Google que amarram a stack (não são preferência nossa)
 
-O projeto está travado em `com.android.billingclient:billing-ktx:6.2.1`
-(`android-app/app/build.gradle`). **Não suba essa versão sem também subir o
-plugin Kotlin.** Confirmado rodando o build de verdade: 7.0.0+ é compilado com
-metadata do Kotlin 2.x, que o compilador Kotlin 1.9.23 deste projeto não
-consegue ler (`Class was compiled with an incompatible version of Kotlin`).
-6.2.1 é o teto compatível com a API atual (`enablePendingPurchases()` sem
-parâmetros — a versão com `PendingPurchasesParams` só existe a partir da 7.x).
+A trava histórica "Kotlin 1.9.23 / Billing 6.2.1" **acabou em 2026-08-08**: foi
+migrada de uma vez para Kotlin 2.4.10 + Billing 9.1.0 + AGP 8.13.2 + Gradle
+8.14.5 + `compileSdk`/`targetSdk` 36. O motor (`engine/`) compilou **sem uma
+linha alterada** — ele só usa `android.graphics` e stdlib.
 
-**Isso deixou de ser só trava técnica — é bloqueio de publicação.** O Google
-exige Billing Library **v8+ pra qualquer app novo ou update**; o prazo pra
-v6.x já venceu em 31/ago/2025 (extensão até 01/nov/2025), ambos no passado
-([developer.android.com/google/play/billing/deprecation-faq](https://developer.android.com/google/play/billing/deprecation-faq)).
-Como o Atmosfera ainda não foi publicado, ele nasce sob a regra de "app novo":
-não dá pra criar a ficha na Play Store com Billing 6.2.1. Migrar o plugin
-Kotlin (1.9.23 → 2.x) deixa de ser "quando sobrar tempo" e vira pré-requisito
-antes da Fase 2 do `ROADMAP.md` (criação de produtos/teste de compra). Ainda
-não escalado pro ROADMAP/SPEC — decisão pendente do usuário sobre prioridade.
+Duas exigências do Google, ambas com o **mesmo prazo: 31/ago/2026** (extensão
+mediante pedido até 01/nov/2026). Não são opcionais para publicar:
+
+| Exigência | Onde vive | Validade da versão atual |
+|---|---|---|
+| Billing Library **v8+** ([FAQ](https://developer.android.com/google/play/billing/deprecation-faq)) | `libs.versions.toml` → `billing = "9.1.0"` | v9 vale até 31/ago/2028 |
+| `targetSdk` **36+** ([política](https://support.google.com/googleplay/android-developer/answer/11926878)) | `app/build.gradle` → `targetSdk 36` | — |
+
+Tetos que ainda existem (confirmados quebrando o build, não suposição):
+- **`lifecycle` 2.11.0 exige `compileSdk` 37**, acima do máximo da AGP 8.13.x —
+  por isso está em 2.10.0. Subir exige ir para AGP 9.x (que pede Gradle 9.5).
+- **Compras exigem Play Store E conta Google logada.** O AVD `Pixel_8` responde
+  `In-app billing API version 3 is not supported on this device` — mas **não** é
+  por falta de Play Store: a imagem é `android-34/google_apis_playstore` e o
+  `com.android.vending` está instalado (confirmado com `pm list packages`). O
+  que falta é **conta Google logada** (`dumpsys account` volta vazio). Logar uma
+  conta no emulador (Configurações → Contas) é o que destrava o serviço de
+  billing; produto criado no Play Console continua sendo requisito à parte pra
+  compra de verdade.
+
+  Consequência prática: sem isso o `tanque` fica **intestável**, apesar de os
+  assets já existirem em `assets/atmosfera/cenas/tanque/`. Para conseguir ver
+  e testar conteúdo pago, use o painel de debug (`adb shell am start -n
+  com.atmosfera.wallpaper/.debug.DebugLauncher`) → **"Destravar cenários pagos
+  (teste)"**. A flag é lida num único ponto (`DebugOverride.destravarPagos`),
+  blindado por `BuildConfig.DEBUG` — em release o método devolve `false` sempre,
+  então não existe caminho para um APK publicado liberar conteúdo pago por aí.
+  O switch "Premium (efeitos vivos)" ao lado é outra coisa: liga os efeitos
+  vivos, **não** dá posse dos cenários pagos (são compras separadas).
 
 ## Design system (Compose)
 
@@ -154,10 +178,20 @@ do Claude Code (`simplify`, `/code-review`) normalmente.
 
 ## Regras de PR (resumo)
 
-PR obrigatório só nas **áreas de risco** acima; doc e ajuste de UI podem ir
-direto na `main`. Aprovação por área via `.github/CODEOWNERS`: motor (`engine/`,
-`assets/`) → Rafael; billing (`billing/`) e documentos legais → Willian; resto
-do front (`ui/`, `weather/`, `service/`) → Gabriel.
+PR obrigatório **só em `engine/`, `assets/atmosfera/` e `.github/`**. Todo o
+resto — `ui/`, `weather/`, `service/`, `billing/`, manifesto, `build.gradle`,
+documentação — pode ir direto na `main`.
+
+A lista **encolheu em 2026-08-09** e o critério é: manter só o que nenhum teste
+cobre. `engine/`/`assets/` porque o Rafael trabalha em paralelo e entrega por
+snapshot (conflito de merge já aconteceu); `.github/` porque é o meta-guarda que
+desliga os outros. Saíram `AndroidManifest.xml` (agora coberto pelo
+`PermissoesDeclaradasTest`, que quebra o gate em qualquer mudança de permissão),
+`build.gradle` (a CI pega) e `billing/` (o teto frágil do Billing acabou na
+migração pra 9.1.0, e a área voltou pro Gabriel). Revisão solo não melhora com
+PR pra si mesmo — melhora com guarda automático.
+
+Aprovação: motor → Rafael; documentos legais → Willian; resto → Gabriel.
 Detalhes e escape hatches em `.claude/skills/abrir-pr/SKILL.md`.
 
 **Nada disso é aplicado pelo servidor.** O repo é privado no plano free:
@@ -173,10 +207,12 @@ redes, ambas contornáveis:
 A lista de caminhos de risco está duplicada nos dois + no CODEOWNERS. Mudou
 uma, mude as três.
 
-**Terceiro colaborador (Willian, `@uWillianG`)**: dono de `billing/`
-(`BillingManager`, `Plano`, integração Google Play Billing) e dos **documentos
-legais** (`docs/legal/*.md` + espelhos em `docs/<pagina>/index.html` e
-`assets/legal/`). Também cuida do site de apresentação/marketing do Atmosfera —
+**Terceiro colaborador (Willian, `@uWillianG`)**: dono dos **documentos legais**
+(`docs/legal/*.md` + espelhos em `docs/<pagina>/index.html` e `assets/legal/`).
+Era também dono de `billing/`, mas essa área **voltou pro Gabriel em 2026-08**:
+a integração está pronta (Billing 9.1.0, preços reativos, reconciliação de
+reembolso) e o que falta é cadastro no Play Console, que depende do titular da
+conta. Também cuida do site de apresentação/marketing do Atmosfera —
 fora deste repo, em repositório próprio (nome a definir, ex. `atmosfera-site`)
 por causa da stack diferente (web, não Android/Gradle). Site ainda não criado.
 

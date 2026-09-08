@@ -43,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -74,6 +75,7 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentArt by viewModel.currentArt.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
+    val precos by viewModel.billingManager.precos.collectAsState()
     val context = LocalContext.current
     val activity = context as? android.app.Activity
 
@@ -130,7 +132,10 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
         // se o cenário não tem asset); EngineLivePreview desenha por cima
         // assim que o motor carrega — o usuário vê o cenário se mover de
         // verdade antes de aplicar, não só uma imagem parada.
-        Box(modifier = Modifier.fillMaxWidth().height(340.dp)) {
+        // clipToBounds: o Compose hospeda AndroidView com clipChildren=false, e o
+        // motor pinta além da altura da View — sem isso a chuva vaza por cima do
+        // nome, dos botões e da seção de estilos abaixo.
+        Box(modifier = Modifier.fillMaxWidth().height(340.dp).clipToBounds()) {
             SceneThumbnail(sceneId = sceneId, arte = arteExibida, modifier = Modifier.fillMaxSize())
             EngineLivePreview(
                 sceneId = sceneId,
@@ -163,7 +168,7 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                 AcaoPrincipal(
                     isActive = isActive,
                     isUnlocked = isUnlocked,
-                    priceText = cenario.productId?.let { viewModel.billingManager.precoFormatado(it) },
+                    priceText = cenario.productId?.let { precos[it] },
                     onAplicar = { viewModel.setScene(sceneId) },
                     onComprar = { cenario.productId?.let { pid -> activity?.let { viewModel.buyScene(it, pid) } } },
                 )
@@ -269,8 +274,14 @@ private fun AcaoPrincipal(
             Text("Atual", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleMedium)
         }
         isUnlocked -> Button(onClick = onAplicar, shape = RoundedCornerShape(Radius.pill)) { Text("Aplicar") }
-        else -> Button(onClick = onComprar, shape = RoundedCornerShape(Radius.pill)) {
-            Text("Comprar${priceText?.let { " · $it" } ?: ""}")
+        // Sem preço = o Google Play não devolveu o produto; comprar não teria
+        // efeito nenhum, então o botão fica desabilitado em vez de mudo.
+        else -> Button(
+            onClick = onComprar,
+            enabled = priceText != null,
+            shape = RoundedCornerShape(Radius.pill),
+        ) {
+            Text(if (priceText != null) "Comprar · $priceText" else "Indisponível")
         }
     }
 }

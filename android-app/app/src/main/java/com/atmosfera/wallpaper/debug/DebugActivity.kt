@@ -16,8 +16,9 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
 import com.atmosfera.wallpaper.BuildConfig
 import com.atmosfera.wallpaper.billing.Plano
 import com.atmosfera.wallpaper.engine.Acervo
@@ -27,6 +28,7 @@ import com.atmosfera.wallpaper.engine.Cena
 import com.atmosfera.wallpaper.engine.EstiloEfeito
 import com.atmosfera.wallpaper.engine.Estilos
 import com.atmosfera.wallpaper.weather.WeatherCondition
+import kotlinx.coroutines.launch
 
 /**
  * Painel de TESTE (só em builds debug): força clima/hora/vento/névoa e mostra
@@ -72,6 +74,16 @@ class DebugActivity : AppCompatActivity() {
         scroll.addView(col)
         raiz.addView(scroll, LinearLayout.LayoutParams(MATCH_PARENT, 0, 2f))
         setContentView(raiz)
+
+        // Com targetSdk 35+ o edge-to-edge é imposto pelo sistema: sem tratar os
+        // insets, a prévia entra por baixo da barra de status e o botão "Fechar"
+        // some atrás da barra de navegação. As telas Compose já estão cobertas
+        // pelo Scaffold; esta aqui é View crua, então precisa aplicar na mão.
+        ViewCompat.setOnApplyWindowInsetsListener(raiz) { v, insets ->
+            val barras = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(barras.left, barras.top, barras.right, barras.bottom)
+            insets
+        }
 
         montarControles(col)
     }
@@ -209,6 +221,23 @@ class DebugActivity : AppCompatActivity() {
         // Premium
         col.addView(switch("Premium (efeitos vivos)", Plano.isPremium(this)) { on ->
             Plano.setPremium(this, on); preview.recarregar()
+        })
+
+        // Destrave de cenários pagos — sem isto o `tanque` é intestável, já que
+        // não há produto no Play Console nem Play Store no emulador.
+        col.addView(switch("Destravar cenários pagos (teste)", DebugOverride.destravarPagos(this)) { on ->
+            DebugOverride.setDestravarPagos(this, on)
+            Toast.makeText(
+                this,
+                if (on) "Cenários pagos liberados. Abra a Loja para escolher."
+                else "Cenários pagos voltaram a exigir compra.",
+                Toast.LENGTH_SHORT
+            ).show()
+        })
+        col.addView(TextView(this).apply {
+            text = "Só vale em build debug: no APK de release este destrave não existe."
+            setTextColor(Color.parseColor("#8A94A6")); textSize = 12f
+            setPadding(0, dp(2), 0, 0)
         })
 
         // Master: forçar clima no wallpaper real

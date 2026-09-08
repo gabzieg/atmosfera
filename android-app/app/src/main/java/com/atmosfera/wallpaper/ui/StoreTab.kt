@@ -38,12 +38,14 @@ import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cenario
 import com.atmosfera.wallpaper.engine.Cenas
 import com.atmosfera.wallpaper.engine.Estilos
+import androidx.compose.ui.platform.LocalContext
 import com.atmosfera.wallpaper.ui.components.MasonryGrid
 import com.atmosfera.wallpaper.ui.components.MosaicCard
 import com.atmosfera.wallpaper.ui.components.PillSearchBar
 import com.atmosfera.wallpaper.ui.components.SectionCarousel
 import com.atmosfera.wallpaper.ui.components.StackedThumbnail
 import com.atmosfera.wallpaper.ui.components.StatusPill
+import com.atmosfera.wallpaper.ui.components.cenarioTemAsset
 import com.atmosfera.wallpaper.ui.theme.Radius
 import com.atmosfera.wallpaper.ui.theme.Spacing
 
@@ -53,12 +55,15 @@ import com.atmosfera.wallpaper.ui.theme.Spacing
 internal fun artesDoCenario(id: String): List<String> =
     listOf("pixel") + Cenas.por(id).variantes.keys.toList()
 
-/**
- * Cenários com entrada em [Catalogo] (motor) mas sem asset publicado ainda —
- * filtro só de EXIBIÇÃO na Loja, não edita `engine/Catalogo.kt` (congelado).
- * Remover o id daqui assim que o cenário tiver `fundo.png` nos assets.
- */
-private val SEM_ASSET_PUBLICADO = setOf("fiordes")
+// Cenários que existem no Catalogo (motor) mas ainda não têm `fundo.png` nos
+// assets são escondidos da Loja — filtro só de EXIBIÇÃO, não edita
+// `engine/Catalogo.kt` (congelado).
+//
+// Era uma lista fixa (`setOf("fiordes")`) que só ficava correta enquanto alguém
+// lembrasse de editá-la a cada snapshot do motor: cenário novo sem arte voltaria
+// a aparecer como card quebrado. Agora a pergunta é feita aos assets de verdade,
+// via `cenarioTemAsset` — some sozinho quando entra, aparece sozinho quando a
+// arte chega.
 
 /** Nome de exibição de um estilo de efeito (sem emoji — identidade monocromática). */
 internal fun estiloNome(id: String): String = when (id) {
@@ -92,12 +97,18 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit) {
     val isPremium by viewModel.isPremium.collectAsState()
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
+    val precos by viewModel.billingManager.precos.collectAsState()
+
+    val assets = LocalContext.current.assets
+    // Checado uma vez por sessão (abre e fecha um handle por cenário), não a
+    // cada tecla digitada na busca.
+    val publicados = remember(assets) {
+        Catalogo.cenarios.filter { cenarioTemAsset(assets, it.id) }
+    }
 
     var query by remember { mutableStateOf("") }
-    val cenarios = remember(query) {
-        Catalogo.cenarios
-            .filterNot { it.id in SEM_ASSET_PUBLICADO }
-            .filter { it.nome.contains(query.trim(), ignoreCase = true) }
+    val cenarios = remember(publicados, query) {
+        publicados.filter { it.nome.contains(query.trim(), ignoreCase = true) }
     }
     // Alturas variadas → efeito escalonado do mosaico.
     val aspectos = listOf(0.72f, 0.95f, 0.78f, 0.68f, 0.88f)
@@ -113,7 +124,7 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit) {
                 PillSearchBar(query = query, onQueryChange = { query = it })
                 PremiumBanner(
                     isPremium = isPremium,
-                    priceText = viewModel.billingManager.precoFormatado(BillingManager.PRODUTO_PREMIUM),
+                    priceText = precos[BillingManager.PRODUTO_PREMIUM],
                     onBuy = { viewModel.buyPremium(it) },
                 )
                 // Carrossel de seção: categoria pequena + título grande + fileira rolável.
@@ -245,12 +256,21 @@ internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onBuy: (andro
         )
         if (!isPremium) {
             Spacer(Modifier.height(Spacing.md))
-            Button(onClick = { activity?.let(onBuy) }, shape = RoundedCornerShape(Radius.pill)) {
+            // priceText nulo = o Google Play não devolveu o produto (offline, sem
+            // Play Store, ou produto ainda não publicado). Botão desabilitado em
+            // vez de mudo: clicar sem efeito e sem explicação parece app quebrado.
+            val disponivel = priceText != null
+            Button(
+                onClick = { activity?.let(onBuy) },
+                enabled = disponivel,
+                shape = RoundedCornerShape(Radius.pill),
+            ) {
                 Text("Comprar Premium${priceText?.let { " · $it" } ?: ""}")
             }
             Spacer(Modifier.height(Spacing.sm))
             Text(
-                "Ou compre só o cenário que quiser, dentro dele.",
+                if (disponivel) "Ou compre só o cenário que quiser, dentro dele."
+                else "Compras indisponíveis agora. Verifique a conexão e se o Google Play está atualizado.",
                 style = MaterialTheme.typography.bodySmall,
                 color = onContainer.copy(alpha = 0.7f),
             )

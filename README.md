@@ -26,8 +26,8 @@ nativo sobre uma arte de fundo fixa (sprites, não vídeo/imagens pré-renderiza
 | **UI** | Jetpack Compose (Material 3) |
 | **Clima** | Open-Meteo API (gratuita, sem chave) |
 | **Localização** | Google Play Services FusedLocationProvider |
-| **Compras** | Google Play Billing 6.2.1 |
-| **Build** | Kotlin 1.9.23 · AGP 8.3.0 · JDK 17 · compileSdk 34 · minSdk 26 |
+| **Compras** | Google Play Billing 9.1.0 |
+| **Build** | Kotlin 2.4.10 · AGP 8.13.2 · Gradle 8.14.5 · JDK 17 · compileSdk/targetSdk 36 · minSdk 26 |
 
 ## Cenários
 
@@ -118,8 +118,13 @@ No Git Bash/MSYS no Windows, prefixe `MSYS_NO_PATHCONV=1` quando um caminho
 efeitos sem esperar o clima real):
 
 ```bash
-adb shell am start -n com.atmosfera.wallpaper/.debug.DebugActivity
+adb shell am start -n com.atmosfera.wallpaper/.debug.DebugLauncher
 ```
+
+O alvo é o **alias** `.debug.DebugLauncher` — apontar direto para
+`.debug.DebugActivity` falha com `SecurityException`, porque a Activity é
+`exported=false`. Em build debug o painel também aparece na gaveta de apps
+como "Atmosfera Teste".
 
 **Simular localização** no emulador sem GPS real: Extended Controls (⋮) →
 Location → lat/long → Send. Padrão do app sem permissão: Guarapuava, PR

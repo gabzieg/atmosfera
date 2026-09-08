@@ -202,7 +202,7 @@ Store"; mapeamento executável em `.github/CODEOWNERS`.
 |---|---|---|
 | `engine/` + `assets/atmosfera/` | Rafael | Congelado, sem trabalho aberto |
 | `ui/`, `weather/`, `service/` | Gabriel | Ativo |
-| `billing/` | Willian | **Não iniciado** — código atual é de Rafael/Gabriel |
+| `billing/` | Gabriel (era do Willian) | **Integração pronta** — Billing 9.1.0, preços reativos, reconciliação de reembolso. Falta cadastrar os produtos no Play Console |
 | Documentos legais | Willian | Textos prontos, faltam os `[PREENCHER]` |
 | Data Safety Form | Gabriel (+ Willian conferindo) | **Em andamento** |
 | Content Rating (IARC) | Quem abrir o console | Não iniciado |
