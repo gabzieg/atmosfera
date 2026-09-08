@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -49,7 +50,9 @@ import androidx.compose.ui.unit.dp
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Estilos
 import com.atmosfera.wallpaper.service.AtmosferaWallpaperService
+import androidx.compose.material3.TextButton
 import com.atmosfera.wallpaper.ui.components.ConfirmarWallpaperDialog
+import com.atmosfera.wallpaper.ui.components.ReportarProblemaDialog
 import com.atmosfera.wallpaper.ui.components.EngineLivePreview
 import com.atmosfera.wallpaper.ui.components.SceneThumbnail
 import com.atmosfera.wallpaper.ui.theme.Radius
@@ -79,6 +82,7 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
     val artes = artesDoCenario(sceneId)
     val arteExibida = if (artes.contains(currentArt)) currentArt else "pixel"
     var mostrarConfirmacao by remember { mutableStateOf(false) }
+    var mostrarReporte by remember { mutableStateOf(false) }
 
     fun aplicarWallpaper() {
         try {
@@ -91,6 +95,16 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
         } catch (e: Exception) {
             context.startActivity(Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
         }
+    }
+
+    if (mostrarReporte) {
+        ReportarProblemaDialog(
+            sceneId = sceneId,
+            sceneNome = cenario.nome,
+            arte = arteExibida,
+            estilo = currentEffectStyle,
+            onDismiss = { mostrarReporte = false },
+        )
     }
 
     if (mostrarConfirmacao) {
@@ -223,6 +237,18 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
+                // Discreto de propósito: é a válvula de escape de quem viu um
+                // recorte errado, não uma ação que a gente queira estimular.
+                TextButton(
+                    onClick = { mostrarReporte = true },
+                    contentPadding = PaddingValues(0.dp),
+                ) {
+                    Text(
+                        "Algo errado neste cenário?",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
         }
     }
