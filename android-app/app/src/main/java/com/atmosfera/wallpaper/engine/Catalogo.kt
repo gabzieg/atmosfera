@@ -162,7 +162,7 @@ object Catalogo {
             nome = "Arena de torneio",
             descricao = "Ringue de artes marciais entre montanhas.",
             gratis = false,
-            productId = "cenario_arena",
+            productId = "cenario_arenatorneio",
         ),
         Cenario(
             id = "konoha",
@@ -540,14 +540,14 @@ object Catalogo {
             nome = "Dubai",
             descricao = "Arranha-céu de vidro sobre os espelhos d'água.",
             gratis = false,
-            productId = "cenario_burj",
+            productId = "cenario_dubai",
         ),
         Cenario(
             id = "timessquare",
             nome = "Nova York",
             descricao = "Avenida de painéis luminosos, vazia na chuva.",
             gratis = false,
-            productId = "cenario_timessquare",
+            productId = "cenario_novayork",
         ),
         Cenario(
             id = "pizzaria",
