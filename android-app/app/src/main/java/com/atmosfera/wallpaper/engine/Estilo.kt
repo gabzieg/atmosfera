@@ -65,8 +65,12 @@ object Estilos {
         "papel_mache" to EstiloCfg("papel_mache", "sprites_papel_mache.png", 3, true),
         "papel_mache_2" to EstiloCfg("papel_mache_2", "sprites_papel_mache_2.png", 3, true),
         "needle_felting" to EstiloCfg("needle_felting", "sprites_needle_felting.png", 3, true),
-        "pixel_mario" to EstiloCfg("pixel_mario", "sprites_pixel_mario.png", 3, false),
-        "pixel_zelda" to EstiloCfg("pixel_zelda", "sprites_pixel_zelda.png", 3, false),
+        // "retrô" eram `pixel_mario` / `pixel_zelda` até 09/09: nome de
+        // personagem da Nintendo no slug, que a Loja mostrava capitalizado, e a
+        // lua cheia das duas folhas tinha rosto sorrindo e a Triforce. As luas
+        // foram trocadas no recorte (tools/recorta_auto.py, REF_RETRO).
+        "pixel_retro" to EstiloCfg("pixel_retro", "sprites_pixel_retro.png", 3, false),
+        "pixel_retro_2" to EstiloCfg("pixel_retro_2", "sprites_pixel_retro_2.png", 3, false),
         // ── Van Gogh (folha 887x1774, recorte 2026-08-09) ──
         // A rajada do Van Gogh é FITA DE TINTA: azul-noite por baixo, creme e
         // amarelo no miolo, azul-claro por cima. Cores medidas na folha dele.

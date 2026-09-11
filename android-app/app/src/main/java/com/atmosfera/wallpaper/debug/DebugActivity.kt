@@ -137,7 +137,7 @@ class DebugActivity : AppCompatActivity() {
             "paper_cutout" to "✂️ Paper Cutout", "paper_cutout_2" to "✂️ Paper Cutout 2",
             "paper_cutout_3" to "✂️ Paper Cutout 3",
             "pixel" to "🟦 Pixel Art", "pixel_art2" to "🟩 Pixel Art 2",
-            "pixel_mario" to "🍄 Pixel Mario", "pixel_zelda" to "🗡️ Pixel Zelda",
+            "pixel_retro" to "👾 Pixel Retrô", "pixel_retro_2" to "👾 Pixel Retrô 2",
             "pointilismo" to "🖌️ Pontilhismo",
             "point_gpt" to "🖌️ Pontilhismo GPT", "point_gpt_2" to "🖌️ Pontilhismo GPT 2",
             "rpg" to "⚔️ RPG",
