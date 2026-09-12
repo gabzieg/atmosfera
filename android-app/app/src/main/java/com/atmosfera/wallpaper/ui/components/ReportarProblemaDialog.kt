@@ -52,15 +52,15 @@ import com.atmosfera.wallpaper.ui.theme.Spacing
  */
 object Suporte {
     /**
-     * Endereço público de suporte. Enquanto estiver vazio, o botão abre o
-     * seletor de compartilhamento (o usuário escolhe por onde manda) em vez de
-     * um e-mail endereçado — é o mesmo texto, sem destinatário fixo.
+     * Endereço de suporte (decidido por ele em 09/09: o pessoal mesmo, por
+     * enquanto). Vira endereço PÚBLICO — o app de e-mail mostra o
+     * destinatário pro usuário antes de enviar, então não dá pra esconder;
+     * quando existir domínio, troca por um alias aqui e no
+     * `docs/contato/index.html`.
      *
-     * PENDENTE: preencher aqui e no `docs/contato/index.html`, que também está
-     * com `[PREENCHER: e-mail de contato]`. Não chutei um endereço pessoal de
-     * propósito: o que entrar aqui vira endereço público do app.
+     * Se ficar vazio, o botão cai no seletor de compartilhamento.
      */
-    const val EMAIL = ""
+    const val EMAIL = "rafael.huppes@gmail.com"
 }
 
 /** Um problema que o usuário pode marcar. `chave` é o que eu leio do lado de cá. */
@@ -185,7 +185,7 @@ private fun enviarRelato(
         "?"
     }
 
-    val assunto = "Atmosfera — problema em $sceneNome ($sceneId/$arte)"
+    val assunto = "REPORT SUPORTE ATMOSFERA — $sceneId/$arte"
     val corpo = buildString {
         appendLine("O que está errado:")
         chaves.forEach { appendLine("  - ${it.rotulo}") }

@@ -27,6 +27,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -79,10 +80,14 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
     val context = LocalContext.current
     val activity = context as? android.app.Activity
 
-    val isActive = currentSceneId == sceneId
-    val isUnlocked = viewModel.isSceneUnlocked(cenario)
+    val isActiveScene = currentSceneId == sceneId
     val artes = artesDoCenario(sceneId)
-    val arteExibida = if (artes.contains(currentArt)) currentArt else "pixel"
+    // A arte escolhida aqui é PRÉVIA até "Aplicar": a preferência de arte é
+    // global, e mexer nela olhando outro cenário trocava a arte do wallpaper que
+    // está no ar (e, com arte grátis avulsa, podia pôr no ar uma arte paga).
+    var arteExibida by remember(sceneId) { mutableStateOf(viewModel.arteInicial(cenario)) }
+    val isActive = isActiveScene && currentArt == arteExibida
+    val isUnlocked = viewModel.isArtUnlocked(cenario, arteExibida)
     var mostrarConfirmacao by remember { mutableStateOf(false) }
     var mostrarReporte by remember { mutableStateOf(false) }
 
@@ -116,6 +121,9 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
             estilo = currentEffectStyle,
             onConfirm = {
                 mostrarConfirmacao = false
+                // o serviço desenha o par salvo: sem isto ele abria o cenário
+                // de antes, não o que está na tela
+                if (isUnlocked) viewModel.aplicar(sceneId, arteExibida)
                 aplicarWallpaper()
             },
             onDismiss = { mostrarConfirmacao = false },
@@ -169,7 +177,7 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                     isActive = isActive,
                     isUnlocked = isUnlocked,
                     priceText = cenario.productId?.let { precos[it] },
-                    onAplicar = { viewModel.setScene(sceneId) },
+                    onAplicar = { viewModel.aplicar(sceneId, arteExibida) },
                     onComprar = { cenario.productId?.let { pid -> activity?.let { viewModel.buyScene(it, pid) } } },
                 )
             }
@@ -204,7 +212,13 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                                 sceneId = sceneId,
                                 arte = arte,
                                 selecionada = arte == arteExibida,
-                                onClick = { viewModel.setArt(arte) },
+                                bloqueada = !viewModel.isArtUnlocked(cenario, arte),
+                                gratis = arte in cenario.artesGratis && !viewModel.isSceneUnlocked(cenario),
+                                onClick = {
+                                    arteExibida = arte
+                                    // no cenário que já está no ar, trocar a arte é trocar o wallpaper
+                                    if (isActiveScene && viewModel.isArtUnlocked(cenario, arte)) viewModel.setArt(arte)
+                                },
                             )
                         }
                     }
@@ -313,7 +327,14 @@ private fun SecaoDetalhe(titulo: String, content: @Composable () -> Unit) {
 
 /** Miniatura selecionável de uma arte do cenário. */
 @Composable
-private fun ArteOption(sceneId: String, arte: String, selecionada: Boolean, onClick: () -> Unit) {
+private fun ArteOption(
+    sceneId: String,
+    arte: String,
+    selecionada: Boolean,
+    bloqueada: Boolean,
+    gratis: Boolean,
+    onClick: () -> Unit,
+) {
     val borda = if (selecionada) MaterialTheme.colorScheme.primary else Color.Transparent
     Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(Spacing.xs)) {
         SceneThumbnail(
@@ -325,10 +346,21 @@ private fun ArteOption(sceneId: String, arte: String, selecionada: Boolean, onCl
                 .border(2.dp, borda, RoundedCornerShape(Radius.card))
                 .clickable(onClick = onClick),
         )
-        Text(
-            estiloNome(arte),
-            style = MaterialTheme.typography.labelSmall,
-            color = if (selecionada) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            if (bloqueada) {
+                Icon(
+                    Icons.Default.Lock,
+                    contentDescription = "Bloqueada",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(12.dp),
+                )
+                Spacer(Modifier.width(2.dp))
+            }
+            Text(
+                if (gratis) "${estiloNome(arte)} · grátis" else estiloNome(arte),
+                style = MaterialTheme.typography.labelSmall,
+                color = if (selecionada) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
     }
 }

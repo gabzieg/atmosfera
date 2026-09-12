@@ -182,6 +182,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     fun setScene(sceneId: String) {
         Cena.definir(context, sceneId)
         _currentSceneId.value = sceneId
+        // A arte é preferência GLOBAL (vale pra qualquer cenário) e o serviço
+        // desenha o par cenário+arte que estiver salvo. Com arte grátis avulsa
+        // (só o ukiyo-e do jardim, só o pixel da cabana), trocar de cenário não
+        // pode levar junto uma arte que o usuário não tem neste cenário.
+        com.atmosfera.wallpaper.engine.Catalogo.por(sceneId)?.let { c ->
+            if (!isArtUnlocked(c, _currentArt.value)) setArt(arteInicial(c))
+        }
+    }
+
+    /** Aplica cenário E arte juntos — é o que o botão "Aplicar" do detalhe faz. */
+    fun aplicar(sceneId: String, arteId: String) {
+        setArt(arteId)
+        setScene(sceneId)
     }
 
     fun setArt(arteId: String) {
@@ -226,5 +239,26 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
         // continua exigindo compra de verdade.
         if (DebugOverride.destravarPagos(context)) return true
         return billingManager.isAvulsoDesbloqueado(cenario.id)
+    }
+
+    /** Esta arte deste cenário pode ser usada? (a arte grátis avulsa, ou o cenário inteiro liberado) */
+    fun isArtUnlocked(cenario: com.atmosfera.wallpaper.engine.Cenario, arte: String): Boolean =
+        arte in cenario.artesGratis || isSceneUnlocked(cenario)
+
+    /** Tem ao menos uma arte utilizável — é o que põe o cenário em "Meus cenários". */
+    fun temAlgoLiberado(cenario: com.atmosfera.wallpaper.engine.Cenario): Boolean =
+        cenario.artesGratis.isNotEmpty() || isSceneUnlocked(cenario)
+
+    /**
+     * A arte que o cenário mostra ao ser aberto/aplicado: a atual, se o usuário
+     * a tem neste cenário; senão a primeira que ele tem (a grátis); cenário
+     * todo bloqueado mostra a atual (ou a base) só como vitrine.
+     */
+    fun arteInicial(cenario: com.atmosfera.wallpaper.engine.Cenario): String {
+        val artes = artesDoCenario(cenario.id)
+        val atual = _currentArt.value
+        if (atual in artes && isArtUnlocked(cenario, atual)) return atual
+        return artes.firstOrNull { isArtUnlocked(cenario, it) }
+            ?: if (atual in artes) atual else "pixel"
     }
 }

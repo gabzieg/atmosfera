@@ -47,7 +47,7 @@ class CeuMovel(val vel: Float = 8f)
 /**
  * REMOS (navio viking). A primeira cena em que o que se mexe faz parte do
  * OBJETO, e não do clima: a arte vem SEM remo nenhum, só com as portinholas
- * (ver `Ppt - Navio Viking.txt`), e o motor põe UM sprite girado uma vez por
+ * (ver `PROMPTS/Ppt - Navio Viking.txt`), e o motor põe UM sprite girado uma vez por
  * portinhola, com um atraso entre um e o vizinho. É o atraso que faz a
  * centopeia. Os eixos e a linha d'água saem de `tools/remos.py`, na
  * `remos.json` de cada ARTE.
@@ -163,7 +163,7 @@ object Cenas {
                 "aqua" to VarFundo("cenas/cabana/aqua/", 1),
                 "clay" to VarFundo("cenas/cabana/clay/", 1),
                 "ukiyoe" to VarFundo("cenas/cabana/ukiyoe/", 1),
-                "needle" to VarFundo("cenas/cabana/needle/", 1),
+                "needlefelting" to VarFundo("cenas/cabana/needlefelting/", 1),
                 "doodle" to VarFundo("cenas/cabana/doodle/", 1),
             ),
         ),
@@ -179,7 +179,7 @@ object Cenas {
             // artes novas: composição própria; efeitos genéricos por ora
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/tanque/pixel/", 6),
-                "needle" to VarFundo("cenas/tanque/needle/", 1),
+                "needlefelting" to VarFundo("cenas/tanque/needlefelting/", 1),
                 "pixelart" to VarFundo("cenas/tanque/pixelart/", 1),
             ),
         ),
@@ -236,7 +236,7 @@ object Cenas {
                 "pixel" to VarFundo("cenas/jardim/pixel/", 3),
                 "pixel2" to VarFundo("cenas/jardim/pixel2/", 1),
                 "clay" to VarFundo("cenas/jardim/clay/", 1),
-                "needle" to VarFundo("cenas/jardim/needle/", 1),
+                "needlefelting" to VarFundo("cenas/jardim/needlefelting/", 1),
                 "doodle" to VarFundo("cenas/jardim/doodle/", 1),
                 "ukiyoe" to VarFundo("cenas/jardim/ukiyoe/", 1),
             ),
@@ -281,8 +281,8 @@ object Cenas {
                 "clay" to VarFundo("cenas/castelo/clay/", 1),
                 "doodle" to VarFundo("cenas/castelo/doodle/", 1),
                 "doodle2" to VarFundo("cenas/castelo/doodle2/", 1),
-                "needle" to VarFundo("cenas/castelo/needle/", 1),
-                "papel" to VarFundo("cenas/castelo/papel/", 1),
+                "needlefelting" to VarFundo("cenas/castelo/needlefelting/", 1),
+                "papelmache" to VarFundo("cenas/castelo/papelmache/", 1),
             ),
         ),
         // BECO JAPONÊS — lote 3:4 (1086x1448), sem marcação dele: zona de pingo
@@ -302,7 +302,7 @@ object Cenas {
                 "chibi" to VarFundo("cenas/beco/chibi/", 1),
                 "kodomo" to VarFundo("cenas/beco/kodomo/", 1),
                 "seinen" to VarFundo("cenas/beco/seinen/", 1),
-                "impress" to VarFundo("cenas/beco/impress/", 1),
+                "impressionista" to VarFundo("cenas/beco/impressionista/", 1),
                 "ukiyoe" to VarFundo("cenas/beco/ukiyoe/", 1),
             ),
         ),
@@ -343,9 +343,9 @@ object Cenas {
                 "pixel" to VarFundo("cenas/vale/pixel/", 1),
                 "cartoon" to VarFundo("cenas/vale/cartoon/", 1),
                 "clay" to VarFundo("cenas/vale/clay/", 1),
-                "impress" to VarFundo("cenas/vale/impress/", 1),
+                "impressionista" to VarFundo("cenas/vale/impressionista/", 1),
                 "lowpoly" to VarFundo("cenas/vale/lowpoly/", 1),
-                "cutout" to VarFundo("cenas/vale/cutout/", 1),
+                "papercutout" to VarFundo("cenas/vale/papercutout/", 1),
                 "cartoon" to VarFundo("cenas/vale/cartoon/", 1),
             ),
         ),
@@ -364,7 +364,7 @@ object Cenas {
                 "pixel" to VarFundo("cenas/elfico/pixel/", 1),
                 "cartoon" to VarFundo("cenas/elfico/cartoon/", 1),
                 "clay" to VarFundo("cenas/elfico/clay/", 1),
-                "cera" to VarFundo("cenas/elfico/cera/", 1),
+                "gizcera" to VarFundo("cenas/elfico/gizcera/", 1),
                 "lowpoly" to VarFundo("cenas/elfico/lowpoly/", 1),
                 "sfumato" to VarFundo("cenas/elfico/sfumato/", 1),
                 "vangogh" to VarFundo("cenas/elfico/vangogh/", 1),
@@ -385,8 +385,8 @@ object Cenas {
                 "pixel" to VarFundo("cenas/postapoc/pixel/", 1),
                 "cozy" to VarFundo("cenas/postapoc/cozy/", 1),
                 "iso" to VarFundo("cenas/postapoc/iso/", 1),
-                "needle" to VarFundo("cenas/postapoc/needle/", 1),
-                "cutout" to VarFundo("cenas/postapoc/cutout/", 1),
+                "needlefelting" to VarFundo("cenas/postapoc/needlefelting/", 1),
+                "papercutout" to VarFundo("cenas/postapoc/papercutout/", 1),
                 "vangogh" to VarFundo("cenas/postapoc/vangogh/", 1),
             ),
         ),
@@ -421,8 +421,8 @@ object Cenas {
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/savana/pixel/", 1),
                 "clay" to VarFundo("cenas/savana/clay/", 1),
-                "impress" to VarFundo("cenas/savana/impress/", 1),
-                "papel" to VarFundo("cenas/savana/papel/", 1),
+                "impressionista" to VarFundo("cenas/savana/impressionista/", 1),
+                "papelmache" to VarFundo("cenas/savana/papelmache/", 1),
                 "point" to VarFundo("cenas/savana/point/", 1),
                 "rupestre" to VarFundo("cenas/savana/rupestre/", 1),
                 "ukiyoe" to VarFundo("cenas/savana/ukiyoe/", 1),
@@ -442,10 +442,10 @@ object Cenas {
                 "pixel" to VarFundo("cenas/oasis/pixel/", 1),
                 "clay" to VarFundo("cenas/oasis/clay/", 1),
                 "clay2" to VarFundo("cenas/oasis/clay2/", 1),
-                "cera" to VarFundo("cenas/oasis/cera/", 1),
-                "cutout" to VarFundo("cenas/oasis/cutout/", 1),
+                "gizcera" to VarFundo("cenas/oasis/gizcera/", 1),
+                "papercutout" to VarFundo("cenas/oasis/papercutout/", 1),
                 "pixel2" to VarFundo("cenas/oasis/pixel2/", 1),
-                "xilo" to VarFundo("cenas/oasis/xilo/", 1),
+                "xilogravura" to VarFundo("cenas/oasis/xilogravura/", 1),
             ),
         ),
         "esfinge" to CenaCfg(
@@ -458,11 +458,11 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/esfinge/pixel/", 1),
-                "giz" to VarFundo("cenas/esfinge/giz/", 1),
-                "needle" to VarFundo("cenas/esfinge/needle/", 1),
+                "gizcera" to VarFundo("cenas/esfinge/gizcera/", 1),
+                "needlefelting" to VarFundo("cenas/esfinge/needlefelting/", 1),
                 "ukiyoe" to VarFundo("cenas/esfinge/ukiyoe/", 1),
                 "vangogh" to VarFundo("cenas/esfinge/vangogh/", 1),
-                "xilo" to VarFundo("cenas/esfinge/xilo/", 1),
+                "xilogravura" to VarFundo("cenas/esfinge/xilogravura/", 1),
             ),
         ),
         "sitio" to CenaCfg(
@@ -477,11 +477,11 @@ object Cenas {
                 "pixel" to VarFundo("cenas/sitio/pixel/", 1),
                 "clau" to VarFundo("cenas/sitio/clau/", 1),
                 "impamer" to VarFundo("cenas/sitio/impamer/", 1),
-                "impress" to VarFundo("cenas/sitio/impress/", 1),
+                "impressionista" to VarFundo("cenas/sitio/impressionista/", 1),
                 "pixel2" to VarFundo("cenas/sitio/pixel2/", 1),
-                "simpsons" to VarFundo("cenas/sitio/simpsons/", 1),
+                "suburbano" to VarFundo("cenas/sitio/suburbano/", 1),
                 "vangogh" to VarFundo("cenas/sitio/vangogh/", 1),
-                "xilo" to VarFundo("cenas/sitio/xilo/", 1),
+                "xilogravura" to VarFundo("cenas/sitio/xilogravura/", 1),
             ),
         ),
         "versalhes" to CenaCfg(
@@ -496,8 +496,8 @@ object Cenas {
                 "pixel" to VarFundo("cenas/versalhes/pixel/", 1),
                 "pixel2" to VarFundo("cenas/versalhes/pixel2/", 1),
                 "clay" to VarFundo("cenas/versalhes/clay/", 1),
-                "giz" to VarFundo("cenas/versalhes/giz/", 1),
-                "xilo" to VarFundo("cenas/versalhes/xilo/", 1),
+                "gizcera" to VarFundo("cenas/versalhes/gizcera/", 1),
+                "xilogravura" to VarFundo("cenas/versalhes/xilogravura/", 1),
             ),
         ),
         "babilonia" to CenaCfg(
@@ -512,7 +512,7 @@ object Cenas {
                 "pixel" to VarFundo("cenas/babilonia/pixel/", 1),
                 "pixel2" to VarFundo("cenas/babilonia/pixel2/", 1),
                 "clay" to VarFundo("cenas/babilonia/clay/", 1),
-                "papel" to VarFundo("cenas/babilonia/papel/", 1),
+                "papelmache" to VarFundo("cenas/babilonia/papelmache/", 1),
             ),
         ),
         "telhados" to CenaCfg(
@@ -534,21 +534,21 @@ object Cenas {
                 "cartoon" to VarFundo("cenas/telhados/cartoon/", 1),
                 "clay" to VarFundo("cenas/telhados/clay/", 1),
                 "cozy" to VarFundo("cenas/telhados/cozy/", 1),
-                "cutout" to VarFundo("cenas/telhados/cutout/", 1),
+                "papercutout" to VarFundo("cenas/telhados/papercutout/", 1),
                 "dark" to VarFundo("cenas/telhados/dark/", 1),
                 "doodle" to VarFundo("cenas/telhados/doodle/", 1),
                 "doodle2" to VarFundo("cenas/telhados/doodle2/", 1),
-                "giz" to VarFundo("cenas/telhados/giz/", 1),
-                "impress" to VarFundo("cenas/telhados/impress/", 1),
+                "gizcera" to VarFundo("cenas/telhados/gizcera/", 1),
+                "impressionista" to VarFundo("cenas/telhados/impressionista/", 1),
                 "lowpoly" to VarFundo("cenas/telhados/lowpoly/", 1),
-                "needle" to VarFundo("cenas/telhados/needle/", 1),
-                "papel" to VarFundo("cenas/telhados/papel/", 1),
+                "needlefelting" to VarFundo("cenas/telhados/needlefelting/", 1),
+                "papelmache" to VarFundo("cenas/telhados/papelmache/", 1),
                 "point" to VarFundo("cenas/telhados/point/", 1),
                 "puppet" to VarFundo("cenas/telhados/puppet/", 1),
                 "ukiyoe" to VarFundo("cenas/telhados/ukiyoe/", 1),
                 "vangogh" to VarFundo("cenas/telhados/vangogh/", 1),
                 "vangoghnoite" to VarFundo("cenas/telhados/vangoghnoite/", 1),
-                "xilo" to VarFundo("cenas/telhados/xilo/", 1),
+                "xilogravura" to VarFundo("cenas/telhados/xilogravura/", 1),
             ),
         ),
         "forte" to CenaCfg(
@@ -562,10 +562,10 @@ object Cenas {
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/forte/pixel/", 1),
                 "clay" to VarFundo("cenas/forte/clay/", 1),
-                "cutout" to VarFundo("cenas/forte/cutout/", 1),
+                "papercutout" to VarFundo("cenas/forte/papercutout/", 1),
                 "puppet" to VarFundo("cenas/forte/puppet/", 1),
                 "ukiyoe" to VarFundo("cenas/forte/ukiyoe/", 1),
-                "xilo" to VarFundo("cenas/forte/xilo/", 1),
+                "xilogravura" to VarFundo("cenas/forte/xilogravura/", 1),
             ),
         ),
         "camboja" to CenaCfg(
@@ -625,12 +625,12 @@ object Cenas {
                 "clay2" to VarFundo("cenas/mureta/clay2/", 1),
                 "cozy" to VarFundo("cenas/mureta/cozy/", 1),
                 "fauvismo" to VarFundo("cenas/mureta/fauvismo/", 1),
-                "giz" to VarFundo("cenas/mureta/giz/", 1),
+                "gizcera" to VarFundo("cenas/mureta/gizcera/", 1),
                 "impalemao" to VarFundo("cenas/mureta/impalemao/", 1),
-                "impress" to VarFundo("cenas/mureta/impress/", 1),
+                "impressionista" to VarFundo("cenas/mureta/impressionista/", 1),
                 "lowpoly" to VarFundo("cenas/mureta/lowpoly/", 1),
                 "point" to VarFundo("cenas/mureta/point/", 1),
-                "simpsons" to VarFundo("cenas/mureta/simpsons/", 1),
+                "suburbano" to VarFundo("cenas/mureta/suburbano/", 1),
                 "tapecaria" to VarFundo("cenas/mureta/tapecaria/", 1),
                 "vangogh" to VarFundo("cenas/mureta/vangogh/", 1),
                 // xilogravura: veio dele em CAMADAS separadas por profundidade
@@ -638,7 +638,7 @@ object Cenas {
                 // retangulares — não fecham a imagem —, então usei a composta e
                 // recortei o céu por cor. As camadas seguem guardadas: se um dia
                 // o motor ganhar parallax de verdade, é daqui que ele sai.
-                "xilo" to VarFundo("cenas/mureta/xilo/", 1),
+                "xilogravura" to VarFundo("cenas/mureta/xilogravura/", 1),
             ),
         ),
         "porto" to CenaCfg(
@@ -716,7 +716,7 @@ object Cenas {
                 "needlefelting" to VarFundo("cenas/simpsons/needlefelting/", 1),
                 "papelmache" to VarFundo("cenas/simpsons/papelmache/", 1),
                 "papercutout" to VarFundo("cenas/simpsons/papercutout/", 1),
-                "simpsons" to VarFundo("cenas/simpsons/simpsons/", 1),
+                "suburbano" to VarFundo("cenas/simpsons/suburbano/", 1),
                 "tapecaria" to VarFundo("cenas/simpsons/tapecaria/", 1),
                 "ukiyoe" to VarFundo("cenas/simpsons/ukiyoe/", 1),
                 "vangogh" to VarFundo("cenas/simpsons/vangogh/", 1),
@@ -813,7 +813,7 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/baobas/pixel/", 1),
-                "mache" to VarFundo("cenas/baobas/mache/", 1),
+                "papelmache" to VarFundo("cenas/baobas/papelmache/", 1),
             ),
         ),
         "cafeparis" to CenaCfg(
@@ -828,7 +828,7 @@ object Cenas {
                 "pixel" to VarFundo("cenas/cafeparis/pixel/", 1),
                 "16bits" to VarFundo("cenas/cafeparis/16bits/", 1),
                 "clay" to VarFundo("cenas/cafeparis/clay/", 1),
-                "mache" to VarFundo("cenas/cafeparis/mache/", 1),
+                "papelmache" to VarFundo("cenas/cafeparis/papelmache/", 1),
             ),
         ),
         "estrada" to CenaCfg(
@@ -855,7 +855,7 @@ object Cenas {
                 "pixel" to VarFundo("cenas/praiaeuropa/pixel/", 1),
                 "16bits" to VarFundo("cenas/praiaeuropa/16bits/", 1),
                 "clay" to VarFundo("cenas/praiaeuropa/clay/", 1),
-                "mache" to VarFundo("cenas/praiaeuropa/mache/", 1),
+                "papelmache" to VarFundo("cenas/praiaeuropa/papelmache/", 1),
             ),
         ),
         // CYBERPUNK — duas cenas irmãs, mesma cidade: canal cheio e rua seca.
@@ -872,7 +872,7 @@ object Cenas {
                 "pixel" to VarFundo("cenas/cyberpunk/pixel/", 1),
                 "pixel16" to VarFundo("cenas/cyberpunk/pixel16/", 1),
                 "cozy" to VarFundo("cenas/cyberpunk/cozy/", 1),
-                "impress" to VarFundo("cenas/cyberpunk/impress/", 1),
+                "impressionista" to VarFundo("cenas/cyberpunk/impressionista/", 1),
             ),
         ),
         "cyberseco" to CenaCfg(
@@ -888,7 +888,7 @@ object Cenas {
                 "pixel2" to VarFundo("cenas/cyberseco/pixel2/", 1),
                 "cozy" to VarFundo("cenas/cyberseco/cozy/", 1),
                 "cozynoite" to VarFundo("cenas/cyberseco/cozynoite/", 1),
-                "xilo" to VarFundo("cenas/cyberseco/xilo/", 1),
+                "xilogravura" to VarFundo("cenas/cyberseco/xilogravura/", 1),
             ),
         ),
         // DUOMO — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
@@ -1194,6 +1194,7 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/lavanda/pixel/", 1),
+                "aqua" to VarFundo("cenas/lavanda/aqua/", 1),
             ),
         ),
         "mesquita" to CenaCfg(

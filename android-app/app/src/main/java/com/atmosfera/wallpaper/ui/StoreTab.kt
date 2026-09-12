@@ -65,14 +65,61 @@ internal fun artesDoCenario(id: String): List<String> =
 // via `cenarioTemAsset` — some sozinho quando entra, aparece sozinho quando a
 // arte chega.
 
-/** Nome de exibição de um estilo de efeito (sem emoji — identidade monocromática). */
-internal fun estiloNome(id: String): String = when (id) {
-    "pixel" -> "Pixel Art"
-    "clay" -> "Clay"
-    "bizantino" -> "Bizantino"
-    "aqua" -> "Aquarela"
-    else -> id.replaceFirstChar { it.uppercase() }
-}
+/**
+ * Nome de exibição de um estilo — serve tanto pro estilo de EFEITO quanto pra
+ * ARTE do cenário (o seletor da tela de detalhe chama esta mesma função).
+ *
+ * A tabela existe porque o fallback (capitalizar o slug) mostrava coisa como
+ * "Needlefelting", "Papelmache" e "Gizcera" pro usuário. Os slugs foram
+ * unificados em 09/09 (`needle`+`needlefelting`, `xilo`+`xilogravura`,
+ * `impress`+`impressionista`, `papel`+`mache`+`papelmache`, `cutout`+
+ * `papercutout`, `giz`+`cera`+`gizcera`), então o mesmo estilo em cenas
+ * diferentes agora cai na MESMA linha daqui — que é o que permite vender pack
+ * por estilo. Numeração romana = segunda arte no mesmo estilo, na mesma cena.
+ */
+internal fun estiloNome(id: String): String = NOMES_ESTILO[id]
+    ?: id.replaceFirstChar { it.uppercase() }
+
+private val NOMES_ESTILO: Map<String, String> = mapOf(
+    // ── pixel ──
+    "pixel" to "Pixel Art", "pixel2" to "Pixel Art II", "pixelart" to "Pixel Art",
+    "pixelv0" to "Pixel Art (v0)", "pixel16" to "Pixel 16 bits",
+    "16bits" to "16 bits", "16bits2" to "16 bits II",
+    "8bits" to "8 bits", "8bits2" to "8 bits II",
+    // ── artesanato ──
+    "clay" to "Clay", "clay2" to "Clay II",
+    "papelmache" to "Papel machê",
+    "papercutout" to "Paper cutout",
+    "needlefelting" to "Needle felting",
+    "bordado" to "Bordado", "bordado1" to "Bordado I", "bordado2" to "Bordado II",
+    "tapecaria" to "Tapeçaria",
+    "ceramica" to "Cerâmica", "ceramica2" to "Cerâmica II",
+    "puppet" to "Puppet",
+    // ── pintura ──
+    "aqua" to "Aquarela",
+    "vangogh" to "Van Gogh", "vangoghnoite" to "Van Gogh (noite)",
+    "impressionista" to "Impressionismo",
+    "impamer" to "Impressionismo americano", "impalemao" to "Impressionismo alemão",
+    "point" to "Pontilhismo", "point2" to "Pontilhismo II",
+    "fauvismo" to "Fauvismo", "sfumato" to "Sfumato",
+    "gizcera" to "Giz de cera",
+    // ── gravura e mosaico ──
+    "xilogravura" to "Xilogravura",
+    "ukiyoe" to "Ukiyo-e", "ukiyoe2" to "Ukiyo-e II", "ukiyogpt" to "Ukiyo-e III",
+    "bizantino" to "Bizantino", "mosaicobizantino" to "Mosaico bizantino",
+    "rupestre" to "Rupestre",
+    // ── desenho e animação ──
+    "doodle" to "Doodle", "doodle2" to "Doodle II", "doodleinf" to "Doodle infantil",
+    "cartoon" to "Cartoon", "anime" to "Anime", "anime1" to "Anime II",
+    "chibi" to "Chibi", "kodomo" to "Kodomo", "seinen" to "Seinen",
+    "suburbano" to "Suburbano",
+    // ── 3D e outros ──
+    "lowpoly" to "Low poly", "poly2" to "Low poly II", "iso" to "Isométrico",
+    "cozy" to "Cozy", "cozynoite" to "Cozy (noite)",
+    "dark" to "Dark", "vivid" to "Vivid", "noite" to "Noite",
+    "terraco" to "Terraço", "longe" to "Plano aberto",
+    "dragao" to "Dragão", "dragao2" to "Dragão II", "dragao3" to "Dragão III",
+)
 
 @Composable
 fun StoreTab(viewModel: MainViewModel) {
@@ -193,6 +240,12 @@ private fun CenarioTile(
                     contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
                 )
                 isUnlocked -> StatusPill("Comprado")
+                // uma arte de vitrine grátis (ex.: o ukiyo-e do jardim); o resto é pago
+                cenario.artesGratis.isNotEmpty() -> StatusPill(
+                    "Arte grátis",
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                )
                 else -> StatusPill(
                     "Bloqueado",
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,

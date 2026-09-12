@@ -10,7 +10,11 @@ package com.atmosfera.wallpaper.engine
  * Convenções:
  *  - [id] = nome da pasta de assets em `assets/atmosfera/cenas/<id>/`
  *           (o cenário grátis "cabana" mora na raiz `assets/atmosfera/`).
- *  - [gratis] = já incluído (não precisa comprar).
+ *  - [gratis] = o cenário INTEIRO já incluído, todas as artes (não precisa comprar).
+ *  - [artesGratis] = só estas artes do cenário são grátis; as outras vêm com a
+ *                  compra do cenário. É a vitrine: um wallpaper de cada estilo
+ *                  (cabana pixel, jardim ukiyo-e, bruxa clay, esfinge van gogh,
+ *                  lavanda aquarela) — decisão de 11/09/2026.
  *  - [productId] = SKU de COMPRA AVULSA no Google Play (null se grátis).
  *                  Quem tem Premium destrava os efeitos "vivos" em todos.
  */
@@ -20,6 +24,7 @@ data class Cenario(
     val descricao: String,
     val gratis: Boolean,
     val productId: String?,
+    val artesGratis: Set<String> = emptySet(),
 )
 
 object Catalogo {
@@ -28,8 +33,9 @@ object Catalogo {
             id = "cabana",
             nome = "Cabana na floresta",
             descricao = "Refúgio de madeira à beira do lago, sob a mata.",
-            gratis = true,
-            productId = null,
+            gratis = false,
+            productId = "cenario_cabana",
+            artesGratis = setOf("pixel"),
         ),
         Cenario(
             id = "tanque",
@@ -142,6 +148,7 @@ object Catalogo {
             descricao = "Casario torto de bruxa à beira do lago.",
             gratis = false,
             productId = "cenario_bruxa",
+            artesGratis = setOf("clay"),
         ),
         Cenario(
             id = "eiffel",
@@ -345,6 +352,7 @@ object Catalogo {
             descricao = "Fileiras de lavanda subindo até a casa de pedra.",
             gratis = false,
             productId = "cenario_lavanda",
+            artesGratis = setOf("aqua"),
         ),
         Cenario(
             id = "mesquita",
@@ -401,6 +409,7 @@ object Catalogo {
             descricao = "Esfinge e pirâmides ao fim do dia.",
             gratis = false,
             productId = "cenario_esfinge",
+            artesGratis = setOf("vangogh"),
         ),
         Cenario(
             id = "sitio",
@@ -485,6 +494,7 @@ object Catalogo {
             descricao = "Cerejeiras, ponte vermelha e lago ao pé do monte.",
             gratis = false,
             productId = "cenario_jardim",
+            artesGratis = setOf("ukiyoe"),
         ),
         Cenario(
             id = "pantano",

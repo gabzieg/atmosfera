@@ -89,7 +89,7 @@ fun HomeTab(viewModel: MainViewModel) {
     // de asset (que abre arquivo) a cada recomposição.
     val assets = context.assets
     val meusCenarios = remember(isPremium, currentSceneId) {
-        Catalogo.cenarios.filter { cenarioTemAsset(assets, it.id) && viewModel.isSceneUnlocked(it) }
+        Catalogo.cenarios.filter { cenarioTemAsset(assets, it.id) && viewModel.temAlgoLiberado(it) }
     }
 
     // Só a permissão aproximada: é a única que o app usa de fato (ver o
@@ -148,7 +148,9 @@ fun HomeTab(viewModel: MainViewModel) {
             MeusCenarios(
                 cenarios = meusCenarios,
                 atual = currentSceneId,
-                arte = currentArt,
+                // cada cenário na arte que o usuário TEM nele (no jardim grátis
+                // é o ukiyo-e, não a arte global do momento)
+                arteDe = { viewModel.arteInicial(it) },
                 onEscolher = { viewModel.setScene(it) },
             )
 
@@ -239,7 +241,7 @@ private fun PermissionOnboardingCard(onClick: () -> Unit) {
 private fun MeusCenarios(
     cenarios: List<Cenario>,
     atual: String,
-    arte: String,
+    arteDe: (Cenario) -> String,
     onEscolher: (String) -> Unit,
 ) {
     if (cenarios.isEmpty()) return
@@ -257,7 +259,7 @@ private fun MeusCenarios(
             cenarios.forEach { cenario ->
                 CenarioOption(
                     cenario = cenario,
-                    arte = arte,
+                    arte = arteDe(cenario),
                     selecionado = cenario.id == atual,
                     onClick = { onEscolher(cenario.id) },
                 )
