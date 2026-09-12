@@ -71,6 +71,7 @@ import com.atmosfera.wallpaper.weather.WeatherState
 fun HomeTab(viewModel: MainViewModel) {
     val hasLocationPermission by viewModel.hasLocationPermission.collectAsState()
     val weatherState by viewModel.weatherState.collectAsState()
+    val climaInfo by viewModel.climaInfo.collectAsState()
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentArt by viewModel.currentArt.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
@@ -87,7 +88,7 @@ fun HomeTab(viewModel: MainViewModel) {
     // de asset (que abre arquivo) a cada recomposição.
     val assets = context.assets
     val meusCenarios = remember(isPremium, currentSceneId) {
-        Catalogo.cenarios.filter { cenarioTemAsset(assets, it.id) && viewModel.isSceneUnlocked(it) }
+        Catalogo.cenarios.filter { cenarioTemAsset(assets, it.id) && viewModel.temAlgoLiberado(it) }
     }
 
     // Só a permissão aproximada: é a única que o app usa de fato (ver o
@@ -129,6 +130,7 @@ fun HomeTab(viewModel: MainViewModel) {
                 sceneId = currentSceneId,
                 arte = currentArt,
                 weatherState = weatherState,
+                climaInfo = climaInfo,
                 onRefresh = { viewModel.refreshWeather() },
             )
 
@@ -150,7 +152,9 @@ fun HomeTab(viewModel: MainViewModel) {
             MeusCenarios(
                 cenarios = meusCenarios,
                 atual = currentSceneId,
-                arte = currentArt,
+                // cada cenário na arte que o usuário TEM nele (no jardim grátis
+                // é o ukiyo-e, não a arte global do momento)
+                arteDe = { viewModel.arteInicial(it) },
                 onEscolher = { viewModel.setScene(it) },
             )
 
@@ -241,7 +245,7 @@ private fun PermissionOnboardingCard(onClick: () -> Unit) {
 private fun MeusCenarios(
     cenarios: List<Cenario>,
     atual: String,
-    arte: String,
+    arteDe: (Cenario) -> String,
     onEscolher: (String) -> Unit,
 ) {
     if (cenarios.isEmpty()) return
@@ -259,7 +263,7 @@ private fun MeusCenarios(
             cenarios.forEach { cenario ->
                 CenarioOption(
                     cenario = cenario,
-                    arte = arte,
+                    arte = arteDe(cenario),
                     selecionado = cenario.id == atual,
                     onClick = { onEscolher(cenario.id) },
                 )
@@ -312,6 +316,7 @@ private fun WeatherHeroCard(
     sceneId: String,
     arte: String,
     weatherState: WeatherState?,
+    climaInfo: ClimaInfo,
     onRefresh: () -> Unit,
 ) {
     Card(
@@ -380,6 +385,20 @@ private fun WeatherHeroCard(
                             color = Color.White.copy(alpha = 0.85f),
                             style = MaterialTheme.typography.bodyMedium,
                         )
+                        // ONDE e QUANDO. Sem esta linha, "o wallpaper não bate
+                        // com o clima lá fora" não tem resposta: pode ser dado
+                        // velho, pode ser a cidade errada (sem localização o app
+                        // cai num padrão, calado). O aviso de local padrão é
+                        // destacado porque é o único caso em que o usuário
+                        // precisa fazer alguma coisa — dar a permissão.
+                        climaInfo.resumo()?.let { info ->
+                            Text(
+                                info,
+                                color = if (climaInfo.localPadrao) Color(0xFFFFC46B)
+                                        else Color.White.copy(alpha = 0.62f),
+                                style = MaterialTheme.typography.bodySmall,
+                            )
+                        }
                     }
                 }
             }

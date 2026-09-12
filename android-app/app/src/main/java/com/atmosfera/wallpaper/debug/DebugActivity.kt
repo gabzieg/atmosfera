@@ -18,14 +18,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.atmosfera.wallpaper.BuildConfig
 import com.atmosfera.wallpaper.billing.Plano
+import com.atmosfera.wallpaper.engine.Acervo
 import com.atmosfera.wallpaper.engine.ArteFundo
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cena
 import com.atmosfera.wallpaper.engine.EstiloEfeito
 import com.atmosfera.wallpaper.engine.Estilos
 import com.atmosfera.wallpaper.weather.WeatherCondition
+import kotlinx.coroutines.launch
 
 /**
  * Painel de TESTE (só em builds debug): força clima/hora/vento/névoa e mostra
@@ -103,6 +106,21 @@ class DebugActivity : AppCompatActivity() {
             "doodle" to "✏️ Doodle",
             "needle" to "🧶 Needle Felting",
             "pixelart" to "🟦 Pixel Art",
+            "pixel2" to "🟦 Pixel Art 2",
+            "doodleinf" to "🖍️ Doodle Infantil",
+            "point" to "🖌️ Pontilhismo",
+            "point2" to "🖌️ Pontilhismo 2",
+            "vangogh" to "🌌 Van Gogh",
+            "doodle2" to "✏️ Doodle 2", "papel" to "📰 Papier-mâché",
+            "noite" to "🌙 Pixel Noite", "chibi" to "🎎 Anime Chibi",
+            "kodomo" to "🎈 Anime Kodomo", "seinen" to "🗡️ Anime Seinen",
+            "impress" to "🖼️ Impressionismo", "cozy" to "🛋️ Cozy Fantasy",
+            "lowpoly" to "🔷 Low Poly", "vivid" to "🌈 Vivid",
+            "cartoon" to "💫 Cartoon", "cutout" to "✂️ Paper Cutout",
+            "cera" to "🕯️ Cera", "sfumato" to "🌫️ Sfumato", "iso" to "📐 Isométrico",
+            "rupestre" to "🪨 Rupestre", "xilo" to "🪵 Xilogravura", "clay2" to "🧱 Clay 2",
+            "giz" to "🖍️ Giz", "clau" to "🎨 Clau", "impamer" to "🖼️ Imp. Americano", "simpsons" to "📺 Suburbano",
+            "dark" to "🌑 Dark", "puppet" to "🎭 Puppet", "anime" to "🎌 Anime",
             "ukiyoe" to "🎴 Ukiyo-e",
         )
         col.addView(rotulo("↳ Arte do cenário"))
@@ -113,21 +131,23 @@ class DebugActivity : AppCompatActivity() {
             "aqua" to "🎨 Aquarela",
             "bizantino" to "🏛️ Bizantino",
             "clay" to "🧱 Clay",
-            "lowpoly" to "🔷 Low Poly",
-            "needle_felting" to "🧶 Needle Felting",
+            "low_poly" to "🔷 Low Poly",
+            "feltro" to "🧶 Feltro",
             "papel_mache" to "📰 Papel-maché", "papel_mache_2" to "📰 Papel-maché 2",
-            "paper_cutout" to "✂️ Paper Cutout", "paper_cutout_2" to "✂️ Paper Cutout 2",
-            "paper_cutout_3" to "✂️ Paper Cutout 3",
-            "pixel" to "🟦 Pixel Art", "pixel_art2" to "🟩 Pixel Art 2",
-            "pixel_mario" to "🍄 Pixel Mario", "pixel_zelda" to "🗡️ Pixel Zelda",
-            "pointilismo" to "🖌️ Pontilhismo",
-            "point_gpt" to "🖌️ Pontilhismo GPT", "point_gpt_2" to "🖌️ Pontilhismo GPT 2",
-            "rpg" to "⚔️ RPG",
-            "rupestre_og" to "🪨 Rupestre", "rupestre_1" to "🪨 Rupestre 2",
-            "rupestre_2" to "🪨 Rupestre 3", "rupestre_gemini" to "🪨 Rupestre Gemini",
-            "simplao" to "✏️ Simplão",
-            "talhe_doce_og" to "🪵 Talhe Doce", "talhe_doce" to "🪵 Talhe Doce Rico",
-            "ukiyoe" to "🎴 Ukiyo-e"
+            "papel_recortado" to "✂️ Papel Recortado", "papel_recortado_2" to "✂️ Papel Recortado 2",
+            "papel_recortado_3" to "✂️ Papel Recortado 3",
+            "pixel" to "🟦 Pixel Art", "pixel_art_2" to "🟩 Pixel Art 2",
+            "pixel_retro" to "👾 Pixel Retrô", "pixel_retro_2" to "👾 Pixel Retrô 2",
+            "pontilhismo" to "🖌️ Pontilhismo",
+            "pontilhismo_2" to "🖌️ Pontilhismo 2", "pontilhismo_3" to "🖌️ Pontilhismo 3",
+            "fantasia" to "⚔️ Fantasia",
+            "rupestre" to "🪨 Rupestre", "rupestre_2" to "🪨 Rupestre 2",
+            "rupestre_3" to "🪨 Rupestre 3", "rupestre_4" to "🪨 Rupestre 4",
+            "minimalista" to "✏️ Minimalista",
+            "talhe_doce" to "🪵 Talhe Doce", "talhe_doce_rico" to "🪵 Talhe Doce Rico",
+            "ukiyoe" to "🎴 Ukiyo-e",
+            "doodle_infantil" to "🧸 Doodle Infantil", "doodle_rabisco" to "🖋️ Doodle Rabisco",
+            "van_gogh" to "🌌 Van Gogh"
         ).filter { it.first in Estilos.ids }
         col.addView(rotulo("Estilo dos efeitos"))
         col.addView(dropdown(estilos, EstiloEfeito.atual(this)) { id ->
@@ -238,11 +258,77 @@ class DebugActivity : AppCompatActivity() {
             setPadding(0, dp(6), 0, 0)
         })
 
+        secaoAcervo(col)
+
         col.addView(Button(this).apply {
             text = "Fechar"
             setOnClickListener { finish() }
             layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply { topMargin = dp(16) }
         })
+    }
+
+    /**
+     * ACERVO — baixar a arte da cena escolhida de um servidor, em vez de tirar
+     * dos assets. É a única forma de exercitar o download antes de a Loja ter
+     * botão pra isso (ver docs/dev/ENTREGA-DE-ARTE.md). No emulador, o servidor
+     * do tester responde em `http://10.0.2.2:8123/dist/`.
+     */
+    private fun secaoAcervo(col: LinearLayout) {
+        col.addView(rotulo("—— Acervo (download da arte) ——"))
+        val estado = TextView(this).apply {
+            setTextColor(Color.parseColor("#8A94A6")); textSize = 12f
+        }
+        fun atualizar() {
+            val cena = Cena.atual(this); val arte = ArteFundo.atual(this)
+            estado.text = buildString {
+                append(if (Acervo.temArte(this@DebugActivity, cena, arte))
+                    "$cena/$arte: baixado" else "$cena/$arte: usando o asset embutido")
+                append("  ·  disco ")
+                append("%.1f MB".format(Acervo.bytesEmDisco(this@DebugActivity) / 1e6))
+                val b = Acervo.base(this@DebugActivity)
+                append("\nservidor: ").append(if (b.isEmpty()) "(nenhum)" else b)
+            }
+        }
+        val campo = android.widget.EditText(this).apply {
+            hint = "http://10.0.2.2:8123/dist/"
+            setText(Acervo.base(this@DebugActivity))
+            setTextColor(Color.WHITE); textSize = 13f
+        }
+        col.addView(campo)
+        col.addView(Button(this).apply {
+            text = "Salvar servidor"
+            setOnClickListener {
+                Acervo.definirBase(this@DebugActivity, campo.text.toString().trim())
+                atualizar()
+            }
+        })
+        col.addView(Button(this).apply {
+            text = "Baixar arte desta cena"
+            setOnClickListener {
+                val cena = Cena.atual(this@DebugActivity)
+                val arte = ArteFundo.atual(this@DebugActivity)
+                estado.text = "baixando $cena/$arte…"
+                lifecycleScope.launch {
+                    Acervo.baixarArte(this@DebugActivity, cena, arte).collect { p ->
+                        when (p) {
+                            is Acervo.Progresso.Baixando ->
+                                estado.text = "baixando $cena/$arte… %.0f%%".format(p.fracao * 100)
+                            is Acervo.Progresso.Erro -> estado.text = "erro: ${p.motivo}"
+                            Acervo.Progresso.Ok -> { atualizar(); preview.trocarCenaEstilo() }
+                        }
+                    }
+                }
+            }
+        })
+        col.addView(Button(this).apply {
+            text = "Apagar o que foi baixado desta cena"
+            setOnClickListener {
+                Acervo.apagarCena(this@DebugActivity, Cena.atual(this@DebugActivity))
+                atualizar(); preview.recarregar()
+            }
+        })
+        col.addView(estado)
+        atualizar()
     }
 
     // ── Helpers de UI ────────────────────────────────────────────────
