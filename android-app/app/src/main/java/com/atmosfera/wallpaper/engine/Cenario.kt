@@ -578,6 +578,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/camboja/pixel/", 1),
+                "aqua" to VarFundo("cenas/camboja/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/camboja/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/camboja/vangogh/", 1),
             ),
         ),
         // LOTE "SÓ PIXEL" — a cena nasce só na arte pixel e as outras vêm
@@ -592,6 +595,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/caverna/pixel/", 1),
+                "aqua" to VarFundo("cenas/caverna/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/caverna/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/caverna/vangogh/", 1),
             ),
         ),
         "estacionamento" to CenaCfg(
@@ -604,6 +610,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/estacionamento/pixel/", 1),
+                "aqua" to VarFundo("cenas/estacionamento/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/estacionamento/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/estacionamento/vangogh/", 1),
             ),
         ),
         "mureta" to CenaCfg(
@@ -651,6 +660,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/porto/pixel/", 1),
+                "aqua" to VarFundo("cenas/porto/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/porto/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/porto/vangogh/", 1),
             ),
         ),
         "bruxa" to CenaCfg(
@@ -782,6 +794,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/cofre/pixel/", 1),
+                "aqua" to VarFundo("cenas/cofre/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/cofre/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/cofre/vangogh/", 1),
             ),
         ),
         "ruinas" to CenaCfg(
@@ -841,6 +856,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/estrada/pixel/", 1),
+                "aqua" to VarFundo("cenas/estrada/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/estrada/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/estrada/vangogh/", 1),
             ),
         ),
         "praiaeuropa" to CenaCfg(
@@ -902,6 +920,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/duomo/pixel/", 1),
+                "aqua" to VarFundo("cenas/duomo/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/duomo/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/duomo/vangogh/", 1),
             ),
         ),
         // COLISEU — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
@@ -915,6 +936,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/coliseu/pixel/", 1),
+                "aqua" to VarFundo("cenas/coliseu/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/coliseu/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/coliseu/vangogh/", 1),
             ),
         ),
         // NOTRE DAME — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
@@ -928,6 +952,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/notredame/pixel/", 1),
+                "aqua" to VarFundo("cenas/notredame/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/notredame/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/notredame/vangogh/", 1),
             ),
         ),
         // CIDADE PROIBIDA — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
@@ -941,6 +968,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/cidadeproibida/pixel/", 1),
+                "aqua" to VarFundo("cenas/cidadeproibida/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/cidadeproibida/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/cidadeproibida/vangogh/", 1),
             ),
         ),
         // BURJ KHALIFA — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
@@ -954,6 +984,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/burj/pixel/", 1),
+                "aqua" to VarFundo("cenas/burj/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/burj/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/burj/vangogh/", 1),
             ),
         ),
         // TIMES SQUARE — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
@@ -967,6 +1000,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/timessquare/pixel/", 1),
+                "aqua" to VarFundo("cenas/timessquare/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/timessquare/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/timessquare/vangogh/", 1),
             ),
         ),
         // PIZZA AUTÊNTICA — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
@@ -980,6 +1016,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/pizzaria/pixel/", 1),
+                "aqua" to VarFundo("cenas/pizzaria/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/pizzaria/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/pizzaria/vangogh/", 1),
             ),
         ),
         // VILA VIKING — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
@@ -994,6 +1033,9 @@ object Cenas {
             aurora = true,                           // vila nórdica: mesma aurora do fiorde
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/vilaviking/pixel/", 1),
+                "aqua" to VarFundo("cenas/vilaviking/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/vilaviking/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/vilaviking/vangogh/", 1),
             ),
         ),
         // APÊ FINO — lote de 01/09, entrou DERIVADA (zonas do cena_auto.py).
@@ -1008,6 +1050,9 @@ object Cenas {
             vidro = true, escChuva = 0.5f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/quarto/pixel/", 1),
+                "aqua" to VarFundo("cenas/quarto/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/quarto/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/quarto/vangogh/", 1),
             ),
         ),
         "cafeinterno" to CenaCfg(
@@ -1034,6 +1079,9 @@ object Cenas {
             vidro = true, escChuva = 0.5f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/estufa/pixel/", 1),
+                "aqua" to VarFundo("cenas/estufa/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/estufa/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/estufa/vangogh/", 1),
             ),
         ),
         "trem" to CenaCfg(
@@ -1073,6 +1121,9 @@ object Cenas {
             vidro = true, escChuva = 0.5f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/biblioteca/pixel/", 1),
+                "aqua" to VarFundo("cenas/biblioteca/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/biblioteca/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/biblioteca/vangogh/", 1),
             ),
         ),
         "natalsala" to CenaCfg(
@@ -1110,6 +1161,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/halloween/pixel/", 1),
+                "aqua" to VarFundo("cenas/halloween/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/halloween/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/halloween/vangogh/", 1),
             ),
         ),
         "nortada" to CenaCfg(
@@ -1134,6 +1188,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/cachoeira/pixel/", 1),
+                "aqua" to VarFundo("cenas/cachoeira/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/cachoeira/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/cachoeira/vangogh/", 1),
             ),
         ),
         "aldeiajapao" to CenaCfg(
@@ -1146,6 +1203,7 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/aldeiajapao/pixel/", 1),
+                "aqua" to VarFundo("cenas/aldeiajapao/aqua/", 1),
             ),
         ),
         "natal" to CenaCfg(
@@ -1170,6 +1228,8 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/vulcao/pixel/", 1),
+                "aqua" to VarFundo("cenas/vulcao/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/vulcao/ukiyoe/", 1),
             ),
         ),
         "enseada" to CenaCfg(
@@ -1182,6 +1242,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/enseada/pixel/", 1),
+                "aqua" to VarFundo("cenas/enseada/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/enseada/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/enseada/vangogh/", 1),
             ),
         ),
         "lavanda" to CenaCfg(
@@ -1194,6 +1257,8 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/lavanda/pixel/", 1),
+                "ukiyoe" to VarFundo("cenas/lavanda/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/lavanda/vangogh/", 1),
                 "aqua" to VarFundo("cenas/lavanda/aqua/", 1),
             ),
         ),
@@ -1207,6 +1272,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/mesquita/pixel/", 1),
+                "aqua" to VarFundo("cenas/mesquita/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/mesquita/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/mesquita/vangogh/", 1),
             ),
         ),
         "himalaia" to CenaCfg(
@@ -1219,6 +1287,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/himalaia/pixel/", 1),
+                "aqua" to VarFundo("cenas/himalaia/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/himalaia/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/himalaia/vangogh/", 1),
             ),
         ),
         "recife" to CenaCfg(
@@ -1243,6 +1314,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/ogro/pixel/", 1),
+                "aqua" to VarFundo("cenas/ogro/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/ogro/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/ogro/vangogh/", 1),
             ),
         ),
         "rio" to CenaCfg(
@@ -1255,6 +1329,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/rio/pixel/", 1),
+                "aqua" to VarFundo("cenas/rio/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/rio/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/rio/vangogh/", 1),
             ),
         ),
         "torii" to CenaCfg(
@@ -1267,6 +1344,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/torii/pixel/", 1),
+                "aqua" to VarFundo("cenas/torii/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/torii/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/torii/vangogh/", 1),
             ),
         ),
         "vigia" to CenaCfg(
@@ -1279,6 +1359,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/vigia/pixel/", 1),
+                "aqua" to VarFundo("cenas/vigia/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/vigia/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/vigia/vangogh/", 1),
             ),
         ),
         "apefino" to CenaCfg(
@@ -1292,6 +1375,9 @@ object Cenas {
             vidro = true, escChuva = 0.5f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/apefino/pixel/", 2),
+                "aqua" to VarFundo("cenas/apefino/aqua/", 2),
+                "ukiyoe" to VarFundo("cenas/apefino/ukiyoe/", 2),
+                "vangogh" to VarFundo("cenas/apefino/vangogh/", 2),
             ),
         ),
         "terrao" to CenaCfg(
@@ -1304,6 +1390,9 @@ object Cenas {
             taxaParcial = 5f, taxaCompleto = 6f, escImpacto = 0.78f,
             variantes = mapOf(
                 "pixel" to VarFundo("cenas/terrao/pixel/", 1),
+                "aqua" to VarFundo("cenas/terrao/aqua/", 1),
+                "ukiyoe" to VarFundo("cenas/terrao/ukiyoe/", 1),
+                "vangogh" to VarFundo("cenas/terrao/vangogh/", 1),
             ),
         ),
         // VELHO OESTE — da marcação (.psd): pingo sólido em tudo (sem água) e
