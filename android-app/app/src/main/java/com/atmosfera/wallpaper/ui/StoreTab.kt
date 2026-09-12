@@ -38,12 +38,14 @@ import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cenario
 import com.atmosfera.wallpaper.engine.Cenas
 import com.atmosfera.wallpaper.engine.Estilos
+import androidx.compose.ui.platform.LocalContext
 import com.atmosfera.wallpaper.ui.components.MasonryGrid
 import com.atmosfera.wallpaper.ui.components.MosaicCard
 import com.atmosfera.wallpaper.ui.components.PillSearchBar
 import com.atmosfera.wallpaper.ui.components.SectionCarousel
 import com.atmosfera.wallpaper.ui.components.StackedThumbnail
 import com.atmosfera.wallpaper.ui.components.StatusPill
+import com.atmosfera.wallpaper.ui.components.cenarioTemAsset
 import com.atmosfera.wallpaper.ui.theme.Radius
 import com.atmosfera.wallpaper.ui.theme.Spacing
 
@@ -53,12 +55,15 @@ import com.atmosfera.wallpaper.ui.theme.Spacing
 internal fun artesDoCenario(id: String): List<String> =
     listOf("pixel") + Cenas.por(id).variantes.keys.toList()
 
-/**
- * Cenários com entrada em [Catalogo] (motor) mas sem asset publicado ainda —
- * filtro só de EXIBIÇÃO na Loja, não edita `engine/Catalogo.kt` (congelado).
- * Remover o id daqui assim que o cenário tiver `fundo.png` nos assets.
- */
-private val SEM_ASSET_PUBLICADO = setOf("fiordes")
+// Cenários que existem no Catalogo (motor) mas ainda não têm `fundo.png` nos
+// assets são escondidos da Loja — filtro só de EXIBIÇÃO, não edita
+// `engine/Catalogo.kt` (congelado).
+//
+// Era uma lista fixa (`setOf("fiordes")`) que só ficava correta enquanto alguém
+// lembrasse de editá-la a cada snapshot do motor: cenário novo sem arte voltaria
+// a aparecer como card quebrado. Agora a pergunta é feita aos assets de verdade,
+// via `cenarioTemAsset` — some sozinho quando entra, aparece sozinho quando a
+// arte chega.
 
 /** Nome de exibição de um estilo de efeito (sem emoji — identidade monocromática). */
 internal fun estiloNome(id: String): String = when (id) {
@@ -66,7 +71,14 @@ internal fun estiloNome(id: String): String = when (id) {
     "clay" -> "Clay"
     "bizantino" -> "Bizantino"
     "aqua" -> "Aquarela"
-    else -> id.replaceFirstChar { it.uppercase() }
+    "ukiyoe" -> "Ukiyo-e"
+    // Fallback genérico em vez de uma lista fixa: os ids de arte/estilo vêm de
+    // `engine/` (Rafael) e crescem a cada snapshot — travar um nome por id aqui
+    // quebraria a cada estilo novo até alguém lembrar de atualizar esta lista.
+    // "paper_cutout_2" -> "Paper Cutout 2"; "rupestre_og" -> "Rupestre Og". Não
+    // fica perfeito pra toda sigla (ex.: "point_gpt" -> "Point Gpt"), mas nunca
+    // pior que o id cru com underscore.
+    else -> id.replace('_', ' ').split(' ').joinToString(" ") { it.replaceFirstChar(Char::uppercase) }
 }
 
 @Composable
@@ -74,30 +86,46 @@ fun StoreTab(viewModel: MainViewModel) {
     // Substituir a Loja pelo browser: navegação interna lista ⇄ detalhe,
     // sem tocar no NavHost de topo (a aba continua sendo "Loja").
     var cenarioAberto by rememberSaveable { mutableStateOf<String?>(null) }
+    var premiumAberto by rememberSaveable { mutableStateOf(false) }
 
-    if (cenarioAberto != null) {
-        BackHandler { cenarioAberto = null }
-        SceneDetailScreen(
-            sceneId = cenarioAberto!!,
+    when {
+        premiumAberto -> PremiumScreen(
             viewModel = viewModel,
-            onBack = { cenarioAberto = null },
+            onVoltar = { premiumAberto = false },
         )
-    } else {
-        StoreBrowser(viewModel = viewModel, onAbrir = { cenarioAberto = it })
+        cenarioAberto != null -> {
+            BackHandler { cenarioAberto = null }
+            SceneDetailScreen(
+                sceneId = cenarioAberto!!,
+                viewModel = viewModel,
+                onBack = { cenarioAberto = null },
+            )
+        }
+        else -> StoreBrowser(
+            viewModel = viewModel,
+            onAbrir = { cenarioAberto = it },
+            onVerPremium = { premiumAberto = true },
+        )
     }
 }
 
 @Composable
-private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit) {
+private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, onVerPremium: () -> Unit) {
     val isPremium by viewModel.isPremium.collectAsState()
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
+    val precos by viewModel.billingManager.precos.collectAsState()
+
+    val assets = LocalContext.current.assets
+    // Checado uma vez por sessão (abre e fecha um handle por cenário), não a
+    // cada tecla digitada na busca.
+    val publicados = remember(assets) {
+        Catalogo.cenarios.filter { cenarioTemAsset(assets, it.id) }
+    }
 
     var query by remember { mutableStateOf("") }
-    val cenarios = remember(query) {
-        Catalogo.cenarios
-            .filterNot { it.id in SEM_ASSET_PUBLICADO }
-            .filter { it.nome.contains(query.trim(), ignoreCase = true) }
+    val cenarios = remember(publicados, query) {
+        publicados.filter { it.nome.contains(query.trim(), ignoreCase = true) }
     }
     // Alturas variadas → efeito escalonado do mosaico.
     val aspectos = listOf(0.72f, 0.95f, 0.78f, 0.68f, 0.88f)
@@ -113,8 +141,8 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit) {
                 PillSearchBar(query = query, onQueryChange = { query = it })
                 PremiumBanner(
                     isPremium = isPremium,
-                    priceText = viewModel.billingManager.precoFormatado(BillingManager.PRODUTO_PREMIUM),
-                    onBuy = { viewModel.buyPremium(it) },
+                    priceText = precos[BillingManager.PRODUTO_PREMIUM],
+                    onVerPremium = onVerPremium,
                 )
                 // Carrossel de seção: categoria pequena + título grande + fileira rolável.
                 SectionCarousel(
@@ -211,7 +239,7 @@ internal fun EstiloChip(estiloId: String, selecionado: Boolean, onClick: () -> U
 }
 
 @Composable
-internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onBuy: (android.app.Activity) -> Unit) {
+internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onVerPremium: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val activity = context as? android.app.Activity
     // Banner sempre em superfície ESCURA: no estado não-premium o CTA é um botão
@@ -245,12 +273,17 @@ internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onBuy: (andro
         )
         if (!isPremium) {
             Spacer(Modifier.height(Spacing.md))
-            Button(onClick = { activity?.let(onBuy) }, shape = RoundedCornerShape(Radius.pill)) {
-                Text("Comprar Premium${priceText?.let { " · $it" } ?: ""}")
+            // Leva pra tela de Premium em vez de disparar a compra daqui. O
+            // argumento de venda é ver os efeitos na cena — texto não compete
+            // com isso. E, ao contrário do botão de compra, este funciona mesmo
+            // sem o Play responder: dá pra conhecer o produto offline.
+            Button(onClick = onVerPremium, shape = RoundedCornerShape(Radius.pill)) {
+                Text("Ver o que muda")
             }
             Spacer(Modifier.height(Spacing.sm))
             Text(
-                "Ou compre só o cenário que quiser, dentro dele.",
+                priceText?.let { "Compra única de $it. Ou compre só o cenário que quiser, dentro dele." }
+                    ?: "Ou compre só o cenário que quiser, dentro dele.",
                 style = MaterialTheme.typography.bodySmall,
                 color = onContainer.copy(alpha = 0.7f),
             )

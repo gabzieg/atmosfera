@@ -45,6 +45,55 @@ object Catalogo {
             gratis = false,
             productId = "cenario_fiordes",
         ),
+        Cenario(
+            id = "cabana2",
+            nome = "Cabana no templo",
+            descricao = "Ruína de pedra tomada pela selva, à beira de um lago.",
+            gratis = false,
+            productId = "cenario_cabana2",
+        ),
+        Cenario(
+            id = "velhooeste",
+            nome = "Velho Oeste",
+            descricao = "Rua de terra entre mesas de arenito, ao pôr do sol.",
+            gratis = false,
+            productId = "cenario_velhooeste",
+        ),
+        Cenario(
+            id = "heroi",
+            nome = "Descanso do Herói",
+            descricao = "Túmulo sob a árvore, com o moinho e a vila ao longe.",
+            gratis = false,
+            productId = "cenario_heroi",
+        ),
+        Cenario(
+            id = "jardim",
+            nome = "Jardim japonês",
+            descricao = "Cerejeiras, ponte vermelha e lago ao pé do monte.",
+            gratis = false,
+            productId = "cenario_jardim",
+        ),
+        Cenario(
+            id = "pantano",
+            nome = "Pântano",
+            descricao = "Água parada, cipós e névoa entre as árvores.",
+            gratis = false,
+            productId = "cenario_pantano",
+        ),
+        Cenario(
+            id = "farol",
+            nome = "Farol",
+            descricao = "Farol no penhasco, de frente para o mar aberto.",
+            gratis = false,
+            productId = "cenario_farol",
+        ),
+        Cenario(
+            id = "praia",
+            nome = "Praia tropical",
+            descricao = "Enseada de areia clara, coqueiros e um galeão no horizonte.",
+            gratis = false,
+            productId = "cenario_praia",
+        ),
     )
 
     fun por(id: String): Cenario? = cenarios.firstOrNull { it.id == id }

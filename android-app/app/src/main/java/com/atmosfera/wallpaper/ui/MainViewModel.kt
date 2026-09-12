@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.atmosfera.wallpaper.billing.BillingManager
 import com.atmosfera.wallpaper.billing.Plano
+import com.atmosfera.wallpaper.debug.DebugOverride
 import com.atmosfera.wallpaper.engine.ArteFundo
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cena
@@ -74,11 +75,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
         billingManager.encerrar()
     }
 
-    fun checkPermission(): Boolean {
-        val hasFine = ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        val hasCoarse = ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        return hasFine || hasCoarse
-    }
+    /**
+     * Só COARSE — mesma checagem que `LocationHelper.hasPermission()` faz antes
+     * de buscar de fato. Antes isto aceitava FINE também, mas conceder FINE já
+     * concede COARSE junto, então a condição extra nunca mudou um resultado.
+     */
+    fun checkPermission(): Boolean =
+        ContextCompat.checkSelfPermission(
+            context, android.Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
 
     fun onPermissionGranted() {
         _hasLocationPermission.value = true
@@ -171,6 +176,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
 
     fun isSceneUnlocked(cenario: com.atmosfera.wallpaper.engine.Cenario): Boolean {
         if (cenario.gratis) return true
+        // Destrave de teste: só responde true em build debug (a checagem de
+        // BuildConfig.DEBUG mora dentro de destravarPagos), então release
+        // continua exigindo compra de verdade.
+        if (DebugOverride.destravarPagos(context)) return true
         return billingManager.isAvulsoDesbloqueado(cenario.id)
     }
 }

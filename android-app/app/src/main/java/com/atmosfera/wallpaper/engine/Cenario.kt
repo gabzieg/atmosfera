@@ -12,7 +12,33 @@ package com.atmosfera.wallpaper.engine
 data class Astros(val x0: Float, val x1: Float)
 data class Astro(val escala: Float, val yBase: Float, val yPico: Float, val fadeY: Float = 215f)
 data class Faixas(val horizonte: Int, val supCen: Int, val cenInf: Int)
-data class VarFundo(val prefixo: String, val v: Int)
+
+/**
+ * Farol: a lanterna que gira. [x]/[y] = posição da lanterna (coords da cena),
+ * [periodo] = segundos por volta completa, [alcance] = comprimento do facho em
+ * frações da largura da cena.
+ */
+data class Feixe(val x: Float, val y: Float, val periodo: Float = 9f, val alcance: Float = 1.5f)
+
+/**
+ * Bandeira no mastro, desenhada pelo motor (o pano NÃO está pintado na arte).
+ * Parada ela cai ao longo do mastro; ventando estica e ondula.
+ * [x]/[y] = ponto de amarra no mastro · [comp]/[alt] = pano em coords da cena.
+ */
+data class Bandeira(val x: Float, val y: Float, val comp: Float,
+                    /** folha de frames: "pixel" (padrão) ou "clay". */
+                    val folha: String = "pixel")
+/**
+ * Arte de fundo alternativa. [sol]/[lua] são OPCIONAIS: quando a arte tem
+ * composição própria (fiordes clay, com a montanha bem mais alta), o arco da
+ * cena deixava a lua passar NA FRENTE do relevo — aí a arte traz o seu.
+ */
+data class VarFundo(val prefixo: String, val v: Int,
+                    val sol: Astro? = null, val lua: Astro? = null,
+                    /** true = esta arte já tem a bandeira PINTADA, não desenhar. */
+                    val semBandeira: Boolean = false,
+                    /** bandeira própria desta arte (folha/posição diferentes). */
+                    val bandeira: Bandeira? = null)
 
 class CenaCfg(
     val id: String,
@@ -30,10 +56,23 @@ class CenaCfg(
     val taxaParcial: Float,        // multiplicador do spawn de impacto parcial
     val taxaCompleto: Float,
     val faixas: Faixas? = null,    // profundidade → escala do impacto (tanque)
+    val feixe: Feixe? = null,      // farol: lanterna giratória
+    val bandeira: Bandeira? = null,// mastro com pano desenhado pelo motor
     val variantes: Map<String, VarFundo> = emptyMap(),
 ) {
     /** Pasta do fundo/frente para a ARTE escolhida (variante ou base=pixel). */
     fun fundoPrefixo(arte: String): String = (variantes[arte]?.prefixo) ?: prefixo
+
+    /** Trajetória do sol/lua da ARTE ativa (a variante pode ter a sua). */
+    fun solDe(arte: String): Astro = variantes[arte]?.sol ?: sol
+    fun luaDe(arte: String): Astro = variantes[arte]?.lua ?: lua
+
+    /** Bandeira da ARTE ativa (a variante pode já ter a dela pintada). */
+    fun bandeiraDe(arte: String): Bandeira? {
+        val v = variantes[arte]
+        if (v?.semBandeira == true) return null
+        return v?.bandeira ?: bandeira
+    }
 }
 
 object Cenas {
@@ -47,8 +86,11 @@ object Cenas {
             temAcumulo = true, luzesCabana = true, chamine = true, vagalumes = true,
             taxaParcial = 1f, taxaCompleto = 1f,
             variantes = mapOf(
-                "clay" to VarFundo("cenas/cabana_clay/", 1),
                 "aqua" to VarFundo("cenas/cabana_aqua/", 1),
+                "clay" to VarFundo("cenas/cabana_clay/", 1),
+                "ukiyoe" to VarFundo("cenas/cabana_ukiyo/", 1),
+                "needle" to VarFundo("cenas/cabana_needle/", 1),
+                "doodle" to VarFundo("cenas/cabana_doodle/", 1),
             ),
         ),
         "tanque" to CenaCfg(
@@ -60,6 +102,11 @@ object Cenas {
             temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
             taxaParcial = 9f, taxaCompleto = 3f,
             faixas = Faixas(566, 750, 1088),
+            // artes novas: composição própria; efeitos genéricos por ora
+            variantes = mapOf(
+                "needle" to VarFundo("cenas/tanque_needle/", 1),
+                "pixelart" to VarFundo("cenas/tanque_pixel/", 1),
+            ),
         ),
         "fiordes" to CenaCfg(
             id = "fiordes", prefixo = "cenas/fiordes/", tipo = "fiordes",
@@ -69,6 +116,100 @@ object Cenas {
             lua = Astro(1.9f, 570f, 365f, fadeY = 540f),
             temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
             taxaParcial = 4f, taxaCompleto = 6f,
+            // mastro em x≈737: o pano é do motor (a arte clay tem a dela pintada)
+            bandeira = Bandeira(737f, 516f, 110f),   // comp = pano esticado
+            variantes = mapOf("clay" to VarFundo(
+                "cenas/fiordes_clay/", 3,
+                sol = Astro(2.0f, 420f, 150f),
+                lua = Astro(1.6f, 420f, 165f, fadeY = 240f),
+                // mastro clay em x≈798 (o pano pintado saiu da arte)
+                bandeira = Bandeira(800f, 286f, 105f, "clay"),
+            )),
+        ),
+        // CABANA 2 — cabanas de composição própria como ARTES. As zonas vêm da
+        // marcação à mão do usuário (zonas.png/json), e com elas as LUZES (3
+        // janelas) e a SAÍDA DE FUMAÇA da cena, sem nada hardcoded.
+        "cabana2" to CenaCfg(
+            id = "cabana2", prefixo = "cenas/cabana2_poly/", tipo = "cabana2",
+            cenaW = 688f, cenaH = 1538f,
+            astros = Astros(-10f, 698f),
+            sol = Astro(2f, 320f, 60f),
+            lua = Astro(1.5f, 320f, 45f, fadeY = 215f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 1f, taxaCompleto = 1f,
+            variantes = mapOf(
+                "poly2" to VarFundo("cenas/cabana2_poly2/", 1),
+                "ukiyoe" to VarFundo("cenas/cabana2_ukiyo/", 1),
+                "ukiyogpt" to VarFundo("cenas/cabana2_ukiyogpt/", 1),
+            ),
+        ),
+        // JARDIM JAPONÊS — 6 artes da MESMA composição (zonas servem às 6).
+        "jardim" to CenaCfg(
+            id = "jardim", prefixo = "cenas/jardim/", tipo = "jardim",
+            cenaW = 841f, cenaH = 1870f,
+            astros = Astros(-12f, 853f),
+            sol = Astro(2.2f, 500f, 120f),
+            lua = Astro(1.7f, 500f, 135f, fadeY = 470f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 6f,
+            variantes = mapOf(
+                "pixel2" to VarFundo("cenas/jardim_pixel2/", 1),
+                "clay" to VarFundo("cenas/jardim_clay/", 1),
+                "needle" to VarFundo("cenas/jardim_needle/", 1),
+                "doodle" to VarFundo("cenas/jardim_doodle/", 1),
+                "ukiyoe" to VarFundo("cenas/jardim_ukiyo/", 1),
+            ),
+        ),
+        // VELHO OESTE — da marcação (.psd): pingo sólido em tudo (sem água) e
+        // distância em 6 níveis. Céu derivado da arte (ele não marcou).
+        "velhooeste" to CenaCfg(
+            id = "velhooeste", prefixo = "cenas/velhooeste/", tipo = "velhooeste",
+            cenaW = 841f, cenaH = 1870f,
+            astros = Astros(-12f, 853f),
+            sol = Astro(2.2f, 560f, 110f),
+            lua = Astro(1.7f, 560f, 125f, fadeY = 540f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 6f, taxaCompleto = 3f,
+        ),
+        // DESCANSO DO HERÓI — da marcação (.psd): céu, pingo sólido, riacho,
+        // 1 luz de noite toda e distância em 5 níveis.
+        "heroi" to CenaCfg(
+            id = "heroi", prefixo = "cenas/heroi/", tipo = "heroi",
+            cenaW = 688f, cenaH = 1536f,
+            astros = Astros(-10f, 698f),
+            sol = Astro(2f, 520f, 90f),
+            lua = Astro(1.5f, 520f, 100f, fadeY = 500f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 3f,
+        ),
+        // ── Cenas montadas da DEMARCAÇÃO (.paint) / chroma — 688×1536 ──
+        "pantano" to CenaCfg(
+            id = "pantano", prefixo = "cenas/pantano/", tipo = "pantano",
+            cenaW = 688f, cenaH = 1536f,
+            astros = Astros(-10f, 698f),
+            sol = Astro(2f, 496f, 80f),                 // horizonte ~496
+            lua = Astro(1.5f, 496f, 65f, fadeY = 250f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 6f, taxaCompleto = 4f,
+        ),
+        "farol" to CenaCfg(
+            id = "farol", prefixo = "cenas/farol/", tipo = "farol",
+            cenaW = 688f, cenaH = 1536f,
+            astros = Astros(-10f, 698f),
+            sol = Astro(2.2f, 618f, 90f),               // linha do mar ~618
+            lua = Astro(1.7f, 618f, 110f, fadeY = 612f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 5f, taxaCompleto = 5f,
+            feixe = Feixe(415f, 478f),   // lanterna (x 397..434, y 466..491)
+        ),
+        "praia" to CenaCfg(
+            id = "praia", prefixo = "cenas/praia/", tipo = "praia",
+            cenaW = 688f, cenaH = 1536f,
+            astros = Astros(-10f, 698f),
+            sol = Astro(2.2f, 560f, 80f),               // horizonte ~560
+            lua = Astro(1.7f, 560f, 70f, fadeY = 540f),
+            temAcumulo = false, luzesCabana = false, chamine = false, vagalumes = false,
+            taxaParcial = 6f, taxaCompleto = 4f,
         ),
     )
 

@@ -1,4 +1,7 @@
-# Configuração do GitHub Pages para esta pasta.
+# Configuração do GitHub Pages para esta pasta. SÓ vale se o host escolhido
+# for o GitHub Pages — é config do Jekyll, nenhum outro host lê este arquivo.
+# Se a hospedagem for Cloudflare Pages/Netlify, quem faz este mesmo papel é
+# `docs/build-legal-pages.sh` (lista de permissão, não de exclusão).
 #
 # `docs/` acumula dois papéis: é a raiz que o Pages serve (privacidade/,
 # termos/, contato/ — as URLs públicas exigidas pela Play Store) E o lugar

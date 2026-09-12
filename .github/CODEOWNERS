@@ -1,5 +1,4 @@
 # Donos por área — o GitHub pede a review sozinho quando o diff toca estes caminhos.
-# Espelha a fronteira motor/front descrita em docs/dev/HANDOFF-FRONTEND.md.
 #
 # ⚠️ INERTE no plano atual. CODEOWNERS (e branch protection) só valem em repo
 # PÚBLICO ou PRIVADO com GitHub Pro/Team. Este repo é privado no plano free:
@@ -7,15 +6,18 @@
 #   → 403 "Upgrade to GitHub Pro or make this repository public"
 # Então isto NÃO pede revisor sozinho hoje — é convenção + arquivo pronto pro
 # dia que o plano/visibilidade mudar. A regra real vive na skill abrir-pr.
+#
+# Desde 2026-09-11 o projeto é efetivamente solo (Gabriel): o Rafael só publica
+# releases de novos packs de wallpaper (conteúdo), e engine/ passou a ser do
+# Gabriel. TODO caminho de código é @gabzieg. As linhas por área ficam
+# decorativas — documentam intenção e já deixam o arquivo pronto pra mais gente.
 
-# ── Motor (congelado por convenção) ─────────────────────────────────
-/android-app/app/src/main/java/com/atmosfera/wallpaper/engine/   @RHuppes
-/android-app/app/src/main/assets/atmosfera/                      @RHuppes
+# ── Motor (agora do Gabriel; era do Rafael até 2026-09-11) ──────────
+/android-app/app/src/main/java/com/atmosfera/wallpaper/engine/   @gabzieg
+/android-app/app/src/main/assets/atmosfera/                      @gabzieg
 
-# ── Billing ──────────────────────────────────────────────────────────
-/android-app/app/src/main/java/com/atmosfera/wallpaper/billing/  @uWillianG
-
-# ── Front ───────────────────────────────────────────────────────────
+# ── Front (billing incluído) ────────────────────────────────────────
+/android-app/app/src/main/java/com/atmosfera/wallpaper/billing/  @gabzieg
 /android-app/app/src/main/java/com/atmosfera/wallpaper/ui/       @gabzieg
 /android-app/app/src/main/java/com/atmosfera/wallpaper/weather/  @gabzieg
 /android-app/app/src/main/java/com/atmosfera/wallpaper/service/  @gabzieg
@@ -25,14 +27,16 @@
 # docs/legal/ e o espelho HTML em docs/<pagina>/, que é o que vai pro ar.
 # O asset embutido no APK é cópia byte a byte do HTML — ver
 # PaginasLegaisSincronizadasTest.
-/docs/                                 @uWillianG
-/docs/legal/                           @uWillianG
-/android-app/app/src/main/assets/legal/  @uWillianG
+#
+# Era do @uWillianG até 2026-08-28, quando ele saiu do projeto; passou pro
+# @gabzieg. Desde 2026-09-11 o @gabzieg é dono de TUDO no código (o Rafael só
+# publica packs de conteúdo), então as linhas por área são quase decorativas —
+# ficam porque documentam a intenção e deixam o arquivo pronto pra mais gente.
+/docs/                                 @gabzieg
+/docs/legal/                           @gabzieg
+/android-app/app/src/main/assets/legal/  @gabzieg
 
 # ── Build, CI e publicação ──────────────────────────────────────────
-# docs/dev/ vem DEPOIS de /docs/ de propósito: CODEOWNERS é último-que-casa
-# vence, então esta linha tira a documentação interna (ROADMAP, SPEC, TASKS,
-# HANDOFF, CHECKLIST, GUIA_PLAY_CONSOLE) do escopo do dono dos textos legais.
 /android-app/app/build.gradle          @gabzieg
 /android-app/app/src/main/AndroidManifest.xml  @gabzieg
 /.github/                              @gabzieg

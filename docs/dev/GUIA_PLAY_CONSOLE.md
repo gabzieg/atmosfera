@@ -7,8 +7,10 @@
 > diz o que revisar.
 >
 > **Divisão de responsabilidade** (ver [SPEC.md](SPEC.md)): o Data Safety é
-> declaração sobre o que o código faz — preenchido pelo Gabriel, com o Willian
-> conferindo contra os textos legais. A conta do console é do titular legal.
+> declaração sobre o que o código faz, e é do Gabriel — junto com os textos
+> legais, desde a saída do Willian em 2026-08-28. A conferência que era dele
+> agora é feita por teste: `PoliticaBatecomManifestoTest` quebra o gate se a
+> política divergir das permissões do manifesto.
 
 **Última atualização:** 1º de agosto de 2026 · confere com o app 1.0.0
 
@@ -50,19 +52,18 @@ menos.
 | Finalidade | **Funcionalidade do app** |
 | Processado de forma efêmera? | Não (fica em cache local) |
 
-#### Localização → Localização precisa — **SIM**
+#### Localização → Localização precisa — **NÃO**
 
-Contraintuitivo, mas obrigatório: o manifesto declara `ACCESS_FINE_LOCATION`, e
-o Google compara a declaração com o que o APK pede. Declarar só "aproximada"
-com `FINE` no manifesto é inconsistência — **causa nº1 de rejeição**.
+Era **SIM** até 2026-08-08, porque o manifesto declarava `ACCESS_FINE_LOCATION`
+e o Google compara a declaração com o que o APK pede. A permissão foi
+**removida** naquela data: nenhum caminho do código exigia precisão fina (o
+portão é `LocationHelper.hasPermission()`, que só checa COARSE, e a busca pede
+`PRIORITY_BALANCED_POWER_ACCURACY`).
 
-> **Alternativa mais limpa:** remover `ACCESS_FINE_LOCATION` do manifesto. O
-> código só checa `ACCESS_COARSE_LOCATION` (`LocationHelper.hasPermission()`) e
-> pede `PRIORITY_BALANCED_POWER_ACCURACY` — a permissão fine não tem uso real.
-> Mexe no manifesto → área de risco, exige PR. Se fizer isso, **desmarque este
-> item** e ajuste a política §5.
-
-Mesmas respostas da aproximada.
+Agora a resposta consistente é **não coletar localização precisa**. Marcar
+"sim" passaria a ser a inconsistência — e inconsistência entre Data Safety e
+APK é a **causa nº1 de rejeição**. Se alguém readicionar `ACCESS_FINE_LOCATION`
+ao manifesto, este item volta a ser **SIM** e a política §5 precisa acompanhar.
 
 #### Compras no app — **NÃO marcar como coletado por você**
 

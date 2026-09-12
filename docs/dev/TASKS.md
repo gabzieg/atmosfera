@@ -4,232 +4,174 @@
 > `ROADMAP.md` (fases do produto até publicar), isto é o dia a dia — o que
 > está pela metade, o que decidir, o que testar. Atualizar sempre que algo
 > muda de status, não deixar ficar mentiroso.
+>
+> **Histórico de trabalho concluído não mora aqui** — mora no `git log`, que
+> não desatualiza. Este arquivo ficou 19 commits atrás da realidade entre
+> 2026-08-08 e 2026-08-10 justamente por acumular item feito.
 
-**Última atualização:** 2026-08-08
+**Última atualização:** 2026-08-10
 
-## Estado do ambiente (confirmado 2026-08-08)
+## Estado do ambiente (confirmado 2026-08-10)
 
-Árvore limpa, `main` sincronizada com `origin/main`. A keystore de produção
-foi perdida e regenerada em 2026-08-04 (máquina nova, nada publicado ainda —
-troca gratuita); JDK 17 (Temurin) e o SDK Android foram reinstalados na
-mesma sessão. Confirmado hoje, numa rodada limpa:
-`testDebugUnitTest lintDebug assembleDebug` juntos (gate da CI) e
-`bundleRelease` assinado com a keystore atual (`keytool -printcert -jarfile`
-bate com o certificado de 04/08) — ver `ROADMAP.md` Fase 1.
+Trabalho todo na branch **`front/kotlin-2-billing-9`**, 27 commits à frente da
+`origin/main` e 10 ainda não pushados. Árvore limpa fora de dois documentos de
+análise não rastreados (`ANALISE-RETOMADA.md`, `brief-claude-design.md`).
+
+Gate verde numa rodada limpa hoje: `testDebugUnitTest lintDebug assembleDebug`.
+Emulador `Pixel_8` (API 36, `google_apis_playstore`) funcionando — build,
+instalação, navegação e captura de tela via `adb` estão todos operacionais sem
+precisar abrir o Android Studio.
+
+**Push está quebrado deste lado:** o Git Credential Manager trava tentando abrir
+janela em sessão não interativa. Push é ação do usuário, fora do alcance do
+agente.
 
 ## Em andamento
 
-- [x] **Reconciliar docs com o código (dívida da mudança de intervalo).**
-  A tabela de rastreio do `CHECKLIST_PUBLICACAO.md` manda corrigir a política
-  no mesmo PR em que `BootReceiver`/`WeatherWorker` mudam — e eu tinha deixado
-  passar.
-  - `PRIVACIDADE.md` + espelho HTML + asset: 3 trechos que afirmavam "a cada 30
-    minutos" agora dizem que o intervalo é escolhido pelo usuário (15/30/60,
-    padrão 30). Data atualizada. **Versão mantida em 1.0** de propósito — o
-    documento nunca foi publicado (`Vigente desde` ainda é `[PREENCHER]`), então
-    subir pra 1.1 sugeriria um 1.0 público que mudou. Se o Willian preferir
-    bumpar mesmo assim, é decisão dele.
-  - Tabela de rastreio: linha do `WeatherCache` corrigida, `IntervaloClima.kt`
-    adicionado, e nova linha ligando `BillingManager` (`INAPP`, sem `SUBS`) ao
-    §5.1 dos Termos ("não há assinatura") — vender assinatura passa a invalidar
-    os dois documentos.
-  - Item obsoleto do `AdMobBannerPlaceholder` removido (o código já não existe).
-  - "Link pra política dentro do app" marcado como feito, com a nota de que
-    funciona offline e não depende da URL pública.
-  - Termos e Contato entraram no checklist no mesmo formato que o Willian usou
-    pra privacidade: seção de placeholders agora cobre os três de uma vez
-    (incluindo foro, que só existe nos Termos), seção de hospedagem cita as três
-    páginas, e a de revisão jurídica ganhou os pontos específicos dos Termos.
-  - Seção nova explicando as **três cópias** de cada documento (canônica `.md`,
-    web `docs/`, asset do APK) e que o teste de sincronia só cobre as duas
-    últimas — o `.md` continua sendo responsabilidade de quem edita.
+- [ ] **⚠️ Origem dos sprites `pixel_mario` e `pixel_zelda`** — `engine/Estilo.kt`
+  linhas 53-54. São marcas da Nintendo, o titular mais agressivo do setor em
+  proteção de propriedade intelectual. Se a arte for derivada dos jogos, isso é
+  remoção da Play e possível suspensão da conta — **antes** de qualquer
+  discussão sobre preço. Confirmar a origem com o Rafael; na dúvida, tirar do
+  catálogo. Não é polimento, é risco de publicação.
 
-  Gate verde. Conferido que as 3 cópias batem byte a byte e que não sobrou
-  nenhum "30 minutos" hardcoded.
+- [ ] **Curadoria dos estilos de efeito — pré-requisito pra vendê-los.**
+  `engine/Estilo.kt` tem **28 estilos, mas ~15 ideias visuais**: o resto é
+  histórico de iteração exposto ao usuário.
 
-- [x] **Bug: a opção de 15min não fazia nada** (`weather/`, `service/`, `ui/`).
-  `WeatherWorker` só busca clima `if (cache.isStale(...))`, e `isStale` usava
-  `CACHE_TTL_MS` fixo em 30min — escolhendo 15min o worker acordava, o cache
-  ainda contava como fresco, e a busca era pulada. Passei o teste visual sem
-  pegar porque só confirmei que o app não travava ao trocar o valor, nunca que
-  a troca **produzia efeito**.
-  - Novo `weather/IntervaloClima.kt` — `object` sobre `SharedPreferences`
-    (padrão de `Plano`/`Cena`), centraliza a chave que estava repetida em 3
-    arquivos e deriva o TTL do intervalo escolhido (90% do período: se fosse
-    igual, a checagem cairia na fronteira e um atraso de ms pularia o ciclo).
-  - `WeatherCache.isStale` agora recebe o TTL; 2 call sites atualizados
-    (`WeatherWorker`, `AtmosferaWallpaperService`).
-  - `IntervaloClimaTest` trava o invariante. **Verificado que pega a
-    regressão**: revertendo o TTL pro valor fixo, 2 testes falham.
+  | Família | Arquivos hoje |
+  |---|---|
+  | Rupestre | `rupestre_og`, `rupestre_1`, `rupestre_2`, `rupestre_gemini` |
+  | Paper cutout | `paper_cutout`, `_2`, `_3` |
+  | Pontilhismo | `point_gpt`, `point_gpt_2`, `pointilismo` |
+  | Pixel | `pixel`, `pixel_art2`, `pixel_mario`, `pixel_zelda` |
+  | Papel machê | `papel_mache`, `_2` |
+  | Talhe doce | `talhe_doce_og`, `talhe_doce` |
 
-- [x] **Empacotamento das páginas legais — task Gradle trocada por cópia física
-  + teste de sincronia.** A task `copiarPaginasLegais` quebrou de 3 formas:
-  (1) `lintAnalyze` lia o diretório sem declarar dependência, quebrando
-  `lint + assemble` juntos; (2) apontar o `srcDir` pra própria TaskProvider
-  deixou o **build verde com o APK sem os assets**; (3) via provider de
-  `destinationDir`, a task parou de rodar. Abandonada.
-  Agora: HTML real em `app/src/main/assets/legal/` +
-  `PaginasLegaisSincronizadasTest` falhando se divergir de `docs/`. As duas
-  pastas viraram `inputs` da task de teste — sem isso o Gradle marcava
-  UP-TO-DATE e o teste nem rodava (falso verde local). **Verificado**: com
-  divergência proposital o gate falha sem precisar de `--rerun-tasks`.
-  Efeito colateral bom: `build.gradle` volta a ficar quase intocado (só a
-  dependência de ícones + os `inputs`).
+  Vender "Rupestre Og, Rupestre 1, Rupestre 2 e Rupestre Gemini" lado a lado não
+  parece catálogo grande — parece inflado, e paywall inflado é o que faz o
+  usuário sentir que está sendo espremido. Alvo: **~12 estilos, um por família**.
 
-- [x] **Ajustes: unidade de temperatura + intervalo de atualização do clima**
-  (`ui/SettingsTab.kt`, `ui/MainViewModel.kt`, `ui/HomeTab.kt`,
-  `weather/BootReceiver.kt`, `ui/MainActivity.kt`). `WeatherWorker.schedule()`
-  agora aceita o intervalo e usa `ExistingPeriodicWorkPolicy.UPDATE` (era
-  `KEEP` fixo em 30min); `MainActivity`/`BootReceiver` leem o intervalo salvo
-  em vez do default, senão cada abertura do app resetava pra 30min. Escopo
-  decidido com o usuário via plan mode (comparação com 5 apps concorrentes em
-  `C:\Users\gbrus\Downloads\teste`): sem link de privacidade nesta rodada
-  (política já existe em `PRIVACIDADE.md`, falta só publicar — decisão do
-  usuário), sem economia de bateria (dependeria do motor, fora de escopo).
-- [x] **Ajustes com escopo completo (3ª rodada)** — o usuário apontou que as
-  2 rodadas anteriores só tinham "Restaurar compras" + "Exibir em Fahrenheit",
-  e que **Fahrenheit não faz sentido**: público inicial é brasileiro. Removido
-  de `MainViewModel`/`HomeTab`/`SettingsTab` (temperatura volta a ser sempre
-  °C). Adicionado, tudo baseado nas referências `IMG_2161`/`IMG_2162`:
-  - **Limpar cache** — limpa só o `cacheDir` (cache do WebView, temporários);
-    **não** limpa o `WeatherCache` de propósito: apesar do nome, é estado
-    funcional, e apagá-lo deixaria quem está offline sem clima. Tamanho
-    aparece na própria linha, como na referência.
-  - **Como funciona** (`ui/TutoriaisScreen.kt`) — FAQ expansível com 10
-    perguntas escritas a partir do comportamento real do app (fallback de
-    Guarapuava, compra única sem assinatura, cenário × arte × estilo,
-    restrição de bateria de fabricante).
-  - **Termos de Uso** — `TERMOS.md` (canônico) + `docs/termos/index.html`
-    (espelho), redigidos do zero. **Rascunho não revisado juridicamente** e
-    com `[PREENCHER: …]` (desenvolvedor, e-mail, foro, data), igual ao
-    `PRIVACIDADE.md`.
-  - **Contato** — `CONTATO.md` + `docs/contato/index.html`. Não é `mailto:`
-    por decisão do usuário: a página também explica o uso de dados de quem
-    escreve (o que a política de privacidade não cobre, por tratar do app).
-  - **Política de Privacidade** — passa a abrir no app, sem depender da URL
-    pública existir.
-  - `ui/LegalWebViewScreen.kt` — WebView sobre asset local, JS desligado,
-    navegação presa a `file:///android_asset/`. **`allowFileAccess` precisou
-    ficar ligado**: com ele desligado a página vinha em branco, apesar da doc
-    do Android dizer que `android_asset` continua acessível.
-  - Task Gradle `copiarPaginasLegais` (`app/build.gradle`) copia
-    `docs/<pagina>/index.html` pros assets a cada build — evita uma terceira
-    cópia manual do mesmo texto pra manter em sincronia.
-  - `SettingsTab.kt` ganhou navegação interna própria (padrão da Loja) e 5
-    grupos: Cenário / Geral / Ajuda / Informações / Sobre.
+  Junto vem o problema de nome: hoje o usuário lê **"Point Gpt", "Simplao",
+  "Rupestre Og", "Talhe Doce Og"** na tela de detalhe. O fallback em
+  `ui/StoreTab.kt` (`estiloNome`) só capitaliza o id — não inventa nome. Isso era
+  tolerável enquanto era de graça; passa a ser inaceitável no momento em que se
+  cobra por eles.
 
-  - **Correção de CSS responsivo** nos 3 HTML (`docs/*/index.html`): as
-    tabelas chave/valor tinham `min-width:30rem` e ficavam **cortadas na
-    horizontal** na WebView (valor ilegível, ex. "[PREENCHER: e-mail de c…").
-    Media query `max-width:34rem` empilha th/td em blocos. Corrige também a
-    página de privacidade já existente, na web e no app.
+  A lista vive em `engine/` — que desde 2026-09-11 é nossa —, então tanto a
+  curadoria quanto a remoção dos arquivos são nossas: dá pra editar direto, ou
+  filtrar no front, que é o que `cenarioTemAsset` já faz pros cenários.
 
-  `assembleDebug` verde. **Verificado visualmente no emulador**: lista com os
-  5 grupos, tamanho real do cache na linha (22 KB), FAQ expandindo, e as 3
-  WebViews (Privacidade, Termos, Contato) renderizando com tema escuro e sem
-  corte horizontal.
+- [ ] **Revisão dos textos da ficha — 4 decisões em aberto**, listadas no fim de
+  [docs/loja/FICHA.md](../loja/FICHA.md). Três são preferência (qual descrição
+  curta, incluir números ou não, confirmar "fases da lua" como Premium). A
+  quarta é **bloqueio de publicação**: a descrição longa promete jardim japonês,
+  farol, pântano e praia, e a estratégia é lançar com poucos cenários — se eles
+  não entrarem, a ficha vira promessa não cumprida.
 
-- [x] **Redesign de `SettingsTab.kt` — lista de linhas agrupadas** (2ª
-  rodada, usuário rejeitou o primeiro layout em card-com-parágrafo e pediu o
-  padrão de `IMG_2161`/`IMG_2162` em `C:\Users\gbrus\Downloads\teste`: rótulo
-  pequeno maiúsculo acima de um cluster arredondado, linhas ícone+rótulo+
-  trailing switch/valor/chevron, sem parágrafo nem botão de largura total).
-  Componentes novos: `GrupoAjustes`, `LinhaAjuste`, `SeletorIntervaloDialog`
-  (troca as pílulas 15/30/60min por um diálogo de escolha única, ativado pela
-  linha "Atualizar clima"). **Adicionou dependência nova**:
-  `androidx.compose.material:material-icons-extended` (`libs.versions.toml` +
-  `app/build.gradle`) — gerenciada pelo mesmo BOM do Compose já em uso, não
-  mexe nas versões travadas de Kotlin/Billing, mas **toca `build.gradle`,
-  área de risco pela `abrir-pr`** — exige PR. Verificado visualmente no emulador — layout bate
-  com a referência, diálogo de intervalo funciona, prefs persistem entre
-  navegações.
+- [ ] **A branch inteira ainda não virou PR.** São 27 commits — migração de
+  Kotlin/Billing, onboarding, tela de Premium, merge do snapshot do motor,
+  correções de Loja e a otimização de desempenho. O usuário já sinalizou que a
+  revisão é superficial e que um PR único serve, mas ele **não existe** ainda.
+  Enquanto isso, `main` não tem nada disso.
 
-- [x] **Preview ao vivo do motor + confirmação antes de aplicar wallpaper**
-  (`ui/components/EngineLivePreview.kt`, `ConfirmarWallpaperDialog.kt`,
-  `SceneDetailScreen.kt`, `HomeTab.kt`). Verificado no emulador (o diálogo
-  mostrou o motor desenhando chuva noturna real por cima do `SceneThumbnail`)
-  e **commitado** em `08bd72f`.
+- [ ] **A correção de desempenho não tem guarda de regressão.** Commit `d7a75d5`
+  tirou o `EngineLivePreview` da Home porque o motor na thread de UI deixava a
+  tela pastosa (medido: ~300 quadros/12 s e 86% de jank, contra ZERO em
+  Ajustes). Se alguém puser a prévia de volta na Home, **nada acusa** — só o
+  comentário no código. O padrão que funcionaria já existe no projeto:
+  `PaginasLegaisSincronizadasTest` e `PermissoesDeclaradasTest` leem arquivo e
+  travam um invariante. Decidir se vale um teste do mesmo tipo aqui.
 
-- [x] **Banner Premium menciona compra avulsa** (`StoreTab.kt`,
-  `PremiumBanner`) — verificado no emulador, commitado em `08bd72f`.
+- [ ] **Decisão pendente com o usuário: tonalidade dia/noite na Home.** Com a
+  miniatura estática, o card da Home não escurece à noite — mostra a arte diurna
+  às 6h da manhã, enquanto o wallpaper de verdade está escuro. A prévia ao vivo
+  acompanhava a hora; a estática não. Resolve com um gradiente por horário, sem
+  motor nenhum. Perguntado, ainda não respondido.
 
-- **Itens avaliados e descartados por ora** (2026-07-30, pedido do Gabriel de
-  listar melhorias de front): permissão de localização com contexto antes do
-  prompt do sistema já existe (`PermissionOnboardingCard` em `HomeTab.kt`,
-  nenhuma mudança necessária); prova social (nota/avaliação) não tem dado
-  real pra mostrar ainda, adiado pro pós-lançamento; link de política de
-  privacidade na tela de Ajustes fica de fora até a URL existir (Fase 3 do
-  `ROADMAP.md`) — linkar agora seria link morto; loading do preview ao vivo
-  já é coberto honestamente pelo `SceneThumbnail` por baixo, não achei
-  lacuna real aí.
+- [ ] **Validar o formato de docs inspirado no workflow do Chris Titus.**
+  `SPEC.md`/`ROADMAP.md`/`TASKS.md` commitados em `02360bf`; falta a rodada de
+  uso real com o time (hoje só o Rafael) pra decidir se vira convenção fixa. Esta
+  reconciliação de 2026-08-10 é a primeira prova de que o formato exige
+  manutenção ativa pra não mentir.
 
-- [ ] **Reestruturação de docs inspirada no workflow do Chris Titus**
-  (`SPEC.md`, `ROADMAP.md`, `TASKS.md` — este arquivo). Commitados em
-  `02360bf`; falta a 1ª rodada de uso real pra validar se o formato cola com o
-  time (Rafael, Willian) antes de virar convenção fixa.
+## Bloqueado, esperando o usuário
 
-- [x] **`.github/dependabot.yml`** — commitado em `4be1ac2` (Gradle + GitHub
-  Actions, semanal, PR próprio passando pelo gate). **Ainda não pushado**:
-  o commit está local na branch `chore/github-config-billing-dependabot`, e o
-  Dependabot só liga de verdade quando o arquivo chegar na `main`.
+- [ ] **Abrir a conta do Google Play Console** (~US$ 25, aprovação em dias).
+  Adiada conscientemente em 2026-08-08 ("deixar o app 100% antes"). É o maior
+  lead time do caminho crítico e bloqueia as Fases 2, 6 e metade da 3. Lembrete
+  honesto: a Fase 2 **não tem como** ficar 100% antes da conta — compra real só
+  fecha com produto criado no console.
+- [ ] **Mover a senha da keystore pra um gerenciador de senhas e apagar o
+  `.txt`.** A senha já é forte (28 caracteres, gerada em 2026-08-04) — o que
+  falta é parar de deixá-la em texto puro em
+  `C:\Users\gbrus\Chaves\SENHA-LEIA-E-APAGUE.txt`. O agente evita ler ou
+  manipular esse arquivo por princípio de segredo.
+- [ ] **Backup da keystore** — dois lugares offline. Perder a chave de upload
+  exige reset via suporte do Google Play (dias de espera), ainda que com Play
+  App Signing não seja definitivo como o README sugere.
+- [ ] **Decidir a hospedagem das páginas legais** (Netlify / Cloudflare Pages /
+  tornar o repo público). Não depende da conta do Console e destrava metade da
+  Fase 3.
 
-- [x] **Passo de revisão do diff (`/code-review`) no `abrir-pr`** (seção 3.5)
-  — commitado em `3cda685`. É autorrevisão (mesmo modelo), não substitui
-  revisão humana em área de risco; limite documentado na própria seção.
+## Decisões tomadas (não re-abrir sem motivo novo)
 
-## Decisões tomadas nesta sessão (não re-abrir sem motivo novo)
-
-- Análise de concorrência concluída (`analise-concorrentes-atmosfera.pdf`) —
-  preço recomendado: cenário avulso R$ 9,90–19,90, Premium R$ 39,90–59,90
-  (vitalício, não assinatura — `BillingManager` só suporta `INAPP`).
-- Sem anúncios no lançamento — maior brecha de mercado encontrada é
+- **Conteúdo pago baixa sob demanda** (2026-08-09) — virou a Fase 4 do
+  `ROADMAP.md`. Muda o contrato do motor; desde 2026-09-11 o motor é nosso, então
+  não depende mais de alinhar com o Rafael. **Reavaliada em 2026-09-11:** o
+  lançamento vai bundle local (a biblioteca empacotada em WebP cabe sob 500 MB) e
+  o download fica pra depois — ver [DECISAO-ENTREGA-DE-ARTE.md](DECISAO-ENTREGA-DE-ARTE.md).
+- **Prévia ao vivo fora da Home** (2026-08-10) — decisão do usuário depois da
+  medição. Continua no onboarding, no detalhe da Loja e no comparador do
+  Premium, que são os momentos em que ela vende.
+- **Descartado: desenhar a cena em bitmap reduzido e ampliar.** Piorou a mediana
+  de 25 ms pra 38 ms — `Canvas(Bitmap)` é software. Motivo comentado no código.
+- **Cenário sem asset some da Loja por verificação real** (`cenarioTemAsset` em
+  `ui/components/SceneThumbnail.kt`), não por lista fixa. Substituiu o antigo
+  `SEM_ASSET_PUBLICADO`, que só ficava correto enquanto alguém lembrasse de
+  editá-lo — foi por isso que `fiordes` apareceu sozinho quando o Rafael
+  publicou a arte dele.
+- **Áreas de risco encolhidas pra 1** (2026-08-09 e de novo 2026-09-11): só
+  `.github/`. Saíram manifesto (coberto por teste), `build.gradle` (CI) e
+  `billing/` em 2026-08-09; `engine/` e `assets/atmosfera/` em 2026-09-11, quando
+  o Rafael passou a só publicar packs e o motor virou do Gabriel.
+- Preço: cenário avulso R$ 9,90–19,90, Premium R$ 39,90–59,90 (vitalício, não
+  assinatura — `BillingManager` só suporta `INAPP`).
+- Sem anúncios no lançamento — a maior brecha de mercado encontrada é
   justamente a fadiga de anúncio dos concorrentes.
-- `AdPlaceholder` removido do `MainScreen.kt` (código morto).
-- `fiordes` escondido da Loja via filtro no front (`StoreTab.kt`,
-  `SEM_ASSET_PUBLICADO`) — sem editar `engine/Catalogo.kt`.
-- CLAUDE.md/AGENTS.md do Chris Titus revisado — nosso `CLAUDE.md` e skills
-  (`run`, `abrir-pr`) mantidos como estão, já mais tailored que o
-  equivalente genérico dele. Não copiar estrutura dele onde já temos.
-- CodeQL descartado (não é pendência) — repo privado + plano free não
-  permite rodar sem GitHub Advanced Security. Ver `ROADMAP.md`.
+- CodeQL descartado (repo privado + plano free). Ver `ROADMAP.md`.
 
 ## Setorização (quem toca o quê)
 
 Fonte completa em [SPEC.md](SPEC.md) → arquitetura e "Publicação na Play
 Store"; mapeamento executável em `.github/CODEOWNERS`.
 
+**Efetivamente solo desde 2026-09-11** (Gabriel + Claude): o Rafael ficou só com
+a publicação de novos packs de conteúdo; todo o código é do Gabriel. O Willian já
+havia saído (2026-08-28), com tudo indo pro Gabriel. Ver `SPEC.md` pro porquê de
+corrigir isso em vez de deixar como estava.
+
 | Setor | Dono | Estado |
 |---|---|---|
-| `engine/` + `assets/atmosfera/` | Rafael | Congelado, sem trabalho aberto |
-| `ui/`, `weather/`, `service/` | Gabriel | Ativo |
-| `billing/` | Willian | **Não iniciado** — código atual é de Rafael/Gabriel |
-| Documentos legais | Willian | Textos prontos, faltam os `[PREENCHER]` |
-| Data Safety Form | Gabriel (+ Willian conferindo) | **Em andamento** |
-| Content Rating (IARC) | Quem abrir o console | Não iniciado |
-| Conta Play Console | Gabriel | Não delegável |
-| Site de apresentação | Willian | Repo próprio, não criado |
-
-## Bloqueado, esperando o usuário
-
-- [ ] **Mover a senha da keystore pra um gerenciador de senhas e apagar o
-  `.txt`.** A senha já é forte (28 caracteres, gerada na regeneração de
-  2026-08-04) — o que falta é só parar de deixá-la em texto puro em
-  `C:\Users\gbrus\Chaves\SENHA-LEIA-E-APAGUE.txt`. Ação do usuário: mover pro
-  gerenciador e apagar o arquivo (Claude Code evita ler/manipular esse
-  arquivo por princípio de segredo).
-- [ ] **Backup da keystore** — dois lugares offline. Perder a chave de upload
-  exige reset via suporte do Google Play (dias de espera), ainda que com Play
-  App Signing não seja definitivo como o README sugere.
-- [ ] **Abrir a conta do Google Play Console** (~US$25, aprovação em dias) —
-  não delegável (`SPEC.md` → "Publicação na Play Store"), maior lead time do
-  caminho crítico, bloqueia Fases 2 a 4.
-- Criar produtos no Play Console (Fase 2) — precisa da conta acima.
-- Ligar o emulador `Pixel_8` pra eu conseguir testar visualmente o preview
-  ao vivo.
+| `engine/` + `assets/atmosfera/` | Gabriel | Do Gabriel desde 2026-09-11 (era do Rafael). O Rafael só produz/publica packs de conteúdo; a curadoria e o mapa grátis vs pago são do Gabriel |
+| `ui/`, `weather/`, `service/`, `billing/` | Gabriel | Ativo. Billing pronto — falta cadastrar produtos no Play Console |
+| Documentos legais | Gabriel | Textos prontos; faltam os `[PREENCHER]` e a hospedagem. A conferência contra o código virou teste (`PoliticaBatecomManifestoTest`) |
+| Data Safety Form | Gabriel | Não iniciado — depende do app existir no console |
+| Content Rating (IARC) | Gabriel | Não iniciado |
+| Conta Play Console | Gabriel | Não delegável, **adiada** |
+| Site de apresentação | — | Sem dono, nunca começado. Não bloqueia publicação |
 
 ## Backlog (não é a fase atual, não puxar sem avisar)
 
-- Dependabot + CodeQL no CI (identificado, aguardando liberação de commit).
-- Módulos Gradle `:engine`/`:app` (precisa alinhar com Rafael antes).
-- Setor do Willian — site em repo próprio, ainda não criado.
-- Expandir cobertura de teste além do mapeamento de clima (hoje 5 casos).
+- Ampliar cobertura de teste pra comportamento (ver `ROADMAP.md` → trabalho
+  contínuo). Hoje: **6 testes unitários**, zero instrumentado.
+- **Revisão cruzada entre `TERMOS.md` e `PRIVACIDADE.md`** — foram escritos por
+  autores diferentes, em momentos diferentes, e nunca conferidos um contra o
+  outro. Os dois falam de compra, dados e reembolso; se divergirem, divergem
+  publicamente.
+- **Revisão jurídica dos três documentos** — nenhum é parecer jurídico. Pontos
+  sensíveis: limitação de responsabilidade frente ao CDC, eleição de foro, e a
+  base legal escolhida para cada dado.
+- Módulos Gradle `:engine`/`:app` — desde 2026-09-11 o motor é nosso, então não
+  depende mais de alinhar com o Rafael; concorre com a Fase 4, que mexe no mesmo
+  contrato do motor.

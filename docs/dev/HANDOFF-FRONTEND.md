@@ -1,13 +1,16 @@
-# Atmosfera — Handoff do FRONT (motor congelado)
+# Atmosfera — Interface motor ↔ front (referência)
 
 > Ver também: [README.md](../../README.md) (visão geral + como rodar) ·
 > [CLAUDE.md](../../CLAUDE.md) (contexto/comandos para o Claude Code).
 
-> **Para quem recebe este documento:** você vai tocar o **front** do app Atmosfera em
-> paralelo, enquanto o **motor de efeitos** (a parte que desenha o wallpaper) continua
-> sendo evoluído por outra frente. Este documento é o seu ponto de partida: explica o
-> produto, a arquitetura, **a fronteira do que é seu e do que é congelado**, e a
-> interface estável entre os dois. Leia inteiro antes de codar.
+> **⚠️ Atualização 2026-09-11 — a premissa deste doc mudou.** Ele foi escrito para um
+> handoff em que o **front** era do Gabriel e o **motor** era do Rafael, evoluído em
+> paralelo e entregue por snapshot. Isso acabou: `engine/` e `assets/` passaram a ser
+> do Gabriel, e o Rafael ficou só com a publicação de novos packs de conteúdo.
+> **O doc sobrevive como referência da interface motor↔front** — a seção 3
+> (`EffectEngine`, `Catalogo`, `Cena`, `FonteDeAssets`) continua válida e útil.
+> **Ignore** o enquadramento de "congelado / não editar / snapshot" das seções 2, 4 e
+> 7: hoje dá pra editar o motor direto na `main`, como o resto.
 
 ---
 
@@ -81,12 +84,41 @@ Todo o contato passa por **poucos pontos estáveis**. Assinaturas que NÃO vão 
 ```kotlin
 class EffectEngine(val estado: SceneState = SceneState()) {
     var pronto: Boolean          // true depois de carregar()
-    fun carregar(assets: AssetManager)   // decodifica os bitmaps do cenário ativo
+    fun carregar(fonte: FonteDeAssets, cenaId: String, arte: String, estilo: String)
     fun draw(canvas: Canvas, cw: Float, ch: Float, tsMs: Long)  // 1 frame
     fun aoMudarClima()           // chamar quando o SceneState mudou de clima
     fun liberar()                // recicla bitmaps (onDestroy)
 }
+
+fun interface FonteDeAssets { fun abrir(caminho: String): InputStream }
 ```
+
+> ⚠️ **MUDANÇA DE CONTRATO em 2026-08-28 — leia antes de mandar snapshot novo.**
+> `carregar()` recebia um `AssetManager`; agora recebe uma [`FonteDeAssets`], que
+> é uma interface de um método só.
+>
+> **Por quê.** Conteúdo pago não pode embarcar no APK/AAB base (`assets/` foi de
+> 14,7 MB pra ~140 MB): ele baixa sob demanda via Play Asset Delivery depois da
+> compra. Asset pack "on-demand" **não é visível** por `context.assets` — vive
+> num armazenamento à parte, lido pelo `AssetPackManager`, que devolve caminho de
+> arquivo. Um motor acoplado a `AssetManager` não consegue ler conteúdo comprado.
+>
+> **O que muda pra você: quase nada.** São três linhas, e a forma é idêntica à
+> de antes (`abrir(caminho)` devolvendo `InputStream`, no lugar de
+> `assets.open(caminho)`). O motor **não sabe** e não deve saber de onde vem o
+> arquivo; quem decide isso é o front, onde a compra e o download já vivem. O
+> adaptador do conteúdo embarcado mora fora do motor, em `ConteudoEmbarcado.kt`.
+>
+> **`engine/` não pode mais importar `AssetManager`** — nem em `EffectEngine.kt`,
+> nem em `Marcacao.kt`. `ContratoFonteDeAssetsTest` quebra o gate se isso voltar.
+> O teste existe porque snapshot substitui arquivo inteiro: sem ele, um snapshot
+> com a assinatura antiga reverteria a mudança em silêncio, o front seria
+> "consertado" voltando a passar `context.assets`, tudo compilaria, e o conteúdo
+> pago simplesmente não carregaria em produção.
+>
+> Se um snapshot seu vier com a assinatura antiga, **reaplique esta migração em
+> vez de reverter o front.** Ver `ROADMAP.md` → Fase 4.
+
 > O `WallpaperService` cria um `EffectEngine`, chama `carregar()` uma vez, e num
 > loop de ~33 ms faz `lockHardwareCanvas()` → `draw(...)` → `unlockCanvasAndPost()`.
 > Já está implementado em `AtmosferaWallpaperService`; use como referência.
@@ -160,7 +192,7 @@ efeitos, mudar as assinaturas da seção 3.
   Premium liga os efeitos vivos.
 - **Tanque**: cenário #2, mapeado e funcionando no **protótipo web** (nosso
   laboratório). Porte pro motor Android vem por snapshot.
-- **Billing/Premium**: `Plano` + `BillingManager` (Play Billing 6.2.1, produto
+- **Billing/Premium**: `Plano` + `BillingManager` (Play Billing 9.1.0, produto
   `atmosfera_premium`) já existem.
 - **Clima**: `weather.*` (Open-Meteo, localização, cache 30 min) funcionando.
 - **CI**: GitHub Actions (`.github/workflows/build.yml`) compila `assembleDebug` e
@@ -168,16 +200,24 @@ efeitos, mudar as assinaturas da seção 3.
 
 ## 6. Stack técnica
 
-Kotlin 1.9.23 · AGP 8.3.0 · minSdk 26 · JDK 17 · Gradle (setup-gradle 8.6) ·
-Google Play Billing 6.2.1 · Gson (pacote weather) · `buildConfig true`.
+Kotlin 2.4.10 · AGP 8.13.2 · Gradle 8.14.5 (wrapper) · minSdk 26 ·
+compileSdk/targetSdk 36 · JDK 17 · Google Play Billing 9.1.0 · Gson (pacote
+weather) · `buildConfig true`.
 Coordenadas de cena em espaço lógico (a cabana 688×1538; o tanque 688×1536) —
 o motor faz o "cover" para a tela; **o front não precisa saber disso**.
 
-> ⚠️ **Billing preso em 6.2.1 de propósito:** 7.0.0+ é compilado com metadata do
-> Kotlin 2.x, incompatível com o compilador Kotlin 1.9.23 deste projeto (erro
-> real de build, confirmado rodando `gradlew assembleDebug`, não suposição). Só
-> suba a versão do Billing junto com uma atualização do plugin Kotlin — os dois
-> andam juntos.
+> **Atualizado em 2026-08-08 — a trava do Kotlin 1.9.23 acabou.** O projeto
+> estava preso em Kotlin 1.9.23 / Billing 6.2.1; o Google passou a exigir
+> Billing v8+ **e** `targetSdk` 36+ para publicar (ambos com prazo 31/ago/2026),
+> então tudo subiu junto.
+>
+> **Impacto no motor: nenhum.** `engine/**` compilou sem uma linha alterada —
+> ele só importa `android.graphics`, `kotlin.math`/`kotlin.random` e os tipos de
+> `weather`, sem Compose nem biblioteca externa. Um snapshot escrito para o
+> Kotlin 1.9 continua compilando aqui; o que mudou foi o compilador embaixo.
+>
+> Se for abrir o projeto Android localmente, precisa de um Android Studio /
+> plugin Kotlin recente o bastante para o Kotlin 2.x.
 
 ## 7. Como trabalhar sem colisão
 

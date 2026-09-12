@@ -16,6 +16,8 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.atmosfera.wallpaper.BuildConfig
 import com.atmosfera.wallpaper.billing.Plano
 import com.atmosfera.wallpaper.engine.ArteFundo
@@ -70,6 +72,16 @@ class DebugActivity : AppCompatActivity() {
         raiz.addView(scroll, LinearLayout.LayoutParams(MATCH_PARENT, 0, 2f))
         setContentView(raiz)
 
+        // Com targetSdk 35+ o edge-to-edge é imposto pelo sistema: sem tratar os
+        // insets, a prévia entra por baixo da barra de status e o botão "Fechar"
+        // some atrás da barra de navegação. As telas Compose já estão cobertas
+        // pelo Scaffold; esta aqui é View crua, então precisa aplicar na mão.
+        ViewCompat.setOnApplyWindowInsetsListener(raiz) { v, insets ->
+            val barras = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(barras.left, barras.top, barras.right, barras.bottom)
+            insets
+        }
+
         montarControles(col)
     }
 
@@ -81,14 +93,41 @@ class DebugActivity : AppCompatActivity() {
         col.addView(dropdown(cenarios, Cena.atual(this)) { id ->
             Cena.definir(this, id); preview.trocarCenaEstilo()
         })
-        val artes = listOf("pixel" to "🟦 Pixel Art", "clay" to "🧱 Clay", "aqua" to "🎨 Aquarela")
+        // "pixel" = arte BASE da cena (na cabana é pixel art, no tanque é o
+        // diorama clay). As demais só existem em algumas cenas — escolher uma
+        // que a cena não tem cai no fundo base (fundoPrefixo faz o fallback).
+        val artes = listOf(
+            "pixel" to "🟦 Arte base",
+            "aqua" to "🎨 Aquarela",
+            "clay" to "🧱 Clay",
+            "doodle" to "✏️ Doodle",
+            "needle" to "🧶 Needle Felting",
+            "pixelart" to "🟦 Pixel Art",
+            "ukiyoe" to "🎴 Ukiyo-e",
+        )
         col.addView(rotulo("↳ Arte do cenário"))
         col.addView(dropdown(artes, ArteFundo.atual(this)) { id ->
             ArteFundo.definir(this, id); preview.trocarCenaEstilo()
         })
         val estilos = listOf(
-            "pixel" to "🟦 Pixel Art", "clay" to "🧱 Clay",
-            "bizantino" to "🏛️ Bizantino", "aqua" to "🎨 Aquarela"
+            "aqua" to "🎨 Aquarela",
+            "bizantino" to "🏛️ Bizantino",
+            "clay" to "🧱 Clay",
+            "lowpoly" to "🔷 Low Poly",
+            "needle_felting" to "🧶 Needle Felting",
+            "papel_mache" to "📰 Papel-maché", "papel_mache_2" to "📰 Papel-maché 2",
+            "paper_cutout" to "✂️ Paper Cutout", "paper_cutout_2" to "✂️ Paper Cutout 2",
+            "paper_cutout_3" to "✂️ Paper Cutout 3",
+            "pixel" to "🟦 Pixel Art", "pixel_art2" to "🟩 Pixel Art 2",
+            "pixel_mario" to "🍄 Pixel Mario", "pixel_zelda" to "🗡️ Pixel Zelda",
+            "pointilismo" to "🖌️ Pontilhismo",
+            "point_gpt" to "🖌️ Pontilhismo GPT", "point_gpt_2" to "🖌️ Pontilhismo GPT 2",
+            "rpg" to "⚔️ RPG",
+            "rupestre_og" to "🪨 Rupestre", "rupestre_1" to "🪨 Rupestre 2",
+            "rupestre_2" to "🪨 Rupestre 3", "rupestre_gemini" to "🪨 Rupestre Gemini",
+            "simplao" to "✏️ Simplão",
+            "talhe_doce_og" to "🪵 Talhe Doce", "talhe_doce" to "🪵 Talhe Doce Rico",
+            "ukiyoe" to "🎴 Ukiyo-e"
         ).filter { it.first in Estilos.ids }
         col.addView(rotulo("Estilo dos efeitos"))
         col.addView(dropdown(estilos, EstiloEfeito.atual(this)) { id ->
@@ -162,6 +201,23 @@ class DebugActivity : AppCompatActivity() {
         // Premium
         col.addView(switch("Premium (efeitos vivos)", Plano.isPremium(this)) { on ->
             Plano.setPremium(this, on); preview.recarregar()
+        })
+
+        // Destrave de cenários pagos — sem isto o `tanque` é intestável, já que
+        // não há produto no Play Console nem Play Store no emulador.
+        col.addView(switch("Destravar cenários pagos (teste)", DebugOverride.destravarPagos(this)) { on ->
+            DebugOverride.setDestravarPagos(this, on)
+            Toast.makeText(
+                this,
+                if (on) "Cenários pagos liberados. Abra a Loja para escolher."
+                else "Cenários pagos voltaram a exigir compra.",
+                Toast.LENGTH_SHORT
+            ).show()
+        })
+        col.addView(TextView(this).apply {
+            text = "Só vale em build debug: no APK de release este destrave não existe."
+            setTextColor(Color.parseColor("#8A94A6")); textSize = 12f
+            setPadding(0, dp(2), 0, 0)
         })
 
         // Master: forçar clima no wallpaper real

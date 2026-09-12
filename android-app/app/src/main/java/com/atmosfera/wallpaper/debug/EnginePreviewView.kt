@@ -7,6 +7,7 @@ import android.os.Looper
 import android.os.SystemClock
 import android.util.AttributeSet
 import android.view.View
+import com.atmosfera.wallpaper.comoFonte
 import com.atmosfera.wallpaper.engine.ArteFundo
 import com.atmosfera.wallpaper.engine.Cena
 import com.atmosfera.wallpaper.engine.EffectEngine
@@ -37,7 +38,7 @@ class EnginePreviewView @JvmOverloads constructor(
     init {
         Thread {
             try {
-                motor.carregar(context.assets, Cena.atual(context), ArteFundo.atual(context), EstiloEfeito.atual(context))
+                motor.carregar(context.assets.comoFonte(), Cena.atual(context), ArteFundo.atual(context), EstiloEfeito.atual(context))
                 post { recarregar() }
             } catch (_: Throwable) { /* preview falhou: não derruba o app */ }
         }.start()
@@ -55,7 +56,7 @@ class EnginePreviewView @JvmOverloads constructor(
         handler.removeCallbacks(tick)
         Thread {
             try {
-                motor.carregar(context.assets, Cena.atual(context), ArteFundo.atual(context), EstiloEfeito.atual(context))
+                motor.carregar(context.assets.comoFonte(), Cena.atual(context), ArteFundo.atual(context), EstiloEfeito.atual(context))
             } catch (_: Throwable) { /* não derruba o app */ }
             post {
                 recarregar()

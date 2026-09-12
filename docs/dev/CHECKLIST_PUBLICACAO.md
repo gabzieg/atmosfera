@@ -12,7 +12,7 @@
 | Permissão | Usada onde | Justificativa pro Data Safety Form |
 |---|---|---|
 | `INTERNET` / `ACCESS_NETWORK_STATE` | `weather/WeatherRepository.kt` | Buscar o clima na Open-Meteo |
-| `ACCESS_COARSE_LOCATION` / `ACCESS_FINE_LOCATION` | `weather/LocationHelper.kt` | O wallpaper reage ao clima da região do usuário — é a funcionalidade principal do app |
+| `ACCESS_COARSE_LOCATION` | `weather/LocationHelper.kt` | O wallpaper reage ao clima da região do usuário — é a funcionalidade principal do app. **Só aproximada**: `ACCESS_FINE_LOCATION` foi removida em 2026-08-08 por não ter uso real (ver comentário no manifesto) |
 | `RECEIVE_BOOT_COMPLETED` | `weather/BootReceiver.kt` | Reagendar a atualização periódica de clima após reiniciar o aparelho |
 
 Nenhuma outra permissão deveria existir — se aparecer uma nova no manifesto,
@@ -40,10 +40,12 @@ Form declarado com o que o APK realmente pede).
 
 ## Antes de publicar (fazer, não só declarar)
 
-- [ ] **Keystore de release + `keystore.properties`** — gerar a keystore de
-  produção com `keytool` e preencher `android-app/keystore.properties` (ver
-  README.md → "Build de release"). Sem isso `assembleRelease` builda sem
-  assinar. Guarde a keystore em local seguro fora do repo.
+- [x] **Keystore de release + `keystore.properties`** — feito. Keystore de
+  produção em `C:\Users\gbrus\Chaves\` (fora do repo), `keystore.properties`
+  preenchido localmente, e `bundleRelease` gera AAB assinado — conferido com
+  `keytool -printcert -jarfile`. **Pendências de higiene, não da fase:** mover a
+  senha do `.txt` pra um gerenciador e fazer segundo backup offline do `.jks`
+  (ver `TASKS.md`).
 - [x] **Política de privacidade escrita** — [PRIVACIDADE.md](../legal/PRIVACIDADE.md)
   (texto canônico) + [`docs/privacidade/index.html`](docs/privacidade/index.html)
   (mesma coisa em HTML, pronta pra hospedar). Cobre coleta, finalidade, base
@@ -71,22 +73,66 @@ Form declarado com o que o APK realmente pede).
   (`ui/LegalWebViewScreen.kt`), então funciona offline e **não depende da URL
   pública existir**. Termos de Uso e Contato entram pelo mesmo caminho.
 - [ ] **Data Safety Form** (Play Console) — declarar coleta de **localização
-  precisa e aproximada** (o manifesto declara `ACCESS_FINE_LOCATION`, e o
-  Google compara com o APK — declarar só "aproximada" é inconsistência, que é
-  a causa nº 1 de rejeição). Finalidade "funcionalidade do app", **não**
+  aproximada** apenas. `ACCESS_FINE_LOCATION` foi **removida do manifesto** em
+  2026-08-08 (não tinha uso real: o portão é `LocationHelper.hasPermission()`,
+  que só checa COARSE, e a busca pede `PRIORITY_BALANCED_POWER_ACCURACY`), então
+  declarar "precisa" agora seria inconsistente com o APK — e inconsistência é a
+  causa nº 1 de rejeição. Finalidade "funcionalidade do app", **não**
   compartilhada com terceiros para publicidade, compartilhada com a Open-Meteo
   para a funcionalidade, criptografada em trânsito, coleta **opcional** (o app
-  funciona sem permissão, com fallback pra Guarapuava/PR). Alternativa mais
-  limpa: **remover `ACCESS_FINE_LOCATION` do manifesto** — o código só checa
-  `ACCESS_COARSE_LOCATION` (`LocationHelper.hasPermission()`) e pede
-  `PRIORITY_BALANCED_POWER_ACCURACY`, então a permissão fine não tem uso real.
-  Isso mexe no manifesto → área de risco, exige PR (ver `.claude/skills/abrir-pr`).
+  funciona sem permissão, com fallback pra Guarapuava/PR).
 - [ ] **Content Rating Questionnaire** (IARC) — preencher no Play Console.
 
 > **Respostas prontas para os dois formulários acima**, derivadas do código e
 > com a linha que sustenta cada uma: [GUIA_PLAY_CONSOLE.md](GUIA_PLAY_CONSOLE.md).
-- [ ] **Ficha da loja**: título, descrição, screenshots (usar o app real, não
-  só o `wallpaper_thumbnail.png`), ícone.
+- [ ] **Ficha da loja**: título, descrição, screenshots, ícone.
+  - [x] **Screenshots** — 6 capturas do app real em `docs/loja/`, validadas
+    contra as regras da Play (1080×1920, razão ≤ 2:1, PNG 24-bit sem alfa).
+    Duas armadilhas descobertas na prática, documentadas em
+    `docs/loja/README.md`: a captura crua do emulador é 2,22:1 e **seria
+    rejeitada**, e o `screencap` grava canal alfa, que a Play não aceita.
+  - [x] **Feature graphic 1024×500** — `docs/loja/feature-graphic-1024x500.png`,
+    composto da arte existente (fundo escuro do app + três ladrilhos + bloco de
+    texto no padrão do próprio app). PNG 24-bit sem alfa, validado.
+  - [x] **Ícone 512×512** — `docs/loja/icone-512.png`: recorte da cabana, que
+    substituiu a montanha vetorial genérica. O ícone do app em `res/mipmap-*`
+    foi trocado junto, pra ficha e aparelho não mostrarem coisas diferentes.
+  - [x] **Título e descrições** — `docs/loja/FICHA.md`. Título "Atmosfera Clima
+    Ao Vivo" (23/30), curta (65/80) e longa (2.572/4.000), com cada afirmação
+    rastreada ao código.
+  - [ ] **Lista de cenários dentro da descrição longa** — **bloqueio**: o texto
+    hoje promete jardim japonês, farol, pântano e praia, e a estratégia é lançar
+    com poucos cenários. Ajustar quando fecharmos o corte de lançamento (curadoria
+    nossa desde 2026-09-11); publicar antes disso é promessa não cumprida.
+- [ ] **Conteúdo pago não pode embarcar no APK/AAB base** — decisão de
+  2026-08-09. `assets/atmosfera/` saltou de 14,7 MB pra **140 MB** na
+  integração do motor novo (6 cenários + 12 estilos), e quem não comprou não
+  pode carregar essa arte no install. Só a cabana (grátis) e o essencial do
+  onboarding ficam embarcados; o resto baixa sob demanda depois da compra.
+
+  **O contrato do motor já foi resolvido** (`a20732d`, 2026-08-28):
+  `carregar()` recebe uma `FonteDeAssets` em vez de `AssetManager`, os três
+  pontos de contato migraram, e o `ContratoFonteDeAssetsTest` quebra o gate se
+  alguém voltar atrás — o que importa porque um refactor futuro reintroduziria o
+  problema em silêncio (compila e roda no debug; só falha em produção).
+
+  **O que falta é decisão, não código:**
+  - mapa de grátis vs pago (curadoria do Gabriel);
+  - tamanho dos packs — **o teto que morde é 50 packs, não os 2 GB**: 215
+    imagens projetam ~244 MB, mas agrupadas de 5 em 5 dão 43 packs, 86% do
+    limite. Ver `ROADMAP.md` → Fase 4;
+  - configurar os asset packs em Gradle/manifesto e **medir o AAB base**.
+
+  Sem urgência pra build local/debug — tudo embarcado serve pra teste. Bloqueia
+  só a build de **release** que for pra Play Store.
+- [ ] **⚠️ Propriedade intelectual nos estilos de efeito** — `engine/Estilo.kt`
+  declara `pixel_mario` e `pixel_zelda`. São marcas da Nintendo. Se os sprites
+  forem derivados dos jogos, o risco não é rejeição de ficha: é **remoção do app
+  e possível suspensão da conta de desenvolvedor**, sob o processo de denúncia de
+  IP da Play, que é rápido e não espera argumentação. Confirmar a origem da arte
+  com o Rafael antes de qualquer publicação; na dúvida, remover do catálogo.
+  Vale a mesma checagem para o resto dos packs — arte gerada a partir de obra
+  protegida é problema mesmo quando o nome não denuncia.
 - [ ] **Produtos no Play Console**: criar `atmosfera_premium` e
   `cenario_tanque` (INAPP, não-consumíveis) antes de testar compras — ver
   `Catalogo.kt` para os IDs valendo.
@@ -96,6 +142,67 @@ Form declarado com o que o APK realmente pede).
   assinatura das compras fica desligada.
 - [ ] **Teste fechado** antes de produção — Google exige um período de teste
   fechado com testers reais para apps novos.
+- [ ] **Medir o motor num aparelho ANTIGO de verdade** — decide se `minSdk 26`
+  se sustenta. É o único teste que ainda não temos dado nenhum: tudo até hoje
+  rodou em emulador Pixel 8, que é hardware moderno.
+
+  Por que importa mais aqui do que num app comum: o Atmosfera é live wallpaper,
+  desenha ~30 fps em `Canvas` continuamente, em segundo plano. Num aparelho de
+  2017 (o piso do `minSdk 26`) isso pode engasgar ou consumir bateria de forma
+  perceptível — e aí vira **avaliação 1 estrela**, não incompatibilidade. A
+  análise de concorrência (ver [SPEC.md](SPEC.md) → "Não-objetivos") aponta
+  review ruim como o eixo mais sensível deste mercado.
+
+  O que medir, com o wallpaper aplicado e a tela ligada por alguns minutos:
+  taxa de quadros estável (sem engasgo visível ao rolar a home), consumo em
+  Configurações → Bateria, e aquecimento. Vale testar o cenário mais pesado
+  (tanque, com chuva/neve forte pelo painel de debug).
+
+  **Como decidir:** se segurar, mantenha `minSdk 26` — hoje ele cobre ~96% dos
+  aparelhos e **não custa uma linha de código** (o projeto não tem nenhum
+  `SDK_INT`/`@RequiresApi`, então subir não apagaria complexidade nenhuma;
+  subir pra 28 jogaria fora ~2,6% dos aparelhos em troca de nada). Se NÃO
+  segurar, aí subir o `minSdk` passa a ter justificativa — baseada nesta
+  medição, não em preferência. Números de alcance: [apilevels.com](https://apilevels.com/).
+- [x] **Tela grande / orientação no Android 16** — verificado em 2026-08-08 num
+  AVD real de tela grande (API 36, 1280×800dp, páginas de 16 KB).
+
+  Confirmado na prática, não em teoria: o Android 16 **ignora** a trava
+  `android:screenOrientation="portrait"` do manifesto quando a tela tem ≥600dp —
+  o app abriu em **paisagem**. Simular com `wm size` num AVD de celular NÃO
+  reproduz isso (o sistema manteve o retrato lá); é preciso AVD de tela grande.
+
+  Resultado: sem crash, layout legível. O teto de 600dp centralizado
+  (`MainScreen`) é o que evita o conteúdo esticar — Início com a arte na
+  proporção certa, Loja com mosaico em duas colunas e chips numa linha.
+
+  Segue **não** otimizado pra tablet (coluna única, muito espaço vertical
+  ocioso). Layout de duas colunas é decisão de produto em aberto, não bloqueio.
+- [x] **Páginas de memória de 16 KB** — exigido pelo Google para app que target
+  API 35+ e embarca biblioteca nativa em 64 bits, **prazo 1º/fev/2027**. Nos
+  três critérios o Atmosfera se encaixa: `targetSdk` 36 e
+  `libandroidx.graphics.path.so` (puxada pelo Compose) nas 4 ABIs.
+
+  **Já conforme**, verificado em 2026-08-08 de duas formas: estaticamente com
+  `zipalign -c -P 16 -v 4 app-debug.apk` (os quatro `.so` respondem `OK`,
+  "Verification successful") e **em execução**, num AVD com páginas de 16 KB de
+  verdade (`getconf PAGE_SIZE` → 16384): o app abre e roda sem erro de `dlopen`
+  ou `UnsatisfiedLinkError`. Veio de graça com a migração — o alinhamento é
+  automático a partir da AGP 8.5.1 e estamos na 8.13.2. Reconferir se alguma
+  dependência nova trouxer `.so` próprio. Doc:
+  [page-sizes](https://developer.android.com/guide/practices/page-sizes).
+- [x] **Billing Library v8+ e `targetSdk` 36+** — as duas exigências do Google
+  com prazo em **31/ago/2026** (extensão mediante pedido até 01/nov/2026).
+  Atendidas em 2026-08-08: Billing 9.1.0 e `targetSdk` 36. Fontes:
+  [deprecation-faq](https://developer.android.com/google/play/billing/deprecation-faq)
+  e [política de target API](https://support.google.com/googleplay/android-developer/answer/11926878).
+- [ ] **Logar uma conta Google no emulador para testar compra** — o AVD
+  `Pixel_8` responde `In-app billing API version 3 is not supported on this
+  device`, mas **não** é falta de Play Store: a imagem é
+  `android-34/google_apis_playstore` e o `com.android.vending` está instalado.
+  Falta **conta logada** (`adb shell dumpsys account` volta vazio). Logar em
+  Configurações → Contas destrava o serviço de billing. (Produto criado no Play
+  Console segue sendo requisito separado pra compra real.)
 - [ ] **Confirmar se o uso da Open-Meteo se enquadra como "comercial"** —
   os termos do tier gratuito dizem "you may only use the free API services
   for non-commercial purposes" e listam apps "com assinaturas ou anúncios"
@@ -114,8 +221,9 @@ Form declarado com o que o APK realmente pede).
 - [ ] Testar o fluxo completo num emulador/aparelho: permissão de localização,
   "Definir papel de parede", troca de cenário na Loja, restaurar compras.
 - [ ] Conferir se alguma permissão nova foi introduzida sem necessidade.
-- [ ] Se a versão do Billing Library mudar, checar a nota no
-  `HANDOFF-FRONTEND.md` sobre o teto do Kotlin 1.9.23.
+- [ ] Conferir se o Billing Library e o `targetSdk` ainda atendem o mínimo
+  exigido pelo Google — os dois têm prazo com data marcada e mudam sozinhos com
+  o tempo, sem ninguém mexer no código. Tabela em `CLAUDE.md`.
 - [ ] Se houve mudança em `weather/`, `billing/`, no manifesto ou entrou um SDK
   novo: revisar [PRIVACIDADE.md](../legal/PRIVACIDADE.md) contra a tabela de rastreio
   abaixo, subir a versão da política e atualizar o Data Safety Form.
@@ -153,12 +261,25 @@ amarelo). Preencha de uma vez:
 
 ### Como hospedar
 
-Duas opções, ambas dão a URL que o Play Console pede:
+Três opções, todas dão a URL que o Play Console pede:
 
-1. **GitHub Pages neste repo** (mais rápido): Settings → Pages → Source
-   "Deploy from a branch", branch `main`, pasta `/docs`. As páginas saem em
-   `https://<user>.github.io/<repo>/privacidade/`, `/termos/` e `/contato/`.
-2. **No site de apresentação** (destino final): copiar as três pastas de
+1. **Cloudflare Pages (recomendado)** — grátis, sem exigir repo público nem
+   assinatura. No dashboard, ao criar o projeto conectado a este repo:
+   - Root directory: `docs`
+   - Build command: `bash build-legal-pages.sh`
+   - Build output directory: `_site`
+
+   O script (`docs/build-legal-pages.sh`) copia só `privacidade/`, `termos/`
+   e `contato/` pra saída — é a versão "lista de permissão" do que o
+   `_config.yml` faz pro GitHub Pages (ver comentário nos dois arquivos). As
+   páginas saem em `https://<projeto>.pages.dev/privacidade/`, `/termos/` e
+   `/contato/`, com domínio próprio opcional depois.
+2. **GitHub Pages neste repo** — mesmo resultado, mas **exige GitHub Pro**
+   enquanto o repo for privado (Pages em repo privado não está no plano
+   free). Só é "grátis" se o repo virar público. Se optar por isso: Settings
+   → Pages → Source "Deploy from a branch", branch `main`, pasta `/docs`
+   (usa o `_config.yml` já existente pra excluir `dev/` e `legal/`).
+3. **No site de apresentação** (destino final): copiar as três pastas de
    `docs/` pro repo do site quando ele existir. Se a URL mudar depois de
    publicado, atualize o Play Console — a política precisa continuar acessível
    na URL declarada.
@@ -187,6 +308,13 @@ corrigida no mesmo PR.
 | `Plano.kt`, `Cena.kt`, `Estilo.kt` — prefs locais | 3.4 |
 | `AndroidManifest.xml` — `allowBackup="true"` | 3.6 |
 | Ausência de SDK de ads/analytics | 4 e 12 — **integrar um SDK invalida a política** |
+| **Play Asset Delivery (Fase 4, ainda não implementado)** | Quando entrar, o app passa a **baixar conteúdo do Google durante o uso**. A seção 6.3 já cita o Google Play como operador, mas fala de *compra*, não de *download de conteúdo* — revisar 6.3 e 3.5 no mesmo PR que ligar os asset packs. Não inventa coleta de dado novo (o download é do próprio Play), mas afirmar menos do que acontece também é divergência |
+
+**Guarda automático nesta tabela.** Duas linhas já não dependem de alguém
+lembrar: `PermissoesDeclaradasTest` trava o manifesto, e
+`PoliticaBatecomManifestoTest` quebra o gate se a política citar permissão que
+o app não pede — ou omitir uma que pede — em qualquer das três cópias. O resto
+da tabela ainda é conferência humana.
 
 Nota de debug (não vai na política pública, porque não vale pro APK publicado):
 `WeatherRepository` liga o `HttpLoggingInterceptor` em nível `BASIC` só quando

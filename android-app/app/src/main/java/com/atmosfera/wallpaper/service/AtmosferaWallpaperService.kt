@@ -8,6 +8,7 @@ import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
 import com.atmosfera.wallpaper.BuildConfig
 import com.atmosfera.wallpaper.billing.Plano
+import com.atmosfera.wallpaper.comoFonte
 import com.atmosfera.wallpaper.debug.DebugOverride
 import com.atmosfera.wallpaper.engine.ArteFundo
 import com.atmosfera.wallpaper.engine.Cena
@@ -86,7 +87,7 @@ class AtmosferaWallpaperService : WallpaperService() {
             val estilo = EstiloEfeito.atual(applicationContext)
             if (!motor.pronto || cena != motor.cenaId || arte != motor.arteId || estilo != motor.estiloId) {
                 try {
-                    motor.carregar(assets, cena, arte, estilo)
+                    motor.carregar(assets.comoFonte(), cena, arte, estilo)
                 } catch (_: Throwable) {
                     // falha de asset/memória: não derruba o app; tenta de novo
                     // na próxima visibilidade (o motor fica pronto=false até lá).
