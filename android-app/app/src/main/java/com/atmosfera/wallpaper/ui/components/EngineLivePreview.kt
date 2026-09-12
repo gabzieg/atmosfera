@@ -70,10 +70,22 @@ private class LivePreviewView(context: Context) : View(context) {
 }
 
 @Composable
-fun EngineLivePreview(sceneId: String, arte: String, estilo: String, modifier: Modifier = Modifier) {
+fun EngineLivePreview(
+    sceneId: String,
+    arte: String,
+    estilo: String,
+    modifier: Modifier = Modifier,
+    premium: Boolean = false,
+) {
     AndroidView(
         modifier = modifier,
         factory = { context -> LivePreviewView(context) },
-        update = { view -> view.garantirCarregado(sceneId, arte, estilo) },
+        update = { view ->
+            // Lido por frame pelo motor (vagalumes, estrela cadente, lampiões,
+            // fumaça, acúmulo de neve) — usado pelo comparador da PremiumScreen
+            // pra mostrar a mesma cena com e sem os efeitos pagos.
+            view.estado.premium = premium
+            view.garantirCarregado(sceneId, arte, estilo)
+        },
     )
 }
