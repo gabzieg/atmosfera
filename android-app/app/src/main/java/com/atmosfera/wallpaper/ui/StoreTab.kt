@@ -123,24 +123,34 @@ private val NOMES_ESTILO: Map<String, String> = mapOf(
 
 @Composable
 fun StoreTab(viewModel: MainViewModel) {
-    // Substituir a Loja pelo browser: navegação interna lista ⇄ detalhe,
-    // sem tocar no NavHost de topo (a aba continua sendo "Loja").
+    // Substituir a Loja pelo browser: navegação interna lista ⇄ detalhe ⇄
+    // Premium, sem tocar no NavHost de topo (a aba continua sendo "Loja").
     var cenarioAberto by rememberSaveable { mutableStateOf<String?>(null) }
+    var premiumAberto by rememberSaveable { mutableStateOf(false) }
 
-    if (cenarioAberto != null) {
-        BackHandler { cenarioAberto = null }
-        SceneDetailScreen(
-            sceneId = cenarioAberto!!,
+    when {
+        premiumAberto -> PremiumScreen(
             viewModel = viewModel,
-            onBack = { cenarioAberto = null },
+            onVoltar = { premiumAberto = false },
         )
-    } else {
-        StoreBrowser(viewModel = viewModel, onAbrir = { cenarioAberto = it })
+        cenarioAberto != null -> {
+            BackHandler { cenarioAberto = null }
+            SceneDetailScreen(
+                sceneId = cenarioAberto!!,
+                viewModel = viewModel,
+                onBack = { cenarioAberto = null },
+            )
+        }
+        else -> StoreBrowser(
+            viewModel = viewModel,
+            onAbrir = { cenarioAberto = it },
+            onVerPremium = { premiumAberto = true },
+        )
     }
 }
 
 @Composable
-private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit) {
+private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, onVerPremium: () -> Unit) {
     val isPremium by viewModel.isPremium.collectAsState()
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
@@ -172,7 +182,7 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit) {
                 PremiumBanner(
                     isPremium = isPremium,
                     priceText = precos[BillingManager.PRODUTO_PREMIUM],
-                    onBuy = { viewModel.buyPremium(it) },
+                    onVerPremium = onVerPremium,
                 )
                 // Carrossel de seção: categoria pequena + título grande + fileira rolável.
                 SectionCarousel(
@@ -275,9 +285,7 @@ internal fun EstiloChip(estiloId: String, selecionado: Boolean, onClick: () -> U
 }
 
 @Composable
-internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onBuy: (android.app.Activity) -> Unit) {
-    val context = androidx.compose.ui.platform.LocalContext.current
-    val activity = context as? android.app.Activity
+internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onVerPremium: () -> Unit) {
     // Banner sempre em superfície ESCURA: no estado não-premium o CTA é um botão
     // claro (primary) — sobre um container claro ele sumiria. Ênfase vem do botão,
     // não do fundo. (tertiaryContainer/surface são só um degrau de tom.)
@@ -309,21 +317,17 @@ internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onBuy: (andro
         )
         if (!isPremium) {
             Spacer(Modifier.height(Spacing.md))
-            // priceText nulo = o Google Play não devolveu o produto (offline, sem
-            // Play Store, ou produto ainda não publicado). Botão desabilitado em
-            // vez de mudo: clicar sem efeito e sem explicação parece app quebrado.
-            val disponivel = priceText != null
-            Button(
-                onClick = { activity?.let(onBuy) },
-                enabled = disponivel,
-                shape = RoundedCornerShape(Radius.pill),
-            ) {
-                Text("Comprar Premium${priceText?.let { " · $it" } ?: ""}")
+            // Leva pra tela de Premium em vez de disparar a compra daqui. O
+            // argumento de venda é ver os efeitos na cena — e, ao contrário do
+            // botão de compra, este funciona mesmo sem o Play responder: dá pra
+            // conhecer o produto offline. A compra em si mora na PremiumScreen.
+            Button(onClick = onVerPremium, shape = RoundedCornerShape(Radius.pill)) {
+                Text("Ver o que muda")
             }
             Spacer(Modifier.height(Spacing.sm))
             Text(
-                if (disponivel) "Ou compre só o cenário que quiser, dentro dele."
-                else "Compras indisponíveis agora. Verifique a conexão e se o Google Play está atualizado.",
+                priceText?.let { "Compra única de $it. Ou compre só o cenário que quiser, dentro dele." }
+                    ?: "Ou compre só o cenário que quiser, dentro dele.",
                 style = MaterialTheme.typography.bodySmall,
                 color = onContainer.copy(alpha = 0.7f),
             )
