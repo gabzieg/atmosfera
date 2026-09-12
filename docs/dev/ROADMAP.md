@@ -20,17 +20,19 @@ descrição longa depende de quais cenários entram no lançamento.
 
 **A Fase 4 destravou pela metade.** O contrato do motor já migrou (`a20732d`):
 `carregar()` recebe `FonteDeAssets`, os 3 pontos de contato saíram do
-`AssetManager` e o `ContratoFonteDeAssetsTest` trava a regressão — que era o
-único item com risco de sumir no próximo snapshot do Rafael. O que falta agora é
-decisão, não código: mapa de grátis vs pago, tamanho dos packs e a configuração
-em si.
+`AssetManager` e o `ContratoFonteDeAssetsTest` trava a regressão. O que falta
+agora é decisão, não código — e desde 2026-09-11 essas decisões são nossas (o
+motor virou do Gabriel; o Rafael só publica packs). **Reavaliação 2026-09-11:**
+o lançamento vai bundle local (a biblioteca em WebP empacotado cabe sob 500 MB) e
+o download fica pra depois — ver [DECISAO-ENTREGA-DE-ARTE.md](DECISAO-ENTREGA-DE-ARTE.md).
 
-**Duas decisões passaram para o Rafael (2026-08-28):**
-1. **Tamanho dos packs de conteúdo** — ele está produzindo ~215 imagens e avalia
-   agrupá-las de 10 em 10 ou de 5 em 5. Ver a Fase 4: a restrição que morde não
-   é a que parecia.
+**Essas decisões voltaram pro Gabriel (2026-09-11)** — estiveram com o Rafael de
+2026-08-28 a 2026-09-11, e hoje ele só publica packs de conteúdo:
+1. **Tamanho/agrupamento dos packs** — o Rafael ainda produz as ~215 imagens, mas
+   o agrupamento e a estratégia de entrega são decisão nossa (ver a Fase 4 e a
+   [DECISAO-ENTREGA-DE-ARTE.md](DECISAO-ENTREGA-DE-ARTE.md)).
 2. **O que é grátis e o que é pago** — incluindo fases da lua e os demais
-   efeitos. Isso substitui a regra provisória que está em `SPEC.md`.
+   efeitos: curadoria do Gabriel. Substitui a regra provisória que está em `SPEC.md`.
 
 **O caminho crítico segue parado numa decisão, não num impedimento técnico:** a
 conta do Play Console (US$ 25), adiada em 2026-08-08 ("deixar o app 100% antes").
@@ -157,9 +159,9 @@ Play: **50 packs e 2 GB no total**.
 
 ### Tamanho dos packs — a restrição não é a que parecia (2026-08-28)
 
-O Rafael está produzindo **~215 imagens** e avalia agrupá-las de 10 em 10 ou de
-5 em 5. Medido contra o repo de hoje (123 imagens, 139,6 MB, média de 1,14 MB
-por arquivo):
+O Rafael produz **~215 imagens**; o agrupamento (de 10 em 10 ou de 5 em 5) é
+decisão nossa desde 2026-09-11. Medido contra o repo de hoje (123 imagens,
+139,6 MB, média de 1,14 MB por arquivo):
 
 | Agrupamento | Packs | Folga até o teto de 50 |
 |---|---|---|
@@ -231,9 +233,9 @@ Efeito colateral que vale por si: uma `FonteDeAssets` falsa permite testar
 justamente porque tocá-lo exige `AssetManager`.
 
 **Critério de saída:**
-- [ ] Mapa explícito de grátis vs pago, por cenário e por estilo — **definição do
-  Rafael (2026-08-28)**, incluindo fases da lua e os demais efeitos. A "Regra de
-  estilos" em [SPEC.md](SPEC.md) é provisória e vale até essa definição chegar
+- [ ] Mapa explícito de grátis vs pago, por cenário e por estilo — **curadoria do
+  Gabriel (desde 2026-09-11)**, incluindo fases da lua e os demais efeitos. A
+  "Regra de estilos" em [SPEC.md](SPEC.md) é provisória e vale até essa definição chegar
 - [ ] Tamanho do pack decidido (ver "Tamanho dos packs" acima) — o teto de 50
   packs é a restrição real, não o de 2 GB
 - [ ] Asset packs configurados; **AAB base medido** e sem arte paga dentro
@@ -248,10 +250,10 @@ justamente porque tocá-lo exige `AssetManager`.
 - [ ] Falha/interrupção de download tratada na UI, sem crash e sem cenário
   meio-carregado
 
-**Guarda obrigatória, não opcional.** O Rafael entrega o `engine/` por
-**snapshot**, não por diff: ele manda o arquivo inteiro. Se alterarmos
-`EffectEngine.kt` e o próximo snapshot chegar sem a mudança, ela some em
-silêncio e o conteúdo pago para de carregar sem ninguém perceber. Um teste que
+**Guarda obrigatória, não opcional.** Mesmo agora que o `engine/` é nosso
+(2026-09-11) e não chega mais por snapshot do Rafael, um refactor futuro pode
+reintroduzir `AssetManager` sem querer — e aí o conteúdo pago para de carregar em
+produção sem ninguém perceber, porque compila e roda no debug. Um teste que
 falhe quando a assinatura voltar a receber `AssetManager` direto é o que
 transforma isso em erro visível — mesmo padrão do
 `PermissoesDeclaradasTest`. Isto vale com ou sem revisor: é problema de merge,
@@ -343,6 +345,6 @@ reais antes de liberar produção, pegar bug de última hora.
   deste repo. Não vale reabrir sem antes decidir tornar o repo público ou
   assinar um plano pago — decisão de negócio, não técnica.
 - **Módulos Gradle (`:engine`/`:app`)** — transformaria a fronteira do motor
-  em contrato de compilador, não só convenção de pasta. Precisa de
-  coordenação com o Rafael antes de qualquer execução, e agora concorre com a
-  Fase 4, que já vai mexer no contrato dele.
+  em contrato de compilador, não só convenção de pasta. Desde 2026-09-11 o motor
+  é nosso, então não depende mais de coordenar com o Rafael; concorre com a
+  Fase 4, que já vai mexer no mesmo contrato do motor.

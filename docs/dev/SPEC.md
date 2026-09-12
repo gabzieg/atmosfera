@@ -42,13 +42,15 @@ Três eixos de venda, independentes entre si:
 | **Premium** | Compra única global. Liga os 8 efeitos vivos em **todos** os cenários |
 | **Estilos de efeito** | 4 livres, o restante no Premium — ver a regra abaixo |
 
-### Regra de estilos — provisória, aguardando o Rafael
+### Regra de estilos — provisória (padrão até a curadoria fechar)
 
-> **Atualização 2026-08-28:** a definição do que é grátis e do que é pago —
-> incluindo fases da lua e os demais efeitos — passou a ser do Rafael. A regra
-> abaixo continua valendo como padrão até essa definição chegar, e o raciocínio
-> dela (por que mostrar bloqueado, por que prévia em vez de parede) segue válido
-> independentemente de onde a linha for traçada.
+> **Atualização 2026-09-11:** a definição do que é grátis e do que é pago —
+> incluindo fases da lua e os demais efeitos — é decisão do Gabriel (curadoria de
+> produto). Esteve com o Rafael entre 2026-08-28 e 2026-09-11, quando ele passou
+> a só publicar packs de conteúdo. A regra abaixo continua valendo como padrão
+> até a curadoria fechar, e o raciocínio dela (por que mostrar bloqueado, por que
+> prévia em vez de parede) segue válido independentemente de onde a linha for
+> traçada.
 
 **4 estilos livres, os demais no Premium**, sobre um catálogo **curado para ~12**
 (hoje `engine/Estilo.kt` tem 28 arquivos, mas ~15 ideias visuais — o resto é
@@ -109,12 +111,14 @@ bloqueia o "pronto", não todo o passo a passo.
 
 ## Arquitetura (resumo — detalhe completo em HANDOFF-FRONTEND.md)
 
-**O time são duas pessoas** (desde 2026-08-28): Gabriel e Rafael. O Willian
-saiu do projeto — as áreas que estavam no nome dele passaram para o Gabriel.
+**O time são Gabriel e Rafael, mas desde 2026-09-11 é efetivamente solo**
+(Gabriel + Claude): o Rafael ficou só com a publicação de releases de novos packs
+de conteúdo, e todo o código passou a ser do Gabriel. O Willian já havia saído
+(2026-08-28), com as áreas dele indo pro Gabriel.
 
 | Pacote | Dono | Fronteira |
 |---|---|---|
-| `engine/` + `assets/atmosfera/` | Rafael | Congelado por convenção — front lê a API pública (`EffectEngine.carregar/draw/pronto`, `Catalogo`, `Cena`, `Cenas`, `Estilos`), não edita os arquivos |
+| `engine/` + `assets/atmosfera/` | Gabriel | Era do Rafael (congelado por convenção) até 2026-09-11; agora do Gabriel, editável direto. O front lê a API pública (`EffectEngine.carregar/draw/pronto`, `Catalogo`, `Cena`, `Cenas`, `Estilos`) |
 | `ui/`, `weather/`, `service/`, `billing/` | Gabriel | Front |
 | `debug/` | Gabriel | Ferramenta interna, só builds debug |
 | Documentos legais (`docs/legal/*.md`, `docs/<pagina>/index.html`, `assets/legal/`) | Gabriel | Textos públicos + espelhos HTML |

@@ -102,8 +102,8 @@ Form declarado com o que o APK realmente pede).
     rastreada ao código.
   - [ ] **Lista de cenários dentro da descrição longa** — **bloqueio**: o texto
     hoje promete jardim japonês, farol, pântano e praia, e a estratégia é lançar
-    com poucos cenários. Ajustar quando o Rafael definir o que entra; publicar
-    antes disso é promessa não cumprida.
+    com poucos cenários. Ajustar quando fecharmos o corte de lançamento (curadoria
+    nossa desde 2026-09-11); publicar antes disso é promessa não cumprida.
 - [ ] **Conteúdo pago não pode embarcar no APK/AAB base** — decisão de
   2026-08-09. `assets/atmosfera/` saltou de 14,7 MB pra **140 MB** na
   integração do motor novo (6 cenários + 12 estilos), e quem não comprou não
@@ -113,11 +113,11 @@ Form declarado com o que o APK realmente pede).
   **O contrato do motor já foi resolvido** (`a20732d`, 2026-08-28):
   `carregar()` recebe uma `FonteDeAssets` em vez de `AssetManager`, os três
   pontos de contato migraram, e o `ContratoFonteDeAssetsTest` quebra o gate se
-  alguém voltar atrás — o que importa porque o Rafael entrega por snapshot e a
-  mudança sumiria em silêncio.
+  alguém voltar atrás — o que importa porque um refactor futuro reintroduziria o
+  problema em silêncio (compila e roda no debug; só falha em produção).
 
   **O que falta é decisão, não código:**
-  - mapa de grátis vs pago (Rafael);
+  - mapa de grátis vs pago (curadoria do Gabriel);
   - tamanho dos packs — **o teto que morde é 50 packs, não os 2 GB**: 215
     imagens projetam ~244 MB, mas agrupadas de 5 em 5 dão 43 packs, 86% do
     limite. Ver `ROADMAP.md` → Fase 4;

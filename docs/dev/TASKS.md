@@ -58,9 +58,9 @@ agente.
   tolerável enquanto era de graça; passa a ser inaceitável no momento em que se
   cobra por eles.
 
-  Como a lista vive em `engine/` (área do Rafael), a curadoria é decisão de
-  produto nossa, mas a remoção dos arquivos é snapshot dele — ou a gente filtra
-  no front, que é o que `cenarioTemAsset` já faz pros cenários.
+  A lista vive em `engine/` — que desde 2026-09-11 é nossa —, então tanto a
+  curadoria quanto a remoção dos arquivos são nossas: dá pra editar direto, ou
+  filtrar no front, que é o que `cenarioTemAsset` já faz pros cenários.
 
 - [ ] **Revisão dos textos da ficha — 4 decisões em aberto**, listadas no fim de
   [docs/loja/FICHA.md](../loja/FICHA.md). Três são preferência (qual descrição
@@ -117,8 +117,10 @@ agente.
 ## Decisões tomadas (não re-abrir sem motivo novo)
 
 - **Conteúdo pago baixa sob demanda** (2026-08-09) — virou a Fase 4 do
-  `ROADMAP.md`. Muda o contrato do motor; exige alinhar com o Rafael antes de
-  qualquer código. Sem urgência pro build de debug.
+  `ROADMAP.md`. Muda o contrato do motor; desde 2026-09-11 o motor é nosso, então
+  não depende mais de alinhar com o Rafael. **Reavaliada em 2026-09-11:** o
+  lançamento vai bundle local (a biblioteca empacotada em WebP cabe sob 500 MB) e
+  o download fica pra depois — ver [DECISAO-ENTREGA-DE-ARTE.md](DECISAO-ENTREGA-DE-ARTE.md).
 - **Prévia ao vivo fora da Home** (2026-08-10) — decisão do usuário depois da
   medição. Continua no onboarding, no detalhe da Loja e no comparador do
   Premium, que são os momentos em que ela vende.
@@ -129,9 +131,10 @@ agente.
   `SEM_ASSET_PUBLICADO`, que só ficava correto enquanto alguém lembrasse de
   editá-lo — foi por isso que `fiordes` apareceu sozinho quando o Rafael
   publicou a arte dele.
-- **Áreas de risco encolhidas pra 3** (2026-08-09): `engine/`,
-  `assets/atmosfera/`, `.github/`. Saíram manifesto (coberto por teste),
-  `build.gradle` (coberto pela CI) e `billing/` (voltou pro Gabriel).
+- **Áreas de risco encolhidas pra 1** (2026-08-09 e de novo 2026-09-11): só
+  `.github/`. Saíram manifesto (coberto por teste), `build.gradle` (CI) e
+  `billing/` em 2026-08-09; `engine/` e `assets/atmosfera/` em 2026-09-11, quando
+  o Rafael passou a só publicar packs e o motor virou do Gabriel.
 - Preço: cenário avulso R$ 9,90–19,90, Premium R$ 39,90–59,90 (vitalício, não
   assinatura — `BillingManager` só suporta `INAPP`).
 - Sem anúncios no lançamento — a maior brecha de mercado encontrada é
@@ -143,13 +146,14 @@ agente.
 Fonte completa em [SPEC.md](SPEC.md) → arquitetura e "Publicação na Play
 Store"; mapeamento executável em `.github/CODEOWNERS`.
 
-**Duas pessoas desde 2026-08-28**: Gabriel e Rafael. O Willian saiu; tudo que
-estava no nome dele passou pro Gabriel. Ver `SPEC.md` para o porquê disso ter
-sido corrigido em vez de deixado como estava.
+**Efetivamente solo desde 2026-09-11** (Gabriel + Claude): o Rafael ficou só com
+a publicação de novos packs de conteúdo; todo o código é do Gabriel. O Willian já
+havia saído (2026-08-28), com tudo indo pro Gabriel. Ver `SPEC.md` pro porquê de
+corrigir isso em vez de deixar como estava.
 
 | Setor | Dono | Estado |
 |---|---|---|
-| `engine/` + `assets/atmosfera/` | Rafael | Congelado, **mas cada vez mais perto do merge**. Produzindo ~215 imagens e decidindo o agrupamento em packs; também define o mapa grátis vs pago |
+| `engine/` + `assets/atmosfera/` | Gabriel | Do Gabriel desde 2026-09-11 (era do Rafael). O Rafael só produz/publica packs de conteúdo; a curadoria e o mapa grátis vs pago são do Gabriel |
 | `ui/`, `weather/`, `service/`, `billing/` | Gabriel | Ativo. Billing pronto — falta cadastrar produtos no Play Console |
 | Documentos legais | Gabriel | Textos prontos; faltam os `[PREENCHER]` e a hospedagem. A conferência contra o código virou teste (`PoliticaBatecomManifestoTest`) |
 | Data Safety Form | Gabriel | Não iniciado — depende do app existir no console |
@@ -168,5 +172,6 @@ sido corrigido em vez de deixado como estava.
 - **Revisão jurídica dos três documentos** — nenhum é parecer jurídico. Pontos
   sensíveis: limitação de responsabilidade frente ao CDC, eleição de foro, e a
   base legal escolhida para cada dado.
-- Módulos Gradle `:engine`/`:app` — precisa alinhar com o Rafael, e agora
-  concorre com a Fase 4, que já vai mexer no contrato dele.
+- Módulos Gradle `:engine`/`:app` — desde 2026-09-11 o motor é nosso, então não
+  depende mais de alinhar com o Rafael; concorre com a Fase 4, que mexe no mesmo
+  contrato do motor.

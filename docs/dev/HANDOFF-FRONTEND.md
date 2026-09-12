@@ -1,13 +1,16 @@
-# Atmosfera — Handoff do FRONT (motor congelado)
+# Atmosfera — Interface motor ↔ front (referência)
 
 > Ver também: [README.md](../../README.md) (visão geral + como rodar) ·
 > [CLAUDE.md](../../CLAUDE.md) (contexto/comandos para o Claude Code).
 
-> **Para quem recebe este documento:** você vai tocar o **front** do app Atmosfera em
-> paralelo, enquanto o **motor de efeitos** (a parte que desenha o wallpaper) continua
-> sendo evoluído por outra frente. Este documento é o seu ponto de partida: explica o
-> produto, a arquitetura, **a fronteira do que é seu e do que é congelado**, e a
-> interface estável entre os dois. Leia inteiro antes de codar.
+> **⚠️ Atualização 2026-09-11 — a premissa deste doc mudou.** Ele foi escrito para um
+> handoff em que o **front** era do Gabriel e o **motor** era do Rafael, evoluído em
+> paralelo e entregue por snapshot. Isso acabou: `engine/` e `assets/` passaram a ser
+> do Gabriel, e o Rafael ficou só com a publicação de novos packs de conteúdo.
+> **O doc sobrevive como referência da interface motor↔front** — a seção 3
+> (`EffectEngine`, `Catalogo`, `Cena`, `FonteDeAssets`) continua válida e útil.
+> **Ignore** o enquadramento de "congelado / não editar / snapshot" das seções 2, 4 e
+> 7: hoje dá pra editar o motor direto na `main`, como o resto.
 
 ---
 

@@ -20,12 +20,12 @@ Documentação de apoio (leia sob demanda, não de cara):
   com critério de saída explícito. Leia pra saber em que fase o projeto está.
 - [docs/dev/TASKS.md](docs/dev/TASKS.md) — o que está em andamento hoje. Mais
   volátil que o ROADMAP; se contradizer `git log`/`git status`, confie no repo.
-- [docs/dev/HANDOFF-FRONTEND.md](docs/dev/HANDOFF-FRONTEND.md) — **fronteira entre motor
-  (`engine/`) e front** (`ui/`, `billing/`, `service/`, `weather/`) e a
-  interface estável entre os dois. Leia antes de mexer em `engine/**` ou
-  `assets/atmosfera/**` — é tratado como "congelado" por convenção do time,
-  mas pode ser editado se o pedido for explícito (já aconteceu — ver seção 7
-  do próprio HANDOFF).
+- [docs/dev/HANDOFF-FRONTEND.md](docs/dev/HANDOFF-FRONTEND.md) — a **interface
+  estável entre motor (`engine/`) e front** (`ui/`, `billing/`, `service/`,
+  `weather/`). Continua útil como referência do contrato (`EffectEngine`,
+  `Catalogo`, `Cena`, `FonteDeAssets`). **Nota 2026-09-11:** a fronteira "motor
+  do Rafael / front do Gabriel" acabou — `engine/` e `assets/` viraram do
+  Gabriel e não são mais "congelados"; edite direto quando precisar.
 - [docs/dev/CHECKLIST_PUBLICACAO.md](docs/dev/CHECKLIST_PUBLICACAO.md) — pendências de Play Store.
 - [docs/dev/GUIA_PLAY_CONSOLE.md](docs/dev/GUIA_PLAY_CONSOLE.md) — respostas
   prontas (com a linha de código que sustenta cada uma) pro Data Safety Form
@@ -169,29 +169,30 @@ Skills de projeto em `.claude/skills/`:
   quando o pedido for rodar ou testar visualmente o app.
 - **`abrir-pr`** — fluxo de pull request: decide se a mudança exige PR ou pode
   ir direto na `main`, nomeia a branch, roda o gate, revisa o diff (`/code-review`)
-  e abre o PR. **Leia antes
-  de commitar/pushar** qualquer coisa que toque `engine/`, `assets/atmosfera/`,
-  `billing/`, `AndroidManifest.xml`, `build.gradle` ou `.github/`.
+  e abre o PR. **Leia antes de commitar/pushar em `.github/`** — desde 2026-09-11
+  a única área que ainda exige PR (o resto vai direto na `main`).
 
 Consistência de código (simplificação, revisão) pode usar as skills genéricas
 do Claude Code (`simplify`, `/code-review`) normalmente.
 
 ## Regras de PR (resumo)
 
-PR obrigatório **só em `engine/`, `assets/atmosfera/` e `.github/`**. Todo o
-resto — `ui/`, `weather/`, `service/`, `billing/`, manifesto, `build.gradle`,
-documentação — pode ir direto na `main`.
+PR obrigatório **só em `.github/`**. Todo o resto — `engine/`,
+`assets/atmosfera/`, `ui/`, `weather/`, `service/`, `billing/`, manifesto,
+`build.gradle`, documentação — pode ir direto na `main`.
 
-A lista **encolheu em 2026-08-09** e o critério é: manter só o que nenhum teste
-cobre. `engine/`/`assets/` porque o Rafael trabalha em paralelo e entrega por
-snapshot (conflito de merge já aconteceu); `.github/` porque é o meta-guarda que
-desliga os outros. Saíram `AndroidManifest.xml` (agora coberto pelo
+A lista **encolheu duas vezes**, sempre com o mesmo critério: manter só o que
+nenhum teste cobre. Em 2026-08-09 saíram `AndroidManifest.xml` (coberto pelo
 `PermissoesDeclaradasTest`, que quebra o gate em qualquer mudança de permissão),
 `build.gradle` (a CI pega) e `billing/` (o teto frágil do Billing acabou na
-migração pra 9.1.0, e a área voltou pro Gabriel). Revisão solo não melhora com
-PR pra si mesmo — melhora com guarda automático.
+migração pra 9.1.0). Em **2026-09-11** saíram `engine/` e `assets/atmosfera/`:
+eram gated porque o Rafael trabalhava em paralelo e entregava por snapshot, mas
+ele passou a só publicar packs e o motor virou do Gabriel — sem trabalho
+paralelo, não sobra conflito de snapshot a evitar. Ficou só o `.github/`, o
+meta-guarda que desliga os outros. Revisão solo não melhora com PR pra si mesmo —
+melhora com guarda automático.
 
-Aprovação: motor → Rafael; **todo o resto → Gabriel**.
+Aprovação: **tudo → Gabriel**. O Rafael não revisa código; só publica packs.
 Detalhes e escape hatches em `.claude/skills/abrir-pr/SKILL.md`.
 
 **Nada disso é aplicado pelo servidor.** O repo é privado no plano free:
@@ -207,9 +208,13 @@ redes, ambas contornáveis:
 A lista de caminhos de risco está duplicada nos dois + no CODEOWNERS. Mudou
 uma, mude as três.
 
-**O time são duas pessoas (desde 2026-08-28): Gabriel e Rafael.** O Rafael toca
-`engine/` e `assets/atmosfera/`, e entrega por snapshot. Todo o resto é do
-Gabriel — front, billing, documentos legais, publicação.
+**O time são Gabriel e Rafael — mas desde 2026-09-11 é efetivamente solo
+(Gabriel + Claude).** O Rafael ficou só com a publicação de releases de novos
+packs de wallpaper (conteúdo); não toca mais código. Todo o resto — engine,
+assets, front, billing, documentos legais, publicação — é do Gabriel. (Até
+2026-09-11 o Rafael tocava `engine/` e `assets/atmosfera/` e entregava por
+snapshot; era isso que justificava o PR obrigatório nessas áreas, regra que caiu
+junto.)
 
 Houve um terceiro (Willian, `@uWillianG`), que saiu. Ele escreveu a política de
 privacidade (`2bb49ff`, 29/jul) e nada mais — `TERMOS.md` e `CONTATO.md` foram

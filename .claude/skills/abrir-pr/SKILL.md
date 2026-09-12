@@ -1,41 +1,38 @@
 ---
 name: abrir-pr
-description: Fluxo de pull request do Atmosfera — decide se a mudança exige PR ou pode ir direto na main, nomeia a branch, roda o gate de build, revisa o diff (/code-review) e abre o PR já preenchido. Use ao abrir PR, preparar branch, ou antes de commitar/pushar qualquer coisa que toque motor, billing, manifesto, build.gradle ou CI.
+description: Fluxo de pull request do Atmosfera — decide se a mudança exige PR ou pode ir direto na main, nomeia a branch, roda o gate de build, revisa o diff (/code-review) e abre o PR já preenchido. Use ao abrir PR, preparar branch, ou antes de commitar/pushar em `.github/` — desde 2026-09-11 a única área que ainda exige PR.
 ---
 
 # Abrir PR no Atmosfera
 
-Projeto de 2 pessoas: **Rafael** (motor) e **Gabriel** (front). Historicamente
-todo mundo commitava direto na `main` — isso já custou um merge conflitado no
-`EffectEngine`. A regra abaixo existe para evitar exatamente isso, sem virar
-burocracia no resto.
+Projeto efetivamente solo (**Gabriel** + Claude) desde 2026-09-11 — o **Rafael**
+ficou só com a publicação de releases de novos packs de wallpaper (conteúdo),
+não toca mais código. Historicamente todo mundo commitava direto na `main`, o
+que já custou um merge conflitado no `EffectEngine`; hoje o único portão que
+sobra é o `.github/` (o meta-guarda), e a regra abaixo existe só pra isso.
 
 ## 1. Precisa de PR?
 
-**SIM — abra branch + PR** se o diff toca qualquer um destes:
+**SIM — abra branch + PR** se o diff toca:
 
 | Caminho | Por quê |
 |---|---|
-| `engine/**` · `assets/atmosfera/**` | Fronteira do motor. O Rafael evolui isso em paralelo e entrega por snapshot — editar aqui sem avisar gera conflito de merge (já aconteceu, e é o incidente que originou esta regra). |
-| `.github/**` | É o meta-guarda: quebrar aqui desliga todos os outros. |
+| `.github/**` | É o meta-guarda: quebrar aqui desliga todos os outros guardas (CI, hook, aviso). |
 
-**NÃO precisa** — pode commitar direto na `main`: todo o resto. Documentação,
-texto, `ui/`, `weather/`, `service/`, `billing/`, manifesto, `build.gradle`.
+**NÃO precisa** — pode commitar direto na `main`: **todo o resto, `engine/` e
+`assets/atmosfera/` incluídos.** Documentação, texto, `ui/`, `weather/`,
+`service/`, `billing/`, `engine/`, `assets/`, manifesto, `build.gradle`.
 
-> **A lista encolheu em 2026-08-09.** Antes incluía `billing/`,
-> `AndroidManifest.xml` e `build.gradle`. Saíram porque a proteção virou
-> automática e a revisão é solo — PR pra si mesmo não revisa nada, só adia:
+> **A lista encolheu duas vezes.** Em 2026-08-09 saíram `billing/`,
+> `AndroidManifest.xml` e `build.gradle` (a proteção virou automática — o
+> `PermissoesDeclaradasTest` cobre permissão, o gate da CI cobre o build; e o
+> teto frágil do Billing acabou na migração pra 9.1.0). Em **2026-09-11** saíram
+> `engine/` e `assets/atmosfera/`: o motivo do gate ali era "o Rafael evolui isso
+> em paralelo e entrega por snapshot", mas ele passou a só publicar packs e o
+> `engine/` virou do Gabriel — sem trabalho paralelo, não há conflito de snapshot
+> a evitar, e PR pra si mesmo não revisa nada.
 >
-> - `AndroidManifest.xml` → `PermissoesDeclaradasTest` quebra o gate em qualquer
->   mudança de permissão, que era o risco real (Data Safety divergente do APK).
->   Guarda mais forte que auto-revisão, e roda na CI.
-> - `build.gradle` → "quebra o build de todo mundo" é exatamente o que o gate
->   pega, antes do merge.
-> - `billing/` → o motivo era "dinheiro + teto frágil do Billing". O teto acabou
->   na migração pra 9.1.0, e a área voltou pro Gabriel.
->
-> Ficou o que **nenhum teste cobre**: trabalho paralelo de outra pessoa, e o
-> arquivo que desliga os testes.
+> Ficou só o `.github/`: o arquivo que desliga os próprios guardas.
 
 > Julgamento que continua valendo: se a mudança altera **que dado é coletado**
 > (mesmo dentro de `weather/`), pare e pense antes — é LGPD. O teste de
@@ -45,8 +42,9 @@ texto, `ui/`, `weather/`, `service/`, `billing/`, manifesto, `build.gradle`.
 ## 2. Branch
 
 ```
-motor/<slug>    # mudanças no engine/assets (combinar com o Rafael antes)
+chore/<slug>    # mudanças em .github/ (CI, hook, workflows) — a área que exige PR
 front/<slug>    # ui, billing, weather, service
+motor/<slug>    # engine/assets (não exige mais PR; o prefixo só ajuda a ler o log)
 fix/<slug>      # correção pontual
 doc/<slug>      # documentação
 ```
@@ -85,9 +83,9 @@ necessariamente pra doc solta).
 **Honestidade sobre o limite disto:** isto é uma revisão do **mesmo modelo**
 que escreveu o código — pega inconsistência com convenção do `CLAUDE.md`,
 edge case esquecido, lógica capenga, mas **não substitui revisão humana**
-(o Gabriel/Rafael enxergam contexto de produto e domínio que eu não tenho).
-Em área de risco (§1) o revisor humano continua sendo o gate real; isto só
-levanta o piso do que chega até ele.
+(o Gabriel enxerga contexto de produto e domínio que eu não tenho). Como a
+revisão é solo, o gate automático (teste+lint+build+gitleaks) é o revisor de
+verdade; o `/code-review` só levanta o piso do que chega até você.
 
 ## 4. Armadilhas que já morderam este projeto
 
@@ -95,8 +93,9 @@ levanta o piso do que chega até ele.
   Billing 9.1.0 e `targetSdk` 36 (mínimos exigidos a partir de 31/ago/2026).
   Antes de baixar qualquer um dos dois, leia a tabela de prazos no `CLAUDE.md` —
   abaixar reprova a publicação.
-- **Motor "congelado".** Se precisar mesmo mexer, avise o Rafael e registre no PR
-  — o snapshot dele pode sobrescrever sua correção num merge futuro.
+- **Motor agora é nosso (desde 2026-09-11).** `engine/` e `assets/` viraram do
+  Gabriel; edite direto na `main`, como o resto. O Rafael não entrega mais
+  snapshot de código — só publica packs de conteúdo.
 - **Segredos.** `*.jks`, `*.keystore`, `local.properties` e a chave de licença do
   Billing nunca entram no diff (o `.gitignore` cobre a maioria, não confie nele).
 - **Cor/espaçamento fora do tema.** Toda cor vem de `ui/theme`; nada de
@@ -119,10 +118,9 @@ item desmarcado.
 free, e a API responde `403 Upgrade to GitHub Pro`. O arquivo existe como
 convenção e fica pronto pro dia que o plano mudar. Quem cobra é você.
 
-| Área | Aprova |
-|---|---|
-| `engine/` · `assets/atmosfera/` | Rafael — combine ANTES, o snapshot dele pode sobrescrever sua correção |
-| Todo o resto, documentos legais incluídos | Gabriel — na prática, gate verde e merge |
+Desde 2026-09-11 o projeto é solo: **tudo é do Gabriel** — engine, assets, front,
+billing, docs legais, publicação. O Rafael só publica releases de novos packs de
+conteúdo; não aprova nem revisa código. Na prática: gate verde e merge.
 
 Os documentos legais tinham revisor próprio (o Willian) até 2026-08-28, quando
 ele saiu do projeto. **Não substitua isso por uma cerimônia de PR consigo
