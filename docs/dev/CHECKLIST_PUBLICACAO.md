@@ -110,11 +110,12 @@ Form declarado com o que o APK realmente pede).
   pode carregar essa arte no install. Só a cabana (grátis) e o essencial do
   onboarding ficam embarcados; o resto baixa sob demanda depois da compra.
 
-  **O contrato do motor já foi resolvido** (`a20732d`, 2026-08-28):
-  `carregar()` recebe uma `FonteDeAssets` em vez de `AssetManager`, os três
-  pontos de contato migraram, e o `ContratoFonteDeAssetsTest` quebra o gate se
-  alguém voltar atrás — o que importa porque um refactor futuro reintroduziria o
-  problema em silêncio (compila e roda no debug; só falha em produção).
+  **⚠️ Estratégia superada (2026-09-12):** o lançamento **embarca a arte-base**
+  (corte `6f99957`, AAB 415 MB sob os 500 MB) em vez de baixar tudo sob demanda —
+  ver [DECISAO-ENTREGA-DE-ARTE.md](DECISAO-ENTREGA-DE-ARTE.md). O motor lê
+  conteúdo baixado (quando houver) por `carregar(Context/AssetManager + Acervo)`;
+  a tentativa de abstrair isso numa `FonteDeAssets` (`a20732d`) foi **abandonada**
+  na integração, e o `ContratoFonteDeAssetsTest` removido junto.
 
   **O que falta é decisão, não código:**
   - mapa de grátis vs pago (curadoria do Gabriel);

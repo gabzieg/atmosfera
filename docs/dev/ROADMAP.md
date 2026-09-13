@@ -18,13 +18,14 @@ screenshots, ícone 512×512, feature graphic 1024×500, título e as duas
 descrições. Falta um item só, e ele não é nosso: a lista de cenários dentro da
 descrição longa depende de quais cenários entram no lançamento.
 
-**A Fase 4 destravou pela metade.** O contrato do motor já migrou (`a20732d`):
-`carregar()` recebe `FonteDeAssets`, os 3 pontos de contato saíram do
-`AssetManager` e o `ContratoFonteDeAssetsTest` trava a regressão. O que falta
-agora é decisão, não código — e desde 2026-09-11 essas decisões são nossas (o
-motor virou do Gabriel; o Rafael só publica packs). **Reavaliação 2026-09-11:**
-o lançamento vai bundle local (a biblioteca em WebP empacotado cabe sob 500 MB) e
-o download fica pra depois — ver [DECISAO-ENTREGA-DE-ARTE.md](DECISAO-ENTREGA-DE-ARTE.md).
+**A Fase 4 foi superada pela integração de 2026-09-12.** A tentativa de contrato
+via `FonteDeAssets` (`a20732d`) foi **abandonada**: o motor do Rafael venceu e lê
+por `carregar(Context/AssetManager + Acervo)` — `FonteDeAssets.kt`,
+`ConteudoEmbarcado.kt` e o `ContratoFonteDeAssetsTest` foram removidos. E a
+estratégia mudou: o lançamento vai **bundle local** (corte da arte-base,
+`6f99957`, APK ~433 MB / AAB 415 MB, sob o teto de 500 MB), com o download por
+Acervo/PAD adiado — ver [DECISAO-ENTREGA-DE-ARTE.md](DECISAO-ENTREGA-DE-ARTE.md).
+O que resta desta fase é a curadoria grátis-vs-pago (do Gabriel).
 
 **Essas decisões voltaram pro Gabriel (2026-09-11)** — estiveram com o Rafael de
 2026-08-28 a 2026-09-11, e hoje ele só publica packs de conteúdo:
@@ -213,6 +214,10 @@ quando o app pede.
 comprou o Farol, baixa o Farol. Agrupar faria baixar conteúdo não comprado, e aí
 a separação viraria teatro.
 
+> **(Abandonado 2026-09-12 — ver o topo da fase.)** O raciocínio abaixo justifica
+> a interface `FonteDeAssets`, que foi revertida na integração; o motor lê por
+> `carregar(Context/AssetManager + Acervo)`. Fica como histórico.
+
 **Por que uma interface, e não um caminho de arquivo.** Se `carregar()` receber
 um `File`, o motor precisa saber qual é o caso — assets ou disco — e isso mete
 um `if` de modo de entrega dentro do `engine/`, arrastando conceito de Play
@@ -239,13 +244,11 @@ justamente porque tocá-lo exige `AssetManager`.
 - [ ] Tamanho do pack decidido (ver "Tamanho dos packs" acima) — o teto de 50
   packs é a restrição real, não o de 2 GB
 - [ ] Asset packs configurados; **AAB base medido** e sem arte paga dentro
-- [x] `carregar()` recebendo `FonteDeAssets` em vez de `AssetManager` — feito em
-  2026-08-28. Os 3 pontos de contato migrados (`EffectEngine.bmp()`,
-  `DadosMarcacao.ler()`), os 4 chamadores do front atualizados, e o adaptador do
-  APK movido pra fora do motor (`ConteudoEmbarcado.kt`)
-- [x] **Teste travando essa assinatura** — `ContratoFonteDeAssetsTest`.
-  **Verificado que pega a regressão**: reintroduzindo `import
-  android.content.res.AssetManager` em `Marcacao.kt`, o gate falha
+- [~] `FonteDeAssets` **revertido** na integração de 2026-09-12 — o motor do
+  Rafael venceu e lê por `carregar(Context/AssetManager + Acervo)`.
+  `FonteDeAssets.kt`, `ConteudoEmbarcado.kt` e o `ContratoFonteDeAssetsTest` foram
+  removidos. O objetivo (ler conteúdo baixado sem embarcar tudo) fica com o
+  `Acervo`, não com essa interface
 - [ ] Compra → download → cenário aplicável, testado ponta a ponta
 - [ ] Falha/interrupção de download tratada na UI, sem crash e sem cenário
   meio-carregado

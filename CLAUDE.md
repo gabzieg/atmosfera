@@ -23,7 +23,7 @@ Documentação de apoio (leia sob demanda, não de cara):
 - [docs/dev/HANDOFF-FRONTEND.md](docs/dev/HANDOFF-FRONTEND.md) — a **interface
   estável entre motor (`engine/`) e front** (`ui/`, `billing/`, `service/`,
   `weather/`). Continua útil como referência do contrato (`EffectEngine`,
-  `Catalogo`, `Cena`, `FonteDeAssets`). **Nota 2026-09-11:** a fronteira "motor
+  `Catalogo`, `Cena`, `carregar(Context)`). **Nota 2026-09-11:** a fronteira "motor
   do Rafael / front do Gabriel" acabou — `engine/` e `assets/` viraram do
   Gabriel e não são mais "congelados"; edite direto quando precisar.
 - [docs/dev/CHECKLIST_PUBLICACAO.md](docs/dev/CHECKLIST_PUBLICACAO.md) — pendências de Play Store.

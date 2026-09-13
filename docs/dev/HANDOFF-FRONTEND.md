@@ -8,7 +8,7 @@
 > paralelo e entregue por snapshot. Isso acabou: `engine/` e `assets/` passaram a ser
 > do Gabriel, e o Rafael ficou só com a publicação de novos packs de conteúdo.
 > **O doc sobrevive como referência da interface motor↔front** — a seção 3
-> (`EffectEngine`, `Catalogo`, `Cena`, `FonteDeAssets`) continua válida e útil.
+> (`EffectEngine`, `Catalogo`, `Cena`, `carregar(Context)`) continua válida e útil.
 > **Ignore** o enquadramento de "congelado / não editar / snapshot" das seções 2, 4 e
 > 7: hoje dá pra editar o motor direto na `main`, como o resto.
 
@@ -84,40 +84,28 @@ Todo o contato passa por **poucos pontos estáveis**. Assinaturas que NÃO vão 
 ```kotlin
 class EffectEngine(val estado: SceneState = SceneState()) {
     var pronto: Boolean          // true depois de carregar()
-    fun carregar(fonte: FonteDeAssets, cenaId: String, arte: String, estilo: String)
+    // Sobrecarga que o front usa: acha sozinha a arte embutida (AssetManager) e
+    // a baixada (raiz do Acervo no disco). O front não decide a origem.
+    fun carregar(c: Context, cenaId: String, arte: String, estilo: String)
     fun draw(canvas: Canvas, cw: Float, ch: Float, tsMs: Long)  // 1 frame
     fun aoMudarClima()           // chamar quando o SceneState mudou de clima
     fun liberar()                // recicla bitmaps (onDestroy)
 }
-
-fun interface FonteDeAssets { fun abrir(caminho: String): InputStream }
 ```
 
-> ⚠️ **MUDANÇA DE CONTRATO em 2026-08-28 — leia antes de mandar snapshot novo.**
-> `carregar()` recebia um `AssetManager`; agora recebe uma [`FonteDeAssets`], que
-> é uma interface de um método só.
+> ⚠️ **CONTRATO ATUAL (integração 2026-09-12) — como o motor abre a arte.**
+> `carregar(Context, …)` chama por dentro `carregar(c.assets, …, Acervo.raiz(c))`:
+> arte **embutida** vem do `AssetManager` (`assets.open("atmosfera/…")`); arte
+> **baixada** vem do disco, pela raiz do `Acervo` (`Acervo.pastaArte(...)`). O
+> motor decide a origem; o front só passa o `Context`.
 >
-> **Por quê.** Conteúdo pago não pode embarcar no APK/AAB base (`assets/` foi de
-> 14,7 MB pra ~140 MB): ele baixa sob demanda via Play Asset Delivery depois da
-> compra. Asset pack "on-demand" **não é visível** por `context.assets` — vive
-> num armazenamento à parte, lido pelo `AssetPackManager`, que devolve caminho de
-> arquivo. Um motor acoplado a `AssetManager` não consegue ler conteúdo comprado.
->
-> **O que muda pra você: quase nada.** São três linhas, e a forma é idêntica à
-> de antes (`abrir(caminho)` devolvendo `InputStream`, no lugar de
-> `assets.open(caminho)`). O motor **não sabe** e não deve saber de onde vem o
-> arquivo; quem decide isso é o front, onde a compra e o download já vivem. O
-> adaptador do conteúdo embarcado mora fora do motor, em `ConteudoEmbarcado.kt`.
->
-> **`engine/` não pode mais importar `AssetManager`** — nem em `EffectEngine.kt`,
-> nem em `Marcacao.kt`. `ContratoFonteDeAssetsTest` quebra o gate se isso voltar.
-> O teste existe porque snapshot substitui arquivo inteiro: sem ele, um snapshot
-> com a assinatura antiga reverteria a mudança em silêncio, o front seria
-> "consertado" voltando a passar `context.assets`, tudo compilaria, e o conteúdo
-> pago simplesmente não carregaria em produção.
->
-> Se um snapshot seu vier com a assinatura antiga, **reaplique esta migração em
-> vez de reverter o front.** Ver `ROADMAP.md` → Fase 4.
+> **Histórico (não reaplique).** Houve uma tentativa (2026-08-28, `a20732d`) de
+> trocar isso por uma interface `FonteDeAssets` de um método só, pra desacoplar o
+> motor da origem do arquivo. Essa abstração foi **abandonada na integração de
+> 2026-09-12**: o motor do Rafael venceu com `AssetManager` + `Acervo`, que já lê
+> conteúdo baixado (do disco, não do `context.assets`). `FonteDeAssets.kt`,
+> `ConteudoEmbarcado.kt` e o `ContratoFonteDeAssetsTest` foram removidos — se
+> topar referência a eles em doc ou snapshot antigo, é isto.
 
 > O `WallpaperService` cria um `EffectEngine`, chama `carregar()` uma vez, e num
 > loop de ~33 ms faz `lockHardwareCanvas()` → `draw(...)` → `unlockCanvasAndPost()`.
