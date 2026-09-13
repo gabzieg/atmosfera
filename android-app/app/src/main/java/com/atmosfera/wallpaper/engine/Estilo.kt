@@ -65,12 +65,14 @@ object Estilos {
         "papel_mache" to EstiloCfg("papel_mache", "sprites_papel_mache.png", 3, true),
         "papel_mache_2" to EstiloCfg("papel_mache_2", "sprites_papel_mache_2.png", 3, true),
         "feltro" to EstiloCfg("feltro", "sprites_feltro.png", 3, true),
-        // "retrô" eram `pixel_mario` / `pixel_zelda` até 09/09: nome de
-        // personagem da Nintendo no slug, que a Loja mostrava capitalizado, e a
-        // lua cheia das duas folhas tinha rosto sorrindo e a Triforce. As luas
-        // foram trocadas no recorte (tools/recorta_auto.py, REF_RETRO).
-        "pixel_retro" to EstiloCfg("pixel_retro", "sprites_pixel_retro.png", 3, false),
-        "pixel_retro_2" to EstiloCfg("pixel_retro_2", "sprites_pixel_retro_2.png", 3, false),
+        // pixel_retro / pixel_retro_2 FORA DO LANÇAMENTO (13/09). As duas folhas
+        // foram geradas pedindo "estilo Mario" e "estilo Zelda" (os arquivos-fonte
+        // ainda se chamam `pixel mario gemini.png` e `PIXEL ZELDA GEMINI.png`). O
+        // rosto e a Triforce da lua já tinham saído, mas o resto da folha nasceu
+        // de um prompt que imitava a Nintendo — dá pra tirar o emblema, não dá pra
+        // certificar que o traço é original. E não fazem falta: `pixel` e
+        // `pixel_art_2` já cobrem pixel art. As folhas continuam no pipeline
+        // (tools/recorta_auto.py); voltar é recolocar as duas linhas aqui.
         // ── Van Gogh (folha 887x1774, recorte 2026-08-09) ──
         // A rajada do Van Gogh é FITA DE TINTA: azul-noite por baixo, creme e
         // amarelo no miolo, azul-claro por cima. Cores medidas na folha dele.
