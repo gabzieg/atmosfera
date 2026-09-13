@@ -34,27 +34,30 @@ Google Play Billing.
 
 ## Monetização — o que é grátis e o que é pago
 
-Três eixos de venda, independentes entre si:
+Modelo decidido em 2026-09-13 (packs ainda a definir — ver o fim desta seção):
 
-| Eixo | Regra |
-|---|---|
-| **Cenários** | A cabana é grátis. Os demais são compra avulsa (`productId` em `engine/Catalogo.kt`) |
-| **Premium** | Compra única global. Liga os 8 efeitos vivos em **todos** os cenários |
-| **Estilos de efeito** | 4 livres, o restante no Premium — ver a regra abaixo |
+| Eixo | Regra | Preço |
+|---|---|---|
+| **Cenários** | Cada cena é compra avulsa (`productId` em `engine/Catalogo.kt`). **5 cenas têm 1 arte grátis** (a "vitrine"): cabana/pixel · jardim/ukiyoe · bruxa/clay · esfinge/vangogh · lavanda/aqua. As outras 71 têm a arte-base embutida mas **bloqueada** (vê na vitrine, aplica comprando). | **R$ 1,99** por cena |
+| **Premium** | Compra única global. Liga os **8 efeitos vivos** E **todos os estilos de efeito** em todos os cenários. **Não** dá os cenários (compra à parte). | **R$ 49,90** |
+| **Packs** | Agrupamento de conteúdo (ex.: as 4 variantes `rupestre` viram um pack "Rupestre"). Quantidade por pack e se a vitrine entra junto: **a definir**. | a definir |
 
-### Regra de estilos — provisória (padrão até a curadoria fechar)
+### Regra de estilos — decisão + o que falta
 
-> **Atualização 2026-09-11:** a definição do que é grátis e do que é pago —
-> incluindo fases da lua e os demais efeitos — é decisão do Gabriel (curadoria de
-> produto). Esteve com o Rafael entre 2026-08-28 e 2026-09-11, quando ele passou
-> a só publicar packs de conteúdo. A regra abaixo continua valendo como padrão
-> até a curadoria fechar, e o raciocínio dela (por que mostrar bloqueado, por que
-> prévia em vez de parede) segue válido independentemente de onde a linha for
-> traçada.
+> **Decidido 2026-09-13:** os estilos de efeito entram no **Premium** (comprou
+> Premium, usa todos). O paywall de estilo **ainda não está no código** — hoje os
+> ~30 estilos estão todos livres. Falta a curadoria (quantos/quais ficam livres
+> sem Premium) e o agrupamento em **packs** — que o Gabriel resolveu tratar como
+> pack em vez de cortar (ex.: as 4 variantes `rupestre` viram um pack, "assim fica
+> melhor"). **Bandeira de consistência a resolver junto com os packs:** como o
+> Premium já inclui *todos* os estilos, um pack de estilo só faz sentido como
+> agrupamento de vitrine — se for compra à parte, sobrepõe o Premium.
 
-**4 estilos livres, os demais no Premium**, sobre um catálogo **curado para ~12**
-(hoje `engine/Estilo.kt` tem 28 arquivos, mas ~15 ideias visuais — o resto é
-histórico de iteração; ver `TASKS.md`).
+Padrão provisório até a curadoria fechar: **alguns estilos livres, os demais no
+Premium**, sobre um catálogo curado (hoje `engine/Estilo.kt` tem ~30 arquivos pra
+~16 ideias visuais — o resto é histórico de iteração; ver `TASKS.md`). O raciocínio
+das três condições abaixo (por que mostrar bloqueado, por que prévia em vez de
+parede) segue válido independentemente de onde a linha for traçada.
 
 Três condições, e cada uma existe por um motivo:
 
