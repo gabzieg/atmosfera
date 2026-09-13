@@ -19,6 +19,7 @@ import java.io.File
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
+import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sin
@@ -1735,12 +1736,41 @@ class EffectEngine(val estado: SceneState = SceneState()) {
      * diferente. Sorteio determinístico pelo DIA — estável a noite inteira, muda
      * à meia-noite. Só vale pra janela ('parcial'); lampião e farol não sorteiam.
      */
+    /**
+     * JANELAS QUE ACENDEM E APAGAM (12/09) — terceira cor da legenda,
+     * laranja-avermelhado #FF5500. Cada par/trio de janelas já vem como UMA luz
+     * do gerador; aqui é só o tempo: a noite inteira cada grupo sorteia a cada
+     * [ALEA_SLOT_MIN] minutos se fica aceso, com a troca de cada grupo num minuto
+     * diferente (fase pela posição do vidro) e rampa curta. Porte do index.js —
+     * a aritmética de 32 bits é a mesma, os dois sorteiam igual.
+     */
+    private fun luzAleatoria(l: LuzCena): Float {
+        val semente = (l.vx.toInt() + 13) * 73856093 xor ((l.vy.toInt() + 7) * 19349663)
+        val u = System.currentTimeMillis() / 60000.0 / ALEA_SLOT_MIN + ((semente ushr 3) % 1000) / 1000.0
+        val slot = floor(u).toInt()
+        val frac = (u - slot).toFloat()
+        fun acesa(sl: Int): Boolean {
+            var h = (sl + 1) * -1640531535 xor semente
+            h = (h xor (h ushr 15)) * -2048144777
+            return ((h ushr 8) % 1000) / 1000f < ALEA_PROB
+        }
+        val agora = acesa(slot); val antes = acesa(slot - 1)
+        if (agora == antes) return if (agora) 1f else 0f
+        val r = minOf(1f, frac / ALEA_RAMPA)
+        return if (agora) r else 1f - r
+    }
+
+    // CONSTANTES DO HASH (corrigidas em 12/09): tinham de ser o 2654435761 e o
+    // 2246822519 do index.js reduzidos a Int de 32 bits, que dão -1640531535 e
+    // -2048144777. Estavam -1640531527 e -2048144789 — por isso o lote de
+    // janelas, a fogueira e o poste agonizando do Android sorteavam DIFERENTE
+    // do tester desde que foram portados, apesar do comentário dizer o contrário.
     private fun luzDoLote(l: LuzCena, i: Int): Boolean {
         if (l.modo == "fogueira") return i == fogoNoite
         if (l.tipo == "completa") return true
         val dia = (System.currentTimeMillis() / 86_400_000L).toInt()
-        var h = (dia + 1) * -1640531527 xor ((i + 1) * 40503)
-        h = (h xor (h ushr 15)) * -2048144789
+        var h = (dia + 1) * -1640531535 xor ((i + 1) * 40503)
+        h = (h xor (h ushr 15)) * -2048144777
         return ((h ushr 8) % 1000) / 1000f < LUZ_PROB
     }
 
@@ -1772,8 +1802,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         val idx = luzes.indices.filter { luzes[it].modo == "fogueira" }
         if (idx.isEmpty()) { fogoNoite = -1; return }
         fun escolhe(d: Int): Int {
-            var h = (d + 1) * -1640531527
-            h = (h xor (h ushr 15)) * -2048144789
+            var h = (d + 1) * -1640531535
+            h = (h xor (h ushr 15)) * -2048144777
             return idx[((h ushr 8) % idx.size)]
         }
         var a = escolhe(dia)
@@ -1782,6 +1812,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     }
 
     private fun luzAcesa(l: LuzCena, i: Int): Boolean {
+        if (l.modo == "aleatoria") return lampioesAcesos(estado.hora) && luzAleatoria(l) > 0f
         // a fogueira do acampamento queima até o amanhecer, mesmo marcada de
         // amarelo: é o único fogo da cidade, apagar à meia-noite deixa a cena cega.
         val h = if (l.tipo == "completa" || l.modo == "fogueira")
@@ -1794,6 +1825,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
      *  que tipo — ver [LuzCena.modo]. Porte do index.js. */
     private fun luzOsc(l: LuzCena, ts: Long): Float {
         val t = ts / 1000f
+        if (l.modo == "aleatoria") return luzAleatoria(l) * (0.85f + 0.15f * sin(t * 1.3f + l.vx))
         // FOGUEIRA: chama, não lâmpada. Três senoides incomensuráveis somadas
         // nunca repetem o desenho — é o que separa fogo de pulso eletrônico.
         if (l.modo == "fogueira") {
@@ -1807,8 +1839,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         // semente leva a posição do vidro, então dois postes não piscam juntos.
         if (l.modo == "agonizando") {
             val jan = (t / 2.4f).toInt()
-            var h = (jan + 1) * -1640531527 xor ((l.vx.toInt() + 7) * 40503)
-            h = (h xor (h ushr 15)) * -2048144789
+            var h = (jan + 1) * -1640531535 xor ((l.vx.toInt() + 7) * 40503)
+            h = (h xor (h ushr 15)) * -2048144777
             val r = ((h ushr 8) % 1000) / 1000f
             val fase = t / 2.4f - jan
             val base = 0.80f + 0.20f * sin(t * 17 + l.vx) * sin(t * 5.1f + l.vy)
@@ -2182,6 +2214,10 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     companion object {
         /** Fração das janelas que acende em cada noite (ver luzDoLote). */
         private const val LUZ_PROB = 0.55f
+        /** Janela aleatória (#FF5500): minutos por sorteio, chance de acesa, rampa. */
+        private const val ALEA_SLOT_MIN = 9.0
+        private const val ALEA_PROB = 0.45f
+        private const val ALEA_RAMPA = 0.09f
         // ── Luz de verdade (ver desenharMapaLuz) ────────────────────
         /** Alcance do derrame do lampião, em px de arte (base 1086 de largura). */
         private const val LUZ_ALCANCE = 88f
