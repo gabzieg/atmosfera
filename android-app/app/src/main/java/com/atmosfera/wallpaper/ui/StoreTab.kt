@@ -38,12 +38,14 @@ import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cenario
 import com.atmosfera.wallpaper.engine.Cenas
 import com.atmosfera.wallpaper.engine.Estilos
+import androidx.compose.ui.platform.LocalContext
 import com.atmosfera.wallpaper.ui.components.MasonryGrid
 import com.atmosfera.wallpaper.ui.components.MosaicCard
 import com.atmosfera.wallpaper.ui.components.PillSearchBar
 import com.atmosfera.wallpaper.ui.components.SectionCarousel
 import com.atmosfera.wallpaper.ui.components.StackedThumbnail
 import com.atmosfera.wallpaper.ui.components.StatusPill
+import com.atmosfera.wallpaper.ui.components.cenarioTemAsset
 import com.atmosfera.wallpaper.ui.theme.Radius
 import com.atmosfera.wallpaper.ui.theme.Spacing
 
@@ -53,21 +55,71 @@ import com.atmosfera.wallpaper.ui.theme.Spacing
 internal fun artesDoCenario(id: String): List<String> =
     listOf("pixel") + Cenas.por(id).variantes.keys.toList()
 
-/**
- * Cenários com entrada em [Catalogo] (motor) mas sem asset publicado ainda —
- * filtro só de EXIBIÇÃO na Loja, não edita `engine/Catalogo.kt` (congelado).
- * Remover o id daqui assim que o cenário tiver `fundo.png` nos assets.
- */
-private val SEM_ASSET_PUBLICADO = setOf("fiordes")
+// Cenários que existem no Catalogo (motor) mas ainda não têm `fundo.png` nos
+// assets são escondidos da Loja — filtro só de EXIBIÇÃO, não edita
+// `engine/Catalogo.kt` (congelado).
+//
+// Era uma lista fixa (`setOf("fiordes")`) que só ficava correta enquanto alguém
+// lembrasse de editá-la a cada snapshot do motor: cenário novo sem arte voltaria
+// a aparecer como card quebrado. Agora a pergunta é feita aos assets de verdade,
+// via `cenarioTemAsset` — some sozinho quando entra, aparece sozinho quando a
+// arte chega.
 
-/** Nome de exibição de um estilo de efeito (sem emoji — identidade monocromática). */
-internal fun estiloNome(id: String): String = when (id) {
-    "pixel" -> "Pixel Art"
-    "clay" -> "Clay"
-    "bizantino" -> "Bizantino"
-    "aqua" -> "Aquarela"
-    else -> id.replaceFirstChar { it.uppercase() }
-}
+/**
+ * Nome de exibição de um estilo — serve tanto pro estilo de EFEITO quanto pra
+ * ARTE do cenário (o seletor da tela de detalhe chama esta mesma função).
+ *
+ * A tabela existe porque o fallback (capitalizar o slug) mostrava coisa como
+ * "Needlefelting", "Papelmache" e "Gizcera" pro usuário. Os slugs foram
+ * unificados em 09/09 (`needle`+`needlefelting`, `xilo`+`xilogravura`,
+ * `impress`+`impressionista`, `papel`+`mache`+`papelmache`, `cutout`+
+ * `papercutout`, `giz`+`cera`+`gizcera`), então o mesmo estilo em cenas
+ * diferentes agora cai na MESMA linha daqui — que é o que permite vender pack
+ * por estilo. Numeração romana = segunda arte no mesmo estilo, na mesma cena.
+ */
+internal fun estiloNome(id: String): String = NOMES_ESTILO[id]
+    ?: id.replaceFirstChar { it.uppercase() }
+
+private val NOMES_ESTILO: Map<String, String> = mapOf(
+    // ── pixel ──
+    "pixel" to "Pixel Art", "pixel2" to "Pixel Art II", "pixelart" to "Pixel Art",
+    "pixelv0" to "Pixel Art (v0)", "pixel16" to "Pixel 16 bits",
+    "16bits" to "16 bits", "16bits2" to "16 bits II",
+    "8bits" to "8 bits", "8bits2" to "8 bits II",
+    // ── artesanato ──
+    "clay" to "Clay", "clay2" to "Clay II",
+    "papelmache" to "Papel machê",
+    "papercutout" to "Paper cutout",
+    "needlefelting" to "Needle felting",
+    "bordado" to "Bordado", "bordado1" to "Bordado I", "bordado2" to "Bordado II",
+    "tapecaria" to "Tapeçaria",
+    "ceramica" to "Cerâmica", "ceramica2" to "Cerâmica II",
+    "puppet" to "Puppet",
+    // ── pintura ──
+    "aqua" to "Aquarela",
+    "vangogh" to "Van Gogh", "vangoghnoite" to "Van Gogh (noite)",
+    "impressionista" to "Impressionismo",
+    "impamer" to "Impressionismo americano", "impalemao" to "Impressionismo alemão",
+    "point" to "Pontilhismo", "point2" to "Pontilhismo II",
+    "fauvismo" to "Fauvismo", "sfumato" to "Sfumato",
+    "gizcera" to "Giz de cera",
+    // ── gravura e mosaico ──
+    "xilogravura" to "Xilogravura",
+    "ukiyoe" to "Ukiyo-e", "ukiyoe2" to "Ukiyo-e II", "ukiyogpt" to "Ukiyo-e III",
+    "bizantino" to "Bizantino", "mosaicobizantino" to "Mosaico bizantino",
+    "rupestre" to "Rupestre",
+    // ── desenho e animação ──
+    "doodle" to "Doodle", "doodle2" to "Doodle II", "doodleinf" to "Doodle infantil",
+    "cartoon" to "Cartoon", "anime" to "Anime", "anime1" to "Anime II",
+    "chibi" to "Chibi", "kodomo" to "Kodomo", "seinen" to "Seinen",
+    "suburbano" to "Suburbano",
+    // ── 3D e outros ──
+    "lowpoly" to "Low poly", "poly2" to "Low poly II", "iso" to "Isométrico",
+    "cozy" to "Cozy", "cozynoite" to "Cozy (noite)",
+    "dark" to "Dark", "vivid" to "Vivid", "noite" to "Noite",
+    "terraco" to "Terraço", "longe" to "Plano aberto",
+    "dragao" to "Dragão", "dragao2" to "Dragão II", "dragao3" to "Dragão III",
+)
 
 @Composable
 fun StoreTab(viewModel: MainViewModel) {
@@ -92,12 +144,18 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit) {
     val isPremium by viewModel.isPremium.collectAsState()
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
+    val precos by viewModel.billingManager.precos.collectAsState()
+
+    val assets = LocalContext.current.assets
+    // Checado uma vez por sessão (abre e fecha um handle por cenário), não a
+    // cada tecla digitada na busca.
+    val publicados = remember(assets) {
+        Catalogo.cenarios.filter { cenarioTemAsset(assets, it.id) }
+    }
 
     var query by remember { mutableStateOf("") }
-    val cenarios = remember(query) {
-        Catalogo.cenarios
-            .filterNot { it.id in SEM_ASSET_PUBLICADO }
-            .filter { it.nome.contains(query.trim(), ignoreCase = true) }
+    val cenarios = remember(publicados, query) {
+        publicados.filter { it.nome.contains(query.trim(), ignoreCase = true) }
     }
     // Alturas variadas → efeito escalonado do mosaico.
     val aspectos = listOf(0.72f, 0.95f, 0.78f, 0.68f, 0.88f)
@@ -113,7 +171,7 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit) {
                 PillSearchBar(query = query, onQueryChange = { query = it })
                 PremiumBanner(
                     isPremium = isPremium,
-                    priceText = viewModel.billingManager.precoFormatado(BillingManager.PRODUTO_PREMIUM),
+                    priceText = precos[BillingManager.PRODUTO_PREMIUM],
                     onBuy = { viewModel.buyPremium(it) },
                 )
                 // Carrossel de seção: categoria pequena + título grande + fileira rolável.
@@ -182,6 +240,12 @@ private fun CenarioTile(
                     contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
                 )
                 isUnlocked -> StatusPill("Comprado")
+                // uma arte de vitrine grátis (ex.: o ukiyo-e do jardim); o resto é pago
+                cenario.artesGratis.isNotEmpty() -> StatusPill(
+                    "Arte grátis",
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                )
                 else -> StatusPill(
                     "Bloqueado",
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
@@ -245,12 +309,21 @@ internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onBuy: (andro
         )
         if (!isPremium) {
             Spacer(Modifier.height(Spacing.md))
-            Button(onClick = { activity?.let(onBuy) }, shape = RoundedCornerShape(Radius.pill)) {
+            // priceText nulo = o Google Play não devolveu o produto (offline, sem
+            // Play Store, ou produto ainda não publicado). Botão desabilitado em
+            // vez de mudo: clicar sem efeito e sem explicação parece app quebrado.
+            val disponivel = priceText != null
+            Button(
+                onClick = { activity?.let(onBuy) },
+                enabled = disponivel,
+                shape = RoundedCornerShape(Radius.pill),
+            ) {
                 Text("Comprar Premium${priceText?.let { " · $it" } ?: ""}")
             }
             Spacer(Modifier.height(Spacing.sm))
             Text(
-                "Ou compre só o cenário que quiser, dentro dele.",
+                if (disponivel) "Ou compre só o cenário que quiser, dentro dele."
+                else "Compras indisponíveis agora. Verifique a conexão e se o Google Play está atualizado.",
                 style = MaterialTheme.typography.bodySmall,
                 color = onContainer.copy(alpha = 0.7f),
             )

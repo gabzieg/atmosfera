@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.atmosfera.wallpaper.billing.BillingManager
 import com.atmosfera.wallpaper.billing.Plano
+import com.atmosfera.wallpaper.debug.DebugOverride
 import com.atmosfera.wallpaper.engine.ArteFundo
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cena
@@ -23,6 +24,37 @@ import com.atmosfera.wallpaper.weather.WeatherWorker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+
+/**
+ * Procedência do clima que está na tela: onde foi medido, quando foi buscado e
+ * se caiu no local padrão. (De qual passo do modelo veio o dado fica no
+ * `WeatherState.fonte`, que vai pro log — na tela seria ruído.)
+ */
+data class ClimaInfo(
+    val lugar: String?,
+    val atualizadoEmMs: Long,
+    val localPadrao: Boolean,
+) {
+    /** "Guarapuava, PR · 14:32" — ou só o horário, quando não há nome. */
+    fun resumo(): String? {
+        val hora = if (atualizadoEmMs > 0L) {
+            val c = java.util.Calendar.getInstance().apply { timeInMillis = atualizadoEmMs }
+            String.format(java.util.Locale.US, "%02d:%02d",
+                c.get(java.util.Calendar.HOUR_OF_DAY), c.get(java.util.Calendar.MINUTE))
+        } else null
+        val onde = when {
+            localPadrao -> "local padrão"
+            lugar != null -> lugar
+            else -> null
+        }
+        return when {
+            onde != null && hora != null -> "$onde · atualizado $hora"
+            hora != null -> "atualizado $hora"
+            onde != null -> onde
+            else -> null
+        }
+    }
+}
 
 class MainViewModel(application: Application) : AndroidViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -40,6 +72,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
 
     private val _weatherState = MutableStateFlow<WeatherState?>(weatherCache.get())
     val weatherState: StateFlow<WeatherState?> = _weatherState
+
+    // DE ONDE e DE QUANDO é o clima que está na tela. Nasceu de uma pergunta
+    // dele: "o wallpaper não corresponde ao clima real" — sem isto não dá pra
+    // saber se a previsão errou, se o dado está velho ou se o app está olhando
+    // outra cidade (sem permissão de localização ele cai em Guarapuava calado).
+    private val _climaInfo = MutableStateFlow(
+        ClimaInfo(weatherCache.lugar(), weatherCache.ultimaBuscaMs(),
+                  weatherCache.localPadrao())
+    )
+    val climaInfo: StateFlow<ClimaInfo> = _climaInfo
 
     private val _currentSceneId = MutableStateFlow(Cena.atual(context))
     val currentSceneId: StateFlow<String> = _currentSceneId
@@ -74,11 +116,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
         billingManager.encerrar()
     }
 
-    fun checkPermission(): Boolean {
-        val hasFine = ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        val hasCoarse = ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-        return hasFine || hasCoarse
-    }
+    /**
+     * Só COARSE — mesma checagem que `LocationHelper.hasPermission()` faz antes
+     * de buscar de fato. Antes isto aceitava FINE também, mas conceder FINE já
+     * concede COARSE junto, então a condição extra nunca mudou um resultado.
+     */
+    fun checkPermission(): Boolean =
+        ContextCompat.checkSelfPermission(
+            context, android.Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
 
     fun onPermissionGranted() {
         _hasLocationPermission.value = true
@@ -92,15 +138,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     fun refreshWeather() {
         viewModelScope.launch {
             try {
-                val (lat, lon) = locationHelper.getLocation()
-                weatherRepo.fetchWeather(lat, lon)
-                    .onSuccess { state -> 
-                        weatherCache.save(state, lat, lon)
+                val onde = locationHelper.getLocalizacao()
+                // O nome do lugar é resolvido aqui, no app em primeiro plano —
+                // é onde o Geocoder tem chance de responder. O serviço do
+                // wallpaper e o worker salvam sem nome e herdam este.
+                val lugar = locationHelper.nomeDoLugar(onde.lat, onde.lon)
+                weatherRepo.fetchWeather(onde.lat, onde.lon)
+                    .onSuccess { state ->
+                        weatherCache.save(state, onde.lat, onde.lon, lugar, onde.padrao)
                         _weatherState.value = state
-                        // Notifica o motor que o clima atualizou para que reaja caso esteja visivel
-                        prefs.edit().putLong("KEY_WEATHER_UPDATE", System.currentTimeMillis()).apply()
+                        _climaInfo.value = ClimaInfo(
+                            weatherCache.lugar(), weatherCache.ultimaBuscaMs(), onde.padrao)
                     }
-                    .onFailure { 
+                    .onFailure {
                         _weatherState.value = weatherCache.get()
                     }
             } catch (e: Exception) {
@@ -132,6 +182,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     fun setScene(sceneId: String) {
         Cena.definir(context, sceneId)
         _currentSceneId.value = sceneId
+        // A arte é preferência GLOBAL (vale pra qualquer cenário) e o serviço
+        // desenha o par cenário+arte que estiver salvo. Com arte grátis avulsa
+        // (só o ukiyo-e do jardim, só o pixel da cabana), trocar de cenário não
+        // pode levar junto uma arte que o usuário não tem neste cenário.
+        com.atmosfera.wallpaper.engine.Catalogo.por(sceneId)?.let { c ->
+            if (!isArtUnlocked(c, _currentArt.value)) setArt(arteInicial(c))
+        }
+    }
+
+    /** Aplica cenário E arte juntos — é o que o botão "Aplicar" do detalhe faz. */
+    fun aplicar(sceneId: String, arteId: String) {
+        setArt(arteId)
+        setScene(sceneId)
     }
 
     fun setArt(arteId: String) {
@@ -171,6 +234,31 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
 
     fun isSceneUnlocked(cenario: com.atmosfera.wallpaper.engine.Cenario): Boolean {
         if (cenario.gratis) return true
+        // Destrave de teste: só responde true em build debug (a checagem de
+        // BuildConfig.DEBUG mora dentro de destravarPagos), então release
+        // continua exigindo compra de verdade.
+        if (DebugOverride.destravarPagos(context)) return true
         return billingManager.isAvulsoDesbloqueado(cenario.id)
+    }
+
+    /** Esta arte deste cenário pode ser usada? (a arte grátis avulsa, ou o cenário inteiro liberado) */
+    fun isArtUnlocked(cenario: com.atmosfera.wallpaper.engine.Cenario, arte: String): Boolean =
+        arte in cenario.artesGratis || isSceneUnlocked(cenario)
+
+    /** Tem ao menos uma arte utilizável — é o que põe o cenário em "Meus cenários". */
+    fun temAlgoLiberado(cenario: com.atmosfera.wallpaper.engine.Cenario): Boolean =
+        cenario.artesGratis.isNotEmpty() || isSceneUnlocked(cenario)
+
+    /**
+     * A arte que o cenário mostra ao ser aberto/aplicado: a atual, se o usuário
+     * a tem neste cenário; senão a primeira que ele tem (a grátis); cenário
+     * todo bloqueado mostra a atual (ou a base) só como vitrine.
+     */
+    fun arteInicial(cenario: com.atmosfera.wallpaper.engine.Cenario): String {
+        val artes = artesDoCenario(cenario.id)
+        val atual = _currentArt.value
+        if (atual in artes && isArtUnlocked(cenario, atual)) return atual
+        return artes.firstOrNull { isArtUnlocked(cenario, it) }
+            ?: if (atual in artes) atual else "pixel"
     }
 }

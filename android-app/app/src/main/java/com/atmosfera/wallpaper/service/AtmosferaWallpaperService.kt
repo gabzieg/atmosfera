@@ -45,11 +45,32 @@ class AtmosferaWallpaperService : WallpaperService() {
         private val frameMs = 33L // ~30 fps (equilíbrio fluidez × bateria)
         private val cargaMutex = Mutex()   // serializa carregar (troca cena/estilo)
 
+        // REVALIDAR ENQUANTO VISÍVEL. O clima só era relido ao voltar pra tela
+        // inicial; quem fica com a home aberta via o tempo congelar no que foi
+        // lido quando a tela acendeu. A cada 10 min o serviço chama de novo o
+        // `carregarClima`, que decide sozinho entre o cache e a rede pelo TTL
+        // do intervalo escolhido — ou seja, isto não gera requisição extra
+        // nenhuma, só deixa de esperar o usuário sair e voltar. Também cobre o
+        // caso do WeatherWorker apanhar do Doze e não rodar no horário.
+        private val revalidaClimaMs = 10 * 60 * 1000L
+        private var ultimoClimaMs = 0L
+        private val climaMutex = Mutex()
+
         private val frame = object : Runnable {
             override fun run() {
                 desenhar()
+                talvezRevalidarClima()
                 if (visivel) handler.postDelayed(this, frameMs)
             }
+        }
+
+        /** Dispara a revalidação do clima quando vence o passo de 10 min. */
+        private fun talvezRevalidarClima() {
+            if (!visivel) return
+            val agora = SystemClock.elapsedRealtime()
+            if (agora - ultimoClimaMs < revalidaClimaMs) return
+            ultimoClimaMs = agora
+            scope.launch(Dispatchers.IO) { carregarClima() }
         }
 
         override fun onCreate(holder: SurfaceHolder) {
@@ -86,7 +107,7 @@ class AtmosferaWallpaperService : WallpaperService() {
             val estilo = EstiloEfeito.atual(applicationContext)
             if (!motor.pronto || cena != motor.cenaId || arte != motor.arteId || estilo != motor.estiloId) {
                 try {
-                    motor.carregar(assets, cena, arte, estilo)
+                    motor.carregar(applicationContext, cena, arte, estilo)
                 } catch (_: Throwable) {
                     // falha de asset/memória: não derruba o app; tenta de novo
                     // na próxima visibilidade (o motor fica pronto=false até lá).
@@ -108,8 +129,16 @@ class AtmosferaWallpaperService : WallpaperService() {
             motor.liberar()
         }
 
-        /** Busca o clima (cache 30 min) e aplica ao estado do motor. */
-        private suspend fun carregarClima() {
+        /**
+         * Busca o clima e aplica ao estado do motor.
+         *
+         * O cache decide se sai requisição: dentro do TTL (90% do intervalo
+         * escolhido em Ajustes) ele devolve o que já tem; vencido, busca. O
+         * mutex existe porque agora há dois disparos possíveis ao mesmo tempo —
+         * o de ficar visível e o passo de 10 min.
+         */
+        private suspend fun carregarClima() = climaMutex.withLock {
+            ultimoClimaMs = SystemClock.elapsedRealtime()
             // Modo TESTE: força o clima escolhido no painel de debug.
             if (BuildConfig.DEBUG && DebugOverride.ativo(applicationContext)) {
                 withContext(Dispatchers.Main) {
@@ -122,10 +151,14 @@ class AtmosferaWallpaperService : WallpaperService() {
                 val cache = WeatherCache(applicationContext)
                 val loc = LocationHelper(applicationContext)
                 val repo = WeatherRepository()
-                val (lat, lon) = loc.getLocation()
+                val onde = loc.getLocalizacao()
+                val lat = onde.lat
+                val lon = onde.lon
                 val ttl = IntervaloClima.ttlMs(applicationContext)
                 val state = if (!cache.isStale(lat, lon, ttl)) cache.get()
-                else repo.fetchWeather(lat, lon).getOrNull()?.also { cache.save(it, lat, lon) } ?: cache.get()
+                else repo.fetchWeather(lat, lon).getOrNull()
+                    ?.also { cache.save(it, lat, lon, localPadrao = onde.padrao) }
+                    ?: cache.get()
 
                 state ?: return
                 val premium = Plano.isPremium(applicationContext)

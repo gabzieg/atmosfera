@@ -12,10 +12,26 @@
 # ⚠️ A lista RISCO abaixo é a MESMA de .github/workflows/aviso-push-direto.yml
 # e de .github/CODEOWNERS. Mudou aqui, muda nos dois.
 #
+# ENCOLHIDA em 2026-08-09. Antes incluía billing/, AndroidManifest.xml e
+# build.gradle. Saíram porque a proteção virou automática e a revisão humana
+# aqui é solo — PR pra si mesmo não revisa nada, só adia:
+#   · AndroidManifest.xml → PermissoesDeclaradasTest quebra o gate em qualquer
+#     mudança de permissão, que era o risco real (Data Safety divergente do APK);
+#   · build.gradle       → "quebra o build de todo mundo" é exatamente o que a
+#     CI pega, antes do merge;
+#   · billing/           → o motivo era "dinheiro + teto frágil do Billing". O
+#     teto acabou na migração pra 9.1.0, e a área passou a ser do Gabriel.
+#
+# Sobrou o que nenhum teste cobre:
+#   · engine/ e assets/atmosfera/ → o Rafael evolui isso em paralelo e entrega
+#     por snapshot; editar sem avisar gera conflito de merge (já aconteceu). É o
+#     incidente que originou esta regra.
+#   · .github/ → é o meta-guarda: quebrar aqui desliga todos os outros.
+#
 # Instalar: ./scripts/setup-hooks.sh
 # Escapar de propósito: git push --no-verify (e explique no PR depois).
 
-RISCO='^android-app/app/src/main/java/com/atmosfera/wallpaper/engine/|^android-app/app/src/main/assets/atmosfera/|^android-app/app/src/main/java/com/atmosfera/wallpaper/billing/|^android-app/app/src/main/AndroidManifest\.xml$|^android-app/app/build\.gradle$|^\.github/'
+RISCO='^android-app/app/src/main/java/com/atmosfera/wallpaper/engine/|^android-app/app/src/main/assets/atmosfera/|^\.github/'
 
 ZERO='0000000000000000000000000000000000000000'
 BLOQUEAR=0

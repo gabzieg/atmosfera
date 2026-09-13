@@ -1,6 +1,7 @@
 package com.atmosfera.wallpaper.debug
 
 import android.content.Context
+import com.atmosfera.wallpaper.BuildConfig
 import com.atmosfera.wallpaper.billing.Plano
 import com.atmosfera.wallpaper.engine.SceneState
 import com.atmosfera.wallpaper.weather.DayPeriod
@@ -24,6 +25,7 @@ object DebugOverride {
     private const val K_VENTO = "vento"
     private const val K_HORA = "hora"           // -1 = relógio real
     private const val K_NEVOA = "nevoa"         // -1 = derivada da condição
+    private const val K_DESTRAVAR = "destravar" // cenários pagos liberados p/ teste
 
     private fun p(c: Context) = c.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
@@ -53,6 +55,25 @@ object DebugOverride {
     /** Névoa forçada 0..1, ou -1 para deixar a condição decidir. */
     fun nevoa(c: Context) = p(c).getFloat(K_NEVOA, -1f)
     fun setNevoa(c: Context, v: Float) = p(c).edit().putFloat(K_NEVOA, v).apply()
+
+    /**
+     * Libera os cenários PAGOS sem passar pelo Google Play — só para teste.
+     *
+     * Existe porque hoje não há como comprar de verdade: os produtos ainda não
+     * foram criados no Play Console, e um emulador sem imagem "Google Play"
+     * sequer conecta ao serviço de billing. Sem isto, o `tanque` fica invisível
+     * na prática, apesar de os assets já existirem em `assets/atmosfera/cenas/`.
+     *
+     * **Blindado por `BuildConfig.DEBUG`**: em build de release este método
+     * devolve `false` sempre, independente do que estiver gravado nas prefs.
+     * É o único ponto de leitura da flag, então não há caminho para um APK
+     * publicado destravar conteúdo pago por aqui.
+     */
+    fun destravarPagos(c: Context): Boolean =
+        BuildConfig.DEBUG && p(c).getBoolean(K_DESTRAVAR, false)
+
+    fun setDestravarPagos(c: Context, v: Boolean) =
+        p(c).edit().putBoolean(K_DESTRAVAR, v).apply()
 
     /** Código WMO equivalente ao nível de neve escolhido (casa com SceneState). */
     private fun weatherCodeNeve(nivel: Int) = when (nivel) {

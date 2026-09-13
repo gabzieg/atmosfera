@@ -16,14 +16,19 @@ import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.atmosfera.wallpaper.BuildConfig
 import com.atmosfera.wallpaper.billing.Plano
+import com.atmosfera.wallpaper.engine.Acervo
 import com.atmosfera.wallpaper.engine.ArteFundo
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cena
 import com.atmosfera.wallpaper.engine.EstiloEfeito
 import com.atmosfera.wallpaper.engine.Estilos
 import com.atmosfera.wallpaper.weather.WeatherCondition
+import kotlinx.coroutines.launch
 
 /**
  * Painel de TESTE (só em builds debug): força clima/hora/vento/névoa e mostra
@@ -70,6 +75,16 @@ class DebugActivity : AppCompatActivity() {
         raiz.addView(scroll, LinearLayout.LayoutParams(MATCH_PARENT, 0, 2f))
         setContentView(raiz)
 
+        // Com targetSdk 35+ o edge-to-edge é imposto pelo sistema: sem tratar os
+        // insets, a prévia entra por baixo da barra de status e o botão "Fechar"
+        // some atrás da barra de navegação. As telas Compose já estão cobertas
+        // pelo Scaffold; esta aqui é View crua, então precisa aplicar na mão.
+        ViewCompat.setOnApplyWindowInsetsListener(raiz) { v, insets ->
+            val barras = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(barras.left, barras.top, barras.right, barras.bottom)
+            insets
+        }
+
         montarControles(col)
     }
 
@@ -81,14 +96,58 @@ class DebugActivity : AppCompatActivity() {
         col.addView(dropdown(cenarios, Cena.atual(this)) { id ->
             Cena.definir(this, id); preview.trocarCenaEstilo()
         })
-        val artes = listOf("pixel" to "🟦 Pixel Art", "clay" to "🧱 Clay", "aqua" to "🎨 Aquarela")
+        // "pixel" = arte BASE da cena (na cabana é pixel art, no tanque é o
+        // diorama clay). As demais só existem em algumas cenas — escolher uma
+        // que a cena não tem cai no fundo base (fundoPrefixo faz o fallback).
+        val artes = listOf(
+            "pixel" to "🟦 Arte base",
+            "aqua" to "🎨 Aquarela",
+            "clay" to "🧱 Clay",
+            "doodle" to "✏️ Doodle",
+            "needle" to "🧶 Needle Felting",
+            "pixelart" to "🟦 Pixel Art",
+            "pixel2" to "🟦 Pixel Art 2",
+            "doodleinf" to "🖍️ Doodle Infantil",
+            "point" to "🖌️ Pontilhismo",
+            "point2" to "🖌️ Pontilhismo 2",
+            "vangogh" to "🌌 Van Gogh",
+            "doodle2" to "✏️ Doodle 2", "papel" to "📰 Papier-mâché",
+            "noite" to "🌙 Pixel Noite", "chibi" to "🎎 Anime Chibi",
+            "kodomo" to "🎈 Anime Kodomo", "seinen" to "🗡️ Anime Seinen",
+            "impress" to "🖼️ Impressionismo", "cozy" to "🛋️ Cozy Fantasy",
+            "lowpoly" to "🔷 Low Poly", "vivid" to "🌈 Vivid",
+            "cartoon" to "💫 Cartoon", "cutout" to "✂️ Paper Cutout",
+            "cera" to "🕯️ Cera", "sfumato" to "🌫️ Sfumato", "iso" to "📐 Isométrico",
+            "rupestre" to "🪨 Rupestre", "xilo" to "🪵 Xilogravura", "clay2" to "🧱 Clay 2",
+            "giz" to "🖍️ Giz", "clau" to "🎨 Clau", "impamer" to "🖼️ Imp. Americano", "simpsons" to "📺 Suburbano",
+            "dark" to "🌑 Dark", "puppet" to "🎭 Puppet", "anime" to "🎌 Anime",
+            "ukiyoe" to "🎴 Ukiyo-e",
+        )
         col.addView(rotulo("↳ Arte do cenário"))
         col.addView(dropdown(artes, ArteFundo.atual(this)) { id ->
             ArteFundo.definir(this, id); preview.trocarCenaEstilo()
         })
         val estilos = listOf(
-            "pixel" to "🟦 Pixel Art", "clay" to "🧱 Clay",
-            "bizantino" to "🏛️ Bizantino", "aqua" to "🎨 Aquarela"
+            "aqua" to "🎨 Aquarela",
+            "bizantino" to "🏛️ Bizantino",
+            "clay" to "🧱 Clay",
+            "low_poly" to "🔷 Low Poly",
+            "feltro" to "🧶 Feltro",
+            "papel_mache" to "📰 Papel-maché", "papel_mache_2" to "📰 Papel-maché 2",
+            "papel_recortado" to "✂️ Papel Recortado", "papel_recortado_2" to "✂️ Papel Recortado 2",
+            "papel_recortado_3" to "✂️ Papel Recortado 3",
+            "pixel" to "🟦 Pixel Art", "pixel_art_2" to "🟩 Pixel Art 2",
+            "pixel_retro" to "👾 Pixel Retrô", "pixel_retro_2" to "👾 Pixel Retrô 2",
+            "pontilhismo" to "🖌️ Pontilhismo",
+            "pontilhismo_2" to "🖌️ Pontilhismo 2", "pontilhismo_3" to "🖌️ Pontilhismo 3",
+            "fantasia" to "⚔️ Fantasia",
+            "rupestre" to "🪨 Rupestre", "rupestre_2" to "🪨 Rupestre 2",
+            "rupestre_3" to "🪨 Rupestre 3", "rupestre_4" to "🪨 Rupestre 4",
+            "minimalista" to "✏️ Minimalista",
+            "talhe_doce" to "🪵 Talhe Doce", "talhe_doce_rico" to "🪵 Talhe Doce Rico",
+            "ukiyoe" to "🎴 Ukiyo-e",
+            "doodle_infantil" to "🧸 Doodle Infantil", "doodle_rabisco" to "🖋️ Doodle Rabisco",
+            "van_gogh" to "🌌 Van Gogh"
         ).filter { it.first in Estilos.ids }
         col.addView(rotulo("Estilo dos efeitos"))
         col.addView(dropdown(estilos, EstiloEfeito.atual(this)) { id ->
@@ -164,6 +223,23 @@ class DebugActivity : AppCompatActivity() {
             Plano.setPremium(this, on); preview.recarregar()
         })
 
+        // Destrave de cenários pagos — sem isto o `tanque` é intestável, já que
+        // não há produto no Play Console nem Play Store no emulador.
+        col.addView(switch("Destravar cenários pagos (teste)", DebugOverride.destravarPagos(this)) { on ->
+            DebugOverride.setDestravarPagos(this, on)
+            Toast.makeText(
+                this,
+                if (on) "Cenários pagos liberados. Abra a Loja para escolher."
+                else "Cenários pagos voltaram a exigir compra.",
+                Toast.LENGTH_SHORT
+            ).show()
+        })
+        col.addView(TextView(this).apply {
+            text = "Só vale em build debug: no APK de release este destrave não existe."
+            setTextColor(Color.parseColor("#8A94A6")); textSize = 12f
+            setPadding(0, dp(2), 0, 0)
+        })
+
         // Master: forçar clima no wallpaper real
         col.addView(rotulo("——"))
         col.addView(switch("Forçar este clima no wallpaper", DebugOverride.ativo(this)) { on ->
@@ -182,11 +258,77 @@ class DebugActivity : AppCompatActivity() {
             setPadding(0, dp(6), 0, 0)
         })
 
+        secaoAcervo(col)
+
         col.addView(Button(this).apply {
             text = "Fechar"
             setOnClickListener { finish() }
             layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply { topMargin = dp(16) }
         })
+    }
+
+    /**
+     * ACERVO — baixar a arte da cena escolhida de um servidor, em vez de tirar
+     * dos assets. É a única forma de exercitar o download antes de a Loja ter
+     * botão pra isso (ver docs/dev/ENTREGA-DE-ARTE.md). No emulador, o servidor
+     * do tester responde em `http://10.0.2.2:8123/dist/`.
+     */
+    private fun secaoAcervo(col: LinearLayout) {
+        col.addView(rotulo("—— Acervo (download da arte) ——"))
+        val estado = TextView(this).apply {
+            setTextColor(Color.parseColor("#8A94A6")); textSize = 12f
+        }
+        fun atualizar() {
+            val cena = Cena.atual(this); val arte = ArteFundo.atual(this)
+            estado.text = buildString {
+                append(if (Acervo.temArte(this@DebugActivity, cena, arte))
+                    "$cena/$arte: baixado" else "$cena/$arte: usando o asset embutido")
+                append("  ·  disco ")
+                append("%.1f MB".format(Acervo.bytesEmDisco(this@DebugActivity) / 1e6))
+                val b = Acervo.base(this@DebugActivity)
+                append("\nservidor: ").append(if (b.isEmpty()) "(nenhum)" else b)
+            }
+        }
+        val campo = android.widget.EditText(this).apply {
+            hint = "http://10.0.2.2:8123/dist/"
+            setText(Acervo.base(this@DebugActivity))
+            setTextColor(Color.WHITE); textSize = 13f
+        }
+        col.addView(campo)
+        col.addView(Button(this).apply {
+            text = "Salvar servidor"
+            setOnClickListener {
+                Acervo.definirBase(this@DebugActivity, campo.text.toString().trim())
+                atualizar()
+            }
+        })
+        col.addView(Button(this).apply {
+            text = "Baixar arte desta cena"
+            setOnClickListener {
+                val cena = Cena.atual(this@DebugActivity)
+                val arte = ArteFundo.atual(this@DebugActivity)
+                estado.text = "baixando $cena/$arte…"
+                lifecycleScope.launch {
+                    Acervo.baixarArte(this@DebugActivity, cena, arte).collect { p ->
+                        when (p) {
+                            is Acervo.Progresso.Baixando ->
+                                estado.text = "baixando $cena/$arte… %.0f%%".format(p.fracao * 100)
+                            is Acervo.Progresso.Erro -> estado.text = "erro: ${p.motivo}"
+                            Acervo.Progresso.Ok -> { atualizar(); preview.trocarCenaEstilo() }
+                        }
+                    }
+                }
+            }
+        })
+        col.addView(Button(this).apply {
+            text = "Apagar o que foi baixado desta cena"
+            setOnClickListener {
+                Acervo.apagarCena(this@DebugActivity, Cena.atual(this@DebugActivity))
+                atualizar(); preview.recarregar()
+            }
+        })
+        col.addView(estado)
+        atualizar()
     }
 
     // ── Helpers de UI ────────────────────────────────────────────────

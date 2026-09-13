@@ -1,6 +1,9 @@
 package com.atmosfera.wallpaper.ui
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
@@ -14,7 +17,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -38,14 +43,34 @@ fun MainScreen(viewModel: MainViewModel) {
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = { BottomNavBar(navController) }
     ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = "home",
-            modifier = Modifier.padding(innerPadding),
+        // Coluna de conteúdo com largura máxima, centralizada.
+        //
+        // Em celular (≈360–430dp) o teto nunca é atingido: layout idêntico ao de
+        // antes. Em tela grande é o que evita o app parecer quebrado — a partir
+        // do targetSdk 36 o Android 16 IGNORA a trava `screenOrientation`
+        // declarada no manifesto quando a tela tem ≥600dp, então tablet e
+        // dobrável passam a ver estas telas queiramos ou não.
+        //
+        // Sem o teto, o conteúdo esticava na largura toda e o card de clima
+        // (altura fixa de 300dp) virava uma faixa achatada com a arte cortada.
+        // Isto não torna o app "otimizado pra tablet" — é o mínimo pra leitura
+        // ficar confortável e o resultado parecer intencional. Layout de duas
+        // colunas, se um dia valer a pena, entra aqui.
+        Box(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
+            contentAlignment = Alignment.TopCenter,
         ) {
-            composable("home") { HomeTab(viewModel) }
-            composable("store") { StoreTab(viewModel) }
-            composable("settings") { SettingsTab(viewModel) }
+            NavHost(
+                navController = navController,
+                startDestination = "home",
+                modifier = Modifier.widthIn(max = 600.dp).fillMaxSize(),
+            ) {
+                composable("home") { HomeTab(viewModel) }
+                composable("store") { StoreTab(viewModel) }
+                composable("settings") { SettingsTab(viewModel) }
+            }
         }
     }
 }

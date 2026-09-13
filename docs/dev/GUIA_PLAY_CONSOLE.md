@@ -50,19 +50,18 @@ menos.
 | Finalidade | **Funcionalidade do app** |
 | Processado de forma efêmera? | Não (fica em cache local) |
 
-#### Localização → Localização precisa — **SIM**
+#### Localização → Localização precisa — **NÃO**
 
-Contraintuitivo, mas obrigatório: o manifesto declara `ACCESS_FINE_LOCATION`, e
-o Google compara a declaração com o que o APK pede. Declarar só "aproximada"
-com `FINE` no manifesto é inconsistência — **causa nº1 de rejeição**.
+Era **SIM** até 2026-08-08, porque o manifesto declarava `ACCESS_FINE_LOCATION`
+e o Google compara a declaração com o que o APK pede. A permissão foi
+**removida** naquela data: nenhum caminho do código exigia precisão fina (o
+portão é `LocationHelper.hasPermission()`, que só checa COARSE, e a busca pede
+`PRIORITY_BALANCED_POWER_ACCURACY`).
 
-> **Alternativa mais limpa:** remover `ACCESS_FINE_LOCATION` do manifesto. O
-> código só checa `ACCESS_COARSE_LOCATION` (`LocationHelper.hasPermission()`) e
-> pede `PRIORITY_BALANCED_POWER_ACCURACY` — a permissão fine não tem uso real.
-> Mexe no manifesto → área de risco, exige PR. Se fizer isso, **desmarque este
-> item** e ajuste a política §5.
-
-Mesmas respostas da aproximada.
+Agora a resposta consistente é **não coletar localização precisa**. Marcar
+"sim" passaria a ser a inconsistência — e inconsistência entre Data Safety e
+APK é a **causa nº1 de rejeição**. Se alguém readicionar `ACCESS_FINE_LOCATION`
+ao manifesto, este item volta a ser **SIM** e a política §5 precisa acompanhar.
 
 #### Compras no app — **NÃO marcar como coletado por você**
 
