@@ -160,7 +160,7 @@ efeitos, mudar as assinaturas da seção 3.
   Premium liga os efeitos vivos.
 - **Tanque**: cenário #2, mapeado e funcionando no **protótipo web** (nosso
   laboratório). Porte pro motor Android vem por snapshot.
-- **Billing/Premium**: `Plano` + `BillingManager` (Play Billing 6.2.1, produto
+- **Billing/Premium**: `Plano` + `BillingManager` (Play Billing 9.1.0, produto
   `atmosfera_premium`) já existem.
 - **Clima**: `weather.*` (Open-Meteo, localização, cache 30 min) funcionando.
 - **CI**: GitHub Actions (`.github/workflows/build.yml`) compila `assembleDebug` e
@@ -168,16 +168,24 @@ efeitos, mudar as assinaturas da seção 3.
 
 ## 6. Stack técnica
 
-Kotlin 1.9.23 · AGP 8.3.0 · minSdk 26 · JDK 17 · Gradle (setup-gradle 8.6) ·
-Google Play Billing 6.2.1 · Gson (pacote weather) · `buildConfig true`.
+Kotlin 2.4.10 · AGP 8.13.2 · Gradle 8.14.5 (wrapper) · minSdk 26 ·
+compileSdk/targetSdk 36 · JDK 17 · Google Play Billing 9.1.0 · Gson (pacote
+weather) · `buildConfig true`.
 Coordenadas de cena em espaço lógico (a cabana 688×1538; o tanque 688×1536) —
 o motor faz o "cover" para a tela; **o front não precisa saber disso**.
 
-> ⚠️ **Billing preso em 6.2.1 de propósito:** 7.0.0+ é compilado com metadata do
-> Kotlin 2.x, incompatível com o compilador Kotlin 1.9.23 deste projeto (erro
-> real de build, confirmado rodando `gradlew assembleDebug`, não suposição). Só
-> suba a versão do Billing junto com uma atualização do plugin Kotlin — os dois
-> andam juntos.
+> **Atualizado em 2026-08-08 — a trava do Kotlin 1.9.23 acabou.** O projeto
+> estava preso em Kotlin 1.9.23 / Billing 6.2.1; o Google passou a exigir
+> Billing v8+ **e** `targetSdk` 36+ para publicar (ambos com prazo 31/ago/2026),
+> então tudo subiu junto.
+>
+> **Impacto no motor: nenhum.** `engine/**` compilou sem uma linha alterada —
+> ele só importa `android.graphics`, `kotlin.math`/`kotlin.random` e os tipos de
+> `weather`, sem Compose nem biblioteca externa. Um snapshot escrito para o
+> Kotlin 1.9 continua compilando aqui; o que mudou foi o compilador embaixo.
+>
+> Se for abrir o projeto Android localmente, precisa de um Android Studio /
+> plugin Kotlin recente o bastante para o Kotlin 2.x.
 
 ## 7. Como trabalhar sem colisão
 

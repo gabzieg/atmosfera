@@ -4,9 +4,14 @@ name: Aviso de push direto em área de risco
 # (a API responde 403 "Upgrade to GitHub Pro"). Este workflow é o substituto
 # possível no plano free: não bloqueia nem reverte push nenhum, só abre uma
 # issue de alerta quando um commit que NÃO veio de PR mergeado toca área de
-# risco (mesma lista do CODEOWNERS: engine/, assets/atmosfera/, billing/,
-# AndroidManifest.xml, build.gradle, .github/). Doc/UI fora da lista passam
-# quieto — já é permitido pela convenção do time (CLAUDE.md).
+# risco (mesma lista do CODEOWNERS: engine/, assets/atmosfera/, .github/).
+# Doc/UI fora da lista passam quieto — já é permitido pela convenção do time
+# (CLAUDE.md).
+#
+# A lista ENCOLHEU em 2026-08-09: billing/, AndroidManifest.xml e build.gradle
+# saíram porque a proteção virou automática (PermissoesDeclaradasTest para
+# permissões, gate da CI para build) e a revisão humana virou solo. Ver o
+# comentário longo em .githooks/pre-push para o raciocínio completo.
 #
 # "Veio de PR?" é perguntado à API (/commits/{sha}/pulls), não à mensagem do
 # commit. A primeira versão greppava "#N" no texto: qualquer commit direto
@@ -65,7 +70,7 @@ jobs:
             exit 0
           fi
 
-          RISCO='^android-app/app/src/main/java/com/atmosfera/wallpaper/engine/|^android-app/app/src/main/assets/atmosfera/|^android-app/app/src/main/java/com/atmosfera/wallpaper/billing/|^android-app/app/src/main/AndroidManifest\.xml$|^android-app/app/build\.gradle$|^\.github/'
+          RISCO='^android-app/app/src/main/java/com/atmosfera/wallpaper/engine/|^android-app/app/src/main/assets/atmosfera/|^\.github/'
 
           DIRETOS=""
           HIT=""
@@ -136,7 +141,7 @@ jobs:
           ${ARQUIVOS}
           \`\`\`
 
-          Área de risco = mesma lista do CODEOWNERS (engine/, assets/atmosfera/, billing/, AndroidManifest.xml, build.gradle, .github/). Pelo CLAUDE.md essas áreas exigem PR + combinar com o dono (Rafael: engine/assets · Willian: billing/legal). Confirma se foi intencional.
+          Área de risco = mesma lista do CODEOWNERS (engine/, assets/atmosfera/, .github/). Pelo CLAUDE.md essas áreas exigem PR + combinar com o Rafael (engine/assets), porque ele evolui isso em paralelo e entrega por snapshot. Confirma se foi intencional.
 
           Este aviso é informativo — nada foi bloqueado nem revertido. Enquanto o repo for privado no plano free, branch protection e CODEOWNERS não funcionam, então este workflow é o único sinal que existe.
           CORPO
