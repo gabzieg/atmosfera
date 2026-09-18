@@ -6,6 +6,106 @@ Esta análise considera o estado local, inclusive alterações ainda não commit
 
 Plano executável: [PLANO-LANCAMENTO.md](PLANO-LANCAMENTO.md). Operação depois da publicação: [OPERACAO-POS-LANCAMENTO.md](OPERACAO-POS-LANCAMENTO.md).
 
+---
+
+## Atualização — 18 de setembro de 2026
+
+Um dia de trabalho sobre esta auditoria. **Nenhum bloqueio foi integralmente
+fechado**; três avançaram de forma relevante e um teve achado novo que muda o
+critério de aceite do projeto inteiro. O quadro abaixo distingue o que mudou no
+código do que apenas foi decidido.
+
+| Bloqueio | Situação | O que de fato mudou |
+|---|---|---|
+| B01 — entrega sob demanda | **Adiado por decisão**, não resolvido | Decidido lançar local-only, sem servidor. O AAB de 405,6 MB cabe no teto de 500 MB do módulo base, então é viável — mas o critério de saída original (catálogo remoto, comprar→baixar→aplicar) continua não atendido. `Acervo.BASE_PADRAO` segue vazio. |
+| B02 — Premium × implementação | **Parcial** | `MainViewModel.setEffectStyle()` passou a exigir Premium (só `pixel` é livre) e a UI ganhou cadeado. **Continua aberto:** `AtmosferaWallpaperService.kt:107` lê `EstiloEfeito.atual()` **sem checar posse** — quem perder o Premium segue com o estilo pago renderizando. A auditoria pedia verificação "ao aplicar **e ao carregar no serviço**". Prévia sem uso permanente e tabela única de direitos também seguem abertas. |
+| B03 — compras | **Parcial** | `acknowledgePurchase()` passou a logar falha; cancelamento, item já possuído e erro passaram a ser tratados; `MainActivity.onResume()` reconsulta compras. **Continua aberto:** `LICENSE_PUBLIC_KEY_BASE64` vazia (depende do Play Console), estado de posse ainda é booleano em preferências sem observação reativa, sem superfície de erro na UI, e os 75 SKUs não foram cadastrados. |
+| B04 — clima comercial | **Sem mudança** | Não endereçado. |
+| B05 — páginas legais | **Parcial, mas com o item mais crítico fechado** | `PaginasLegaisSincronizadasTest` **passa** — era o teste que falhava nesta auditoria (item da seção 5). As três cópias voltaram a ser byte a byte idênticas, `public_html/` foi criado e sincronizado, e os placeholders de controlador, contato e URL foram preenchidos. Encarregado (DPO) resolvido pela isenção da **Resolução CD/ANPD nº 2/2022, art. 11**, citando o artigo — não por nome suposto, como a auditoria exigia. **Continua aberto:** `ReportarProblemaDialog.kt:63` ainda aponta para `rafael.huppes@gmail.com` em vez do suporte Terra; "Vigente desde" e data de publicação seguem `[PREENCHER]` (só existem no dia real); URL pública não validada; o texto que nega reembolso pelo desenvolvedor não foi corrigido. |
+| B06 — Data Safety | **Sem mudança** | Depende de B01 e B04. |
+| B07 — release e qualidade | **Avançado, com achado novo grave** | Ver abaixo. |
+
+### B07 — o que foi apurado
+
+A auditoria pedia "conferir a matriz oficial, alinhar versões e repetir o
+release". Feito, com resultado conclusivo:
+
+- **Causa raiz dos avisos do R8 identificada**: a matriz oficial
+  (developer.android.com/build/kotlin-support) exige **R8 9.1.29+ para Kotlin
+  2.4.x**; o AGP 8.13.2 empacota **R8 8.13.19**, que casa com Kotlin 2.3.x. O
+  descompasso é real, não ruído.
+- **Duas correções testadas**: baixar para Kotlin 2.3.20 (gate + `bundleRelease`
+  verdes, aviso zerado) e subir para AGP 9.4.0 (idem). Optou-se pela segunda.
+- **A migração para AGP 9.4 foi REVERTIDA**: passou em **100% do gate** —
+  incluindo `bundleRelease` assinado, tamanho idêntico e `zipalign -P 16` — e
+  **o app não abria**. Detalhes em [DECISAO-AGP-9-MIGRACAO.md](DECISAO-AGP-9-MIGRACAO.md).
+- **O aviso de metadata do R8 continua existindo** e foi aceito como cosmético:
+  o build atual funciona em aparelho, e a tentativa de eliminá-lo quebrou o app.
+- **16 KB confirmado**: `zipalign -P 16 -c -v 4` → `Verification successful`.
+
+### O achado que muda o critério de aceite do projeto
+
+A auditoria já observava que "a CI atual valida debug, não o comportamento do
+release minificado" (B07) e que os modelos do `Acervo` precisam de "validação com
+R8 ativo" (seção 3). Hoje isso deixou de ser hipótese:
+
+> O build de release com AGP 9.4 passou em todo o gate e **crashava na abertura**:
+> `RuntimeException: Failed to create an instance of class androidx.work.impl.WorkDatabase`
+> (`MainActivity.onCreate` → `WeatherWorker.schedule` → WorkManager → Room por reflexão).
+
+Causa: a regra que o `room-runtime` 2.5.0 traz sozinho é
+`-keep class * extends androidx.room.RoomDatabase` — **sem `{ <init>(); }`**.
+Preserva a classe, não o construtor que o Room chama por reflexão. O R8 8.13.x
+preservava por conta própria; o R8 9.x não. Corrigido explicitamente em
+`proguard-rules.pro` — hoje é no-op (APK byte a byte do mesmo tamanho), amanhã
+é obrigatório.
+
+**Consequência para o processo:** existe uma faixa inteira de defeitos — tudo
+que depende de reflexão (Room, WorkManager, Retrofit/Gson, Billing) — que
+**nenhuma verificação automática deste projeto alcança**, porque os testes são
+JVM puro, não há `androidTest/` e o R8 só roda no release. Gate verde valida a
+compilação, não o produto.
+
+**Novo critério de aceite, adotado hoje:** instalar o **build de release** em
+aparelho e exercitar os caminhos de reflexão antes de considerar qualquer
+mudança de build concluída.
+
+### Primeira validação em aparelho do build de release
+
+A auditoria registrava "sem validação em aparelho físico" (seção 5). O estado
+atual foi verificado com o release instalado em emulador — não apenas compilado:
+
+| Caminho | Resultado |
+|---|---|
+| App abre | ✅ processo vivo |
+| Sobrevive à navegação até a Loja | ✅ |
+| WorkManager + Room + Retrofit/Gson | ✅ `Worker result SUCCESS` |
+| `BillingManager` inicializa | ✅ falha apenas ambiental (sem conta Google no AVD) |
+| `FATAL EXCEPTION` | **0** |
+
+Continua valendo: sem aparelho físico, sem transação de compra real, sem
+publicação externa.
+
+### Outras correções do dia
+
+- **Rebrand Atmosfera → Terra** concluído em strings, páginas legais e ficha.
+- **Localização em segundo plano** passou a reusar a coordenada em cache em vez
+  de buscar posição nova — alinhando o código ao que a política já prometia
+  (relacionado ao risco de `WeatherWorker` na seção 3, que **não** foi fechado:
+  o tratamento de `Result` de erro continua como a auditoria descreve).
+- **Cidade padrão corrigida** de "Novo Hamburgo - PR" para "RS" (2 ocorrências).
+  O risco de fundo apontado na seção 3 — cair para cidade fixa quando não há
+  localização — **permanece**.
+- **Curadoria de estilos**: ~30 → 16, e os 4 cenários cortados por IP saíram do
+  `Catalogo` (ainda eram consultados no Play apesar de não aparecerem na Loja).
+- **Entry point da `PremiumScreen` restaurado** — a tela estava órfã desde um
+  merge anterior.
+
+**A decisão de lançamento da auditoria continua válida:** não submeter à
+produção com B01–B07 em aberto. Nada do que foi feito hoje altera esse veredito;
+o que mudou é que três bloqueios encolheram e o critério de verificação ficou
+mais rigoroso.
+
 ## 1. O que já atende à proposta
 
 | Área | Evidência no projeto | Avaliação |
