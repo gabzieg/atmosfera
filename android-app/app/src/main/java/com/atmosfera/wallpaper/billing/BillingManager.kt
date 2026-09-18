@@ -189,10 +189,27 @@ class BillingManager(
     }
 
     override fun onPurchasesUpdated(result: BillingResult, compras: MutableList<Purchase>?) {
-        if (result.responseCode == BillingClient.BillingResponseCode.OK && compras != null) {
-            // Compra recém-fechada: aqui aplicar o cenário é o comportamento
-            // desejado — o usuário acabou de comprar aquele cenário.
-            compras.forEach { processar(it, aplicarCena = true) }
+        // Antes só o OK era tratado — cancelamento, item já possuído e erro real
+        // ficavam em silêncio total (nem log), o que era exatamente o achado da
+        // auditoria: a UI nunca sabe por que a compra não completou.
+        when (result.responseCode) {
+            BillingClient.BillingResponseCode.OK -> {
+                // Compra recém-fechada: aqui aplicar o cenário é o comportamento
+                // desejado — o usuário acabou de comprar aquele cenário.
+                compras?.forEach { processar(it, aplicarCena = true) }
+            }
+            BillingClient.BillingResponseCode.USER_CANCELED -> {
+                Log.i(TAG, "Usuário cancelou o fluxo de compra.")
+            }
+            BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> {
+                // Pode acontecer se o front ficou dessincronizado da posse real
+                // (ex.: compra feita em outro device). Reconsulta pra alinhar.
+                Log.i(TAG, "Item já possuído — restaurando para sincronizar o estado local.")
+                restaurar()
+            }
+            else -> {
+                Log.w(TAG, "Compra não concluída (${result.responseCode}): ${result.debugMessage}")
+            }
         }
     }
 
@@ -229,7 +246,17 @@ class BillingManager(
                 client.acknowledgePurchase(
                     AcknowledgePurchaseParams.newBuilder()
                         .setPurchaseToken(p.purchaseToken).build()
-                ) { /* confirmado */ }
+                ) { resultado ->
+                    // Falha aqui não é fatal: a Play reembolsa automaticamente uma
+                    // compra não confirmada em até 3 dias, e restaurar() tenta de
+                    // novo em toda reconexão/abertura do app (a compra continua
+                    // isAcknowledged=false até um ack bem-sucedido). Mas silenciar
+                    // isso escondia exatamente o cenário que o prazo de 3 dias
+                    // pune — logar é o mínimo pra dar pra diagnosticar em campo.
+                    if (resultado.responseCode != BillingClient.BillingResponseCode.OK) {
+                        Log.w(TAG, "Falha ao confirmar compra ${p.orderId}: ${resultado.debugMessage}")
+                    }
+                }
             }
             
             p.products.forEach { productId ->
