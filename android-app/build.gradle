@@ -1,5 +1,26 @@
 // Top-level build file
+
+// O Kotlin embutido do AGP 9.x usa a KGP 2.2.10 por padrão — o que REBAIXARIA
+// nosso Kotlin 2.4.10 sem avisar (confirmado: sem isto, o releaseCompileClasspath
+// inteiro resolve pra kotlin-stdlib 2.2.10). Subir acima do padrão é feito
+// declarando a KGP no classpath do buildscript, conforme as notas do AGP 9.0.
+//
+// Por que 2.4.10 importa: a tabela oficial (developer.android.com/build/kotlin-support)
+// diz que Kotlin 2.4.x exige R8 9.1.29+ — que é justamente o que o AGP 9.4 traz e
+// o AGP 8.13.2 (R8 8.13.19) não tinha. Era ESTE o descompasso que a migração
+// veio resolver; aceitar o 2.2.10 seria trocar um downgrade por outro maior.
+//
+// ⚠️ A versão aqui precisa acompanhar `kotlin` em gradle/libs.versions.toml —
+// o catálogo não é acessível dentro de buildscript{}. Mudou lá, mude aqui.
+buildscript {
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.10'
+    }
+}
+
 plugins {
     alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.kotlin.android) apply false
+    // kotlin.android saiu na migração pro AGP 9.x — suporte a Kotlin agora vem
+    // embutido no com.android.application (ver libs.versions.toml e
+    // docs/dev/DECISAO-AGP-9-MIGRACAO.md).
 }

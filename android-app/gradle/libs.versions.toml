@@ -13,7 +13,7 @@
 #                    Fica em app/build.gradle, não aqui, mas anda junto.
 
 [versions]
-agp = "8.13.2"
+agp = "9.4.0"
 kotlin = "2.4.10"
 composeBom = "2026.06.01"
 coroutines = "1.7.3"
@@ -61,9 +61,14 @@ junit = { module = "junit:junit", version.ref = "junit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+# `kotlin-android` (org.jetbrains.kotlin.android) SAIU do catálogo em 2026-09-18,
+# migração pro AGP 9.x: desde o AGP 9.0 o suporte a Kotlin vem embutido no
+# próprio plugin com.android.application — aplicar o plugin separado por cima
+# conflita com o Kotlin embutido. Ver docs/dev/DECISAO-AGP-9-MIGRACAO.md.
+#
 # A partir do Kotlin 2.0 o compilador do Compose vem dentro do próprio Kotlin:
 # deixou de ser artefato à parte (`composeOptions.kotlinCompilerExtensionVersion`)
 # e virou plugin, sempre na mesma versão do Kotlin. Por isso não existe mais uma
-# `composeCompiler` neste catálogo pra manter em sincronia na mão.
+# `composeCompiler` neste catálogo pra manter em sincronia na mão. Esse plugin
+# CONTINUA sendo aplicado à parte mesmo com o Kotlin embutido (não é built-in).
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

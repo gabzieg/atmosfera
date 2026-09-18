@@ -68,5 +68,87 @@ Antes de iniciar a migração:
 4. Só depois de gate verde na branch nova: decidir se ela vira a linha
    principal (merge) ou se fica em espera.
 
-**Status: decisão registrada, migração ainda NÃO iniciada.** Aguardando os
-passos 1–2 acima.
+## EXECUÇÃO — 2026-09-18, branch `chore/agp-9-migracao`
+
+**Status: migração feita e verificada.** O ponto de restauração é o commit
+`a5f37aa` na `integracao/lancamento-teste` (gate verde, AAB 405,6 MB assinado).
+
+### O que mudou
+
+| Item | De | Para |
+|---|---|---|
+| AGP | 8.13.2 | 9.4.0 |
+| Gradle | 8.14.5 | 9.6.0 |
+| Kotlin | 2.4.10 | 2.4.10 (preservado — ver armadilha abaixo) |
+| Plugin Kotlin | `kotlin-android` separado | embutido no `com.android.application` |
+| `kotlinOptions{}` | dentro de `android{}` | `kotlin{compilerOptions{}}` de nível de arquivo |
+| `android.enableJetifier` | `true` | removido |
+
+A parte cara da migração **não se aplicou**: o projeto não usava NENHUMA API
+legada de variant (`applicationVariants`, `variantFilter`, `registerJavaGeneratingTask`
+etc.) — confirmado por grep antes de começar. Sobrou só a troca de plugin.
+
+### A armadilha: o Kotlin embutido REBAIXA a versão em silêncio
+
+O Kotlin embutido do AGP 9.x usa **KGP 2.2.10** por padrão. Sem intervenção, o
+`releaseCompileClasspath` inteiro passou a resolver `kotlin-stdlib:2.2.10` —
+ou seja, a migração feita "no caminho feliz" teria **rebaixado o Kotlin de
+2.4.10 pra 2.2.10**, versão mais antiga até que os 2.3.20 da opção A, que foi
+descartada justamente por ser downgrade.
+
+**O build de debug NÃO revela isso** — compila, passa nos testes, fecha verde.
+Só apareceu porque o `bundleRelease` falhou ao tentar resolver
+`org.jetbrains.kotlin:compose-group-mapping:2.2.10`, artefato que não existe
+nessa coordenada. Sem rodar release, teríamos commitado um downgrade invisível.
+
+Correção (notas do AGP 9.0): declarar a KGP no classpath do buildscript raiz.
+Confirmado depois: classpath inteiro de volta em 2.4.10.
+
+**Dívida criada:** a versão do Kotlin agora vive em DOIS lugares —
+`gradle/libs.versions.toml` e o `buildscript{}` do `build.gradle` raiz — porque
+o catálogo não é acessível dentro de `buildscript{}`. Avisado por comentário nos
+dois arquivos. É duplicação frágil do mesmo tipo que o CLAUDE.md já trata como
+fonte de erro ("mudou uma, mude as três"); a opção A não criaria isso.
+
+### Por que 2.4.10 importa (a raiz do problema)
+
+Tabela oficial (developer.android.com/build/kotlin-support):
+
+| Kotlin | R8 exigido |
+|---|---|
+| 2.4.x | **9.1.29+** |
+| 2.3.x | 8.13.19 |
+
+O AGP 8.13.2 embute R8 8.13.19 — casa exatamente com Kotlin 2.3.x (por isso a
+opção A zerou o aviso), e não com o 2.4.10 que o projeto usa. O AGP 9.4 traz R8
+9.4.x, acima do exigido. Era ESTE o descompasso.
+
+### Verificação (rodada final, tudo aplicado)
+
+```
+BUILD SUCCESSFUL · EXIT_GRADLE=0
+erros de compilação ............ 0
+testes falhando ................ 0
+aviso kotlin metadata do R8 .... 0   ← o objetivo da migração
+deprecations do Gradle 10 ...... 0   (4 corrigidas: sintaxe `prop valor` → `prop = valor`)
+menções a jetifier ............. 0
+lint ........................... "no errors or warnings"
+AAB ............................ 405,6 MB, `jar verified`
+alinhamento 16 KB .............. Verification successful
+```
+
+Tasks críticas confirmadas executadas (`minifyReleaseWithR8`,
+`produceReleaseComposeMapping`, `signReleaseBundle`) — "0 avisos" só tem valor
+se o R8 rodou de fato; num build anterior o mesmo zero era falso, porque a
+build morria em 37s antes de chegar lá.
+
+**Tamanho: impacto zero.** 405,6 MB antes e depois. **Usabilidade: nenhum
+impacto** — nada aqui toca comportamento de runtime, só como o projeto é montado.
+
+### Destravado, mas deliberadamente NÃO feito aqui
+
+O AGP 9.4 suporta até API 37, então o teto que prendia `lifecycle` em 2.10.0
+(`2.11.0 exige compileSdk 37`) caiu. Não alterado de propósito: é mudança
+independente, e misturar duas coisas numa migração impede saber qual quebrou o
+quê. Fica como oportunidade separada, junto com `NotShrinkingResources` e as
+sugestões de versão de lib que o lint novo passou a apontar.
