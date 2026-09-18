@@ -158,27 +158,6 @@ object Catalogo {
             productId = "cenario_eiffel",
         ),
         Cenario(
-            id = "simpsons",
-            nome = "Casa amarela",
-            descricao = "Rua de subúrbio com a casa amarela.",
-            gratis = false,
-            productId = "cenario_casaamarela",
-        ),
-        Cenario(
-            id = "budokai",
-            nome = "Arena de torneio",
-            descricao = "Ringue de artes marciais entre montanhas.",
-            gratis = false,
-            productId = "cenario_arenatorneio",
-        ),
-        Cenario(
-            id = "konoha",
-            nome = "Vila ninja",
-            descricao = "Rua da vila entre os penhascos, sob a montanha.",
-            gratis = false,
-            productId = "cenario_vilaninja",
-        ),
-        Cenario(
             id = "trincheira",
             nome = "Trincheira",
             descricao = "Terra de ninguém vista da trincheira.",
@@ -544,13 +523,6 @@ object Catalogo {
             descricao = "Pátio imperial e o telhado dourado ao fundo.",
             gratis = false,
             productId = "cenario_cidadeproibida",
-        ),
-        Cenario(
-            id = "burj",
-            nome = "Dubai",
-            descricao = "Arranha-céu de vidro sobre os espelhos d'água.",
-            gratis = false,
-            productId = "cenario_dubai",
         ),
         Cenario(
             id = "timessquare",

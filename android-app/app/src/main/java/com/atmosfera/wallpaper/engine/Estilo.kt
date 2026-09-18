@@ -44,38 +44,13 @@ object Estilos {
         "low_poly" to EstiloCfg("low_poly", "sprites_low_poly.png", 3, true),
         "fantasia" to EstiloCfg("fantasia", "sprites_fantasia.png", 3, true),
         "minimalista" to EstiloCfg("minimalista", "sprites_minimalista.png", 3, true),
-        // ── Packs novos (recorte 2026-07-27) ──
         "papel_recortado" to EstiloCfg("papel_recortado", "sprites_papel_recortado.png", 3, true),
-        "papel_recortado_2" to EstiloCfg("papel_recortado_2", "sprites_papel_recortado_2.png", 3, true),
-        "papel_recortado_3" to EstiloCfg("papel_recortado_3", "sprites_papel_recortado_3.png", 3, true),
         "rupestre" to EstiloCfg("rupestre", "sprites_rupestre.png", 3, true),
-        "rupestre_2" to EstiloCfg("rupestre_2", "sprites_rupestre_2.png", 3, true),
-        "rupestre_3" to EstiloCfg("rupestre_3", "sprites_rupestre_3.png", 3, true),
-        "rupestre_4" to EstiloCfg("rupestre_4", "sprites_rupestre_4.png", 3, true),
-        "pontilhismo_2" to EstiloCfg("pontilhismo_2", "sprites_pontilhismo_2.png", 3, true),
-        "pontilhismo_3" to EstiloCfg("pontilhismo_3", "sprites_pontilhismo_3.png", 3, true),
         "pontilhismo" to EstiloCfg("pontilhismo", "sprites_pontilhismo.png", 3, true),
         "talhe_doce" to EstiloCfg("talhe_doce", "sprites_talhe_doce.png", 3, true),
-        "talhe_doce_rico" to EstiloCfg("talhe_doce_rico", "sprites_talhe_doce_rico.png", 3, true),
-        "pixel_art_2" to EstiloCfg("pixel_art_2", "sprites_pixel_art_2.png", 3, false),
         "doodle" to EstiloCfg("doodle", "sprites_doodle.png", 3, true),
-        // kinder e rabisco saem da MESMA folha 2816x1536 do doodle, mesmo grid
-        "doodle_infantil" to EstiloCfg("doodle_infantil", "sprites_doodle_infantil.png", 3, true),
-        "doodle_rabisco" to EstiloCfg("doodle_rabisco", "sprites_doodle_rabisco.png", 3, true),
         "papel_mache" to EstiloCfg("papel_mache", "sprites_papel_mache.png", 3, true),
-        "papel_mache_2" to EstiloCfg("papel_mache_2", "sprites_papel_mache_2.png", 3, true),
         "feltro" to EstiloCfg("feltro", "sprites_feltro.png", 3, true),
-        // pixel_retro / pixel_retro_2 FORA DO LANÇAMENTO (13/09). As duas folhas
-        // foram geradas pedindo "estilo Mario" e "estilo Zelda" (os arquivos-fonte
-        // ainda se chamam `pixel mario gemini.png` e `PIXEL ZELDA GEMINI.png`). O
-        // rosto e a Triforce da lua já tinham saído, mas o resto da folha nasceu
-        // de um prompt que imitava a Nintendo — dá pra tirar o emblema, não dá pra
-        // certificar que o traço é original. E não fazem falta: `pixel` e
-        // `pixel_art_2` já cobrem pixel art. As folhas continuam no pipeline
-        // (tools/recorta_auto.py); voltar é recolocar as duas linhas aqui.
-        // ── Van Gogh (folha 887x1774, recorte 2026-08-09) ──
-        // A rajada do Van Gogh é FITA DE TINTA: azul-noite por baixo, creme e
-        // amarelo no miolo, azul-claro por cima. Cores medidas na folha dele.
         "van_gogh" to EstiloCfg("van_gogh", "sprites_van_gogh.png", 3, true,
             wisp = listOf(
                 FitaVento(Color.rgb(24, 40, 96), 0.60f, 2.0f, 1.7f),

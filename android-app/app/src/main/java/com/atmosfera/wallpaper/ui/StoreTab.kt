@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -81,44 +82,22 @@ internal fun estiloNome(id: String): String = NOMES_ESTILO[id]
     ?: id.replaceFirstChar { it.uppercase() }
 
 private val NOMES_ESTILO: Map<String, String> = mapOf(
-    // ── pixel ──
-    "pixel" to "Pixel Art", "pixel2" to "Pixel Art II", "pixelart" to "Pixel Art",
-    "pixelv0" to "Pixel Art (v0)", "pixel16" to "Pixel 16 bits",
-    "16bits" to "16 bits", "16bits2" to "16 bits II",
-    "8bits" to "8 bits", "8bits2" to "8 bits II",
-    // ── artesanato ──
-    "clay" to "Clay", "clay2" to "Clay II",
-    "papelmache" to "Papel machê",
-    "papercutout" to "Paper cutout",
-    "needlefelting" to "Needle felting",
-    "bordado" to "Bordado", "bordado1" to "Bordado I", "bordado2" to "Bordado II",
-    "tapecaria" to "Tapeçaria",
-    "ceramica" to "Cerâmica", "ceramica2" to "Cerâmica II",
-    "puppet" to "Puppet",
-    // ── pintura ──
+    "pixel" to "Pixel Art",
+    "clay" to "Clay",
+    "bizantino" to "Bizantino",
     "aqua" to "Aquarela",
-    "vangogh" to "Van Gogh", "vangoghnoite" to "Van Gogh (noite)",
-    "impressionista" to "Impressionismo",
-    "impamer" to "Impressionismo americano", "impalemao" to "Impressionismo alemão",
-    "point" to "Pontilhismo", "point2" to "Pontilhismo II",
-    "fauvismo" to "Fauvismo", "sfumato" to "Sfumato",
-    "gizcera" to "Giz de cera",
-    // ── gravura e mosaico ──
-    "xilogravura" to "Xilogravura",
-    "ukiyoe" to "Ukiyo-e", "ukiyoe2" to "Ukiyo-e II", "ukiyogpt" to "Ukiyo-e III",
-    "bizantino" to "Bizantino", "mosaicobizantino" to "Mosaico bizantino",
+    "ukiyoe" to "Ukiyo-e",
+    "low_poly" to "Low poly",
+    "fantasia" to "Fantasia",
+    "minimalista" to "Minimalista",
+    "papel_recortado" to "Papel recortado",
     "rupestre" to "Rupestre",
-    // ── desenho e animação ──
-    "doodle" to "Doodle", "doodle2" to "Doodle II", "doodleinf" to "Doodle infantil",
-    "cartoon" to "Cartoon", "anime" to "Anime", "anime1" to "Anime II",
-    "chibi" to "Chibi", "kodomo" to "Kodomo", "seinen" to "Seinen",
-    "suburbano" to "Suburbano",
-    // ── 3D e outros ──
-    "lowpoly" to "Low poly", "poly2" to "Low poly II", "iso" to "Isométrico",
-    "cozy" to "Cozy", "cozynoite" to "Cozy (noite)",
-    "dark" to "Dark", "vivid" to "Vivid", "noite" to "Noite",
-    "terraco" to "Terraço", "longe" to "Plano aberto",
-    "dragao" to "Dragão", "dragao2" to "Dragão II", "dragao3" to "Dragão III",
+    "pontilhismo" to "Pontilhismo",
+    "talhe_doce" to "Talhe doce",
+    "doodle" to "Doodle",
+    "papel_mache" to "Papel machê",
+    "feltro" to "Feltro",
+    "van_gogh" to "Van Gogh"
 )
 
 @Composable
@@ -197,6 +176,7 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, on
                         estiloId = estiloId,
                         selecionado = estiloId == currentEffectStyle,
                         onClick = { viewModel.setEffectStyle(estiloId) },
+                        bloqueado = estiloId != "pixel" && !isPremium,
                     )
                 }
                 Text("Cenários", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onBackground)
@@ -267,7 +247,12 @@ private fun CenarioTile(
 }
 
 @Composable
-internal fun EstiloChip(estiloId: String, selecionado: Boolean, onClick: () -> Unit) {
+internal fun EstiloChip(
+    estiloId: String,
+    selecionado: Boolean,
+    onClick: () -> Unit,
+    bloqueado: Boolean = false,
+) {
     val nome = estiloNome(estiloId)
     val bg = if (selecionado) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
     val fg = if (selecionado) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
@@ -280,6 +265,18 @@ internal fun EstiloChip(estiloId: String, selecionado: Boolean, onClick: () -> U
             .padding(horizontal = Spacing.lg, vertical = Spacing.md),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        // Cadeado só de aviso — o clique ainda chega em setEffectStyle(), que é
+        // quem de fato barra a troca sem Premium (mesmo princípio do cadeado de
+        // arte em SceneDetailScreen: mostra o que é pago, não esconde).
+        if (bloqueado) {
+            Icon(
+                Icons.Default.Lock,
+                contentDescription = "Requer Premium",
+                tint = fg,
+                modifier = Modifier.size(14.dp),
+            )
+            Spacer(Modifier.width(Spacing.xs))
+        }
         Text(nome, style = MaterialTheme.typography.labelLarge, color = fg, fontWeight = FontWeight.SemiBold)
     }
 }

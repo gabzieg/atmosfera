@@ -77,6 +77,7 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentArt by viewModel.currentArt.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
+    val isPremium by viewModel.isPremium.collectAsState()
     val precos by viewModel.billingManager.precos.collectAsState()
     val context = LocalContext.current
     val activity = context as? android.app.Activity
@@ -246,6 +247,7 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                             estiloId = estiloId,
                             selecionado = estiloId == currentEffectStyle,
                             onClick = { viewModel.setEffectStyle(estiloId) },
+                            bloqueado = estiloId != "pixel" && !isPremium,
                         )
                     }
                 }

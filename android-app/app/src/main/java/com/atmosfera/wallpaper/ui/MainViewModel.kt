@@ -56,6 +56,10 @@ data class ClimaInfo(
     }
 }
 
+/** Único estilo de efeito livre sem Premium — mesmo baseline usado como grátis
+ *  em todo o resto do app (arte da cabana, default de [EstiloEfeito.atual]). */
+private const val ESTILO_GRATIS = "pixel"
+
 class MainViewModel(application: Application) : AndroidViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val context: Context get() = getApplication()
@@ -202,7 +206,17 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
         _currentArt.value = arteId
     }
 
+    /**
+     * Estilos de efeito são benefício do Premium (decisão SPEC.md, 2026-09-13) —
+     * só "pixel" (o baseline usado como grátis em todo o resto do app) fica de
+     * fora do Premium. Sem checar isso aqui, qualquer usuário grava um estilo
+     * pago direto na preferência que o WALLPAPER REAL lê (EstiloEfeito.atual em
+     * AtmosferaWallpaperService) — sem preview, sem compra, sem cadeado na UI.
+     * A curadoria de quais estilos ficam livres sem Premium ainda está em aberto
+     * (ver SPEC.md); até lá, só o pixel é grátis.
+     */
     fun setEffectStyle(styleId: String) {
+        if (styleId != ESTILO_GRATIS && !_isPremium.value) return
         EstiloEfeito.definir(context, styleId)
         _currentEffectStyle.value = styleId
     }
