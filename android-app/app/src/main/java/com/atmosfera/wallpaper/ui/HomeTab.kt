@@ -343,6 +343,16 @@ private fun WeatherHeroCard(
             // principal seguia exibindo pixel art.
             SceneThumbnail(sceneId = sceneId, arte = arte, modifier = Modifier.fillMaxSize())
 
+            // Overlay dia/noite para dar o clima na miniatura estática.
+            val overlayAlpha = when (weatherState?.period) {
+                com.atmosfera.wallpaper.weather.DayPeriod.NIGHT -> 0.45f
+                com.atmosfera.wallpaper.weather.DayPeriod.AFTERNOON -> 0.1f
+                else -> 0f
+            }
+            if (overlayAlpha > 0f) {
+                Box(modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = overlayAlpha)))
+            }
+
             IconButton(
                 onClick = onRefresh,
                 modifier = Modifier

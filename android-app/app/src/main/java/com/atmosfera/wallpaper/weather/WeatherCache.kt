@@ -88,5 +88,10 @@ class WeatherCache(context: Context) {
         return tooOld || movedFar
     }
 
+        fun cachedLocation(): Pair<Double, Double>? {
+        if (prefs.getLong(KEY_LAST_FETCH, 0L) == 0L) return null
+        return Pair(prefs.getFloat(KEY_LAT, 0f).toDouble(), prefs.getFloat(KEY_LON, 0f).toDouble())
+    }
+
     fun clear() = prefs.edit().clear().apply()
 }

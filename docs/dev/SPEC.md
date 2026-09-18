@@ -28,7 +28,7 @@ Google Play Billing.
   Se isso mudar no futuro é decisão explícita, não default.
 - **Sem anúncios no lançamento.** Decisão tomada com base na pesquisa de
   concorrência (Seção 6 do PDF): anúncio é a reclamação nº1 do mercado
-  mapeado, e o formato "ambiente contínuo" do Atmosfera piora a fricção de
+  mapeado, e o formato "ambiente contínuo" do Terra piora a fricção de
   interstitial. Reavaliar só com dado real de conversão pós-lançamento — não
   antes.
 

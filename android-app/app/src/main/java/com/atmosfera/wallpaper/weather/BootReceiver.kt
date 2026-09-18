@@ -21,20 +21,18 @@ class WeatherWorker(
     params: WorkerParameters
 ) : CoroutineWorker(appContext, params) {
 
-    override suspend fun doWork(): Result {
+        override suspend fun doWork(): Result {
         return try {
-            val locationHelper = LocationHelper(applicationContext)
-            val onde = locationHelper.getLocalizacao()
-
-            val repo = WeatherRepository()
             val cache = WeatherCache(applicationContext)
+            val repo = WeatherRepository()
 
-            if (cache.isStale(onde.lat, onde.lon, IntervaloClima.ttlMs(applicationContext))) {
-                repo.fetchWeather(onde.lat, onde.lon).onSuccess { state ->
-                    // sem nome de lugar: o worker roda em background, onde o
-                    // Geocoder costuma não responder. O cache mantém o nome
-                    // anterior enquanto o aparelho não se mover.
-                    cache.save(state, onde.lat, onde.lon, localPadrao = onde.padrao)
+            val loc = cache.cachedLocation()
+            if (loc != null) {
+                val (lat, lon) = loc
+                if (cache.isStale(lat, lon, IntervaloClima.ttlMs(applicationContext))) {
+                    repo.fetchWeather(lat, lon).onSuccess { state ->
+                        cache.save(state, lat, lon, localPadrao = cache.localPadrao())
+                    }
                 }
             }
             Result.success()

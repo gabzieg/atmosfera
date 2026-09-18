@@ -99,7 +99,7 @@ perguntar, é essa a resposta.
 
 ## Content Rating (IARC)
 
-Questionário rápido. O Atmosfera é um papel de parede sem conteúdo gerado por
+Questionário rápido. O Terra é um papel de parede sem conteúdo gerado por
 usuário, sem interação social e sem compras aleatórias.
 
 | Pergunta | Resposta |

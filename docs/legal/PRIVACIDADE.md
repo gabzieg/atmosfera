@@ -14,7 +14,7 @@
 
 **Versão da política:** 1.0
 **Aplica-se a:** Atmosfera Live Wallpaper (Android, `com.atmosfera.wallpaper`), a partir da versão 1.0.0
-**Última atualização:** 1º de agosto de 2026
+**Última atualização:** 16 de setembro de 2026
 **Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
 
 ---
@@ -23,7 +23,7 @@
 
 Este resumo é uma cortesia e não substitui o texto completo abaixo.
 
-- O Atmosfera usa a **localização aproximada** do seu aparelho para descobrir o
+- O Terra usa a **localização aproximada** do seu aparelho para descobrir o
   clima da sua região e desenhar o papel de parede de acordo (chuva, neve, sol,
   vento, neblina).
 - Essas coordenadas são enviadas **apenas** ao serviço de meteorologia
@@ -36,7 +36,7 @@ Este resumo é uma cortesia e não substitui o texto completo abaixo.
 - Suas preferências (cenário, arte, estilo, se você é Premium) e o último clima
   consultado ficam **só no seu aparelho**.
 - O app **funciona sem a permissão de localização**: se você negar, ele usa uma
-  cidade padrão (Guarapuava, PR) e nada mais muda.
+  cidade padrão (Novo Hamburgo, RS) e nada mais muda.
 - Para apagar tudo: revogue a permissão, limpe os dados do app ou desinstale.
   Não sobra cópia em nenhum servidor nosso, porque não existe servidor nosso.
 
@@ -49,7 +49,7 @@ Este resumo é uma cortesia e não substitui o texto completo abaixo.
 | **Controlador** | [PREENCHER: nome completo da pessoa física ou razão social do desenvolvedor] |
 | **Aplicativo** | Atmosfera Live Wallpaper — `com.atmosfera.wallpaper` |
 | **Contato (privacidade / titular de dados)** | [PREENCHER: e-mail de contato] |
-| **Encarregado pelo tratamento de dados pessoais (DPO, art. 41 da LGPD)** | [PREENCHER: nome e e-mail — pode ser a mesma pessoa do desenvolvedor] |
+| **Encarregado pelo tratamento de dados pessoais (DPO, art. 41 da LGPD)** | Não exigido — o Terra se qualifica como agente de tratamento de pequeno porte (Resolução CD/ANPD nº 2/2022, art. 11); o canal de comunicação exigido pelo art. 41, §2º, I é o contato de privacidade acima. |
 | **Endereço desta política** | [PREENCHER: URL pública desta página] |
 
 Controlador, aqui, tem o sentido do art. 5º, VI da Lei nº 13.709/2018 (LGPD):
@@ -67,7 +67,7 @@ aplica a:
 
 ## 3. Quais dados são tratados, para quê, e com que base legal
 
-O Atmosfera não pede cadastro e não cria identificador de usuário. Tudo abaixo
+O Terra não pede cadastro e não cria identificador de usuário. Tudo abaixo
 é o que o app efetivamente faz hoje.
 
 ### 3.1 Localização aproximada (coordenadas geográficas)
@@ -88,7 +88,7 @@ O Atmosfera não pede cadastro e não cria identificador de usuário. Tudo abaix
   você não tiver se deslocado mais de ~5 km.
 - **Para onde vai:** as coordenadas são enviadas ao serviço **Open-Meteo**
   (seção 6.1) por HTTPS, como parâmetros da consulta de previsão. Não são
-  enviadas a mais ninguém. Não existe servidor do Atmosfera.
+  enviadas a mais ninguém. Não existe servidor do Terra.
 - **Onde fica guardada:** no armazenamento privado do app, no seu aparelho
   (`SharedPreferences`, acessível somente ao app), junto do último clima
   recebido — para não repetir consultas à toa. É sobrescrita a cada nova
@@ -98,7 +98,7 @@ O Atmosfera não pede cadastro e não cria identificador de usuário. Tudo abaix
   Para usuários no Espaço Econômico Europeu / Reino Unido, o fundamento
   equivalente é o art. 6(1)(a) do GDPR.
 - **É opcional:** se você negar ou revogar a permissão, o app usa coordenadas
-  fixas de Guarapuava (PR, Brasil) e continua funcionando normalmente. Nenhuma
+  fixas de Novo Hamburgo (RS, Brasil) e continua funcionando normalmente. Nenhuma
   funcionalidade é bloqueada; só o clima deixa de ser o seu.
 
 ### 3.2 Endereço IP
@@ -181,7 +181,7 @@ Declarado de forma explícita, porque a ausência também é informação:
 | Permissão | Para que é usada | Se você negar |
 |---|---|---|
 | `INTERNET`, `ACCESS_NETWORK_STATE` | Consultar a previsão do tempo na Open-Meteo e checar se há rede | Sem previsão; o app usa o último clima em cache ou o estado padrão |
-| `ACCESS_COARSE_LOCATION` | Obter as coordenadas para a consulta de clima (seção 3.1). O app pede apenas **localização aproximada** — precisão balanceada, nunca GPS de alta precisão | O app usa Guarapuava (PR) como local padrão e segue funcionando |
+| `ACCESS_COARSE_LOCATION` | Obter as coordenadas para a consulta de clima (seção 3.1). O app pede apenas **localização aproximada** — precisão balanceada, nunca GPS de alta precisão | O app usa Novo Hamburgo (RS) como local padrão e segue funcionando |
 | `RECEIVE_BOOT_COMPLETED` | Reagendar a atualização periódica de clima depois de reiniciar o aparelho | A atualização periódica volta a ser agendada na próxima vez que você abrir o app |
 
 Nenhuma outra permissão é declarada pelo app.
@@ -282,7 +282,7 @@ exerce **diretamente no seu aparelho, sem depender de nós**:
 - **Revogar o consentimento de localização:** Ajustes do Android → Apps →
   Atmosfera → Permissões → Localização → Negar. O app passa a usar o local
   padrão imediatamente.
-- **Eliminar os dados:** Ajustes do Android → Apps → Atmosfera → Armazenamento →
+- **Eliminar os dados:** Ajustes do Android → Apps → Terra → Armazenamento →
   Limpar dados. Isso apaga cache de clima, coordenadas guardadas e
   preferências. Desinstalar o app tem o mesmo efeito.
 - **Acesso e portabilidade:** os dados existentes são os descritos na seção 3 —
@@ -299,7 +299,7 @@ dados do seu país.
 
 ## 11. Crianças e adolescentes
 
-O Atmosfera não é direcionado a crianças e não coleta dados com o objetivo de
+O Terra não é direcionado a crianças e não coleta dados com o objetivo de
 criar perfil de ninguém — nem de adultos, nem de menores. Não há conta,
 publicidade, conteúdo gerado por usuários ou comunicação entre usuários. O único
 dado pessoal tratado é a localização aproximada, para exibir o clima, sob
@@ -331,7 +331,7 @@ qualquer coleta:
 Mudanças de funcionalidade que afetem dados pessoais serão refletidas aqui
 antes ou junto do lançamento da versão correspondente. A cada revisão,
 atualizamos a **versão da política** e a data de **última atualização** no topo
-deste documento, e mantemos o histórico na seção 15. Alterações materiais — por
+deste documento, e mantemos o histórico na seção 16. Alterações materiais — por
 exemplo, passar a coletar um novo tipo de dado ou compartilhar dados com um novo
 terceiro — serão comunicadas também nas notas de versão da Google Play e, quando
 depender de consentimento novo, solicitadas dentro do app. Continuar usando o
@@ -344,11 +344,14 @@ explicitamente.
 | | |
 |---|---|
 | **Assuntos de privacidade e direitos do titular** | [PREENCHER: e-mail de contato] |
-| **Encarregado (DPO)** | [PREENCHER: nome e e-mail] |
+| **Encarregado (DPO)** | Não exigido — agente de tratamento de pequeno porte (Resolução CD/ANPD nº 2/2022, art. 11); o canal de comunicação é o contato acima. |
 | **Autoridade brasileira** | ANPD — <https://www.gov.br/anpd> |
 
-## 15. Histórico de versões
+## 15. Idioma e versão prevalente
+O texto canônico desta política é o **português do Brasil**, publicado em [https://terra-livewallpaper.pages.dev/privacidade/](https://terra-livewallpaper.pages.dev/privacidade/). Traduções, quando existirem, são cortesia; em caso de divergência de interpretação, prevalece a versão em português.
+
+## 16. Histórico de versões
 
 | Versão | Data | Mudança |
 |---|---|---|
-| 1.0 | [PREENCHER: data da primeira publicação] | Versão inicial, referente ao Atmosfera 1.0.0 |
+| 1.0 | [PREENCHER: data da primeira publicação] | Versão inicial, referente ao Terra 1.0.0 |

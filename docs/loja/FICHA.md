@@ -16,7 +16,7 @@ app, não de promessa: cada afirmação abaixo tem código por trás (ver
 ## Título (máx. 30 caracteres)
 
 ```
-Atmosfera Clima Ao Vivo
+Terra - Live Wallpaper
 ```
 
 23 caracteres. Praticamente o mesmo nome que o Android mostra no seletor de

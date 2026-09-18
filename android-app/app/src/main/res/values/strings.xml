@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Atmosfera</string>
-    <string name="wallpaper_label">Atmosfera – Clima ao Vivo</string>
+    <string name="app_name">Terra</string>
+    <string name="wallpaper_label">Terra – Live Wallpaper</string>
     <string name="wallpaper_description">Cenário animado que reage ao clima real: chuva, neve, sol, lua e mais</string>
 </resources>

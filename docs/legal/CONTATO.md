@@ -11,7 +11,7 @@
 > de um `mailto:` — decisão do usuário: além do endereço de contato, a página
 > precisa dizer **o que acontece com os dados** de quem escreve.
 
-**Última atualização:** 30 de julho de 2026
+**Última atualização:** 16 de setembro de 2026
 
 ---
 
@@ -39,6 +39,9 @@ Quanto mais específico, mais rápido resolvemos. Ajuda muito:
 
 **Não envie** senha, dados de cartão, CPF ou documento. Nunca pedimos isso, e
 não temos como usá-los — pagamentos são processados inteiramente pelo Google.
+
+### Identificação do controlador
+Para os fins da LGPD, o controlador de dados é **Rafael Huppes**.
 
 ## O que fazemos com os dados do seu contato
 

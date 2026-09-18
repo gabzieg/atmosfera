@@ -1,6 +1,6 @@
 # Ficha da Play Store — material gráfico
 
-Capturas de tela para a listagem do Atmosfera na Google Play (Fase 5 do
+Capturas de tela para a listagem do Terra na Google Play (Fase 5 do
 [ROADMAP.md](../dev/ROADMAP.md)). Feitas em 2026-08-25 no AVD `Pixel_8`
 (API 36), com o app da branch `front/kotlin-2-billing-9`.
 
