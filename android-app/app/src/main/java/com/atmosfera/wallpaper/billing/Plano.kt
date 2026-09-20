@@ -1,6 +1,7 @@
 package com.atmosfera.wallpaper.billing
 
 import android.content.Context
+import com.atmosfera.wallpaper.engine.EstiloEfeito
 
 /** Estado do plano (Premium) persistido localmente. Lido pelo motor/serviço. */
 object Plano {
@@ -13,5 +14,6 @@ object Plano {
     fun setPremium(context: Context, valor: Boolean) {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
             .putBoolean(KEY_PREMIUM, valor).apply()
+        if (!valor) EstiloEfeito.definir(context, EstiloEfeito.GRATIS)
     }
 }

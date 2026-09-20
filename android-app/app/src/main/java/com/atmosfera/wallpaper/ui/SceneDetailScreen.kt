@@ -72,7 +72,7 @@ import com.atmosfera.wallpaper.ui.theme.Spacing
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> Unit) {
+fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> Unit, onVerPremium: (String) -> Unit) {
     val cenario = Catalogo.por(sceneId) ?: return
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentArt by viewModel.currentArt.collectAsState()
@@ -246,7 +246,10 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                         EstiloChip(
                             estiloId = estiloId,
                             selecionado = estiloId == currentEffectStyle,
-                            onClick = { viewModel.setEffectStyle(estiloId) },
+                            onClick = {
+                                if (estiloId != "pixel" && !isPremium) onVerPremium(estiloId)
+                                else viewModel.setEffectStyle(estiloId)
+                            },
                             bloqueado = estiloId != "pixel" && !isPremium,
                         )
                     }

@@ -45,26 +45,25 @@ Modelo decidido em 2026-09-13 (packs ainda a definir — ver o fim desta seção
 ### Regra de estilos — decisão + o que falta
 
 > **Decidido 2026-09-13:** os estilos de efeito entram no **Premium** (comprou
-> Premium, usa todos). O paywall de estilo **ainda não está no código** — hoje os
-> ~30 estilos estão todos livres. Falta a curadoria (quantos/quais ficam livres
+> Premium, usa todos). O paywall de estilo está no seletor e na leitura do
+> wallpaper: por ora só Pixel é grátis. Falta a curadoria (quantos/quais ficam livres
 > sem Premium) e o agrupamento em **packs** — que o Gabriel resolveu tratar como
 > pack em vez de cortar (ex.: as 4 variantes `rupestre` viram um pack, "assim fica
 > melhor"). **Bandeira de consistência a resolver junto com os packs:** como o
 > Premium já inclui *todos* os estilos, um pack de estilo só faz sentido como
 > agrupamento de vitrine — se for compra à parte, sobrepõe o Premium.
 
-Padrão provisório até a curadoria fechar: **alguns estilos livres, os demais no
-Premium**, sobre um catálogo curado (hoje `engine/Estilo.kt` tem ~30 arquivos pra
-~16 ideias visuais — o resto é histórico de iteração; ver `TASKS.md`). O raciocínio
+Padrão provisório até a curadoria fechar: **Pixel livre, os demais no
+Premium**, sobre um catálogo curado (hoje `engine/Estilo.kt` tem 16 estilos de
+efeito; ver `TASKS.md`). O raciocínio
 das três condições abaixo (por que mostrar bloqueado, por que prévia em vez de
 parede) segue válido independentemente de onde a linha for traçada.
 
 Três condições, e cada uma existe por um motivo:
 
-**Os 4 livres precisam ser diferentes entre si.** Pixel, aquarela, clay e doodle,
-por exemplo — não 4 variações do mesmo traço. Diversidade comunica "isto é um
-produto"; similaridade comunica "isto é uma amostra". A conta que o usuário faz
-não é de quantidade, é de variedade.
+**Se a faixa grátis for ampliada, os estilos livres precisam ser diferentes
+entre si.** Pixel, aquarela, clay e doodle, por exemplo, são mais variados que
+quatro versões do mesmo traço. Hoje essa ampliação ainda não foi decidida.
 
 **Estilo pago aparece na lista, não é escondido.** Esconder significa que ninguém
 descobre que o Premium existe. E o risco de afastar cliente não está aqui: a
@@ -90,7 +89,7 @@ Todo item abaixo precisa estar **verdadeiro**, não só "parece pronto":
   não só o mecanismo de código em `keystore.properties.example`)
 - [ ] Produtos `atmosfera_premium` e `cenario_tanque` criados no Play Console
   e testados com compra real (sandbox ou teste fechado)
-- [ ] `LICENSE_PUBLIC_KEY_BASE64` preenchida em `BillingManager.kt`
+- [ ] `playLicensePublicKey` preenchida em `android-app/keystore.properties`
 - [ ] Política de privacidade publicada por URL, cobrindo a coleta de
   localização aproximada
 - [ ] Data Safety Form + Content Rating Questionnaire preenchidos no Console

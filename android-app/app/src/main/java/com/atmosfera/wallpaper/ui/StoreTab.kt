@@ -106,11 +106,18 @@ fun StoreTab(viewModel: MainViewModel) {
     // Premium, sem tocar no NavHost de topo (a aba continua sendo "Loja").
     var cenarioAberto by rememberSaveable { mutableStateOf<String?>(null) }
     var premiumAberto by rememberSaveable { mutableStateOf(false) }
+    var estiloPrevia by rememberSaveable { mutableStateOf<String?>(null) }
+
+    fun abrirPremium(estiloId: String? = null) {
+        estiloPrevia = estiloId
+        premiumAberto = true
+    }
 
     when {
         premiumAberto -> PremiumScreen(
             viewModel = viewModel,
             onVoltar = { premiumAberto = false },
+            estiloPrevia = estiloPrevia,
         )
         cenarioAberto != null -> {
             BackHandler { cenarioAberto = null }
@@ -118,18 +125,19 @@ fun StoreTab(viewModel: MainViewModel) {
                 sceneId = cenarioAberto!!,
                 viewModel = viewModel,
                 onBack = { cenarioAberto = null },
+                onVerPremium = { abrirPremium(it) },
             )
         }
         else -> StoreBrowser(
             viewModel = viewModel,
             onAbrir = { cenarioAberto = it },
-            onVerPremium = { premiumAberto = true },
+            onVerPremium = { abrirPremium(it) },
         )
     }
 }
 
 @Composable
-private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, onVerPremium: () -> Unit) {
+private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, onVerPremium: (String?) -> Unit) {
     val isPremium by viewModel.isPremium.collectAsState()
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
@@ -161,7 +169,7 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, on
                 PremiumBanner(
                     isPremium = isPremium,
                     priceText = precos[BillingManager.PRODUTO_PREMIUM],
-                    onVerPremium = onVerPremium,
+                    onVerPremium = { onVerPremium(null) },
                 )
                 // Carrossel de seção: categoria pequena + título grande + fileira rolável.
                 SectionCarousel(
@@ -175,7 +183,10 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, on
                     EstiloChip(
                         estiloId = estiloId,
                         selecionado = estiloId == currentEffectStyle,
-                        onClick = { viewModel.setEffectStyle(estiloId) },
+                        onClick = {
+                            if (estiloId != "pixel" && !isPremium) onVerPremium(estiloId)
+                            else viewModel.setEffectStyle(estiloId)
+                        },
                         bloqueado = estiloId != "pixel" && !isPremium,
                     )
                 }
@@ -265,9 +276,8 @@ internal fun EstiloChip(
             .padding(horizontal = Spacing.lg, vertical = Spacing.md),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // Cadeado só de aviso — o clique ainda chega em setEffectStyle(), que é
-        // quem de fato barra a troca sem Premium (mesmo princípio do cadeado de
-        // arte em SceneDetailScreen: mostra o que é pago, não esconde).
+        // O cadeado informa o bloqueio. Quem chama o chip decide abrir a prévia
+        // Premium ou aplicar o estilo, e EstiloEfeito também valida a posse.
         if (bloqueado) {
             Icon(
                 Icons.Default.Lock,

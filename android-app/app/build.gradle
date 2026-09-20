@@ -26,6 +26,21 @@ android {
         targetSdk 36
         versionCode 1
         versionName "1.0.0"
+        // Chave publica do Play Console. Ausente = compras recusadas, nunca liberadas sem verificacao.
+        def playLicensePublicKey = keystoreProperties.getProperty('playLicensePublicKey', '')
+        if (playLicensePublicKey && !(playLicensePublicKey ==~ /[A-Za-z0-9+\/=]+/)) {
+            throw new GradleException('playLicensePublicKey deve conter apenas Base64')
+        }
+        if (playLicensePublicKey) {
+            try {
+                def bytes = java.util.Base64.decoder.decode(playLicensePublicKey)
+                java.security.KeyFactory.getInstance('RSA').generatePublic(
+                    new java.security.spec.X509EncodedKeySpec(bytes))
+            } catch (Exception e) {
+                throw new GradleException('playLicensePublicKey nao e uma chave publica RSA valida', e)
+            }
+        }
+        buildConfigField 'String', 'PLAY_LICENSE_PUBLIC_KEY', '"' + playLicensePublicKey + '"'
     }
 
     signingConfigs {

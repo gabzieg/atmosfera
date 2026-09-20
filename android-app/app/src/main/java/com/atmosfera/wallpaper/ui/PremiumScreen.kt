@@ -30,6 +30,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -93,7 +94,7 @@ private val EFEITOS_PREMIUM = listOf(
  * As duas coisas viram um pedido ao Rafael, não um remendo no front.
  */
 @Composable
-fun PremiumScreen(viewModel: MainViewModel, onVoltar: () -> Unit) {
+fun PremiumScreen(viewModel: MainViewModel, onVoltar: () -> Unit, estiloPrevia: String? = null) {
     BackHandler(onBack = onVoltar)
 
     val context = LocalContext.current
@@ -103,6 +104,12 @@ fun PremiumScreen(viewModel: MainViewModel, onVoltar: () -> Unit) {
     val estilo by viewModel.currentEffectStyle.collectAsState()
     val isPremium by viewModel.isPremium.collectAsState()
     val precos by viewModel.billingManager.precos.collectAsState()
+    val mensagem by viewModel.billingManager.mensagemPremium.collectAsState()
+
+    LaunchedEffect(Unit) { viewModel.billingManager.limparMensagemPremium() }
+    LaunchedEffect(isPremium, estiloPrevia) {
+        if (isPremium && estiloPrevia != null) viewModel.setEffectStyle(estiloPrevia)
+    }
 
     val preco = precos[BillingManager.PRODUTO_PREMIUM]
 
@@ -110,7 +117,8 @@ fun PremiumScreen(viewModel: MainViewModel, onVoltar: () -> Unit) {
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
     ) {
         Box {
-            ComparadorPremium(sceneId = sceneId, arte = arte, estilo = estilo)
+            ComparadorPremium(sceneId = sceneId, arte = arte, estilo = estiloPrevia ?: estilo,
+                estiloGratis = if (estiloPrevia != null) "pixel" else estilo)
             IconButton(
                 onClick = onVoltar,
                 modifier = Modifier
@@ -138,6 +146,13 @@ fun PremiumScreen(viewModel: MainViewModel, onVoltar: () -> Unit) {
             modifier = Modifier.padding(Spacing.xl),
             verticalArrangement = Arrangement.spacedBy(Spacing.xl),
         ) {
+            if (estiloPrevia != null) {
+                Text(
+                    "Prévia Premium: ${estiloNome(estiloPrevia)}. Ao comprar, este estilo será aplicado ao wallpaper.",
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
             Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
                 Text(
                     "PREMIUM",
@@ -154,7 +169,7 @@ fun PremiumScreen(viewModel: MainViewModel, onVoltar: () -> Unit) {
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
-                    "Oito efeitos que só existem com o Premium ligado, em todos os cenários.",
+                    "Oito efeitos vivos e todos os estilos de efeito, em todos os cenários.",
                     fontSize = 15.sp,
                     lineHeight = 22.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -168,8 +183,12 @@ fun PremiumScreen(viewModel: MainViewModel, onVoltar: () -> Unit) {
             BotaoCompra(
                 isPremium = isPremium,
                 preco = preco,
+                configurado = viewModel.billingManager.premiumConfigurado,
                 onComprar = { activity?.let { viewModel.buyPremium(it) } },
             )
+            if (mensagem != null) {
+                Text(mensagem!!, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
 
             Text(
                 "Cenários avulsos são comprados à parte — o Premium liga os efeitos " +
@@ -191,7 +210,7 @@ fun PremiumScreen(viewModel: MainViewModel, onVoltar: () -> Unit) {
  * O divisor é arrastável e o toque em qualquer ponto o move até ali.
  */
 @Composable
-private fun ComparadorPremium(sceneId: String, arte: String, estilo: String) {
+private fun ComparadorPremium(sceneId: String, arte: String, estilo: String, estiloGratis: String) {
     // Começa em 52% — levemente à direita, pro lado premium aparecer primeiro
     // sem esconder o grátis.
     var divisor by remember { mutableFloatStateOf(0.52f) }
@@ -212,7 +231,7 @@ private fun ComparadorPremium(sceneId: String, arte: String, estilo: String) {
         SceneThumbnail(sceneId = sceneId, arte = arte, modifier = Modifier.fillMaxSize())
 
         // Camada de baixo: sem os efeitos pagos.
-        EngineLivePreview(sceneId, arte, estilo, modifier = Modifier.fillMaxSize(), premium = false)
+        EngineLivePreview(sceneId, arte, estiloGratis, modifier = Modifier.fillMaxSize(), premium = false)
 
         // Camada de cima: com os efeitos pagos, recortada a partir do divisor.
         // `drawWithContent` + clipRect é o que faz o recorte seguir o dedo sem
@@ -348,6 +367,7 @@ private fun CartaoPreco(preco: String?) {
         }
 
         LinhaCheck("Não é assinatura.", " Sem mensalidade, sem renovação, sem cobrança futura.")
+        LinhaCheck("Todos os estilos de efeito,", " além dos oito efeitos vivos.")
         LinhaCheck("Vale em todos os cenários,", " inclusive nos que ainda vão sair.")
         LinhaCheck("O app não tem anúncios", " — nem no plano grátis.")
     }
@@ -377,7 +397,7 @@ private fun LinhaCheck(destaque: String, resto: String) {
 }
 
 @Composable
-private fun BotaoCompra(isPremium: Boolean, preco: String?, onComprar: () -> Unit) {
+private fun BotaoCompra(isPremium: Boolean, preco: String?, configurado: Boolean, onComprar: () -> Unit) {
     when {
         isPremium -> Row(
             modifier = Modifier
@@ -395,7 +415,7 @@ private fun BotaoCompra(isPremium: Boolean, preco: String?, onComprar: () -> Uni
             )
             Spacer(Modifier.width(Spacing.sm))
             Text(
-                "Premium ativo neste aparelho",
+                "Premium ativo",
                 fontSize = 15.sp,
                 color = MaterialTheme.colorScheme.onTertiaryContainer,
             )
@@ -403,7 +423,7 @@ private fun BotaoCompra(isPremium: Boolean, preco: String?, onComprar: () -> Uni
 
         // Sem preço = o Play não respondeu. Botão desabilitado COM o motivo à
         // vista; nunca um botão que parece clicável e não faz nada.
-        preco == null -> Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
+        preco == null || !configurado -> Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
             Button(
                 onClick = {},
                 enabled = false,
@@ -424,9 +444,9 @@ private fun BotaoCompra(isPremium: Boolean, preco: String?, onComprar: () -> Uni
                     modifier = Modifier.size(16.dp),
                 )
                 Text(
-                    "Indisponível agora: o Google Play não respondeu. Sem conexão, ou o " +
-                        "produto ainda não foi publicado. A compra volta sozinha quando a " +
-                        "loja responder.",
+                    if (!configurado) "Compra indisponível: configuração do Google Play pendente."
+                    else "Indisponível agora: o Google Play não respondeu. Sem conexão, ou o " +
+                        "produto ainda não foi publicado. A compra volta sozinha quando a loja responder.",
                     fontSize = 13.sp,
                     lineHeight = 18.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,

@@ -18,6 +18,7 @@ import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cena
+import com.atmosfera.wallpaper.BuildConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import java.security.KeyFactory
@@ -34,17 +35,16 @@ class BillingManager(
         const val PREF_AVULSO_PREFIX = "comprou_avulso_"
         private const val TAG = "BillingManager"
 
-        /**
-         * Chave pública de licenciamento (Base64) do Play Console — Monetizar >
-         * Configuração de monetização > Chave de licença. Sem ela, a verificação
-         * de assinatura é pulada (comportamento atual, sem bloqueio); com ela,
-         * compras com assinatura inválida são rejeitadas antes de liberar o plano.
-         */
-        private const val LICENSE_PUBLIC_KEY_BASE64 = ""
     }
 
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     private var detalhesMap: Map<String, ProductDetails> = emptyMap()
+    private var ofertasMap: Map<String, ProductDetails.OneTimePurchaseOfferDetails> = emptyMap()
+    val premiumConfigurado: Boolean = BuildConfig.PLAY_LICENSE_PUBLIC_KEY.isNotBlank()
+
+    private val _mensagemPremium = MutableStateFlow<String?>(null)
+    val mensagemPremium: StateFlow<String?> = _mensagemPremium
+    fun limparMensagemPremium() { _mensagemPremium.value = null }
 
     private val _precos = MutableStateFlow<Map<String, String>>(emptyMap())
 
@@ -109,9 +109,17 @@ class BillingManager(
                 Log.w(TAG, "Produto não encontrado no Play: ${it.productId} (status ${it.statusCode})")
             }
             detalhesMap = detalhes.productDetailsList.associateBy { it.productId }
-            _precos.value = detalhesMap.mapNotNull { (id, pd) ->
-                pd.oneTimePurchaseOfferDetails?.formattedPrice?.let { id to it }
+            // Seleciona a opção de compra permanente, sem aluguel ou pré-venda.
+            // O mesmo token que define o preço mostrado deve abrir o checkout.
+            ofertasMap = detalhesMap.mapNotNull { (id, pd) ->
+                val oferta = pd.oneTimePurchaseOfferDetailsList
+                    ?.firstOrNull { it.rentalDetails == null && it.preorderDetails == null && it.offerId == null }
+                    ?: pd.oneTimePurchaseOfferDetails?.takeIf {
+                        it.rentalDetails == null && it.preorderDetails == null
+                    }
+                oferta?.let { id to it }
             }.toMap()
+            _precos.value = ofertasMap.mapValues { it.value.formattedPrice }
         }
     }
 
@@ -169,14 +177,24 @@ class BillingManager(
     }
 
     fun comprar(activity: Activity, productId: String = PRODUTO_PREMIUM) {
-        val pd = detalhesMap[productId]
-        if (pd == null) {
-            Log.w(TAG, "Compra de $productId ignorada: produto não carregado do Play.")
+        if (!premiumConfigurado) {
+            if (productId == PRODUTO_PREMIUM) {
+                _mensagemPremium.value = "Compra indisponível: configuração do Google Play pendente."
+            }
             return
         }
-        val paramsList = listOf(
-            BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(pd).build()
-        )
+        val pd = detalhesMap[productId]
+        val oferta = ofertasMap[productId]
+        if (pd == null || oferta == null) {
+            Log.w(TAG, "Compra de $productId ignorada: produto ou oferta não carregado do Play.")
+            if (productId == PRODUTO_PREMIUM) _mensagemPremium.value = "O Google Play ainda não carregou o Premium. Tente novamente."
+            return
+        }
+        if (productId == PRODUTO_PREMIUM) _mensagemPremium.value = null
+        val produtoParams = BillingFlowParams.ProductDetailsParams.newBuilder()
+            .setProductDetails(pd)
+        oferta.offerToken?.let { produtoParams.setOfferToken(it) }
+        val paramsList = listOf(produtoParams.build())
         val flow = BillingFlowParams.newBuilder()
             .setProductDetailsParamsList(paramsList).build()
         // O resultado é síncrono e diz se a tela de compra chegou a abrir. Ignorá-lo
@@ -185,6 +203,7 @@ class BillingManager(
         val resultado = client.launchBillingFlow(activity, flow)
         if (resultado.responseCode != BillingClient.BillingResponseCode.OK) {
             Log.w(TAG, "Não foi possível abrir a compra de $productId: ${resultado.debugMessage}")
+            if (productId == PRODUTO_PREMIUM) _mensagemPremium.value = "Não foi possível abrir a compra. Verifique a Play Store e tente novamente."
         }
     }
 
@@ -197,34 +216,37 @@ class BillingManager(
                 // Compra recém-fechada: aqui aplicar o cenário é o comportamento
                 // desejado — o usuário acabou de comprar aquele cenário.
                 compras?.forEach { processar(it, aplicarCena = true) }
+                if (compras.isNullOrEmpty()) _mensagemPremium.value = "A compra não foi confirmada. Tente restaurar ou comprar novamente."
             }
             BillingClient.BillingResponseCode.USER_CANCELED -> {
                 Log.i(TAG, "Usuário cancelou o fluxo de compra.")
+                _mensagemPremium.value = "Compra cancelada."
             }
             BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> {
                 // Pode acontecer se o front ficou dessincronizado da posse real
                 // (ex.: compra feita em outro device). Reconsulta pra alinhar.
                 Log.i(TAG, "Item já possuído — restaurando para sincronizar o estado local.")
+                _mensagemPremium.value = "Compra já registrada. Restaurando seu acesso…"
                 restaurar()
             }
             else -> {
                 Log.w(TAG, "Compra não concluída (${result.responseCode}): ${result.debugMessage}")
+                _mensagemPremium.value = "Compra não concluída pelo Google Play. Tente novamente."
             }
         }
     }
 
     /**
-     * Verifica a assinatura RSA da compra contra [LICENSE_PUBLIC_KEY_BASE64].
-     * Sem chave configurada, não bloqueia (loga aviso) — evita quebrar compras
-     * reais antes de alguém colar a chave certa do Play Console.
+     * Verifica a assinatura RSA da compra contra a chave de licenciamento do Play Console.
+     * Sem chave configurada, recusa a compra.
      */
     private fun assinaturaValida(p: Purchase): Boolean {
-        if (LICENSE_PUBLIC_KEY_BASE64.isBlank()) {
-            Log.w(TAG, "Chave de licenciamento não configurada — pulando verificação de assinatura da compra.")
-            return true
+        if (BuildConfig.PLAY_LICENSE_PUBLIC_KEY.isBlank()) {
+            Log.e(TAG, "Chave de licenciamento não configurada — compra não pode ser validada.")
+            return false
         }
         return try {
-            val keySpec = X509EncodedKeySpec(Base64.decode(LICENSE_PUBLIC_KEY_BASE64, Base64.DEFAULT))
+            val keySpec = X509EncodedKeySpec(Base64.decode(BuildConfig.PLAY_LICENSE_PUBLIC_KEY, Base64.DEFAULT))
             val publicKey = KeyFactory.getInstance("RSA").generatePublic(keySpec)
             val sig = Signature.getInstance("SHA1withRSA")
             sig.initVerify(publicKey)
@@ -237,8 +259,13 @@ class BillingManager(
     }
 
     private fun processar(p: Purchase, aplicarCena: Boolean) {
+        if (p.purchaseState == Purchase.PurchaseState.PENDING && PRODUTO_PREMIUM in p.products) {
+            _mensagemPremium.value = "Pagamento pendente. O Premium será liberado após a confirmação pelo Google Play."
+            return
+        }
         if (p.purchaseState == Purchase.PurchaseState.PURCHASED && !assinaturaValida(p)) {
             Log.w(TAG, "Compra ${p.orderId} rejeitada: assinatura inválida.")
+            if (PRODUTO_PREMIUM in p.products) _mensagemPremium.value = "Não foi possível validar a compra. Verifique a configuração do Google Play."
             return
         }
         if (p.purchaseState == Purchase.PurchaseState.PURCHASED) {
@@ -255,6 +282,9 @@ class BillingManager(
                     // pune — logar é o mínimo pra dar pra diagnosticar em campo.
                     if (resultado.responseCode != BillingClient.BillingResponseCode.OK) {
                         Log.w(TAG, "Falha ao confirmar compra ${p.orderId}: ${resultado.debugMessage}")
+                        if (PRODUTO_PREMIUM in p.products) {
+                            _mensagemPremium.value = "Premium liberado, mas a confirmação ao Google Play falhou. Abra o app novamente para tentar de novo."
+                        }
                     }
                 }
             }
@@ -263,6 +293,7 @@ class BillingManager(
                 if (productId == PRODUTO_PREMIUM) {
                     Plano.setPremium(context, true)
                     onMudou(true)
+                    _mensagemPremium.value = null
                 } else {
                     val cenario = Catalogo.cenarios.firstOrNull { it.productId == productId }
                     if (cenario != null) {

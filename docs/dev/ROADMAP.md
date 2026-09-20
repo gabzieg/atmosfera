@@ -94,23 +94,25 @@ do usuário, ver `TASKS.md`.
 do snapshot do motor de 2026-08-09, que levou `assets/atmosfera/` de 14,7 MB pra
 ~140 MB. Refazer a medição faz parte do critério da Fase 4.
 
-## Fase 2 — Billing testável ponta a ponta ⏳ não iniciada
+## Fase 2 — Billing testável ponta a ponta 🔄 código preparado; Play pendente
 
 **Objetivo:** compra real fechando, não só código que compila.
 
 **Critério de saída:**
 - [ ] Produtos `atmosfera_premium` e `cenario_tanque` criados no Play Console
   (tipo INAPP, não-consumível — ver `Catalogo.kt` pros IDs valendo)
-- [ ] `LICENSE_PUBLIC_KEY_BASE64` colada em `BillingManager.kt`
+- [ ] `playLicensePublicKey` preenchida em `android-app/keystore.properties`
 - [ ] Fluxo de compra testado em teste fechado/sandbox: comprar, restaurar,
   confirmar que `Plano.setPremium`/`Cena.definir` disparam certo
 
 **Bloqueia em:** conta do Play Console (ver "Status atual").
 
-**O código já está pronto** — Billing 9.1.0, preços reativos, reconciliação de
-reembolso, botão de compra que explica o motivo quando a loja não responde. O
-que falta é cadastro, não implementação. Para testar a UI de conteúdo pago sem
-a conta, use o painel de debug → "Destravar cenários pagos (teste)".
+**O código está preparado para teste** — Billing 9.1.0, preços reativos, token
+da oferta no checkout, verificação de assinatura que falha sem chave, feedback
+de compra e reconciliação de reembolso. Falta validar a compra real pela Play;
+ver [PREMIUM-PLAY-CONSOLE.md](PREMIUM-PLAY-CONSOLE.md). Para testar a UI de
+conteúdo pago sem conta, use o painel de debug → "Destravar cenários pagos
+(teste)".
 
 ## Fase 3 — Compliance de publicação 🔄 em andamento
 

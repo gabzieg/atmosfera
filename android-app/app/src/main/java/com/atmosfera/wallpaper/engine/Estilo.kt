@@ -2,6 +2,7 @@ package com.atmosfera.wallpaper.engine
 
 import android.content.Context
 import android.graphics.Color
+import com.atmosfera.wallpaper.billing.Plano
 
 /**
  * Estilos de arte dos EFEITOS — porte das ESTILOS do protótipo web.
@@ -68,10 +69,21 @@ object Estilos {
 object EstiloEfeito {
     private const val PREFS = "atmosfera_estilo"
     private const val KEY = "efeito"
-    fun atual(c: Context): String =
-        c.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY, "pixel") ?: "pixel"
-    fun definir(c: Context, id: String) =
+    const val GRATIS = "pixel"
+
+    /** O serviço também usa esta leitura: um estilo pago salvo nunca contorna a posse. */
+    fun atual(c: Context): String {
+        val salvo = c.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getString(KEY, GRATIS) ?: GRATIS
+        return if (salvo in Estilos.ids && (salvo == GRATIS || Plano.isPremium(c))) salvo else GRATIS
+    }
+
+    /** Recusa IDs desconhecidos e estilos pagos sem Premium, inclusive fora da UI. */
+    fun definir(c: Context, id: String): Boolean {
+        if (id !in Estilos.ids || (id != GRATIS && !Plano.isPremium(c))) return false
         c.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(KEY, id).apply()
+        return true
+    }
 }
 
 /** Arte do FUNDO da cena (independente do estilo dos efeitos). Default pixel. */

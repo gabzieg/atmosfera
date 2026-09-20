@@ -137,10 +137,11 @@ Form declarado com o que o APK realmente pede).
 - [ ] **Produtos no Play Console**: criar `atmosfera_premium` e
   `cenario_tanque` (INAPP, não-consumíveis) antes de testar compras — ver
   `Catalogo.kt` para os IDs valendo.
-- [ ] **Chave de licenciamento**: colar a chave pública Base64 (Play Console →
-  Monetizar → Configuração de monetização → Chave de licença) em
-  `BillingManager.LICENSE_PUBLIC_KEY_BASE64` — sem ela, a verificação de
-  assinatura das compras fica desligada.
+- [ ] **Chave de licenciamento**: preencher `playLicensePublicKey` em
+  `android-app/keystore.properties` com a chave pública Base64 de
+  Play Console → Monetizar → Configuração de monetização → Licenciamento.
+  Sem ela, o app não inicia compras nem libera compras não verificadas.
+  Seguir [PREMIUM-PLAY-CONSOLE.md](PREMIUM-PLAY-CONSOLE.md).
 - [ ] **Teste fechado** antes de produção — Google exige um período de teste
   fechado com testers reais para apps novos.
 - [ ] **Medir o motor num aparelho ANTIGO de verdade** — decide se `minSdk 26`

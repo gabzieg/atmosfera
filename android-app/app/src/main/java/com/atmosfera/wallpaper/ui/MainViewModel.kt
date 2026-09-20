@@ -56,10 +56,6 @@ data class ClimaInfo(
     }
 }
 
-/** Único estilo de efeito livre sem Premium — mesmo baseline usado como grátis
- *  em todo o resto do app (arte da cabana, default de [EstiloEfeito.atual]). */
-private const val ESTILO_GRATIS = "pixel"
-
 class MainViewModel(application: Application) : AndroidViewModel(application), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val context: Context get() = getApplication()
@@ -165,6 +161,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
 
     private fun onPremiumMudou(premium: Boolean) {
         _isPremium.value = premium
+        _currentEffectStyle.value = EstiloEfeito.atual(context)
         prefs.edit().putLong("KEY_PREMIUM_STATUS", System.currentTimeMillis()).apply()
     }
 
@@ -216,9 +213,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
      * (ver SPEC.md); até lá, só o pixel é grátis.
      */
     fun setEffectStyle(styleId: String) {
-        if (styleId != ESTILO_GRATIS && !_isPremium.value) return
-        EstiloEfeito.definir(context, styleId)
-        _currentEffectStyle.value = styleId
+        if (EstiloEfeito.definir(context, styleId)) {
+            _currentEffectStyle.value = EstiloEfeito.atual(context)
+        }
     }
 
     fun setIntervaloClima(minutos: Int) {
