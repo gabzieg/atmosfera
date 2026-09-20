@@ -2,7 +2,6 @@ package com.atmosfera.wallpaper.billing
 
 import android.app.Activity
 import android.content.Context
-import android.util.Base64
 import android.util.Log
 import androidx.preference.PreferenceManager
 import com.android.billingclient.api.AcknowledgePurchaseParams
@@ -21,9 +20,6 @@ import com.atmosfera.wallpaper.engine.Cena
 import com.atmosfera.wallpaper.BuildConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.security.KeyFactory
-import java.security.Signature
-import java.security.spec.X509EncodedKeySpec
 
 class BillingManager(
     private val context: Context,
@@ -241,21 +237,11 @@ class BillingManager(
      * Sem chave configurada, recusa a compra.
      */
     private fun assinaturaValida(p: Purchase): Boolean {
-        if (BuildConfig.PLAY_LICENSE_PUBLIC_KEY.isBlank()) {
-            Log.e(TAG, "Chave de licenciamento não configurada — compra não pode ser validada.")
-            return false
-        }
-        return try {
-            val keySpec = X509EncodedKeySpec(Base64.decode(BuildConfig.PLAY_LICENSE_PUBLIC_KEY, Base64.DEFAULT))
-            val publicKey = KeyFactory.getInstance("RSA").generatePublic(keySpec)
-            val sig = Signature.getInstance("SHA1withRSA")
-            sig.initVerify(publicKey)
-            sig.update(p.originalJson.toByteArray())
-            sig.verify(Base64.decode(p.signature, Base64.DEFAULT))
-        } catch (e: Exception) {
-            Log.e(TAG, "Falha ao verificar assinatura da compra ${p.orderId}", e)
-            false
-        }
+        val valida = AssinaturaCompra.valida(
+            BuildConfig.PLAY_LICENSE_PUBLIC_KEY, p.originalJson, p.signature
+        )
+        if (!valida) Log.w(TAG, "Assinatura inválida ou chave ausente na compra ${p.orderId}.")
+        return valida
     }
 
     private fun processar(p: Purchase, aplicarCena: Boolean) {

@@ -6,7 +6,19 @@ estilos, prévia, revogação e verificação local da assinatura está implemen
 **A compra real ainda não foi validada**: falta preencher a chave de licenciamento
 local e confirmar o produto e a distribuição no Play Console. O proprietário
 confirmou que a conta de desenvolvedor está ativa, mas o app ainda não havia
-sido criado no Console no início deste passo a passo.
+sido criado no Console no início deste passo a passo. O acesso à conta está com
+Rafael; os passos no Console aguardam acesso autorizado.
+
+## Acesso ao Console sem compartilhar senha
+
+O Rafael pode ir a **Usuários e permissões** no Play Console e convidar o e-mail
+Google do Gabriel. Para criar o app, as permissões de conta **Ver informações
+do app e baixar relatórios em massa** e **Criar, editar e excluir apps em
+rascunho** são necessárias. Depois, para configurar o produto e o teste interno,
+conferir **Gerenciar presença na loja**, **Lançar apps em faixas de teste** e
+**Gerenciar faixas de teste e listas de testadores**. Configuração do perfil de
+pagamentos pode exigir o titular da conta. O Rafael pode limitar o acesso ao
+app depois da criação. Fonte: [permissões do Play Console](https://support.google.com/googleplay/android-developer/answer/9844686).
 
 ## Passo a passo conjunto
 
@@ -57,6 +69,8 @@ sido criado no Console no início deste passo a passo.
 - [x] Assinatura inválida ou chave ausente não libera acesso.
 - [x] Preço e token da mesma oferta são usados no checkout.
 - [x] Compra pendente, cancelada e falha têm feedback no app.
+- [x] Indicador local de Premium excluído do backup e da transferência entre aparelhos.
+- [x] Verificação RSA coberta por teste local com recibo válido, alterado e chave errada.
 - [ ] Produto ativo e chave pública configurada no build de teste.
 - [ ] Compra de teste, restauração, cancelamento, pendência e revogação validados
   num aparelho com Google Play pela faixa de teste.

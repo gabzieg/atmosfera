@@ -89,11 +89,12 @@ analytics, crash reporting ou SDK de anúncios — política §4 e §12.
 
 ### Armadilha do backup
 
-`AndroidManifest.xml` tem `allowBackup="true"`: cache e preferências podem ir
-pro backup do Android, na conta Google **do usuário**. Não é coleta sua (é
-mecanismo do sistema) e **não** precisa ser declarado como compartilhamento —
-mas está documentado na política §3.6 para ser honesto. Se um revisor
-perguntar, é essa a resposta.
+`AndroidManifest.xml` tem `allowBackup="true"`: preferências comuns podem ir
+pro backup do Android, na conta Google **do usuário**. O arquivo de posse
+`atmosfera_plano.xml` está excluído do backup e da transferência entre aparelhos;
+o Premium é restaurado pela compra na Play. Não é coleta sua (é mecanismo do
+sistema) e **não** precisa ser declarado como compartilhamento — mas está
+documentado na política §3.6 para ser honesto.
 
 ---
 

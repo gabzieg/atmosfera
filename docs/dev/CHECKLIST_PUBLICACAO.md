@@ -308,7 +308,7 @@ corrigida no mesmo PR.
 | `BillingManager.kt` — só `ProductType.INAPP`, compra única, sem `SUBS` | Privacidade 3.5 e 9; **Termos §5.1** ("não há assinatura") — passar a vender assinatura invalida os dois |
 | `BillingManager.kt` — só resultado da compra + verificação de assinatura | 3.5, 9 |
 | `Plano.kt`, `Cena.kt`, `Estilo.kt` — prefs locais | 3.4 |
-| `AndroidManifest.xml` — `allowBackup="true"` | 3.6 |
+| `AndroidManifest.xml` — `allowBackup="true"` com exclusão de `atmosfera_plano.xml` em `backup_rules.xml` e `data_extraction_rules.xml` | 3.6; compras são restauradas pela Play |
 | Ausência de SDK de ads/analytics | 4 e 12 — **integrar um SDK invalida a política** |
 | **Play Asset Delivery (Fase 4, ainda não implementado)** | Quando entrar, o app passa a **baixar conteúdo do Google durante o uso**. A seção 6.3 já cita o Google Play como operador, mas fala de *compra*, não de *download de conteúdo* — revisar 6.3 e 3.5 no mesmo PR que ligar os asset packs. Não inventa coleta de dado novo (o download é do próprio Play), mas afirmar menos do que acontece também é divergência |
 
