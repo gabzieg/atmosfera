@@ -195,13 +195,33 @@ melhora com guarda automático.
 Aprovação: **tudo → Gabriel**. O Rafael não revisa código; só publica packs.
 Detalhes e escape hatches em `.claude/skills/abrir-pr/SKILL.md`.
 
-**Nada disso é aplicado pelo servidor.** O repo é privado no plano free:
-branch protection e CODEOWNERS respondem `403 Upgrade to GitHub Pro`, então o
-CODEOWNERS não pede revisor sozinho. O que existe de verdade hoje são duas
-redes, ambas contornáveis:
+**⚠️ CORRIGIDO EM 2026-09-19: o servidor AGORA aplica.** Este trecho dizia o
+contrário e estava errado. Um `git push origin main` foi **recusado pelo
+GitHub**, não pelo hook local:
+
+```
+remote: - Required status check "build" is expected.
+ ! [remote rejected] main -> main (push declined due to repository rule violations)
+```
+
+Existe uma regra ativa exigindo que o check `build` passe antes de algo entrar
+na `main`. **`git push --no-verify` NÃO contorna** — aquele flag só desliga
+hooks locais; a recusa vem do servidor. Consequência prática: **PR deixou de ser
+convenção e virou o único caminho para a `main`.** Abra PR, deixe a CI rodar o
+`build`, e mescle pela interface do GitHub.
+
+Não verificado (não presuma): se é *ruleset* ou branch protection clássica, se
+o plano do repo mudou, e se a regra também exige aprovação além do check. Quem
+precisar do detalhe, confira em Settings → Rules/Branches — ou instale o `gh`,
+que hoje **não está instalado** nesta máquina (conferido no PATH do bash e do
+PowerShell), e foi por isso que o PR anterior teve de ser aberto pelo navegador.
+
+Abaixo, as duas redes locais que continuam existindo — agora como primeira
+barreira, não como única:
 
 - `.githooks/pre-push` (ligar com `./scripts/setup-hooks.sh`) — barra push
-  direto na `main` em área de risco. Escapa com `git push --no-verify`.
+  direto na `main` em área de risco. Escapa com `git push --no-verify`, mas
+  isso só adianta o erro: o servidor recusa depois.
 - `.github/workflows/aviso-push-direto.yml` — abre issue quando um commit que
   não veio de PR toca área de risco. Avisa depois, não bloqueia.
 

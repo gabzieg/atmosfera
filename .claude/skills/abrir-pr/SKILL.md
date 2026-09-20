@@ -118,9 +118,25 @@ item desmarcado.
 free, e a API responde `403 Upgrade to GitHub Pro`. O arquivo existe como
 convenção e fica pronto pro dia que o plano mudar. Quem cobra é você.
 
+> **⚠️ 2026-09-19 — o servidor passou a bloquear a `main`.** Um `git push origin
+> main` foi recusado pelo GitHub (não pelo hook local) com
+> `Required status check "build" is expected` /
+> `push declined due to repository rule violations`. **`--no-verify` não
+> contorna** — ele só desliga hook local. Na prática, **PR + CI verde virou o
+> único caminho para a `main`**, inclusive para doc e front.
+>
+> Isso NÃO contradiz o parágrafo acima sobre CODEOWNERS: pedir revisor
+> automaticamente é outro recurso, e não foi testado. Só está comprovado o
+> bloqueio por status check.
+>
+> O `gh` **não está instalado** nesta máquina (conferido no PATH do bash e do
+> PowerShell), então `gh pr create` falha — abra o PR pelo navegador:
+> `https://github.com/gabzieg/atmosfera/compare/main...<sua-branch>`
+
 Desde 2026-09-11 o projeto é solo: **tudo é do Gabriel** — engine, assets, front,
 billing, docs legais, publicação. O Rafael só publica releases de novos packs de
-conteúdo; não aprova nem revisa código. Na prática: gate verde e merge.
+conteúdo; não aprova nem revisa código. Na prática: gate verde, PR, CI verde e
+merge pela interface.
 
 Os documentos legais tinham revisor próprio (o Willian) até 2026-08-28, quando
 ele saiu do projeto. **Não substitua isso por uma cerimônia de PR consigo
