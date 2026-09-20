@@ -1,105 +1,108 @@
-# Plano até a Google Play — Terra
+# Plano até a Google Play — reconferido em 18/09/2026
 
-Base: [auditoria de 17/09/2026](AUDITORIA-PUBLICACAO-2026-09-17.md). Status inicial: **não liberado para produção**. Caixas abaixo são critérios de aceite, não declarações de trabalho concluído.
+Base técnica **a61c387**. [Auditoria consolidada](AUDITORIA-PUBLICACAO-2026-09-17.md). **Não liberado para produção.** `[x]` significa evidência conferida; `[ ]` continua pendente. Código implementado não equivale a fluxo comercial aprovado.
 
-## Ordem e responsáveis
+**Escopo registrado em 18/09:** lançamento com artes embarcadas. R2/PAD/download são evolução adiada. A SPEC ainda contradiz essa decisão e deve ser harmonizada. Não há motivo para refazer o motor ou descartar as correções preservadas.
 
-Responsável técnico: Gabriel, conforme documentação do projeto. Titular da conta: confirmar no Console; identidade legal não é inferida. Conteúdo: responsável pelos packs a confirmar; a documentação recente menciona Rafael.
+## Fases e dependências
 
-| Fase | Entrega | Depende de | Quem executa | Critério de saída |
-|---|---|---|---|---|
-| 0 | Oferta e infraestrutura definidas | Nada | Responsável pelo produto + titular | Marca Terra, catálogo inicial, direitos Premium, custos do clima e entrega R2 definidos por escrito. |
-| 1 | Fluxo de conteúdo completo | 0 | Desenvolvimento + responsável pelos packs | Descobrir, comprar, baixar, aplicar e usar offline funcionando numa instalação limpa. |
-| 2 | Compras confiáveis | 0; integração com 1 | Desenvolvimento + titular Console | Produtos ativos, posse reativa, confirmação/repetição e sandbox aprovados. |
-| 3 | Privacidade e ficha coerentes | Arquitetura final de 0–2 | Titular + desenvolvimento | Textos sincronizados, URLs públicas e declarações coerentes com tráfego/SDKs. |
-| 4 | Candidato de release validado | 1–3 | Desenvolvimento + testers | Testes/lint verdes, release assinado, tamanho medido, matriz abaixo aprovada. |
-| 5 | Teste fechado e acesso à produção | 4 e configuração do Console | Titular + testers | Feedback tratado e requisitos da conta cumpridos; acesso à produção aprovado. |
-| 6 | Revisão e primeira publicação | 5 | Titular | Release revisado e publicado nos países escolhidos; operação de suporte iniciada. |
+| Fase | Situação | Próxima saída verificável |
+|---|---|---|
+| 0 — Oferta e serviços | Parcial | Lista real de artes vendidas, escopo documentado, licença/custos do clima. |
+| 1 — Entrega local | Parcial, prioridade imediata | Nenhuma variante ofertada sem arquivos/renderização; cinco amostras funcionando. |
+| 2 — Premium e compras | Parcial | Direito verificado na UI/serviço; pagamento e restauração aprovados pela Play. |
+| 3 — Legal e ficha | Parcial | HTML + Markdown coerentes, sem placeholders, URLs públicas e Console preenchido. |
+| 4 — Release | Build aprovado; comportamento reprovado no clima | Consulta real funcional no release, matriz de aparelhos e jornadas aprovada. |
+| 5 — Teste fechado | Não comprovado | Testers/feedback/requisitos da conta e acesso à produção aprovados. |
+| 6 — Publicação | Não comprovada | Revisão e distribuição pública concluídas; inicia D0 da operação. |
 
-Conta, perfil de pagamentos, verificação de identidade/dispositivo quando solicitada, reserva dos IDs de produtos e recrutamento de testers podem avançar em paralelo às fases 1–3. Não há estimativa confiável de data antes de definir o catálogo e obter acesso ao Console.
+Responsável técnico conforme documentos: Gabriel. Titular/publicador e responsável legal devem ser confirmados pela conta, não inferidos; os HTML identificam Rafael Huppes. A conta, produtos e recrutamento de testers podem avançar em paralelo ao código. Não fixar data de lançamento antes de resolver P0 e conferir o Console.
 
-## Fase 0 — Fechar escopo sem acrescentar recursos desnecessários
+## Prioridade 1 — Clima funcional no release (B07)
 
-- [ ] Confirmar Terra como marca pública; manter `com.atmosfera.wallpaper` se esse for o pacote registrado.
-- [ ] Confirmar cinco artes gratuitas: cabana/pixel, jardim/ukiyoe, bruxa/clay, esfinge/vangogh e lavanda/aqua.
-- [ ] Definir estilos de efeito livres e exclusivos; Premium não inclui compra das cenas.
-- [ ] Escolher catálogo inicial dentre os 74 cenários; adiar venda de packs se a regra comercial ainda não estiver definida.
-- [ ] Regularizar provedor meteorológico para uso comercial e projetar custo mensal por usuário ativo.
-- [ ] Confirmar entrega R2/CDN, responsável pela publicação, domínio HTTPS e política de logs.
-- [ ] Confirmar titular legal, suporte e direitos de distribuição comercial das artes, fontes e sprites.
+- [x] Gerar APK/AAB release e instalar o APK no emulador.
+- [x] Confirmar duas aberturas e navegação Home → Loja → Premium.
+- [x] Confirmar regra de preservação do construtor Room no código.
+- [ ] Corrigir `Class cannot be cast to ParameterizedType` reproduzido nas duas aberturas; investigar reflexão/tipos genéricos e compatibilidade de versões com stack trace.
+- [ ] Fazer a Home sair de “Carregando clima…” em falha e mostrar condição útil de erro/cache.
+- [ ] Receber dado meteorológico válido, atualizar cache e comprovar efeito no wallpaper no release.
+- [ ] Validar rede indisponível, retry do Worker, permissão negada/revogada, posição indisponível, fuso e cache antigo.
+- [ ] Se ajustar Kotlin/AGP/R8, fazer alteração isolada e validar em execução antes de integrá-la; não repetir migração ampla apenas para zerar warning.
 
-## Fases 1 e 2 — Fechar o que acontece depois do pagamento
+Referência: [matriz Kotlin/R8](https://developer.android.com/build/kotlin-support). Build verde não substitui esta etapa.
 
-- [ ] Integrar manifesto remoto com a vitrine, miniaturas e prévias; não depender de PNG pago embarcado.
-- [ ] Versionar a ferramenta de empacotamento ou documentar origem e procedimento reproduzível.
-- [ ] Publicar packs e manifesto compatíveis, validar hashes/estrutura e configurar endpoint de produção.
-- [ ] Implementar estados: indisponível, não adquirido, comprando, pendente, adquirido/não baixado, baixando, pronto e falha com nova tentativa.
-- [ ] Baixar somente após direito confirmado; aplicar somente depois de conteúdo validado. Preservar wallpaper anterior se falhar.
-- [ ] Implementar política Premium na aplicação real, incluindo restauração e perda do direito; manter prévia de venda separada.
-- [ ] Remover artes pagas completas do release base; preservar amostras e assets necessários ao primeiro uso offline.
-- [ ] Cadastrar SKUs selecionados e `atmosfera_premium`; não gerar IDs por suposição: `timessquare`, por exemplo, usa `cenario_novayork`.
-- [ ] Conferir o [inventário de 75 produtos](../loja/PRODUTOS-REVISAO.csv), escolher os que entram no lançamento e registrar preço/país/disponibilidade no Console. CSV é referência de revisão, não formato de importação da Play.
-- [ ] Configurar verificação de compra e impedir release que pule essa verificação silenciosamente.
-- [ ] Tratar confirmação de compra, falhas/repetição, estados de pagamento, posse observável e consulta ao retornar ao app.
-- [ ] Testar compra, cancelamento, pendência aprovada/negada, restauração, reembolso, reinstalação, troca de aparelho e offline com testadores de licença.
+## Prioridade 2 — Oferta e entrega embarcadas (B01)
 
-Confirmação precisa ocorrer no prazo documentado pela Play; testar só a abertura do diálogo não valida pagamento. [Integração de Billing](https://developer.android.com/google/play/billing/integrate).
+- [x] Reconferir **74 cenários + Premium**, cinco amostras com fundo e 16 folhas de estilo existentes.
+- [x] Regerar [CSV de revisão](../loja/PRODUTOS-REVISAO.csv), incluindo variantes declaradas, presentes e ausentes.
+- [ ] Resolver **257 variantes sem fundo local**, dentre 335 declaradas: embarcar o que será vendido ou retirar essas variantes da oferta.
+- [ ] Validar demais arquivos além de `fundo.png`, renderização, preview e aplicação de cada variante ofertada.
+- [ ] Remover repetição de pixel em `artesDoCenario()` e tratar miniaturas “Em breve”.
+- [ ] Atualizar SPEC/checklist/ficha para entrega embarcada e oferta exata; confirmar eventual subconjunto de lançamento.
+- [ ] Conferir direitos comerciais de todas as artes, fontes e sprites; cortes no catálogo não substituem revisão dos arquivos distribuídos.
+- [ ] Medir download comprimido por aparelho no Console/bundletool e instalação em pouco espaço. O AAB local atual tem 405,60 MiB.
 
-## Fase 3 — Preparar o envio para revisão
+Campos do CSV são inventário local: `artes_com_fundo_local` não significa renderização aprovada; `status_console=nao_verificado` não significa produto inexistente. CSV não é formato oficial de importação.
 
-- [ ] Resolver diferenças sem sobrescrever informações legais por suposição; aprovar uma fonte canônica e sincronizar Markdown, `docs`, `public_html` e assets.
-- [ ] Incluir `public_html` na verificação de sincronização e nas entradas do Gradle; testar também ausência de placeholders visíveis no release.
-- [ ] Publicar privacidade, termos e contato; verificar HTTPS, resposta HTTP, conteúdo e navegação em sessão sem login.
-- [ ] Revisar Data Safety após concluir clima e CDN: fornecedores, retenção, localização, compras/SDKs, suporte e backup.
-- [ ] Corrigir orientação de reembolso e confirmar canal para solicitações de dados.
-- [ ] Preencher acesso ao app, anúncios, público-alvo, IARC e demais declarações efetivamente apresentadas pelo Console. Não pré-assumir classificação Livre: revisar também cenas de guerra/armas e conteúdo fantástico.
-- [ ] Revisar nome, descrição curta/longa, categoria, contato, países, idiomas, preços e screenshots atuais do **release**. Não prometer packs, bateria excepcional ou atualizações instantâneas sem comprovação.
-- [ ] Confirmar arte promocional 1024×500, ícone 512×512 e screenshots aceitos pelo Console; não reutilizar capturas com marca antiga ou menus de teste.
+## Prioridade 3 — Premium e compras (B02/B03)
 
-As respostas de segurança devem representar o app e os SDKs reais, inclusive fornecedores externos. [Data Safety](https://support.google.com/googleplay/android-developer/answer/10787469).
+- [x] Gate de estilos em `setEffectStyle`: pixel livre; outros exigem Premium.
+- [x] Cadeados na UI e entrada do comparador Premium navegável.
+- [x] Consulta de compras em `onResume`, restauração de item já possuído e logs de cancelamento/erro/acknowledge.
+- [ ] Confirmar regra comercial de estilos; unificar e aplicar direito também no WallpaperService e após revogação/restauração.
+- [ ] Implementar prévia/explicação/compra ao tocar estilo bloqueado, sem aplicação permanente indevida.
+- [ ] Configurar verificação de compras; eliminar aceitação silenciosa por chave vazia em produção.
+- [ ] Posse de cenários observável e estados visíveis de pendência, cancelamento, falha e sucesso.
+- [ ] Confirmação com tratamento/repetição confiável; log sozinho não resolve falha de acknowledge.
+- [ ] Conferir 75 IDs ou limitar oferta explicitamente; preços/países/disponibilidade no Console.
+- [ ] Testar compra → liberação → aplicação local; pendência aprovada/negada; reembolso; reinstalação; outro aparelho; offline.
 
-## Fase 4 — Matriz mínima de aceite
+Usar testadores de licença e a distribuição Play apropriada. [Integração Billing](https://developer.android.com/google/play/billing/integrate).
 
-Para cada linha, registrar versão/versionCode, aparelho/API, data, resultado e evidência. Falha em pagamento, aplicação ou integridade de conteúdo impede avançar.
+## Prioridade 4 — Clima comercial, legal e ficha (B04–B06)
 
-| Cenário | Resultado esperado |
+- [ ] Regularizar o provedor para uso comercial, confirmar atribuição e custos. [Open-Meteo](https://open-meteo.com/en/terms).
+- [x] Três conjuntos HTML sincronizados manualmente e teste docs/assets aprovado.
+- [x] Identidade/contato/URL preenchidos nos HTML — validade e correspondência com titular ainda precisam de conferência.
+- [ ] Atualizar os Markdown canônicos, ainda com placeholders e divergências.
+- [ ] Adicionar `public_html` ao teste e às entradas do Gradle; impedir placeholders visíveis no material publicado.
+- [ ] Definir vigência verdadeira da política usada no teste, sem inventar data de lançamento; revisar enquadramento legal citado.
+- [ ] Unificar suporte do app/site e corrigir texto de reembolso.
+- [ ] Concluir rebrand: Home ainda mostra “Atmosfera”; conferir tutoriais, mensagens e screenshots.
+- [ ] Publicar e verificar HTTPS/HTTP e conteúdo de privacidade, termos e contato sem login. DNS da URL citada falhou na reconferência local.
+- [ ] Preencher Data Safety conforme arquitetura embarcada e provedor de clima final; revisar localização, Geocoder, logs, backup, suporte e SDKs.
+- [ ] Preencher IARC, anúncios, público-alvo, acesso ao app e demais declarações mostradas pelo Console; avaliar cenas de guerra/armas, sem assumir classificação.
+- [ ] Revisar ficha, preços reais, ícone 512×512, gráfico 1024×500 e screenshots atuais; não anunciar variantes ausentes.
+
+## Prioridade 5 — Aceite técnico completo
+
+- [x] 34 testes JVM aprovados; lint debug sem erros (20 avisos); builds debug/release/AAB concluídos em 18/09.
+- [x] Alinhamento ZIP do APK release passou em `zipalign -P 16 -c 4`.
+- [ ] Confirmar alinhamento ELF e execução em ambiente de 16 KB; emulador usado tem páginas de 4 KB.
+- [ ] Validar APKs derivados do AAB/canal interno, Play App Signing, assinatura de upload, backup de chave e versionCode disponível.
+- [ ] Arquivar AAB/mapping/hash e notas da versão candidata após as correções.
+
+| Teste obrigatório | Critério de aceite |
 |---|---|
-| Primeira abertura offline | Amostra utilizável, sem tela vazia ou carregamento infinito. |
-| Negar/revogar localização; localização indisponível | Estado/fallback explícito; comportamento de cache e consultas coerente com a política. |
-| Cache antigo, erro de rede, servidor 429/500 | Último clima preservado e informação honesta; repetição controlada. |
-| Fusos diferentes, mudança de dia, horário de verão | Hora e bloco meteorológico coerentes. |
-| Aplicar cada arte gratuita | Cenário correto e acesso gratuito preservado após reiniciar. |
-| Compra aprovada/pendente/cancelada/erro | Direito só no estado correto; UI informa resultado; confirmação registrada. |
-| Restaurar após reinstalar ou em outro aparelho | Mesma conta recupera compras e pode baixar novamente. |
-| Reembolso ou revogação | Direitos reconciliados sem apagar indevidamente compra por falha de rede. |
-| Download interrompido, ZIP inválido, sem espaço, dois toques | Sem pack parcial, travamento ou perda da cena anterior; permite repetir. |
-| CDN indisponível e usuário com conteúdo baixado | Wallpaper continua funcionando offline. |
-| Troca rápida de cena/estilo; sair/voltar; reiniciar aparelho | Sem corrida de bitmaps, duplicação de loop, crash ou seleção errada. |
-| Tela apagada e wallpaper invisível | Sem renderização contínua desnecessária; consumo comparado com wallpaper estático. |
-| Sessão prolongada com efeitos intensos | Sem crescimento contínuo de memória, aquecimento anormal ou ANR. |
-| Android 8/API 26, versões intermediárias e Android 16/API 36 | Instalação, localização, UI e wallpaper validados; incluir aparelho com pouca RAM. |
-| Ambiente com páginas de 16 KB e ABI distribuídas | Bibliotecas nativas alinhadas e execução aprovada. |
-| Tela grande/rotação, fonte ampliada, TalkBack | Conteúdo e controles acessíveis sem cortes. |
-| Release minificado instalado pela Play | Mesmas jornadas aprovadas; sem caminho de desbloqueio debug. |
+| Instalação limpa online/offline | Onboarding e amostras utilizáveis; sem carregamento infinito. |
+| Clima no release | Consulta válida/cache/erro controlado; Worker não relata sucesso indevido. |
+| Todas as artes ofertadas | Preview e aplicação corretos, arquivos completos, sem conteúdo vendido inacessível. |
+| Premium e compras | Compra, confirmação, restauração e revogação corretas na UI e serviço. |
+| Ciclo do wallpaper | Trocas rápidas, tela apagada, home, preview, reinício, superfície recriada, sem loop duplicado/crash. |
+| Bateria e memória | Sessão prolongada, pouca RAM, comparação com wallpaper estático e registro de consumo. |
+| Compatibilidade | API 26, intermediária e atual; aparelho físico; 16 KB; diferentes fabricantes. |
+| Acessibilidade | TalkBack, fonte ampliada, tela grande/rotação e controles sem cortes. |
+| Pré-lançamento Play | Relatório avaliado e teste manual de wallpaper complementando automação. |
 
-- [ ] Rodar `testDebugUnitTest lintDebug assembleDebug`, depois validação de release e `bundleRelease`; não ignorar falhas existentes.
-- [ ] Conferir assinatura do AAB, Play App Signing, backup seguro da chave de upload, `versionCode` disponível e mapping do R8 arquivado.
-- [ ] Medir tamanho comprimido por dispositivo e comparar limites vigentes do Console; tamanho bruto do AAB não basta.
-- [ ] Avaliar relatório de pré-lançamento; complementar manualmente o teste do WallpaperService, que a exploração automática pode não cobrir.
-- [ ] Registrar evidências das correções do serviço, Worker e Acervo listadas na auditoria.
+## Prioridade 6 — Teste e publicação
 
-## Fases 5 e 6 — Console, teste e publicação
+- [ ] Confirmar titular, tipo/data da conta, perfil de pagamentos e verificações solicitadas.
+- [ ] Teste interno com candidato corrigido; depois teste fechado com roteiro e evidências.
+- [ ] Cumprir a exigência aplicável à conta: para contas pessoais novas abrangidas pela regra, 12 testers inscritos continuamente por 14 dias e solicitação de acesso à produção; prazo sozinho não garante aprovação. [Requisitos oficiais](https://support.google.com/googleplay/android-developer/answer/14151465).
+- [ ] Tratar feedback, obter acesso à produção e enviar ficha/AAB para revisão.
+- [ ] Conferir primeira publicação nos países escolhidos; distribuição percentual é para updates, não para a primeira publicação. [Releases](https://support.google.com/googleplay/android-developer/answer/9859348).
+- [ ] Registrar data real e iniciar [operação de 90 dias](OPERACAO-POS-LANCAMENTO.md).
 
-Para **contas pessoais criadas após 13/11/2023**, a regra consultada exige ao menos **12 testers inscritos continuamente por 14 dias**, seguidos de solicitação de acesso à produção. Não é uma regra universal para toda conta; cumprir o prazo não garante aprovação automática. Teste interno não substitui o fechado. [Regra oficial](https://support.google.com/googleplay/android-developer/answer/14151465).
+## Evolução adiada — entrega remota
 
-- [ ] Confirmar tipo/data da conta e exigências mostradas no Console.
-- [ ] Distribuir primeiro em teste interno, depois fechado quando o candidato estiver utilizável.
-- [ ] Entregar roteiro aos testers e registrar uso, feedback, defeitos e correções; planejar participantes de reserva sem presumir que substituem os dias contínuos exigidos.
-- [ ] Solicitar acesso à produção quando aplicável; responder com evidências reais.
-- [ ] Revalidar URLs, produtos, CDN e pacote final; enviar para revisão e tratar eventuais exigências.
-- [ ] Preparar notas da versão e atendimento antes de publicar.
-- [ ] Registrar data/hora, países e versão publicada; executar verificação pela listagem pública.
-
-**Primeira publicação:** não planejar distribuição percentual de 5%/10%. Essa opção é para atualizações; a primeira versão de produção é distribuída nos países selecionados. Limitar países ou prolongar o teste fechado são formas de reduzir o alcance inicial. [Publicação oficial](https://support.google.com/googleplay/android-developer/answer/9859348).
-
-Depois de publicar, executar [OPERACAO-POS-LANCAMENTO.md](OPERACAO-POS-LANCAMENTO.md). Nenhuma etapa que dependa da publicação foi marcada como executada antecipadamente.
+Manifesto, CDN, empacotador, compra → download → aplicação, integridade, gestão de armazenamento e rollback serão necessários **se a decisão de entrega remota for retomada**. Antes disso, atualizar privacidade e Data Safety. Essas tarefas não devem aparecer como concluídas nem impedir o MVP embarcado por uma exigência documental antiga.

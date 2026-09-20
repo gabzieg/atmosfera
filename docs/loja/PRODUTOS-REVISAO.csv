@@ -1,76 +1,76 @@
-﻿"cenario_id","product_id","nome","artes_gratis","tipo","status_console"
-"","atmosfera_premium","Terra Premium","","compra_unica_nao_consumivel","nao_verificado"
-"cabana","cenario_cabana","Cabana na floresta","pixel","compra_unica_nao_consumivel","nao_verificado"
-"tanque","cenario_tanque","Tanque — campo de batalha","","compra_unica_nao_consumivel","nao_verificado"
-"fiordes","cenario_fiordes","Fiordes — vila norueguesa","","compra_unica_nao_consumivel","nao_verificado"
-"cabana2","cenario_cabana2","Ruína na selva","","compra_unica_nao_consumivel","nao_verificado"
-"velhooeste","cenario_velhooeste","Velho Oeste","","compra_unica_nao_consumivel","nao_verificado"
-"heroi","cenario_heroi","Descanso do Herói","","compra_unica_nao_consumivel","nao_verificado"
-"versalhes","cenario_versalhes","Versalhes","","compra_unica_nao_consumivel","nao_verificado"
-"babilonia","cenario_babilonia","Jardins da Babilônia","","compra_unica_nao_consumivel","nao_verificado"
-"telhados","cenario_telhados","Telhados","","compra_unica_nao_consumivel","nao_verificado"
-"forte","cenario_forte","Forte na água","","compra_unica_nao_consumivel","nao_verificado"
-"camboja","cenario_camboja","Templo das raízes","","compra_unica_nao_consumivel","nao_verificado"
-"caverna","cenario_caverna","Boca da caverna","","compra_unica_nao_consumivel","nao_verificado"
-"estacionamento","cenario_estacionamento","Mirante de asfalto","","compra_unica_nao_consumivel","nao_verificado"
-"mureta","cenario_mureta","Muro do campo","","compra_unica_nao_consumivel","nao_verificado"
-"porto","cenario_porto","Porto medieval","","compra_unica_nao_consumivel","nao_verificado"
-"terrao","cenario_terrao","Campinho de várzea","","compra_unica_nao_consumivel","nao_verificado"
-"bruxa","cenario_bruxa","Casa da bruxa","clay","compra_unica_nao_consumivel","nao_verificado"
-"eiffel","cenario_eiffel","Torre Eiffel","","compra_unica_nao_consumivel","nao_verificado"
-"trincheira","cenario_trincheira","Trincheira","","compra_unica_nao_consumivel","nao_verificado"
-"cofre","cenario_cofre","Câmara do ouro","","compra_unica_nao_consumivel","nao_verificado"
-"ruinas","cenario_ruinas","Ruínas do tesouro","","compra_unica_nao_consumivel","nao_verificado"
-"baobas","cenario_baobas","Baobás","","compra_unica_nao_consumivel","nao_verificado"
-"cafeparis","cenario_cafeparis","Café de Paris","","compra_unica_nao_consumivel","nao_verificado"
-"estrada","cenario_estrada","Estrada do deserto","","compra_unica_nao_consumivel","nao_verificado"
-"praiaeuropa","cenario_praiaeuropa","Praia europeia","","compra_unica_nao_consumivel","nao_verificado"
-"cyberpunk","cenario_cyberpunk","Cyberpunk — canal","","compra_unica_nao_consumivel","nao_verificado"
-"cyberseco","cenario_cyberseco","Cyberpunk — rua","","compra_unica_nao_consumivel","nao_verificado"
-"quarto","cenario_quarto","Quarto na chuva","","compra_unica_nao_consumivel","nao_verificado"
-"cafeinterno","cenario_cafeinterno","Café na esquina","","compra_unica_nao_consumivel","nao_verificado"
-"estufa","cenario_estufa","Estufa de vidro","","compra_unica_nao_consumivel","nao_verificado"
-"trem","cenario_trem","Vagão de trem","","compra_unica_nao_consumivel","nao_verificado"
-"orbita","cenario_orbita","Estação orbital","","compra_unica_nao_consumivel","nao_verificado"
-"biblioteca","cenario_biblioteca","Biblioteca antiga","","compra_unica_nao_consumivel","nao_verificado"
-"natalsala","cenario_natalsala","Sala de Natal","","compra_unica_nao_consumivel","nao_verificado"
-"natalchale","cenario_natalchale","Chalé de Natal","","compra_unica_nao_consumivel","nao_verificado"
-"halloween","cenario_halloween","Casarão assombrado","","compra_unica_nao_consumivel","nao_verificado"
-"nortada","cenario_nortada","Cabana da aurora","","compra_unica_nao_consumivel","nao_verificado"
-"cachoeira","cenario_cachoeira","Cachoeira da mata","","compra_unica_nao_consumivel","nao_verificado"
-"aldeiajapao","cenario_aldeiajapao","Aldeia de inverno","","compra_unica_nao_consumivel","nao_verificado"
-"natal","cenario_natal","Vila de Natal","","compra_unica_nao_consumivel","nao_verificado"
-"vulcao","cenario_vulcao","Vulcão da ilha","","compra_unica_nao_consumivel","nao_verificado"
-"enseada","cenario_enseada","Lago na neblina","","compra_unica_nao_consumivel","nao_verificado"
-"lavanda","cenario_lavanda","Campo de lavanda","aqua","compra_unica_nao_consumivel","nao_verificado"
-"mesquita","cenario_mesquita","Pátio da mesquita","","compra_unica_nao_consumivel","nao_verificado"
-"himalaia","cenario_himalaia","Mosteiro da montanha","","compra_unica_nao_consumivel","nao_verificado"
-"recife","cenario_recife","Naufrágio no coral","","compra_unica_nao_consumivel","nao_verificado"
-"ogro","cenario_ogro","Casa no tronco","","compra_unica_nao_consumivel","nao_verificado"
-"rio","cenario_rio","Mirante da baía","","compra_unica_nao_consumivel","nao_verificado"
-"torii","cenario_torii","Torii no lago","","compra_unica_nao_consumivel","nao_verificado"
-"vigia","cenario_vigia","Torre de vigia","","compra_unica_nao_consumivel","nao_verificado"
-"esfinge","cenario_esfinge","Esfinge","vangogh","compra_unica_nao_consumivel","nao_verificado"
-"sitio","cenario_sitio","Celeiro vermelho","","compra_unica_nao_consumivel","nao_verificado"
-"savana","cenario_savana","Savana","","compra_unica_nao_consumivel","nao_verificado"
-"oasis","cenario_oasis","Oásis","","compra_unica_nao_consumivel","nao_verificado"
-"elfico","cenario_elfico","Refúgio élfico","","compra_unica_nao_consumivel","nao_verificado"
-"postapoc","cenario_postapoc","Cidade tomada","","compra_unica_nao_consumivel","nao_verificado"
-"navio","cenario_navio","Navio viking","","compra_unica_nao_consumivel","nao_verificado"
-"castelo","cenario_castelo","Castelo na Montanha","","compra_unica_nao_consumivel","nao_verificado"
-"beco","cenario_beco","Beco japonês","","compra_unica_nao_consumivel","nao_verificado"
-"templo","cenario_templo","Templo grego","","compra_unica_nao_consumivel","nao_verificado"
-"vale","cenario_vale","Vale alpino","","compra_unica_nao_consumivel","nao_verificado"
-"muralha","cenario_muralha","Muralha da China","","compra_unica_nao_consumivel","nao_verificado"
-"jardim","cenario_jardim","Jardim japonês","ukiyoe","compra_unica_nao_consumivel","nao_verificado"
-"pantano","cenario_pantano","Pântano de névoa","","compra_unica_nao_consumivel","nao_verificado"
-"farol","cenario_farol","Farol","","compra_unica_nao_consumivel","nao_verificado"
-"praia","cenario_praia","Praia tropical","","compra_unica_nao_consumivel","nao_verificado"
-"duomo","cenario_duomo","Duomo","","compra_unica_nao_consumivel","nao_verificado"
-"coliseu","cenario_coliseu","Coliseu","","compra_unica_nao_consumivel","nao_verificado"
-"notredame","cenario_notredame","Notre Dame","","compra_unica_nao_consumivel","nao_verificado"
-"cidadeproibida","cenario_cidadeproibida","Cidade Proibida","","compra_unica_nao_consumivel","nao_verificado"
-"timessquare","cenario_novayork","Nova York","","compra_unica_nao_consumivel","nao_verificado"
-"pizzaria","cenario_pizzaria","Mesa no beco italiano","","compra_unica_nao_consumivel","nao_verificado"
-"vilaviking","cenario_vilaviking","Vila viking","","compra_unica_nao_consumivel","nao_verificado"
-"apefino","cenario_apefino","Sala com vista","","compra_unica_nao_consumivel","nao_verificado"
+﻿cenario_id,product_id,nome,artes_gratis,tipo,status_console,reconferido_em,referencia_codigo,entrega_mvp,artes_declaradas,artes_com_fundo_local,artes_sem_fundo_local
+,atmosfera_premium,Terra Premium,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,,,
+cabana,cenario_cabana,Cabana na floresta,pixel,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;clay;ukiyoe;needlefelting;doodle,pixel,aqua;clay;doodle;needlefelting;ukiyoe
+tanque,cenario_tanque,Tanque — campo de batalha,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;needlefelting;pixelart,pixel,needlefelting;pixelart
+fiordes,cenario_fiordes,Fiordes — vila norueguesa,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+cabana2,cenario_cabana2,Ruína na selva,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;poly2;ukiyoe;ukiyogpt,pixel,poly2;ukiyoe;ukiyogpt
+velhooeste,cenario_velhooeste,Velho Oeste,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+heroi,cenario_heroi,Descanso do Herói,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+versalhes,cenario_versalhes,Versalhes,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;pixel2;clay;gizcera;xilogravura,pixel,clay;gizcera;pixel2;xilogravura
+babilonia,cenario_babilonia,Jardins da Babilônia,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;pixel2;clay;papelmache,pixel,clay;papelmache;pixel2
+telhados,cenario_telhados,Telhados,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;terraco;anime;cartoon;clay;cozy;papercutout;dark;doodle;doodle2;gizcera;impressionista;lowpoly;needlefelting;papelmache;point;puppet;ukiyoe;vangogh;vangoghnoite;xilogravura,pixel,anime;cartoon;clay;cozy;dark;doodle;doodle2;gizcera;impressionista;lowpoly;needlefelting;papelmache;papercutout;point;puppet;terraco;ukiyoe;vangogh;vangoghnoite;xilogravura
+forte,cenario_forte,Forte na água,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;clay;papercutout;puppet;ukiyoe;xilogravura,pixel,clay;papercutout;puppet;ukiyoe;xilogravura
+camboja,cenario_camboja,Templo das raízes,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+caverna,cenario_caverna,Boca da caverna,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+estacionamento,cenario_estacionamento,Mirante de asfalto,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+mureta,cenario_mureta,Muro do campo,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;pixel2;pixel16;bordado;ceramica;ceramica2;clay;clay2;cozy;fauvismo;gizcera;impalemao;impressionista;lowpoly;point;suburbano;tapecaria;vangogh;xilogravura,pixel,bordado;ceramica;ceramica2;clay;clay2;cozy;fauvismo;gizcera;impalemao;impressionista;lowpoly;pixel16;pixel2;point;suburbano;tapecaria;vangogh;xilogravura
+porto,cenario_porto,Porto medieval,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+terrao,cenario_terrao,Campinho de várzea,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+bruxa,cenario_bruxa,Casa da bruxa,clay,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;16bits;16bits2;clay;needlefelting;papelmache,pixel;clay,16bits;16bits2;needlefelting;papelmache
+eiffel,cenario_eiffel,Torre Eiffel,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;16bits;8bits;8bits2;bordado1;bordado2;gizcera;impressionista;needlefelting;papelmache;papercutout;ukiyoe;ukiyoe2;vangogh;xilogravura,pixel,16bits;8bits;8bits2;bordado1;bordado2;gizcera;impressionista;needlefelting;papelmache;papercutout;ukiyoe;ukiyoe2;vangogh;xilogravura
+trincheira,cenario_trincheira,Trincheira,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;16bits;8bits;clay,pixel,16bits;8bits;clay
+cofre,cenario_cofre,Câmara do ouro,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+ruinas,cenario_ruinas,Ruínas do tesouro,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;8bits;clay;dragao;dragao2;dragao3;papelmache;pixelv0,pixel,8bits;clay;dragao;dragao2;dragao3;papelmache;pixelv0
+baobas,cenario_baobas,Baobás,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;papelmache,pixel,papelmache
+cafeparis,cenario_cafeparis,Café de Paris,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;16bits;clay;papelmache,pixel,16bits;clay;papelmache
+estrada,cenario_estrada,Estrada do deserto,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+praiaeuropa,cenario_praiaeuropa,Praia europeia,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;16bits;clay;papelmache,pixel,16bits;clay;papelmache
+cyberpunk,cenario_cyberpunk,Cyberpunk — canal,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;pixel16;cozy;impressionista,pixel,cozy;impressionista;pixel16
+cyberseco,cenario_cyberseco,Cyberpunk — rua,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;pixel2;cozy;cozynoite;xilogravura,pixel,cozy;cozynoite;pixel2;xilogravura
+quarto,cenario_quarto,Quarto na chuva,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+cafeinterno,cenario_cafeinterno,Café na esquina,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+estufa,cenario_estufa,Estufa de vidro,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+trem,cenario_trem,Vagão de trem,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+orbita,cenario_orbita,Estação orbital,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+biblioteca,cenario_biblioteca,Biblioteca antiga,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+natalsala,cenario_natalsala,Sala de Natal,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+natalchale,cenario_natalchale,Chalé de Natal,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+halloween,cenario_halloween,Casarão assombrado,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+nortada,cenario_nortada,Cabana da aurora,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+cachoeira,cenario_cachoeira,Cachoeira da mata,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+aldeiajapao,cenario_aldeiajapao,Aldeia de inverno,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua,pixel,aqua
+natal,cenario_natal,Vila de Natal,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+vulcao,cenario_vulcao,Vulcão da ilha,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe,pixel,aqua;ukiyoe
+enseada,cenario_enseada,Lago na neblina,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+lavanda,cenario_lavanda,Campo de lavanda,aqua,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;ukiyoe;vangogh;aqua,pixel;aqua,ukiyoe;vangogh
+mesquita,cenario_mesquita,Pátio da mesquita,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+himalaia,cenario_himalaia,Mosteiro da montanha,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+recife,cenario_recife,Naufrágio no coral,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+ogro,cenario_ogro,Casa no tronco,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+rio,cenario_rio,Mirante da baía,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+torii,cenario_torii,Torii no lago,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+vigia,cenario_vigia,Torre de vigia,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+esfinge,cenario_esfinge,Esfinge,vangogh,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;gizcera;needlefelting;ukiyoe;vangogh;xilogravura,pixel;vangogh,gizcera;needlefelting;ukiyoe;xilogravura
+sitio,cenario_sitio,Celeiro vermelho,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;clau;impamer;impressionista;pixel2;suburbano;vangogh;xilogravura,pixel,clau;impamer;impressionista;pixel2;suburbano;vangogh;xilogravura
+savana,cenario_savana,Savana,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;clay;impressionista;papelmache;point;rupestre;ukiyoe,pixel,clay;impressionista;papelmache;point;rupestre;ukiyoe
+oasis,cenario_oasis,Oásis,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;clay;clay2;gizcera;papercutout;pixel2;xilogravura,pixel,clay;clay2;gizcera;papercutout;pixel2;xilogravura
+elfico,cenario_elfico,Refúgio élfico,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;cartoon;clay;gizcera;lowpoly;sfumato;vangogh,pixel,cartoon;clay;gizcera;lowpoly;sfumato;vangogh
+postapoc,cenario_postapoc,Cidade tomada,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;cozy;iso;needlefelting;papercutout;vangogh,pixel,cozy;iso;needlefelting;papercutout;vangogh
+navio,cenario_navio,Navio viking,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;longe,pixel,longe
+castelo,cenario_castelo,Castelo na Montanha,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;clay;doodle;doodle2;needlefelting;papelmache,pixel,clay;doodle;doodle2;needlefelting;papelmache
+beco,cenario_beco,Beco japonês,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;noite;chibi;kodomo;seinen;impressionista;ukiyoe,pixel,chibi;impressionista;kodomo;noite;seinen;ukiyoe
+templo,cenario_templo,Templo grego,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;clay;cozy;lowpoly;point;point2;ukiyoe;vivid,pixel,clay;cozy;lowpoly;point;point2;ukiyoe;vivid
+vale,cenario_vale,Vale alpino,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;cartoon;clay;impressionista;lowpoly;papercutout,pixel,cartoon;clay;impressionista;lowpoly;papercutout
+muralha,cenario_muralha,Muralha da China,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;pixel2;clay;doodle;doodleinf;point;point2;vangogh,pixel,clay;doodle;doodleinf;pixel2;point;point2;vangogh
+jardim,cenario_jardim,Jardim japonês,ukiyoe,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;pixel2;clay;needlefelting;doodle;ukiyoe,pixel;ukiyoe,clay;doodle;needlefelting;pixel2
+pantano,cenario_pantano,Pântano de névoa,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+farol,cenario_farol,Farol,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+praia,cenario_praia,Praia tropical,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,
+duomo,cenario_duomo,Duomo,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+coliseu,cenario_coliseu,Coliseu,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+notredame,cenario_notredame,Notre Dame,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+cidadeproibida,cenario_cidadeproibida,Cidade Proibida,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+timessquare,cenario_novayork,Nova York,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+pizzaria,cenario_pizzaria,Mesa no beco italiano,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+vilaviking,cenario_vilaviking,Vila viking,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
+apefino,cenario_apefino,Sala com vista,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;ukiyoe;vangogh,pixel,aqua;ukiyoe;vangogh
