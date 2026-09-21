@@ -1,4 +1,4 @@
-# Termos de Uso — Atmosfera Live Wallpaper
+# Termos de Uso — Terra - Live Wallpaper
 
 > **Texto canônico.** Esta é a fonte da verdade dos termos; a página publicada
 > ([`docs/termos/index.html`](docs/termos/index.html)) é um espelho deste
@@ -15,7 +15,7 @@
 > emendado.
 
 **Versão dos termos:** 1.0
-**Aplica-se a:** Atmosfera Live Wallpaper (Android, `com.atmosfera.wallpaper`), a partir da versão 1.0.0
+**Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.0
 **Última atualização:** 30 de julho de 2026
 **Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
 
@@ -44,7 +44,7 @@ Este resumo é uma cortesia e não substitui o texto completo abaixo.
 | | |
 |---|---|
 | **Desenvolvedor** | Rafael Huppes |
-| **Aplicativo** | Atmosfera Live Wallpaper — `com.atmosfera.wallpaper` |
+| **Aplicativo** | Terra - Live Wallpaper — `com.terra.wallpaper` |
 | **Contato** | [PREENCHER: e-mail de contato] |
 | **Endereço destes termos** | [PREENCHER: URL pública desta página] |
 

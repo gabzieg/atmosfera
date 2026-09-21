@@ -108,7 +108,7 @@ aguardar o Gradle sincronizar → escolher device → run configuration `app` �
 ```bash
 cd android-app
 ./gradlew installDebug            # compila e instala o debug APK
-adb shell am start -n com.atmosfera.wallpaper/.ui.MainActivity
+adb shell am start -n com.terra.wallpaper/.ui.MainActivity
 ```
 
 No Git Bash/MSYS no Windows, prefixe `MSYS_NO_PATHCONV=1` quando um caminho
@@ -118,7 +118,7 @@ No Git Bash/MSYS no Windows, prefixe `MSYS_NO_PATHCONV=1` quando um caminho
 efeitos sem esperar o clima real):
 
 ```bash
-adb shell am start -n com.atmosfera.wallpaper/.debug.DebugLauncher
+adb shell am start -n com.terra.wallpaper/.debug.DebugLauncher
 ```
 
 O alvo é o **alias** `.debug.DebugLauncher` — apontar direto para

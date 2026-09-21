@@ -87,7 +87,7 @@ Todo item abaixo precisa estar **verdadeiro**, não só "parece pronto":
 - [ ] `./gradlew testDebugUnitTest lintDebug assembleDebug` verde (gate da CI)
 - [ ] `assembleRelease` gera APK/AAB **assinado** (keystore de produção real,
   não só o mecanismo de código em `keystore.properties.example`)
-- [ ] Produtos `atmosfera_premium` e `cenario_tanque` criados no Play Console
+- [ ] Produtos `terra_premium` e `cenario_tanque` criados no Play Console
   e testados com compra real (sandbox ou teste fechado)
 - [ ] `playLicensePublicKey` preenchida em `android-app/keystore.properties`
 - [ ] Política de privacidade publicada por URL, cobrindo a coleta de

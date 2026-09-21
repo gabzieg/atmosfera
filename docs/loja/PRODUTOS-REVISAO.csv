@@ -1,5 +1,5 @@
 ﻿cenario_id,product_id,nome,artes_gratis,tipo,status_console,reconferido_em,referencia_codigo,entrega_mvp,artes_declaradas,artes_com_fundo_local,artes_sem_fundo_local
-,atmosfera_premium,Terra Premium,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,,,
+,terra_premium,Terra Premium,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,,,
 cabana,cenario_cabana,Cabana na floresta,pixel,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;aqua;clay;ukiyoe;needlefelting;doodle,pixel,aqua;clay;doodle;needlefelting;ukiyoe
 tanque,cenario_tanque,Tanque — campo de batalha,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel;needlefelting;pixelart,pixel,needlefelting;pixelart
 fiordes,cenario_fiordes,Fiordes — vila norueguesa,,compra_unica_nao_consumivel,nao_verificado,2026-09-18,a61c387,embarcada,pixel,pixel,

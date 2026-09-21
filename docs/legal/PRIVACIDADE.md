@@ -1,4 +1,4 @@
-# Política de Privacidade — Atmosfera Live Wallpaper
+# Política de Privacidade — Terra - Live Wallpaper
 
 > **Texto canônico.** Esta é a fonte da verdade da política; a página publicada
 > ([`docs/privacidade/index.html`](docs/privacidade/index.html)) é um espelho
@@ -13,7 +13,7 @@
 > analytics invalida o texto abaixo. Ver seção 13.
 
 **Versão da política:** 1.0
-**Aplica-se a:** Atmosfera Live Wallpaper (Android, `com.atmosfera.wallpaper`), a partir da versão 1.0.0
+**Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.0
 **Última atualização:** 16 de setembro de 2026
 **Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
 
@@ -47,7 +47,7 @@ Este resumo é uma cortesia e não substitui o texto completo abaixo.
 | | |
 |---|---|
 | **Controlador** | [PREENCHER: nome completo da pessoa física ou razão social do desenvolvedor] |
-| **Aplicativo** | Atmosfera Live Wallpaper — `com.atmosfera.wallpaper` |
+| **Aplicativo** | Terra - Live Wallpaper — `com.terra.wallpaper` |
 | **Contato (privacidade / titular de dados)** | [PREENCHER: e-mail de contato] |
 | **Encarregado pelo tratamento de dados pessoais (DPO, art. 41 da LGPD)** | Não exigido — o Terra se qualifica como agente de tratamento de pequeno porte (Resolução CD/ANPD nº 2/2022, art. 11); o canal de comunicação exigido pelo art. 41, §2º, I é o contato de privacidade acima. |
 | **Endereço desta política** | [PREENCHER: URL pública desta página] |
@@ -158,7 +158,7 @@ não são transmitidas a nós. Se o Android enviar um relatório de falha ao Goo
 depois de perguntar a você, isso é um mecanismo do sistema operacional, coberto
 pela política do Google.
 
-## 4. O que o Atmosfera não faz
+## 4. O que o Terra não faz
 
 Declarado de forma explícita, porque a ausência também é informação:
 
@@ -280,7 +280,7 @@ Como o app não mantém conta nem base de dados, a maior parte desses direitos s
 exerce **diretamente no seu aparelho, sem depender de nós**:
 
 - **Revogar o consentimento de localização:** Ajustes do Android → Apps →
-  Atmosfera → Permissões → Localização → Negar. O app passa a usar o local
+  Terra → Permissões → Localização → Negar. O app passa a usar o local
   padrão imediatamente.
 - **Eliminar os dados:** Ajustes do Android → Apps → Terra → Armazenamento →
   Limpar dados. Isso apaga cache de clima, coordenadas guardadas e

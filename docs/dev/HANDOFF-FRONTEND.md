@@ -29,7 +29,7 @@ tempo real (~30 fps, Canvas nativo).
 - **Monetização (decidida): SEM assinatura.**
   - **Premium** = **compra única global**. Destrava os efeitos "vivos" em TODOS os
     cenários (raios, vento, vagalumes, estrela cadente, lampiões, fumaça, fases da
-    lua, acúmulo de neve, etc.). SKU: `atmosfera_premium` (INAPP não-consumível).
+    lua, acúmulo de neve, etc.). SKU: `terra_premium` (INAPP não-consumível).
   - Cada **cenário extra** = **compra avulsa** ("básico"). Quem tem Premium recebe
     a versão "viva" do cenário automaticamente.
   - A **cabana é grátis** (versão lite).
@@ -42,7 +42,7 @@ tempo real (~30 fps, Canvas nativo).
 ┌─────────────────────────────────────────────────────────────┐
 │  MOTOR (CONGELADO — não editar)          FRONT (SEU)         │
 │  ─────────────────────────────           ───────────         │
-│  com.atmosfera.wallpaper.engine.*        ui.*  (telas)       │
+│  com.terra.wallpaper.engine.*        ui.*  (telas)       │
 │  assets/atmosfera/**  (arte/sprites)     billing.*  (loja)   │
 │                                          service.*  (a cola) │
 │  Desenha o wallpaper.                    weather.*  (clima)  │
@@ -51,23 +51,23 @@ tempo real (~30 fps, Canvas nativo).
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **MOTOR (congelado, NÃO mexer):** pacote `com.atmosfera.wallpaper.engine`
+- **MOTOR (congelado, NÃO mexer):** pacote `com.terra.wallpaper.engine`
   (`EffectEngine`, `SceneConfig`/`SceneState`, `Atlas`, `Particles`, `Catalogo`,
   `Cena`) **e** a pasta `app/src/main/assets/atmosfera/**` (fundos, frentes, zonas,
   sprites de cada cenário). É o coração do render. Nós evoluímos isso (novos
   cenários, novos efeitos) e te entregamos snapshots. **Se você editar aqui, dá
   conflito no merge.**
 - **FRONT (seu):** todo o resto —
-  - `com.atmosfera.wallpaper.ui.*` — telas do app companheiro (home, loja,
+  - `com.terra.wallpaper.ui.*` — telas do app companheiro (home, loja,
     onboarding, settings).
-  - `com.atmosfera.wallpaper.billing.*` — `Plano` (flag Premium) + `BillingManager`
+  - `com.terra.wallpaper.billing.*` — `Plano` (flag Premium) + `BillingManager`
     (Google Play Billing). **Estender** para compras avulsas de cenário.
-  - `com.atmosfera.wallpaper.service.*` — o `WallpaperService` (a "cola" que
+  - `com.terra.wallpaper.service.*` — o `WallpaperService` (a "cola" que
     hospeda o motor). Você pode editar; só respeite a interface do motor (seção 3).
-  - `com.atmosfera.wallpaper.weather.*` — localização + Open-Meteo + cache. Já
+  - `com.terra.wallpaper.weather.*` — localização + Open-Meteo + cache. Já
     existe e funciona; alimenta o motor.
   - Manifest, Gradle, ícones, ficha da Play Store, screenshots, teste fechado.
-  - `com.atmosfera.wallpaper.debug.*` — painel de teste; é NOSSO (para calibrar
+  - `com.terra.wallpaper.debug.*` — painel de teste; é NOSSO (para calibrar
     efeitos), mas pode ler para entender como forçar clima.
 
 **Merge depois:** como as fronteiras são por pacote/pasta, o merge é limpo se você
@@ -143,7 +143,7 @@ Cena.definir(context, id: String)      // troca o wallpaper ativo
 ```
 > **Fluxo da loja:** liste `Catalogo.cenarios`. Grátis (`gratis==true`) = aplicar
 > direto. Pago = comprar `productId` via Billing, e só então `Cena.definir(...)`.
-> Premium (`atmosfera_premium`) é global e destrava os efeitos vivos de todos.
+> Premium (`terra_premium`) é global e destrava os efeitos vivos de todos.
 >
 > **Estado atual do motor:** hoje o serviço ainda carrega só a *cabana*. A troca de
 > cenário no motor (ler `Cena.atual` e carregar os assets certos) chega no próximo
@@ -157,7 +157,7 @@ Cena.definir(context, id: String)      // troca o wallpaper ativo
 1. **Loja / catálogo de cenários** — tela que lista `Catalogo.cenarios`, mostra
    grátis vs pago (preço via Billing), permite comprar e **aplicar** (`Cena.definir`).
 2. **Billing** — estender `BillingManager` para os produtos avulsos de cenário
-   (`productId` do `Catalogo`), além do `atmosfera_premium` que já existe. Ao
+   (`productId` do `Catalogo`), além do `terra_premium` que já existe. Ao
    confirmar compra: liberar o cenário; em Premium: `Plano.setPremium(true)`.
 3. **Seletor de cenário** na home + preview.
 4. **Onboarding / permissões** — fluxo de permissão de localização e o "definir como
@@ -166,7 +166,7 @@ Cena.definir(context, id: String)      // troca o wallpaper ativo
 5. **Home / companion app** — clima atual, status do plano, atalhos.
 6. **Settings** (opcional) — unidades, etc.
 7. **Publicação Play Store** — ficha, screenshots, criar produtos no Play Console
-   (`atmosfera_premium` + `cenario_tanque`), teste fechado → revisão.
+   (`terra_premium` + `cenario_tanque`), teste fechado → revisão.
 
 **Não faça** (é nosso): mexer no render, criar/editar sprites e artes, tunar
 efeitos, mudar as assinaturas da seção 3.
@@ -181,7 +181,7 @@ efeitos, mudar as assinaturas da seção 3.
 - **Tanque**: cenário #2, mapeado e funcionando no **protótipo web** (nosso
   laboratório). Porte pro motor Android vem por snapshot.
 - **Billing/Premium**: `Plano` + `BillingManager` (Play Billing 9.1.0, produto
-  `atmosfera_premium`) já existem.
+  `terra_premium`) já existem.
 - **Clima**: `weather.*` (Open-Meteo, localização, cache 30 min) funcionando.
 - **CI**: GitHub Actions (`.github/workflows/build.yml`) compila `assembleDebug` e
   publica o APK como artifact. Use para validar (não há emulador do nosso lado).

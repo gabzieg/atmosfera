@@ -99,7 +99,7 @@ do snapshot do motor de 2026-08-09, que levou `assets/atmosfera/` de 14,7 MB pra
 **Objetivo:** compra real fechando, não só código que compila.
 
 **Critério de saída:**
-- [ ] Produtos `atmosfera_premium` e `cenario_tanque` criados no Play Console
+- [ ] Produtos `terra_premium` e `cenario_tanque` criados no Play Console
   (tipo INAPP, não-consumível — ver `Catalogo.kt` pros IDs valendo)
 - [ ] `playLicensePublicKey` preenchida em `android-app/keystore.properties`
 - [ ] Fluxo de compra testado em teste fechado/sandbox: comprar, restaurar,

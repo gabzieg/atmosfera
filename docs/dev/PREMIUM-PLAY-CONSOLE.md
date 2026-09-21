@@ -1,7 +1,7 @@
 # Fechamento do Premium — Play Console
 
 Estado em 2026-09-20: o app usa Google Play Billing 9.1.0 e o produto
-`atmosfera_premium` como compra única não consumível. O código de seleção de
+`terra_premium` como compra única não consumível. O código de seleção de
 estilos, prévia, revogação e verificação local da assinatura está implementado.
 **A compra real ainda não foi validada**: falta preencher a chave de licenciamento
 local e confirmar o produto e a distribuição no Play Console. O proprietário
@@ -26,11 +26,11 @@ app depois da criação. Fonte: [permissões do Play Console](https://support.go
    nome **Terra - Live Wallpaper** (conforme `docs/loja/FICHA.md`), tipo
    **Aplicativo**, opção **Grátis** e um e-mail de suporte real. Aceite as
    declarações exigidas e conclua a criação. O pacote
-   `com.atmosfera.wallpaper` será associado ao cadastro no primeiro AAB.
+   `com.terra.wallpaper` será associado ao cadastro no primeiro AAB.
    Confirme também que o perfil de pagamentos está habilitado para vender
    produtos.
 2. Em **Monetizar com o Google Play > Produtos > Produtos de compra única**,
-   crie ou confira `atmosfera_premium`. Use uma opção de **compra** permanente
+   crie ou confira `terra_premium`. Use uma opção de **compra** permanente
    (não aluguel, pré-venda nem assinatura), com nome e descrição que expliquem
    os oito efeitos vivos e os estilos de efeito. O Premium **não inclui cenários**.
    Defina os países e o preço; a SPEC prevê R$ 49,90 no Brasil. Ative/publice

@@ -60,8 +60,8 @@ Rode sempre a partir de `android-app/`.
                                     # preenchido (ver "Build de release" abaixo); sem isso builda
                                     # sem assinar.
 adb devices                         # confirma emulador/device antes de instalar
-adb shell am start -n com.atmosfera.wallpaper/.ui.MainActivity
-adb shell am start -n com.atmosfera.wallpaper/.debug.DebugLauncher   # painel de debug
+adb shell am start -n com.terra.wallpaper/.ui.MainActivity
+adb shell am start -n com.terra.wallpaper/.debug.DebugLauncher   # painel de debug
                                     # É o ALIAS (exported=true) que abre a DebugActivity. Mirar
                                     # direto em .debug.DebugActivity falha com SecurityException:
                                     # ela é exported=false. Só existe em build debug — na gaveta
@@ -125,7 +125,7 @@ Tetos que ainda existem (confirmados quebrando o build, não suposição):
   Consequência prática: sem isso o `tanque` fica **intestável**, apesar de os
   assets já existirem em `assets/atmosfera/cenas/tanque/`. Para conseguir ver
   e testar conteúdo pago, use o painel de debug (`adb shell am start -n
-  com.atmosfera.wallpaper/.debug.DebugLauncher`) → **"Destravar cenários pagos
+  com.terra.wallpaper/.debug.DebugLauncher`) → **"Destravar cenários pagos
   (teste)"**. A flag é lida num único ponto (`DebugOverride.destravarPagos`),
   blindado por `BuildConfig.DEBUG` — em release o método devolve `false` sempre,
   então não existe caminho para um APK publicado liberar conteúdo pago por aí.

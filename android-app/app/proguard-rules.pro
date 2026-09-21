@@ -7,7 +7,7 @@
 }
 
 # Gson / modelos de dados
--keep class com.atmosfera.wallpaper.weather.** { *; }
+-keep class com.terra.wallpaper.weather.** { *; }
 -keepclassmembers class * {
     @com.google.gson.annotations.SerializedName <fields>;
 }

@@ -36,14 +36,14 @@ sem instalar, use `assembleDebug` (é o gate real da CI, ver `.github/workflows/
 ## 3. Abrir
 
 ```bash
-adb shell am start -n com.atmosfera.wallpaper/.ui.MainActivity
+adb shell am start -n com.terra.wallpaper/.ui.MainActivity
 ```
 
 Painel de debug (força clima/hora/vento, destrava cenários pagos; só builds
 debug):
 
 ```bash
-adb shell am start -n com.atmosfera.wallpaper/.debug.DebugLauncher
+adb shell am start -n com.terra.wallpaper/.debug.DebugLauncher
 ```
 
 Use o **alias** `.debug.DebugLauncher`, não `.debug.DebugActivity`: a Activity

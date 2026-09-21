@@ -1,4 +1,4 @@
-# Contato e uso de dados — Atmosfera Live Wallpaper
+# Contato e uso de dados — Terra - Live Wallpaper
 
 > **Texto canônico.** A página publicada
 > ([`docs/contato/index.html`](docs/contato/index.html)) é um espelho deste

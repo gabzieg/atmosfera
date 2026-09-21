@@ -21,7 +21,7 @@
 O Data Safety só aparece depois que o app existe no Play Console. Ordem:
 
 1. Conta de desenvolvedor criada (US$ 25, uma vez — pode levar dias pra aprovar)
-2. App criado no console (`com.atmosfera.wallpaper`)
+2. App criado no console (`com.terra.wallpaper`)
 3. **URL da política de privacidade já no ar** — o formulário a exige
 4. Aí sim: Política do app → Segurança dos dados
 

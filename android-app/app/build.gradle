@@ -17,11 +17,11 @@ if (temKeystore) {
 }
 
 android {
-    namespace 'com.atmosfera.wallpaper'
+    namespace 'com.terra.wallpaper'
     compileSdk 36
 
     defaultConfig {
-        applicationId "com.atmosfera.wallpaper"
+        applicationId "com.terra.wallpaper"
         minSdk 26
         targetSdk 36
         versionCode 1

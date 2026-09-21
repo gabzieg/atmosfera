@@ -134,7 +134,7 @@ Form declarado com o que o APK realmente pede).
   com o Rafael antes de qualquer publicação; na dúvida, remover do catálogo.
   Vale a mesma checagem para o resto dos packs — arte gerada a partir de obra
   protegida é problema mesmo quando o nome não denuncia.
-- [ ] **Produtos no Play Console**: criar `atmosfera_premium` e
+- [ ] **Produtos no Play Console**: criar `terra_premium` e
   `cenario_tanque` (INAPP, não-consumíveis) antes de testar compras — ver
   `Catalogo.kt` para os IDs valendo.
 - [ ] **Chave de licenciamento**: preencher `playLicensePublicKey` em
