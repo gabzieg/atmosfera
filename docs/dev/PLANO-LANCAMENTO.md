@@ -1,19 +1,19 @@
-# Plano até a Google Play — reconferido em 18/09/2026
+# Plano até a Google Play — reconferido em 23/09/2026
 
-Base técnica **a61c387**. [Auditoria consolidada](AUDITORIA-PUBLICACAO-2026-09-17.md). **Não liberado para produção.** `[x]` significa evidência conferida; `[ ]` continua pendente. Código implementado não equivale a fluxo comercial aprovado.
+Base técnica: árvore de trabalho da versão **2 (1.0.1)**. [Auditoria consolidada](AUDITORIA-PUBLICACAO-2026-09-17.md). **Ainda em teste interno.** `[x]` significa evidência conferida; `[ ]` continua pendente.
 
-**Escopo registrado em 18/09:** lançamento com artes embarcadas. R2/PAD/download são evolução adiada. A SPEC ainda contradiz essa decisão e deve ser harmonizada. Não há motivo para refazer o motor ou descartar as correções preservadas.
+**Escopo registrado em 23/09:** cinco cenários embarcados, cada um com uma arte grátis. O Premium libera as demais artes disponíveis, todos os estilos e os oito efeitos vivos. Os outros 69 cenários ficam em `content-packs/cenarios-futuros/`; PAD/download são evolução posterior.
 
 ## Fases e dependências
 
 | Fase | Situação | Próxima saída verificável |
 |---|---|---|
 | 0 — Oferta e serviços | Parcial | Lista real de artes vendidas, escopo documentado, licença/custos do clima. |
-| 1 — Entrega local | Parcial, prioridade imediata | Nenhuma variante ofertada sem arquivos/renderização; cinco amostras funcionando. |
-| 2 — Premium e compras | Parcial | Direito verificado na UI/serviço; pagamento e restauração aprovados pela Play. |
+| 1 — Entrega local | Concluída no código | Cinco cenários e somente artes existentes no AAB. |
+| 2 — Premium e compras | Produto ativo; teste pendente | Compra, liberação e restauração aprovadas pela Play. |
 | 3 — Legal e ficha | Parcial | HTML + Markdown coerentes, sem placeholders, URLs públicas e Console preenchido. |
 | 4 — Release | Build aprovado; comportamento reprovado no clima | Consulta real funcional no release, matriz de aparelhos e jornadas aprovada. |
-| 5 — Teste fechado | Não comprovado | Testers/feedback/requisitos da conta e acesso à produção aprovados. |
+| 5 — Teste interno | Ativo | Testers já instalaram; publicar versão 2 e validar a compra real. |
 | 6 — Publicação | Não comprovada | Revisão e distribuição pública concluídas; inicia D0 da operação. |
 
 Responsável técnico conforme documentos: Gabriel. Titular/publicador e responsável legal devem ser confirmados pela conta, não inferidos; os HTML identificam Rafael Huppes. A conta, produtos e recrutamento de testers podem avançar em paralelo ao código. Não fixar data de lançamento antes de resolver P0 e conferir o Console.
@@ -33,14 +33,14 @@ Referência: [matriz Kotlin/R8](https://developer.android.com/build/kotlin-suppo
 
 ## Prioridade 2 — Oferta e entrega embarcadas (B01)
 
-- [x] Reconferir **74 cenários + Premium**, cinco amostras com fundo e 16 folhas de estilo existentes.
-- [x] Regerar [CSV de revisão](../loja/PRODUTOS-REVISAO.csv), incluindo variantes declaradas, presentes e ausentes.
-- [ ] Resolver **257 variantes sem fundo local**, dentre 335 declaradas: embarcar o que será vendido ou retirar essas variantes da oferta.
-- [ ] Validar demais arquivos além de `fundo.png`, renderização, preview e aplicação de cada variante ofertada.
-- [ ] Remover repetição de pixel em `artesDoCenario()` e tratar miniaturas “Em breve”.
-- [ ] Atualizar SPEC/checklist/ficha para entrega embarcada e oferta exata; confirmar eventual subconjunto de lançamento.
+- [x] Limitar o catálogo embarcado a **cinco cenários**: cabana, bruxa, lavanda, esfinge e jardim.
+- [x] Regerar o [CSV de revisão](../loja/PRODUTOS-REVISAO.csv) com a oferta real.
+- [x] Ofertar somente variantes com fundo local e impedir telas “Em breve” dentro dos cinco cenários.
+- [x] Mover 69 cenários para `content-packs/cenarios-futuros/`, fora do AAB.
+- [x] Atualizar SPEC/checklist/ficha para o novo escopo.
 - [ ] Conferir direitos comerciais de todas as artes, fontes e sprites; cortes no catálogo não substituem revisão dos arquivos distribuídos.
-- [ ] Medir download comprimido por aparelho no Console/bundletool e instalação em pouco espaço. O AAB local atual tem 405,60 MiB.
+- [x] Medir o AAB local: **82,36 MiB**, contra 405,60 MiB na versão anterior.
+- [ ] Conferir o tamanho de download por aparelho no Play Console e testar instalação em pouco espaço.
 
 Campos do CSV são inventário local: `artes_com_fundo_local` não significa renderização aprovada; `status_console=nao_verificado` não significa produto inexistente. CSV não é formato oficial de importação.
 
@@ -54,7 +54,7 @@ Campos do CSV são inventário local: `artes_com_fundo_local` não significa ren
 - [ ] Configurar verificação de compras; eliminar aceitação silenciosa por chave vazia em produção.
 - [ ] Posse de cenários observável e estados visíveis de pendência, cancelamento, falha e sucesso.
 - [ ] Confirmação com tratamento/repetição confiável; log sozinho não resolve falha de acknowledge.
-- [ ] Conferir 75 IDs ou limitar oferta explicitamente; preços/países/disponibilidade no Console.
+- [x] Limitar a oferta ao SKU `terra_premium`; produto e opção de compra ativos no Brasil por R$ 49,90.
 - [ ] Testar compra → liberação → aplicação local; pendência aprovada/negada; reembolso; reinstalação; outro aparelho; offline.
 
 Usar testadores de licença e a distribuição Play apropriada. [Integração Billing](https://developer.android.com/google/play/billing/integrate).
@@ -76,7 +76,7 @@ Usar testadores de licença e a distribuição Play apropriada. [Integração Bi
 
 ## Prioridade 5 — Aceite técnico completo
 
-- [x] 34 testes JVM aprovados; lint debug sem erros (20 avisos); builds debug/release/AAB concluídos em 18/09.
+- [x] Testes JVM aprovados e AAB release assinado concluído em 23/09; lint vital sem erros.
 - [x] Alinhamento ZIP do APK release passou em `zipalign -P 16 -c 4`.
 - [ ] Confirmar alinhamento ELF e execução em ambiente de 16 KB; emulador usado tem páginas de 4 KB.
 - [ ] Validar APKs derivados do AAB/canal interno, Play App Signing, assinatura de upload, backup de chave e versionCode disponível.
@@ -97,7 +97,8 @@ Usar testadores de licença e a distribuição Play apropriada. [Integração Bi
 ## Prioridade 6 — Teste e publicação
 
 - [ ] Confirmar titular, tipo/data da conta, perfil de pagamentos e verificações solicitadas.
-- [ ] Teste interno com candidato corrigido; depois teste fechado com roteiro e evidências.
+- [x] Primeira versão distribuída em teste interno e instalada pelos testadores.
+- [ ] Enviar a versão 2 corrigida ao teste interno e repetir o roteiro, incluindo compra Premium.
 - [ ] Cumprir a exigência aplicável à conta: para contas pessoais novas abrangidas pela regra, 12 testers inscritos continuamente por 14 dias e solicitação de acesso à produção; prazo sozinho não garante aprovação. [Requisitos oficiais](https://support.google.com/googleplay/android-developer/answer/14151465).
 - [ ] Tratar feedback, obter acesso à produção e enviar ficha/AAB para revisão.
 - [ ] Conferir primeira publicação nos países escolhidos; distribuição percentual é para updates, não para a primeira publicação. [Releases](https://support.google.com/googleplay/android-developer/answer/9859348).

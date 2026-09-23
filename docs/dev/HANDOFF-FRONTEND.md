@@ -30,9 +30,8 @@ tempo real (~30 fps, Canvas nativo).
   - **Premium** = **compra única global**. Destrava os efeitos "vivos" em TODOS os
     cenários (raios, vento, vagalumes, estrela cadente, lampiões, fumaça, fases da
     lua, acúmulo de neve, etc.). SKU: `terra_premium` (INAPP não-consumível).
-  - Cada **cenário extra** = **compra avulsa** ("básico"). Quem tem Premium recebe
-    a versão "viva" do cenário automaticamente.
-  - A **cabana é grátis** (versão lite).
+  - A versão inicial traz **cinco cenários** com uma arte grátis em cada um.
+    O Premium libera as demais artes, todos os estilos e os efeitos vivos.
 
 ---
 
@@ -165,8 +164,8 @@ Cena.definir(context, id: String)      // troca o wallpaper ativo
    `MainActivity`).
 5. **Home / companion app** — clima atual, status do plano, atalhos.
 6. **Settings** (opcional) — unidades, etc.
-7. **Publicação Play Store** — ficha, screenshots, criar produtos no Play Console
-   (`terra_premium` + `cenario_tanque`), teste fechado → revisão.
+7. **Publicação Play Store** — ficha, screenshots, produto `terra_premium`,
+   teste fechado → revisão.
 
 **Não faça** (é nosso): mexer no render, criar/editar sprites e artes, tunar
 efeitos, mudar as assinaturas da seção 3.

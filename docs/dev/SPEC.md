@@ -38,9 +38,9 @@ Modelo decidido em 2026-09-13 (packs ainda a definir — ver o fim desta seção
 
 | Eixo | Regra | Preço |
 |---|---|---|
-| **Cenários** | Cada cena é compra avulsa (`productId` em `engine/Catalogo.kt`). **5 cenas têm 1 arte grátis** (a "vitrine"): cabana/pixel · jardim/ukiyoe · bruxa/clay · esfinge/vangogh · lavanda/aqua. As outras 71 têm a arte-base embutida mas **bloqueada** (vê na vitrine, aplica comprando). | **R$ 1,99** por cena |
-| **Premium** | Compra única global. Liga os **8 efeitos vivos** E **todos os estilos de efeito** em todos os cenários. **Não** dá os cenários (compra à parte). | **R$ 49,90** |
-| **Packs** | Agrupamento de conteúdo (ex.: as 4 variantes `rupestre` viram um pack "Rupestre"). Quantidade por pack e se a vitrine entra junto: **a definir**. | a definir |
+| **Cenários** | Cinco cenas embarcadas, cada uma com uma arte grátis: cabana/pixel · jardim/ukiyoe · bruxa/clay · esfinge/vangogh · lavanda/aqua. | Grátis para experimentar |
+| **Premium** | Compra única global. Libera **todas as artes dos cinco cenários**, os **8 efeitos vivos** e **todos os estilos de efeito**. | **R$ 49,90** |
+| **Packs futuros** | Os demais cenários ficam fora do AAB, preservados em `content-packs/cenarios-futuros/`. A entrega futura deve usar Play Asset Delivery ou download sob demanda. | a definir |
 
 ### Regra de estilos — decisão + o que falta
 
@@ -87,8 +87,8 @@ Todo item abaixo precisa estar **verdadeiro**, não só "parece pronto":
 - [ ] `./gradlew testDebugUnitTest lintDebug assembleDebug` verde (gate da CI)
 - [ ] `assembleRelease` gera APK/AAB **assinado** (keystore de produção real,
   não só o mecanismo de código em `keystore.properties.example`)
-- [ ] Produtos `terra_premium` e `cenario_tanque` criados no Play Console
-  e testados com compra real (sandbox ou teste fechado)
+- [x] Produto `terra_premium` criado no Play Console; falta concluir uma compra
+  real e a restauração no teste interno
 - [ ] `playLicensePublicKey` preenchida em `android-app/keystore.properties`
 - [ ] Política de privacidade publicada por URL, cobrindo a coleta de
   localização aproximada

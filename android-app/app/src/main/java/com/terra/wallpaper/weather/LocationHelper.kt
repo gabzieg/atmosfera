@@ -22,7 +22,7 @@ import kotlin.coroutines.resume
  * Onde o clima é medido.
  *
  * @param padrao true quando NÃO foi possível localizar o aparelho e caímos nas
- *   coordenadas fixas de Novo Hamburgo. Isso costumava acontecer em silêncio — sem
+ *   coordenadas fixas de São Paulo. Isso costumava acontecer em silêncio — sem
  *   permissão, com o `getCurrentLocation` devolvendo null ou estourando os 5 s,
  *   o app buscava o clima de outra cidade e ninguém ficava sabendo. Hoje o
  *   flag sobe até a tela inicial ("local padrão"), que é o único jeito de
@@ -34,10 +34,10 @@ class LocationHelper(private val context: Context) {
 
     private val TAG = "LocationHelper"
 
-    // Coordenadas padrão: Novo Hamburgo - RS
+    // Coordenadas padrão: São Paulo - SP
     companion object {
-        const val DEFAULT_LAT = -29.6781
-        const val DEFAULT_LON = -51.1350
+        const val DEFAULT_LAT = -23.5505
+        const val DEFAULT_LON = -46.6333
     }
 
     fun hasPermission(): Boolean =
@@ -95,7 +95,7 @@ class LocationHelper(private val context: Context) {
     }
 
     /**
-     * Nome curto do lugar ("Novo Hamburgo, RS") pra mostrar junto do clima.
+     * Nome curto do lugar ("São Paulo, SP") pra mostrar junto do clima.
      *
      * Usa o [Geocoder] do próprio aparelho — nada de API nova nem de mandar a
      * coordenada pra outro serviço. Falha é normal (aparelho sem serviço de

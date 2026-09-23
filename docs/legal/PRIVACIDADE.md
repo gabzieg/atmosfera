@@ -36,7 +36,7 @@ Este resumo é uma cortesia e não substitui o texto completo abaixo.
 - Suas preferências (cenário, arte, estilo, se você é Premium) e o último clima
   consultado ficam **só no seu aparelho**.
 - O app **funciona sem a permissão de localização**: se você negar, ele usa uma
-  cidade padrão (Novo Hamburgo, RS) e nada mais muda.
+  cidade padrão (São Paulo, SP) e nada mais muda.
 - Para apagar tudo: revogue a permissão, limpe os dados do app ou desinstale.
   Não sobra cópia em nenhum servidor nosso, porque não existe servidor nosso.
 
@@ -98,7 +98,7 @@ O Terra não pede cadastro e não cria identificador de usuário. Tudo abaixo
   Para usuários no Espaço Econômico Europeu / Reino Unido, o fundamento
   equivalente é o art. 6(1)(a) do GDPR.
 - **É opcional:** se você negar ou revogar a permissão, o app usa coordenadas
-  fixas de Novo Hamburgo (RS, Brasil) e continua funcionando normalmente. Nenhuma
+  fixas de São Paulo (RS, Brasil) e continua funcionando normalmente. Nenhuma
   funcionalidade é bloqueada; só o clima deixa de ser o seu.
 
 ### 3.2 Endereço IP
@@ -181,7 +181,7 @@ Declarado de forma explícita, porque a ausência também é informação:
 | Permissão | Para que é usada | Se você negar |
 |---|---|---|
 | `INTERNET`, `ACCESS_NETWORK_STATE` | Consultar a previsão do tempo na Open-Meteo e checar se há rede | Sem previsão; o app usa o último clima em cache ou o estado padrão |
-| `ACCESS_COARSE_LOCATION` | Obter as coordenadas para a consulta de clima (seção 3.1). O app pede apenas **localização aproximada** — precisão balanceada, nunca GPS de alta precisão | O app usa Novo Hamburgo (RS) como local padrão e segue funcionando |
+| `ACCESS_COARSE_LOCATION` | Obter as coordenadas para a consulta de clima (seção 3.1). O app pede apenas **localização aproximada** — precisão balanceada, nunca GPS de alta precisão | O app usa São Paulo (SP) como local padrão e segue funcionando |
 | `RECEIVE_BOOT_COMPLETED` | Reagendar a atualização periódica de clima depois de reiniciar o aparelho | A atualização periódica volta a ser agendada na próxima vez que você abrir o app |
 
 Nenhuma outra permissão é declarada pelo app.

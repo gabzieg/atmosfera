@@ -72,15 +72,13 @@ import com.terra.wallpaper.ui.theme.Spacing
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> Unit, onVerPremium: (String) -> Unit) {
+fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> Unit, onVerPremium: (String?) -> Unit) {
     val cenario = Catalogo.por(sceneId) ?: return
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentArt by viewModel.currentArt.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
     val isPremium by viewModel.isPremium.collectAsState()
-    val precos by viewModel.billingManager.precos.collectAsState()
     val context = LocalContext.current
-    val activity = context as? android.app.Activity
 
     val isActiveScene = currentSceneId == sceneId
     val artes = artesDoCenario(sceneId)
@@ -178,9 +176,8 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                 AcaoPrincipal(
                     isActive = isActive,
                     isUnlocked = isUnlocked,
-                    priceText = cenario.productId?.let { precos[it] },
                     onAplicar = { viewModel.aplicar(sceneId, arteExibida) },
-                    onComprar = { cenario.productId?.let { pid -> activity?.let { viewModel.buyScene(it, pid) } } },
+                    onVerPremium = { onVerPremium(null) },
                 )
             }
 
@@ -189,7 +186,9 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                 PilulaAcao(
                     texto = "Definir wallpaper",
                     modifier = Modifier.weight(1f),
-                    onClick = { mostrarConfirmacao = true },
+                    onClick = {
+                        if (isUnlocked) mostrarConfirmacao = true else onVerPremium(null)
+                    },
                 )
                 PilulaAcao(
                     icone = Icons.Default.Share,
@@ -290,9 +289,8 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
 private fun AcaoPrincipal(
     isActive: Boolean,
     isUnlocked: Boolean,
-    priceText: String?,
     onAplicar: () -> Unit,
-    onComprar: () -> Unit,
+    onVerPremium: () -> Unit,
 ) {
     when {
         isActive -> Row(verticalAlignment = Alignment.CenterVertically) {
@@ -301,14 +299,11 @@ private fun AcaoPrincipal(
             Text("Atual", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleMedium)
         }
         isUnlocked -> Button(onClick = onAplicar, shape = RoundedCornerShape(Radius.pill)) { Text("Aplicar") }
-        // Sem preço = o Google Play não devolveu o produto; comprar não teria
-        // efeito nenhum, então o botão fica desabilitado em vez de mudo.
         else -> Button(
-            onClick = onComprar,
-            enabled = priceText != null,
+            onClick = onVerPremium,
             shape = RoundedCornerShape(Radius.pill),
         ) {
-            Text(if (priceText != null) "Comprar · $priceText" else "Indisponível")
+            Text("Ver Premium")
         }
     }
 }

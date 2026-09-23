@@ -25,7 +25,7 @@ object DebugOverride {
     private const val K_VENTO = "vento"
     private const val K_HORA = "hora"           // -1 = relógio real
     private const val K_NEVOA = "nevoa"         // -1 = derivada da condição
-    private const val K_DESTRAVAR = "destravar" // cenários pagos liberados p/ teste
+    private const val K_DESTRAVAR = "destravar" // conteúdo Premium liberado p/ teste
 
     private fun p(c: Context) = c.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 

@@ -83,7 +83,7 @@ mais sendo boa de ler.
 ```
 Não é uma imagem. É uma cena viva.
 
-O Atmosfera é um papel de parede animado que desenha um cenário quadro a quadro no seu celular e faz ele seguir o tempo de verdade da sua região. Se está chovendo lá fora, chove na sua tela. Anoiteceu? As janelas acendem e as estrelas saem.
+O Terra é um papel de parede animado que desenha um cenário quadro a quadro no seu celular e faz ele seguir o tempo de verdade da sua região. Se está chovendo lá fora, chove na sua tela. Anoiteceu? As janelas acendem e as estrelas saem.
 
 O QUE A CENA ACOMPANHA
 • Chuva, neve, névoa e céu nublado, conforme a previsão real
@@ -95,14 +95,13 @@ COMO FUNCIONA
 Escolha um cenário, escolha a arte dele e escolha o estilo dos efeitos. Depois é só aplicar como papel de parede: a cena passa a rodar na sua tela inicial e na tela de bloqueio. Dá para trocar quando quiser, quantas vezes quiser, sem perder nada do que já comprou.
 
 CENÁRIOS E ESTILOS
-Uma cabana na floresta, uma vila norueguesa nos fiordes, um jardim japonês, um farol, um pântano, uma praia tropical. Cada cenário vem em mais de uma arte — pixel art, argila, aquarela, ukiyo-e e outras — e você escolhe separadamente o estilo dos efeitos. A combinação é sua.
+Uma cabana na floresta, uma casa de bruxa, um campo de lavanda, a Esfinge e um jardim japonês. Cada cenário vem em mais de uma arte — pixel art, argila, aquarela, ukiyo-e e outras — e você escolhe separadamente o estilo dos efeitos. A combinação é sua.
 
 O QUE É GRÁTIS
-A Cabana na floresta é gratuita, com o clima real, o ciclo de dia e noite, as estrelas, as janelas acesas e a neve caindo.
+Cada um dos cinco cenários oferece uma arte gratuita, com clima real e ciclo de dia e noite.
 
 O QUE É PAGO
-• Premium: uma compra única que liga os efeitos vivos em todos os cenários — raios, rajadas de vento, vagalumes, fumaça de chaminé, acúmulo de neve, estrela cadente, lampiões acendendo e fases da lua.
-• Cenários avulsos: compre só o que você quiser, um a um.
+• Premium: uma compra única que libera todas as artes dos cinco cenários, todos os estilos e os oito efeitos vivos — raios, rajadas de vento, vagalumes, fumaça de chaminé, acúmulo de neve, estrela cadente, lampiões acendendo e fases da lua.
 
 SEM ASSINATURA. SEM ANÚNCIO.
 Compra única de verdade: você paga uma vez e acabou. Não há mensalidade, não há renovação e não existe anúncio em lugar nenhum do app — nem na versão gratuita.
@@ -133,22 +132,20 @@ Android 8.0 ou mais recente. A internet é usada só para atualizar o clima de t
 | "compra única, sem assinatura" | `billing/BillingManager` usa só `ProductType.INAPP`, nenhum `SUBS` |
 | "não existe anúncio" | Nenhum SDK de ads no projeto — ver `SPEC.md` → Não-objetivos |
 | "localização aproximada" | Só `ACCESS_COARSE_LOCATION` no manifesto; `ACCESS_FINE` removida em 2026-08-08 |
-| "funciona sem a permissão" | `weather/LocationHelper` cai para cidade padrão (Guarapuava, PR) |
+| "funciona sem a permissão" | `weather/LocationHelper` cai para cidade padrão (São Paulo, SP) |
 | "Android 8.0 ou mais recente" | `minSdk 26` em `app/build.gradle` |
 | "sem conexão, a cena continua rodando" | `weather/WeatherCache` guarda a última leitura; o motor desenha a partir do `SceneState`, sem depender de rede |
 | "sem perder nada do que já comprou" | Compras são não-consumíveis (`INAPP`) e `Cena`/`ArteFundo`/`EstiloEfeito` são prefs locais — trocar de cenário não revoga posse |
 
 ## Decisões de redação
 
-**Sem números de cenários e estilos.** Seria mais vendedor dizer "9 cenários e
-24 estilos", mas esses números mudam a cada snapshot do motor e a descrição
-envelheceria em silêncio. Se quiser incluir, confira antes: hoje são **9
-cenários com arte publicada** e **27 pacotes de sprites** no `assets/`.
+**Cinco cenários no lançamento.** Esse número corresponde ao catálogo embarcado
+e deve ser revisto se um pack futuro for publicado.
 
 **Sem preço no texto.** Preço vive no Play Console e muda; repetir na descrição
 cria duas fontes de verdade.
 
-**A cidade padrão não é nomeada.** No app ela aparece como Guarapuava, PR — na
+**A cidade padrão não é nomeada.** No app ela aparece como São Paulo, SP — na
 ficha isso só geraria dúvida em quem não é da região.
 
 **"fases da lua" aparece só no Premium.** O tier grátis mostra a lua, mas as
@@ -175,15 +172,10 @@ Ficou de fora porque esses números mudam a cada snapshot do motor e a descriç�
 envelheceria em silêncio. **Só incluir se alguém assumir mantê-los a cada
 release.**
 
-### 3. ⚠️ A descrição promete cenários que talvez não estejam à venda
+### ~~3. A descrição promete cenários que talvez não estejam à venda~~ — resolvido em 2026-09-23
 
-O texto cita **jardim japonês, farol, pântano e praia**. A estratégia definida em
-2026-08-25 é lançar com **poucos cenários** (ver `ROADMAP.md` → Fase 4). Se esses
-não entrarem no lançamento, a ficha vira **promessa não cumprida** — motivo de
-avaliação ruim e potencialmente de rejeição.
-
-**Não publicar antes de definir quais cenários entram** e ajustar a lista do
-parágrafo "CENÁRIOS E ESTILOS" para conter só eles.
+A descrição agora cita somente cabana, bruxa, lavanda, Esfinge e jardim, os cinco
+cenários presentes no catálogo e no AAB do lançamento.
 
 ### ~~5. A descrição longa não contém "papel de parede"~~ — resolvido em 2026-08-28
 

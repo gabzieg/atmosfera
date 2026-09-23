@@ -127,7 +127,7 @@ O alvo é o **alias** `.debug.DebugLauncher` — apontar direto para
 como "Atmosfera Teste".
 
 **Simular localização** no emulador sem GPS real: Extended Controls (⋮) →
-Location → lat/long → Send. Padrão do app sem permissão: Guarapuava, PR
+Location → lat/long → Send. Padrão do app sem permissão: São Paulo, SP
 (-25.3947, -51.4528).
 
 **Build de release:** gerar a keystore de produção uma vez só (guarde em local
@@ -153,7 +153,7 @@ publicar, ver [docs/dev/CHECKLIST_PUBLICACAO.md](docs/dev/CHECKLIST_PUBLICACAO.m
 |---|---|
 | "Gradle sync failed" | JDK errado — confirme JDK 17 em File → Project Structure → SDK Location |
 | Live Wallpaper não aparece na lista | Confira instalação sem erro no Logcat; ou Settings → Display → Wallpaper → Live Wallpapers |
-| "PERMISSION_DENIED" de localização | Normal sem conceder a permissão — cai no fallback de Guarapuava/PR |
+| "PERMISSION_DENIED" de localização | Normal sem conceder a permissão — cai no fallback de São Paulo/SP |
 | Emulador muito lento | Confirme virtualização por hardware ativa (HAXM/KVM) |
 
 **Logcat — filtros úteis:** `tag:WeatherRepository` (chamadas à Open-Meteo),

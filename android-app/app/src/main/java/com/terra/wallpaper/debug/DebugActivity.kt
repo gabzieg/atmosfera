@@ -222,9 +222,8 @@ class DebugActivity : AppCompatActivity() {
             Plano.setPremium(this, on); preview.recarregar()
         })
 
-        // Destrave de cenários pagos — sem isto o `tanque` é intestável, já que
-        // não há produto no Play Console nem Play Store no emulador.
-        col.addView(switch("Destravar cenários pagos (teste)", DebugOverride.destravarPagos(this)) { on ->
+        // Simula o acesso Premium às artes no emulador, onde não há Play Store.
+        col.addView(switch("Destravar Premium (teste)", DebugOverride.destravarPagos(this)) { on ->
             DebugOverride.setDestravarPagos(this, on)
             Toast.makeText(
                 this,

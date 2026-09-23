@@ -37,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import com.terra.wallpaper.billing.BillingManager
 import com.terra.wallpaper.engine.Catalogo
 import com.terra.wallpaper.engine.Cenario
-import com.terra.wallpaper.engine.Cenas
 import com.terra.wallpaper.engine.Estilos
 import androidx.compose.ui.platform.LocalContext
 import com.terra.wallpaper.ui.components.MasonryGrid
@@ -52,9 +51,9 @@ import com.terra.wallpaper.ui.theme.Spacing
 
 // ── Helpers de domínio compartilhados entre a Loja e a tela de detalhe ────────
 
-/** Artes de fundo de um cenário: base "pixel" + variantes (clay/aqua) do motor. */
+/** Artes de fundo que realmente têm arquivos embarcados nesta versão. */
 internal fun artesDoCenario(id: String): List<String> =
-    listOf("pixel") + Cenas.por(id).variantes.keys.toList()
+    Catalogo.por(id)?.artes.orEmpty()
 
 // Cenários que existem no Catalogo (motor) mas ainda não têm `fundo.png` nos
 // assets são escondidos da Loja — filtro só de EXIBIÇÃO, não edita
@@ -197,6 +196,7 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, on
         val idx = Catalogo.cenarios.indexOfFirst { it.id == cenario.id }.coerceAtLeast(0)
         CenarioTile(
             cenario = cenario,
+            isPremium = isPremium,
             isUnlocked = viewModel.isSceneUnlocked(cenario),
             isActive = currentSceneId == cenario.id,
             aspect = aspectos[idx % aspectos.size],
@@ -210,6 +210,7 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, on
 @Composable
 private fun CenarioTile(
     cenario: Cenario,
+    isPremium: Boolean,
     isUnlocked: Boolean,
     isActive: Boolean,
     aspect: Float,
@@ -240,8 +241,9 @@ private fun CenarioTile(
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                     contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
                 )
-                isUnlocked -> StatusPill("Comprado")
-                // uma arte de vitrine grátis (ex.: o ukiyo-e do jardim); o resto é pago
+                isPremium && isUnlocked -> StatusPill("Premium")
+                isUnlocked -> StatusPill("Liberado")
+                // Uma arte de vitrine é grátis; o Premium libera as demais.
                 cenario.artesGratis.isNotEmpty() -> StatusPill(
                     "Arte grátis",
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
@@ -309,7 +311,7 @@ internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onVerPremium:
             Icon(Icons.Default.Star, contentDescription = null, tint = onContainer, modifier = Modifier.size(20.dp))
             Spacer(Modifier.width(Spacing.sm))
             Text(
-                if (isPremium) "Você é Premium" else "Desbloquear efeitos vivos",
+                if (isPremium) "Você é Premium" else "Desbloquear experiência completa",
                 style = MaterialTheme.typography.titleMedium,
                 color = onContainer,
                 fontWeight = FontWeight.SemiBold,
@@ -317,8 +319,8 @@ internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onVerPremium:
         }
         Spacer(Modifier.height(Spacing.sm))
         Text(
-            if (isPremium) "Raios, vento, vagalumes, fumaça, fases da lua e acúmulo de neve ligados em todos os cenários."
-            else "Compra única que liga os efeitos climáticos vivos em TODOS os cenários.",
+            if (isPremium) "Todas as artes dos cinco cenários, todos os estilos e os oito efeitos vivos estão liberados."
+            else "Compra única que libera todas as artes dos cinco cenários, todos os estilos e os oito efeitos vivos.",
             style = MaterialTheme.typography.bodyMedium,
             color = onContainer.copy(alpha = 0.9f),
         )
@@ -333,8 +335,8 @@ internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onVerPremium:
             }
             Spacer(Modifier.height(Spacing.sm))
             Text(
-                priceText?.let { "Compra única de $it. Ou compre só o cenário que quiser, dentro dele." }
-                    ?: "Ou compre só o cenário que quiser, dentro dele.",
+                priceText?.let { "Compra única de $it, sem assinatura." }
+                    ?: "Compra única, sem assinatura.",
                 style = MaterialTheme.typography.bodySmall,
                 color = onContainer.copy(alpha = 0.7f),
             )

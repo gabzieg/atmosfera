@@ -3,6 +3,7 @@ package com.terra.wallpaper.engine
 import android.content.Context
 import android.graphics.Color
 import com.terra.wallpaper.billing.Plano
+import com.terra.wallpaper.debug.DebugOverride
 
 /**
  * Estilos de arte dos EFEITOS — porte das ESTILOS do protótipo web.
@@ -90,8 +91,22 @@ object EstiloEfeito {
 object ArteFundo {
     private const val PREFS = "atmosfera_estilo"
     private const val KEY = "arte_fundo"
-    fun atual(c: Context): String =
-        c.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY, "pixel") ?: "pixel"
+    /**
+     * O serviço também usa esta leitura. Uma arte removida ou Premium sem posse
+     * cai na arte grátis do cenário, inclusive logo após atualizar o app.
+     */
+    fun atual(c: Context): String {
+        val salvo = c.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getString(KEY, "pixel") ?: "pixel"
+        val cenario = Catalogo.por(Cena.atual(c)) ?: Catalogo.padrao
+        val liberado = salvo in cenario.artes && (
+            cenario.gratis ||
+                salvo in cenario.artesGratis ||
+                Plano.isPremium(c) ||
+                DebugOverride.destravarPagos(c)
+            )
+        return if (liberado) salvo else cenario.artesGratis.firstOrNull() ?: cenario.artes.first()
+    }
     fun definir(c: Context, id: String) =
         c.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(KEY, id).apply()
 }

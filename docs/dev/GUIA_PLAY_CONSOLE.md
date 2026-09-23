@@ -48,7 +48,7 @@ menos.
 |---|---|
 | Coletado | Sim |
 | Compartilhado | **Sim** — enviado à Open-Meteo |
-| Obrigatório? | **Opcional** (o app funciona sem; cai no fallback de Guarapuava/PR) |
+| Obrigatório? | **Opcional** (o app funciona sem; cai no fallback de São Paulo/SP) |
 | Finalidade | **Funcionalidade do app** |
 | Processado de forma efêmera? | Não (fica em cache local) |
 
@@ -117,10 +117,9 @@ usuário, sem interação social e sem compras aleatórias.
 Resultado esperado: **Livre / L (todas as idades)** nas classificações
 brasileira e internacional.
 
-> Um cenário do catálogo é um **tanque de guerra em campo de batalha**
-> (`cenario_tanque`). É arte estática de ambiente, sem pessoas, combate, sangue
-> ou representação de violência — não muda a resposta de "violência". Se um dia
-> entrar cenário com figuras humanas em conflito, refaça o questionário.
+> O cenário de tanque foi retirado da versão inicial e está preservado entre os
+> packs futuros. Se ele voltar ao aplicativo, refaça a classificação indicativa
+> antes de publicar a atualização.
 
 ---
 

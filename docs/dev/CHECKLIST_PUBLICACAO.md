@@ -80,7 +80,7 @@ Form declarado com o que o APK realmente pede).
   causa nº 1 de rejeição. Finalidade "funcionalidade do app", **não**
   compartilhada com terceiros para publicidade, compartilhada com a Open-Meteo
   para a funcionalidade, criptografada em trânsito, coleta **opcional** (o app
-  funciona sem permissão, com fallback pra Guarapuava/PR).
+  funciona sem permissão, com fallback pra São Paulo/SP).
 - [ ] **Content Rating Questionnaire** (IARC) — preencher no Play Console.
 
 > **Respostas prontas para os dois formulários acima**, derivadas do código e
@@ -134,9 +134,8 @@ Form declarado com o que o APK realmente pede).
   com o Rafael antes de qualquer publicação; na dúvida, remover do catálogo.
   Vale a mesma checagem para o resto dos packs — arte gerada a partir de obra
   protegida é problema mesmo quando o nome não denuncia.
-- [ ] **Produtos no Play Console**: criar `terra_premium` e
-  `cenario_tanque` (INAPP, não-consumíveis) antes de testar compras — ver
-  `Catalogo.kt` para os IDs valendo.
+- [x] **Produto no Play Console**: `terra_premium` criado como produto único,
+  compra não consumível. A versão inicial não vende cenários avulsos.
 - [ ] **Chave de licenciamento**: preencher `playLicensePublicKey` em
   `android-app/keystore.properties` com a chave pública Base64 de
   Play Console → Monetizar → Configuração de monetização → Licenciamento.
@@ -300,7 +299,7 @@ corrigida no mesmo PR.
 | Código | O que a política afirma |
 |---|---|
 | `AndroidManifest.xml` (permissões) | Seção 5 (tabela de permissões) e 3.1 |
-| `LocationHelper.kt` — `PRIORITY_BALANCED_POWER_ACCURACY`, fallback Guarapuava | 3.1 ("precisão balanceada", "é opcional"), 10 |
+| `LocationHelper.kt` — `PRIORITY_BALANCED_POWER_ACCURACY`, fallback São Paulo | 3.1 ("precisão balanceada", "é opcional"), 10 |
 | `WeatherRepository.kt` — base URL `api.open-meteo.com`, HTTPS, sem chave de API | 3.1, 6.1, 9 |
 | `WeatherCache.kt` — TTL derivado do intervalo escolhido, delta ~5 km, só o registro mais recente | 3.1, 8 |
 | `IntervaloClima.kt` — opções 15/30/60 min, padrão 30 | 3.1 ("intervalo escolhido por você"), 8 |

@@ -31,8 +31,9 @@ app depois da criação. Fonte: [permissões do Play Console](https://support.go
    produtos.
 2. Em **Monetizar com o Google Play > Produtos > Produtos de compra única**,
    crie ou confira `terra_premium`. Use uma opção de **compra** permanente
-   (não aluguel, pré-venda nem assinatura), com nome e descrição que expliquem
-   os oito efeitos vivos e os estilos de efeito. O Premium **não inclui cenários**.
+   (não aluguel, pré-venda nem assinatura), com o nome **Terra Premium** e a
+   descrição: **"Desbloqueia todas as artes dos cinco cenários, todos os estilos
+   e os oito efeitos vivos do Terra."**
    Defina os países e o preço; a SPEC prevê R$ 49,90 no Brasil. Ative/publice
    o produto. A interface do Play Console pode variar; confirme a opção ativa
    e elegível para o país da conta de teste.

@@ -412,8 +412,8 @@ private fun PassoLocalizacao(
             color = MaterialTheme.colorScheme.onSurface,
         )
         Text(
-            "O Terra usa a localização aproximada só para consultar o clima. " +
-                "Nada sai do aparelho além disso.",
+            "O Terra envia a localização aproximada somente à Open-Meteo para consultar " +
+                "o clima. A informação recebida fica no seu aparelho.",
             fontSize = 15.sp,
             lineHeight = 22.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -434,7 +434,7 @@ private fun PassoLocalizacao(
                 sceneId = sceneId,
                 arte = arte,
                 titulo = "Sem permissão",
-                corpo = "Funciona igual, com o clima de Guarapuava, PR.",
+                corpo = "Funciona igual, com o clima de São Paulo, SP.",
                 destaque = false,
                 modifier = Modifier.weight(1f),
             )

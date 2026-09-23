@@ -35,7 +35,7 @@ data class ClimaInfo(
     val atualizadoEmMs: Long,
     val localPadrao: Boolean,
 ) {
-    /** "Guarapuava, PR · 14:32" — ou só o horário, quando não há nome. */
+    /** "São Paulo, SP · local padrão · atualizado 14:32" — ou só o horário. */
     fun resumo(): String? {
         val hora = if (atualizadoEmMs > 0L) {
             val c = java.util.Calendar.getInstance().apply { timeInMillis = atualizadoEmMs }
@@ -43,7 +43,7 @@ data class ClimaInfo(
                 c.get(java.util.Calendar.HOUR_OF_DAY), c.get(java.util.Calendar.MINUTE))
         } else null
         val onde = when {
-            localPadrao -> "local padrão"
+            localPadrao -> "São Paulo, SP · local padrão"
             lugar != null -> lugar
             else -> null
         }
@@ -76,7 +76,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     // DE ONDE e DE QUANDO é o clima que está na tela. Nasceu de uma pergunta
     // dele: "o wallpaper não corresponde ao clima real" — sem isto não dá pra
     // saber se a previsão errou, se o dado está velho ou se o app está olhando
-    // outra cidade (sem permissão de localização ele cai em Guarapuava calado).
+    // outra cidade (sem permissão de localização ele usa São Paulo).
     private val _climaInfo = MutableStateFlow(
         ClimaInfo(weatherCache.lugar(), weatherCache.ultimaBuscaMs(),
                   weatherCache.localPadrao())
@@ -101,6 +101,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     val intervaloClimaMinutos: StateFlow<Int> = _intervaloClimaMinutos
 
     init {
+        // Preferências de versões anteriores podem apontar para um cenário que
+        // agora pertence aos packs futuros. Nesse caso voltamos à cabana.
+        if (Catalogo.por(_currentSceneId.value) == null) {
+            setScene(Catalogo.padrao.id)
+        }
+        Catalogo.por(_currentSceneId.value)?.let { cenario ->
+            if (_currentArt.value !in cenario.artes || !isArtUnlocked(cenario, _currentArt.value)) {
+                setArt(arteInicial(cenario))
+            }
+        }
         prefs.registerOnSharedPreferenceChangeListener(this)
         cenaPrefs.registerOnSharedPreferenceChangeListener(this)
         billingManager.conectar()
@@ -162,6 +172,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     private fun onPremiumMudou(premium: Boolean) {
         _isPremium.value = premium
         _currentEffectStyle.value = EstiloEfeito.atual(context)
+        // Se a compra deixar de estar válida, não mantenha selecionada uma arte
+        // Premium: volte para a arte gratuita do cenário atual.
+        if (!premium) {
+            Catalogo.por(_currentSceneId.value)?.let { cenario ->
+                if (!isArtUnlocked(cenario, _currentArt.value)) {
+                    setArt(arteInicial(cenario))
+                }
+            }
+        }
         prefs.edit().putLong("KEY_PREMIUM_STATUS", System.currentTimeMillis()).apply()
     }
 
@@ -245,6 +264,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
 
     fun isSceneUnlocked(cenario: com.terra.wallpaper.engine.Cenario): Boolean {
         if (cenario.gratis) return true
+        if (_isPremium.value) return true
         // Destrave de teste: só responde true em build debug (a checagem de
         // BuildConfig.DEBUG mora dentro de destravarPagos), então release
         // continua exigindo compra de verdade.

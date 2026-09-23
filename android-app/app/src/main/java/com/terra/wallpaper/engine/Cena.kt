@@ -13,9 +13,13 @@ object Cena {
     private const val PREFS = "atmosfera_cena"
     private const val KEY = "atual"
 
-    fun atual(c: Context): String =
-        c.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(KEY, Catalogo.padrao.id)
-            ?: Catalogo.padrao.id
+    fun atual(c: Context): String {
+        val salva = c.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getString(KEY, Catalogo.padrao.id) ?: Catalogo.padrao.id
+        // Uma atualização pode retirar a cena do AAB. O serviço do wallpaper
+        // também passa por aqui, então ele nunca tenta abrir assets removidos.
+        return if (Catalogo.por(salva) != null) salva else Catalogo.padrao.id
+    }
 
     fun definir(c: Context, id: String) {
         c.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(KEY, id).apply()

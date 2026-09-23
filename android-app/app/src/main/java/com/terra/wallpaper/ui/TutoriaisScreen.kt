@@ -41,7 +41,7 @@ private data class ItemAjuda(val pergunta: String, val resposta: String)
 /**
  * Conteúdo escrito a partir do que o app realmente faz (motor reagindo ao clima
  * do Open-Meteo, compra única sem assinatura, fallback de localização em
- * Guarapuava). Se o comportamento mudar, este texto precisa mudar junto — é a
+ * São Paulo). Se o comportamento mudar, este texto precisa mudar junto — é a
  * primeira coisa que o usuário lê quando algo não funciona como ele esperava.
  */
 private val ITENS_AJUDA = listOf(
@@ -60,7 +60,7 @@ private val ITENS_AJUDA = listOf(
     ),
     ItemAjuda(
         "Preciso dar permissão de localização?",
-        "Não é obrigatório. Sem a permissão, o app usa Guarapuava (PR) como local padrão e " +
+        "Não é obrigatório. Sem a permissão, o app usa São Paulo (SP) como local padrão e " +
             "continua funcionando normalmente — só o clima deixa de ser o da sua região. " +
             "Você pode conceder ou revogar a qualquer momento nos ajustes do Android.",
     ),
@@ -87,9 +87,9 @@ private val ITENS_AJUDA = listOf(
     ),
     ItemAjuda(
         "O que o Premium desbloqueia?",
-        "Premium é uma compra única que liga os efeitos climáticos completos em todos os " +
-            "cenários. Cenários pagos também podem ser comprados avulsos, um a um, se você " +
-            "só quiser um específico. Não existe assinatura nem cobrança recorrente.",
+        "Premium é uma compra única que libera todas as artes dos cinco cenários, todos " +
+            "os estilos de efeito e os oito efeitos vivos. Não existe assinatura nem " +
+            "cobrança recorrente.",
     ),
     ItemAjuda(
         "Comprei em outro aparelho. Como recupero?",
@@ -106,10 +106,11 @@ private val ITENS_AJUDA = listOf(
     ),
     ItemAjuda(
         "O app gasta muita bateria?",
-        "A cena é desenhada só quando o papel de parede está visível — se a tela está " +
-            "apagada ou você está em outro app, nada é desenhado. A consulta de clima é " +
-            "periódica e leve, e o app evita repetir a consulta se o dado em cache ainda " +
-            "estiver fresco e você não tiver se deslocado.",
+        "As animações usam sprites: pequenas imagens estáticas que o motor movimenta, " +
+            "em vez de vídeos ou animações pré-renderizadas. Isso reduz o processamento " +
+            "e o consumo. A cena só é desenhada quando o wallpaper está visível; com a " +
+            "tela apagada ou outro app aberto, o desenho é pausado. A consulta de clima " +
+            "também é periódica e reaproveita os dados recentes.",
     ),
 )
 

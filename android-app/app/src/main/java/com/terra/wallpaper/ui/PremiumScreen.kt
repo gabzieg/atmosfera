@@ -169,7 +169,7 @@ fun PremiumScreen(viewModel: MainViewModel, onVoltar: () -> Unit, estiloPrevia: 
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
-                    "Oito efeitos vivos e todos os estilos de efeito, em todos os cenários.",
+                    "Todas as artes dos cinco cenários, todos os estilos de efeito e os oito efeitos vivos.",
                     fontSize = 15.sp,
                     lineHeight = 22.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -190,15 +190,6 @@ fun PremiumScreen(viewModel: MainViewModel, onVoltar: () -> Unit, estiloPrevia: 
                 Text(mensagem!!, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
 
-            Text(
-                "Cenários avulsos são comprados à parte — o Premium liga os efeitos " +
-                    "vivos em todos eles.",
-                fontSize = 12.sp,
-                lineHeight = 17.sp,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
-            )
         }
     }
 }
@@ -367,8 +358,8 @@ private fun CartaoPreco(preco: String?) {
         }
 
         LinhaCheck("Não é assinatura.", " Sem mensalidade, sem renovação, sem cobrança futura.")
-        LinhaCheck("Todos os estilos de efeito,", " além dos oito efeitos vivos.")
-        LinhaCheck("Vale em todos os cenários,", " inclusive nos que ainda vão sair.")
+        LinhaCheck("Todas as artes dos cinco cenários,", " além dos oito efeitos vivos.")
+        LinhaCheck("Todos os estilos de efeito", " ficam liberados para qualquer cenário.")
         LinhaCheck("O app não tem anúncios", " — nem no plano grátis.")
     }
 }

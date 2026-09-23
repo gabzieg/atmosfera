@@ -67,7 +67,7 @@ consultar o clima — detalhes em [PRIVACIDADE.md](PRIVACIDADE.md).
 Para não obrigar você a abrir a política inteira:
 
 - **Localização aproximada** → enviada só à Open-Meteo, para saber o clima.
-  Sem ela, o app usa Guarapuava (PR) e funciona igual.
+  Sem ela, o app usa São Paulo (SP) e funciona igual.
 - **Preferências** (cenário, arte, estilo, Premium) → ficam só no aparelho.
 - **Último clima consultado** → cache local, sobrescrito a cada consulta.
 - **Compras** → processadas pelo Google Play; não vemos dados de pagamento.

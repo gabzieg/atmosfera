@@ -57,7 +57,7 @@ class WeatherCache(context: Context) {
     /** Quando o clima em cache foi buscado (0 = nunca). */
     fun ultimaBuscaMs(): Long = prefs.getLong(KEY_LAST_FETCH, 0L)
 
-    /** Nome do lugar da última busca ("Guarapuava, PR"), se o Geocoder deu. */
+    /** Nome do lugar da última busca ("São Paulo, SP"), se o Geocoder deu. */
     fun lugar(): String? = prefs.getString(KEY_LUGAR, null)
 
     /** A última busca caiu nas coordenadas de fallback? */

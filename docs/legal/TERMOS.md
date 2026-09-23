@@ -102,8 +102,8 @@ O Terra oferece conteúdo gratuito e conteúdo pago. Todo conteúdo pago é
 vendido como **compra única** (não consumível), processada pelo **Google Play
 Billing**:
 
-- **Premium** — libera os efeitos climáticos completos em todos os cenários;
-- **Cenários avulsos ou pacotes** — liberam cenários específicos.
+- **Premium** — libera todas as artes dos cinco cenários, todos os estilos de
+  efeito e os oito efeitos vivos.
 
 **Não há assinatura, mensalidade, renovação automática ou cobrança recorrente de
 nenhuma espécie.** Se isso mudar em versão futura, estes termos serão atualizados

@@ -99,8 +99,8 @@ do snapshot do motor de 2026-08-09, que levou `assets/atmosfera/` de 14,7 MB pra
 **Objetivo:** compra real fechando, não só código que compila.
 
 **Critério de saída:**
-- [ ] Produtos `terra_premium` e `cenario_tanque` criados no Play Console
-  (tipo INAPP, não-consumível — ver `Catalogo.kt` pros IDs valendo)
+- [x] Produto `terra_premium` criado no Play Console como compra única não
+  consumível. A versão inicial não vende cenários avulsos.
 - [ ] `playLicensePublicKey` preenchida em `android-app/keystore.properties`
 - [ ] Fluxo de compra testado em teste fechado/sandbox: comprar, restaurar,
   confirmar que `Plano.setPremium`/`Cena.definir` disparam certo
@@ -112,7 +112,7 @@ da oferta no checkout, verificação de assinatura que falha sem chave, feedback
 de compra e reconciliação de reembolso. Falta validar a compra real pela Play;
 ver [PREMIUM-PLAY-CONSOLE.md](PREMIUM-PLAY-CONSOLE.md). Para testar a UI de
 conteúdo pago sem conta, use o painel de debug → "Destravar cenários pagos
-(teste)".
+(teste)"; nessa versão, o controle simula o acesso Premium às artes.
 
 ## Fase 3 — Compliance de publicação 🔄 em andamento
 
