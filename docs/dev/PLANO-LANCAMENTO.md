@@ -1,6 +1,6 @@
 # Plano até a Google Play — reconferido em 23/09/2026
 
-Base técnica: árvore de trabalho da versão **2 (1.0.1)**. [Auditoria consolidada](AUDITORIA-PUBLICACAO-2026-09-17.md). **Ainda em teste interno.** `[x]` significa evidência conferida; `[ ]` continua pendente.
+Base técnica: árvore de trabalho da versão **3 (1.0.2)**. [Auditoria consolidada](AUDITORIA-PUBLICACAO-2026-09-17.md). **Ainda em teste interno.** `[x]` significa evidência conferida; `[ ]` continua pendente.
 
 **Escopo registrado em 23/09:** cinco cenários embarcados, cada um com uma arte grátis. O Premium libera as demais artes disponíveis, todos os estilos e os oito efeitos vivos. Os outros 69 cenários ficam em `content-packs/cenarios-futuros/`; PAD/download são evolução posterior.
 
@@ -98,7 +98,7 @@ Usar testadores de licença e a distribuição Play apropriada. [Integração Bi
 
 - [ ] Confirmar titular, tipo/data da conta, perfil de pagamentos e verificações solicitadas.
 - [x] Primeira versão distribuída em teste interno e instalada pelos testadores.
-- [ ] Enviar a versão 2 corrigida ao teste interno e repetir o roteiro, incluindo compra Premium.
+- [ ] Enviar a versão 3 corrigida ao teste interno e repetir o roteiro, incluindo compra Premium, brilho e rolagem lateral.
 - [ ] Cumprir a exigência aplicável à conta: para contas pessoais novas abrangidas pela regra, 12 testers inscritos continuamente por 14 dias e solicitação de acesso à produção; prazo sozinho não garante aprovação. [Requisitos oficiais](https://support.google.com/googleplay/android-developer/answer/14151465).
 - [ ] Tratar feedback, obter acesso à produção e enviar ficha/AAB para revisão.
 - [ ] Conferir primeira publicação nos países escolhidos; distribuição percentual é para updates, não para a primeira publicação. [Releases](https://support.google.com/googleplay/android-developer/answer/9859348).
