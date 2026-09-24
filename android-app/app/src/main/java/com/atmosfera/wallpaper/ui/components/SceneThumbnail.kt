@@ -70,6 +70,29 @@ fun SceneThumbnail(
     }
 }
 
+/**
+ * O cenário tem arte publicada nos assets? Usa exatamente o mesmo caminho que
+ * [loadSceneBitmap], então não há como as duas respostas divergirem.
+ *
+ * Serve pra Loja esconder cenário que existe no [com.atmosfera.wallpaper.engine.Catalogo]
+ * mas ainda não tem asset — antes isso era uma lista fixa no código, que só
+ * ficava correta enquanto alguém lembrasse de editá-la a cada snapshot do motor.
+ *
+ * A comparação de `id` no começo trata o fallback de `Cenas.por()`, que devolve
+ * a config da cabana para id desconhecido: sem ela, um cenário novo apontaria
+ * pro `fundo.png` da cabana e passaria como "tem asset".
+ */
+internal fun cenarioTemAsset(assets: AssetManager, sceneId: String): Boolean {
+    val cfg = Cenas.por(sceneId)
+    if (cfg.id != sceneId) return false
+    return try {
+        assets.open("atmosfera/${cfg.fundoPrefixo("pixel")}fundo.png").close()
+        true
+    } catch (e: Exception) {
+        false
+    }
+}
+
 private fun loadSceneBitmap(assets: AssetManager, sceneId: String, arte: String): Bitmap? {
     val prefixo = Cenas.por(sceneId).fundoPrefixo(arte)   // ex.: "", "cenas/tanque/", "cenas/cabana_clay/"
     return try {

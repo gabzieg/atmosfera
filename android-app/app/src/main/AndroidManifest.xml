@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--
+      Só localização APROXIMADA. O app usa a posição apenas para escolher a
+      cidade do clima na Open-Meteo — `LocationHelper` pede
+      PRIORITY_BALANCED_POWER_ACCURACY (~100 m), que COARSE já atende.
+      ACCESS_FINE_LOCATION foi removida em 2026-08-08: era declarada e pedida
+      ao usuário, mas nenhum caminho do código exigia precisão fina. Manter
+      obrigaria a declarar "localização precisa" no Data Safety Form e a pedir
+      mais do que o app usa. Não readicionar sem um uso real.
+    -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
@@ -33,6 +42,31 @@
             android:exported="false"
             android:label="Atmosfera — Teste"
             android:screenOrientation="portrait" />
+
+        <!--
+          Remove o inicializador automático do WorkManager.
+
+          `AtmosferaApp` implementa `Configuration.Provider` para fornecer a
+          própria Configuration (nível de log). Só que o WorkManager mescla no
+          manifesto um inicializador via androidx.startup que roda ANTES disso e
+          inicializa com a configuração padrão — a nossa era descartada em
+          silêncio, e o WorkManager subia ansiosamente em todo start do app,
+          justamente o que a inicialização sob demanda evita.
+
+          Era o erro `RemoveWorkManagerInitializer`, que estava congelado no
+          baseline do lint desde sempre e tratado como ruído. Não era: o lint
+          estava certo.
+        -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
 
         <!-- ── Live Wallpaper Service ─────────────────────────────────── -->
         <service

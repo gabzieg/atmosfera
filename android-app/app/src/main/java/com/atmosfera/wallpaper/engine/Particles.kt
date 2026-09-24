@@ -4,7 +4,9 @@ package com.atmosfera.wallpaper.engine
 
 class Drop(var x: Float = 0f, var y: Float = 0f, var vy: Float = 0f, var vx: Float = 0f)
 
-class Impact(val ix: Float, val iy: Float, val seq: List<String>, var t: Float)
+/** [esc] = escala do respingo: pesa a profundidade (longe = menor). */
+class Impact(val ix: Float, val iy: Float, val seq: List<String>, var t: Float,
+             val esc: Float = 1f)
 
 class Cloud(
     var sp: String, var ix: Float, var iy: Float,

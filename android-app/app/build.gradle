@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 }
 
 // Assinatura de release: lida de android-app/keystore.properties, que NUNCA é
@@ -17,12 +18,12 @@ if (temKeystore) {
 
 android {
     namespace 'com.atmosfera.wallpaper'
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         applicationId "com.atmosfera.wallpaper"
         minSdk 26
-        targetSdk 34
+        targetSdk 36
         versionCode 1
         versionName "1.0.0"
     }
@@ -62,10 +63,8 @@ android {
         compose true
     }
 
-    composeOptions {
-        // Casado com a versão do Kotlin — ver aviso no libs.versions.toml.
-        kotlinCompilerExtensionVersion libs.versions.composeCompiler.get()
-    }
+    // Sem `composeOptions`: do Kotlin 2.0 em diante o compilador do Compose é o
+    // plugin `kotlin.plugin.compose` (declarado acima), na mesma versão do Kotlin.
 
     // Comprime os assets WebP com mais agressividade no release
     aaptOptions {
@@ -74,10 +73,28 @@ android {
 
     lint {
         // Congela os avisos/erros pré-existentes num baseline: o CI pega
-        // regressão NOVA sem quebrar pelos 2 conhecidos (falso-positivo de
-        // permissão em LocationHelper.kt e o aviso de init do WorkManager no
+        // regressão NOVA sem quebrar pelo conhecido (init do WorkManager no
         // manifesto). Ao corrigir um deles, regenere o baseline apagando o
         // arquivo e rodando `gradlew lintDebug` de novo.
+        //
+        // Regenerado em 2026-08-08 pelo lint 8.13.2 (o anterior era do 8.3.0 e
+        // citava linhas/versões que a migração apagou).
+        //
+        // **Zero erros no baseline.** O único que havia,
+        // RemoveWorkManagerInitializer, era bug real — a Configuration de
+        // AtmosferaApp era descartada em silêncio — e foi CORRIGIDO no
+        // manifesto, não recongelado. O que resta são 54 avisos/hints:
+        //   · 32 UseKtx        — sugestão de estilo; a maioria em engine/ (congelado)
+        //   · 15 versão de lib — subir retrofit 3.x, okhttp 5.x etc. é decisão
+        //                        própria, não arrasto desta migração
+        //   ·  4 orientação    — LockedOrientationActivity + DiscouragedApi:
+        //                        orientação fixa passa a ser IGNORADA no
+        //                        Android 16; é decisão de produto
+        //   ·  1 OldTargetApi  — pede targetSdk 37, acima do teto da AGP 8.13
+        //   ·  2 Compose       — AutoboxingStateCreation + 1 hint
+        //
+        // Ao corrigir algum, apague o arquivo e rode `gradlew lintDebug` DUAS
+        // vezes: a primeira recria o baseline e falha de propósito.
         baseline = file("lint-baseline.xml")
     }
 }
@@ -89,6 +106,11 @@ android {
 tasks.matching { it.name.startsWith('test') && it.name.endsWith('UnitTest') }.configureEach {
     inputs.dir(rootProject.file('../docs')).withPropertyName('paginasLegaisWeb')
     inputs.dir('src/main/assets/legal').withPropertyName('paginasLegaisAsset')
+    // PermissoesDeclaradasTest lê o manifesto. Mesmo motivo dos dois acima:
+    // sem declarar a entrada, editar o manifesto deixava a task UP-TO-DATE e o
+    // teste NÃO rodava — falso verde. Confirmado na prática: readicionei
+    // ACCESS_FINE_LOCATION e o gate passou verde até declarar isto aqui.
+    inputs.file('src/main/AndroidManifest.xml').withPropertyName('manifesto')
 }
 
 dependencies {
@@ -107,12 +129,13 @@ dependencies {
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.androidx.lifecycle.runtime.ktx
+    implementation libs.androidx.lifecycle.runtime.compose
     implementation libs.google.material
     implementation libs.androidx.work.runtime.ktx
     implementation libs.androidx.preference.ktx
     implementation libs.play.services.location
 
-    // Google Play Billing — Premium por compra única (teto 6.2.1, ver toml)
+    // Google Play Billing — Premium por compra única (v8+ exigido pelo Google, ver toml)
     implementation libs.billing.ktx
 
     // Jetpack Compose

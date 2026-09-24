@@ -12,10 +12,11 @@
 /android-app/app/src/main/java/com/atmosfera/wallpaper/engine/   @RHuppes
 /android-app/app/src/main/assets/atmosfera/                      @RHuppes
 
-# ── Billing ──────────────────────────────────────────────────────────
-/android-app/app/src/main/java/com/atmosfera/wallpaper/billing/  @uWillianG
-
-# ── Front ───────────────────────────────────────────────────────────
+# ── Front (billing incluído) ────────────────────────────────────────
+# billing/ era do @uWillianG. Voltou pro @gabzieg em 2026-08: a integração está
+# pronta (Billing 9.1.0, preços reativos, reconciliação de reembolso) e o que
+# falta é cadastro no Play Console, que é do titular da conta.
+/android-app/app/src/main/java/com/atmosfera/wallpaper/billing/  @gabzieg
 /android-app/app/src/main/java/com/atmosfera/wallpaper/ui/       @gabzieg
 /android-app/app/src/main/java/com/atmosfera/wallpaper/weather/  @gabzieg
 /android-app/app/src/main/java/com/atmosfera/wallpaper/service/  @gabzieg

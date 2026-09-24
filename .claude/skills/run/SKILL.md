@@ -39,11 +39,17 @@ sem instalar, use `assembleDebug` (é o gate real da CI, ver `.github/workflows/
 adb shell am start -n com.atmosfera.wallpaper/.ui.MainActivity
 ```
 
-Painel de debug (força clima/hora/vento, só builds debug):
+Painel de debug (força clima/hora/vento, destrava cenários pagos; só builds
+debug):
 
 ```bash
-adb shell am start -n com.atmosfera.wallpaper/.debug.DebugActivity
+adb shell am start -n com.atmosfera.wallpaper/.debug.DebugLauncher
 ```
+
+Use o **alias** `.debug.DebugLauncher`, não `.debug.DebugActivity`: a Activity
+é `exported=false` e mirar nela direto devolve
+`SecurityException: Permission Denial: ... not exported`. Na gaveta de apps o
+mesmo painel aparece como "Atmosfera Teste".
 
 Depois de abrir, confirme que a activity certa está em foco antes de seguir
 em frente (evita reportar sucesso quando o app na verdade caiu de volta pro

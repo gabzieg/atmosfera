@@ -12,7 +12,7 @@
 | Permissão | Usada onde | Justificativa pro Data Safety Form |
 |---|---|---|
 | `INTERNET` / `ACCESS_NETWORK_STATE` | `weather/WeatherRepository.kt` | Buscar o clima na Open-Meteo |
-| `ACCESS_COARSE_LOCATION` / `ACCESS_FINE_LOCATION` | `weather/LocationHelper.kt` | O wallpaper reage ao clima da região do usuário — é a funcionalidade principal do app |
+| `ACCESS_COARSE_LOCATION` | `weather/LocationHelper.kt` | O wallpaper reage ao clima da região do usuário — é a funcionalidade principal do app. **Só aproximada**: `ACCESS_FINE_LOCATION` foi removida em 2026-08-08 por não ter uso real (ver comentário no manifesto) |
 | `RECEIVE_BOOT_COMPLETED` | `weather/BootReceiver.kt` | Reagendar a atualização periódica de clima após reiniciar o aparelho |
 
 Nenhuma outra permissão deveria existir — se aparecer uma nova no manifesto,
@@ -71,16 +71,14 @@ Form declarado com o que o APK realmente pede).
   (`ui/LegalWebViewScreen.kt`), então funciona offline e **não depende da URL
   pública existir**. Termos de Uso e Contato entram pelo mesmo caminho.
 - [ ] **Data Safety Form** (Play Console) — declarar coleta de **localização
-  precisa e aproximada** (o manifesto declara `ACCESS_FINE_LOCATION`, e o
-  Google compara com o APK — declarar só "aproximada" é inconsistência, que é
-  a causa nº 1 de rejeição). Finalidade "funcionalidade do app", **não**
+  aproximada** apenas. `ACCESS_FINE_LOCATION` foi **removida do manifesto** em
+  2026-08-08 (não tinha uso real: o portão é `LocationHelper.hasPermission()`,
+  que só checa COARSE, e a busca pede `PRIORITY_BALANCED_POWER_ACCURACY`), então
+  declarar "precisa" agora seria inconsistente com o APK — e inconsistência é a
+  causa nº 1 de rejeição. Finalidade "funcionalidade do app", **não**
   compartilhada com terceiros para publicidade, compartilhada com a Open-Meteo
   para a funcionalidade, criptografada em trânsito, coleta **opcional** (o app
-  funciona sem permissão, com fallback pra Guarapuava/PR). Alternativa mais
-  limpa: **remover `ACCESS_FINE_LOCATION` do manifesto** — o código só checa
-  `ACCESS_COARSE_LOCATION` (`LocationHelper.hasPermission()`) e pede
-  `PRIORITY_BALANCED_POWER_ACCURACY`, então a permissão fine não tem uso real.
-  Isso mexe no manifesto → área de risco, exige PR (ver `.claude/skills/abrir-pr`).
+  funciona sem permissão, com fallback pra Guarapuava/PR).
 - [ ] **Content Rating Questionnaire** (IARC) — preencher no Play Console.
 
 > **Respostas prontas para os dois formulários acima**, derivadas do código e
@@ -96,6 +94,67 @@ Form declarado com o que o APK realmente pede).
   assinatura das compras fica desligada.
 - [ ] **Teste fechado** antes de produção — Google exige um período de teste
   fechado com testers reais para apps novos.
+- [ ] **Medir o motor num aparelho ANTIGO de verdade** — decide se `minSdk 26`
+  se sustenta. É o único teste que ainda não temos dado nenhum: tudo até hoje
+  rodou em emulador Pixel 8, que é hardware moderno.
+
+  Por que importa mais aqui do que num app comum: o Atmosfera é live wallpaper,
+  desenha ~30 fps em `Canvas` continuamente, em segundo plano. Num aparelho de
+  2017 (o piso do `minSdk 26`) isso pode engasgar ou consumir bateria de forma
+  perceptível — e aí vira **avaliação 1 estrela**, não incompatibilidade. A
+  análise de concorrência (ver [SPEC.md](SPEC.md) → "Não-objetivos") aponta
+  review ruim como o eixo mais sensível deste mercado.
+
+  O que medir, com o wallpaper aplicado e a tela ligada por alguns minutos:
+  taxa de quadros estável (sem engasgo visível ao rolar a home), consumo em
+  Configurações → Bateria, e aquecimento. Vale testar o cenário mais pesado
+  (tanque, com chuva/neve forte pelo painel de debug).
+
+  **Como decidir:** se segurar, mantenha `minSdk 26` — hoje ele cobre ~96% dos
+  aparelhos e **não custa uma linha de código** (o projeto não tem nenhum
+  `SDK_INT`/`@RequiresApi`, então subir não apagaria complexidade nenhuma;
+  subir pra 28 jogaria fora ~2,6% dos aparelhos em troca de nada). Se NÃO
+  segurar, aí subir o `minSdk` passa a ter justificativa — baseada nesta
+  medição, não em preferência. Números de alcance: [apilevels.com](https://apilevels.com/).
+- [x] **Tela grande / orientação no Android 16** — verificado em 2026-08-08 num
+  AVD real de tela grande (API 36, 1280×800dp, páginas de 16 KB).
+
+  Confirmado na prática, não em teoria: o Android 16 **ignora** a trava
+  `android:screenOrientation="portrait"` do manifesto quando a tela tem ≥600dp —
+  o app abriu em **paisagem**. Simular com `wm size` num AVD de celular NÃO
+  reproduz isso (o sistema manteve o retrato lá); é preciso AVD de tela grande.
+
+  Resultado: sem crash, layout legível. O teto de 600dp centralizado
+  (`MainScreen`) é o que evita o conteúdo esticar — Início com a arte na
+  proporção certa, Loja com mosaico em duas colunas e chips numa linha.
+
+  Segue **não** otimizado pra tablet (coluna única, muito espaço vertical
+  ocioso). Layout de duas colunas é decisão de produto em aberto, não bloqueio.
+- [x] **Páginas de memória de 16 KB** — exigido pelo Google para app que target
+  API 35+ e embarca biblioteca nativa em 64 bits, **prazo 1º/fev/2027**. Nos
+  três critérios o Atmosfera se encaixa: `targetSdk` 36 e
+  `libandroidx.graphics.path.so` (puxada pelo Compose) nas 4 ABIs.
+
+  **Já conforme**, verificado em 2026-08-08 de duas formas: estaticamente com
+  `zipalign -c -P 16 -v 4 app-debug.apk` (os quatro `.so` respondem `OK`,
+  "Verification successful") e **em execução**, num AVD com páginas de 16 KB de
+  verdade (`getconf PAGE_SIZE` → 16384): o app abre e roda sem erro de `dlopen`
+  ou `UnsatisfiedLinkError`. Veio de graça com a migração — o alinhamento é
+  automático a partir da AGP 8.5.1 e estamos na 8.13.2. Reconferir se alguma
+  dependência nova trouxer `.so` próprio. Doc:
+  [page-sizes](https://developer.android.com/guide/practices/page-sizes).
+- [x] **Billing Library v8+ e `targetSdk` 36+** — as duas exigências do Google
+  com prazo em **31/ago/2026** (extensão mediante pedido até 01/nov/2026).
+  Atendidas em 2026-08-08: Billing 9.1.0 e `targetSdk` 36. Fontes:
+  [deprecation-faq](https://developer.android.com/google/play/billing/deprecation-faq)
+  e [política de target API](https://support.google.com/googleplay/android-developer/answer/11926878).
+- [ ] **Logar uma conta Google no emulador para testar compra** — o AVD
+  `Pixel_8` responde `In-app billing API version 3 is not supported on this
+  device`, mas **não** é falta de Play Store: a imagem é
+  `android-34/google_apis_playstore` e o `com.android.vending` está instalado.
+  Falta **conta logada** (`adb shell dumpsys account` volta vazio). Logar em
+  Configurações → Contas destrava o serviço de billing. (Produto criado no Play
+  Console segue sendo requisito separado pra compra real.)
 - [ ] **Confirmar se o uso da Open-Meteo se enquadra como "comercial"** —
   os termos do tier gratuito dizem "you may only use the free API services
   for non-commercial purposes" e listam apps "com assinaturas ou anúncios"
@@ -114,8 +173,9 @@ Form declarado com o que o APK realmente pede).
 - [ ] Testar o fluxo completo num emulador/aparelho: permissão de localização,
   "Definir papel de parede", troca de cenário na Loja, restaurar compras.
 - [ ] Conferir se alguma permissão nova foi introduzida sem necessidade.
-- [ ] Se a versão do Billing Library mudar, checar a nota no
-  `HANDOFF-FRONTEND.md` sobre o teto do Kotlin 1.9.23.
+- [ ] Conferir se o Billing Library e o `targetSdk` ainda atendem o mínimo
+  exigido pelo Google — os dois têm prazo com data marcada e mudam sozinhos com
+  o tempo, sem ninguém mexer no código. Tabela em `CLAUDE.md`.
 - [ ] Se houve mudança em `weather/`, `billing/`, no manifesto ou entrou um SDK
   novo: revisar [PRIVACIDADE.md](../legal/PRIVACIDADE.md) contra a tabela de rastreio
   abaixo, subir a versão da política e atualizar o Data Safety Form.

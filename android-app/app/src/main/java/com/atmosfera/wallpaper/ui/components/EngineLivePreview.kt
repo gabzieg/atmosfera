@@ -42,7 +42,7 @@ private class LivePreviewView(context: Context) : View(context) {
         carregadoPara = alvo
         Thread {
             try {
-                motor.carregar(context.assets, sceneId, arte, estilo)
+                motor.carregar(context, sceneId, arte, estilo)
             } catch (_: Throwable) {
                 // Cenário sem asset plugado ainda: motor.pronto fica false,
                 // onDraw não desenha nada — o SceneThumbnail por baixo mostra.

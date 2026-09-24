@@ -27,24 +27,26 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Preparar Gradle 8.6
+      # Sem `gradle-version` de propósito: a versão vem do wrapper
+      # (android-app/gradle/wrapper/gradle-wrapper.properties) e os passos abaixo
+      # chamam `./gradlew`. Fixar a versão aqui TAMBÉM já criou divergência —
+      # a CI ficou em 8.6 enquanto o wrapper local subia. Uma fonte só.
+      - name: Preparar Gradle
         uses: gradle/actions/setup-gradle@v6.2.0
-        with:
-          gradle-version: '8.6'
 
       - name: Rodar testes unit
         working-directory: android-app
-        run: gradle testDebugUnitTest --stacktrace --no-daemon
+        run: ./gradlew testDebugUnitTest --stacktrace --no-daemon
 
       # Lint com baseline (app/lint-baseline.xml): falha só em erro NOVO — os
       # pré-existentes estão congelados. Regenere o baseline se corrigir um.
       - name: Rodar lint
         working-directory: android-app
-        run: gradle lintDebug --stacktrace --no-daemon
+        run: ./gradlew lintDebug --stacktrace --no-daemon
 
       - name: Compilar APK de debug
         working-directory: android-app
-        run: gradle assembleDebug --stacktrace --no-daemon
+        run: ./gradlew assembleDebug --stacktrace --no-daemon
 
       - name: Publicar o APK como artefato
         if: success()
