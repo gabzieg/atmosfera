@@ -37,6 +37,16 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private lateinit var nevoa: Bitmap
     var pronto = false; private set
 
+    // ── Personalização (Ajustes → Geral) ────────────────────────────
+    /** 0..1. Lava um branco translúcido por cima de tudo — "clareia" a arte
+     * pra incomodar menos a leitura dos ícones/apps sobre ela. */
+    var brilho = 0f
+    /** Liga o leve deslocamento lateral ao trocar de página da home (ver [offsetX]). */
+    var parallaxAtivo = false
+    /** Fração 0..1 da rolagem horizontal da home, do `onOffsetsChanged` do
+     * serviço (0.5 = página central/parado). Só tem efeito com [parallaxAtivo]. */
+    var offsetX = 0.5f
+
     // ── Cena / estilo ativos (multi-cenário + multi-estilo) ─────────
     private var cenaCfg: CenaCfg = Cenas.por("cabana")
     private var estiloCfg: EstiloCfg = Estilos.por("pixel")
@@ -244,6 +254,16 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             pFill.color = Color.argb((flash * 255).toInt(), 245, 248, 255)
             canvas.drawRect(0f, 0f, cw, ch, pFill)
         }
+
+        // BRILHO (Ajustes → Geral): lavagem branca por cima de tudo, por último —
+        // clareia a arte pra interferir menos na leitura dos ícones. Alpha máximo
+        // 0.45 (não 1): em 100% ainda precisa dar pra reconhecer a cena, senão
+        // "aumentar o brilho" na prática apagaria o wallpaper.
+        if (brilho > 0.01f) {
+            pFill.xfermode = null
+            pFill.color = Color.argb((brilho * 0.45f * 255).toInt(), 255, 255, 255)
+            canvas.drawRect(0f, 0f, cw, ch, pFill)
+        }
     }
 
     private fun atualizar(dt: Float, cw: Float, ch: Float, escuro: Float) {
@@ -292,7 +312,18 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     // ── Transform "cover" ───────────────────────────────────────────
     private fun cover(cw: Float, ch: Float): Tf {
         val s = max(cw / cenaW, ch / cenaH)
-        return Tf(s, (cw - cenaW * s) / 2f, (ch - cenaH * s) / 2f)
+        var ox = (cw - cenaW * s) / 2f
+        val oy = (ch - cenaH * s) / 2f
+        // PARALLAX LATERAL (opcional, Ajustes → Geral): o "cover" já esconde
+        // fora da tela metade da sobra de LARGURA de cada lado (ox negativo) —
+        // é essa mesma sobra que a rolagem revela aos poucos, sem nunca deixar
+        // borda vazia. 0.5 = usa só metade da folga disponível, de propósito
+        // ("leve andada", não a arte inteira escorregando de lado a lado).
+        if (parallaxAtivo && ox < 0f) {
+            val pan = (offsetX - 0.5f).coerceIn(-0.5f, 0.5f) * 2f // -1..1
+            ox += pan * 0.5f * (-ox)
+        }
+        return Tf(s, ox, oy)
     }
 
     private fun blitFull(c: Canvas, b: Bitmap, tf: Tf, p: Paint) {

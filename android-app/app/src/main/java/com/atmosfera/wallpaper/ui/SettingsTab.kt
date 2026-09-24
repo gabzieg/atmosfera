@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.BrightnessMedium
 import androidx.compose.material.icons.filled.CleaningServices
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Info
@@ -27,11 +28,16 @@ import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.PrivacyTip
 import androidx.compose.material.icons.filled.Restore
 import androidx.compose.material.icons.filled.Schedule
+import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -84,6 +90,9 @@ private fun ListaAjustes(viewModel: MainViewModel, onNavegar: (TelaAjustes) -> U
     val context = LocalContext.current
     val intervaloClimaMinutos by viewModel.intervaloClimaMinutos.collectAsState()
     var mostrarSeletorIntervalo by remember { mutableStateOf(false) }
+    val brilhoSalvo by viewModel.brilho.collectAsState()
+    var brilhoSlider by remember(brilhoSalvo) { mutableStateOf(brilhoSalvo.toFloat()) }
+    val parallaxAtivo by viewModel.parallaxAtivo.collectAsState()
     // Recalculado ao entrar na tela e após limpar, pra não mentir o tamanho.
     var tamanhoCache by remember { mutableStateOf(viewModel.tamanhoCache()) }
 
@@ -112,6 +121,51 @@ private fun ListaAjustes(viewModel: MainViewModel, onNavegar: (TelaAjustes) -> U
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Chevron()
+            }
+        }
+
+        GrupoAjustes(titulo = "Personalização") {
+            Column(modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconeAjuste(Icons.Default.BrightnessMedium)
+                    Spacer(Modifier.width(14.dp))
+                    Text(
+                        "Brilho",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier.weight(1f),
+                    )
+                    Text(
+                        "${brilhoSlider.toInt()}%",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                Slider(
+                    value = brilhoSlider,
+                    onValueChange = { brilhoSlider = it },
+                    onValueChangeFinished = { viewModel.setBrilho(brilhoSlider.toInt()) },
+                    valueRange = 0f..100f,
+                    colors = SliderDefaults.colors(
+                        thumbColor = MaterialTheme.colorScheme.onSurface,
+                        activeTrackColor = MaterialTheme.colorScheme.onSurface,
+                        inactiveTrackColor = MaterialTheme.colorScheme.surfaceVariant,
+                    ),
+                )
+            }
+            LinhaAjuste(
+                icone = Icons.Default.SwapHoriz,
+                rotulo = "Rolagem lateral",
+                onClick = { viewModel.setParallaxAtivo(!parallaxAtivo) },
+            ) {
+                Switch(
+                    checked = parallaxAtivo,
+                    onCheckedChange = { viewModel.setParallaxAtivo(it) },
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = MaterialTheme.colorScheme.surface,
+                        checkedTrackColor = MaterialTheme.colorScheme.onSurface,
+                    ),
+                )
             }
         }
 
@@ -230,6 +284,24 @@ private fun GrupoAjustes(titulo: String, content: @Composable () -> Unit) {
     }
 }
 
+/** Ícone num box arredondado — mesmo tratamento em toda linha de Ajustes. */
+@Composable
+private fun IconeAjuste(icone: ImageVector) {
+    Box(
+        modifier = Modifier
+            .size(34.dp)
+            .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(10.dp)),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            icone,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(18.dp),
+        )
+    }
+}
+
 /** Uma linha do cluster: ícone num box arredondado + rótulo + trailing. */
 @Composable
 private fun LinhaAjuste(
@@ -245,19 +317,7 @@ private fun LinhaAjuste(
             .padding(horizontal = 20.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(
-            modifier = Modifier
-                .size(34.dp)
-                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(10.dp)),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(
-                icone,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(18.dp),
-            )
-        }
+        IconeAjuste(icone)
         Spacer(Modifier.width(14.dp))
         Text(
             rotulo,

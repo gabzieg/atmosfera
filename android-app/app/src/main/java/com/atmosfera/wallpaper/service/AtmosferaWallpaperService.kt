@@ -13,6 +13,7 @@ import com.atmosfera.wallpaper.engine.ArteFundo
 import com.atmosfera.wallpaper.engine.Cena
 import com.atmosfera.wallpaper.engine.EffectEngine
 import com.atmosfera.wallpaper.engine.EstiloEfeito
+import com.atmosfera.wallpaper.engine.PersonalizacaoPref
 import com.atmosfera.wallpaper.engine.SceneState
 import com.atmosfera.wallpaper.weather.IntervaloClima
 import com.atmosfera.wallpaper.weather.LocationHelper
@@ -54,6 +55,7 @@ class AtmosferaWallpaperService : WallpaperService() {
 
         override fun onCreate(holder: SurfaceHolder) {
             super.onCreate(holder)
+            aplicarPersonalizacao()
             scope.launch(Dispatchers.IO) {
                 carregarComSelecao()
                 carregarClima()
@@ -64,6 +66,7 @@ class AtmosferaWallpaperService : WallpaperService() {
         override fun onVisibilityChanged(visible: Boolean) {
             visivel = visible
             if (visible) {
+                aplicarPersonalizacao()
                 // recarrega assets se o usuário trocou cenário/arte/estilo,
                 // DEPOIS repõe o frame (o loop estava parado enquanto invisível,
                 // então não há corrida de bitmaps com o carregar).
@@ -77,6 +80,24 @@ class AtmosferaWallpaperService : WallpaperService() {
             } else {
                 handler.removeCallbacks(frame)
             }
+        }
+
+        /** Brilho e rolagem lateral (Ajustes → Personalização) — relidos toda
+         * vez que o wallpaper fica visível, igual cenário/arte/estilo: mudar
+         * no app e voltar pra home já é o "voltar a ficar visível". */
+        private fun aplicarPersonalizacao() {
+            motor.brilho = PersonalizacaoPref.brilho(applicationContext) / 100f
+            motor.parallaxAtivo = PersonalizacaoPref.parallaxAtivo(applicationContext)
+        }
+
+        /** Rolagem horizontal entre páginas da home — só usada quando o usuário
+         * liga "Rolagem lateral"; ver [com.atmosfera.wallpaper.engine.EffectEngine.offsetX]. */
+        override fun onOffsetsChanged(
+            xOffset: Float, yOffset: Float,
+            xOffsetStep: Float, yOffsetStep: Float,
+            xPixelOffset: Int, yPixelOffset: Int,
+        ) {
+            motor.offsetX = xOffset
         }
 
         /** Recarrega os assets se a seleção (cenário/arte/estilo) mudou. */
