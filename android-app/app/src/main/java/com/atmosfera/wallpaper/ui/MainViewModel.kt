@@ -14,6 +14,7 @@ import com.atmosfera.wallpaper.engine.ArteFundo
 import com.atmosfera.wallpaper.engine.Catalogo
 import com.atmosfera.wallpaper.engine.Cena
 import com.atmosfera.wallpaper.engine.EstiloEfeito
+import com.atmosfera.wallpaper.engine.PersonalizacaoPref
 import com.atmosfera.wallpaper.weather.IntervaloClima
 import com.atmosfera.wallpaper.weather.LocationHelper
 import com.atmosfera.wallpaper.weather.WeatherCache
@@ -57,6 +58,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
 
     private val _intervaloClimaMinutos = MutableStateFlow(IntervaloClima.atual(context))
     val intervaloClimaMinutos: StateFlow<Int> = _intervaloClimaMinutos
+
+    private val _brilho = MutableStateFlow(PersonalizacaoPref.brilho(context))
+    val brilho: StateFlow<Int> = _brilho
+
+    private val _parallaxAtivo = MutableStateFlow(PersonalizacaoPref.parallaxAtivo(context))
+    val parallaxAtivo: StateFlow<Boolean> = _parallaxAtivo
 
     init {
         prefs.registerOnSharedPreferenceChangeListener(this)
@@ -148,6 +155,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
         IntervaloClima.definir(context, minutos)
         _intervaloClimaMinutos.value = minutos
         WeatherWorker.schedule(context, minutos.toLong())
+    }
+
+    fun setBrilho(valor: Int) {
+        PersonalizacaoPref.definirBrilho(context, valor)
+        _brilho.value = valor.coerceIn(0, 100)
+    }
+
+    fun setParallaxAtivo(ativo: Boolean) {
+        PersonalizacaoPref.definirParallax(context, ativo)
+        _parallaxAtivo.value = ativo
     }
 
     /** Tamanho atual do cache descartável, em bytes (exibido na tela de Ajustes). */
