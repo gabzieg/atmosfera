@@ -63,6 +63,14 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private var aoCob = 1f                    // quanto da tela a zona cobre
     var pronto = false; private set
 
+    // ── Personalização (Ajustes → Personalização) ───────────────────
+    /** 0..1. Clareia a arte para facilitar a leitura dos ícones da tela inicial. */
+    var brilho = 0f
+    /** Liga o deslocamento lateral sutil ao trocar de página da tela inicial. */
+    var parallaxAtivo = false
+    /** Fração 0..1 informada pelo launcher em `onOffsetsChanged`. */
+    var offsetX = 0.5f
+
     // ── Cena / estilo ativos (multi-cenário + multi-estilo) ─────────
     private var cenaCfg: CenaCfg = Cenas.por("cabana")
     private var estiloCfg: EstiloCfg = Estilos.por("pixel")
@@ -622,6 +630,14 @@ class EffectEngine(val estado: SceneState = SceneState()) {
             pFill.color = Color.argb((flash * 255).toInt(), 245, 248, 255)
             canvas.drawRect(0f, 0f, cw, ch, pFill)
         }
+
+        // Lavagem branca desenhada por último. O limite de 45% preserva a
+        // leitura da própria cena mesmo quando o controle está em 100%.
+        if (brilho > 0.01f) {
+            pFill.xfermode = null
+            pFill.color = Color.argb((brilho.coerceIn(0f, 1f) * 0.45f * 255).toInt(), 255, 255, 255)
+            canvas.drawRect(0f, 0f, cw, ch, pFill)
+        }
     }
 
     private fun atualizar(dt: Float, cw: Float, ch: Float, escuro: Float) {
@@ -674,7 +690,15 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     // ── Transform "cover" ───────────────────────────────────────────
     private fun cover(cw: Float, ch: Float): Tf {
         val s = max(cw / cenaW, ch / cenaH)
-        return Tf(s, (cw - cenaW * s) / 2f, (ch - cenaH * s) / 2f)
+        var ox = (cw - cenaW * s) / 2f
+        val oy = (ch - cenaH * s) / 2f
+        // Usa somente metade da folga horizontal que o recorte cover já deixa
+        // fora da tela. Assim o movimento é sutil e nunca revela uma borda vazia.
+        if (parallaxAtivo && ox < 0f) {
+            val pan = (offsetX - 0.5f).coerceIn(-0.5f, 0.5f) * 2f
+            ox += pan * 0.5f * (-ox)
+        }
+        return Tf(s, ox, oy)
     }
 
     private fun blitFull(c: Canvas, b: Bitmap, tf: Tf, p: Paint) {
