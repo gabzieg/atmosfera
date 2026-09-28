@@ -56,6 +56,15 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     private var auTira: Bitmap? = null       // o "pano" de uma coluna, em cache
     private var auroraT = 0f
     private val auFitas = ArrayList<FitaAurora>()
+    // LUA (ver desenharLua): mesma técnica da aurora — bitmap à parte recortado
+    // pela silhueta (`frente`), em vez do fadeY (que só funciona em horizonte
+    // liso; numa torre alta e irregular como a bruxa a lua "furava" o telhado).
+    private var luaBmp: Bitmap? = null
+    private var luaCv: Canvas? = null
+    // CADENTE: mesma técnica (ver desenharCadente) — também passava na frente
+    // da silhueta, reportado junto da lua na bruxa.
+    private var cadenteBmp: Bitmap? = null
+    private var cadenteCv: Canvas? = null
     private var vidro: Bitmap? = null         // máscara do VIDRO (cena de interior)
     private var vidroBmp: Bitmap? = null      // camada solta onde o escorrido é pintado
     private var vidroCv: Canvas? = null
@@ -404,6 +413,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         if (::nevoa.isInitialized) nevoa.recycle()
         aoMask?.recycle(); aoMask = null
         lmBmp?.recycle(); lmBmp = null; lmCv = null
+        luaBmp?.recycle(); luaBmp = null; luaCv = null
+        cadenteBmp?.recycle(); cadenteBmp = null; cadenteCv = null
         auBmp?.recycle(); auBmp = null; auCv = null
         auTira?.recycle(); auTira = null
     }
@@ -773,8 +784,18 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         return null
     }
 
+    /**
+     * OCLUSÃO PELA SILHUETA DE VERDADE (não pelo `fadeY`, que é só uma altura
+     * fixa). `fadeY` funciona num horizonte liso (a lua "mergulha" numa linha
+     * reta); numa torre alta e irregular (bruxa) a mesma altura ora está acima
+     * do telhado, ora no meio dele — a lua furava a torre. Mesma técnica da
+     * aurora: desenha num bitmap à parte e apaga com DST_OUT usando `frente`
+     * (a arte inteira com só o céu transparente) — o que sobra é só o céu de
+     * verdade daquele ponto, seja qual for o formato do telhado ali.
+     */
     private fun desenharLua(c: Canvas, tf: Tf, escuro: Float) {
         if (escuro < 0.25f) return
+        if (!::frente.isInitialized || frente.isRecycled) return
         val t = luaProgresso(estado.hora) ?: return
         val A = cenaCfg.astros; val L = cenaCfg.luaDe(arteId)
         val ix = A.x1 + (A.x0 - A.x1) * t              // nasce à direita, põe à esquerda
@@ -782,17 +803,43 @@ class EffectEngine(val estado: SceneState = SceneState()) {
                                    Atlas["lua_4"].h * L.escala / 2f,
                                    if (L.fadeY > 0f) L.fadeY else L.yBase)
         val iy = yb - (yb - yp) * 4f * t * (1 - t)
-        val fadeAlt = ((L.fadeY - iy) / 35f).coerceIn(0f, 1f)  // some atrás da silhueta
-        if (fadeAlt <= 0.01f) return
         val idx = (estado.luaFase * (Atlas.luaFases.size - 1)).toInt().coerceIn(0, Atlas.luaFases.size - 1)
         val sp = Atlas[Atlas.luaFases[idx]]
         val sc = tf.s * L.escala
         val px = tf.ox + ix * tf.s; val py = tf.oy + iy * tf.s
-        pSprite.xfermode = ADD; setA(pSprite, escuro * 0.22f * fadeAlt)
-        blit(c, sp, px - sp.w * sc, py - sp.h * sc, sp.w * sc * 2, sp.h * sc * 2, pSprite)
-        pSprite.xfermode = null; setA(pSprite, min(1f, escuro * 1.1f) * fadeAlt)
-        blit(c, sp, px - sp.w * sc / 2f, py - sp.h * sc / 2f, sp.w * sc, sp.h * sc, pSprite)
+
+        // Caixa do bitmap auxiliar: só a área do halo (2x o disco), não a tela
+        // inteira — a lua é pequena, não vale alocar/limpar um bitmap do
+        // tamanho da tela a cada quadro.
+        val meio = sp.h * sc
+        val bx0 = (px - meio).coerceAtLeast(0f); val by0 = (py - meio).coerceAtLeast(0f)
+        val bx1 = (px + meio).coerceAtMost(c.width.toFloat()); val by1 = (py + meio).coerceAtMost(c.height.toFloat())
+        val w = (bx1 - bx0).toInt(); val h = (by1 - by0).toInt()
+        if (w <= 0 || h <= 0) return
+        var bm = luaBmp
+        if (bm == null || bm.isRecycled || bm.width != w || bm.height != h) {
+            bm?.recycle(); bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+            luaBmp = bm; luaCv = Canvas(bm)
+        }
+        val lc = luaCv ?: return
+        lc.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+        val lpx = px - bx0; val lpy = py - by0
+
+        pSprite.xfermode = ADD; setA(pSprite, escuro * 0.22f)
+        blit(lc, sp, lpx - sp.w * sc, lpy - sp.h * sc, sp.w * sc * 2, sp.h * sc * 2, pSprite)
+        pSprite.xfermode = null; setA(pSprite, min(1f, escuro * 1.1f))
+        blit(lc, sp, lpx - sp.w * sc / 2f, lpy - sp.h * sc / 2f, sp.w * sc, sp.h * sc, pSprite)
         setA(pSprite, 1f)
+
+        // apaga onde a arte (telhado/torre/o que for) cobre — `frente` é a
+        // cena inteira com só o céu transparente, então o que sobra é o céu.
+        pSmooth.xfermode = DSTOUT
+        src.set(0, 0, frente.width, frente.height)
+        dst.set(tf.ox - bx0, tf.oy - by0, tf.ox - bx0 + cenaW * tf.s, tf.oy - by0 + cenaH * tf.s)
+        lc.drawBitmap(frente, src, dst, pSmooth)
+        pSmooth.xfermode = null
+
+        c.drawBitmap(bm, bx0, by0, null)
     }
 
     // ─────────────────────────────────────────────────────────────────
@@ -1427,16 +1474,43 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         if (cadenteTimer <= 0) cadente = Cadente(120f + rnd.nextFloat() * 400, 20f + rnd.nextFloat() * 120,
             260f + rnd.nextFloat() * 140, 90f + rnd.nextFloat() * 60, 0f, 0.8f + rnd.nextFloat() * 0.5f)
     }
+    /** Mesma oclusão por silhueta da lua (ver desenharLua) — a cadente também
+     * passava na frente da arte, reportado junto na bruxa. */
     private fun desenharCadente(c: Canvas, tf: Tf) {
         val cd = cadente ?: return
+        if (!::frente.isInitialized || frente.isRecycled) return
         val sp = Atlas.get("cadente"); val prog = cd.t / cd.dur
         val a = sin(prog * Math.PI).toFloat()
         val ang = atan2(cd.vy, cd.vx); val sc = tf.s * 1.4f
-        c.save(); pSprite.xfermode = ADD; setA(pSprite, a)
-        c.translate(tf.ox + cd.x * tf.s, tf.oy + cd.y * tf.s)
-        c.rotate(Math.toDegrees(ang.toDouble()).toFloat())
-        blit(c, sp, -sp.w * sc, -sp.h * sc / 2, sp.w * sc, sp.h * sc, pSprite)
-        c.restore(); pSprite.xfermode = null; setA(pSprite, 1f)
+        val px = tf.ox + cd.x * tf.s; val py = tf.oy + cd.y * tf.s
+
+        // caixa quadrada de lado 2×sp.w*sc: cobre o rastro girado em qualquer
+        // ângulo sem precisar calcular a rotação do retângulo.
+        val raio = sp.w * sc
+        val bx0 = (px - raio).coerceAtLeast(0f); val by0 = (py - raio).coerceAtLeast(0f)
+        val bx1 = (px + raio).coerceAtMost(c.width.toFloat()); val by1 = (py + raio).coerceAtMost(c.height.toFloat())
+        val w = (bx1 - bx0).toInt(); val h = (by1 - by0).toInt()
+        if (w <= 0 || h <= 0) return
+        var bm = cadenteBmp
+        if (bm == null || bm.isRecycled || bm.width != w || bm.height != h) {
+            bm?.recycle(); bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+            cadenteBmp = bm; cadenteCv = Canvas(bm)
+        }
+        val lc = cadenteCv ?: return
+        lc.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+        lc.save(); pSprite.xfermode = ADD; setA(pSprite, a)
+        lc.translate(px - bx0, py - by0)
+        lc.rotate(Math.toDegrees(ang.toDouble()).toFloat())
+        blit(lc, sp, -sp.w * sc, -sp.h * sc / 2, sp.w * sc, sp.h * sc, pSprite)
+        lc.restore(); pSprite.xfermode = null; setA(pSprite, 1f)
+
+        pSmooth.xfermode = DSTOUT
+        src.set(0, 0, frente.width, frente.height)
+        dst.set(tf.ox - bx0, tf.oy - by0, tf.ox - bx0 + cenaW * tf.s, tf.oy - by0 + cenaH * tf.s)
+        lc.drawBitmap(frente, src, dst, pSmooth)
+        pSmooth.xfermode = null
+
+        c.drawBitmap(bm, bx0, by0, null)
     }
     /**
      * Halo radial quente do lampião: miolo âmbar + derrame ao redor (ilumina a
