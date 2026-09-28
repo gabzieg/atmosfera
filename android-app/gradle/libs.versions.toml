@@ -17,7 +17,11 @@ agp = "8.13.2"
 kotlin = "2.4.10"
 composeBom = "2026.06.01"
 coroutines = "1.7.3"
-retrofit = "2.9.0"
+retrofit = "2.12.0"                 # 2.9.0 tinha regras de shrinker do R8 incompletas p/ suspend fun +
+                                    # Continuation: crashava em release com "Class cannot be
+                                    # cast to ParameterizedType". 2.10.0+ corrigiu na origem.
+                                    # Ver docs/dev/DECISAO-AGP-9-MIGRACAO.md (mesma familia de bug
+                                    # do Room: R8 mais estrito expondo regra incompleta de terceiro).
 okhttp = "4.12.0"
 coreKtx = "1.16.0"                 # era 1.13.0, mas outras libs já resolviam pra 1.16.0 —
                                    # declarado explicitamente pra o catálogo não mentir
