@@ -61,6 +61,10 @@ class EffectEngine(val estado: SceneState = SceneState()) {
     // liso; numa torre alta e irregular como a bruxa a lua "furava" o telhado).
     private var luaBmp: Bitmap? = null
     private var luaCv: Canvas? = null
+    // CADENTE: mesma técnica (ver desenharCadente) — também passava na frente
+    // da silhueta, reportado junto da lua na bruxa.
+    private var cadenteBmp: Bitmap? = null
+    private var cadenteCv: Canvas? = null
     private var vidro: Bitmap? = null         // máscara do VIDRO (cena de interior)
     private var vidroBmp: Bitmap? = null      // camada solta onde o escorrido é pintado
     private var vidroCv: Canvas? = null
@@ -402,6 +406,7 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         aoMask?.recycle(); aoMask = null
         lmBmp?.recycle(); lmBmp = null; lmCv = null
         luaBmp?.recycle(); luaBmp = null; luaCv = null
+        cadenteBmp?.recycle(); cadenteBmp = null; cadenteCv = null
         auBmp?.recycle(); auBmp = null; auCv = null
         auTira?.recycle(); auTira = null
     }
@@ -1445,16 +1450,43 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         if (cadenteTimer <= 0) cadente = Cadente(120f + rnd.nextFloat() * 400, 20f + rnd.nextFloat() * 120,
             260f + rnd.nextFloat() * 140, 90f + rnd.nextFloat() * 60, 0f, 0.8f + rnd.nextFloat() * 0.5f)
     }
+    /** Mesma oclusão por silhueta da lua (ver desenharLua) — a cadente também
+     * passava na frente da arte, reportado junto na bruxa. */
     private fun desenharCadente(c: Canvas, tf: Tf) {
         val cd = cadente ?: return
+        if (!::frente.isInitialized || frente.isRecycled) return
         val sp = Atlas.get("cadente"); val prog = cd.t / cd.dur
         val a = sin(prog * Math.PI).toFloat()
         val ang = atan2(cd.vy, cd.vx); val sc = tf.s * 1.4f
-        c.save(); pSprite.xfermode = ADD; setA(pSprite, a)
-        c.translate(tf.ox + cd.x * tf.s, tf.oy + cd.y * tf.s)
-        c.rotate(Math.toDegrees(ang.toDouble()).toFloat())
-        blit(c, sp, -sp.w * sc, -sp.h * sc / 2, sp.w * sc, sp.h * sc, pSprite)
-        c.restore(); pSprite.xfermode = null; setA(pSprite, 1f)
+        val px = tf.ox + cd.x * tf.s; val py = tf.oy + cd.y * tf.s
+
+        // caixa quadrada de lado 2×sp.w*sc: cobre o rastro girado em qualquer
+        // ângulo sem precisar calcular a rotação do retângulo.
+        val raio = sp.w * sc
+        val bx0 = (px - raio).coerceAtLeast(0f); val by0 = (py - raio).coerceAtLeast(0f)
+        val bx1 = (px + raio).coerceAtMost(c.width.toFloat()); val by1 = (py + raio).coerceAtMost(c.height.toFloat())
+        val w = (bx1 - bx0).toInt(); val h = (by1 - by0).toInt()
+        if (w <= 0 || h <= 0) return
+        var bm = cadenteBmp
+        if (bm == null || bm.isRecycled || bm.width != w || bm.height != h) {
+            bm?.recycle(); bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
+            cadenteBmp = bm; cadenteCv = Canvas(bm)
+        }
+        val lc = cadenteCv ?: return
+        lc.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+        lc.save(); pSprite.xfermode = ADD; setA(pSprite, a)
+        lc.translate(px - bx0, py - by0)
+        lc.rotate(Math.toDegrees(ang.toDouble()).toFloat())
+        blit(lc, sp, -sp.w * sc, -sp.h * sc / 2, sp.w * sc, sp.h * sc, pSprite)
+        lc.restore(); pSprite.xfermode = null; setA(pSprite, 1f)
+
+        pSmooth.xfermode = DSTOUT
+        src.set(0, 0, frente.width, frente.height)
+        dst.set(tf.ox - bx0, tf.oy - by0, tf.ox - bx0 + cenaW * tf.s, tf.oy - by0 + cenaH * tf.s)
+        lc.drawBitmap(frente, src, dst, pSmooth)
+        pSmooth.xfermode = null
+
+        c.drawBitmap(bm, bx0, by0, null)
     }
     /**
      * Halo radial quente do lampião: miolo âmbar + derrame ao redor (ilumina a
