@@ -192,7 +192,8 @@ paralelo, não sobra conflito de snapshot a evitar. Ficou só o `.github/`, o
 meta-guarda que desliga os outros. Revisão solo não melhora com PR pra si mesmo —
 melhora com guarda automático.
 
-Aprovação: **tudo → Gabriel**. O Rafael não revisa código; só publica packs.
+Aprovação: **tudo → Gabriel**. O Rafael não revisa código de terceiros — mas
+desde 2026-09-23 volta a escrever o próprio (ver "O time" abaixo).
 Detalhes e escape hatches em `.claude/skills/abrir-pr/SKILL.md`.
 
 **⚠️ CORRIGIDO EM 2026-09-19: o servidor AGORA aplica.** Este trecho dizia o
@@ -228,13 +229,26 @@ barreira, não como única:
 A lista de caminhos de risco está duplicada nos dois + no CODEOWNERS. Mudou
 uma, mude as três.
 
-**O time são Gabriel e Rafael — mas desde 2026-09-11 é efetivamente solo
-(Gabriel + Claude).** O Rafael ficou só com a publicação de releases de novos
-packs de wallpaper (conteúdo); não toca mais código. Todo o resto — engine,
-assets, front, billing, documentos legais, publicação — é do Gabriel. (Até
-2026-09-11 o Rafael tocava `engine/` e `assets/atmosfera/` e entregava por
+**O time é Gabriel e Rafael, com Claude dos dois lados.** Entre 2026-09-11 e
+2026-09-23 o Rafael ficou só com a publicação de packs de wallpaper (conteúdo)
+— mas **voltou a tocar código em 2026-09-23**: fixes reais em `engine/`
+(oclusão de lua/estrela cadente por silhueta, `EffectEngine.kt`) e uma feature
+em `ui/` (brilho + rolagem lateral em Ajustes), os dois com
+`Co-Authored-By: Claude Sonnet 5` nos commits dele — mesmo rigor de gate que o
+resto do projeto usa. **Não está confirmado se isso foi combinado entre os dois
+ou é retomada por conta própria** — perguntar ao Gabriel antes de assumir
+qualquer coisa sobre escopo dele daqui pra frente.
+
+Consequência prática enquanto isso não for esclarecido: `engine/` voltou a ter
+duas pessoas editando, o que é exatamente o cenário que gerou o conflito de
+merge do `EffectEngine` no passado (motivo original do PR obrigatório nessas
+áreas). Vale considerar reabrir PR pra `engine/`/`ui/` se o trabalho paralelo
+continuar, mesmo que a regra atual (só `.github/` exige PR) não peça.
+
+(Até 2026-09-11 o Rafael tocava `engine/` e `assets/atmosfera/` e entregava por
 snapshot; era isso que justificava o PR obrigatório nessas áreas, regra que caiu
-junto.)
+quando ele passou a só publicar packs — e que agora pode voltar a fazer sentido,
+dependendo da resposta acima.)
 
 Houve um terceiro (Willian, `@uWillianG`), que saiu. Ele escreveu a política de
 privacidade (`2bb49ff`, 29/jul) e nada mais — `TERMOS.md` e `CONTATO.md` foram
