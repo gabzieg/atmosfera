@@ -44,8 +44,8 @@ abaixo substitui o modelo de 23/09 (5 cenas embarcadas como teto final).
 |---|---|---|
 | **Premium** | Compra única global. Libera **só os efeitos**: os 8 efeitos vivos + todos os estilos de efeito, em qualquer cenário. **Não** dá nenhum cenário/arte — nem os embarcados além da amostra grátis, nem os do acervo remoto. | **R$ 49,90** |
 | **Cenários — 5 embarcados** | Cada um com uma arte grátis pra experimentar: cabana/pixel · jardim/ukiyoe · bruxa/clay · esfinge/vangogh · lavanda/aqua. As demais artes desses 5 cenários são compra avulsa (mesmo mecanismo dos remotos, mas os arquivos já estão no AAB). | Amostra grátis; demais artes avulsas |
-| **Cenários — acervo remoto (69)** | Baixados sob demanda de um bucket público (Cloudflare R2) só quando o usuário escolhe aplicar. Miniatura de todo o catálogo vem no AAB; o pack HD só desce depois da escolha. Posse verificada pela Play, não pelo arquivo. | Avulsa, preço a definir por cenário |
-| **Packs** | Agrupamento de cenários/artes do acervo remoto — resolve o que "packs futuros" deixava em aberto. Quantidade por pack e regra de preço: a definir (Etapa A). | a definir |
+| **Cenários — acervo remoto (69)** | Baixados sob demanda de um bucket público (Cloudflare R2) só quando o usuário escolhe aplicar. Miniatura de todo o catálogo vem no AAB; o pack HD só desce depois da escolha. Posse verificada pela Play, não pelo arquivo. | **R$ 1,99** por cenário — confirmado 29/09, mesmo preço dos 5 embarcados |
+| **Packs (agrupamento comercial)** | Agrupamento de cenários do acervo remoto pra venda em conjunto — resolve o que "packs futuros" deixava em aberto. **Confirmado em 29/09: ninguém definiu isso ainda** (nem o Rafael, nem a proposta de 28/09) — não confundir com os "packs" do PAD no `ROADMAP.md` Fase 4, que é unidade técnica de download, conceito diferente. Quantidade por pack e regra de preço seguem em aberto. | a definir |
 
 Ver [PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md](PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md)
 pro contrato completo de entrega (o que vai no AAB vs. no bucket, prévia,
