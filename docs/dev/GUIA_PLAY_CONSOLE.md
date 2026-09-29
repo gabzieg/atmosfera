@@ -12,7 +12,14 @@
 > agora é feita por teste: `PoliticaBatecomManifestoTest` quebra o gate se a
 > política divergir das permissões do manifesto.
 
-**Última atualização:** 1º de agosto de 2026 · confere com o app 1.0.0
+**Última atualização:** 29 de setembro de 2026 · confere com o app 1.0.3
+
+> **Mudança de 29/09:** o app passou a baixar alguns cenários/artes sob
+> demanda de um servidor de arquivos (Cloudflare R2) — ver
+> `docs/legal/PRIVACIDADE.md` §3.8/§6.5. Isso **não adiciona nenhum tipo de
+> dado novo** ao formulário (ver "Download de conteúdo (R2)" abaixo) — é a
+> mesma categoria de tráfego que a Open-Meteo já tinha (endereço IP inerente à
+> requisição, não coletado nem usado pra identificar ninguém).
 
 ---
 
@@ -34,8 +41,8 @@ O Data Safety só aparece depois que o app existe no Play Console. Ordem:
 | Pergunta | Resposta | Base no código |
 |---|---|---|
 | O app coleta ou compartilha algum dos tipos de dados exigidos? | **Sim** | Localização é enviada à Open-Meteo |
-| Todos os dados são criptografados em trânsito? | **Sim** | `WeatherRepository` usa `https://api.open-meteo.com/` |
-| Você fornece um meio de o usuário pedir exclusão dos dados? | **Sim** | Não há servidor; limpar dados do app ou desinstalar apaga tudo — descrito na política §10 |
+| Todos os dados são criptografados em trânsito? | **Sim** | `WeatherRepository` usa `https://api.open-meteo.com/`; o download de conteúdo (`Acervo.kt`) usa HTTPS contra o bucket R2 |
+| Você fornece um meio de o usuário pedir exclusão dos dados? | **Sim** | Nenhum servidor nosso guarda dado pessoal — limpar dados do app ou desinstalar apaga tudo do lado do usuário, descrito na política §10 |
 
 ### Passo 2 — Tipos de dados
 
@@ -70,6 +77,21 @@ ao manifesto, este item volta a ser **SIM** e a política §5 precisa acompanhar
 O Google Play Billing processa tudo. O app recebe só o resultado da compra e
 grava um booleano local (`Plano`). Você não coleta histórico de compras — o
 Google coleta, e isso é declarado por ele, não por você.
+
+#### Download de conteúdo (R2) — **NÃO marcar como tipo de dado novo**
+
+`Acervo.kt` baixa arquivo de cenário/arte de um bucket Cloudflare R2 quando o
+usuário toca em aplicar (política §3.8). A requisição HTTP carrega, de forma
+inerente, o endereço IP do aparelho — exatamente a mesma situação que a
+consulta à Open-Meteo já tinha, e que este guia nunca tratou como "Device or
+other IDs" coletado. Não há usuário, sessão, token nem qualquer identificador
+enviado junto do pedido: `Acervo.baixarArte()` recebe só `cena`/`arte`/URL, sem
+parâmetro de conta, e a posse do conteúdo é validada pelo `Plano`/`Catalogo`
+**antes** de chamar o download, não pelo servidor (o R2 nem sabe que existe
+uma compra). Se algum dia o bucket passar a exigir token de compra (ver
+`docs/dev/PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md` §3, "Proteção do
+bucket"), esta resposta precisa ser revisada — um backend que valida token de
+usuário passa a ser um identificador associável a você.
 
 #### Tudo o mais — **NÃO**
 

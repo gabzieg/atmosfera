@@ -157,11 +157,12 @@
 <h2>Resumo do que o app trata</h2>
 <p>Para não obrigar você a abrir a política inteira:</p>
 <ul>
-  <li><strong>Localização aproximada</strong> → enviada só à Open-Meteo, para saber o clima. Sem ela, o app usa São Paulo (SP) e funciona igual.</li>
+  <li><strong>Localização aproximada</strong> → enviada só à Open-Meteo, para saber o clima. Sem ela, o app usa São Paulo (SP) e funciona igual. Nunca vai pro servidor de conteúdo abaixo.</li>
   <li><strong>Preferências</strong> (cenário, arte, estilo, Premium) → ficam só no aparelho.</li>
   <li><strong>Último clima consultado</strong> → cache local, sobrescrito a cada consulta.</li>
   <li><strong>Compras</strong> → processadas pelo Google Play; não vemos dados de pagamento.</li>
-  <li><strong>Não existe</strong> conta, login, anúncio, analytics, rastreamento ou servidor nosso.</li>
+  <li><strong>Download de cenários</strong> → alguns vêm de um servidor de arquivos (Cloudflare R2), baixado só quando você escolhe aplicar. Esse servidor não recebe sua localização nem processa dado pessoal.</li>
+  <li><strong>Não existe</strong> conta, login, anúncio, analytics, rastreamento ou banco de dados de usuários do nosso lado.</li>
 </ul>
 
 <footer>

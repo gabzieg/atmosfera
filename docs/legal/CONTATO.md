@@ -67,12 +67,16 @@ consultar o clima — detalhes em [PRIVACIDADE.md](PRIVACIDADE.md).
 Para não obrigar você a abrir a política inteira:
 
 - **Localização aproximada** → enviada só à Open-Meteo, para saber o clima.
-  Sem ela, o app usa São Paulo (SP) e funciona igual.
+  Sem ela, o app usa São Paulo (SP) e funciona igual. Nunca vai pro servidor
+  de conteúdo abaixo.
 - **Preferências** (cenário, arte, estilo, Premium) → ficam só no aparelho.
 - **Último clima consultado** → cache local, sobrescrito a cada consulta.
 - **Compras** → processadas pelo Google Play; não vemos dados de pagamento.
-- **Não existe** conta, login, anúncio, analytics, rastreamento ou servidor
-  nosso.
+- **Download de cenários** → alguns vêm de um servidor de arquivos (Cloudflare
+  R2), baixado só quando você escolhe aplicar. Esse servidor não recebe sua
+  localização nem processa dado pessoal.
+- **Não existe** conta, login, anúncio, analytics, rastreamento ou banco de
+  dados de usuários do nosso lado.
 
 Texto completo: [Política de Privacidade](PRIVACIDADE.md) ·
 [Termos de Uso](TERMOS.md)

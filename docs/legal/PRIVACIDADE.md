@@ -12,9 +12,9 @@
 > `billing/`, no `AndroidManifest.xml` ou a entrada de um SDK de anúncios/
 > analytics invalida o texto abaixo. Ver seção 13.
 
-**Versão da política:** 1.0
+**Versão da política:** 1.1
 **Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.0
-**Última atualização:** 16 de setembro de 2026
+**Última atualização:** 29 de setembro de 2026
 **Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
 
 ---
@@ -27,18 +27,24 @@ Este resumo é uma cortesia e não substitui o texto completo abaixo.
   clima da sua região e desenhar o papel de parede de acordo (chuva, neve, sol,
   vento, neblina).
 - Essas coordenadas são enviadas **apenas** ao serviço de meteorologia
-  **Open-Meteo**, por conexão criptografada, para consultar a previsão. **Não
-  temos servidor próprio** — nós, os desenvolvedores, nunca recebemos sua
-  localização.
+  **Open-Meteo**, por conexão criptografada, para consultar a previsão. Sua
+  localização **nunca** passa por nenhum servidor nosso — nem o de clima, nem
+  o de entrega de conteúdo descrito abaixo.
 - **Não há conta de usuário, login, cadastro, anúncios, analytics, rastreamento
   entre apps ou venda de dados.** O app não coleta nome, e-mail, telefone,
   contatos, fotos, arquivos, agenda ou identificadores de publicidade.
 - Suas preferências (cenário, arte, estilo, se você é Premium) e o último clima
   consultado ficam **só no seu aparelho**.
+- **Alguns cenários são baixados sob demanda** de um servidor de arquivos
+  (Cloudflare R2) quando você escolhe aplicá-los — ver seção 3.8. Esse servidor
+  entrega imagens; não recebe sua localização nem sabe quem você é além do que
+  qualquer acesso à internet revela (seção 3.2/6.5).
 - O app **funciona sem a permissão de localização**: se você negar, ele usa uma
   cidade padrão (São Paulo, SP) e nada mais muda.
 - Para apagar tudo: revogue a permissão, limpe os dados do app ou desinstale.
-  Não sobra cópia em nenhum servidor nosso, porque não existe servidor nosso.
+  Não sobra cópia dos seus dados pessoais em servidor nenhum, porque não
+  guardamos nada além do que descrevemos aqui, e o que guardamos fica no seu
+  aparelho.
 
 ---
 
@@ -88,7 +94,8 @@ O Terra não pede cadastro e não cria identificador de usuário. Tudo abaixo
   você não tiver se deslocado mais de ~5 km.
 - **Para onde vai:** as coordenadas são enviadas ao serviço **Open-Meteo**
   (seção 6.1) por HTTPS, como parâmetros da consulta de previsão. Não são
-  enviadas a mais ninguém. Não existe servidor do Terra.
+  enviadas a mais ninguém — nem ao servidor de entrega de conteúdo descrito na
+  seção 3.8, que não tem qualquer acesso a essa informação.
 - **Onde fica guardada:** no armazenamento privado do app, no seu aparelho
   (`SharedPreferences`, acessível somente ao app), junto do último clima
   recebido — para não repetir consultas à toa. É sobrescrita a cada nova
@@ -158,6 +165,34 @@ não são transmitidas a nós. Se o Android enviar um relatório de falha ao Goo
 depois de perguntar a você, isso é um mecanismo do sistema operacional, coberto
 pela política do Google.
 
+### 3.8 Download de conteúdo (cenários e artes)
+
+- **O que é:** alguns cenários e artes do catálogo não vêm dentro do
+  instalador — ficam num servidor de arquivos estáticos (Cloudflare R2) e são
+  baixados sob demanda quando você escolhe aplicá-los.
+- **Para quê:** manter o instalador pequeno em vez de embutir todo o acervo.
+- **Quando acontece:** só quando você toca em aplicar um cenário/arte que
+  ainda não está no seu aparelho. Não há download em segundo plano nem
+  antecipado.
+- **O que é enviado:** apenas o pedido HTTP do arquivo (ex.: `GET
+  pack/<cenario>/<arte>.zip`) — o mesmo tipo de requisição de qualquer
+  download de imagem na internet. **Sua localização não é enviada a este
+  servidor em nenhuma hipótese**; ele não sabe qual é o clima do seu
+  aparelho, nem precisa saber. Como em qualquer requisição HTTP, o endereço
+  IP do seu aparelho é inerentemente visível ao operador da infraestrutura
+  (seção 6.5), do mesmo jeito que já descrevemos para a Open-Meteo na
+  seção 3.2.
+- **O que volta:** o arquivo de imagem/pacote da arte, público para quem tiver
+  o endereço — mas isso não libera o cenário no app: a posse é sempre
+  verificada pela sua compra na Google Play (seção 3.5), separadamente do
+  arquivo baixado. Baixar a arte de graça, por fora do app, não desbloqueia
+  nada.
+- **Onde fica guardado:** no armazenamento privado do app, no seu aparelho,
+  junto das demais artes já baixadas. Você pode apagar o que baixou em
+  Ajustes.
+- **Base legal:** execução do próprio serviço solicitado por você (art. 7º, V
+  da LGPD) — é você quem pede o download ao tocar em aplicar.
+
 ## 4. O que o Terra não faz
 
 Declarado de forma explícita, porque a ausência também é informação:
@@ -173,8 +208,10 @@ Declarado de forma explícita, porque a ausência também é informação:
 - não vende, aluga, cede nem troca dados pessoais com ninguém;
 - não usa seus dados para publicidade, pontuação de crédito, decisão automatizada
   ou treinamento de modelos de inteligência artificial;
-- não tem servidor próprio, banco de dados ou backend — não há onde acumular
-  seus dados do nosso lado.
+- não tem banco de dados de usuários, conta ou backend de aplicação — o único
+  servidor que operamos (seção 3.8) entrega arquivos de imagem estáticos, não
+  processa nem armazena dado pessoal algum, e não sabe quem está pedindo o
+  arquivo além do que qualquer download na internet revela.
 
 ## 5. Permissões do Android e o que cada uma faz
 
@@ -223,15 +260,30 @@ Política: <https://policies.google.com/privacy>
 Mecanismo do sistema descrito em 3.6.
 Política: <https://policies.google.com/privacy>
 
+### 6.5 Cloudflare R2 — entrega de conteúdo do acervo
+
+- **Operador:** Cloudflare, Inc. (Estados Unidos).
+- **O que recebe:** o pedido HTTP do arquivo de cenário/arte que você optou
+  por baixar (seção 3.8) e, inerentemente à requisição, o endereço IP do seu
+  aparelho. **Não recebe sua localização, nem qualquer dado da seção 3.1.**
+- **Por quê:** é onde ficam hospedadas as imagens dos cenários que não vêm
+  dentro do instalador.
+- **Segundo a política deles:** a Cloudflare pode manter logs de acesso por
+  período limitado para operação e segurança da infraestrutura, conforme a
+  política de privacidade dela.
+- **Política:** <https://www.cloudflare.com/privacypolicy/>
+
 Além desses, dados pessoais podem ser divulgados se houver **obrigação legal,
 ordem judicial ou requisição de autoridade competente** — o que, na prática,
 esbarra no fato de não mantermos base de dados alguma.
 
 ## 7. Transferência internacional de dados
 
-As coordenadas trafegam para a Open-Meteo, cujo operador está na **Suíça**, e os
-serviços do Google podem tratar dados nos **Estados Unidos** e em outros países.
-Essas transferências ocorrem para a execução da finalidade que você solicitou e
+As coordenadas trafegam para a Open-Meteo, cujo operador está na **Suíça**; os
+serviços do Google podem tratar dados nos **Estados Unidos** e em outros países;
+e o download de conteúdo do acervo (seção 3.8) passa pela infraestrutura da
+Cloudflare, também com presença nos **Estados Unidos**. Essas transferências
+ocorrem para a execução da finalidade que você solicitou e
 para o cumprimento do contrato (art. 33, II, alíneas "a" e "f", e art. 33, VIII
 da LGPD), amparadas nas garantias contratuais e políticas de privacidade dos
 respectivos operadores.
@@ -244,9 +296,12 @@ respectivos operadores.
 | Preferências (cenário, arte, estilo, Premium) | Seu aparelho | Enquanto o app estiver instalado |
 | Backup do sistema | Sua conta Google | Conforme a política de backup do Android/Google, sob seu controle |
 | Coordenadas em logs da Open-Meteo | Servidores da Open-Meteo | Até 90 dias, conforme a política deles |
+| Logs de acesso ao download de conteúdo (seção 3.8) | Infraestrutura da Cloudflare | Conforme a política deles (seção 6.5) — nunca inclui sua localização |
 | Histórico de compras | Sua conta Google | Conforme a política do Google |
 
-Do nosso lado não há retenção: não recebemos e não armazenamos nada.
+Do nosso lado não há retenção de dado pessoal: o servidor de conteúdo (3.8)
+entrega arquivos públicos e não registra quem pediu o quê de forma que nos
+identifique você.
 
 ## 9. Segurança
 
@@ -257,9 +312,10 @@ Do nosso lado não há retenção: não recebemos e não armazenamos nada.
   comprovante emitido pelo Google Play antes de liberar conteúdo.
 - Praticamos minimização: o app não pede precisão de GPS quando precisão de
   bairro basta, e não coleta nenhum dado que não seja usado.
-- A superfície de ataque é pequena por construção: sem conta, sem servidor, sem
-  base de dados centralizada, não há repositório de dados de usuários para ser
-  vazado.
+- A superfície de ataque é pequena por construção: sem conta e sem banco de
+  dados de usuários — o único servidor que operamos entrega arquivo público
+  estático, não guarda cadastro de ninguém, então não há repositório de dados
+  de usuários para ser vazado.
 
 Nenhum sistema é perfeitamente seguro, e não podemos garantir segurança
 absoluta — mas, na arquitetura atual, os dados que existem estão sob seu
@@ -354,4 +410,5 @@ O texto canônico desta política é o **português do Brasil**, publicado em [h
 
 | Versão | Data | Mudança |
 |---|---|---|
+| 1.1 | 29 de setembro de 2026 | Adiciona a entrega de conteúdo via Cloudflare R2 (novo servidor, seções 3.8 e 6.5) — cenários e artes fora do catálogo grátis passam a ser baixados sob demanda. A localização nunca é enviada a esse servidor. Revisadas as seções 4, 7, 8 e 9, que afirmavam categoricamente a ausência de qualquer servidor. |
 | 1.0 | [PREENCHER: data da primeira publicação] | Versão inicial, referente ao Terra 1.0.0 |

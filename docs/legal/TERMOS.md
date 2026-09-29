@@ -10,9 +10,8 @@
 >
 > **Rascunho não revisado juridicamente.** Foi redigido a partir do que o app
 > efetivamente faz (compra única via Google Play Billing, sem assinatura, sem
-> conta, sem servidor próprio). Se o modelo de monetização mudar — assinatura,
-> anúncios, conteúdo gerado por usuário — este texto precisa ser refeito, não
-> emendado.
+> conta). Se o modelo de monetização mudar — assinatura, anúncios, conteúdo
+> gerado por usuário — este texto precisa ser refeito, não emendado.
 
 **Versão dos termos:** 1.0
 **Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.0
@@ -169,8 +168,10 @@ disponibilidade, precisão ou práticas deles.
 
 O tratamento de dados pessoais é descrito na
 [Política de Privacidade](PRIVACIDADE.md), que integra estes termos. Em resumo:
-o app usa localização aproximada para consultar o clima, não tem conta, não tem
-servidor próprio, não exibe anúncios e não usa analytics.
+o app usa localização aproximada para consultar o clima, não tem conta, não
+exibe anúncios e não usa analytics. Alguns cenários são baixados de um
+servidor de arquivos (Cloudflare R2) quando você escolhe aplicá-los — esse
+servidor não recebe sua localização nem processa dado pessoal (política §3.8).
 
 ## 9. Garantias e limitação de responsabilidade
 
