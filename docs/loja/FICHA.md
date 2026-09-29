@@ -101,7 +101,15 @@ O QUE É GRÁTIS
 Cada um dos cinco cenários oferece uma arte gratuita, com clima real e ciclo de dia e noite.
 
 O QUE É PAGO
-• Premium: uma compra única que libera todas as artes dos cinco cenários, todos os estilos e os oito efeitos vivos — raios, rajadas de vento, vagalumes, fumaça de chaminé, acúmulo de neve, estrela cadente, lampiões acendendo e fases da lua.
+• Premium: uma compra única que liga todos os estilos e os oito efeitos vivos em qualquer cenário — raios, rajadas de vento, vagalumes, fumaça de chaminé, acúmulo de neve, estrela cadente, lampiões acendendo e fases da lua.
+• Cenários: cada um é compra avulsa — as demais artes dos cinco cenários iniciais, e o restante do catálogo, baixado sob demanda quando você aplica.
+
+<!-- ⚠️ Corrigido em 29/09: Premium não dá mais "todas as artes dos cinco
+cenários" — só efeitos, em qualquer cenário. Ver SPEC.md > Monetização. Esta
+seção continua incompleta: falta refletir o catálogo remoto (69 cenários,
+PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md) — reescrever por completo só
+depois da Etapa A (congelar contrato) travar o que de fato entra na vitrine.
+Não é urgente: longe do lançamento real. -->
 
 SEM ASSINATURA. SEM ANÚNCIO.
 Compra única de verdade: você paga uma vez e acabou. Não há mensalidade, não há renovação e não existe anúncio em lugar nenhum do app — nem na versão gratuita.
