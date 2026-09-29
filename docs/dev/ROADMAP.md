@@ -145,6 +145,20 @@ ar.
 
 ## Fase 4 — Entrega de conteúdo pago sob demanda ⏳ não iniciada
 
+> **⚠️ Mecanismo revisto em 28-29/09/2026.** A decisão abaixo (PAD em vez de
+> servidor próprio) foi tomada quando "sem backend" era compromisso da
+> política de privacidade. Deixou de ser: o Rafael pediu, o Gabriel confirmou,
+> e a entrega passa a ser via **Cloudflare R2** (bucket público), não PAD — ver
+> [PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md](PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md)
+> e [DECISAO-ENTREGA-DE-ARTE.md](DECISAO-ENTREGA-DE-ARTE.md) (também superado).
+> Os quatro motivos "por que não servidor próprio" abaixo ficam como registro
+> histórico do porquê da escolha anterior — o item 3 (compliance) já não se
+> aplica: a política **já foi reescrita** para o R2 (29/09). O teto de 50
+> packs / 2 GB do PAD também deixa de ser restrição, já que o R2 não tem esse
+> limite. **Não confundir** "pack" deste documento (unidade técnica do PAD)
+> com "pack" da proposta de 28/09 (agrupamento comercial de cenários à venda,
+> preço ainda **não definido** por ninguém — nem aqui, nem lá).
+
 **Objetivo:** arte de cenário pago não embarcar no APK/AAB base — baixar só
 depois da compra.
 
