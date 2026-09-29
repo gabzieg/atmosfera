@@ -211,11 +211,24 @@ hooks locais; a recusa vem do servidor. Consequência prática: **PR deixou de s
 convenção e virou o único caminho para a `main`.** Abra PR, deixe a CI rodar o
 `build`, e mescle pela interface do GitHub.
 
-Não verificado (não presuma): se é *ruleset* ou branch protection clássica, se
-o plano do repo mudou, e se a regra também exige aprovação além do check. Quem
-precisar do detalhe, confira em Settings → Rules/Branches — ou instale o `gh`,
-que hoje **não está instalado** nesta máquina (conferido no PATH do bash e do
-PowerShell), e foi por isso que o PR anterior teve de ser aberto pelo navegador.
+**Verificado em 2026-09-29 via `gh api`** (o `gh` agora está instalado e
+autenticado como `gabzieg`): é um **ruleset** (id `20260889`, nome `main`,
+criado em 2026-08-02, `enforcement: active`) com quatro regras na `main`:
+
+| Regra | Efeito prático |
+|---|---|
+| `required_status_checks: build` | A CI tem que passar no commit do PR |
+| `pull_request` com **1 aprovação obrigatória** | O autor **não** pode aprovar o próprio PR — precisa de outra pessoa |
+| `non_fast_forward` | Force-push na `main` bloqueado — "zerar/rebootar" o histórico não é possível |
+| `deletion` | A `main` não pode ser apagada |
+
+**`bypass_actors: []`** — ninguém tem bypass, nem o dono do repo. Consequência
+num time efetivamente solo: um PR aberto pelo Gabriel só entra na `main` com a
+aprovação do Rafael (`RHuppes`), ou mudando o ruleset (reduzir aprovações para
+0 mantendo PR + CI, ou adicionar o admin como bypass). A regra de 1 aprovação
+foi criada quando o time tinha três pessoas; o texto acima ("revisão solo não
+melhora com PR pra si mesmo") já anunciava a tensão. PRs do dependabot o
+Gabriel pode aprovar normalmente (o autor é o bot).
 
 Abaixo, as duas redes locais que continuam existindo — agora como primeira
 barreira, não como única:
