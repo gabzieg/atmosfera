@@ -6,7 +6,7 @@
 
 1. O usuário instala um app leve e vê o catálogo completo por miniaturas pequenas, sem baixar as artes de alta resolução.
 2. Antes de baixar um cenário, vê uma prévia suficiente para decidir. A prévia precisa ter qualidade e comportamento definidos; uma miniatura ampliada não equivale a uma demonstração viva.
-3. A compra única `terra_premium` libera o direito de usar todo o conteúdo contratado. Comprar e baixar são etapas distintas. Um pedido de teste da Play deve produzir o mesmo direito no app que uma compra normal, sem cobrança real quando feito com método de pagamento de teste por testador de licença.
+3. A compra única `terra_premium` libera os **efeitos** (os 8 efeitos vivos + todos os estilos de efeito, em qualquer cenário) — **não** libera os cenários/artes do acervo em si, que continuam compra separada (avulsa ou em pack). Comprar Premium e baixar um cenário são direitos independentes: ter Premium não dá acesso ao acervo remoto, e comprar um cenário não dá os efeitos vivos nele. Um pedido de teste da Play deve produzir o mesmo direito no app que uma compra normal, sem cobrança real quando feito com método de pagamento de teste por testador de licença.
 4. Ao escolher uma arte para usar, o app baixa **somente** os arquivos necessários para essa arte e os dados comuns da cena, verifica a integridade, instala localmente e só então permite aplicá-la como wallpaper vivo.
 5. O que já foi baixado continua funcionando sem internet. Em outro aparelho ou após reinstalação, a compra deve ser restaurada pela Play e a arte pode ser baixada novamente.
 6. Pagamento pendente, falha, cancelamento ou reembolso não devem conceder ou manter indevidamente o direito Premium.
@@ -32,7 +32,7 @@ O AAB 1.0.3 pode servir para testar a compra atual, mas **não representa a ofer
 
 **No aparelho:** miniatura imediatamente; preview leve quando houver rede, com fallback para a miniatura; download HD apenas após o comando de usar/aplicar; progresso, cancelamento, repetição e mensagem de falha; conteúdo confirmado guardado em armazenamento persistente. O wallpaper ativo jamais deve ser substituído por uma cena incompleta.
 
-**Direito de acesso:** o Google Play continua sendo a fonte de verdade para o `terra_premium`. A presença de um arquivo no disco não concede acesso. Se o bucket for público, a restrição existe dentro do app, não no endereço do arquivo: quem descobrir a URL poderá copiar o pack. Para restringir o download no servidor, será necessário um backend que valide o token da compra e emita acesso temporário; a chave de escrita do bucket nunca deve ir no aplicativo. A [documentação do Google](https://developer.android.com/google/play/billing/security) recomenda verificar tokens de compra no backend quando possível.
+**Direito de acesso:** o Google Play continua sendo a fonte de verdade — mas para **dois** direitos independentes, não um só: `terra_premium` (efeitos vivos, todos os estilos) e a posse de cada cenário/pack (o que dá acesso a baixar aquela arte do acervo). Baixar do bucket é sempre condicionado à posse do cenário/pack, não ao Premium. A presença de um arquivo no disco não concede acesso. Se o bucket for público, a restrição existe dentro do app, não no endereço do arquivo: quem descobrir a URL poderá copiar o pack. Para restringir o download no servidor, será necessário um backend que valide o token da compra e emita acesso temporário; a chave de escrita do bucket nunca deve ir no aplicativo. A [documentação do Google](https://developer.android.com/google/play/billing/security) recomenda verificar tokens de compra no backend quando possível.
 
 Para tráfego de produção no Cloudflare R2, preferir domínio próprio. A [Cloudflare reserva a URL pública `r2.dev` para desenvolvimento/teste](https://developers.cloudflare.com/r2/buckets/public-buckets/).
 
@@ -60,17 +60,18 @@ Os 69 cenários são **acervo a validar**, não 69 cenários já aprovados para 
 
 ## 5.1 Decisões confirmadas — 29/09/2026 (Gabriel)
 
-1. **Alcance da compra: R$49,90 cobre TODO o acervo, inclusive cenas futuras.**
-   Decisão consciente do risco ("talvez seja arriscado"), motivada por prazo:
-   ~3 semanas para fechar o app, e o Gabriel quer esta como a **última**
-   decisão de escopo — sem reabrir depois.
+1. **Alcance da compra — corrigido em 29/09**: `terra_premium` (R$49,90) dá
+   os **efeitos** (8 efeitos vivos + todos os estilos, em qualquer cenário),
+   não os cenários/packs. Isso é o modelo já registrado em `SPEC.md` (13/09),
+   não uma decisão nova — a proposta original tinha misturado os dois.
+   Cenários e packs do acervo continuam compra separada (avulsa R$1,99 ou em
+   pack, "a definir"). **Resolve a colisão** com "Packs" como eixo de
+   monetização: os dois modelos são ortogonais, não concorrentes — Premium
+   liga a *capacidade* de efeito, cenário/pack dá a *cena* em si.
 
-   **Consequência que precisa de atenção**: `SPEC.md` ainda lista "Packs" como
-   eixo de monetização separado, "a definir" quanto/preço. Se o Premium já dá
-   *tudo, para sempre*, não sobra o que vender num pack — os dois modelos
-   colidem. Isso precisa ser resolvido (matar a ideia de pack, ou pack virar
-   "adiantar uma cena antes dela entrar no Premium geral") antes da Etapa A
-   (congelar contrato), senão o contrato nasce contraditório.
+   O quanto de risco/prazo ("temos ~3 semanas, precisamos do app redondo")
+   segue valendo como princípio geral desta rodada de decisões: fechar rápido,
+   sem reabrir depois — só a resposta específica de alcance mudou.
 
 2. **Prévia: miniatura estática basta.** As artes gratuitas já cumprem o papel
    de "demonstração viva" — o usuário generaliza a partir delas o que as
