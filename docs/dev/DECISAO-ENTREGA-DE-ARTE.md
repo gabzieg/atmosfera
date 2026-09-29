@@ -1,7 +1,20 @@
 # Decisão: entrega de arte em camadas (empacotar → PAD → R2)
 
+> **⚠️ SUPERADA em 28-29/09/2026.** A Camada 3 (R2) deixou de ser "só se a
+> cadência exigir" — o Rafael pediu, o Gabriel confirmou, e o acervo completo
+> (69 cenários) passa a ser objetivo de lançamento via R2, não evolução
+> posterior. Ver
+> [PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md](PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md).
+> A política de privacidade **já foi reescrita** (29/09) para declarar o
+> servidor — a ressalva abaixo ("não reescrever a política... enquanto o
+> lançamento for local") não vale mais, porque o lançamento deixou de ser
+> local-only. O raciocínio das Camadas 1 e 2 continua correto como registro
+> histórico de por que a Camada 3 foi evitada por um tempo — só a conclusão
+> final mudou.
+
 Status: **decidido 2026-09-11 (Gabriel); pendente ratificação do Rafael**, dono
-do subsistema de entrega (motor).
+do subsistema de entrega (motor). Reaberto e revertido em 28-29/09 — ver aviso
+acima.
 
 Complementa, **não substitui**, [ENTREGA-DE-ARTE.md](ENTREGA-DE-ARTE.md) e
 [BUCKET-R2.md](BUCKET-R2.md): aqueles descrevem o *como* do download por R2;

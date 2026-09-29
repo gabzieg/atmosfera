@@ -34,13 +34,23 @@ Google Play Billing.
 
 ## Monetização — o que é grátis e o que é pago
 
-Modelo decidido em 2026-09-13 (packs ainda a definir — ver o fim desta seção):
+**Reaberto em 2026-09-28/29** (proposta do Rafael, decisões do Gabriel em
+[PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md](PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md)):
+o acervo completo (69 cenários restantes) volta a ser objetivo de lançamento,
+entregue sob demanda via Cloudflare R2 — não mais adiado pra depois. A tabela
+abaixo substitui o modelo de 23/09 (5 cenas embarcadas como teto final).
 
 | Eixo | Regra | Preço |
 |---|---|---|
-| **Cenários** | Cinco cenas embarcadas, cada uma com uma arte grátis: cabana/pixel · jardim/ukiyoe · bruxa/clay · esfinge/vangogh · lavanda/aqua. | Grátis para experimentar |
-| **Premium** | Compra única global. Libera **todas as artes dos cinco cenários**, os **8 efeitos vivos** e **todos os estilos de efeito**. | **R$ 49,90** |
-| **Packs futuros** | Os demais cenários ficam fora do AAB, preservados em `content-packs/cenarios-futuros/`. A entrega futura deve usar Play Asset Delivery ou download sob demanda. | a definir |
+| **Premium** | Compra única global. Libera **só os efeitos**: os 8 efeitos vivos + todos os estilos de efeito, em qualquer cenário. **Não** dá nenhum cenário/arte — nem os embarcados além da amostra grátis, nem os do acervo remoto. | **R$ 49,90** |
+| **Cenários — 5 embarcados** | Cada um com uma arte grátis pra experimentar: cabana/pixel · jardim/ukiyoe · bruxa/clay · esfinge/vangogh · lavanda/aqua. As demais artes desses 5 cenários são compra avulsa (mesmo mecanismo dos remotos, mas os arquivos já estão no AAB). | Amostra grátis; demais artes avulsas |
+| **Cenários — acervo remoto (69)** | Baixados sob demanda de um bucket público (Cloudflare R2) só quando o usuário escolhe aplicar. Miniatura de todo o catálogo vem no AAB; o pack HD só desce depois da escolha. Posse verificada pela Play, não pelo arquivo. | Avulsa, preço a definir por cenário |
+| **Packs** | Agrupamento de cenários/artes do acervo remoto — resolve o que "packs futuros" deixava em aberto. Quantidade por pack e regra de preço: a definir (Etapa A). | a definir |
+
+Ver [PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md](PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md)
+pro contrato completo de entrega (o que vai no AAB vs. no bucket, prévia,
+proteção do bucket, sequência de trabalho). `content-packs/cenarios-futuros/`
+deixa de ser "adiado" e passa a ser a fonte do que entra no bucket.
 
 ### Regra de estilos — decisão + o que falta
 
@@ -52,6 +62,11 @@ Modelo decidido em 2026-09-13 (packs ainda a definir — ver o fim desta seção
 > melhor"). **Bandeira de consistência a resolver junto com os packs:** como o
 > Premium já inclui *todos* os estilos, um pack de estilo só faz sentido como
 > agrupamento de vitrine — se for compra à parte, sobrepõe o Premium.
+
+**Não confundir com os "packs" da tabela acima**, que são de **cenário**
+(acervo remoto) — esses sim são compra avulsa de verdade, porque cenário
+nunca esteve no Premium. Pack de *estilo* é só vitrine (Premium já cobre);
+pack de *cenário* é produto.
 
 Padrão provisório até a curadoria fechar: **Pixel livre, os demais no
 Premium**, sobre um catálogo curado (hoje `engine/Estilo.kt` tem 16 estilos de

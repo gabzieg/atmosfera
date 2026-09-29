@@ -1,17 +1,29 @@
 # Plano até a Google Play — reconferido em 23/09/2026
 
+> **⚠️ Escopo reaberto em 28-29/09/2026.** O parágrafo "Escopo registrado em
+> 23/09" abaixo **não vale mais** — o acervo completo (69 cenários) voltou a
+> ser objetivo de lançamento, entregue sob demanda via Cloudflare R2, não mais
+> adiado. Ver
+> [PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md](PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md)
+> (decisões confirmadas §5.1) e a monetização atualizada em
+> [SPEC.md](SPEC.md#monetização--o-que-é-grátis-e-o-que-é-pago). Premium dá
+> só os efeitos, nunca cenário/pack. A sequência de trabalho da proposta
+> (Etapas A-G) é mais atual que as "Fases" abaixo, que descrevem o plano do
+> escopo local-only já superado — ainda úteis para B02-B07 (Premium, compras,
+> legal, release), não para B01 (entrega de conteúdo).
+
 Base técnica: árvore de trabalho da versão **3 (1.0.2)**. [Auditoria consolidada](AUDITORIA-PUBLICACAO-2026-09-17.md). **Ainda em teste interno.** `[x]` significa evidência conferida; `[ ]` continua pendente.
 
-**Escopo registrado em 23/09:** cinco cenários embarcados, cada um com uma arte grátis. O Premium libera as demais artes disponíveis, todos os estilos e os oito efeitos vivos. Os outros 69 cenários ficam em `content-packs/cenarios-futuros/`; PAD/download são evolução posterior.
+**Escopo registrado em 23/09 (superado, ver aviso acima):** cinco cenários embarcados, cada um com uma arte grátis. O Premium libera as demais artes disponíveis, todos os estilos e os oito efeitos vivos. Os outros 69 cenários ficam em `content-packs/cenarios-futuros/`; PAD/download são evolução posterior.
 
 ## Fases e dependências
 
 | Fase | Situação | Próxima saída verificável |
 |---|---|---|
 | 0 — Oferta e serviços | Parcial | Lista real de artes vendidas, escopo documentado, licença/custos do clima. |
-| 1 — Entrega local | Concluída no código | Cinco cenários e somente artes existentes no AAB. |
-| 2 — Premium e compras | Produto ativo; teste pendente | Compra, liberação e restauração aprovadas pela Play. |
-| 3 — Legal e ficha | Parcial | HTML + Markdown coerentes, sem placeholders, URLs públicas e Console preenchido. |
+| 1 — Entrega local | Superada — ver Etapas A-G da proposta de 28/09 | O AAB local-only não é mais o alvo final; entrega passa a ser local + acervo remoto. |
+| 2 — Premium e compras | Produto ativo; teste pendente | Compra, liberação e restauração aprovadas pela Play. Premium agora só libera efeitos — conferir que o código não libera cenário nenhum via Premium. |
+| 3 — Legal e ficha | Parcial | HTML + Markdown coerentes, sem placeholders, URLs públicas e Console preenchido. Política de privacidade já atualizada pro servidor R2 (29/09). |
 | 4 — Release | Build aprovado; comportamento reprovado no clima | Consulta real funcional no release, matriz de aparelhos e jornadas aprovada. |
 | 5 — Teste interno | Ativo | Testers já instalaram; publicar versão 2 e validar a compra real. |
 | 6 — Publicação | Não comprovada | Revisão e distribuição pública concluídas; inicia D0 da operação. |

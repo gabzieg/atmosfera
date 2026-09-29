@@ -1,8 +1,17 @@
 # Entrega de arte por download (o app deixa de carregar a biblioteca dentro)
 
-Status: **fase 1 pronta no código; fase 2 travada esperando a URL do bucket.**
-Escrito em 2026-08-20, números remedidos em 2026-09-03. Dono do subsistema:
-Rafael (motor).
+Status: **reativado em 28-29/09/2026** — deixou de ser "travado esperando"
+pra virar trabalho ativo de lançamento. Ver
+[PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md](PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md)
+pro contrato atualizado (o que vai no AAB vs. bucket, sequência de trabalho
+Etapas A-G) — este documento continua valendo como referência técnica de
+*como* o download funciona, mas a Etapa D dali ("pipeline de conteúdo") é
+quem decide o próximo passo concreto, não mais "esperando a URL do bucket"
+como pendência passiva.
+
+Escrito em 2026-08-20, números remedidos em 2026-09-03 — **reconferir antes de
+tratar como atual**, o catálogo já mudou desde então (corte pra 5 embarcados
+em 23/09, revertido em 28/09). Dono do subsistema: Rafael (motor).
 
 ## 1. Por que
 
