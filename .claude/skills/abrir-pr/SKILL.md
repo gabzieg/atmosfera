@@ -1,38 +1,29 @@
 ---
 name: abrir-pr
-description: Fluxo de pull request do Atmosfera — decide se a mudança exige PR ou pode ir direto na main, nomeia a branch, roda o gate de build, revisa o diff (/code-review) e abre o PR já preenchido. Use ao abrir PR, preparar branch, ou antes de commitar/pushar em `.github/` — desde 2026-09-11 a única área que ainda exige PR.
+description: Fluxo de pull request do Atmosfera — toda mudança na main entra por PR (ruleset do servidor exige PR + CI `build` verde, 0 aprovações). Nomeia a branch, roda o gate de build, revisa o diff (/code-review), abre o PR já preenchido e mescla com merge commit. Use ao abrir PR, preparar branch ou levar trabalho para a main.
 ---
 
 # Abrir PR no Atmosfera
 
-Projeto efetivamente solo (**Gabriel** + Claude) desde 2026-09-11 — o **Rafael**
-ficou só com a publicação de releases de novos packs de wallpaper (conteúdo),
-não toca mais código. Historicamente todo mundo commitava direto na `main`, o
-que já custou um merge conflitado no `EffectEngine`; hoje o único portão que
-sobra é o `.github/` (o meta-guarda), e a regra abaixo existe só pra isso.
+Projeto efetivamente solo (**Gabriel** + Claude, dos dois lados) — o **Rafael**
+publica packs de conteúdo e, desde 2026-09-23, voltou a escrever código próprio
+(ver `CLAUDE.md` → "O time"). Historicamente todo mundo commitava direto na
+`main`, o que já custou um merge conflitado no `EffectEngine`. Hoje isso não é
+mais possível: o servidor exige PR.
 
 ## 1. Precisa de PR?
 
-**SIM — abra branch + PR** se o diff toca:
+**Sempre, para qualquer arquivo.** Desde 2026-08-02 existe um ruleset na
+`main` (verificado via `gh api` em 2026-09-29/30): PR obrigatório, check
+`build` obrigatório, **0 aprovações** (o autor mescla o próprio PR depois da CI
+verde), force-push e deleção bloqueados. `git push origin main` é recusado pelo
+servidor, e `--no-verify` não contorna — ele só desliga hooks locais.
 
-| Caminho | Por quê |
-|---|---|
-| `.github/**` | É o meta-guarda: quebrar aqui desliga todos os outros guardas (CI, hook, aviso). |
-
-**NÃO precisa** — pode commitar direto na `main`: **todo o resto, `engine/` e
-`assets/atmosfera/` incluídos.** Documentação, texto, `ui/`, `weather/`,
-`service/`, `billing/`, `engine/`, `assets/`, manifesto, `build.gradle`.
-
-> **A lista encolheu duas vezes.** Em 2026-08-09 saíram `billing/`,
-> `AndroidManifest.xml` e `build.gradle` (a proteção virou automática — o
-> `PermissoesDeclaradasTest` cobre permissão, o gate da CI cobre o build; e o
-> teto frágil do Billing acabou na migração pra 9.1.0). Em **2026-09-11** saíram
-> `engine/` e `assets/atmosfera/`: o motivo do gate ali era "o Rafael evolui isso
-> em paralelo e entrega por snapshot", mas ele passou a só publicar packs e o
-> `engine/` virou do Gabriel — sem trabalho paralelo, não há conflito de snapshot
-> a evitar, e PR pra si mesmo não revisa nada.
->
-> Ficou só o `.github/`: o arquivo que desliga os próprios guardas.
+> **Histórico:** este arquivo dizia que só `.github/` exigia PR e "todo o resto
+> pode ir direto na `main`". A lista de áreas de risco encolheu em 2026-08-09 e
+> 2026-09-11 — mas o ruleset do servidor já exigia PR para tudo desde 2026-08-02,
+> e ninguém tinha conferido. A lista ainda existe no `.githooks/pre-push`, no
+> `aviso-push-direto.yml` e no CODEOWNERS; perdeu o efeito prático.
 
 > Julgamento que continua valendo: se a mudança altera **que dado é coletado**
 > (mesmo dentro de `weather/`), pare e pense antes — é LGPD. O teste de
@@ -42,7 +33,7 @@ sobra é o `.github/` (o meta-guarda), e a regra abaixo existe só pra isso.
 ## 2. Branch
 
 ```
-chore/<slug>    # mudanças em .github/ (CI, hook, workflows) — a área que exige PR
+chore/<slug>    # mudanças em .github/ (CI, hook, workflows) e build
 front/<slug>    # ui, billing, weather, service
 motor/<slug>    # engine/assets (não exige mais PR; o prefixo só ajuda a ler o log)
 fix/<slug>      # correção pontual
@@ -118,25 +109,26 @@ item desmarcado.
 free, e a API responde `403 Upgrade to GitHub Pro`. O arquivo existe como
 convenção e fica pronto pro dia que o plano mudar. Quem cobra é você.
 
-> **⚠️ 2026-09-19 — o servidor passou a bloquear a `main`.** Um `git push origin
-> main` foi recusado pelo GitHub (não pelo hook local) com
-> `Required status check "build" is expected` /
-> `push declined due to repository rule violations`. **`--no-verify` não
-> contorna** — ele só desliga hook local. Na prática, **PR + CI verde virou o
-> único caminho para a `main`**, inclusive para doc e front.
->
-> Isso NÃO contradiz o parágrafo acima sobre CODEOWNERS: pedir revisor
-> automaticamente é outro recurso, e não foi testado. Só está comprovado o
-> bloqueio por status check.
->
-> O `gh` **não está instalado** nesta máquina (conferido no PATH do bash e do
-> PowerShell), então `gh pr create` falha — abra o PR pelo navegador:
-> `https://github.com/gabzieg/atmosfera/compare/main...<sua-branch>`
+**Merge (verificado 2026-09-30):**
 
-Desde 2026-09-11 o projeto é solo: **tudo é do Gabriel** — engine, assets, front,
-billing, docs legais, publicação. O Rafael só publica releases de novos packs de
-conteúdo; não aprova nem revisa código. Na prática: gate verde, PR, CI verde e
-merge pela interface.
+- Aprovação: **0 exigidas** pelo ruleset — o Gabriel mescla o próprio PR assim
+  que o check `build` fica verde. (Era 1 até 2026-09-30; num time solo isso só
+  fazia o PR depender de o Rafael clicar em "aprovar".)
+- Método: **merge commit** (`gh pr merge <n> --merge`). Preserva o histórico —
+  os documentos citam hashes de commit. Squash e rebase também estão habilitados;
+  rebase costuma falhar com branch que contém merge commits.
+- O repo tem **"Automatically delete head branches" ligado**: ao mesclar, o
+  GitHub apaga a branch de origem. Se era a branch de trabalho
+  (`integracao/lancamento-teste`), recrie com `git push origin <branch>` depois
+  de alinhá-la à `main` (`git merge --ff-only origin/main`).
+- O `gh` está instalado e autenticado como `gabzieg` (`gh pr create`,
+  `gh pr checks <n> --watch`, `gh pr merge`). Mudar ruleset/configuração do repo
+  é do Gabriel, pela interface — o classificador do modo automático do Claude
+  Code bloqueia o agente de enfraquecer proteção de branch.
+- Uma resposta `502 Bad Gateway` do `gh pr merge` não significa que falhou:
+  confira com `gh pr view <n> --json state,mergeCommit` antes de tentar de novo.
+
+Na prática: gate verde local → push → PR → CI verde → `gh pr merge --merge`.
 
 Os documentos legais tinham revisor próprio (o Willian) até 2026-08-28, quando
 ele saiu do projeto. **Não substitua isso por uma cerimônia de PR consigo

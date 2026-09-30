@@ -169,66 +169,62 @@ Skills de projeto em `.claude/skills/`:
   quando o pedido for rodar ou testar visualmente o app.
 - **`abrir-pr`** — fluxo de pull request: decide se a mudança exige PR ou pode
   ir direto na `main`, nomeia a branch, roda o gate, revisa o diff (`/code-review`)
-  e abre o PR. **Leia antes de commitar/pushar em `.github/`** — desde 2026-09-11
-  a única área que ainda exige PR (o resto vai direto na `main`).
+  e abre o PR. **Toda mudança na `main` exige PR** (ruleset do servidor, ver
+  "Regras de PR") — a skill descreve o fluxo.
 
 Consistência de código (simplificação, revisão) pode usar as skills genéricas
 do Claude Code (`simplify`, `/code-review`) normalmente.
 
 ## Regras de PR (resumo)
 
-PR obrigatório **só em `.github/`**. Todo o resto — `engine/`,
-`assets/atmosfera/`, `ui/`, `weather/`, `service/`, `billing/`, manifesto,
-`build.gradle`, documentação — pode ir direto na `main`.
+**Toda mudança na `main` entra por PR — sem exceção.** Não é convenção: o
+servidor aplica (ruleset abaixo). A antiga lista de "áreas de risco" (que
+chegou a ser só `.github/`) continua nos hooks/workflows locais, mas perdeu o
+efeito prático — o ruleset já exige PR para qualquer arquivo.
 
-A lista **encolheu duas vezes**, sempre com o mesmo critério: manter só o que
-nenhum teste cobre. Em 2026-08-09 saíram `AndroidManifest.xml` (coberto pelo
-`PermissoesDeclaradasTest`, que quebra o gate em qualquer mudança de permissão),
-`build.gradle` (a CI pega) e `billing/` (o teto frágil do Billing acabou na
-migração pra 9.1.0). Em **2026-09-11** saíram `engine/` e `assets/atmosfera/`:
-eram gated porque o Rafael trabalhava em paralelo e entregava por snapshot, mas
-ele passou a só publicar packs e o motor virou do Gabriel — sem trabalho
-paralelo, não sobra conflito de snapshot a evitar. Ficou só o `.github/`, o
-meta-guarda que desliga os outros. Revisão solo não melhora com PR pra si mesmo —
-melhora com guarda automático.
+Fluxo: trabalhar em `integracao/lancamento-teste` (ou branch própria) → push →
+PR para `main` → CI `build` verde → mesclar com **merge commit** (preserva o
+histórico; os docs citam hashes de commit). O Gabriel mescla os próprios PRs.
 
-Aprovação: **tudo → Gabriel**. O Rafael não revisa código de terceiros — mas
-desde 2026-09-23 volta a escrever o próprio (ver "O time" abaixo).
-Detalhes e escape hatches em `.claude/skills/abrir-pr/SKILL.md`.
+**Ruleset `main`** (id `20260889`, criado 2026-08-02, ativo; verificado via
+`gh api` em 2026-09-29/30 — o `gh` está instalado e autenticado como
+`gabzieg`):
 
-**⚠️ CORRIGIDO EM 2026-09-19: o servidor AGORA aplica.** Este trecho dizia o
-contrário e estava errado. Um `git push origin main` foi **recusado pelo
-GitHub**, não pelo hook local:
-
-```
-remote: - Required status check "build" is expected.
- ! [remote rejected] main -> main (push declined due to repository rule violations)
-```
-
-Existe uma regra ativa exigindo que o check `build` passe antes de algo entrar
-na `main`. **`git push --no-verify` NÃO contorna** — aquele flag só desliga
-hooks locais; a recusa vem do servidor. Consequência prática: **PR deixou de ser
-convenção e virou o único caminho para a `main`.** Abra PR, deixe a CI rodar o
-`build`, e mescle pela interface do GitHub.
-
-**Verificado em 2026-09-29 via `gh api`** (o `gh` agora está instalado e
-autenticado como `gabzieg`): é um **ruleset** (id `20260889`, nome `main`,
-criado em 2026-08-02, `enforcement: active`) com quatro regras na `main`:
-
-| Regra | Efeito prático |
+| Regra | Efeito |
 |---|---|
 | `required_status_checks: build` | A CI tem que passar no commit do PR |
-| `pull_request` com **1 aprovação obrigatória** | O autor **não** pode aprovar o próprio PR — precisa de outra pessoa |
-| `non_fast_forward` | Force-push na `main` bloqueado — "zerar/rebootar" o histórico não é possível |
+| `pull_request`, **0 aprovações** | PR obrigatório, mas o autor mescla sozinho (era 1 até 2026-09-30 — ver abaixo) |
+| `non_fast_forward` | Force-push bloqueado — reescrever/"rebootar" o histórico da `main` não é possível |
 | `deletion` | A `main` não pode ser apagada |
 
-**`bypass_actors: []`** — ninguém tem bypass, nem o dono do repo. Consequência
-num time efetivamente solo: um PR aberto pelo Gabriel só entra na `main` com a
-aprovação do Rafael (`RHuppes`), ou mudando o ruleset (reduzir aprovações para
-0 mantendo PR + CI, ou adicionar o admin como bypass). A regra de 1 aprovação
-foi criada quando o time tinha três pessoas; o texto acima ("revisão solo não
-melhora com PR pra si mesmo") já anunciava a tensão. PRs do dependabot o
-Gabriel pode aprovar normalmente (o autor é o bot).
+`bypass_actors: []` — ninguém contorna, nem o dono. A opção "Require an
+additional approval for unattributed Copilot pull requests" está marcada, mas
+só vale para PR aberto pelo Copilot **e** com contagem de aprovações maior que
+zero — hoje não afeta nada.
+
+**Configuração geral do repositório** (Settings → General → Pull Requests) é
+separada do ruleset e também precisa permitir o método de merge: merge commit,
+squash e rebase habilitados (merge commit ligado em 2026-09-30 — estava
+desligado e barrou o primeiro merge do #31). **"Automatically delete head
+branches" está ligado**: ao mesclar, o GitHub apaga a branch de origem — se for
+a branch de trabalho, recriar com `git push origin <branch>`.
+
+**Por que 0 aprovações (2026-09-30, decisão do Gabriel):** a exigência de 1
+aprovação vinha de quando o time tinha três pessoas. Num time efetivamente solo,
+todo PR do Gabriel dependia de o Rafael clicar em "aprovar", sem revisão real;
+o guarda que protege de fato é a CI obrigatória, que continua. Mesmo raciocínio
+que já tinha encolhido a lista de áreas de risco: revisão solo não melhora com
+PR pra si mesmo — melhora com guarda automático. A mudança foi feita pelo
+Gabriel na interface do GitHub: o classificador do modo automático do Claude
+Code bloqueia, com razão, que o agente enfraqueça proteção de branch sozinho.
+
+Aprovação: **tudo → Gabriel**. O Rafael não revisa código de terceiros — mas
+desde 2026-09-23 volta a escrever o próprio (ver "O time" abaixo). Detalhes do
+fluxo em `.claude/skills/abrir-pr/SKILL.md`.
+
+(Histórico: até 2026-09-19 este arquivo afirmava que nada era aplicado pelo
+servidor e que só `.github/` exigia PR — a lista de áreas de risco tinha
+encolhido em 2026-08-09 e 2026-09-11. Está tudo no `git log` deste arquivo.)
 
 Abaixo, as duas redes locais que continuam existindo — agora como primeira
 barreira, não como única:
