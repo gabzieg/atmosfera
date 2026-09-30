@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- A posse é restaurada pelo Google Play, não pelo backup do aparelho. -->
+    <exclude domain="sharedpref" path="atmosfera_plano.xml" />
+</full-backup-content>

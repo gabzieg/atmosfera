@@ -1,0 +1,345 @@
+package com.terra.wallpaper.ui
+
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import com.terra.wallpaper.billing.BillingManager
+import com.terra.wallpaper.engine.Catalogo
+import com.terra.wallpaper.engine.Cenario
+import com.terra.wallpaper.engine.Estilos
+import androidx.compose.ui.platform.LocalContext
+import com.terra.wallpaper.ui.components.MasonryGrid
+import com.terra.wallpaper.ui.components.MosaicCard
+import com.terra.wallpaper.ui.components.PillSearchBar
+import com.terra.wallpaper.ui.components.SectionCarousel
+import com.terra.wallpaper.ui.components.StackedThumbnail
+import com.terra.wallpaper.ui.components.StatusPill
+import com.terra.wallpaper.ui.components.cenarioTemAsset
+import com.terra.wallpaper.ui.theme.Radius
+import com.terra.wallpaper.ui.theme.Spacing
+
+// ── Helpers de domínio compartilhados entre a Loja e a tela de detalhe ────────
+
+/** Artes de fundo que realmente têm arquivos embarcados nesta versão. */
+internal fun artesDoCenario(id: String): List<String> =
+    Catalogo.por(id)?.artes.orEmpty()
+
+// Cenários que existem no Catalogo (motor) mas ainda não têm `fundo.png` nos
+// assets são escondidos da Loja — filtro só de EXIBIÇÃO, não edita
+// `engine/Catalogo.kt` (congelado).
+//
+// Era uma lista fixa (`setOf("fiordes")`) que só ficava correta enquanto alguém
+// lembrasse de editá-la a cada snapshot do motor: cenário novo sem arte voltaria
+// a aparecer como card quebrado. Agora a pergunta é feita aos assets de verdade,
+// via `cenarioTemAsset` — some sozinho quando entra, aparece sozinho quando a
+// arte chega.
+
+/**
+ * Nome de exibição de um estilo — serve tanto pro estilo de EFEITO quanto pra
+ * ARTE do cenário (o seletor da tela de detalhe chama esta mesma função).
+ *
+ * A tabela existe porque o fallback (capitalizar o slug) mostrava coisa como
+ * "Needlefelting", "Papelmache" e "Gizcera" pro usuário. Os slugs foram
+ * unificados em 09/09 (`needle`+`needlefelting`, `xilo`+`xilogravura`,
+ * `impress`+`impressionista`, `papel`+`mache`+`papelmache`, `cutout`+
+ * `papercutout`, `giz`+`cera`+`gizcera`), então o mesmo estilo em cenas
+ * diferentes agora cai na MESMA linha daqui — que é o que permite vender pack
+ * por estilo. Numeração romana = segunda arte no mesmo estilo, na mesma cena.
+ */
+internal fun estiloNome(id: String): String = NOMES_ESTILO[id]
+    ?: id.replaceFirstChar { it.uppercase() }
+
+private val NOMES_ESTILO: Map<String, String> = mapOf(
+    "pixel" to "Pixel Art",
+    "clay" to "Clay",
+    "bizantino" to "Bizantino",
+    "aqua" to "Aquarela",
+    "ukiyoe" to "Ukiyo-e",
+    "low_poly" to "Low poly",
+    "fantasia" to "Fantasia",
+    "minimalista" to "Minimalista",
+    "papel_recortado" to "Papel recortado",
+    "rupestre" to "Rupestre",
+    "pontilhismo" to "Pontilhismo",
+    "talhe_doce" to "Talhe doce",
+    "doodle" to "Doodle",
+    "papel_mache" to "Papel machê",
+    "feltro" to "Feltro",
+    "van_gogh" to "Van Gogh"
+)
+
+@Composable
+fun StoreTab(viewModel: MainViewModel) {
+    // Substituir a Loja pelo browser: navegação interna lista ⇄ detalhe ⇄
+    // Premium, sem tocar no NavHost de topo (a aba continua sendo "Loja").
+    var cenarioAberto by rememberSaveable { mutableStateOf<String?>(null) }
+    var premiumAberto by rememberSaveable { mutableStateOf(false) }
+    var estiloPrevia by rememberSaveable { mutableStateOf<String?>(null) }
+
+    fun abrirPremium(estiloId: String? = null) {
+        estiloPrevia = estiloId
+        premiumAberto = true
+    }
+
+    when {
+        premiumAberto -> PremiumScreen(
+            viewModel = viewModel,
+            onVoltar = { premiumAberto = false },
+            estiloPrevia = estiloPrevia,
+        )
+        cenarioAberto != null -> {
+            BackHandler { cenarioAberto = null }
+            SceneDetailScreen(
+                sceneId = cenarioAberto!!,
+                viewModel = viewModel,
+                onBack = { cenarioAberto = null },
+                onVerPremium = { abrirPremium(it) },
+            )
+        }
+        else -> StoreBrowser(
+            viewModel = viewModel,
+            onAbrir = { cenarioAberto = it },
+            onVerPremium = { abrirPremium(it) },
+        )
+    }
+}
+
+@Composable
+private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, onVerPremium: (String?) -> Unit) {
+    val isPremium by viewModel.isPremium.collectAsState()
+    val currentSceneId by viewModel.currentSceneId.collectAsState()
+    val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
+    val precos by viewModel.billingManager.precos.collectAsState()
+
+    val assets = LocalContext.current.assets
+    // Checado uma vez por sessão (abre e fecha um handle por cenário), não a
+    // cada tecla digitada na busca.
+    val publicados = remember(assets) {
+        Catalogo.cenarios.filter { cenarioTemAsset(assets, it.id) }
+    }
+
+    var query by remember { mutableStateOf("") }
+    val cenarios = remember(publicados, query) {
+        publicados.filter { it.nome.contains(query.trim(), ignoreCase = true) }
+    }
+    // Alturas variadas → efeito escalonado do mosaico.
+    val aspectos = listOf(0.72f, 0.95f, 0.78f, 0.68f, 0.88f)
+
+    MasonryGrid(
+        items = cenarios,
+        modifier = Modifier.fillMaxSize(),
+        columns = 2,
+        key = { it.id },
+        header = {
+            Column(verticalArrangement = Arrangement.spacedBy(Spacing.lg)) {
+                Text("Loja", style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground)
+                PillSearchBar(query = query, onQueryChange = { query = it })
+                PremiumBanner(
+                    isPremium = isPremium,
+                    priceText = precos[BillingManager.PRODUTO_PREMIUM],
+                    onVerPremium = { onVerPremium(null) },
+                )
+                // Carrossel de seção: categoria pequena + título grande + fileira rolável.
+                SectionCarousel(
+                    categoria = "Coleção",
+                    titulo = "Estilos de efeito",
+                    items = Estilos.ids,
+                    modifier = Modifier.padding(bottom = Spacing.xs),
+                    // alinhado ao conteúdo do grid (sem padding lateral extra do carrossel)
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 0.dp),
+                ) { estiloId ->
+                    EstiloChip(
+                        estiloId = estiloId,
+                        selecionado = estiloId == currentEffectStyle,
+                        onClick = {
+                            if (estiloId != "pixel" && !isPremium) onVerPremium(estiloId)
+                            else viewModel.setEffectStyle(estiloId)
+                        },
+                        bloqueado = estiloId != "pixel" && !isPremium,
+                    )
+                }
+                Text("Cenários", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onBackground)
+            }
+        },
+    ) { cenario ->
+        val idx = Catalogo.cenarios.indexOfFirst { it.id == cenario.id }.coerceAtLeast(0)
+        CenarioTile(
+            cenario = cenario,
+            isPremium = isPremium,
+            isUnlocked = viewModel.isSceneUnlocked(cenario),
+            isActive = currentSceneId == cenario.id,
+            aspect = aspectos[idx % aspectos.size],
+            onClick = { onAbrir(cenario.id) },
+        )
+    }
+}
+
+/** Padrão reproduzido: **card do mosaico** — imagem (ou pilha de coleção) no topo,
+ *  cantos arredondados, título + estado embaixo; altura definida pelo conteúdo. */
+@Composable
+private fun CenarioTile(
+    cenario: Cenario,
+    isPremium: Boolean,
+    isUnlocked: Boolean,
+    isActive: Boolean,
+    aspect: Float,
+    onClick: () -> Unit,
+) {
+    MosaicCard(onClick = onClick) {
+        StackedThumbnail(
+            sceneId = cenario.id,
+            artes = artesDoCenario(cenario.id),
+            aspectRatio = aspect,
+        )
+        Column(Modifier.padding(Spacing.md)) {
+            Text(
+                cenario.nome,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 2,
+            )
+            Spacer(Modifier.height(Spacing.sm))
+            when {
+                isActive -> StatusPill(
+                    "Atual",
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+                cenario.gratis -> StatusPill(
+                    "Grátis",
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                )
+                isPremium && isUnlocked -> StatusPill("Premium")
+                isUnlocked -> StatusPill("Liberado")
+                // Uma arte de vitrine é grátis; o Premium libera as demais.
+                cenario.artesGratis.isNotEmpty() -> StatusPill(
+                    "Arte grátis",
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                )
+                else -> StatusPill(
+                    "Bloqueado",
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+internal fun EstiloChip(
+    estiloId: String,
+    selecionado: Boolean,
+    onClick: () -> Unit,
+    bloqueado: Boolean = false,
+) {
+    val nome = estiloNome(estiloId)
+    val bg = if (selecionado) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
+    val fg = if (selecionado) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
+    val borda = if (selecionado) bg else MaterialTheme.colorScheme.outline
+    Row(
+        modifier = Modifier
+            .background(bg, RoundedCornerShape(Radius.pill))
+            .border(1.dp, borda, RoundedCornerShape(Radius.pill))
+            .clickable(onClick = onClick)
+            .padding(horizontal = Spacing.lg, vertical = Spacing.md),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        // O cadeado informa o bloqueio. Quem chama o chip decide abrir a prévia
+        // Premium ou aplicar o estilo, e EstiloEfeito também valida a posse.
+        if (bloqueado) {
+            Icon(
+                Icons.Default.Lock,
+                contentDescription = "Requer Premium",
+                tint = fg,
+                modifier = Modifier.size(14.dp),
+            )
+            Spacer(Modifier.width(Spacing.xs))
+        }
+        Text(nome, style = MaterialTheme.typography.labelLarge, color = fg, fontWeight = FontWeight.SemiBold)
+    }
+}
+
+@Composable
+internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onVerPremium: () -> Unit) {
+    // Banner sempre em superfície ESCURA: no estado não-premium o CTA é um botão
+    // claro (primary) — sobre um container claro ele sumiria. Ênfase vem do botão,
+    // não do fundo. (tertiaryContainer/surface são só um degrau de tom.)
+    val container = if (isPremium) MaterialTheme.colorScheme.tertiaryContainer else MaterialTheme.colorScheme.surface
+    val onContainer = if (isPremium) MaterialTheme.colorScheme.onTertiaryContainer else MaterialTheme.colorScheme.onSurface
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(container, RoundedCornerShape(Radius.card))
+            .padding(Spacing.xl),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Default.Star, contentDescription = null, tint = onContainer, modifier = Modifier.size(20.dp))
+            Spacer(Modifier.width(Spacing.sm))
+            Text(
+                if (isPremium) "Você é Premium" else "Desbloquear experiência completa",
+                style = MaterialTheme.typography.titleMedium,
+                color = onContainer,
+                fontWeight = FontWeight.SemiBold,
+            )
+        }
+        Spacer(Modifier.height(Spacing.sm))
+        Text(
+            if (isPremium) "Todas as artes dos cinco cenários, todos os estilos e os oito efeitos vivos estão liberados."
+            else "Compra única que libera todas as artes dos cinco cenários, todos os estilos e os oito efeitos vivos.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = onContainer.copy(alpha = 0.9f),
+        )
+        if (!isPremium) {
+            Spacer(Modifier.height(Spacing.md))
+            // Leva pra tela de Premium em vez de disparar a compra daqui. O
+            // argumento de venda é ver os efeitos na cena — e, ao contrário do
+            // botão de compra, este funciona mesmo sem o Play responder: dá pra
+            // conhecer o produto offline. A compra em si mora na PremiumScreen.
+            Button(onClick = onVerPremium, shape = RoundedCornerShape(Radius.pill)) {
+                Text("Ver o que muda")
+            }
+            Spacer(Modifier.height(Spacing.sm))
+            Text(
+                priceText?.let { "Compra única de $it, sem assinatura." }
+                    ?: "Compra única, sem assinatura.",
+                style = MaterialTheme.typography.bodySmall,
+                color = onContainer.copy(alpha = 0.7f),
+            )
+        }
+    }
+}

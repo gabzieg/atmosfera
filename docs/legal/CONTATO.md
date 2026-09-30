@@ -1,4 +1,4 @@
-# Contato e uso de dados — Atmosfera Live Wallpaper
+# Contato e uso de dados — Terra - Live Wallpaper
 
 > **Texto canônico.** A página publicada
 > ([`docs/contato/index.html`](docs/contato/index.html)) é um espelho deste
@@ -11,7 +11,7 @@
 > de um `mailto:` — decisão do usuário: além do endereço de contato, a página
 > precisa dizer **o que acontece com os dados** de quem escreve.
 
-**Última atualização:** 30 de julho de 2026
+**Última atualização:** 16 de setembro de 2026
 
 ---
 
@@ -40,6 +40,9 @@ Quanto mais específico, mais rápido resolvemos. Ajuda muito:
 **Não envie** senha, dados de cartão, CPF ou documento. Nunca pedimos isso, e
 não temos como usá-los — pagamentos são processados inteiramente pelo Google.
 
+### Identificação do controlador
+Para os fins da LGPD, o controlador de dados é **Rafael Huppes**.
+
 ## O que fazemos com os dados do seu contato
 
 Esta é a parte que a Política de Privacidade não cobre, porque trata do app —
@@ -64,12 +67,16 @@ consultar o clima — detalhes em [PRIVACIDADE.md](PRIVACIDADE.md).
 Para não obrigar você a abrir a política inteira:
 
 - **Localização aproximada** → enviada só à Open-Meteo, para saber o clima.
-  Sem ela, o app usa Guarapuava (PR) e funciona igual.
+  Sem ela, o app usa São Paulo (SP) e funciona igual. Nunca vai pro servidor
+  de conteúdo abaixo.
 - **Preferências** (cenário, arte, estilo, Premium) → ficam só no aparelho.
 - **Último clima consultado** → cache local, sobrescrito a cada consulta.
 - **Compras** → processadas pelo Google Play; não vemos dados de pagamento.
-- **Não existe** conta, login, anúncio, analytics, rastreamento ou servidor
-  nosso.
+- **Download de cenários** → alguns vêm de um servidor de arquivos (Cloudflare
+  R2), baixado só quando você escolhe aplicar. Esse servidor não recebe sua
+  localização nem processa dado pessoal.
+- **Não existe** conta, login, anúncio, analytics, rastreamento ou banco de
+  dados de usuários do nosso lado.
 
 Texto completo: [Política de Privacidade](PRIVACIDADE.md) ·
 [Termos de Uso](TERMOS.md)

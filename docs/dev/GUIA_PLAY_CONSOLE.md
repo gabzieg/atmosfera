@@ -7,10 +7,19 @@
 > diz o que revisar.
 >
 > **Divisão de responsabilidade** (ver [SPEC.md](SPEC.md)): o Data Safety é
-> declaração sobre o que o código faz — preenchido pelo Gabriel, com o Willian
-> conferindo contra os textos legais. A conta do console é do titular legal.
+> declaração sobre o que o código faz, e é do Gabriel — junto com os textos
+> legais, desde a saída do Willian em 2026-08-28. A conferência que era dele
+> agora é feita por teste: `PoliticaBatecomManifestoTest` quebra o gate se a
+> política divergir das permissões do manifesto.
 
-**Última atualização:** 1º de agosto de 2026 · confere com o app 1.0.0
+**Última atualização:** 29 de setembro de 2026 · confere com o app 1.0.3
+
+> **Mudança de 29/09:** o app passou a baixar alguns cenários/artes sob
+> demanda de um servidor de arquivos (Cloudflare R2) — ver
+> `docs/legal/PRIVACIDADE.md` §3.8/§6.5. Isso **não adiciona nenhum tipo de
+> dado novo** ao formulário (ver "Download de conteúdo (R2)" abaixo) — é a
+> mesma categoria de tráfego que a Open-Meteo já tinha (endereço IP inerente à
+> requisição, não coletado nem usado pra identificar ninguém).
 
 ---
 
@@ -19,7 +28,7 @@
 O Data Safety só aparece depois que o app existe no Play Console. Ordem:
 
 1. Conta de desenvolvedor criada (US$ 25, uma vez — pode levar dias pra aprovar)
-2. App criado no console (`com.atmosfera.wallpaper`)
+2. App criado no console (`com.terra.wallpaper`)
 3. **URL da política de privacidade já no ar** — o formulário a exige
 4. Aí sim: Política do app → Segurança dos dados
 
@@ -32,8 +41,8 @@ O Data Safety só aparece depois que o app existe no Play Console. Ordem:
 | Pergunta | Resposta | Base no código |
 |---|---|---|
 | O app coleta ou compartilha algum dos tipos de dados exigidos? | **Sim** | Localização é enviada à Open-Meteo |
-| Todos os dados são criptografados em trânsito? | **Sim** | `WeatherRepository` usa `https://api.open-meteo.com/` |
-| Você fornece um meio de o usuário pedir exclusão dos dados? | **Sim** | Não há servidor; limpar dados do app ou desinstalar apaga tudo — descrito na política §10 |
+| Todos os dados são criptografados em trânsito? | **Sim** | `WeatherRepository` usa `https://api.open-meteo.com/`; o download de conteúdo (`Acervo.kt`) usa HTTPS contra o bucket R2 |
+| Você fornece um meio de o usuário pedir exclusão dos dados? | **Sim** | Nenhum servidor nosso guarda dado pessoal — limpar dados do app ou desinstalar apaga tudo do lado do usuário, descrito na política §10 |
 
 ### Passo 2 — Tipos de dados
 
@@ -46,29 +55,43 @@ menos.
 |---|---|
 | Coletado | Sim |
 | Compartilhado | **Sim** — enviado à Open-Meteo |
-| Obrigatório? | **Opcional** (o app funciona sem; cai no fallback de Guarapuava/PR) |
+| Obrigatório? | **Opcional** (o app funciona sem; cai no fallback de São Paulo/SP) |
 | Finalidade | **Funcionalidade do app** |
 | Processado de forma efêmera? | Não (fica em cache local) |
 
-#### Localização → Localização precisa — **SIM**
+#### Localização → Localização precisa — **NÃO**
 
-Contraintuitivo, mas obrigatório: o manifesto declara `ACCESS_FINE_LOCATION`, e
-o Google compara a declaração com o que o APK pede. Declarar só "aproximada"
-com `FINE` no manifesto é inconsistência — **causa nº1 de rejeição**.
+Era **SIM** até 2026-08-08, porque o manifesto declarava `ACCESS_FINE_LOCATION`
+e o Google compara a declaração com o que o APK pede. A permissão foi
+**removida** naquela data: nenhum caminho do código exigia precisão fina (o
+portão é `LocationHelper.hasPermission()`, que só checa COARSE, e a busca pede
+`PRIORITY_BALANCED_POWER_ACCURACY`).
 
-> **Alternativa mais limpa:** remover `ACCESS_FINE_LOCATION` do manifesto. O
-> código só checa `ACCESS_COARSE_LOCATION` (`LocationHelper.hasPermission()`) e
-> pede `PRIORITY_BALANCED_POWER_ACCURACY` — a permissão fine não tem uso real.
-> Mexe no manifesto → área de risco, exige PR. Se fizer isso, **desmarque este
-> item** e ajuste a política §5.
-
-Mesmas respostas da aproximada.
+Agora a resposta consistente é **não coletar localização precisa**. Marcar
+"sim" passaria a ser a inconsistência — e inconsistência entre Data Safety e
+APK é a **causa nº1 de rejeição**. Se alguém readicionar `ACCESS_FINE_LOCATION`
+ao manifesto, este item volta a ser **SIM** e a política §5 precisa acompanhar.
 
 #### Compras no app — **NÃO marcar como coletado por você**
 
 O Google Play Billing processa tudo. O app recebe só o resultado da compra e
 grava um booleano local (`Plano`). Você não coleta histórico de compras — o
 Google coleta, e isso é declarado por ele, não por você.
+
+#### Download de conteúdo (R2) — **NÃO marcar como tipo de dado novo**
+
+`Acervo.kt` baixa arquivo de cenário/arte de um bucket Cloudflare R2 quando o
+usuário toca em aplicar (política §3.8). A requisição HTTP carrega, de forma
+inerente, o endereço IP do aparelho — exatamente a mesma situação que a
+consulta à Open-Meteo já tinha, e que este guia nunca tratou como "Device or
+other IDs" coletado. Não há usuário, sessão, token nem qualquer identificador
+enviado junto do pedido: `Acervo.baixarArte()` recebe só `cena`/`arte`/URL, sem
+parâmetro de conta, e a posse do conteúdo é validada pelo `Plano`/`Catalogo`
+**antes** de chamar o download, não pelo servidor (o R2 nem sabe que existe
+uma compra). Se algum dia o bucket passar a exigir token de compra (ver
+`docs/dev/PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md` §3, "Proteção do
+bucket"), esta resposta precisa ser revisada — um backend que valida token de
+usuário passa a ser um identificador associável a você.
 
 #### Tudo o mais — **NÃO**
 
@@ -88,17 +111,18 @@ analytics, crash reporting ou SDK de anúncios — política §4 e §12.
 
 ### Armadilha do backup
 
-`AndroidManifest.xml` tem `allowBackup="true"`: cache e preferências podem ir
-pro backup do Android, na conta Google **do usuário**. Não é coleta sua (é
-mecanismo do sistema) e **não** precisa ser declarado como compartilhamento —
-mas está documentado na política §3.6 para ser honesto. Se um revisor
-perguntar, é essa a resposta.
+`AndroidManifest.xml` tem `allowBackup="true"`: preferências comuns podem ir
+pro backup do Android, na conta Google **do usuário**. O arquivo de posse
+`atmosfera_plano.xml` está excluído do backup e da transferência entre aparelhos;
+o Premium é restaurado pela compra na Play. Não é coleta sua (é mecanismo do
+sistema) e **não** precisa ser declarado como compartilhamento — mas está
+documentado na política §3.6 para ser honesto.
 
 ---
 
 ## Content Rating (IARC)
 
-Questionário rápido. O Atmosfera é um papel de parede sem conteúdo gerado por
+Questionário rápido. O Terra é um papel de parede sem conteúdo gerado por
 usuário, sem interação social e sem compras aleatórias.
 
 | Pergunta | Resposta |
@@ -115,10 +139,9 @@ usuário, sem interação social e sem compras aleatórias.
 Resultado esperado: **Livre / L (todas as idades)** nas classificações
 brasileira e internacional.
 
-> Um cenário do catálogo é um **tanque de guerra em campo de batalha**
-> (`cenario_tanque`). É arte estática de ambiente, sem pessoas, combate, sangue
-> ou representação de violência — não muda a resposta de "violência". Se um dia
-> entrar cenário com figuras humanas em conflito, refaça o questionário.
+> O cenário de tanque foi retirado da versão inicial e está preservado entre os
+> packs futuros. Se ele voltar ao aplicativo, refaça a classificação indicativa
+> antes de publicar a atualização.
 
 ---
 

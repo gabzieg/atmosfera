@@ -1,4 +1,4 @@
-# Termos de Uso — Atmosfera Live Wallpaper
+# Termos de Uso — Terra - Live Wallpaper
 
 > **Texto canônico.** Esta é a fonte da verdade dos termos; a página publicada
 > ([`docs/termos/index.html`](docs/termos/index.html)) é um espelho deste
@@ -10,12 +10,11 @@
 >
 > **Rascunho não revisado juridicamente.** Foi redigido a partir do que o app
 > efetivamente faz (compra única via Google Play Billing, sem assinatura, sem
-> conta, sem servidor próprio). Se o modelo de monetização mudar — assinatura,
-> anúncios, conteúdo gerado por usuário — este texto precisa ser refeito, não
-> emendado.
+> conta). Se o modelo de monetização mudar — assinatura, anúncios, conteúdo
+> gerado por usuário — este texto precisa ser refeito, não emendado.
 
 **Versão dos termos:** 1.0
-**Aplica-se a:** Atmosfera Live Wallpaper (Android, `com.atmosfera.wallpaper`), a partir da versão 1.0.0
+**Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.0
 **Última atualização:** 30 de julho de 2026
 **Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
 
@@ -25,7 +24,7 @@
 
 Este resumo é uma cortesia e não substitui o texto completo abaixo.
 
-- O Atmosfera é um papel de parede animado que reage ao clima real da sua
+- O Terra é um papel de parede animado que reage ao clima real da sua
   região. O uso é pessoal e não comercial.
 - Parte do conteúdo é **gratuita**; cenários extras e o Premium são
   **compras únicas** pelo Google Play — **não há assinatura** e não há cobrança
@@ -43,14 +42,14 @@ Este resumo é uma cortesia e não substitui o texto completo abaixo.
 
 | | |
 |---|---|
-| **Desenvolvedor** | [PREENCHER: nome completo da pessoa física ou razão social] |
-| **Aplicativo** | Atmosfera Live Wallpaper — `com.atmosfera.wallpaper` |
+| **Desenvolvedor** | Rafael Huppes |
+| **Aplicativo** | Terra - Live Wallpaper — `com.terra.wallpaper` |
 | **Contato** | [PREENCHER: e-mail de contato] |
 | **Endereço destes termos** | [PREENCHER: URL pública desta página] |
 
 ## 2. Aceitação
 
-Ao instalar, abrir ou usar o Atmosfera, você concorda com estes Termos de Uso e
+Ao instalar, abrir ou usar o Terra, você concorda com estes Termos de Uso e
 com a [Política de Privacidade](PRIVACIDADE.md). Se não concordar, desinstale o
 aplicativo — não há outra forma de uso.
 
@@ -59,7 +58,7 @@ supervisão de um responsável legal, que também fica sujeito a estes termos.
 
 ## 3. O que o aplicativo faz
 
-O Atmosfera instala um papel de parede animado que desenha uma cena reagindo às
+O Terra instala um papel de parede animado que desenha uma cena reagindo às
 condições meteorológicas atuais da sua localização aproximada — chuva, neve,
 nuvens, sol, lua, vento, neblina, ciclo de dia e noite. O aplicativo companion
 permite ativar o papel de parede, escolher cenário, variante de arte e estilo
@@ -67,7 +66,7 @@ dos efeitos, e adquirir conteúdo adicional.
 
 O clima vem do serviço de terceiros **Open-Meteo**. Não somos autores desses
 dados meteorológicos e não garantimos precisão, atualidade ou disponibilidade
-deles — o Atmosfera não é, e não deve ser usado como, ferramenta de previsão do
+deles — o Terra não é, e não deve ser usado como, ferramenta de previsão do
 tempo para qualquer decisão que dependa de exatidão meteorológica.
 
 ## 4. Licença de uso concedida a você
@@ -98,12 +97,12 @@ de titularidade do desenvolvedor ou de seus licenciadores.
 
 ### 5.1 Modelo
 
-O Atmosfera oferece conteúdo gratuito e conteúdo pago. Todo conteúdo pago é
+O Terra oferece conteúdo gratuito e conteúdo pago. Todo conteúdo pago é
 vendido como **compra única** (não consumível), processada pelo **Google Play
 Billing**:
 
-- **Premium** — libera os efeitos climáticos completos em todos os cenários;
-- **Cenários avulsos** — liberam um cenário específico.
+- **Premium** — libera todas as artes dos cinco cenários, todos os estilos de
+  efeito e os oito efeitos vivos.
 
 **Não há assinatura, mensalidade, renovação automática ou cobrança recorrente de
 nenhuma espécie.** Se isso mudar em versão futura, estes termos serão atualizados
@@ -169,8 +168,10 @@ disponibilidade, precisão ou práticas deles.
 
 O tratamento de dados pessoais é descrito na
 [Política de Privacidade](PRIVACIDADE.md), que integra estes termos. Em resumo:
-o app usa localização aproximada para consultar o clima, não tem conta, não tem
-servidor próprio, não exibe anúncios e não usa analytics.
+o app usa localização aproximada para consultar o clima, não tem conta, não
+exibe anúncios e não usa analytics. Alguns cenários são baixados de um
+servidor de arquivos (Cloudflare R2) quando você escolhe aplicá-los — esse
+servidor não recebe sua localização nem processa dado pessoal (política §3.8).
 
 ## 9. Garantias e limitação de responsabilidade
 
@@ -210,7 +211,7 @@ que você tomou conhecimento dela.
 
 Estes termos são regidos pelas leis da **República Federativa do Brasil**.
 
-Fica eleito o foro de **[PREENCHER: comarca/cidade do desenvolvedor]** para
+Fica eleito o foro de **Novo Hamburgo (RS)** para
 dirimir controvérsias, ressalvado o direito do consumidor de demandar no foro do
 seu próprio domicílio (art. 101, I do Código de Defesa do Consumidor) e as
 regras de competência que a lei do país de residência do usuário torne
@@ -228,4 +229,4 @@ obrigatórias.
 
 | Versão | Data | Mudança |
 |---|---|---|
-| 1.0 | [PREENCHER: data da primeira publicação] | Versão inicial, referente ao Atmosfera 1.0.0 |
+| 1.0 | [PREENCHER: data da primeira publicação] | Versão inicial, referente ao Terra 1.0.0 |

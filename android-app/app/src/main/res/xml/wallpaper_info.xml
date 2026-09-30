@@ -4,4 +4,4 @@
     android:label="@string/wallpaper_label"
     android:description="@string/wallpaper_description"
     android:thumbnail="@drawable/wallpaper_thumbnail"
-    android:settingsActivity="com.atmosfera.wallpaper.ui.MainActivity" />
+    android:settingsActivity="com.terra.wallpaper.ui.MainActivity" />

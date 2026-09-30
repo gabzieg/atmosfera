@@ -12,10 +12,29 @@
 # ⚠️ A lista RISCO abaixo é a MESMA de .github/workflows/aviso-push-direto.yml
 # e de .github/CODEOWNERS. Mudou aqui, muda nos dois.
 #
+# ENCOLHIDA em 2026-08-09. Antes incluía billing/, AndroidManifest.xml e
+# build.gradle. Saíram porque a proteção virou automática e a revisão humana
+# aqui é solo — PR pra si mesmo não revisa nada, só adia:
+#   · AndroidManifest.xml → PermissoesDeclaradasTest quebra o gate em qualquer
+#     mudança de permissão, que era o risco real (Data Safety divergente do APK);
+#   · build.gradle       → "quebra o build de todo mundo" é exatamente o que a
+#     CI pega, antes do merge;
+#   · billing/           → o motivo era "dinheiro + teto frágil do Billing". O
+#     teto acabou na migração pra 9.1.0, e a área passou a ser do Gabriel.
+#
+# Sobrou só o meta-guarda:
+#   · .github/ → quebrar aqui desliga todos os outros guardas.
+#
+# ENCOLHIDA DE NOVO em 2026-09-11: engine/ e assets/atmosfera/ saíram. O motivo
+# do gate ali era "o Rafael evolui isso em paralelo e entrega por snapshot" — mas
+# desde 2026-09-11 o Rafael só publica releases de novos packs de wallpaper, e
+# engine/ passou a ser do Gabriel. Sem trabalho paralelo não há conflito de
+# snapshot a evitar, e revisão solo não melhora com PR pra si mesmo.
+#
 # Instalar: ./scripts/setup-hooks.sh
 # Escapar de propósito: git push --no-verify (e explique no PR depois).
 
-RISCO='^android-app/app/src/main/java/com/atmosfera/wallpaper/engine/|^android-app/app/src/main/assets/atmosfera/|^android-app/app/src/main/java/com/atmosfera/wallpaper/billing/|^android-app/app/src/main/AndroidManifest\.xml$|^android-app/app/build\.gradle$|^\.github/'
+RISCO='^\.github/'
 
 ZERO='0000000000000000000000000000000000000000'
 BLOQUEAR=0
@@ -41,9 +60,8 @@ while read -r _ SHA_LOCAL REF_REMOTA SHA_REMOTO; do
     echo ""
     echo "$HIT" | sed 's/^/       /'
     echo ""
-    echo "  Essas áreas exigem branch + PR (Rafael: engine/assets · Willian:"
-    echo "  billing · Gabriel: build/CI). Doc e UI podem ir direto na main —"
-    echo "  estes arquivos não."
+    echo "  Só .github/ exige branch + PR — é o meta-guarda da CI/enforcement."
+    echo "  Todo o resto (engine, assets, front, doc) pode ir direto na main."
     echo ""
     echo "     git switch -c front/<slug>   # ou motor/ chore/ doc/ fix/"
     echo "     git push -u origin front/<slug> && gh pr create --fill"

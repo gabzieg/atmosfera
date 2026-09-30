@@ -1,13 +1,16 @@
-# Atmosfera — Handoff do FRONT (motor congelado)
+# Atmosfera — Interface motor ↔ front (referência)
 
 > Ver também: [README.md](../../README.md) (visão geral + como rodar) ·
 > [CLAUDE.md](../../CLAUDE.md) (contexto/comandos para o Claude Code).
 
-> **Para quem recebe este documento:** você vai tocar o **front** do app Atmosfera em
-> paralelo, enquanto o **motor de efeitos** (a parte que desenha o wallpaper) continua
-> sendo evoluído por outra frente. Este documento é o seu ponto de partida: explica o
-> produto, a arquitetura, **a fronteira do que é seu e do que é congelado**, e a
-> interface estável entre os dois. Leia inteiro antes de codar.
+> **⚠️ Atualização 2026-09-11 — a premissa deste doc mudou.** Ele foi escrito para um
+> handoff em que o **front** era do Gabriel e o **motor** era do Rafael, evoluído em
+> paralelo e entregue por snapshot. Isso acabou: `engine/` e `assets/` passaram a ser
+> do Gabriel, e o Rafael ficou só com a publicação de novos packs de conteúdo.
+> **O doc sobrevive como referência da interface motor↔front** — a seção 3
+> (`EffectEngine`, `Catalogo`, `Cena`, `carregar(Context)`) continua válida e útil.
+> **Ignore** o enquadramento de "congelado / não editar / snapshot" das seções 2, 4 e
+> 7: hoje dá pra editar o motor direto na `main`, como o resto.
 
 ---
 
@@ -26,10 +29,9 @@ tempo real (~30 fps, Canvas nativo).
 - **Monetização (decidida): SEM assinatura.**
   - **Premium** = **compra única global**. Destrava os efeitos "vivos" em TODOS os
     cenários (raios, vento, vagalumes, estrela cadente, lampiões, fumaça, fases da
-    lua, acúmulo de neve, etc.). SKU: `atmosfera_premium` (INAPP não-consumível).
-  - Cada **cenário extra** = **compra avulsa** ("básico"). Quem tem Premium recebe
-    a versão "viva" do cenário automaticamente.
-  - A **cabana é grátis** (versão lite).
+    lua, acúmulo de neve, etc.). SKU: `terra_premium` (INAPP não-consumível).
+  - A versão inicial traz **cinco cenários** com uma arte grátis em cada um.
+    O Premium libera as demais artes, todos os estilos e os efeitos vivos.
 
 ---
 
@@ -39,7 +41,7 @@ tempo real (~30 fps, Canvas nativo).
 ┌─────────────────────────────────────────────────────────────┐
 │  MOTOR (CONGELADO — não editar)          FRONT (SEU)         │
 │  ─────────────────────────────           ───────────         │
-│  com.atmosfera.wallpaper.engine.*        ui.*  (telas)       │
+│  com.terra.wallpaper.engine.*        ui.*  (telas)       │
 │  assets/atmosfera/**  (arte/sprites)     billing.*  (loja)   │
 │                                          service.*  (a cola) │
 │  Desenha o wallpaper.                    weather.*  (clima)  │
@@ -48,23 +50,23 @@ tempo real (~30 fps, Canvas nativo).
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **MOTOR (congelado, NÃO mexer):** pacote `com.atmosfera.wallpaper.engine`
+- **MOTOR (congelado, NÃO mexer):** pacote `com.terra.wallpaper.engine`
   (`EffectEngine`, `SceneConfig`/`SceneState`, `Atlas`, `Particles`, `Catalogo`,
   `Cena`) **e** a pasta `app/src/main/assets/atmosfera/**` (fundos, frentes, zonas,
   sprites de cada cenário). É o coração do render. Nós evoluímos isso (novos
   cenários, novos efeitos) e te entregamos snapshots. **Se você editar aqui, dá
   conflito no merge.**
 - **FRONT (seu):** todo o resto —
-  - `com.atmosfera.wallpaper.ui.*` — telas do app companheiro (home, loja,
+  - `com.terra.wallpaper.ui.*` — telas do app companheiro (home, loja,
     onboarding, settings).
-  - `com.atmosfera.wallpaper.billing.*` — `Plano` (flag Premium) + `BillingManager`
+  - `com.terra.wallpaper.billing.*` — `Plano` (flag Premium) + `BillingManager`
     (Google Play Billing). **Estender** para compras avulsas de cenário.
-  - `com.atmosfera.wallpaper.service.*` — o `WallpaperService` (a "cola" que
+  - `com.terra.wallpaper.service.*` — o `WallpaperService` (a "cola" que
     hospeda o motor). Você pode editar; só respeite a interface do motor (seção 3).
-  - `com.atmosfera.wallpaper.weather.*` — localização + Open-Meteo + cache. Já
+  - `com.terra.wallpaper.weather.*` — localização + Open-Meteo + cache. Já
     existe e funciona; alimenta o motor.
   - Manifest, Gradle, ícones, ficha da Play Store, screenshots, teste fechado.
-  - `com.atmosfera.wallpaper.debug.*` — painel de teste; é NOSSO (para calibrar
+  - `com.terra.wallpaper.debug.*` — painel de teste; é NOSSO (para calibrar
     efeitos), mas pode ler para entender como forçar clima.
 
 **Merge depois:** como as fronteiras são por pacote/pasta, o merge é limpo se você
@@ -81,12 +83,29 @@ Todo o contato passa por **poucos pontos estáveis**. Assinaturas que NÃO vão 
 ```kotlin
 class EffectEngine(val estado: SceneState = SceneState()) {
     var pronto: Boolean          // true depois de carregar()
-    fun carregar(assets: AssetManager)   // decodifica os bitmaps do cenário ativo
+    // Sobrecarga que o front usa: acha sozinha a arte embutida (AssetManager) e
+    // a baixada (raiz do Acervo no disco). O front não decide a origem.
+    fun carregar(c: Context, cenaId: String, arte: String, estilo: String)
     fun draw(canvas: Canvas, cw: Float, ch: Float, tsMs: Long)  // 1 frame
     fun aoMudarClima()           // chamar quando o SceneState mudou de clima
     fun liberar()                // recicla bitmaps (onDestroy)
 }
 ```
+
+> ⚠️ **CONTRATO ATUAL (integração 2026-09-12) — como o motor abre a arte.**
+> `carregar(Context, …)` chama por dentro `carregar(c.assets, …, Acervo.raiz(c))`:
+> arte **embutida** vem do `AssetManager` (`assets.open("atmosfera/…")`); arte
+> **baixada** vem do disco, pela raiz do `Acervo` (`Acervo.pastaArte(...)`). O
+> motor decide a origem; o front só passa o `Context`.
+>
+> **Histórico (não reaplique).** Houve uma tentativa (2026-08-28, `a20732d`) de
+> trocar isso por uma interface `FonteDeAssets` de um método só, pra desacoplar o
+> motor da origem do arquivo. Essa abstração foi **abandonada na integração de
+> 2026-09-12**: o motor do Rafael venceu com `AssetManager` + `Acervo`, que já lê
+> conteúdo baixado (do disco, não do `context.assets`). `FonteDeAssets.kt`,
+> `ConteudoEmbarcado.kt` e o `ContratoFonteDeAssetsTest` foram removidos — se
+> topar referência a eles em doc ou snapshot antigo, é isto.
+
 > O `WallpaperService` cria um `EffectEngine`, chama `carregar()` uma vez, e num
 > loop de ~33 ms faz `lockHardwareCanvas()` → `draw(...)` → `unlockCanvasAndPost()`.
 > Já está implementado em `AtmosferaWallpaperService`; use como referência.
@@ -123,7 +142,7 @@ Cena.definir(context, id: String)      // troca o wallpaper ativo
 ```
 > **Fluxo da loja:** liste `Catalogo.cenarios`. Grátis (`gratis==true`) = aplicar
 > direto. Pago = comprar `productId` via Billing, e só então `Cena.definir(...)`.
-> Premium (`atmosfera_premium`) é global e destrava os efeitos vivos de todos.
+> Premium (`terra_premium`) é global e destrava os efeitos vivos de todos.
 >
 > **Estado atual do motor:** hoje o serviço ainda carrega só a *cabana*. A troca de
 > cenário no motor (ler `Cena.atual` e carregar os assets certos) chega no próximo
@@ -137,7 +156,7 @@ Cena.definir(context, id: String)      // troca o wallpaper ativo
 1. **Loja / catálogo de cenários** — tela que lista `Catalogo.cenarios`, mostra
    grátis vs pago (preço via Billing), permite comprar e **aplicar** (`Cena.definir`).
 2. **Billing** — estender `BillingManager` para os produtos avulsos de cenário
-   (`productId` do `Catalogo`), além do `atmosfera_premium` que já existe. Ao
+   (`productId` do `Catalogo`), além do `terra_premium` que já existe. Ao
    confirmar compra: liberar o cenário; em Premium: `Plano.setPremium(true)`.
 3. **Seletor de cenário** na home + preview.
 4. **Onboarding / permissões** — fluxo de permissão de localização e o "definir como
@@ -145,8 +164,8 @@ Cena.definir(context, id: String)      // troca o wallpaper ativo
    `MainActivity`).
 5. **Home / companion app** — clima atual, status do plano, atalhos.
 6. **Settings** (opcional) — unidades, etc.
-7. **Publicação Play Store** — ficha, screenshots, criar produtos no Play Console
-   (`atmosfera_premium` + `cenario_tanque`), teste fechado → revisão.
+7. **Publicação Play Store** — ficha, screenshots, produto `terra_premium`,
+   teste fechado → revisão.
 
 **Não faça** (é nosso): mexer no render, criar/editar sprites e artes, tunar
 efeitos, mudar as assinaturas da seção 3.
@@ -160,24 +179,32 @@ efeitos, mudar as assinaturas da seção 3.
   Premium liga os efeitos vivos.
 - **Tanque**: cenário #2, mapeado e funcionando no **protótipo web** (nosso
   laboratório). Porte pro motor Android vem por snapshot.
-- **Billing/Premium**: `Plano` + `BillingManager` (Play Billing 6.2.1, produto
-  `atmosfera_premium`) já existem.
+- **Billing/Premium**: `Plano` + `BillingManager` (Play Billing 9.1.0, produto
+  `terra_premium`) já existem.
 - **Clima**: `weather.*` (Open-Meteo, localização, cache 30 min) funcionando.
 - **CI**: GitHub Actions (`.github/workflows/build.yml`) compila `assembleDebug` e
   publica o APK como artifact. Use para validar (não há emulador do nosso lado).
 
 ## 6. Stack técnica
 
-Kotlin 1.9.23 · AGP 8.3.0 · minSdk 26 · JDK 17 · Gradle (setup-gradle 8.6) ·
-Google Play Billing 6.2.1 · Gson (pacote weather) · `buildConfig true`.
+Kotlin 2.4.10 · AGP 8.13.2 · Gradle 8.14.5 (wrapper) · minSdk 26 ·
+compileSdk/targetSdk 36 · JDK 17 · Google Play Billing 9.1.0 · Gson (pacote
+weather) · `buildConfig true`.
 Coordenadas de cena em espaço lógico (a cabana 688×1538; o tanque 688×1536) —
 o motor faz o "cover" para a tela; **o front não precisa saber disso**.
 
-> ⚠️ **Billing preso em 6.2.1 de propósito:** 7.0.0+ é compilado com metadata do
-> Kotlin 2.x, incompatível com o compilador Kotlin 1.9.23 deste projeto (erro
-> real de build, confirmado rodando `gradlew assembleDebug`, não suposição). Só
-> suba a versão do Billing junto com uma atualização do plugin Kotlin — os dois
-> andam juntos.
+> **Atualizado em 2026-08-08 — a trava do Kotlin 1.9.23 acabou.** O projeto
+> estava preso em Kotlin 1.9.23 / Billing 6.2.1; o Google passou a exigir
+> Billing v8+ **e** `targetSdk` 36+ para publicar (ambos com prazo 31/ago/2026),
+> então tudo subiu junto.
+>
+> **Impacto no motor: nenhum.** `engine/**` compilou sem uma linha alterada —
+> ele só importa `android.graphics`, `kotlin.math`/`kotlin.random` e os tipos de
+> `weather`, sem Compose nem biblioteca externa. Um snapshot escrito para o
+> Kotlin 1.9 continua compilando aqui; o que mudou foi o compilador embaixo.
+>
+> Se for abrir o projeto Android localmente, precisa de um Android Studio /
+> plugin Kotlin recente o bastante para o Kotlin 2.x.
 
 ## 7. Como trabalhar sem colisão
 

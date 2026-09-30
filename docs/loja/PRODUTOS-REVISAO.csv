@@ -1,0 +1,7 @@
+cenario_id,product_id,nome,artes_gratis,tipo,status_console,reconferido_em,referencia_codigo,entrega_mvp,artes_declaradas,artes_com_fundo_local,artes_sem_fundo_local
+,terra_premium,Terra Premium,,compra_unica_nao_consumivel,ativo,2026-09-23,working_tree,embarcada,,,
+cabana,,Cabana na floresta,pixel,incluido_no_premium,nao_aplicavel,2026-09-23,working_tree,embarcada,pixel,pixel,
+bruxa,,Casa da bruxa,clay,incluido_no_premium,nao_aplicavel,2026-09-23,working_tree,embarcada,pixel;clay,pixel;clay,
+lavanda,,Campo de lavanda,aqua,incluido_no_premium,nao_aplicavel,2026-09-23,working_tree,embarcada,pixel;aqua,pixel;aqua,
+esfinge,,Esfinge,vangogh,incluido_no_premium,nao_aplicavel,2026-09-23,working_tree,embarcada,pixel;vangogh,pixel;vangogh,
+jardim,,Jardim japonês,ukiyoe,incluido_no_premium,nao_aplicavel,2026-09-23,working_tree,embarcada,pixel;ukiyoe,pixel;ukiyoe,

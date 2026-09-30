@@ -11,6 +11,9 @@ build/
 .gradle/
 android-app/app/build/
 local.properties
+# Sessão do compilador Kotlin 2.x — pasta nova, apareceu com a migração pra
+# Kotlin 2.4.10 (só arquivos `.salive` de daemon vivo).
+.kotlin/
 # Distribuição do Gradle extraída localmente (baixada sob demanda pelo wrapper
 # a partir de gradle-wrapper.properties — não é código-fonte, ~140MB).
 android-app/gradle-8.6/
