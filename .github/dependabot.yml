@@ -48,6 +48,16 @@ updates:
       # a nota em gradle/libs.versions.toml). Faixa em sintaxe Maven.
       - dependency-name: "androidx.lifecycle:*"
         versions: ["[2.11,)"]
+      # Mesmo teto (compileSdk 37 + AGP 9.1), visto no PR #35 em 2026-09-30:
+      # compose-bom 2026.09.00 (Compose 1.12), core 1.19.1 e navigation 2.10.2
+      # quebram o checkDebugAarMetadata. Travado em minor/major até a migração
+      # para AGP 9; patches seguem liberados.
+      - dependency-name: "androidx.compose:compose-bom"
+        update-types: ["version-update:semver-minor", "version-update:semver-major"]
+      - dependency-name: "androidx.core:*"
+        update-types: ["version-update:semver-minor", "version-update:semver-major"]
+      - dependency-name: "androidx.navigation:*"
+        update-types: ["version-update:semver-minor", "version-update:semver-major"]
       # Kotlin (plugins kotlin.android e plugin.compose): minor novo exige R8
       # mais novo que o do AGP 8.13 — o 2.4 já precisa de R8 9.1.29. Patch
       # (2.4.x) segue liberado. O padrão tem ponto de propósito: sem ele,
