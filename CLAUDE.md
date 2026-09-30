@@ -179,7 +179,7 @@ do Claude Code (`simplify`, `/code-review`) normalmente.
 
 **Toda mudança na `main` entra por PR — sem exceção.** Não é convenção: o
 servidor aplica (ruleset abaixo). A antiga lista de "áreas de risco" (que
-chegou a ser só `.github/`) continua nos hooks/workflows locais, mas perdeu o
+chegou a ser só `.github/`) continua no hook local e no CODEOWNERS, mas perdeu o
 efeito prático — o ruleset já exige PR para qualquer arquivo.
 
 Fluxo: trabalhar em `integracao/lancamento-teste` (ou branch própria) → push →
@@ -253,8 +253,9 @@ qualquer coisa sobre escopo dele daqui pra frente.
 Consequência prática enquanto isso não for esclarecido: `engine/` voltou a ter
 duas pessoas editando, o que é exatamente o cenário que gerou o conflito de
 merge do `EffectEngine` no passado (motivo original do PR obrigatório nessas
-áreas). Vale considerar reabrir PR pra `engine/`/`ui/` se o trabalho paralelo
-continuar, mesmo que a regra atual (só `.github/` exige PR) não peça.
+áreas). O PR já é obrigatório pra tudo (ruleset acima), mas com 0 aprovações
+ninguém olha o diff do outro — se o trabalho paralelo continuar, combinar quem
+mexe em qual arquivo vale mais que a regra.
 
 (Até 2026-09-11 o Rafael tocava `engine/` e `assets/atmosfera/` e entregava por
 snapshot; era isso que justificava o PR obrigatório nessas áreas, regra que caiu
