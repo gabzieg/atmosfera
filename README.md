@@ -81,18 +81,14 @@ atmosfera/
 ./scripts/setup-hooks.sh
 ```
 
-Aponta o `core.hooksPath` pra [.githooks/](.githooks/). O `pre-push` barra push
-direto na `main` quando o diff toca **área de risco** (`engine/`,
-`assets/atmosfera/`, `billing/`, `AndroidManifest.xml`, `build.gradle`,
-`.github/`) — essas exigem branch + PR. Doc e ajuste de UI continuam podendo
-ir direto na `main`, de propósito.
+Aponta o `core.hooksPath` pra [.githooks/](.githooks/). O `pre-push` avisa,
+ainda na sua máquina, quando você tenta empurrar direto pra `main`.
 
-É uma rede local, não uma trava: `git push --no-verify` passa por cima. Como o
-repositório é privado no plano free do GitHub, **branch protection e CODEOWNERS
-não funcionam** (a API responde `403 Upgrade to GitHub Pro`), então o hook mais
-o workflow [aviso-push-direto](.github/workflows/aviso-push-direto.yml) — que
-abre uma issue quando algo escapa — são o que existe hoje no lugar de um gate
-de servidor.
+Quem manda de verdade é o **servidor**: a `main` tem um ruleset no GitHub que
+exige **PR + CI `build` verde para qualquer arquivo** (0 aprovações — o autor
+mescla o próprio PR) e bloqueia force-push e deleção. `git push origin main` é
+recusado com ou sem `--no-verify`. Fluxo completo em
+[CLAUDE.md](CLAUDE.md) → "Regras de PR".
 
 ## Rodando o projeto
 

@@ -179,7 +179,7 @@ do Claude Code (`simplify`, `/code-review`) normalmente.
 
 **Toda mudança na `main` entra por PR — sem exceção.** Não é convenção: o
 servidor aplica (ruleset abaixo). A antiga lista de "áreas de risco" (que
-chegou a ser só `.github/`) continua nos hooks/workflows locais, mas perdeu o
+chegou a ser só `.github/`) continua no hook local e no CODEOWNERS, mas perdeu o
 efeito prático — o ruleset já exige PR para qualquer arquivo.
 
 Fluxo: trabalhar em `integracao/lancamento-teste` (ou branch própria) → push →
@@ -232,11 +232,13 @@ barreira, não como única:
 - `.githooks/pre-push` (ligar com `./scripts/setup-hooks.sh`) — barra push
   direto na `main` em área de risco. Escapa com `git push --no-verify`, mas
   isso só adianta o erro: o servidor recusa depois.
-- `.github/workflows/aviso-push-direto.yml` — abre issue quando um commit que
-  não veio de PR toca área de risco. Avisa depois, não bloqueia.
+- ~~`.github/workflows/aviso-push-direto.yml`~~ — **removido em 2026-09-30.**
+  Abria issue quando um commit "não vindo de PR" tocava área de risco; com o
+  ruleset exigindo PR pra tudo, isso ficou impossível e ele só gerava alarme
+  falso (issue #32: sinalizou um commit que entrou via PR #31).
 
-A lista de caminhos de risco está duplicada nos dois + no CODEOWNERS. Mudou
-uma, mude as três.
+A lista de caminhos de risco está duplicada no hook e no CODEOWNERS. Mudou
+uma, mude a outra.
 
 **O time é Gabriel e Rafael, com Claude dos dois lados.** Entre 2026-09-11 e
 2026-09-23 o Rafael ficou só com a publicação de packs de wallpaper (conteúdo)
@@ -251,8 +253,9 @@ qualquer coisa sobre escopo dele daqui pra frente.
 Consequência prática enquanto isso não for esclarecido: `engine/` voltou a ter
 duas pessoas editando, o que é exatamente o cenário que gerou o conflito de
 merge do `EffectEngine` no passado (motivo original do PR obrigatório nessas
-áreas). Vale considerar reabrir PR pra `engine/`/`ui/` se o trabalho paralelo
-continuar, mesmo que a regra atual (só `.github/` exige PR) não peça.
+áreas). O PR já é obrigatório pra tudo (ruleset acima), mas com 0 aprovações
+ninguém olha o diff do outro — se o trabalho paralelo continuar, combinar quem
+mexe em qual arquivo vale mais que a regra.
 
 (Até 2026-09-11 o Rafael tocava `engine/` e `assets/atmosfera/` e entregava por
 snapshot; era isso que justificava o PR obrigatório nessas áreas, regra que caiu

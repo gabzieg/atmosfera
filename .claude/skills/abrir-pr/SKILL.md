@@ -22,8 +22,9 @@ servidor, e `--no-verify` não contorna — ele só desliga hooks locais.
 > **Histórico:** este arquivo dizia que só `.github/` exigia PR e "todo o resto
 > pode ir direto na `main`". A lista de áreas de risco encolheu em 2026-08-09 e
 > 2026-09-11 — mas o ruleset do servidor já exigia PR para tudo desde 2026-08-02,
-> e ninguém tinha conferido. A lista ainda existe no `.githooks/pre-push`, no
-> `aviso-push-direto.yml` e no CODEOWNERS; perdeu o efeito prático.
+> e ninguém tinha conferido. A lista ainda existe no `.githooks/pre-push` e no
+> CODEOWNERS e perdeu o efeito prático (o `aviso-push-direto.yml` foi removido
+> em 2026-09-30 — só gerava alarme falso).
 
 > Julgamento que continua valendo: se a mudança altera **que dado é coletado**
 > (mesmo dentro de `weather/`), pare e pense antes — é LGPD. O teste de
@@ -35,7 +36,7 @@ servidor, e `--no-verify` não contorna — ele só desliga hooks locais.
 ```
 chore/<slug>    # mudanças em .github/ (CI, hook, workflows) e build
 front/<slug>    # ui, billing, weather, service
-motor/<slug>    # engine/assets (não exige mais PR; o prefixo só ajuda a ler o log)
+motor/<slug>    # engine/assets
 fix/<slug>      # correção pontual
 doc/<slug>      # documentação
 ```
@@ -85,8 +86,9 @@ verdade; o `/code-review` só levanta o piso do que chega até você.
   Antes de baixar qualquer um dos dois, leia a tabela de prazos no `CLAUDE.md` —
   abaixar reprova a publicação.
 - **Motor agora é nosso (desde 2026-09-11).** `engine/` e `assets/` viraram do
-  Gabriel; edite direto na `main`, como o resto. O Rafael não entrega mais
-  snapshot de código — só publica packs de conteúdo.
+  Gabriel; edite direto (via PR, como o resto). O Rafael não entrega mais
+  snapshot de código, mas voltou a commitar fixes próprios em 2026-09-23 — puxe
+  a `main` antes de mexer no `EffectEngine`.
 - **Segredos.** `*.jks`, `*.keystore`, `local.properties` e a chave de licença do
   Billing nunca entram no diff (o `.gitignore` cobre a maioria, não confie nele).
 - **Cor/espaçamento fora do tema.** Toda cor vem de `ui/theme`; nada de
