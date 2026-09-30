@@ -9,8 +9,11 @@
 # de UI direto na main, de propósito. Um hook que barra tudo contradiz a regra
 # escrita — e regra contraditória é a que ninguém segue.
 #
-# ⚠️ A lista RISCO abaixo é a MESMA de .github/workflows/aviso-push-direto.yml
-# e de .github/CODEOWNERS. Mudou aqui, muda nos dois.
+# ⚠️ A lista RISCO abaixo é a MESMA de .github/CODEOWNERS. Mudou aqui, muda lá.
+# (Havia uma terceira cópia em .github/workflows/aviso-push-direto.yml, removido
+# em 2026-09-30: com o ruleset do servidor exigindo PR pra tudo, ele só gerava
+# alarme falso.) Este hook virou aviso antecipado — o servidor recusa o push de
+# qualquer jeito, com ou sem --no-verify.
 #
 # ENCOLHIDA em 2026-08-09. Antes incluía billing/, AndroidManifest.xml e
 # build.gradle. Saíram porque a proteção virou automática e a revisão humana

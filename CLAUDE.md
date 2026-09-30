@@ -232,11 +232,13 @@ barreira, não como única:
 - `.githooks/pre-push` (ligar com `./scripts/setup-hooks.sh`) — barra push
   direto na `main` em área de risco. Escapa com `git push --no-verify`, mas
   isso só adianta o erro: o servidor recusa depois.
-- `.github/workflows/aviso-push-direto.yml` — abre issue quando um commit que
-  não veio de PR toca área de risco. Avisa depois, não bloqueia.
+- ~~`.github/workflows/aviso-push-direto.yml`~~ — **removido em 2026-09-30.**
+  Abria issue quando um commit "não vindo de PR" tocava área de risco; com o
+  ruleset exigindo PR pra tudo, isso ficou impossível e ele só gerava alarme
+  falso (issue #32: sinalizou um commit que entrou via PR #31).
 
-A lista de caminhos de risco está duplicada nos dois + no CODEOWNERS. Mudou
-uma, mude as três.
+A lista de caminhos de risco está duplicada no hook e no CODEOWNERS. Mudou
+uma, mude a outra.
 
 **O time é Gabriel e Rafael, com Claude dos dois lados.** Entre 2026-09-11 e
 2026-09-23 o Rafael ficou só com a publicação de packs de wallpaper (conteúdo)

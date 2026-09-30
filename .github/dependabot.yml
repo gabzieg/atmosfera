@@ -4,9 +4,9 @@
 #
 # Abre PR sozinho quando uma dependência tem update — o PR passa pelo mesmo
 # gate normal (testDebugUnitTest + lintDebug + assembleDebug + secret-scan)
-# antes de poder mergear. NÃO mergear automático: o teto de versão do
-# Billing/Kotlin (ver gradle/libs.versions.toml) é frágil o bastante pra
-# exigir revisão manual sempre — ver CLAUDE.md, seção "Gotcha grande".
+# antes de poder mergear. NÃO mergear automático, e revisar o PR agrupado item
+# a item: gate verde não prova que o app funciona (ver o `ignore` abaixo e
+# docs/dev/DECISAO-AGP-9-MIGRACAO.md — build verde, app crashando em runtime).
 
 version: 2
 updates:
@@ -21,9 +21,39 @@ updates:
           - "*"
     labels:
       - "dependencies"
-    # Billing e Kotlin têm teto conhecido (ver libs.versions.toml) — o Dependabot
-    # ainda vai abrir PR sugerindo a versão nova (não sabe do teto), mas não
-    # mergear sem revisar contra a nota do arquivo.
+    # Cada item abaixo quebrou (ou exige migração deliberada) em 2026-09 — não é
+    # precaução genérica. Sem isto, o PR agrupado semanal volta a trazer tudo de
+    # uma vez, como o #30 (fechado em 2026-09-29: CI vermelha + AGP 9 revertido).
+    # Subir qualquer um destes é trabalho próprio, numa branch, testado em
+    # release no device — não um bump automático.
+    ignore:
+      # AGP 9: testado e revertido em 2026-09-18 — passou no gate e o app
+      # crashava na abertura; o Kotlin embutido do AGP 9 ainda rebaixa a versão
+      # do Kotlin em silêncio. Ver docs/dev/DECISAO-AGP-9-MIGRACAO.md.
+      - dependency-name: "com.android.application*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "com.android.tools.build:gradle"
+        update-types: ["version-update:semver-major"]
+      # Gradle 9 só faz sentido junto com o AGP 9 (acima).
+      - dependency-name: "gradle-wrapper"
+        update-types: ["version-update:semver-major"]
+      # Retrofit 3 / OkHttp 5: majors com quebra de API. Retrofit está em
+      # 2.12.0 de propósito — foi o fix do crash de clima no release
+      # (ParameterizedType sob R8), commit 5da7ead.
+      - dependency-name: "com.squareup.retrofit2:*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "com.squareup.okhttp3:*"
+        update-types: ["version-update:semver-major"]
+      # lifecycle 2.11+ exige compileSdk 37, acima do teto do AGP 8.13 (ver
+      # a nota em gradle/libs.versions.toml). Faixa em sintaxe Maven.
+      - dependency-name: "androidx.lifecycle:*"
+        versions: ["[2.11,)"]
+      # Kotlin (plugins kotlin.android e plugin.compose): minor novo exige R8
+      # mais novo que o do AGP 8.13 — o 2.4 já precisa de R8 9.1.29. Patch
+      # (2.4.x) segue liberado. O padrão tem ponto de propósito: sem ele,
+      # "org.jetbrains.kotlin*" também pegaria org.jetbrains.kotlinx (coroutines).
+      - dependency-name: "org.jetbrains.kotlin.*"
+        update-types: ["version-update:semver-minor", "version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"

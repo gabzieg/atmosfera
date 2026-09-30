@@ -22,8 +22,9 @@ servidor, e `--no-verify` não contorna — ele só desliga hooks locais.
 > **Histórico:** este arquivo dizia que só `.github/` exigia PR e "todo o resto
 > pode ir direto na `main`". A lista de áreas de risco encolheu em 2026-08-09 e
 > 2026-09-11 — mas o ruleset do servidor já exigia PR para tudo desde 2026-08-02,
-> e ninguém tinha conferido. A lista ainda existe no `.githooks/pre-push`, no
-> `aviso-push-direto.yml` e no CODEOWNERS; perdeu o efeito prático.
+> e ninguém tinha conferido. A lista ainda existe no `.githooks/pre-push` e no
+> CODEOWNERS e perdeu o efeito prático (o `aviso-push-direto.yml` foi removido
+> em 2026-09-30 — só gerava alarme falso).
 
 > Julgamento que continua valendo: se a mudança altera **que dado é coletado**
 > (mesmo dentro de `weather/`), pare e pense antes — é LGPD. O teste de
