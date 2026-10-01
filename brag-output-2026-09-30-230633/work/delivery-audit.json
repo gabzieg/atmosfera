@@ -1,0 +1,15 @@
+{
+  "sensitivePatternFindings": [],
+  "manualVisualReview": "4 storyboard scenes reviewed; fictional data only",
+  "scope": "generated guides/source and storyboard, not final video",
+  "sourceFilesPreserved": "all writes scoped to new delivery directory",
+  "textContrast": {
+    "primaryOnBackground": 17.7,
+    "secondaryOnBackground": 7.18,
+    "secondaryOnSurfaceVariant": 5.92,
+    "cta": 17.32
+  },
+  "mp4Exists": false,
+  "hyperframesCheckPassed": false,
+  "packagedFileCount": 27
+}

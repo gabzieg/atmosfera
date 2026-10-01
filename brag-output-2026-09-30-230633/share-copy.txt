@@ -1,0 +1,1 @@
+Terra: um papel de parede animado que reage ao clima real. Dia e noite, chuva e diferentes cenários na sua tela. Demonstração com dados fictícios.

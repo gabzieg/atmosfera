@@ -1,0 +1,13 @@
+{
+  "referenceOnly": true,
+  "sampleRate": 48000,
+  "channels": 2,
+  "durationSeconds": 20.0,
+  "peakDbfs": -21.03,
+  "rmsDbfs": -34.54,
+  "clippedSamples": 0,
+  "firstSample": 0.0,
+  "lastSample": -3.5783411789225283e-09,
+  "voice": false,
+  "videoAudioNotVerified": true
+}
