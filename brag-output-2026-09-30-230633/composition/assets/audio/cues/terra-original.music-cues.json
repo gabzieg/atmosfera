@@ -1,0 +1,185 @@
+{
+  "duration": 20.0,
+  "tempo": 120,
+  "source": "original deterministic synthesis",
+  "beats": [
+    {
+      "time": 0.0,
+      "intensity": 0.8
+    },
+    {
+      "time": 0.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 1.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 1.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 2.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 2.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 3.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 3.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 4.0,
+      "intensity": 0.8
+    },
+    {
+      "time": 4.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 5.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 5.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 6.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 6.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 7.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 7.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 8.0,
+      "intensity": 0.8
+    },
+    {
+      "time": 8.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 9.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 9.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 10.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 10.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 11.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 11.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 12.0,
+      "intensity": 0.8
+    },
+    {
+      "time": 12.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 13.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 13.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 14.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 14.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 15.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 15.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 16.0,
+      "intensity": 0.8
+    },
+    {
+      "time": 16.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 17.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 17.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 18.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 18.5,
+      "intensity": 0.45
+    },
+    {
+      "time": 19.0,
+      "intensity": 0.45
+    },
+    {
+      "time": 19.5,
+      "intensity": 0.45
+    }
+  ],
+  "strongCues": [
+    {
+      "time": 4,
+      "intensity": 0.8,
+      "kind": "synthesis_bar"
+    },
+    {
+      "time": 10,
+      "intensity": 0.8,
+      "kind": "synthesis_bar"
+    },
+    {
+      "time": 16,
+      "intensity": 0.8,
+      "kind": "synthesis_bar"
+    }
+  ],
+  "license": "CC0-1.0"
+}

@@ -1,0 +1,114 @@
+{
+  "brag-plan.md": {
+    "bytes": 7305,
+    "sha256": "2db3294a1b47b8f2de54894177ec0212a1d7d9ee5b944d03f807fe3a5710a832"
+  },
+  "composition-brief.md": {
+    "bytes": 5059,
+    "sha256": "bf07ae14ee9fedd2a40fffe16918466bdbf6fa6badb78e221e7516c62cc7639e"
+  },
+  "share-copy.txt": {
+    "bytes": 151,
+    "sha256": "58e9808c959de4298c7c1f8a62309056a8a574be060f91d851cf505e964a3354"
+  },
+  "delivery-status.md": {
+    "bytes": 3325,
+    "sha256": "42df704e96c7761bbf5426e9ee1f6f1dc990b2eba656b55e0b7eef316a9b62c1"
+  },
+  "brag.jpg": {
+    "bytes": 228010,
+    "sha256": "f2ca87e72af0bd836fb841d29a002b9a9f74cfe2318324ed222da8ddf3a0dbbb"
+  },
+  "composition/captions.srt": {
+    "bytes": 285,
+    "sha256": "0583579ddf439da08e71e8e0f841d918116709edffedcffdfd596f7485599e53"
+  },
+  "composition/generate-audio.py": {
+    "bytes": 5086,
+    "sha256": "03c050d055db25c5f9509029a2e38f640261092e875c459ca5780bf244474f5c"
+  },
+  "composition/index.html": {
+    "bytes": 14513,
+    "sha256": "711614c953d61c817b04930d55f5ef6dfa93d8761fa18d06cc06275b1c91d9e7"
+  },
+  "composition/LICENSE-audio.txt": {
+    "bytes": 1144,
+    "sha256": "b0a1d22c28f986b25ec577c9b62ddfedae1daf8a3803eab0c72c658b3f8410fa"
+  },
+  "composition/README.md": {
+    "bytes": 1925,
+    "sha256": "b7dd4c1167bd7815e3e7407dee42e203ec974c672694a9bcdc228768ad839ea9"
+  },
+  "composition/timeline.json": {
+    "bytes": 1383,
+    "sha256": "18c91274bc99180958d67b313c2a931b8ae05cdc1af7e56e3c80732b44be247c"
+  },
+  "composition/assets/art/cabana-pixel.png": {
+    "bytes": 1412419,
+    "sha256": "77fc8a99a9eccb0a8b3c6b86ded44c27f2dc13c09a87491993a2bf2328a04409"
+  },
+  "composition/assets/art/jardim-ukiyoe.png": {
+    "bytes": 3086805,
+    "sha256": "a348bfdf25712469b6889dd19b834827cf683130e1e28b983b30c4df7b6e54d5"
+  },
+  "composition/assets/art/lavanda-aquarela.png": {
+    "bytes": 3028178,
+    "sha256": "85b9983ec3c3916d76f3701d5f419df61c6db6bbc180ed80522c2b982c4bef41"
+  },
+  "composition/assets/audio/soft-signature.wav": {
+    "bytes": 201644,
+    "sha256": "196b90f71816b0d85ce2daf7f340c744064226d020e870e313233e9033a8e61f"
+  },
+  "composition/assets/audio/soft-tap.wav": {
+    "bytes": 30764,
+    "sha256": "5f824333ccf346a505a0547c8d173f3965c25dbf4a88d0f8c59df8028b65c030"
+  },
+  "composition/assets/audio/terra-original.wav": {
+    "bytes": 3840044,
+    "sha256": "26525b5a371290abd0bd2afd2b8fe658d83c67d78820d2405a8e3c286f0ce5ae"
+  },
+  "composition/assets/audio/cues/terra-original.music-cues.json": {
+    "bytes": 2844,
+    "sha256": "4ef73635f74dd84851324e8743cf7c3b1a20864a4b7ba96ce1c755718fa43327"
+  },
+  "work/capture-preview.cjs": {
+    "bytes": 5716,
+    "sha256": "a14fa1846610763144f0db9963b64601b23d717e57341c1ca43abd5f10ed30d6"
+  },
+  "work/package-and-audit.py": {
+    "bytes": 4179,
+    "sha256": "3480ffedb1c0c0d36c23ba8b99b65d4f859a53e7f4b3d248b8b1cf0422aaa299"
+  },
+  "work/audio-reference.wav": {
+    "bytes": 3840044,
+    "sha256": "2709b07e1f61a866f4ad08357968103efd84517b857726688ef68a775fa4a264"
+  },
+  "work/audio-analysis.json": {
+    "bytes": 288,
+    "sha256": "822e36378c7c47c601e2a45a607c629a3876aa605939414289fdddd54fc19314"
+  },
+  "work/verification.json": {
+    "bytes": 13121,
+    "sha256": "0f185303bdae657bb4a2d09556b01103cc280637519ace745913d924bdc72689"
+  },
+  "work/scene-01-clima.jpg": {
+    "bytes": 255186,
+    "sha256": "8ab449381d0321f31b789bd8ca6132d358275675a709147126fd264d9ee0379d"
+  },
+  "work/scene-02-noite.jpg": {
+    "bytes": 199231,
+    "sha256": "9365baa0e5cc15c81531b17aa57fb9130afb55ffc0ef335dd3065587d496fe93"
+  },
+  "work/scene-03-cenarios.jpg": {
+    "bytes": 194222,
+    "sha256": "04f4f4dc96eb4c1f312b163d6e943b8d1bfad71a39ae5e225e6732a32c0f15d3"
+  },
+  "work/scene-04-terra.jpg": {
+    "bytes": 332695,
+    "sha256": "0bd22e798ea1e8732f83315f530e04a1a8f01d1c7902b6a03a9c2bc97454f271"
+  },
+  "work/delivery-audit.json": {
+    "bytes": 505,
+    "sha256": "413eb2a43ca820436bdade34ab59c26107806e4fb86070dc0a1c37701e39e753"
+  }
+}

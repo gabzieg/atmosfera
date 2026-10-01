@@ -1,0 +1,9 @@
+Os sons terra-original.wav, soft-tap.wav e soft-signature.wav e o código original de síntese em generate-audio.py foram criados para esta entrega por síntese matemática local, sem samples de terceiros, sem voz e sem serviços externos.
+
+Esses ativos sonoros e o código de síntese original são disponibilizados sob CC0-1.0 (dedicação ao domínio público, na medida permitida por lei). O autor abre mão dos direitos de copyright e direitos conexos sobre esses ativos originais; onde essa renúncia não for possível, concede licença gratuita, mundial, irrevogável e sem condições para uso, cópia, modificação, distribuição e uso comercial. Sem garantia.
+
+Identificador SPDX: CC0-1.0
+
+Esta licença não altera os direitos sobre as artes, o nome, a marca, os sprites ou o código do projeto Terra/Atmosfera. As imagens foram copiadas do próprio projeto exclusivamente para a apresentação autorizada. O usuário deve conservar seus direitos e eventuais licenças já aplicáveis a elas.
+
+Não foram incorporadas faixas ou efeitos de som da skill Brag, pois os arquivos locais não documentam termos de licença suficientes.

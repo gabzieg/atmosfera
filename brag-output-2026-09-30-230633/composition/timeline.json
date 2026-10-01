@@ -1,0 +1,28 @@
+{
+  "status": "prepared_storyboard_not_hyperframes_validated",
+  "product": "Terra",
+  "language": "pt-BR",
+  "width": 1920,
+  "height": 1080,
+  "duration": 20,
+  "fps": 30,
+  "frames": 600,
+  "voice": false,
+  "fictionalData": {"city": "Cidade Demo", "temperature": 22, "feelsLike": 21, "wind": 8},
+  "scenes": [
+    {"start": 0, "end": 4, "title": "O clima mudou. Sua tela também.", "feature": "Clima real", "demo": "cabana-pixel, céu limpo para chuva simulada"},
+    {"start": 4, "end": 10, "title": "Do dia à noite.", "feature": "Dia e noite", "demo": "cabana-pixel, passagem de tempo simulada"},
+    {"start": 10, "end": 16, "title": "Escolha seu cenário.", "feature": "Meus cenários", "demo": "Início recriada, seleção jardim-ukiyoe, indicação do CTA"},
+    {"start": 16, "end": 20, "title": "Terra. Cenário animado. Clima real.", "feature": "Terra", "demo": "jardim-ukiyoe e coleção"}
+  ],
+  "audio": {
+    "music": "assets/audio/terra-original.wav",
+    "tempo": 120,
+    "musicGainInReference": 0.55,
+    "events": [
+      {"time": 11.5, "src": "assets/audio/soft-tap.wav", "gain": 0.38, "action": "selecionar jardim"},
+      {"time": 14.5, "src": "assets/audio/soft-tap.wav", "gain": 0.28, "action": "indicar definir papel de parede"},
+      {"time": 18.5, "src": "assets/audio/soft-signature.wav", "gain": 0.28, "action": "encerramento de marca"}
+    ]
+  }
+}
