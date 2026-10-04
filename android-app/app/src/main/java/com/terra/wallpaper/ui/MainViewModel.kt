@@ -63,7 +63,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     private val cenaPrefs = context.getSharedPreferences("atmosfera_cena", Context.MODE_PRIVATE)
     private val locationHelper = LocationHelper(context)
-    private val weatherRepo = WeatherRepository()
+    private val weatherRepo = WeatherRepository(context)
     private val weatherCache = WeatherCache(context)
     
     val billingManager = BillingManager(context) { onPremiumMudou(it) }

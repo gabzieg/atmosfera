@@ -14,7 +14,7 @@ nativo sobre uma arte de fundo fixa (sprites, não vídeo/imagens pré-renderiza
 | **Motor de efeitos** | Recebe um `SceneState` (clima + hora + plano) e desenha o cenário a cada frame combinando a arte de fundo com sprites animados. | `engine/` + `assets/atmosfera/` |
 | **Serviço de wallpaper** | Hospeda o motor como `WallpaperService`, busca o clima e repassa pro motor. | `service/` |
 | **App companion** | Tela Início (clima + preview + "Definir papel de parede"), Loja (cenários, Premium, compras avulsas) e Ajustes. Jetpack Compose, Material 3. | `ui/` |
-| **Clima** | Open-Meteo (sem chave), localização via `FusedLocationProviderClient`, cache 30 min, atualização via `WorkManager`. | `weather/` |
+| **Clima** | MET Norway (sem chave; User-Agent + cache HTTP exigidos pelos termos), localização via `FusedLocationProviderClient`, cache 30 min, atualização via `WorkManager`. | `weather/` |
 | **Compras** | Google Play Billing — Premium (compra única global) + cenários avulsos. | `billing/` |
 | **Painel de debug** | Força clima/hora/vento pra calibrar efeitos sem depender do clima real. Só em builds debug. | `debug/` |
 
@@ -24,7 +24,7 @@ nativo sobre uma arte de fundo fixa (sprites, não vídeo/imagens pré-renderiza
 |---|---|
 | **Renderização** | Kotlin + Android `Canvas` (sprites, sem OpenGL) |
 | **UI** | Jetpack Compose (Material 3) |
-| **Clima** | Open-Meteo API (gratuita, sem chave) |
+| **Clima** | MET Norway Locationforecast 2.0 (gratuita para uso comercial, sem chave, CC BY 4.0) |
 | **Localização** | Google Play Services FusedLocationProvider |
 | **Compras** | Google Play Billing 9.1.0 |
 | **Build** | Kotlin 2.4.10 · AGP 8.13.2 · Gradle 8.14.5 · JDK 17 · compileSdk/targetSdk 36 · minSdk 26 |
@@ -152,5 +152,5 @@ publicar, ver [docs/dev/CHECKLIST_PUBLICACAO.md](docs/dev/CHECKLIST_PUBLICACAO.m
 | "PERMISSION_DENIED" de localização | Normal sem conceder a permissão — cai no fallback de São Paulo/SP |
 | Emulador muito lento | Confirme virtualização por hardware ativa (HAXM/KVM) |
 
-**Logcat — filtros úteis:** `tag:WeatherRepository` (chamadas à Open-Meteo),
+**Logcat — filtros úteis:** `tag:WeatherRepository` (chamadas à MET Norway),
 `tag:LocationHelper`, `tag:WeatherCache`.

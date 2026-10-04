@@ -3,57 +3,20 @@ package com.terra.wallpaper.weather
 import com.terra.wallpaper.engine.SceneState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import java.util.Calendar
 
 /**
- * Leitura do quarto de hora e a regra "a água manda na chuva" (03/09).
+ * A regra "a água manda na chuva" (03/09).
  *
- * Nasceu da queixa de que o wallpaper não correspondia ao clima real. Aqui está
- * o que dá pra provar sem Android nem rede: qual bloco de 15 min é o corrente,
- * e o que acontece quando a lâmina em mm discorda do código WMO.
+ * Nasceu da queixa de que o wallpaper não correspondia ao clima real: o código
+ * do tempo é uma categoria e arredonda, a lâmina em mm é o dado bruto. A regra
+ * sobreviveu à troca da Open-Meteo pela MET Norway (2026-10-03) — o que mudou
+ * foi só de onde vem a mm (hora/4 em vez do bloco de 15 min). Este arquivo se
+ * chamava `BlocoQuartoDeHoraTest` e testava também a escolha do bloco de 15 min,
+ * que deixou de existir; a escolha do passo da MET está em `MetNorwayTest`.
  */
-class BlocoQuartoDeHoraTest {
-
-    private fun serie(vararg t: Pair<String, Pair<Int?, Double?>>) = Minutely15Response(
-        time = t.map { it.first },
-        precipitation = t.map { it.second.second },
-        weatherCode = t.map { it.second.first },
-    )
-
-    @Test
-    fun `pega o ultimo bloco que ja comecou`() {
-        val m = serie(
-            "2026-09-03T13:45" to (3 to 0.0),
-            "2026-09-03T14:00" to (61 to 0.3),
-            "2026-09-03T14:15" to (65 to 2.0),
-        )
-        val b = blocoAtual(m, "2026-09-03T14:07")
-        assertNotNull(b)
-        assertEquals(61, b!!.weatherCode)
-        assertEquals(0.3, b.precipMm, 0.0001)
-    }
-
-    @Test
-    fun `no instante exato do bloco vale o proprio bloco`() {
-        val m = serie("2026-09-03T14:00" to (61 to 0.3), "2026-09-03T14:15" to (65 to 2.0))
-        assertEquals(65, blocoAtual(m, "2026-09-03T14:15")!!.weatherCode)
-    }
-
-    @Test
-    fun `serie que so comeca no futuro nao tem bloco corrente`() {
-        val m = serie("2026-09-03T15:00" to (61 to 0.3))
-        assertNull(blocoAtual(m, "2026-09-03T14:07"))
-    }
-
-    @Test
-    fun `sem minutely_15 nao ha bloco`() {
-        assertNull(blocoAtual(null, "2026-09-03T14:07"))
-        assertNull(blocoAtual(Minutely15Response(), "2026-09-03T14:07"))
-    }
+class RegraDaChuvaTest {
 
     @Test
     fun `intensidade sai da lamina em mm`() {
@@ -77,18 +40,6 @@ class BlocoQuartoDeHoraTest {
     }
 
     @Test
-    fun `agoraIsoLocal tem a largura fixa que a comparacao de texto exige`() {
-        val c = Calendar.getInstance().apply { set(2026, Calendar.JANUARY, 5, 7, 3, 0) }
-        assertEquals("2026-01-05T07:03", agoraIsoLocal(c))
-    }
-
-    // ── A regra de decisão, como o repositório aplica ────────────────────────
-    // (mesma expressão do fetchWeather; o teste existe pra ela não ser trocada
-    // sem querer — é ela que liga a chuva na tela.)
-    private fun codigoEfetivo(codigo: Int, mm: Double): Int =
-        if (mm >= 0.05 && !codigo.temPrecipitacao()) codigoPorChuva(mm) else codigo
-
-    @Test
     fun `agua caindo liga a chuva mesmo com codigo de ceu`() {
         // O caso que motivou tudo: garoa fina que o código arredonda pra
         // "encoberto" — o wallpaper ficava seco com chuva na rua.
@@ -109,6 +60,17 @@ class BlocoQuartoDeHoraTest {
         // 95 é trovoada: a mm não pode rebaixar isso a "chuva fraca".
         assertEquals(95, codigoEfetivo(95, 0.2))
         assertEquals(75, codigoEfetivo(75, 1.0))  // neve continua neve
+    }
+
+    @Test
+    fun `mm por hora da MET dividida por 4 cai na regua do quarto de hora`() {
+        // 0,3 mm/h (pancada fraca real de São Paulo, 04/10) → 0,075 no quarto
+        // de hora: acima do piso de 0,05, liga chuva fraca mesmo sob "cloudy".
+        assertEquals(61, codigoEfetivo(3, 0.3 / 4))
+        // 0,1 mm/h → 0,025: resíduo, a cena fica seca.
+        assertEquals(3, codigoEfetivo(3, 0.1 / 4))
+        // 6 mm/h → 1,5: forte, igual à régua antiga.
+        assertEquals(65, codigoEfetivo(3, 6.0 / 4))
     }
 
     @Test

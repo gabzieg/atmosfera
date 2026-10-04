@@ -35,7 +35,7 @@ class PermissoesDeclaradasTest {
      * entrar.
      */
     private val esperadas = setOf(
-        // Buscar o clima na Open-Meteo.
+        // Buscar o clima na MET Norway.
         "android.permission.INTERNET",
         "android.permission.ACCESS_NETWORK_STATE",
         // Localização APROXIMADA apenas — escolhe a cidade do clima.

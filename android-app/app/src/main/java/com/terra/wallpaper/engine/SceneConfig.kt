@@ -92,7 +92,7 @@ class SceneState {
     }
 
     companion object {
-        /** Mapeia o clima real (Open-Meteo) para o estado do motor. */
+        /** Mapeia o clima real (MET Norway, via `WeatherRepository`) para o estado do motor. */
         fun aplicarClima(s: SceneState, w: WeatherState, premium: Boolean) {
             s.premium = premium
             s.temp = w.temperatureCelsius.toFloat()

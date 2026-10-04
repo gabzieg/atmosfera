@@ -11,7 +11,7 @@
 > de um `mailto:` — decisão do usuário: além do endereço de contato, a página
 > precisa dizer **o que acontece com os dados** de quem escreve.
 
-**Última atualização:** 16 de setembro de 2026
+**Última atualização:** 3 de outubro de 2026
 
 ---
 
@@ -66,7 +66,8 @@ consultar o clima — detalhes em [PRIVACIDADE.md](PRIVACIDADE.md).
 
 Para não obrigar você a abrir a política inteira:
 
-- **Localização aproximada** → enviada só à Open-Meteo, para saber o clima.
+- **Localização aproximada** → enviada só à MET Norway (Instituto
+  Meteorológico da Noruega), arredondada para cerca de 1 km, para saber o clima.
   Sem ela, o app usa São Paulo (SP) e funciona igual. Nunca vai pro servidor
   de conteúdo abaixo.
 - **Preferências** (cenário, arte, estilo, Premium) → ficam só no aparelho.

@@ -6,7 +6,7 @@ a árvore de arquivos. Objetivo: não precisar reler o app inteiro a cada sessã
 ## O que é o projeto
 
 Live wallpaper Android (`android-app/`) que desenha uma cena animada reagindo
-ao clima real (Open-Meteo) — chuva, neve, nuvens, sol/lua, vento, névoa, fumaça
+ao clima real (MET Norway) — chuva, neve, nuvens, sol/lua, vento, névoa, fumaça
 de chaminé — via um motor de partículas em `Canvas`, não vídeo/imagem. Tem um
 app companion em Compose (Início/Loja/Ajustes) pra ativar o wallpaper e vender
 Premium + cenários extras via Google Play Billing.
@@ -38,7 +38,7 @@ Documentação de apoio (leia sob demanda, não de cara):
 | `engine/` | `EffectEngine`, `SceneState`, `Atlas`, `Catalogo`, `Cena`, mais o suporte multi-cenário/multi-estilo (`Cenario.kt`/`Cenas`/`CenaCfg`, `Estilo.kt`/`Estilos`/`EstiloCfg`, prefs `ArteFundo` e `EstiloEfeito`) — desenha o wallpaper. `carregar(assets, cenaId, arte, estilo)` recarrega os assets do cenário/estilo escolhido | Motor (ver docs/dev/HANDOFF-FRONTEND.md) |
 | `service/` | `AtmosferaWallpaperService` — hospeda o motor, busca clima, repassa pro motor | Front |
 | `ui/` | Compose: `MainScreen` (Scaffold/NavHost/BottomNav), `HomeTab`, `StoreTab`, `SettingsTab`, `theme/`, `components/` | Front |
-| `weather/` | `WeatherRepository` (Open-Meteo/Retrofit), `WeatherCache`, `LocationHelper`, `WeatherWorker` | Front |
+| `weather/` | `WeatherRepository` (MET Norway/Retrofit), `WeatherCache`, `LocationHelper`, `WeatherWorker` | Front |
 | `billing/` | `BillingManager`, `Plano` (flag Premium local) | Front (Gabriel) |
 | `debug/` | `DebugActivity`/`DebugOverride` — painel de teste, só builds debug, sem entrada na navegação normal | Front (ferramenta interna) |
 
