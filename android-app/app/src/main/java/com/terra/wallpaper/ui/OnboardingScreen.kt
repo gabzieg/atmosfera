@@ -412,7 +412,7 @@ private fun PassoLocalizacao(
             color = MaterialTheme.colorScheme.onSurface,
         )
         Text(
-            "O Terra envia a localização aproximada somente à Open-Meteo para consultar " +
+            "O Terra envia a localização aproximada somente à MET Norway para consultar " +
                 "o clima. A informação recebida fica no seu aparelho.",
             fontSize = 15.sp,
             lineHeight = 22.sp,

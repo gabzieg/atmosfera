@@ -73,7 +73,7 @@ Usar testadores de licença e a distribuição Play apropriada. [Integração Bi
 
 ## Prioridade 4 — Clima comercial, legal e ficha (B04–B06)
 
-- [ ] Regularizar o provedor para uso comercial, confirmar atribuição e custos. [Open-Meteo](https://open-meteo.com/en/terms).
+- [x] Regularizar o provedor para uso comercial, confirmar atribuição e custos — 2026-10-03: trocado para a [MET Norway](https://api.met.no/doc/TermsOfService) (uso comercial gratuito, atribuição CC BY 4.0). Ver `CHECKLIST_PUBLICACAO.md`.
 - [x] Três conjuntos HTML sincronizados manualmente e teste docs/assets aprovado.
 - [x] Identidade/contato/URL preenchidos nos HTML — validade e correspondência com titular ainda precisam de conferência.
 - [ ] Atualizar os Markdown canônicos, ainda com placeholders e divergências.

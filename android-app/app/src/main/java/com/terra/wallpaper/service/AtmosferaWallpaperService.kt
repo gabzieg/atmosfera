@@ -174,7 +174,7 @@ class AtmosferaWallpaperService : WallpaperService() {
             try {
                 val cache = WeatherCache(applicationContext)
                 val loc = LocationHelper(applicationContext)
-                val repo = WeatherRepository()
+                val repo = WeatherRepository(applicationContext)
                 val onde = loc.getLocalizacao()
                 val lat = onde.lat
                 val lon = onde.lon

@@ -12,13 +12,21 @@
 > agora é feita por teste: `PoliticaBatecomManifestoTest` quebra o gate se a
 > política divergir das permissões do manifesto.
 
-**Última atualização:** 29 de setembro de 2026 · confere com o app 1.0.3
+**Última atualização:** 3 de outubro de 2026 · confere com o código da `main` após a troca para a MET Norway
+
+> **Mudança de 03/10:** o clima saiu da Open-Meteo (API gratuita só para uso
+> não comercial) e foi para a MET Norway. **Nenhuma resposta do formulário
+> muda de categoria**: continua só "Localização aproximada", compartilhada com
+> o serviço de clima para funcionalidade do app. Muda apenas o nome do
+> destinatário na política (§6.1) e as coordenadas, que agora saem
+> arredondadas para ~1 km. O cabeçalho User-Agent que a MET exige leva o nome
+> do app e o e-mail de suporte — dado nosso, não do usuário.
 
 > **Mudança de 29/09:** o app passou a baixar alguns cenários/artes sob
 > demanda de um servidor de arquivos (Cloudflare R2) — ver
 > `docs/legal/PRIVACIDADE.md` §3.8/§6.5. Isso **não adiciona nenhum tipo de
 > dado novo** ao formulário (ver "Download de conteúdo (R2)" abaixo) — é a
-> mesma categoria de tráfego que a Open-Meteo já tinha (endereço IP inerente à
+> mesma categoria de tráfego que o serviço de clima já tinha (endereço IP inerente à
 > requisição, não coletado nem usado pra identificar ninguém).
 
 ---
@@ -40,8 +48,8 @@ O Data Safety só aparece depois que o app existe no Play Console. Ordem:
 
 | Pergunta | Resposta | Base no código |
 |---|---|---|
-| O app coleta ou compartilha algum dos tipos de dados exigidos? | **Sim** | Localização é enviada à Open-Meteo |
-| Todos os dados são criptografados em trânsito? | **Sim** | `WeatherRepository` usa `https://api.open-meteo.com/`; o download de conteúdo (`Acervo.kt`) usa HTTPS contra o bucket R2 |
+| O app coleta ou compartilha algum dos tipos de dados exigidos? | **Sim** | Localização é enviada à MET Norway |
+| Todos os dados são criptografados em trânsito? | **Sim** | `WeatherRepository` usa `https://api.met.no/`; o download de conteúdo (`Acervo.kt`) usa HTTPS contra o bucket R2 |
 | Você fornece um meio de o usuário pedir exclusão dos dados? | **Sim** | Nenhum servidor nosso guarda dado pessoal — limpar dados do app ou desinstalar apaga tudo do lado do usuário, descrito na política §10 |
 
 ### Passo 2 — Tipos de dados
@@ -54,7 +62,7 @@ menos.
 | Campo | Resposta |
 |---|---|
 | Coletado | Sim |
-| Compartilhado | **Sim** — enviado à Open-Meteo |
+| Compartilhado | **Sim** — enviado à MET Norway (arredondado para ~1 km) |
 | Obrigatório? | **Opcional** (o app funciona sem; cai no fallback de São Paulo/SP) |
 | Finalidade | **Funcionalidade do app** |
 | Processado de forma efêmera? | Não (fica em cache local) |
@@ -83,7 +91,7 @@ Google coleta, e isso é declarado por ele, não por você.
 `Acervo.kt` baixa arquivo de cenário/arte de um bucket Cloudflare R2 quando o
 usuário toca em aplicar (política §3.8). A requisição HTTP carrega, de forma
 inerente, o endereço IP do aparelho — exatamente a mesma situação que a
-consulta à Open-Meteo já tinha, e que este guia nunca tratou como "Device or
+consulta de clima já tinha, e que este guia nunca tratou como "Device or
 other IDs" coletado. Não há usuário, sessão, token nem qualquer identificador
 enviado junto do pedido: `Acervo.baixarArte()` recebe só `cena`/`arte`/URL, sem
 parâmetro de conta, e a posse do conteúdo é validada pelo `Plano`/`Catalogo`

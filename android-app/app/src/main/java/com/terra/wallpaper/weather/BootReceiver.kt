@@ -24,7 +24,7 @@ class WeatherWorker(
         override suspend fun doWork(): Result {
         return try {
             val cache = WeatherCache(applicationContext)
-            val repo = WeatherRepository()
+            val repo = WeatherRepository(applicationContext)
 
             val loc = cache.cachedLocation()
             if (loc != null) {

@@ -12,9 +12,9 @@
 > `billing/`, no `AndroidManifest.xml` ou a entrada de um SDK de anúncios/
 > analytics invalida o texto abaixo. Ver seção 13.
 
-**Versão da política:** 1.1
+**Versão da política:** 1.2
 **Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.0
-**Última atualização:** 29 de setembro de 2026
+**Última atualização:** 3 de outubro de 2026
 **Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
 
 ---
@@ -26,8 +26,9 @@ Este resumo é uma cortesia e não substitui o texto completo abaixo.
 - O Terra usa a **localização aproximada** do seu aparelho para descobrir o
   clima da sua região e desenhar o papel de parede de acordo (chuva, neve, sol,
   vento, neblina).
-- Essas coordenadas são enviadas **apenas** ao serviço de meteorologia
-  **Open-Meteo**, por conexão criptografada, para consultar a previsão. Sua
+- Essas coordenadas são enviadas **apenas** ao serviço de meteorologia do
+  **Instituto Meteorológico da Noruega (MET Norway)**, arredondadas para cerca
+  de 1 km e por conexão criptografada, para consultar a previsão. Sua
   localização **nunca** passa por nenhum servidor nosso — nem o de clima, nem
   o de entrega de conteúdo descrito abaixo.
 - **Não há conta de usuário, login, cadastro, anúncios, analytics, rastreamento
@@ -83,8 +84,9 @@ O Terra não pede cadastro e não cria identificador de usuário. Tudo abaixo
   balanceada**, não GPS de alta precisão — o resultado costuma ter resolução de
   bairro/cidade, e não a sua posição exata.
 - **Para quê:** consultar a condição meteorológica atual do local (temperatura,
-  sensação térmica, código de tempo, vento, umidade, dia/noite, nascer e pôr do
-  sol) e traduzir isso na cena animada do papel de parede. É a função central do
+  condição do tempo, chuva, nuvens, vento e umidade), calcular no próprio
+  aparelho a sensação térmica e os horários de nascer e pôr do sol, e traduzir
+  isso na cena animada do papel de parede. É a função central do
   produto: sem clima do lugar certo, o app não faz o que promete.
 - **Quando acontece:** ao abrir o app, quando o papel de parede fica visível e
   em uma verificação periódica em segundo plano, apenas com rede disponível. O
@@ -92,8 +94,10 @@ O Terra não pede cadastro e não cria identificador de usuário. Tudo abaixo
   Atualizar clima (15, 30 ou 60 minutos; o padrão é 30). Consultas são evitadas
   se o clima em cache ainda estiver fresco (dentro do intervalo escolhido) e
   você não tiver se deslocado mais de ~5 km.
-- **Para onde vai:** as coordenadas são enviadas ao serviço **Open-Meteo**
-  (seção 6.1) por HTTPS, como parâmetros da consulta de previsão. Não são
+- **Para onde vai:** as coordenadas são enviadas ao serviço da **MET Norway**
+  (seção 6.1) por HTTPS, como parâmetros da consulta de previsão,
+  **arredondadas para duas casas decimais** (cerca de 1 km) antes de sair do
+  aparelho. Não são
   enviadas a mais ninguém — nem ao servidor de entrega de conteúdo descrito na
   seção 3.8, que não tem qualquer acesso a essa informação.
 - **Onde fica guardada:** no armazenamento privado do app, no seu aparelho
@@ -105,22 +109,27 @@ O Terra não pede cadastro e não cria identificador de usuário. Tudo abaixo
   Para usuários no Espaço Econômico Europeu / Reino Unido, o fundamento
   equivalente é o art. 6(1)(a) do GDPR.
 - **É opcional:** se você negar ou revogar a permissão, o app usa coordenadas
-  fixas de São Paulo (RS, Brasil) e continua funcionando normalmente. Nenhuma
+  fixas de São Paulo (SP, Brasil) e continua funcionando normalmente. Nenhuma
   funcionalidade é bloqueada; só o clima deixa de ser o seu.
 
 ### 3.2 Endereço IP
 
-Toda consulta de previsão é uma requisição HTTPS à Open-Meteo e, como em
+Toda consulta de previsão é uma requisição HTTPS à MET Norway e, como em
 qualquer acesso à internet, o endereço IP do seu aparelho é visível para esse
 serviço e para a sua operadora. Não coletamos, não recebemos e não registramos
-esse IP — ele é tratado pela Open-Meteo conforme a política dela (seção 6.1).
+esse IP — ele é tratado pela MET Norway conforme a política dela (seção 6.1).
+A requisição também leva o nome e a versão do app e o nosso e-mail de suporte,
+como a MET exige de todo aplicativo que usa o serviço; nada disso identifica
+você.
 Base legal: legítimo interesse na operação técnica do serviço (art. 7º, IX da
 LGPD).
 
 ### 3.3 Dados meteorológicos recebidos
 
-Temperatura, sensação térmica, código de condição (WMO), velocidade do vento,
-umidade, indicador de dia/noite, horários de nascer e pôr do sol. São dados
+Temperatura, condição do tempo, quantidade de chuva, cobertura de nuvens,
+velocidade do vento e umidade, recebidos da MET Norway; e sensação térmica,
+indicador de dia/noite e horários de nascer e pôr do sol, calculados no
+aparelho a partir deles. São dados
 sobre o ambiente, não sobre você — mas ficam guardados junto das coordenadas no
 cache local, e por isso constam aqui. Retenção e descarte: seção 8.
 
@@ -180,7 +189,7 @@ pela política do Google.
   servidor em nenhuma hipótese**; ele não sabe qual é o clima do seu
   aparelho, nem precisa saber. Como em qualquer requisição HTTP, o endereço
   IP do seu aparelho é inerentemente visível ao operador da infraestrutura
-  (seção 6.5), do mesmo jeito que já descrevemos para a Open-Meteo na
+  (seção 6.5), do mesmo jeito que já descrevemos para a MET Norway na
   seção 3.2.
 - **O que volta:** o arquivo de imagem/pacote da arte, público para quem tiver
   o endereço — mas isso não libera o cenário no app: a posse é sempre
@@ -217,7 +226,7 @@ Declarado de forma explícita, porque a ausência também é informação:
 
 | Permissão | Para que é usada | Se você negar |
 |---|---|---|
-| `INTERNET`, `ACCESS_NETWORK_STATE` | Consultar a previsão do tempo na Open-Meteo e checar se há rede | Sem previsão; o app usa o último clima em cache ou o estado padrão |
+| `INTERNET`, `ACCESS_NETWORK_STATE` | Consultar a previsão do tempo na MET Norway e checar se há rede | Sem previsão; o app usa o último clima em cache ou o estado padrão |
 | `ACCESS_COARSE_LOCATION` | Obter as coordenadas para a consulta de clima (seção 3.1). O app pede apenas **localização aproximada** — precisão balanceada, nunca GPS de alta precisão | O app usa São Paulo (SP) como local padrão e segue funcionando |
 | `RECEIVE_BOOT_COMPLETED` | Reagendar a atualização periódica de clima depois de reiniciar o aparelho | A atualização periódica volta a ser agendada na próxima vez que você abrir o app |
 
@@ -229,18 +238,25 @@ Não vendemos nem compartilhamos dados para fins de marketing. Os únicos
 terceiros envolvidos são os operadores técnicos abaixo, cada um com finalidade
 específica.
 
-### 6.1 Open-Meteo — previsão do tempo
+### 6.1 MET Norway — previsão do tempo
 
-- **Operador:** OpenMeteo GmbH (Suíça).
-- **O que recebe:** as coordenadas da consulta e, inerentemente à requisição, o
-  endereço IP do aparelho. Nada mais: nenhum identificador de usuário ou de
+- **Operador:** Meteorologisk institutt — Instituto Meteorológico da Noruega
+  (MET Norway), órgão público norueguês. Servidores próprios na Europa (Oslo,
+  Noruega).
+- **O que recebe:** as coordenadas da consulta, arredondadas para cerca de
+  1 km, e, inerentemente à requisição, o endereço IP do aparelho. Também recebe
+  a identificação do app (nome, versão e nosso e-mail de suporte), exigida
+  pelos termos de uso do serviço. Nenhum identificador de usuário ou de
   aparelho é enviado, e o serviço é consultado sem chave de API vinculada a você.
 - **Por quê:** é a fonte dos dados meteorológicos que o papel de parede
-  representa.
-- **Segundo a política deles:** podem manter arquivos de log de servidor que
-  contenham informações como coordenadas geográficas, para diagnóstico, e esses
-  logs são **excluídos após 90 dias**.
-- **Política:** <https://open-meteo.com/en/terms>
+  representa. Os dados são publicados pela MET Norway sob a licença
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+- **Segundo a política deles:** o tráfego é registrado para detectar abusos e
+  ataques, resolver problemas e gerar estatísticas anonimizadas de uso; nos
+  serviços públicos de dados meteorológicos, os endereços IP são guardados
+  **por até 90 dias**. Os logs podem conter as coordenadas consultadas.
+- **Política:** <https://www.met.no/en/About-us/privacy> · Termos do serviço:
+  <https://api.met.no/doc/TermsOfService>
 
 ### 6.2 Google Play Services (Localização) — Google LLC
 
@@ -279,7 +295,8 @@ esbarra no fato de não mantermos base de dados alguma.
 
 ## 7. Transferência internacional de dados
 
-As coordenadas trafegam para a Open-Meteo, cujo operador está na **Suíça**; os
+As coordenadas trafegam para a MET Norway, órgão público com servidores na
+**Noruega** (Espaço Econômico Europeu, sujeito ao GDPR); os
 serviços do Google podem tratar dados nos **Estados Unidos** e em outros países;
 e o download de conteúdo do acervo (seção 3.8) passa pela infraestrutura da
 Cloudflare, também com presença nos **Estados Unidos**. Essas transferências
@@ -295,7 +312,7 @@ respectivos operadores.
 | Coordenadas + último clima (cache) | Seu aparelho | Apenas o registro mais recente; sobrescrito a cada nova consulta (no máximo uma vez por intervalo escolhido em Ajustes — 15, 30 ou 60 min). Apagado ao limpar os dados do app ou desinstalar |
 | Preferências (cenário, arte, estilo, Premium) | Seu aparelho | Enquanto o app estiver instalado |
 | Backup do sistema | Sua conta Google | Conforme a política de backup do Android/Google, sob seu controle |
-| Coordenadas em logs da Open-Meteo | Servidores da Open-Meteo | Até 90 dias, conforme a política deles |
+| Coordenadas e IP em logs da MET Norway | Servidores da MET Norway (Noruega) | Até 90 dias, conforme a política deles |
 | Logs de acesso ao download de conteúdo (seção 3.8) | Infraestrutura da Cloudflare | Conforme a política deles (seção 6.5) — nunca inclui sua localização |
 | Histórico de compras | Sua conta Google | Conforme a política do Google |
 
@@ -305,7 +322,8 @@ identifique você.
 
 ## 9. Segurança
 
-- Toda comunicação com a Open-Meteo usa **HTTPS/TLS**.
+- Toda comunicação com a MET Norway usa **HTTPS/TLS**, e as coordenadas saem
+  do aparelho arredondadas para cerca de 1 km.
 - Cache e preferências ficam no armazenamento privado do app
   (`MODE_PRIVATE`), inacessível a outros aplicativos.
 - Compras são validadas por **verificação de assinatura criptográfica** do
@@ -410,5 +428,6 @@ O texto canônico desta política é o **português do Brasil**, publicado em [h
 
 | Versão | Data | Mudança |
 |---|---|---|
+| 1.2 | 3 de outubro de 2026 | Troca o fornecedor de previsão do tempo: sai a Open-Meteo (Suíça), entra a MET Norway (Noruega) — seções 3.1, 3.2, 3.3, 5, 6.1, 7, 8 e 9. As coordenadas passam a sair do aparelho arredondadas para cerca de 1 km; sensação térmica e nascer/pôr do sol passam a ser calculados no aparelho. Corrigida a sigla do estado de São Paulo na seção 3.1. |
 | 1.1 | 29 de setembro de 2026 | Adiciona a entrega de conteúdo via Cloudflare R2 (novo servidor, seções 3.8 e 6.5) — cenários e artes fora do catálogo grátis passam a ser baixados sob demanda. A localização nunca é enviada a esse servidor. Revisadas as seções 4, 7, 8 e 9, que afirmavam categoricamente a ausência de qualquer servidor. |
 | 1.0 | [PREENCHER: data da primeira publicação] | Versão inicial, referente ao Terra 1.0.0 |

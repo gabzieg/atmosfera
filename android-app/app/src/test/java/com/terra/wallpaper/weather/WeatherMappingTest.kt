@@ -1,13 +1,16 @@
 package com.terra.wallpaper.weather
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Test
 
 /**
- * Primeiros testes do projeto. Cobrem a tradução do código WMO cru da Open-Meteo
- * para o domínio do app — lógica pura, sem Android, o ponto onde um número errado
- * passa despercebido (o `assembleDebug` compila mesmo com o mapa trocado).
+ * Primeiros testes do projeto. Cobrem a tradução do código WMO para o domínio
+ * do app — lógica pura, sem Android, o ponto onde um número errado passa
+ * despercebido (o `assembleDebug` compila mesmo com o mapa trocado). O código
+ * WMO vinha cru da Open-Meteo; desde 2026-10-03 sai do `symbol_code` da MET
+ * Norway (ver `MetNorwayTest`), mas o mapa WMO → condição é o mesmo.
+ * (Os testes de `horaDeIso` saíram junto com ele: o nascer/pôr do sol agora é
+ * calculado no aparelho.)
  */
 class WeatherMappingTest {
 
@@ -53,20 +56,5 @@ class WeatherMappingTest {
         assertEquals("Neve", 75.toWeatherDescription())
         assertEquals("Trovoada com granizo", 99.toWeatherDescription())
         assertEquals("Condição desconhecida", 12345.toWeatherDescription())
-    }
-
-    @Test
-    fun `horaDeIso extrai hora fracionaria do ISO`() {
-        assertEquals(6.2f, horaDeIso("2026-07-07T06:12")!!, 0.001f)
-        assertEquals(18.0f, horaDeIso("2026-07-07T18:00")!!, 0.001f)
-        assertEquals(0.5f, horaDeIso("2026-01-01T00:30")!!, 0.001f)
-    }
-
-    @Test
-    fun `horaDeIso devolve null em entrada invalida`() {
-        assertNull(horaDeIso(null))
-        assertNull(horaDeIso("2026-07-07"))        // sem parte de hora (sem 'T')
-        assertNull(horaDeIso("2026-07-07T"))       // 'T' mas nada depois
-        assertNull(horaDeIso("2026-07-07Txx:yy"))  // hora não numérica
     }
 }

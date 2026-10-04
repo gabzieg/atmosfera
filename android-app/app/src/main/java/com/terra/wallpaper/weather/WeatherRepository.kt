@@ -1,95 +1,110 @@
 package com.terra.wallpaper.weather
 
+import android.content.Context
 import android.util.Log
 import com.terra.wallpaper.BuildConfig
 import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import java.util.Calendar
-import java.util.Locale
+import java.io.File
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.util.concurrent.TimeUnit
+import kotlin.math.acos
+import kotlin.math.asin
+import kotlin.math.cos
+import kotlin.math.exp
+import kotlin.math.roundToInt
+import kotlin.math.sin
 
-// ─── Modelos de resposta Open-Meteo ──────────────────────────────────────────
+// ─── Fornecedor: MET Norway (Locationforecast 2.0) ───────────────────────────
+//
+// Trocado da Open-Meteo em 2026-10-03: a API gratuita da Open-Meteo é só para
+// uso NÃO comercial, e o Terra vende Premium e cenários. A MET Norway (instituto
+// meteorológico estatal da Noruega) libera uso comercial de graça, com quatro
+// condições — todas atendidas aqui, não remova nenhuma sem reler os termos
+// (https://api.met.no/doc/TermsOfService):
+//   1. User-Agent identificando o app + contato ([USER_AGENT]); sem ele, 403.
+//   2. Cache respeitando `Expires`/`Last-Modified` — o `Cache` do OkHttp faz
+//      isso sozinho, inclusive o `If-Modified-Since`.
+//   3. Coordenadas com no máximo 4 casas (usamos 2 — ver [coordenada]).
+//   4. Atribuição CC BY 4.0 — nas páginas legais e na ajuda do app.
+//
+// Para não mexer no resto do app, a resposta é traduzida para o MESMO
+// vocabulário de antes: código WMO + `WeatherState`. Mapeamento clima→cena,
+// motor e testes de condição continuam valendo sem alteração.
 
-data class OpenMeteoResponse(
-    @SerializedName("current") val current: CurrentWeather,
-    @SerializedName("current_units") val units: CurrentUnits? = null,
-    @SerializedName("daily") val daily: DailyResponse? = null,
-    @SerializedName("minutely_15") val minutely15: Minutely15Response? = null
+// ─── Modelos de resposta (formato `compact`) ─────────────────────────────────
+// Tudo nulável: o Gson ignora a nulidade do Kotlin, e um campo ausente na
+// resposta viraria NullPointerException longe daqui.
+
+data class MetResposta(
+    @SerializedName("properties") val properties: MetPropriedades? = null,
 )
 
-/**
- * Bloco de 15 MINUTOS.
- *
- * MEDIDO em 03/09, contra o que eu supunha: o `current` do Open-Meteo NÃO é a
- * hora cheia — ele volta com `interval: 900` e o mesmo timestamp do bloco
- * corrente do `minutely_15`. Conferido em 16 pontos do globo, incluindo dois
- * com chuva na hora (Reiquiavique 51/0,10 mm e Buenos Aires 95/0,60 mm): código
- * e lâmina batem nos dois lados. Ou seja, ler daqui NÃO deixa o app mais rápido.
- *
- * O que esta leitura acrescenta de verdade é a **lâmina em mm** do quarto de
- * hora — que a chamada antiga nem pedia. O código WMO é uma categoria, e
- * categoria arredonda: chuva fina de 0,1 mm cabe num código de céu. Com a mm na
- * mão dá pra ligar a chuva pelo dado bruto e escolher a intensidade por ela, em
- * vez de depender de o modelo ter escolhido 61 em vez de 3.
- *
- * Fica também como cinto de segurança: se a API mudar o passo do `current`, o
- * bloco de 15 min continua sendo o dado mais novo. Pode não existir em toda
- * região, então tudo aqui é nulável e o `current` volta a mandar.
- */
-data class Minutely15Response(
-    @SerializedName("time") val time: List<String>? = null,
-    @SerializedName("precipitation") val precipitation: List<Double?>? = null,
-    @SerializedName("weather_code") val weatherCode: List<Int?>? = null
+data class MetPropriedades(
+    @SerializedName("timeseries") val timeseries: List<MetPasso>? = null,
 )
 
-data class DailyResponse(
-    @SerializedName("sunrise") val sunrise: List<String>? = null,
-    @SerializedName("sunset") val sunset: List<String>? = null
+/** Um passo da série. `time` é UTC ("2026-10-04T00:00:00Z"), de hora em hora no começo. */
+data class MetPasso(
+    @SerializedName("time") val time: String? = null,
+    @SerializedName("data") val data: MetDados? = null,
 )
 
-data class CurrentWeather(
-    @SerializedName("temperature_2m") val temperature: Double,
-    @SerializedName("apparent_temperature") val apparentTemperature: Double,
-    @SerializedName("weather_code") val weatherCode: Int,
-    @SerializedName("wind_speed_10m") val windSpeed: Double,
-    @SerializedName("relative_humidity_2m") val humidity: Int,
-    @SerializedName("is_day") val isDay: Int,         // 1 = dia, 0 = noite
-    // Lâmina de chuva do passo corrente (mm). Serve de fallback quando a região
-    // não tem `minutely_15` — a mm liga a chuva que o código WMO arredondou.
-    @SerializedName("precipitation") val precipitation: Double = 0.0,
+data class MetDados(
+    @SerializedName("instant") val instant: MetInstante? = null,
+    @SerializedName("next_1_hours") val proxima1h: MetPeriodo? = null,
+    // Só no fim da série (além de ~2,5 dias) a próxima hora some e sobra a de 6 h.
+    @SerializedName("next_6_hours") val proximas6h: MetPeriodo? = null,
 )
 
-data class CurrentUnits(
-    @SerializedName("temperature_2m") val temperatureUnit: String = "°C"
+data class MetInstante(
+    @SerializedName("details") val details: MetDetalhes? = null,
+)
+
+data class MetDetalhes(
+    @SerializedName("air_temperature") val temperatura: Double? = null,       // °C
+    @SerializedName("relative_humidity") val umidade: Double? = null,         // %
+    @SerializedName("wind_speed") val ventoMs: Double? = null,                // m/s
+    @SerializedName("cloud_area_fraction") val nuvens: Double? = null,        // %
+)
+
+data class MetPeriodo(
+    @SerializedName("summary") val summary: MetResumo? = null,
+    @SerializedName("details") val details: MetPrecipitacao? = null,
+)
+
+data class MetResumo(
+    @SerializedName("symbol_code") val simbolo: String? = null,
+)
+
+data class MetPrecipitacao(
+    @SerializedName("precipitation_amount") val mm: Double? = null,
 )
 
 // ─── Retrofit interface ───────────────────────────────────────────────────────
 
-interface OpenMeteoApi {
-    @GET("v1/forecast")
-    suspend fun getCurrentWeather(
-        @Query("latitude") latitude: Double,
-        @Query("longitude") longitude: Double,
-        @Query("current") current: String = "temperature_2m,apparent_temperature,weather_code,wind_speed_10m,relative_humidity_2m,is_day,precipitation",
-        @Query("minutely_15") minutely15: String = "precipitation,weather_code",
-        @Query("past_minutely_15") pastMinutely15: Int = 1,
-        @Query("forecast_minutely_15") forecastMinutely15: Int = 2,
-        @Query("daily") daily: String = "sunrise,sunset",
-        @Query("forecast_days") forecastDays: Int = 1,
-        @Query("wind_speed_unit") windSpeedUnit: String = "kmh",
-        @Query("timezone") timezone: String = "auto",
-    ): OpenMeteoResponse
+interface MetNorwayApi {
+    @GET("weatherapi/locationforecast/2.0/compact")
+    suspend fun previsao(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+    ): MetResposta
 }
 
 // ─── Mapeamento de WMO Weather Code → WeatherCondition ───────────────────────
-// Referência: https://open-meteo.com/en/docs#weathervariables
+// O app pensa em código WMO (era o que a Open-Meteo devolvia); a MET responde
+// com `symbol_code`, convertido por [simboloParaWmo].
 
 fun Int.toWeatherCondition(): WeatherCondition = when (this) {
     0 -> WeatherCondition.SUNNY           // Clear sky
@@ -129,34 +144,52 @@ fun Int.toWeatherDescription(): String = when (this) {
     else -> "Condição desconhecida"
 }
 
-/** O que o quarto de hora CORRENTE diz: código do tempo e chuva acumulada. */
-data class Agora(val weatherCode: Int?, val precipMm: Double)
-
 /**
- * Acha o bloco de 15 min que contém o instante `agoraLocal` ("2026-09-02T14:07"
- * → o bloco das 14:00).
+ * `symbol_code` da MET → código WMO equivalente. Lista de símbolos:
+ * https://api.met.no/weatherapi/weathericon/2.0/documentation
  *
- * Os horários vêm em hora LOCAL (a chamada usa `timezone=auto`) e em formato
- * ISO de largura fixa, então comparar como texto ordena igual a comparar como
- * data — e evita `SimpleDateFormat` e fuso horário no meio do caminho. Pego o
- * ÚLTIMO bloco que já começou; pedir `past_minutely_15=1` garante que exista um
- * mesmo que a série comece adiante do relógio.
+ * O símbolo é composto ("heavyrainshowersandthunder_night"), então a leitura é
+ * por partes em vez de uma tabela com ~40 linhas: sufixo de período fora,
+ * intensidade pelo prefixo, tipo pelo miolo. Dois desvios deliberados:
+ *  - **sleet (chuva com neve) vira chuva**: o WMO não tem categoria própria e,
+ *    nas regiões onde o app é usado, o que cai é mais água que neve;
+ *  - **qualquer "thunder" vira 95**: o motor trata toda trovoada igual.
+ * A MET tem dois erros de grafia históricos ("lightssleet…", "lightssnow…"),
+ * cobertos pelo `startsWith("light")`.
+ *
+ * Símbolo desconhecido → null; quem chama decide o fallback.
  */
-fun blocoAtual(m: Minutely15Response?, agoraLocal: String): Agora? {
-    val ts = m?.time ?: return null
-    var idx = -1
-    for (i in ts.indices) if (ts[i] <= agoraLocal) idx = i else break
-    if (idx < 0) return null
-    val code = m.weatherCode?.getOrNull(idx)
-    val mm = m.precipitation?.getOrNull(idx) ?: 0.0
-    return Agora(code, mm)
+fun simboloParaWmo(simbolo: String?): Int? {
+    if (simbolo.isNullOrBlank()) return null
+    val s = simbolo.substringBefore('_')
+    val nivel = when {
+        s.startsWith("heavy") -> 2
+        s.startsWith("light") -> 0
+        else -> 1
+    }
+    val pancada = "showers" in s
+    return when {
+        s == "clearsky" -> 0
+        s == "fair" -> 1
+        s == "partlycloudy" -> 2
+        s == "cloudy" -> 3
+        s == "fog" -> 45
+        "thunder" in s -> 95
+        "snow" in s -> if (pancada) (if (nivel == 2) 86 else 85) else intArrayOf(71, 73, 75)[nivel]
+        "rain" in s || "sleet" in s ->
+            if (pancada) intArrayOf(80, 81, 82)[nivel] else intArrayOf(61, 63, 65)[nivel]
+        else -> null
+    }
 }
 
-/** "2026-09-02T14:07" do relógio local, pra casar com o `time` da API. */
-fun agoraIsoLocal(c: Calendar = Calendar.getInstance()): String = String.format(
-    Locale.US, "%04d-%02d-%02dT%02d:%02d",
-    c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH),
-    c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE))
+/** Sem símbolo reconhecível: o céu sai da cobertura de nuvens (%), que é dado bruto. */
+fun codigoPorNuvens(nuvens: Double?): Int = when {
+    nuvens == null -> 3
+    nuvens < 12.5 -> 0
+    nuvens < 37.5 -> 1
+    nuvens < 75.0 -> 2
+    else -> 3
+}
 
 /** Código WMO de chuva pela intensidade do quarto de hora (mm no bloco). */
 fun codigoPorChuva(mm: Double): Int = when {
@@ -168,92 +201,147 @@ fun codigoPorChuva(mm: Double): Int = when {
 /** Código WMO que significa precipitação caindo (garoa, chuva, neve, trovoada). */
 fun Int.temPrecipitacao(): Boolean = this >= 51
 
-fun getDayPeriod(isDay: Int): DayPeriod {
-    if (isDay == 0) return DayPeriod.NIGHT
-    val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-    return if (hour < 12) DayPeriod.MORNING else DayPeriod.AFTERNOON
+/**
+ * A ÁGUA MANDA NA CHUVA, não a categoria (regra de 03/09, mantida na troca de
+ * fornecedor). O símbolo é classificação, e classificação arredonda: uma garoa
+ * fina cabe num símbolo de céu encoberto, e aí o wallpaper fica seco com chuva
+ * lá fora. Se a lâmina diz que cai água, chove na cena, e a intensidade sai da
+ * própria lâmina. Sem água, vale o código — inclusive pra manter trovoada/neve,
+ * que a lâmina não pode rebaixar.
+ */
+fun codigoEfetivo(codigo: Int, mm15: Double): Int =
+    if (mm15 >= 0.05 && !codigo.temPrecipitacao()) codigoPorChuva(mm15) else codigo
+
+/**
+ * O passo que vale AGORA: o último que já começou. A série vem em ordem e em
+ * UTC; a MET costuma começar pela hora corrente, mas se começar adiante do
+ * relógio (relógio do aparelho atrasado), o primeiro passo é o melhor que há.
+ */
+fun passoAtual(serie: List<MetPasso>?, agora: Instant): MetPasso? {
+    if (serie.isNullOrEmpty()) return null
+    var atual: MetPasso? = null
+    for (p in serie) {
+        val t = p.time?.let { runCatching { Instant.parse(it) }.getOrNull() } ?: continue
+        if (t <= agora) atual = p else break
+    }
+    return atual ?: serie.first()
 }
 
-/** Converte ISO local "2026-07-07T06:12" em hora fracionária (6.2). */
-fun horaDeIso(iso: String?): Float? {
-    if (iso == null) return null
-    val t = iso.substringAfter('T', "")
-    val partes = t.split(':')
-    if (partes.size < 2) return null
-    val h = partes[0].toIntOrNull() ?: return null
-    val m = partes[1].take(2).toIntOrNull() ?: return null
-    return h + m / 60f
+/**
+ * Sensação térmica pela fórmula de Steadman usada pelo Bureau of Meteorology
+ * australiano (a mesma família da `apparent_temperature` que a Open-Meteo
+ * entregava pronta). A MET não fornece esse campo.
+ */
+fun sensacaoTermica(tempC: Double, umidade: Double?, ventoMs: Double?): Double {
+    val rh = umidade ?: return tempC
+    val vapor = rh / 100.0 * 6.105 * exp(17.27 * tempC / (237.7 + tempC))
+    return tempC + 0.33 * vapor - 0.70 * (ventoMs ?: 0.0) - 4.00
 }
+
+/**
+ * Nascer e pôr do sol (hora fracionária no fuso `zona`) pela equação do nascer
+ * do sol (aproximação do NOAA, erro de ~1–2 min). Calculado no aparelho: a
+ * Open-Meteo mandava isso pronto, a MET tem endpoint separado — e uma segunda
+ * chamada só pra isso seria mais uma requisição levando a localização.
+ *
+ * Devolve null em dia/noite polar (o sol não cruza o horizonte).
+ */
+fun nascerEPorDoSol(lat: Double, lon: Double, data: LocalDate, zona: ZoneId): Pair<Float, Float>? {
+    val rad = Math.PI / 180.0
+    val n = (data.toEpochDay() - 10957L).toDouble()              // dias desde 2000-01-01
+    val jEstrela = n - lon / 360.0                                // meio-dia solar médio
+    val m = (357.5291 + 0.98560028 * jEstrela).mod(360.0)
+    val c = 1.9148 * sin(m * rad) + 0.02 * sin(2 * m * rad) + 0.0003 * sin(3 * m * rad)
+    val lambda = (m + c + 180.0 + 102.9372).mod(360.0)
+    val jTransito = 2451545.0 + jEstrela + 0.0053 * sin(m * rad) - 0.0069 * sin(2 * lambda * rad)
+    val declinacao = asin(sin(lambda * rad) * sin(23.4397 * rad))
+    val cosOmega = (sin(-0.833 * rad) - sin(lat * rad) * sin(declinacao)) /
+        (cos(lat * rad) * cos(declinacao))
+    if (cosOmega < -1.0 || cosOmega > 1.0) return null
+    val omega = acos(cosOmega) / rad
+    fun horaLocal(juliano: Double): Float {
+        val ms = ((juliano - 2440587.5) * 86_400_000.0).toLong()
+        val z = ZonedDateTime.ofInstant(Instant.ofEpochMilli(ms), zona)
+        return z.hour + z.minute / 60f + z.second / 3600f
+    }
+    return horaLocal(jTransito - omega / 360.0) to horaLocal(jTransito + omega / 360.0)
+}
+
+/**
+ * É dia? Pelo sol calculado; em dia/noite polar (sem nascer/pôr), pelo sufixo
+ * do símbolo, que a MET já dá por período; sem nenhum dos dois, 6h–18h.
+ */
+fun ehDia(hora: Float, sol: Pair<Float, Float>?, simbolo: String?): Boolean = when {
+    sol != null -> hora >= sol.first && hora < sol.second
+    simbolo?.endsWith("_day") == true -> true
+    simbolo?.endsWith("_night") == true || simbolo?.endsWith("_polartwilight") == true -> false
+    else -> hora in 6f..18f
+}
+
+fun getDayPeriod(dia: Boolean, hora: Float): DayPeriod = when {
+    !dia -> DayPeriod.NIGHT
+    hora < 12f -> DayPeriod.MORNING
+    else -> DayPeriod.AFTERNOON
+}
+
+/**
+ * Duas casas decimais (~1,1 km). A MET aceita no máximo 4 (5+ dá 403); 2 basta
+ * para o clima — a grade do modelo é bem mais larga que isso — e manda menos
+ * da posição do usuário para fora do aparelho. Também melhora o acerto do
+ * cache da própria MET.
+ */
+fun coordenada(x: Double): Double = (x * 100.0).roundToInt() / 100.0
 
 // ─── Repositório ──────────────────────────────────────────────────────────────
 
-class WeatherRepository {
+class WeatherRepository(context: Context) {
     private val TAG = "WeatherRepository"
-
-    private val api: OpenMeteoApi by lazy {
-        // BASIC loga a URL da requisição (inclui lat/lon do usuário) — só em debug.
-        val logging = HttpLoggingInterceptor().apply {
-            level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
-        }
-        val client = OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(10, TimeUnit.SECONDS)
-            .build()
-
-        Retrofit.Builder()
-            .baseUrl("https://api.open-meteo.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-            .create(OpenMeteoApi::class.java)
-    }
+    private val api: MetNorwayApi = apiCompartilhada(context)
 
     suspend fun fetchWeather(latitude: Double, longitude: Double): Result<WeatherState> =
         withContext(Dispatchers.IO) {
             try {
-                val response = api.getCurrentWeather(latitude, longitude)
-                val current = response.current
+                val lat = coordenada(latitude)
+                val lon = coordenada(longitude)
+                val resposta = api.previsao(lat, lon)
+                val passo = passoAtual(resposta.properties?.timeseries, Instant.now())
+                    ?: error("resposta sem série temporal")
+                val dados = passo.data ?: error("passo sem dados")
+                val detalhes = dados.instant?.details ?: error("passo sem medições")
+                val temperatura = detalhes.temperatura ?: error("passo sem temperatura")
 
-                // A ÁGUA MANDA NA CHUVA, não a categoria.
-                // O código WMO é classificação, e classificação arredonda: uma
-                // garoa de 0,1 mm cabe num código de céu encoberto, e aí o
-                // wallpaper fica seco com chuva fina lá fora. A lâmina em mm do
-                // quarto de hora é o dado bruto — se está caindo água, chove na
-                // cena, e a intensidade sai da própria lâmina.
-                //
-                // Regra, na ordem:
-                //  1. sem `minutely_15` (região sem esse passo): fica o current;
-                //  2. o bloco acusa mm mas o código não classificou como chuva:
-                //     a mm manda, e ela escolhe fraca/moderada/forte;
-                //  3. sem mm: vale o código do bloco — inclusive pra DESLIGAR
-                //     uma chuva que o código anterior ainda anunciava.
-                val bloco = blocoAtual(response.minutely15, agoraIsoLocal())
-                val codigoBloco = bloco?.weatherCode ?: current.weatherCode
-                val mm = bloco?.precipMm ?: current.precipitation
-                val codigoEfetivo =
-                    if (mm >= 0.05 && !codigoBloco.temPrecipitacao()) codigoPorChuva(mm)
-                    else codigoBloco
-                val fonte = if (bloco == null) "modelo horário" else "modelo 15 min"
-                val condition = codigoEfetivo.toWeatherCondition()
+                val simbolo = (dados.proxima1h ?: dados.proximas6h)?.summary?.simbolo
+                // A MET dá mm por HORA; o app raciocina em quarto de hora (a régua
+                // de `codigoPorChuva` foi calibrada assim), então divide por 4.
+                val mmHora = dados.proxima1h?.details?.mm ?: 0.0
+                val mm15 = mmHora / 4.0
+                val codigo = codigoEfetivo(
+                    simboloParaWmo(simbolo) ?: codigoPorNuvens(detalhes.nuvens), mm15)
 
+                val zona = ZoneId.systemDefault()
+                val agoraLocal = ZonedDateTime.now(zona)
+                val hora = agoraLocal.hour + agoraLocal.minute / 60f
+                val sol = nascerEPorDoSol(lat, lon, agoraLocal.toLocalDate(), zona)
+                val dia = ehDia(hora, sol, simbolo)
+
+                val condition = codigo.toWeatherCondition()
                 // À noite, céu limpo = clear_night
-                val finalCondition = if (current.isDay == 0 && condition == WeatherCondition.SUNNY)
+                val finalCondition = if (!dia && condition == WeatherCondition.SUNNY)
                     WeatherCondition.CLEAR_NIGHT else condition
 
                 val state = WeatherState(
                     condition = finalCondition,
-                    period = getDayPeriod(current.isDay),
-                    temperatureCelsius = current.temperature,
-                    feelsLikeCelsius = current.apparentTemperature,
-                    description = codigoEfetivo.toWeatherDescription(),
-                    windspeedKmh = current.windSpeed,
-                    humidity = current.humidity,
-                    sunriseHour = horaDeIso(response.daily?.sunrise?.firstOrNull()) ?: 6.0f,
-                    sunsetHour = horaDeIso(response.daily?.sunset?.firstOrNull()) ?: 18.5f,
-                    weatherCode = codigoEfetivo,
-                    precipMm15 = mm,
-                    fonte = fonte,
+                    period = getDayPeriod(dia, hora),
+                    temperatureCelsius = temperatura,
+                    feelsLikeCelsius = sensacaoTermica(temperatura, detalhes.umidade, detalhes.ventoMs),
+                    description = codigo.toWeatherDescription(),
+                    windspeedKmh = (detalhes.ventoMs ?: 0.0) * 3.6,
+                    humidity = detalhes.umidade?.roundToInt() ?: 0,
+                    sunriseHour = sol?.first ?: 6.0f,
+                    sunsetHour = sol?.second ?: 18.5f,
+                    weatherCode = codigo,
+                    precipMm15 = mm15,
+                    fonte = "MET Norway · ${simbolo ?: "nuvens"}",
                 )
                 Log.d(TAG, "Clima obtido: $state")
                 Result.success(state)
@@ -262,4 +350,49 @@ class WeatherRepository {
                 Result.failure(e)
             }
         }
+
+    companion object {
+        /**
+         * Exigido pela MET: nome do app + contato. Sem isso a API responde 403.
+         * O e-mail é o de suporte público (o mesmo da ficha da Play Store).
+         */
+        const val CONTATO = "suporteterrabr@gmail.com"
+        val USER_AGENT = "Terra/${BuildConfig.VERSION_NAME} (${BuildConfig.APPLICATION_ID}; $CONTATO)"
+
+        /**
+         * UM cliente por processo. O serviço do wallpaper, a tela e o worker
+         * criam cada um o seu `WeatherRepository`; se cada um abrisse o próprio
+         * `Cache` do OkHttp na mesma pasta, os journals brigariam — o OkHttp
+         * exige uma única instância por diretório.
+         */
+        @Volatile private var compartilhada: MetNorwayApi? = null
+
+        private fun apiCompartilhada(context: Context): MetNorwayApi =
+            compartilhada ?: synchronized(this) {
+                compartilhada ?: criarApi(context.applicationContext).also { compartilhada = it }
+            }
+
+        private fun criarApi(app: Context): MetNorwayApi {
+            // BASIC loga a URL da requisição (inclui lat/lon do usuário) — só em debug.
+            val logging = HttpLoggingInterceptor().apply {
+                level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
+            }
+            val client = OkHttpClient.Builder()
+                .cache(Cache(File(app.cacheDir, "clima-met"), 512L * 1024))
+                .addInterceptor { chain ->
+                    chain.proceed(chain.request().newBuilder().header("User-Agent", USER_AGENT).build())
+                }
+                .addInterceptor(logging)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .build()
+
+            return Retrofit.Builder()
+                .baseUrl("https://api.met.no/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build()
+                .create(MetNorwayApi::class.java)
+        }
+    }
 }

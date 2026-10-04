@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!--
       Só localização APROXIMADA. O app usa a posição apenas para escolher a
-      cidade do clima na Open-Meteo — `LocationHelper` pede
+      cidade do clima na MET Norway — `LocationHelper` pede
       PRIORITY_BALANCED_POWER_ACCURACY (~100 m), que COARSE já atende.
       ACCESS_FINE_LOCATION foi removida em 2026-08-08: era declarada e pedida
       ao usuário, mas nenhum caminho do código exigia precisão fina. Manter

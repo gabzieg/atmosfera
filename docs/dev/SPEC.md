@@ -9,7 +9,7 @@
 ## O que é
 
 Live wallpaper Android que desenha uma cena animada reagindo ao clima real
-(Open-Meteo) — chuva, neve, nuvens, sol/lua, vento, névoa, fumaça de chaminé —
+(MET Norway) — chuva, neve, nuvens, sol/lua, vento, névoa, fumaça de chaminé —
 via motor de partículas próprio em `Canvas` (não vídeo/imagem). App companion
 em Compose pra ativar o wallpaper e vender Premium + cenários extras via
 Google Play Billing.
@@ -189,7 +189,7 @@ dependentes junto — nunca isolado.
   `local.properties`, `secrets.properties` — cobertos pelo `.gitignore`, e a
   CI roda `gitleaks` (job `secret-scan`) como segunda camada.
 - Localização aproximada é o único dado sensível coletado — usada só
-  localmente (Open-Meteo + cache), nunca enviada a servidor próprio (o
+  localmente (MET Norway + cache), nunca enviada a servidor próprio (o
   projeto não tem backend).
 - Permissão nova no `AndroidManifest.xml` = precisa justificativa no PR e
   atualização do Data Safety Form (`CHECKLIST_PUBLICACAO.md`) antes de

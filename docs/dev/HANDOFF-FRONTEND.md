@@ -17,7 +17,7 @@
 ## 1. O que é o Atmosfera
 
 Live wallpaper para Android que **reage ao clima real** do lugar do usuário
-(Open-Meteo), à **hora do dia**, à **temperatura** e ao **vento**. A cena é uma
+(MET Norway), à **hora do dia**, à **temperatura** e ao **vento**. A cena é uma
 arte pintada (fundo fixo) e todos os efeitos (chuva, neve, nuvens, sol/lua,
 estrelas, névoa, vento, poças, raios…) são desenhados por cima com sprites, em
 tempo real (~30 fps, Canvas nativo).
@@ -63,7 +63,7 @@ tempo real (~30 fps, Canvas nativo).
     (Google Play Billing). **Estender** para compras avulsas de cenário.
   - `com.terra.wallpaper.service.*` — o `WallpaperService` (a "cola" que
     hospeda o motor). Você pode editar; só respeite a interface do motor (seção 3).
-  - `com.terra.wallpaper.weather.*` — localização + Open-Meteo + cache. Já
+  - `com.terra.wallpaper.weather.*` — localização + MET Norway + cache. Já
     existe e funciona; alimenta o motor.
   - Manifest, Gradle, ícones, ficha da Play Store, screenshots, teste fechado.
   - `com.terra.wallpaper.debug.*` — painel de teste; é NOSSO (para calibrar
@@ -181,7 +181,7 @@ efeitos, mudar as assinaturas da seção 3.
   laboratório). Porte pro motor Android vem por snapshot.
 - **Billing/Premium**: `Plano` + `BillingManager` (Play Billing 9.1.0, produto
   `terra_premium`) já existem.
-- **Clima**: `weather.*` (Open-Meteo, localização, cache 30 min) funcionando.
+- **Clima**: `weather.*` (MET Norway, localização, cache 30 min) funcionando.
 - **CI**: GitHub Actions (`.github/workflows/build.yml`) compila `assembleDebug` e
   publica o APK como artifact. Use para validar (não há emulador do nosso lado).
 

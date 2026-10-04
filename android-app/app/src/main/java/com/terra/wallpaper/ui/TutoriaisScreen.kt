@@ -40,7 +40,7 @@ private data class ItemAjuda(val pergunta: String, val resposta: String)
 
 /**
  * Conteúdo escrito a partir do que o app realmente faz (motor reagindo ao clima
- * do Open-Meteo, compra única sem assinatura, fallback de localização em
+ * da MET Norway, compra única sem assinatura, fallback de localização em
  * São Paulo). Se o comportamento mudar, este texto precisa mudar junto — é a
  * primeira coisa que o usuário lê quando algo não funciona como ele esperava.
  */
@@ -53,10 +53,11 @@ private val ITENS_AJUDA = listOf(
     ),
     ItemAjuda(
         "Como o wallpaper reage ao clima?",
-        "O app consulta o serviço de meteorologia Open-Meteo usando a localização " +
-            "aproximada do aparelho e traduz a condição atual na cena: chuva, neve, nuvens, " +
-            "névoa, vento, sol e lua, além do ciclo de dia e noite. A cena muda sozinha " +
-            "conforme o tempo real da sua região muda.",
+        "O app consulta a previsão do instituto meteorológico da Noruega (MET Norway) usando " +
+            "a localização aproximada do aparelho e traduz a condição atual na cena: chuva, neve, " +
+            "nuvens, névoa, vento, sol e lua, além do ciclo de dia e noite. A cena muda sozinha " +
+            "conforme o tempo real da sua região muda. Dados meteorológicos: MET Norway, " +
+            "licença CC BY 4.0.",
     ),
     ItemAjuda(
         "Preciso dar permissão de localização?",

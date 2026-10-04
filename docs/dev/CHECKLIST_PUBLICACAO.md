@@ -11,7 +11,7 @@
 
 | Permissão | Usada onde | Justificativa pro Data Safety Form |
 |---|---|---|
-| `INTERNET` / `ACCESS_NETWORK_STATE` | `weather/WeatherRepository.kt` | Buscar o clima na Open-Meteo |
+| `INTERNET` / `ACCESS_NETWORK_STATE` | `weather/WeatherRepository.kt` | Buscar o clima na MET Norway |
 | `ACCESS_COARSE_LOCATION` | `weather/LocationHelper.kt` | O wallpaper reage ao clima da região do usuário — é a funcionalidade principal do app. **Só aproximada**: `ACCESS_FINE_LOCATION` foi removida em 2026-08-08 por não ter uso real (ver comentário no manifesto) |
 | `RECEIVE_BOOT_COMPLETED` | `weather/BootReceiver.kt` | Reagendar a atualização periódica de clima após reiniciar o aparelho |
 
@@ -26,7 +26,8 @@ Form declarado com o que o APK realmente pede).
 > se um mudar, mude o outro (ver "Política de privacidade" no fim deste arquivo).
 
 - **Localização aproximada/precisa**: usada só localmente para consultar a
-  Open-Meteo e cacheada em `SharedPreferences` (`WeatherCache`) — não é
+  MET Norway (coordenadas arredondadas para 2 casas, ~1 km) e cacheada em
+  `SharedPreferences` (`WeatherCache`) — não é
   enviada a nenhum servidor próprio (o projeto não tem backend).
 - **Nenhuma conta de usuário, nenhum identificador pessoal coletado.**
 - **Compras**: processadas pelo Google Play Billing — o app não vê nem
@@ -78,7 +79,7 @@ Form declarado com o que o APK realmente pede).
   que só checa COARSE, e a busca pede `PRIORITY_BALANCED_POWER_ACCURACY`), então
   declarar "precisa" agora seria inconsistente com o APK — e inconsistência é a
   causa nº 1 de rejeição. Finalidade "funcionalidade do app", **não**
-  compartilhada com terceiros para publicidade, compartilhada com a Open-Meteo
+  compartilhada com terceiros para publicidade, compartilhada com a MET Norway
   para a funcionalidade, criptografada em trânsito, coleta **opcional** (o app
   funciona sem permissão, com fallback pra São Paulo/SP).
 - [ ] **Content Rating Questionnaire** (IARC) — preencher no Play Console.
@@ -204,17 +205,17 @@ Form declarado com o que o APK realmente pede).
   Falta **conta logada** (`adb shell dumpsys account` volta vazio). Logar em
   Configurações → Contas destrava o serviço de billing. (Produto criado no Play
   Console segue sendo requisito separado pra compra real.)
-- [ ] **Confirmar se o uso da Open-Meteo se enquadra como "comercial"** —
-  os termos do tier gratuito dizem "you may only use the free API services
-  for non-commercial purposes" e listam apps "com assinaturas ou anúncios"
-  como exemplo de uso comercial
-  ([open-meteo.com/en/terms](https://open-meteo.com/en/terms)). O Atmosfera
-  não tem assinatura nem anúncio, mas vende IAP (IAP não é mencionado
-  explicitamente nos termos — zona cinzenta, não uma violação confirmada).
-  Antes de publicar: confirmar com o Open-Meteo (contato deles) ou avaliar
-  contratar o plano comercial (sem limite diário) — ver
-  [open-meteo.com/en/pricing](https://open-meteo.com/en/pricing). Rate limit
-  do tier grátis hoje: 10.000 chamadas/dia, 5.000/hora, 600/minuto.
+- [x] ~~**Confirmar se o uso da Open-Meteo se enquadra como "comercial"**~~ —
+  **resolvido em 2026-10-03 trocando de fornecedor.** A API gratuita da
+  Open-Meteo é só para uso não comercial, e o app vende Premium/cenários. O
+  clima passou para a **MET Norway** (`api.met.no`, Locationforecast 2.0), que
+  permite uso comercial de graça sob quatro condições, todas no código
+  (`WeatherRepository.kt`): User-Agent com nome do app + contato, cache HTTP
+  respeitando `Expires`/`Last-Modified`, coordenadas com no máximo 4 casas (o
+  app manda 2) e atribuição CC BY 4.0 (páginas legais + ajuda do app). Limite
+  da MET: 20 req/s somando TODOS os usuários — acima disso exige acordo ou
+  proxy com cache. Com o cache HTTP e o intervalo mínimo de 15 min, isso só
+  pesa com dezenas de milhares de aparelhos ativos.
 
 ## Antes de cada release (recorrente)
 
@@ -300,7 +301,7 @@ corrigida no mesmo PR.
 |---|---|
 | `AndroidManifest.xml` (permissões) | Seção 5 (tabela de permissões) e 3.1 |
 | `LocationHelper.kt` — `PRIORITY_BALANCED_POWER_ACCURACY`, fallback São Paulo | 3.1 ("precisão balanceada", "é opcional"), 10 |
-| `WeatherRepository.kt` — base URL `api.open-meteo.com`, HTTPS, sem chave de API | 3.1, 6.1, 9 |
+| `WeatherRepository.kt` — base URL `api.met.no`, HTTPS, sem chave de API, coordenadas arredondadas (`coordenada()`) | 3.1, 6.1, 9 |
 | `WeatherCache.kt` — TTL derivado do intervalo escolhido, delta ~5 km, só o registro mais recente | 3.1, 8 |
 | `IntervaloClima.kt` — opções 15/30/60 min, padrão 30 | 3.1 ("intervalo escolhido por você"), 8 |
 | `BootReceiver.kt` / `WeatherWorker` — período = intervalo escolhido | 3.1 ("verificação periódica") |

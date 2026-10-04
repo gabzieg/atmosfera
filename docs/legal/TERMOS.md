@@ -13,9 +13,9 @@
 > conta). Se o modelo de monetização mudar — assinatura, anúncios, conteúdo
 > gerado por usuário — este texto precisa ser refeito, não emendado.
 
-**Versão dos termos:** 1.0
+**Versão dos termos:** 1.1
 **Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.0
-**Última atualização:** 30 de julho de 2026
+**Última atualização:** 3 de outubro de 2026
 **Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
 
 ---
@@ -32,7 +32,7 @@ Este resumo é uma cortesia e não substitui o texto completo abaixo.
 - Você compra uma **licença de uso** do conteúdo dentro do app, não a
   propriedade da arte. Não pode extrair, revender ou redistribuir os cenários.
 - **Reembolso** segue as regras da Google Play — é com o Google, não conosco.
-- O app depende de um serviço externo de meteorologia (Open-Meteo). Se ele
+- O app depende de um serviço externo de meteorologia (MET Norway). Se ele
   ficar fora do ar, o clima pode não atualizar. Isso não é defeito do app.
 - Tratamento de dados pessoais: ver a [Política de Privacidade](PRIVACIDADE.md).
 
@@ -64,7 +64,9 @@ nuvens, sol, lua, vento, neblina, ciclo de dia e noite. O aplicativo companion
 permite ativar o papel de parede, escolher cenário, variante de arte e estilo
 dos efeitos, e adquirir conteúdo adicional.
 
-O clima vem do serviço de terceiros **Open-Meteo**. Não somos autores desses
+O clima vem do serviço de terceiros **MET Norway** (Instituto Meteorológico
+da Noruega), que publica os dados sob a licença
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Não somos autores desses
 dados meteorológicos e não garantimos precisão, atualidade ou disponibilidade
 deles — o Terra não é, e não deve ser usado como, ferramenta de previsão do
 tempo para qualquer decisão que dependa de exatidão meteorológica.
@@ -157,7 +159,7 @@ por economia de bateria; isso está fora do nosso controle.
 
 O aplicativo depende de:
 
-- **Open-Meteo** (dados meteorológicos) — <https://open-meteo.com/en/terms>
+- **MET Norway** (dados meteorológicos, licença CC BY 4.0) — <https://api.met.no/doc/TermsOfService>
 - **Google Play Services** (localização no aparelho) — <https://policies.google.com/terms>
 - **Google Play Billing** (pagamentos) — <https://policies.google.com/terms>
 
@@ -229,4 +231,5 @@ obrigatórias.
 
 | Versão | Data | Mudança |
 |---|---|---|
+| 1.1 | 3 de outubro de 2026 | Troca o fornecedor de previsão do tempo: sai a Open-Meteo, entra a MET Norway (resumo e seções 3 e 7). |
 | 1.0 | [PREENCHER: data da primeira publicação] | Versão inicial, referente ao Terra 1.0.0 |

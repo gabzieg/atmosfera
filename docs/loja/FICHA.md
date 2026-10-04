@@ -133,7 +133,7 @@ Android 8.0 ou mais recente. A internet é usada só para atualizar o clima de t
 | Afirmação | Onde está no código |
 |---|---|
 | "desenha quadro a quadro" | `engine/EffectEngine.draw()`, `Canvas` a ~30 fps no `AtmosferaWallpaperService` |
-| "segue o tempo de verdade" | `weather/WeatherRepository` (Open-Meteo), `SceneState.aplicarClima` |
+| "segue o tempo de verdade" | `weather/WeatherRepository` (MET Norway), `SceneState.aplicarClima` |
 | "nascer e pôr do sol" | `WeatherState.sunriseHour` / `sunsetHour` |
 | "Cabana é gratuita" | `engine/Catalogo.kt` — único com `gratis = true` |
 | Os 8 efeitos do Premium | `ui/PremiumScreen.kt` → `EFEITOS_PREMIUM`, lidos de `estado.premium` no motor |
