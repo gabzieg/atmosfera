@@ -12,9 +12,9 @@
 > `billing/`, no `AndroidManifest.xml` ou a entrada de um SDK de anúncios/
 > analytics invalida o texto abaixo. Ver seção 13.
 
-**Versão da política:** 1.2
+**Versão da política:** 1.3
 **Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.0
-**Última atualização:** 3 de outubro de 2026
+**Última atualização:** 4 de outubro de 2026
 **Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
 
 ---
@@ -373,14 +373,18 @@ dados do seu país.
 
 ## 11. Crianças e adolescentes
 
-O Terra não é direcionado a crianças e não coleta dados com o objetivo de
+O Terra é destinado a pessoas com **13 anos ou mais** e não é direcionado a
+crianças menores de 13 anos. Entre 13 e 17 anos, o uso e qualquer compra
+dependem de autorização e supervisão de um responsável legal, como dizem os
+Termos de Uso, e a compra pode ainda exigir a aprovação prevista nos controles
+parentais da Google Play. O Terra não coleta dados com o objetivo de
 criar perfil de ninguém — nem de adultos, nem de menores. Não há conta,
 publicidade, conteúdo gerado por usuários ou comunicação entre usuários. O único
 dado pessoal tratado é a localização aproximada, para exibir o clima, sob
 permissão do sistema operacional que o responsável pelo aparelho pode negar ou
 revogar.
 
-Se você é responsável por uma criança e acredita que dados pessoais dela foram
+Se você é responsável por um menor de idade e acredita que dados pessoais dela foram
 tratados de forma indevida por este app, escreva para
 **[PREENCHER: e-mail de contato]** e agiremos para eliminar o que houver.
 
@@ -428,6 +432,7 @@ O texto canônico desta política é o **português do Brasil**, publicado em [h
 
 | Versão | Data | Mudança |
 |---|---|---|
+| 1.3 | 4 de outubro de 2026 | Seção 11: define o público do app como 13 anos ou mais, com autorização de responsável para menores de 18 anos, em linha com a declaração de público-alvo no Google Play Console. |
 | 1.2 | 3 de outubro de 2026 | Troca o fornecedor de previsão do tempo: sai a Open-Meteo (Suíça), entra a MET Norway (Noruega) — seções 3.1, 3.2, 3.3, 5, 6.1, 7, 8 e 9. As coordenadas passam a sair do aparelho arredondadas para cerca de 1 km; sensação térmica e nascer/pôr do sol passam a ser calculados no aparelho. Corrigida a sigla do estado de São Paulo na seção 3.1. |
 | 1.1 | 29 de setembro de 2026 | Adiciona a entrega de conteúdo via Cloudflare R2 (novo servidor, seções 3.8 e 6.5) — cenários e artes fora do catálogo grátis passam a ser baixados sob demanda. A localização nunca é enviada a esse servidor. Revisadas as seções 4, 7, 8 e 9, que afirmavam categoricamente a ausência de qualquer servidor. |
 | 1.0 | [PREENCHER: data da primeira publicação] | Versão inicial, referente ao Terra 1.0.0 |
