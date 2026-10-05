@@ -86,6 +86,12 @@ android {
         noCompress "webp"
     }
 
+    // Os testes de HTTP passam por código que chama `android.util.Log`; sem isto
+    // o JVM puro lança "Method d in android.util.Log not mocked".
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     lint {
         // Congela os avisos/erros pré-existentes num baseline: o CI pega
         // regressão NOVA sem quebrar pelo conhecido (init do WorkManager no
@@ -166,4 +172,7 @@ dependencies {
 
     // Testes unit (JVM puro — não sobem no APK). Rodam com `gradlew testDebugUnitTest`.
     testImplementation libs.junit
+    // Servidor HTTP falso: prova o que o app manda à MET (User-Agent, casas
+    // decimais), o cache por `Expires` e a parada em 429, sem rede de verdade.
+    testImplementation libs.okhttp.mockwebserver
 }

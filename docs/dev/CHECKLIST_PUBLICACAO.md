@@ -216,6 +216,20 @@ Form declarado com o que o APK realmente pede).
   da MET: 20 req/s somando TODOS os usuários — acima disso exige acordo ou
   proxy com cache. Com o cache HTTP e o intervalo mínimo de 15 min, isso só
   pesa com dezenas de milhares de aparelhos ativos.
+  - **Feito em 2026-10-04** (testes em `MetHttpTest`/`FreioMetTest`): 429 e 403
+    ligam um freio persistente (`FreioMet`: 30 min, dobrando até 6 h, zera no
+    sucesso) respeitado pelo wallpaper, pela tela e pelo worker; o cache HTTP
+    não repete pedido antes do `Expires`; o worker em segundo plano espera 0–2 min
+    aleatórios antes de consultar (a MET pede tráfego "em curva plana, não em
+    dente de serra").
+  - [ ] **Decisão pendente do Gabriel — consulta em segundo plano.** Os termos
+    dizem: "Applications on mobile devices must not retrieve new data as long as
+    the application is not in use". O `WeatherWorker` periódico consulta a MET
+    com o app fechado e a tela possivelmente apagada. O wallpaper já busca clima
+    sozinho quando fica visível (`AtmosferaWallpaperService`), então o worker é
+    quase redundante. Opção recomendada: tirar a consulta de rede do worker
+    (e, com ela, `RECEIVE_BOOT_COMPLETED`), o que exige reescrever a Política
+    §3.1/§5/§8, o texto de "Atualizar clima" em Ajustes e o Data Safety.
 
 ## Antes de cada release (recorrente)
 

@@ -9,6 +9,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -294,16 +295,25 @@ fun coordenada(x: Double): Double = (x * 100.0).roundToInt() / 100.0
 
 // ─── Repositório ──────────────────────────────────────────────────────────────
 
-class WeatherRepository(context: Context) {
+class WeatherRepository internal constructor(
+    private val api: MetNorwayApi,
+    private val freio: FreioMet,
+) {
+    constructor(context: Context) : this(apiCompartilhada(context), FreioMet.doContexto(context))
+
     private val TAG = "WeatherRepository"
-    private val api: MetNorwayApi = apiCompartilhada(context)
 
     suspend fun fetchWeather(latitude: Double, longitude: Double): Result<WeatherState> =
         withContext(Dispatchers.IO) {
             try {
+                // Barrado pela MET (429/403) há pouco: nenhuma requisição até o prazo.
+                val ate = freio.bloqueadoAteMs()
+                if (ate != 0L) throw MetBloqueadaException(ate)
+
                 val lat = coordenada(latitude)
                 val lon = coordenada(longitude)
                 val resposta = api.previsao(lat, lon)
+                freio.aoSucesso()
                 val passo = passoAtual(resposta.properties?.timeseries, Instant.now())
                     ?: error("resposta sem série temporal")
                 val dados = passo.data ?: error("passo sem dados")
@@ -345,8 +355,16 @@ class WeatherRepository(context: Context) {
                 )
                 Log.d(TAG, "Clima obtido: $state")
                 Result.success(state)
+            } catch (e: MetBloqueadaException) {
+                Log.w(TAG, "Consulta adiada: ${e.message}")
+                Result.failure(e)
             } catch (e: Exception) {
-                Log.e(TAG, "Erro ao buscar clima: ${e.message}")
+                if (e is HttpException && (e.code() == 429 || e.code() == 403)) {
+                    freio.aoSerBarrado(e.response()?.headers()?.get("Retry-After")?.toLongOrNull())
+                    Log.w(TAG, "MET respondeu ${e.code()}; freio ligado até ${freio.bloqueadoAteMs()}")
+                } else {
+                    Log.e(TAG, "Erro ao buscar clima: ${e.message}")
+                }
                 Result.failure(e)
             }
         }
@@ -369,18 +387,22 @@ class WeatherRepository(context: Context) {
 
         private fun apiCompartilhada(context: Context): MetNorwayApi =
             compartilhada ?: synchronized(this) {
-                compartilhada ?: criarApi(context.applicationContext).also { compartilhada = it }
+                compartilhada ?: criarApi(
+                    File(context.applicationContext.cacheDir, "clima-met"),
+                    "https://api.met.no/",
+                ).also { compartilhada = it }
             }
 
-        private fun criarApi(app: Context): MetNorwayApi {
+        /** Cliente HTTP da MET. `internal` para o teste apontar para um servidor falso. */
+        internal fun criarApi(pastaCache: File, baseUrl: String, userAgent: String = USER_AGENT): MetNorwayApi {
             // BASIC loga a URL da requisição (inclui lat/lon do usuário) — só em debug.
             val logging = HttpLoggingInterceptor().apply {
                 level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
             }
             val client = OkHttpClient.Builder()
-                .cache(Cache(File(app.cacheDir, "clima-met"), 512L * 1024))
+                .cache(Cache(pastaCache, 512L * 1024))
                 .addInterceptor { chain ->
-                    chain.proceed(chain.request().newBuilder().header("User-Agent", USER_AGENT).build())
+                    chain.proceed(chain.request().newBuilder().header("User-Agent", userAgent).build())
                 }
                 .addInterceptor(logging)
                 .connectTimeout(10, TimeUnit.SECONDS)
@@ -388,7 +410,7 @@ class WeatherRepository(context: Context) {
                 .build()
 
             return Retrofit.Builder()
-                .baseUrl("https://api.met.no/")
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
