@@ -128,6 +128,24 @@ documentado na política §3.6 para ser honesto.
 
 ---
 
+## Público-alvo e conteúdo (decidido em 2026-10-04)
+
+Declare **13 anos ou mais** (faixas 13–15, 16–17 e 18+). **Não** marque as
+faixas abaixo de 13: isso colocaria o app na Política de Famílias do Google, com
+regras bem mais duras, e contradiria a política de privacidade (§11). Não é
+preciso marcar só 18+: a autorização de responsável para menores de 18 anos já
+está nos Termos (seção 2), e a Google Play tem controles parentais próprios para
+aprovar compras (Family Link), que não dependem do app.
+
+Pergunta "o app atrai crianças?": **não** — são paisagens, mas sem personagem,
+mascote ou linguagem voltada a criança pequena. Se a arte mudar nesse sentido,
+refaça esta declaração.
+
+A classificação indicativa (IARC, abaixo) é **separada** do público-alvo: o app
+pode ser "Livre" e mesmo assim declarar 13+.
+
+---
+
 ## Content Rating (IARC)
 
 Questionário rápido. O Terra é um papel de parede sem conteúdo gerado por
