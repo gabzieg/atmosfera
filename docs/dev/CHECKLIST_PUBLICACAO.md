@@ -222,14 +222,19 @@ Form declarado com o que o APK realmente pede).
     não repete pedido antes do `Expires`; o worker em segundo plano espera 0–2 min
     aleatórios antes de consultar (a MET pede tráfego "em curva plana, não em
     dente de serra").
-  - [ ] **Decisão pendente do Gabriel — consulta em segundo plano.** Os termos
-    dizem: "Applications on mobile devices must not retrieve new data as long as
-    the application is not in use". O `WeatherWorker` periódico consulta a MET
-    com o app fechado e a tela possivelmente apagada. O wallpaper já busca clima
-    sozinho quando fica visível (`AtmosferaWallpaperService`), então o worker é
-    quase redundante. Opção recomendada: tirar a consulta de rede do worker
-    (e, com ela, `RECEIVE_BOOT_COMPLETED`), o que exige reescrever a Política
-    §3.1/§5/§8, o texto de "Atualizar clima" em Ajustes e o Data Safety.
+  - [x] **Decisão do Gabriel (2026-10-04): manter a atualização em segundo
+    plano.** Os termos da MET dizem que app móvel "must not retrieve new data as
+    long as the application is not in use", e o `WeatherWorker` periódico consulta
+    com o app fechado. Foi aceito, com o risco registrado aqui: se a MET limitar
+    o app, o sinal é 429/403 — e o `FreioMet` já para o tráfego nesse caso. O
+    intervalo é o que o usuário escolhe em Ajustes → Atualizar clima (15, 30 ou
+    60 min; padrão 30). Medido em 2026-10-04: a MET devolve `Expires` ~30 min
+    depois de `Last-Modified`, e o cache HTTP respeita isso — então escolher 15 min
+    não traz dado mais novo que 30 (a 2ª consulta sai do cache). Se quiser
+    reduzir tráfego sem perder nada, tirar a opção de 15 min é gratuito.
+    Plano B, se a MET reclamar: tirar a rede do worker (o wallpaper já busca ao
+    ficar visível) e `RECEIVE_BOOT_COMPLETED`, reescrevendo Política §3.1/§5/§8,
+    o texto de Ajustes e o Data Safety.
 
 ## Antes de cada release (recorrente)
 
