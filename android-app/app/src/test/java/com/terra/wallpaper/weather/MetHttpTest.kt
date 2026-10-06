@@ -1,8 +1,14 @@
 package com.terra.wallpaper.weather
 
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import okhttp3.mockwebserver.SocketPolicy
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -16,6 +22,7 @@ import retrofit2.HttpException
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
 
 /**
  * As condições dos termos da MET Norway, provadas contra um servidor HTTP falso
@@ -60,6 +67,34 @@ class MetHttpTest {
     @After fun descer() { servidor.shutdown() }
 
     private fun buscar() = runBlocking { repo.fetchWeather(-23.5505199, -46.6333094) }
+
+    @Test fun `cancelar sessao interrompe chamada HTTP aguardando resposta`() = runBlocking {
+        servidor.enqueue(MockResponse().setSocketPolicy(SocketPolicy.NO_RESPONSE))
+        val consulta = launch(Dispatchers.Default) { repo.fetchWeather(0.0, 0.0) }
+        try {
+            assertNotNull("Consulta deve chegar ao servidor", servidor.takeRequest(5, TimeUnit.SECONDS))
+            withTimeout(5_000L) { consulta.cancelAndJoin() }
+            assertTrue(consulta.isCancelled)
+            assertFalse(freio.bloqueado())
+        } finally {
+            consulta.cancelAndJoin()
+        }
+    }
+
+    @Test fun `cancelamento nao vira falha nem tentativa de rede`() {
+        val apiCancelada = object : MetNorwayApi {
+            override suspend fun previsao(latitude: Double, longitude: Double): MetResposta {
+                throw CancellationException("Home ficou oculta")
+            }
+        }
+        try {
+            runBlocking { WeatherRepository(apiCancelada, freio).fetchWeather(0.0, 0.0) }
+            org.junit.Assert.fail("Cancelamento deve propagar para a sessão")
+        } catch (_: CancellationException) {
+            assertFalse(freio.bloqueado())
+            assertEquals(0, servidor.requestCount)
+        }
+    }
 
     @Test
     fun `identifica o app e manda coordenadas com 2 casas`() {

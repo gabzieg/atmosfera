@@ -14,10 +14,9 @@ import kotlin.math.min
  * app ou do wallpaper batia na API de novo — exatamente o comportamento que
  * leva ao bloqueio.
  *
- * O estado vale para o APARELHO inteiro, não para uma instância: o serviço do
- * wallpaper, a tela e o worker criam cada um o seu `WeatherRepository`, e é o
- * armazenamento persistente que faz os três respeitarem o mesmo prazo — até
- * depois de o processo ser morto.
+ * O estado vale para o APARELHO inteiro, não para uma instância: engines do
+ * wallpaper respeitam o mesmo prazo persistido, até depois de o processo ser
+ * morto. Companion e worker legado não fazem consultas.
  *
  * Espera: 30 min na primeira falha, dobrando a cada falha seguida, no máximo
  * 6 h. Um sucesso zera. Se a resposta trouxer `Retry-After`, vale o maior

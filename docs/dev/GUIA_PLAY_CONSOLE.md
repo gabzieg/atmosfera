@@ -42,6 +42,10 @@ O Data Safety só aparece depois que o app existe no Play Console. Ordem:
 
 ---
 
+## Atualização de clima somente na home — 05/10/2026
+
+A partir do app 1.0.5 (código 6 preparado nesta alteração), consultas e aquisição de localização ficam limitadas à home com wallpaper visível, tela interativa e aparelho desbloqueado. Companion, bloqueio e prévias usam dados já disponíveis. O worker antigo não consulta nem é reagendado; Application cancela a fila legada. O receiver próprio de boot e sua permissão direta foram removidos; conferir permissões transitivas do manifesto mesclado no AAB final. Isso não muda automaticamente os tipos de dados enviados à MET: localização aproximada continua sendo transmitida quando ocorre consulta. Este guia não comprova que o novo AAB já foi enviado ao Console.
+
 ## Data Safety Form
 
 ### Passo 1 — Visão geral

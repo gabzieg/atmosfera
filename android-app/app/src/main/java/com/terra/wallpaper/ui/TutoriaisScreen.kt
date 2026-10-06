@@ -67,11 +67,11 @@ private val ITENS_AJUDA = listOf(
     ),
     ItemAjuda(
         "De quanto em quanto tempo o clima atualiza?",
-        "Por padrão a cada 30 minutos, e só com rede disponível. Você pode mudar para " +
-            "15 ou 60 minutos em Ajustes → Cenário → Atualizar clima. Intervalos menores " +
-            "deixam a cena mais fiel ao tempo real, mas consomem um pouco mais de bateria " +
-            "e dados. Também dá para forçar uma atualização na hora pelo botão de recarregar " +
-            "no card de clima da aba Início.",
+        "O clima atualiza somente com o wallpaper visível na tela inicial, celular acordado " +
+            "e desbloqueado. O intervalo padrão é 30 minutos; você pode escolher 15 ou 60 " +
+            "em Ajustes → Cenário → Clima na tela inicial. O cache do fornecedor pode adiar " +
+            "uma consulta. Com outro app aberto, tela apagada ou bloqueada, não há novas " +
+            "consultas. A aba Início apenas mostra o último clima salvo.",
     ),
     ItemAjuda(
         "Qual a diferença entre cenário, arte e estilo?",
@@ -102,8 +102,8 @@ private val ITENS_AJUDA = listOf(
         "O papel de parede parou de animar. E agora?",
         "Alguns fabricantes restringem apps em segundo plano para economizar bateria. " +
             "Verifique se o Terra está liberado da otimização de bateria nos ajustes do " +
-            "Android. Se o clima estiver desatualizado, force uma atualização pelo botão de " +
-            "recarregar na aba Início.",
+            "Android. Se o clima estiver desatualizado, volte à tela inicial com o celular " +
+            "desbloqueado e confira a conexão. A atualização respeita o intervalo e o cache.",
     ),
     ItemAjuda(
         "O app gasta muita bateria?",
@@ -111,7 +111,7 @@ private val ITENS_AJUDA = listOf(
             "em vez de vídeos ou animações pré-renderizadas. Isso reduz o processamento " +
             "e o consumo. A cena só é desenhada quando o wallpaper está visível; com a " +
             "tela apagada ou outro app aberto, o desenho é pausado. A consulta de clima " +
-            "também é periódica e reaproveita os dados recentes.",
+            "também só acontece na tela inicial desbloqueada e reaproveita os dados recentes.",
     ),
 )
 
