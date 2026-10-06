@@ -29,10 +29,8 @@ class WeatherCache(context: Context) {
     }
 
     /**
-     * @param lugar nome resolvido pelo Geocoder. Só o app faz essa consulta; o
-     *   serviço do wallpaper salva com `null` e aí o nome ANTERIOR é mantido —
-     *   desde que o aparelho não tenha se deslocado, senão ele viraria mentira
-     *   e é melhor não mostrar nome nenhum até o app resolver o novo.
+     * @param lugar Nome legado opcional; não há nova consulta de Geocoder.
+     * O nome antigo só é preservado enquanto as coordenadas forem próximas.
      */
     fun save(state: WeatherState, lat: Double, lon: Double,
              lugar: String? = null, localPadrao: Boolean = false) {
@@ -80,7 +78,7 @@ class WeatherCache(context: Context) {
         val lastFetch = prefs.getLong(KEY_LAST_FETCH, 0L)
         if (lastFetch == 0L) return true // nunca cacheado
 
-        val tooOld = System.currentTimeMillis() - lastFetch > ttlMs
+        val tooOld = System.currentTimeMillis() - lastFetch >= ttlMs
         val cachedLat = prefs.getFloat(KEY_LAT, 0f).toDouble()
         val cachedLon = prefs.getFloat(KEY_LON, 0f).toDouble()
         val movedFar = Math.abs(lat - cachedLat) > LOCATION_DELTA ||

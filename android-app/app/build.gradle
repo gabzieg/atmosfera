@@ -24,8 +24,8 @@ android {
         applicationId "com.terra.wallpaper"
         minSdk 26
         targetSdk 36
-        versionCode 5
-        versionName "1.0.4"
+        versionCode 6
+        versionName "1.0.5"
         // Chave publica do Play Console. Ausente = compras recusadas, nunca liberadas sem verificacao.
         def playLicensePublicKey = keystoreProperties.getProperty('playLicensePublicKey', '')
         if (playLicensePublicKey && !(playLicensePublicKey ==~ /[A-Za-z0-9+\/=]+/)) {
@@ -118,6 +118,9 @@ android {
         // vezes: a primeira recria o baseline e falha de propósito.
         baseline = file("lint-baseline.xml")
     }
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
 }
 
 // PaginasLegaisSincronizadasTest lê as páginas legais dos dois lados (docs/ e
@@ -172,6 +175,9 @@ dependencies {
 
     // Testes unit (JVM puro — não sobem no APK). Rodam com `gradlew testDebugUnitTest`.
     testImplementation libs.junit
+    testImplementation libs.kotlinx.coroutines.test
+    testImplementation libs.androidx.work.testing
+    testImplementation libs.robolectric
     // Servidor HTTP falso: prova o que o app manda à MET (User-Agent, casas
     // decimais), o cache por `Expires` e a parada em 429, sem rede de verdade.
     testImplementation libs.okhttp.mockwebserver

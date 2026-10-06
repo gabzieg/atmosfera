@@ -67,6 +67,7 @@ class LocationHelper(private val context: Context) {
                 try {
                     fusedClient.getCurrentLocation(Priority.PRIORITY_BALANCED_POWER_ACCURACY, cts.token)
                         .addOnSuccessListener { location: Location? ->
+                            if (!cont.isActive) return@addOnSuccessListener
                             if (location != null) {
                                 Log.d(TAG, "Localização obtida: ${location.latitude}, ${location.longitude}")
                                 cont.resume(Localizacao(location.latitude, location.longitude, false))
@@ -76,6 +77,7 @@ class LocationHelper(private val context: Context) {
                             }
                         }
                         .addOnFailureListener { e ->
+                            if (!cont.isActive) return@addOnFailureListener
                             Log.e(TAG, "Erro ao obter localização: ${e.message}")
                             cont.resume(Localizacao(DEFAULT_LAT, DEFAULT_LON, true))
                         }

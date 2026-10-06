@@ -5,6 +5,7 @@ import android.util.Log
 import com.terra.wallpaper.BuildConfig
 import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.withContext
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -355,6 +356,8 @@ class WeatherRepository internal constructor(
                 )
                 Log.d(TAG, "Clima obtido: $state")
                 Result.success(state)
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: MetBloqueadaException) {
                 Log.w(TAG, "Consulta adiada: ${e.message}")
                 Result.failure(e)
@@ -378,8 +381,8 @@ class WeatherRepository internal constructor(
         val USER_AGENT = "Terra/${BuildConfig.VERSION_NAME} (${BuildConfig.APPLICATION_ID}; $CONTATO)"
 
         /**
-         * UM cliente por processo. O serviço do wallpaper, a tela e o worker
-         * criam cada um o seu `WeatherRepository`; se cada um abrisse o próprio
+         * UM cliente por processo. Engines do wallpaper podem criar seu
+         * `WeatherRepository`; se cada um abrisse o próprio
          * `Cache` do OkHttp na mesma pasta, os journals brigariam — o OkHttp
          * exige uma única instância por diretório.
          */

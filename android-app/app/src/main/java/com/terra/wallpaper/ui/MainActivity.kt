@@ -9,8 +9,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.terra.wallpaper.ui.theme.AtmosferaTheme
-import com.terra.wallpaper.weather.IntervaloClima
-import com.terra.wallpaper.weather.WeatherWorker
 
 class MainActivity : ComponentActivity() {
 
@@ -18,8 +16,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        WeatherWorker.schedule(this, IntervaloClima.atual(this).toLong())
 
         setContent {
             AtmosferaTheme {
@@ -52,5 +48,6 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         viewModel.billingManager.restaurar()
+        viewModel.refreshWeather()
     }
 }

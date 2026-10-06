@@ -106,9 +106,9 @@
   <p class="kicker">Terra - Live Wallpaper</p>
   <h1>Política de Privacidade</h1>
   <ul class="meta">
-    <li><strong>Versão da política:</strong> 1.3</li>
-    <li><strong>Aplica-se a:</strong> Terra - Live Wallpaper (Android, <code>com.terra.wallpaper</code>), a partir da versão 1.0.0</li>
-    <li><strong>Última atualização:</strong> 4 de outubro de 2026</li>
+    <li><strong>Versão da política:</strong> 1.4</li>
+    <li><strong>Aplica-se a:</strong> Terra - Live Wallpaper (Android, <code>com.terra.wallpaper</code>), a partir da versão 1.0.5</li>
+    <li><strong>Última atualização:</strong> 5 de outubro de 2026</li>
     <li><strong>Vigente desde:</strong> <span class="fill">[PREENCHER: data da primeira publicação na Google Play]</span></li>
   </ul>
 </header>
@@ -156,7 +156,7 @@
 <ul>
   <li><strong>O que é:</strong> latitude e longitude do aparelho, obtidas pelo serviço de localização do Android (Google Play Services). O app pede <strong>precisão balanceada</strong>, não GPS de alta precisão — o resultado costuma ter resolução de bairro/cidade, e não a sua posição exata.</li>
   <li><strong>Para quê:</strong> consultar a condição meteorológica atual do local (temperatura, condição do tempo, chuva, nuvens, vento e umidade) e calcular, no próprio aparelho, a sensação térmica e os horários de nascer e pôr do sol e traduzir isso na cena animada do papel de parede. É a função central do produto: sem clima do lugar certo, o app não faz o que promete.</li>
-  <li><strong>Quando acontece:</strong> ao abrir o app, quando o papel de parede fica visível (em primeiro plano), apenas com rede disponível. O intervalo dessa verificação em segundo plano é <strong>escolhido por você</strong> em Ajustes → Cenário → Atualizar clima (15, 30 ou 60 minutos). Note que a rotina em segundo plano <strong>não busca sua localização novamente</strong>, apenas reutiliza a última coordenada já conhecida (em cache) para atualizar a previsão do tempo. A localização só é lida do GPS quando você interage com o app ou quando o papel de parede está visível na tela.</li>
+  <li><strong>Quando acontece:</strong> somente enquanto o papel de parede do Terra estiver visível na tela inicial, com o aparelho acordado e desbloqueado. Não são iniciadas novas consultas de clima ou de localização com outro app cobrindo a tela inicial, na tela de bloqueio, com a tela apagada ou nas prévias/configuração. A tela do aplicativo Terra exibe apenas o último clima salvo. Ao voltar à tela inicial, o último clima é exibido imediatamente e atualizado quando necessário. O intervalo escolhido em Ajustes → Cenário → Clima na tela inicial (15, 30 ou 60 minutos; padrão 30) vale durante esse uso, respeitando também o cache HTTP e eventuais restrições do fornecedor. Não há atualização periódica de clima por worker em segundo plano.</li>
   <li><strong>Para onde vai:</strong> as coordenadas são enviadas ao serviço da <strong>MET Norway</strong> (seção 6.1) por HTTPS, como parâmetros da consulta de previsão, <strong>arredondadas para duas casas decimais</strong> (cerca de 1 km) antes de sair do aparelho. Não são enviadas a mais ninguém — nem ao servidor de entrega de conteúdo descrito na seção 3.8, que não tem qualquer acesso a essa informação.</li>
   <li><strong>Onde fica guardada:</strong> no armazenamento privado do app, no seu aparelho (<code>SharedPreferences</code>, acessível somente ao app), junto do último clima recebido — para não repetir consultas à toa. É sobrescrita a cada nova consulta; guardamos só a mais recente.</li>
   <li><strong>Base legal:</strong> consentimento do titular (art. 7º, I da LGPD), manifestado na permissão de localização do Android, que você pode revogar a qualquer momento. Para usuários no Espaço Econômico Europeu / Reino Unido, o fundamento equivalente é o art. 6(1)(a) do GDPR.</li>
@@ -226,15 +226,10 @@
       <td>Obter as coordenadas para a consulta de clima (seção 3.1). O app pede apenas <strong>localização aproximada</strong> — precisão balanceada, nunca GPS de alta precisão</td>
       <td>O app usa São Paulo (SP) como local padrão e segue funcionando</td>
     </tr>
-    <tr>
-      <td><code>RECEIVE_BOOT_COMPLETED</code></td>
-      <td>Reagendar a atualização periódica de clima depois de reiniciar o aparelho</td>
-      <td>A atualização periódica volta a ser agendada na próxima vez que você abrir o app</td>
-    </tr>
   </tbody>
 </table>
 </div>
-<p>Nenhuma outra permissão é declarada pelo app.</p>
+<p>Não há receiver próprio nem reagendamento de clima após reiniciar o aparelho. Bibliotecas do Android, como WorkManager, podem acrescentar permissões técnicas ao manifesto mesclado; isso não autoriza consultas de clima fora da tela inicial.</p>
 
 <h2>6. Com quem os dados são compartilhados</h2>
 <p>Não vendemos nem compartilhamos dados para fins de marketing. Os únicos terceiros envolvidos são os operadores técnicos abaixo, cada um com finalidade específica.</p>
@@ -276,7 +271,7 @@
 <table>
   <thead><tr><th>Dado</th><th>Onde</th><th>Retenção</th></tr></thead>
   <tbody>
-    <tr><td>Coordenadas + último clima (cache)</td><td>Seu aparelho</td><td>Apenas o registro mais recente; sobrescrito a cada nova consulta (no máximo uma vez por intervalo escolhido em Ajustes — 15, 30 ou 60 min). Apagado ao limpar os dados do app ou desinstalar</td></tr>
+    <tr><td>Coordenadas + último clima (cache)</td><td>Seu aparelho</td><td>Apenas o registro mais recente; sobrescrito após uma consulta bem-sucedida durante o uso na tela inicial, respeitando o intervalo escolhido e o cache HTTP. Apagado ao limpar os dados do app ou desinstalar</td></tr>
     <tr><td>Preferências (cenário, arte, estilo, Premium)</td><td>Seu aparelho</td><td>Enquanto o app estiver instalado</td></tr>
     <tr><td>Backup do sistema</td><td>Sua conta Google</td><td>Conforme a política de backup do Android/Google, sob seu controle</td></tr>
     <tr><td>Coordenadas e IP em logs da MET Norway</td><td>Servidores da MET Norway (Noruega)</td><td>Até 90 dias, conforme a política deles</td></tr>
@@ -343,6 +338,7 @@
 <table>
   <thead><tr><th>Versão</th><th>Data</th><th>Mudança</th></tr></thead>
   <tbody>
+    <tr><td>1.4</td><td>5 de outubro de 2026</td><td>A partir do app 1.0.5, consultas somente com wallpaper visível na tela inicial, aparelho acordado/desbloqueado; companion e prévias usam cache; retirada da atualização periódica e do receiver próprio de boot.</td></tr>
     <tr><td>1.3</td><td>4 de outubro de 2026</td><td>Seção 11: define o público do app como 13 anos ou mais, com autorização de responsável para menores de 18 anos, em linha com a declaração de público-alvo no Google Play Console.</td></tr>
     <tr><td>1.2</td><td>3 de outubro de 2026</td><td>Troca o fornecedor de previsão do tempo: sai a Open-Meteo (Suíça), entra a MET Norway (Noruega) — seções 3.1, 3.2, 3.3, 5, 6.1, 7, 8 e 9. As coordenadas passam a sair do aparelho arredondadas para cerca de 1 km; sensação térmica e nascer/pôr do sol passam a ser calculados no aparelho. Corrigida a sigla do estado de São Paulo na seção 3.1.</td></tr>
     <tr><td>1.1</td><td>29 de setembro de 2026</td><td>Adiciona a entrega de conteúdo via Cloudflare R2 (novo servidor, seções 3.8 e 6.5) — cenários e artes fora do catálogo grátis passam a ser baixados sob demanda. A localização nunca é enviada a esse servidor. Revisadas as seções 4, 7, 8 e 9, que afirmavam categoricamente a ausência de qualquer servidor.</td></tr>

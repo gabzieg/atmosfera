@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.preference.PreferenceManager
 import com.terra.wallpaper.billing.BillingManager
 import com.terra.wallpaper.billing.Plano
@@ -17,14 +16,10 @@ import com.terra.wallpaper.engine.Cena
 import com.terra.wallpaper.engine.EstiloEfeito
 import com.terra.wallpaper.engine.PersonalizacaoPref
 import com.terra.wallpaper.weather.IntervaloClima
-import com.terra.wallpaper.weather.LocationHelper
 import com.terra.wallpaper.weather.WeatherCache
-import com.terra.wallpaper.weather.WeatherRepository
 import com.terra.wallpaper.weather.WeatherState
-import com.terra.wallpaper.weather.WeatherWorker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 
 /**
  * Procedência do clima que está na tela: onde foi medido, quando foi buscado e
@@ -62,9 +57,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     private val context: Context get() = getApplication()
     private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     private val cenaPrefs = context.getSharedPreferences("atmosfera_cena", Context.MODE_PRIVATE)
-    private val locationHelper = LocationHelper(context)
-    private val weatherRepo = WeatherRepository(context)
     private val weatherCache = WeatherCache(context)
+    private val climaPrefs = context.getSharedPreferences("atmosfera_weather_cache", Context.MODE_PRIVATE)
     
     val billingManager = BillingManager(context) { onPremiumMudou(it) }
 
@@ -120,6 +114,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
         }
         prefs.registerOnSharedPreferenceChangeListener(this)
         cenaPrefs.registerOnSharedPreferenceChangeListener(this)
+        climaPrefs.registerOnSharedPreferenceChangeListener(this)
         billingManager.conectar()
         if (_hasLocationPermission.value) {
             refreshWeather()
@@ -130,6 +125,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
         super.onCleared()
         prefs.unregisterOnSharedPreferenceChangeListener(this)
         cenaPrefs.unregisterOnSharedPreferenceChangeListener(this)
+        climaPrefs.unregisterOnSharedPreferenceChangeListener(this)
         billingManager.encerrar()
     }
 
@@ -152,28 +148,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
         _hasLocationPermission.value = false
     }
 
+    /** O companion mostra o último clima salvo; só o wallpaper na home consulta. */
     fun refreshWeather() {
-        viewModelScope.launch {
-            try {
-                val onde = locationHelper.getLocalizacao()
-                // O nome do lugar é resolvido aqui, no app em primeiro plano —
-                // é onde o Geocoder tem chance de responder. O serviço do
-                // wallpaper e o worker salvam sem nome e herdam este.
-                val lugar = locationHelper.nomeDoLugar(onde.lat, onde.lon)
-                weatherRepo.fetchWeather(onde.lat, onde.lon)
-                    .onSuccess { state ->
-                        weatherCache.save(state, onde.lat, onde.lon, lugar, onde.padrao)
-                        _weatherState.value = state
-                        _climaInfo.value = ClimaInfo(
-                            weatherCache.lugar(), weatherCache.ultimaBuscaMs(), onde.padrao)
-                    }
-                    .onFailure {
-                        _weatherState.value = weatherCache.get()
-                    }
-            } catch (e: Exception) {
-                 _weatherState.value = weatherCache.get()
-            }
-        }
+        _weatherState.value = weatherCache.get()
+        _climaInfo.value = ClimaInfo(weatherCache.lugar(), weatherCache.ultimaBuscaMs(),
+            weatherCache.localPadrao())
     }
 
     private fun onPremiumMudou(premium: Boolean) {
@@ -192,6 +171,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (sharedPreferences == climaPrefs && key == "weather_state") refreshWeather()
         if (sharedPreferences == cenaPrefs && key == "atual") {
             _currentSceneId.value = Cena.atual(context)
             prefs.edit().putLong("KEY_CENA_ATUAL", System.currentTimeMillis()).apply()
@@ -247,7 +227,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     fun setIntervaloClima(minutos: Int) {
         IntervaloClima.definir(context, minutos)
         _intervaloClimaMinutos.value = minutos
-        WeatherWorker.schedule(context, minutos.toLong())
     }
 
     fun setBrilho(valor: Int) {

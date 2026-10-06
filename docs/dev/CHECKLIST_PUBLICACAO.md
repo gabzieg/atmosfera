@@ -13,11 +13,11 @@
 |---|---|---|
 | `INTERNET` / `ACCESS_NETWORK_STATE` | `weather/WeatherRepository.kt` | Buscar o clima na MET Norway |
 | `ACCESS_COARSE_LOCATION` | `weather/LocationHelper.kt` | O wallpaper reage ao clima da região do usuário — é a funcionalidade principal do app. **Só aproximada**: `ACCESS_FINE_LOCATION` foi removida em 2026-08-08 por não ter uso real (ver comentário no manifesto) |
-| `RECEIVE_BOOT_COMPLETED` | `weather/BootReceiver.kt` | Reagendar a atualização periódica de clima após reiniciar o aparelho |
 
-Nenhuma outra permissão deveria existir — se aparecer uma nova no manifesto,
-confirme que tem uso real antes de publicar (o Google compara o Data Safety
-Form declarado com o que o APK realmente pede).
+Essa tabela cobre as permissões diretamente declaradas pelo aplicativo.
+WorkManager e outras dependências podem acrescentar permissões técnicas ao
+manifesto mesclado. Conferir o manifesto do AAB final e justificar cada permissão
+antes de publicar; o Google compara a declaração com o artefato enviado.
 
 ## Dados coletados
 
@@ -216,25 +216,9 @@ Form declarado com o que o APK realmente pede).
   da MET: 20 req/s somando TODOS os usuários — acima disso exige acordo ou
   proxy com cache. Com o cache HTTP e o intervalo mínimo de 15 min, isso só
   pesa com dezenas de milhares de aparelhos ativos.
-  - **Feito em 2026-10-04** (testes em `MetHttpTest`/`FreioMetTest`): 429 e 403
-    ligam um freio persistente (`FreioMet`: 30 min, dobrando até 6 h, zera no
-    sucesso) respeitado pelo wallpaper, pela tela e pelo worker; o cache HTTP
-    não repete pedido antes do `Expires`; o worker em segundo plano espera 0–2 min
-    aleatórios antes de consultar (a MET pede tráfego "em curva plana, não em
-    dente de serra").
-  - [x] **Decisão do Gabriel (2026-10-04): manter a atualização em segundo
-    plano.** Os termos da MET dizem que app móvel "must not retrieve new data as
-    long as the application is not in use", e o `WeatherWorker` periódico consulta
-    com o app fechado. Foi aceito, com o risco registrado aqui: se a MET limitar
-    o app, o sinal é 429/403 — e o `FreioMet` já para o tráfego nesse caso. O
-    intervalo é o que o usuário escolhe em Ajustes → Atualizar clima (15, 30 ou
-    60 min; padrão 30). Medido em 2026-10-04: a MET devolve `Expires` ~30 min
-    depois de `Last-Modified`, e o cache HTTP respeita isso — então escolher 15 min
-    não traz dado mais novo que 30 (a 2ª consulta sai do cache). Se quiser
-    reduzir tráfego sem perder nada, tirar a opção de 15 min é gratuito.
-    Plano B, se a MET reclamar: tirar a rede do worker (o wallpaper já busca ao
-    ficar visível) e `RECEIVE_BOOT_COMPLETED`, reescrevendo Política §3.1/§5/§8,
-    o texto de Ajustes e o Data Safety.
+  - **Atualizado em 05/10/2026:** freio de 429/403 e cache HTTP preservados. Consultas somente pelo serviço na home visível, com tela interativa e aparelho desbloqueado; prévias e companion não consultam. Jitter cancelável de até 15 s distribui consultas enquanto em uso.
+  - [x] **Decisão posterior do titular: clima somente na home.** Substitui a decisão de 04/10 de manter consultas periódicas fora de uso. Removidos pontos de agendamento e receiver próprio de boot. WeatherWorker permanece sem rede para neutralizar filas antigas; Application cancela trabalhos de clima por nome e tag, inclusive pontuais, preservando outros trabalhos.
+  - [ ] **Validar visibilidade/lock screen em aparelho real.** Testes automatizados não garantem os callbacks de todos os launchers/fabricantes. Conferir ausência de consultas com home oculta, aparelho bloqueado, tela apagada e prévias, além da aquisição de localização com a permissão aproximada disponível. Nenhuma permissão de localização em segundo plano foi adicionada.
 
 ## Antes de cada release (recorrente)
 
@@ -323,7 +307,8 @@ corrigida no mesmo PR.
 | `WeatherRepository.kt` — base URL `api.met.no`, HTTPS, sem chave de API, coordenadas arredondadas (`coordenada()`) | 3.1, 6.1, 9 |
 | `WeatherCache.kt` — TTL derivado do intervalo escolhido, delta ~5 km, só o registro mais recente | 3.1, 8 |
 | `IntervaloClima.kt` — opções 15/30/60 min, padrão 30 | 3.1 ("intervalo escolhido por você"), 8 |
-| `BootReceiver.kt` / `WeatherWorker` — período = intervalo escolhido | 3.1 ("verificação periódica") |
+| `ClimaNaHome.kt` / `AtmosferaWallpaperService.kt` — sessão visível/desbloqueada, cancelável | 3.1 ("somente na tela inicial") |
+| `WeatherWorker.kt` — migração sem consultas; filas antigas canceladas | 3.1, 5 |
 | `BillingManager.kt` — só `ProductType.INAPP`, compra única, sem `SUBS` | Privacidade 3.5 e 9; **Termos §5.1** ("não há assinatura") — passar a vender assinatura invalida os dois |
 | `BillingManager.kt` — só resultado da compra + verificação de assinatura | 3.5, 9 |
 | `Plano.kt`, `Cena.kt`, `Estilo.kt` — prefs locais | 3.4 |

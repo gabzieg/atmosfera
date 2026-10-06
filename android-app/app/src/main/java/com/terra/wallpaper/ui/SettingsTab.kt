@@ -113,7 +113,7 @@ private fun ListaAjustes(viewModel: MainViewModel, onNavegar: (TelaAjustes) -> U
         GrupoAjustes(titulo = "Cenário") {
             LinhaAjuste(
                 icone = Icons.Default.Schedule,
-                rotulo = "Atualizar clima",
+                rotulo = "Clima na tela inicial",
                 onClick = { mostrarSeletorIntervalo = true },
             ) {
                 Text(
@@ -338,9 +338,14 @@ private fun SeletorIntervaloDialog(atual: Int, onSelecionar: (Int) -> Unit, onDi
         Surface(shape = RoundedCornerShape(20.dp), color = MaterialTheme.colorScheme.surface) {
             Column(modifier = Modifier.padding(vertical = 12.dp)) {
                 Text(
-                    "Atualizar clima a cada",
+                    "Atualizar na tela inicial a cada",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp),
+                )
+                Text(
+                    "Somente com o wallpaper visível e o celular desbloqueado. O cache pode adiar a consulta.",
+                    style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(horizontal = 20.dp, vertical = 8.dp),
                 )
                 IntervaloClima.OPCOES_MIN.forEach { minutos ->

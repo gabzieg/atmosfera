@@ -13,9 +13,9 @@
 > conta). Se o modelo de monetização mudar — assinatura, anúncios, conteúdo
 > gerado por usuário — este texto precisa ser refeito, não emendado.
 
-**Versão dos termos:** 1.1
-**Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.0
-**Última atualização:** 3 de outubro de 2026
+**Versão dos termos:** 1.2
+**Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.5
+**Última atualização:** 5 de outubro de 2026
 **Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
 
 ---
@@ -70,6 +70,8 @@ da Noruega), que publica os dados sob a licença
 dados meteorológicos e não garantimos precisão, atualidade ou disponibilidade
 deles — o Terra não é, e não deve ser usado como, ferramenta de previsão do
 tempo para qualquer decisão que dependa de exatidão meteorológica.
+
+As consultas automáticas de clima ocorrem somente enquanto o wallpaper do Terra estiver visível na tela inicial, com o aparelho acordado e desbloqueado. Fora dessa condição, não há novas consultas; o último clima disponível é reutilizado. Ao voltar à tela inicial, a atualização respeita o intervalo escolhido, o cache e as restrições do fornecedor.
 
 ## 4. Licença de uso concedida a você
 
@@ -231,5 +233,6 @@ obrigatórias.
 
 | Versão | Data | Mudança |
 |---|---|---|
+| 1.2 | 5 de outubro de 2026 | A partir do app 1.0.5, consultas automáticas somente na tela inicial com aparelho acordado e desbloqueado. |
 | 1.1 | 3 de outubro de 2026 | Troca o fornecedor de previsão do tempo: sai a Open-Meteo, entra a MET Norway (resumo e seções 3 e 7). |
 | 1.0 | [PREENCHER: data da primeira publicação] | Versão inicial, referente ao Terra 1.0.0 |

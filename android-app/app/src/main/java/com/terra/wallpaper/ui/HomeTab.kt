@@ -361,7 +361,7 @@ private fun WeatherHeroCard(
                     .size(36.dp)
                     .background(Color.Black.copy(alpha = 0.35f), CircleShape),
             ) {
-                Icon(Icons.Default.Refresh, contentDescription = "Atualizar clima", tint = Color.White)
+                Icon(Icons.Default.Refresh, contentDescription = "Ler clima salvo", tint = Color.White)
             }
 
             Box(

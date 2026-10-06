@@ -1,11 +1,19 @@
 package com.terra.wallpaper.service
 
+import android.app.KeyguardManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Canvas
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
+import android.os.PowerManager
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
+import androidx.core.content.ContextCompat
+import com.terra.wallpaper.AtmosferaApp
 import com.terra.wallpaper.BuildConfig
 import com.terra.wallpaper.billing.Plano
 import com.terra.wallpaper.debug.DebugOverride
@@ -16,23 +24,33 @@ import com.terra.wallpaper.engine.EstiloEfeito
 import com.terra.wallpaper.engine.PersonalizacaoPref
 import com.terra.wallpaper.engine.SceneState
 import com.terra.wallpaper.weather.IntervaloClima
+import com.terra.wallpaper.weather.ClimaNaHome
+import com.terra.wallpaper.weather.FreioMet
 import com.terra.wallpaper.weather.LocationHelper
 import com.terra.wallpaper.weather.WeatherCache
 import com.terra.wallpaper.weather.WeatherRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlin.random.Random
 
 /**
  * Live wallpaper Atmosfera: desenha o cenário reativo ao clima usando o
  * [EffectEngine]. Sem imagens pré-renderizadas — tudo é o motor em Canvas.
  */
 class AtmosferaWallpaperService : WallpaperService() {
+
+    // Engines podem se sobrepor durante troca/recriação do wallpaper.
+    private val climaMutex = Mutex()
 
     override fun onCreateEngine(): Engine = AtmosferaEngine()
 
@@ -46,46 +64,62 @@ class AtmosferaWallpaperService : WallpaperService() {
         private val frameMs = 33L // ~30 fps (equilíbrio fluidez × bateria)
         private val cargaMutex = Mutex()   // serializa carregar (troca cena/estilo)
 
-        // REVALIDAR ENQUANTO VISÍVEL. O clima só era relido ao voltar pra tela
-        // inicial; quem fica com a home aberta via o tempo congelar no que foi
-        // lido quando a tela acendeu. A cada 10 min o serviço chama de novo o
-        // `carregarClima`, que decide sozinho entre o cache e a rede pelo TTL
-        // do intervalo escolhido — ou seja, isto não gera requisição extra
-        // nenhuma, só deixa de esperar o usuário sair e voltar. Também cobre o
-        // caso do WeatherWorker apanhar do Doze e não rodar no horário.
-        private val revalidaClimaMs = 10 * 60 * 1000L
-        private var ultimoClimaMs = 0L
-        private val climaMutex = Mutex()
+        private val app get() = application as AtmosferaApp
+        private val power get() = getSystemService(PowerManager::class.java)
+        private val keyguard get() = getSystemService(KeyguardManager::class.java)
+        private fun podeConsultar(): Boolean = ClimaNaHome.podeAtualizar(
+            visivel, power.isInteractive, keyguard.isKeyguardLocked, isPreview, app.appAberto)
+        private val climaNaHome = ClimaNaHome(scope, ::podeConsultar, ::carregarClima) {
+            IntervaloClima.atual(applicationContext) * 60_000L
+        }
+        private val aoMudarApp: () -> Unit = { climaNaHome.reavaliar() }
+        private var ultimaElegibilidadeMs = 0L
+        private val telaReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                if (intent.action == Intent.ACTION_SCREEN_OFF) climaNaHome.parar()
+                else climaNaHome.reavaliar()
+            }
+        }
 
         private val frame = object : Runnable {
             override fun run() {
+                // Cobre mudança de keyguard sem transição de visibilidade;
+                // os broadcasts cancelam imediatamente nas transições de tela.
+                val agora = SystemClock.elapsedRealtime()
+                if (agora - ultimaElegibilidadeMs >= 1_000L) {
+                    ultimaElegibilidadeMs = agora
+                    climaNaHome.reavaliar()
+                }
                 desenhar()
-                talvezRevalidarClima()
                 if (visivel) handler.postDelayed(this, frameMs)
             }
         }
 
-        /** Dispara a revalidação do clima quando vence o passo de 10 min. */
-        private fun talvezRevalidarClima() {
-            if (!visivel) return
-            val agora = SystemClock.elapsedRealtime()
-            if (agora - ultimoClimaMs < revalidaClimaMs) return
-            ultimoClimaMs = agora
-            scope.launch(Dispatchers.IO) { carregarClima() }
-        }
-
         override fun onCreate(holder: SurfaceHolder) {
             super.onCreate(holder)
+            app.observadoresVisibilidade.add(aoMudarApp)
+            ContextCompat.registerReceiver(applicationContext, telaReceiver,
+                IntentFilter().apply {
+                    addAction(Intent.ACTION_SCREEN_OFF)
+                    addAction(Intent.ACTION_SCREEN_ON)
+                    addAction(Intent.ACTION_USER_PRESENT)
+                }, ContextCompat.RECEIVER_NOT_EXPORTED)
             aplicarPersonalizacao()
             scope.launch(Dispatchers.IO) {
                 carregarComSelecao()
-                carregarClima()
-                withContext(Dispatchers.Main) { if (visivel) handler.post(frame) }
+                withContext(Dispatchers.Main) {
+                    aplicarClimaEmCache()
+                    if (visivel) {
+                        handler.removeCallbacks(frame)
+                        handler.post(frame)
+                    }
+                }
             }
         }
 
         override fun onVisibilityChanged(visible: Boolean) {
             visivel = visible
+            climaNaHome.reavaliar()
             if (visible) {
                 aplicarPersonalizacao()
                 // recarrega assets se o usuário trocou cenário/arte/estilo,
@@ -93,9 +127,13 @@ class AtmosferaWallpaperService : WallpaperService() {
                 // então não há corrida de bitmaps com o carregar).
                 scope.launch(Dispatchers.IO) {
                     carregarComSelecao()
-                    carregarClima()
                     withContext(Dispatchers.Main) {
-                        if (visivel) { estado.hora = horaEfetiva(); handler.post(frame) }
+                        aplicarClimaEmCache()
+                        if (visivel) {
+                            estado.hora = horaEfetiva()
+                            handler.removeCallbacks(frame)
+                            handler.post(frame)
+                        }
                     }
                 }
             } else {
@@ -148,6 +186,9 @@ class AtmosferaWallpaperService : WallpaperService() {
 
         override fun onDestroy() {
             super.onDestroy()
+            app.observadoresVisibilidade.remove(aoMudarApp)
+            applicationContext.unregisterReceiver(telaReceiver)
+            climaNaHome.parar()
             handler.removeCallbacks(frame)
             scope.cancel()
             motor.liberar()
@@ -156,43 +197,59 @@ class AtmosferaWallpaperService : WallpaperService() {
         /**
          * Busca o clima e aplica ao estado do motor.
          *
-         * O cache decide se sai requisição: dentro do TTL (90% do intervalo
-         * escolhido em Ajustes) ele devolve o que já tem; vencido, busca. O
-         * mutex existe porque agora há dois disparos possíveis ao mesmo tempo —
-         * o de ficar visível e o passo de 10 min.
+         * Somente na home desbloqueada. Cancelamento alcança localização e
+         * Retrofit; a elegibilidade é relida após cada suspensão e antes da rede.
          */
         private suspend fun carregarClima() = climaMutex.withLock {
-            ultimoClimaMs = SystemClock.elapsedRealtime()
+            conferirUso()
             // Modo TESTE: força o clima escolhido no painel de debug.
             if (BuildConfig.DEBUG && DebugOverride.ativo(applicationContext)) {
                 withContext(Dispatchers.Main) {
                     DebugOverride.aplicar(applicationContext, estado)
                     motor.aoMudarClima()
                 }
-                return
+                return@withLock
             }
             try {
                 val cache = WeatherCache(applicationContext)
+                aplicarClimaEmCache()
+                val ultima = cache.cachedLocation()
+                if (ultima != null && !cache.isStale(ultima.first, ultima.second,
+                        IntervaloClima.ttlMs(applicationContext))) return@withLock
+                if (FreioMet.doContexto(applicationContext).bloqueado()) return@withLock
+                // Distribui consultas de várias instalações; espera cancelável,
+                // somente durante uso, sem worker ou espera fora da home.
+                delay(Random.nextLong(0L, 15_000L))
+                conferirUso()
                 val loc = LocationHelper(applicationContext)
                 val repo = WeatherRepository(applicationContext)
                 val onde = loc.getLocalizacao()
+                conferirUso()
                 val lat = onde.lat
                 val lon = onde.lon
                 val ttl = IntervaloClima.ttlMs(applicationContext)
-                val state = if (!cache.isStale(lat, lon, ttl)) cache.get()
-                else repo.fetchWeather(lat, lon).getOrNull()
-                    ?.also { cache.save(it, lat, lon, localPadrao = onde.padrao) }
-                    ?: cache.get()
-
-                state ?: return
-                val premium = Plano.isPremium(applicationContext)
-                withContext(Dispatchers.Main) {
-                    SceneState.aplicarClima(estado, state, premium)
-                    motor.aoMudarClima()
+                if (cache.isStale(lat, lon, ttl)) {
+                    val novo = repo.fetchWeather(lat, lon).getOrNull()
+                    conferirUso()
+                    if (novo != null) cache.save(novo, lat, lon, localPadrao = onde.padrao)
                 }
+                aplicarClimaEmCache()
+            } catch (e: CancellationException) {
+                throw e
             } catch (_: Exception) {
                 // Sem clima e sem cache: o motor desenha o cenário base mesmo assim.
             }
+        }
+
+        private suspend fun conferirUso() {
+            currentCoroutineContext().ensureActive()
+            if (!podeConsultar()) throw CancellationException("Wallpaper fora da home ativa")
+        }
+
+        private fun aplicarClimaEmCache() {
+            val salvo = WeatherCache(applicationContext).get() ?: return
+            SceneState.aplicarClima(estado, salvo, Plano.isPremium(applicationContext))
+            motor.aoMudarClima()
         }
 
         private fun desenhar() {
