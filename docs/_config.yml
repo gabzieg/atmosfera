@@ -15,6 +15,10 @@
 # criaria duas URLs pro mesmo texto legal — ruim justamente num documento
 # cuja versão vigente precisa ser inequívoca.
 
+# `README.md` é o índice interno da documentação (estado de cada arquivo,
+# referências a lacunas de conformidade); sem esta linha o Jekyll o serviria
+# como página inicial pública do site.
 exclude:
   - dev/
   - legal/
+  - README.md

@@ -30,6 +30,13 @@ Documentação de apoio (leia sob demanda, não de cara):
 - [docs/dev/GUIA_PLAY_CONSOLE.md](docs/dev/GUIA_PLAY_CONSOLE.md) — respostas
   prontas (com a linha de código que sustenta cada uma) pro Data Safety Form
   e Content Rating Questionnaire.
+- [docs/README.md](docs/README.md) — **índice** de toda a documentação, com o
+  estado de cada arquivo (vigente / parcial / superado). Comece por ele quando
+  não souber qual documento vale.
+- [.lgpd/README.md](.lgpd/README.md) — registros internos de LGPD (ROPA, mapa de
+  dados, fornecedores, retenção, incidentes, lacunas). Mudou coleta, SDK,
+  fornecedor, permissão ou finalidade? Atualize **aqui e em `docs/legal/`** no
+  mesmo PR.
 
 ## Arquitetura em uma tabela
 
