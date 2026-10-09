@@ -1,4 +1,4 @@
-# Atmosfera — Tasks (fase atual)
+# Terra — Tasks (fase atual)
 
 > Estado do trabalho em andamento, literalmente agora. Diferente do
 > `ROADMAP.md` (fases do produto até publicar), isto é o dia a dia — o que
@@ -6,172 +6,81 @@
 > muda de status, não deixar ficar mentiroso.
 >
 > **Histórico de trabalho concluído não mora aqui** — mora no `git log`, que
-> não desatualiza. Este arquivo ficou 19 commits atrás da realidade entre
-> 2026-08-08 e 2026-08-10 justamente por acumular item feito.
+> não desatualiza. Este arquivo ficou dois meses parado (2026-08-10 → 2026-10-09)
+> justamente por acumular item feito e referenciar uma branch que já tinha sido
+> mesclada.
 
-**Última atualização:** 2026-08-10
+**Última atualização:** 2026-10-09 · `main` @ `2d01d16`
 
-## Estado do ambiente (confirmado 2026-08-10)
+## Estado (confirmado em 2026-10-09)
 
-Trabalho todo na branch **`front/kotlin-2-billing-9`**, 27 commits à frente da
-`origin/main` e 10 ainda não pushados. Árvore limpa fora de dois documentos de
-análise não rastreados (`ANALISE-RETOMADA.md`, `brief-claude-design.md`).
+- **App**: versão **1.0.5, versionCode 6** na `main`. AAB assinado gerado em 06/10 (SHA-256 `19b88b3d…e353e6bb`). **Não está confirmado** que foi enviado ao Console nem que o código 6 está livre — só o Gabriel vê o Console.
+- **Gate**: `testDebugUnitTest lintDebug assembleDebug` verde, **69 testes** unitários (14 classes), CI verde na `main`.
+- **Teste em aparelho do clima só na home (PR #46)**: **ainda não feito.** O emulador não sobe a partir do agente (virtualização negada no Windows); o Gabriel precisa ligá-lo, ou testar pelo teste interno em um celular. Roteiro em [CLIMA-SOMENTE-HOME.md](CLIMA-SOMENTE-HOME.md).
+- **Rafael**: sem commits novos desde o #46 (05/10 22:25).
+- **PRs abertos**: #43 (Rafael, **rascunho**: documentação do R2), #48 (**rascunho**: estrutura `.lgpd/` e índice `docs/README.md`), #45 e #47 (Dependabot — **#47 espera teste em celular**; mexe em bibliotecas do app).
 
-Gate verde numa rodada limpa hoje: `testDebugUnitTest lintDebug assembleDebug`.
-Emulador `Pixel_8` (API 36, `google_apis_playstore`) funcionando — build,
-instalação, navegação e captura de tela via `adb` estão todos operacionais sem
-precisar abrir o Android Studio.
+## Decisões pendentes do Gabriel
 
-**Push está quebrado deste lado:** o Git Credential Manager trava tentando abrir
-janela em sessão não interativa. Push é ação do usuário, fora do alcance do
-agente.
+Detalhe e opções em `.lgpd/gaps.md` e `.lgpd/STATUS.md` — **ainda no PR #48 (rascunho), não na `main`**.
 
-## Em andamento
+1. **Escopo do lançamento** — 5 cenas embutidas agora e packs depois, ou catálogo remoto completo. O SPEC (29/09) diz catálogo completo; o Gabriel disse 5 cenas (05/10); o **Rafael não confirmou a mudança**. A Loja remota **não existe** no app (só o painel de debug baixa; `Acervo.BASE_PADRAO` vazio).
+2. **O que o Premium libera nas 5 cenas** — o código e os Termos §5.1 dizem "todas as artes"; a decisão de 04/10 e o SPEC dizem "só efeitos e estilos". Conferir no Console se houve compra real antes de mudar.
+3. **Público 13+ ou 18+** (ECA Digital).
+4. **Encarregado** — designar o Rafael ou manter a dispensa de ATPP.
+5. **Retenção do atendimento** — 60 dias após resolver?
+6. **Qual texto legal vale** — o `.md` canônico (com `[PREENCHER]`) e os HTML divergem; e o que fazer com `docs/legal/revisao-2026-10-05/` (fora do Git).
+7. **Correções pequenas de código** (G05 e-mail do "Reportar problema", G08 backup, G09 log, G16 código morto).
+8. **Advogado** — quem revisa (G03, G11, G12, G20) e quando.
 
-- [ ] **⚠️ Origem dos sprites `pixel_mario` e `pixel_zelda`** — `engine/Estilo.kt`
-  linhas 53-54. São marcas da Nintendo, o titular mais agressivo do setor em
-  proteção de propriedade intelectual. Se a arte for derivada dos jogos, isso é
-  remoção da Play e possível suspensão da conta — **antes** de qualquer
-  discussão sobre preço. Confirmar a origem com o Rafael; na dúvida, tirar do
-  catálogo. Não é polimento, é risco de publicação.
+## Em andamento / a fazer
 
-- [ ] **Curadoria dos estilos de efeito — pré-requisito pra vendê-los.**
-  `engine/Estilo.kt` tem **28 estilos, mas ~15 ideias visuais**: o resto é
-  histórico de iteração exposto ao usuário.
+- [ ] **Teste em aparelho do #46**: clima atualizando ao voltar à home; instalação nova sem cache (a tela Início mostra "Carregando clima…" até o wallpaper rodar?); nome da cidade (a função que o resolvia não é mais chamada); nenhuma consulta com app aberto, tela apagada ou bloqueada.
+- [ ] **Subir o AAB 1.0.5 no teste interno** e conferir o código 6.
+- [ ] **Play Console**: Data Safety, IARC, público-alvo, ficha da loja, contato do app (o perfil público ainda usa e-mail pessoal), chave de licença `playLicensePublicKey`, produtos (hoje só `terra_premium`).
+- [ ] **Teste fechado**: 12 testadores por 14 dias seguidos; **o coordenador ainda não foi definido** (pergunta 22 do Rafael).
+- [ ] **Medir o motor em aparelho antigo** — decide o `minSdk 26`.
+- [ ] **Compra de verdade no teste**: precisa de conta Google logada; o AVD não tem.
+- [ ] **Ficha da loja** ([loja/FICHA.md](../loja/FICHA.md)): ainda descreve cenários que não estão no app; revisar quando o escopo (decisão 1) fechar.
+- [ ] **Registro de autoria/licença das artes e sprites** (pergunta 19 do Rafael). Os estilos `pixel_mario` e `pixel_zelda` já saíram do código; `Estilo.kt` tem 16 estilos.
+- [ ] **Conformidade**: lacunas G01–G21 em `.lgpd/gaps.md`.
 
-  | Família | Arquivos hoje |
-  |---|---|
-  | Rupestre | `rupestre_og`, `rupestre_1`, `rupestre_2`, `rupestre_gemini` |
-  | Paper cutout | `paper_cutout`, `_2`, `_3` |
-  | Pontilhismo | `point_gpt`, `point_gpt_2`, `pointilismo` |
-  | Pixel | `pixel`, `pixel_art2`, `pixel_mario`, `pixel_zelda` |
-  | Papel machê | `papel_mache`, `_2` |
-  | Talhe doce | `talhe_doce_og`, `talhe_doce` |
+## Esperando outras pessoas
 
-  Vender "Rupestre Og, Rupestre 1, Rupestre 2 e Rupestre Gemini" lado a lado não
-  parece catálogo grande — parece inflado, e paywall inflado é o que faz o
-  usuário sentir que está sendo espremido. Alvo: **~12 estilos, um por família**.
+- **Willian** — domínio, hospedagem e publicação das 3 páginas legais (a política precisa de URL pública para o Console).
+- **Rafael** — marcar o #43 como pronto; registro de licenças; revisão jurídica; operação do R2 (só se o catálogo remoto entrar).
+- **Segurança da chave de upload** (ainda aberto; o agente não lê o arquivo): a senha continua em texto em `C:\Users\gbrus\Chaves\SENHA-LEIA-E-APAGUE.txt` — mover para um gerenciador de senhas e apagar o `.txt`; e **backup do `.jks` em dois lugares**. Não enviar a chave ao Rafael: o AAB pode ser gerado por aqui ou por um fluxo na CI.
 
-  Junto vem o problema de nome: hoje o usuário lê **"Point Gpt", "Simplao",
-  "Rupestre Og", "Talhe Doce Og"** na tela de detalhe. O fallback em
-  `ui/StoreTab.kt` (`estiloNome`) só capitaliza o id — não inventa nome. Isso era
-  tolerável enquanto era de graça; passa a ser inaceitável no momento em que se
-  cobra por eles.
+## Decisões tomadas (não reabrir sem motivo novo)
 
-  A lista vive em `engine/` — que desde 2026-09-11 é nossa —, então tanto a
-  curadoria quanto a remoção dos arquivos são nossas: dá pra editar direto, ou
-  filtrar no front, que é o que `cenarioTemAsset` já faz pros cenários.
+- **Clima**: MET Norway (2026-10-03, a API gratuita da Open-Meteo é só não comercial); consulta **só com o wallpaper visível na home, tela acordada e desbloqueada** (2026-10-05, PR #46); freio persistente em 429/403.
+- **Monetização** (SPEC 29/09, reconfirmada 04/10): Premium **R$ 49,90**, compra única, só efeitos e estilos; cenários avulsos **R$ 1,99**. Packs comerciais ainda indefinidos. **O código ainda não separa os dois** (decisão pendente 2).
+- **Acervo remoto (R2)**: objetivo de lançamento desde 29/09, a pedido do Rafael — **sujeito à decisão pendente 1**.
+- **Público 13+** (2026-10-04) — sujeito à decisão pendente 3.
+- **Prévia ao vivo fora da Home** (2026-08-10): fica no onboarding, no detalhe da Loja e no comparador do Premium.
+- **Descartado: desenhar a cena em bitmap reduzido e ampliar** (`Canvas(Bitmap)` é software; piorou de 25 ms para 38 ms).
+- **Cenário sem asset some da Loja por verificação real** (`cenarioTemAsset` em `ui/components/SceneThumbnail.kt`), não por lista fixa.
+- **Toda mudança na `main` entra por PR**, 0 aprovações, CI `build` obrigatória, merge commit (ver `CLAUDE.md`).
+- **Sem anúncios** no lançamento; **CodeQL descartado** (repositório privado em plano free).
+- **AGP 9 não** (testado e revertido em 09/2026: passou na CI e o app não abria) — ver [DECISAO-AGP-9-MIGRACAO.md](DECISAO-AGP-9-MIGRACAO.md). O Dependabot está configurado para não propor os majors que quebram.
 
-- [ ] **Revisão dos textos da ficha — 4 decisões em aberto**, listadas no fim de
-  [docs/loja/FICHA.md](../loja/FICHA.md). Três são preferência (qual descrição
-  curta, incluir números ou não, confirmar "fases da lua" como Premium). A
-  quarta é **bloqueio de publicação**: a descrição longa promete jardim japonês,
-  farol, pântano e praia, e a estratégia é lançar com poucos cenários — se eles
-  não entrarem, a ficha vira promessa não cumprida.
+## Quem toca o quê
 
-- [ ] **A branch inteira ainda não virou PR.** São 27 commits — migração de
-  Kotlin/Billing, onboarding, tela de Premium, merge do snapshot do motor,
-  correções de Loja e a otimização de desempenho. O usuário já sinalizou que a
-  revisão é superficial e que um PR único serve, mas ele **não existe** ainda.
-  Enquanto isso, `main` não tem nada disso.
-
-- [ ] **A correção de desempenho não tem guarda de regressão.** Commit `d7a75d5`
-  tirou o `EngineLivePreview` da Home porque o motor na thread de UI deixava a
-  tela pastosa (medido: ~300 quadros/12 s e 86% de jank, contra ZERO em
-  Ajustes). Se alguém puser a prévia de volta na Home, **nada acusa** — só o
-  comentário no código. O padrão que funcionaria já existe no projeto:
-  `PaginasLegaisSincronizadasTest` e `PermissoesDeclaradasTest` leem arquivo e
-  travam um invariante. Decidir se vale um teste do mesmo tipo aqui.
-
-- [ ] **Decisão pendente com o usuário: tonalidade dia/noite na Home.** Com a
-  miniatura estática, o card da Home não escurece à noite — mostra a arte diurna
-  às 6h da manhã, enquanto o wallpaper de verdade está escuro. A prévia ao vivo
-  acompanhava a hora; a estática não. Resolve com um gradiente por horário, sem
-  motor nenhum. Perguntado, ainda não respondido.
-
-- [ ] **Validar o formato de docs inspirado no workflow do Chris Titus.**
-  `SPEC.md`/`ROADMAP.md`/`TASKS.md` commitados em `02360bf`; falta a rodada de
-  uso real com o time (hoje só o Rafael) pra decidir se vira convenção fixa. Esta
-  reconciliação de 2026-08-10 é a primeira prova de que o formato exige
-  manutenção ativa pra não mentir.
-
-## Bloqueado, esperando o usuário
-
-- [ ] **Abrir a conta do Google Play Console** (~US$ 25, aprovação em dias).
-  Adiada conscientemente em 2026-08-08 ("deixar o app 100% antes"). É o maior
-  lead time do caminho crítico e bloqueia as Fases 2, 6 e metade da 3. Lembrete
-  honesto: a Fase 2 **não tem como** ficar 100% antes da conta — compra real só
-  fecha com produto criado no console.
-- [ ] **Mover a senha da keystore pra um gerenciador de senhas e apagar o
-  `.txt`.** A senha já é forte (28 caracteres, gerada em 2026-08-04) — o que
-  falta é parar de deixá-la em texto puro em
-  `C:\Users\gbrus\Chaves\SENHA-LEIA-E-APAGUE.txt`. O agente evita ler ou
-  manipular esse arquivo por princípio de segredo.
-- [ ] **Backup da keystore** — dois lugares offline. Perder a chave de upload
-  exige reset via suporte do Google Play (dias de espera), ainda que com Play
-  App Signing não seja definitivo como o README sugere.
-- [ ] **Decidir a hospedagem das páginas legais** (Netlify / Cloudflare Pages /
-  tornar o repo público). Não depende da conta do Console e destrava metade da
-  Fase 3.
-
-## Decisões tomadas (não re-abrir sem motivo novo)
-
-- **Conteúdo pago baixa sob demanda** (2026-08-09) — virou a Fase 4 do
-  `ROADMAP.md`. Muda o contrato do motor; desde 2026-09-11 o motor é nosso, então
-  não depende mais de alinhar com o Rafael. **Reavaliada em 2026-09-11:** o
-  lançamento vai bundle local (a biblioteca empacotada em WebP cabe sob 500 MB) e
-  o download fica pra depois — ver [DECISAO-ENTREGA-DE-ARTE.md](DECISAO-ENTREGA-DE-ARTE.md).
-- **Prévia ao vivo fora da Home** (2026-08-10) — decisão do usuário depois da
-  medição. Continua no onboarding, no detalhe da Loja e no comparador do
-  Premium, que são os momentos em que ela vende.
-- **Descartado: desenhar a cena em bitmap reduzido e ampliar.** Piorou a mediana
-  de 25 ms pra 38 ms — `Canvas(Bitmap)` é software. Motivo comentado no código.
-- **Cenário sem asset some da Loja por verificação real** (`cenarioTemAsset` em
-  `ui/components/SceneThumbnail.kt`), não por lista fixa. Substituiu o antigo
-  `SEM_ASSET_PUBLICADO`, que só ficava correto enquanto alguém lembrasse de
-  editá-lo — foi por isso que `fiordes` apareceu sozinho quando o Rafael
-  publicou a arte dele.
-- **Áreas de risco encolhidas pra 1** (2026-08-09 e de novo 2026-09-11): só
-  `.github/`. Saíram manifesto (coberto por teste), `build.gradle` (CI) e
-  `billing/` em 2026-08-09; `engine/` e `assets/atmosfera/` em 2026-09-11, quando
-  o Rafael passou a só publicar packs e o motor virou do Gabriel.
-- Preço: cenário avulso R$ 9,90–19,90, Premium R$ 39,90–59,90 (vitalício, não
-  assinatura — `BillingManager` só suporta `INAPP`).
-- Sem anúncios no lançamento — a maior brecha de mercado encontrada é
-  justamente a fadiga de anúncio dos concorrentes.
-- CodeQL descartado (repo privado + plano free). Ver `ROADMAP.md`.
-
-## Setorização (quem toca o quê)
-
-Fonte completa em [SPEC.md](SPEC.md) → arquitetura e "Publicação na Play
-Store"; mapeamento executável em `.github/CODEOWNERS`.
-
-**Efetivamente solo desde 2026-09-11** (Gabriel + Claude): o Rafael ficou só com
-a publicação de novos packs de conteúdo; todo o código é do Gabriel. O Willian já
-havia saído (2026-08-28), com tudo indo pro Gabriel. Ver `SPEC.md` pro porquê de
-corrigir isso em vez de deixar como estava.
+Fonte completa em [SPEC.md](SPEC.md) e `.github/CODEOWNERS`.
 
 | Setor | Dono | Estado |
 |---|---|---|
-| `engine/` + `assets/atmosfera/` | Gabriel | Do Gabriel desde 2026-09-11 (era do Rafael). O Rafael só produz/publica packs de conteúdo; a curadoria e o mapa grátis vs pago são do Gabriel |
-| `ui/`, `weather/`, `service/`, `billing/` | Gabriel | Ativo. Billing pronto — falta cadastrar produtos no Play Console |
-| Documentos legais | Gabriel | Textos prontos; faltam os `[PREENCHER]` e a hospedagem. A conferência contra o código virou teste (`PoliticaBatecomManifestoTest`) |
-| Data Safety Form | Gabriel | Não iniciado — depende do app existir no console |
-| Content Rating (IARC) | Gabriel | Não iniciado |
-| Conta Play Console | Gabriel | Não delegável, **adiada** |
-| Site de apresentação | — | Sem dono, nunca começado. Não bloqueia publicação |
+| `ui/`, `weather/`, `service/`, `billing/`, `debug/` | Gabriel | Ativo |
+| `engine/` + `assets/atmosfera/` | Gabriel e Rafael | O Rafael voltou a corrigir o motor em 23/09; combinar quem mexe em qual arquivo |
+| Clima só na home (`ClimaNaHome`) | Rafael (autor do #46) | Mesclado sem revisão de outra pessoa; falta o teste em aparelho |
+| Documentos legais e Data Safety | Gabriel | Faltam os `[PREENCHER]`, a hospedagem e a revisão jurídica |
+| Site de apresentação e hospedagem | Willian | Retomou em outubro; sem domínio definido |
+| Conta Play Console | Gabriel | Ativa (o produto `terra_premium` existe) |
+| Cloudflare R2 | Rafael (titular) | Bucket de teste; sem URL de produção |
 
-## Backlog (não é a fase atual, não puxar sem avisar)
+## Backlog (não puxar sem avisar)
 
-- Ampliar cobertura de teste pra comportamento (ver `ROADMAP.md` → trabalho
-  contínuo). Hoje: **6 testes unitários**, zero instrumentado.
-- **Revisão cruzada entre `TERMOS.md` e `PRIVACIDADE.md`** — foram escritos por
-  autores diferentes, em momentos diferentes, e nunca conferidos um contra o
-  outro. Os dois falam de compra, dados e reembolso; se divergirem, divergem
-  publicamente.
-- **Revisão jurídica dos três documentos** — nenhum é parecer jurídico. Pontos
-  sensíveis: limitação de responsabilidade frente ao CDC, eleição de foro, e a
-  base legal escolhida para cada dado.
-- Módulos Gradle `:engine`/`:app` — desde 2026-09-11 o motor é nosso, então não
-  depende mais de alinhar com o Rafael; concorre com a Fase 4, que mexe no mesmo
-  contrato do motor.
+- Loja remota no app: listar o manifesto, comprar, baixar com progresso e aplicar; preencher `BASE_PADRAO`; manifesto assinado. **Só depois da decisão pendente 1.**
+- Cobertura de teste de comportamento na UI (hoje só testes JVM; zero instrumentado).
+- Revisão cruzada entre `TERMOS.md` e `PRIVACIDADE.md`: foram escritos por autores diferentes, em momentos diferentes (o `.lgpd/` já cobre a Política; falta cruzar com os Termos §5).
+- Módulos Gradle `:engine`/`:app`.

@@ -131,7 +131,8 @@ bloqueia o "pronto", não todo o passo a passo.
 **O time são Gabriel e Rafael, mas desde 2026-09-11 é efetivamente solo**
 (Gabriel + Claude): o Rafael ficou só com a publicação de releases de novos packs
 de conteúdo, e todo o código passou a ser do Gabriel. O Willian já havia saído
-(2026-08-28), com as áreas dele indo pro Gabriel.
+(2026-08-28), com as áreas dele indo pro Gabriel; **voltou em outubro/2026** só para o
+site e a hospedagem das páginas legais.
 
 | Pacote | Dono | Fronteira |
 |---|---|---|
@@ -139,7 +140,7 @@ de conteúdo, e todo o código passou a ser do Gabriel. O Willian já havia saí
 | `ui/`, `weather/`, `service/`, `billing/` | Gabriel | Front |
 | `debug/` | Gabriel | Ferramenta interna, só builds debug |
 | Documentos legais (`docs/legal/*.md`, `docs/<pagina>/index.html`, `assets/legal/`) | Gabriel | Textos públicos + espelhos HTML |
-| Site de apresentação/marketing | — | Sem dono. Era do Willian, nunca começou |
+| Site de apresentação/marketing | Willian | Retomou em 2026-10 (repo `terra.app`; PR #39). Domínio e hospedagem ainda não definidos |
 
 > **Sobre a saída do Willian.** Ele escreveu a política de privacidade
 > (`2bb49ff`, 29/jul) e nada mais: `TERMOS.md` e `CONTATO.md` foram redigidos

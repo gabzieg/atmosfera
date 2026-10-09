@@ -14,7 +14,7 @@ nativo sobre uma arte de fundo fixa (sprites, não vídeo/imagens pré-renderiza
 | **Motor de efeitos** | Recebe um `SceneState` (clima + hora + plano) e desenha o cenário a cada frame combinando a arte de fundo com sprites animados. | `engine/` + `assets/atmosfera/` |
 | **Serviço de wallpaper** | Hospeda o motor como `WallpaperService`, busca o clima e repassa pro motor. | `service/` |
 | **App companion** | Tela Início (clima + preview + "Definir papel de parede"), Loja (cenários, Premium, compras avulsas) e Ajustes. Jetpack Compose, Material 3. | `ui/` |
-| **Clima** | MET Norway (sem chave; User-Agent + cache HTTP exigidos pelos termos), localização via `FusedLocationProviderClient`, cache 30 min, atualização via `WorkManager`. | `weather/` |
+| **Clima** | MET Norway (sem chave; User-Agent + cache HTTP exigidos pelos termos), localização via `FusedLocationProviderClient`, cache local do último clima, consulta só com o wallpaper visível na home e o aparelho desbloqueado (`ClimaNaHome`); sem atualização periódica em segundo plano. | `weather/` |
 | **Compras** | Google Play Billing — Premium (compra única global) + cenários avulsos. | `billing/` |
 | **Painel de debug** | Força clima/hora/vento pra calibrar efeitos sem depender do clima real. Só em builds debug. | `debug/` |
 

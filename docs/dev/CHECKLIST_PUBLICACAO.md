@@ -127,14 +127,15 @@ antes de publicar; o Google compara a declaração com o artefato enviado.
 
   Sem urgência pra build local/debug — tudo embarcado serve pra teste. Bloqueia
   só a build de **release** que for pra Play Store.
-- [ ] **⚠️ Propriedade intelectual nos estilos de efeito** — `engine/Estilo.kt`
-  declara `pixel_mario` e `pixel_zelda`. São marcas da Nintendo. Se os sprites
-  forem derivados dos jogos, o risco não é rejeição de ficha: é **remoção do app
-  e possível suspensão da conta de desenvolvedor**, sob o processo de denúncia de
-  IP da Play, que é rápido e não espera argumentação. Confirmar a origem da arte
-  com o Rafael antes de qualquer publicação; na dúvida, remover do catálogo.
-  Vale a mesma checagem para o resto dos packs — arte gerada a partir de obra
-  protegida é problema mesmo quando o nome não denuncia.
+- [ ] **⚠️ Propriedade intelectual da arte** — `pixel_mario` e `pixel_zelda`
+  (marcas da Nintendo) **já saíram** de `engine/Estilo.kt`, que hoje tem 16
+  estilos. O risco que sobra é o mesmo, agora para o resto: se qualquer sprite ou
+  cenário for derivado de obra protegida, o risco não é rejeição de ficha, é
+  **remoção do app e possível suspensão da conta**, sob o processo de denúncia de
+  IP da Play, que é rápido e não espera argumentação. Falta o registro de autoria
+  e licença das artes e sprites que vão no lançamento (pergunta 19 do Rafael) —
+  arte gerada a partir de obra protegida é problema mesmo quando o nome não
+  denuncia.
 - [x] **Produto no Play Console**: `terra_premium` criado como produto único,
   compra não consumível. A versão inicial não vende cenários avulsos.
 - [ ] **Chave de licenciamento**: preencher `playLicensePublicKey` em

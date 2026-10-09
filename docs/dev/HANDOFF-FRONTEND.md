@@ -181,7 +181,9 @@ efeitos, mudar as assinaturas da seção 3.
   laboratório). Porte pro motor Android vem por snapshot.
 - **Billing/Premium**: `Plano` + `BillingManager` (Play Billing 9.1.0, produto
   `terra_premium`) já existem.
-- **Clima**: `weather.*` (MET Norway, localização, cache 30 min) funcionando.
+- **Clima**: `weather.*` (MET Norway, localização aproximada, cache local) funcionando. Só o
+  wallpaper visível na home, com o aparelho desbloqueado, consulta rede e localização
+  (`ClimaNaHome`, PR #46); o app companion e as prévias leem o último clima salvo.
 - **CI**: GitHub Actions (`.github/workflows/build.yml`) compila `assembleDebug` e
   publica o APK como artifact. Use para validar (não há emulador do nosso lado).
 

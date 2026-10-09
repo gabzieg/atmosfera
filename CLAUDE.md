@@ -262,10 +262,11 @@ snapshot; era isso que justificava o PR obrigatório nessas áreas, regra que ca
 quando ele passou a só publicar packs — e que agora pode voltar a fazer sentido,
 dependendo da resposta acima.)
 
-Houve um terceiro (Willian, `@uWillianG`), que saiu. Ele escreveu a política de
-privacidade (`2bb49ff`, 29/jul) e nada mais — `TERMOS.md` e `CONTATO.md` foram
-redigidos depois, sem ele. O site de apresentação, que era responsabilidade dele,
-**nunca foi começado e hoje está sem dono**.
+Há um terceiro (Willian, `@uWillianG`). Ele escreveu a política de privacidade
+(`2bb49ff`, 29/jul) e saiu em agosto; **voltou em outubro** e hoje cuida do site
+de apresentação (repositório próprio `terra.app`) e da hospedagem das páginas
+legais (abriu o PR #39). Domínio e hospedagem ainda **não estão definidos**, e o
+código do app continua com Gabriel e Rafael.
 
 Vale a lição, porque ela vai se repetir: a divisão de trabalho ficou apontando
 para ele por um mês depois de ele parar de contribuir. Isso é pior do que não ter

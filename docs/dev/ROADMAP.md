@@ -354,10 +354,10 @@ reais antes de liberar produção, pegar bug de última hora.
   cada 12 s (mediana 26 ms, 86% de jank) contra ZERO da tela de Ajustes; o
   motor roda na thread de UI, então isso deixava rolagem e toque pastosos na
   tela em que o usuário mais fica.
-- **Site de apresentação — sem dono.** Era do Willian, que saiu do projeto em
-  2026-08-28 sem ter começado. Não bloqueia a publicação: a Play exige a URL da
-  política de privacidade, não um site institucional. Só reabrir se virar
-  prioridade de marketing.
+- **Site de apresentação — Willian retomou em outubro/2026** (repo `terra.app`).
+  Havia saído em 2026-08-28 sem ter começado. A landing em si não bloqueia a
+  publicação, mas **a hospedagem das três páginas legais bloqueia**: a Play exige a
+  URL pública da política. Domínio e hospedagem ainda não definidos.
 - **Dependabot** — ✅ ativo, `.github/dependabot.yml` está na `main`.
 - **CodeQL — descartado, não pendente.** Verificado 2026-07-29: exige GitHub
   Advanced Security pra rodar em repo privado, indisponível no plano free
