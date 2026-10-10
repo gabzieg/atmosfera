@@ -13,9 +13,9 @@
 > conta). Se o modelo de monetização mudar — assinatura, anúncios, conteúdo
 > gerado por usuário — este texto precisa ser refeito, não emendado.
 
-**Versão dos termos:** 1.2
+**Versão dos termos:** 1.3
 **Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.5
-**Última atualização:** 5 de outubro de 2026
+**Última atualização:** 10 de outubro de 2026
 **Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
 
 ---
@@ -105,8 +105,9 @@ O Terra oferece conteúdo gratuito e conteúdo pago. Todo conteúdo pago é
 vendido como **compra única** (não consumível), processada pelo **Google Play
 Billing**:
 
-- **Premium** — libera todas as artes dos cinco cenários, todos os estilos de
-  efeito e os oito efeitos vivos.
+- **Premium** — libera os oito efeitos vivos e todos os estilos de efeito.
+  Não inclui artes ou cenários; as amostras gratuitas continuam disponíveis.
+  A compra individual de artes será oferecida separadamente quando disponível.
 
 **Não há assinatura, mensalidade, renovação automática ou cobrança recorrente de
 nenhuma espécie.** Se isso mudar em versão futura, estes termos serão atualizados
@@ -233,6 +234,7 @@ obrigatórias.
 
 | Versão | Data | Mudança |
 |---|---|---|
+| 1.3 | 10 de outubro de 2026 | Alinha a oferta: Premium libera apenas efeitos e estilos, sem conceder artes pagas. |
 | 1.2 | 5 de outubro de 2026 | A partir do app 1.0.5, consultas automáticas somente na tela inicial com aparelho acordado e desbloqueado. |
 | 1.1 | 3 de outubro de 2026 | Troca o fornecedor de previsão do tempo: sai a Open-Meteo, entra a MET Norway (resumo e seções 3 e 7). |
 | 1.0 | [PREENCHER: data da primeira publicação] | Versão inicial, referente ao Terra 1.0.0 |

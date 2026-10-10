@@ -52,15 +52,12 @@ import com.terra.wallpaper.ui.theme.Spacing
  */
 object Suporte {
     /**
-     * Endereço de suporte (decidido por ele em 09/09: o pessoal mesmo, por
-     * enquanto). Vira endereço PÚBLICO — o app de e-mail mostra o
-     * destinatário pro usuário antes de enviar, então não dá pra esconder;
-     * quando existir domínio, troca por um alias aqui e no
-     * `docs/contato/index.html`.
+     * Canal oficial de suporte e privacidade, confirmado pelo titular.
+     * O cliente de e-mail mostra o destinatário antes do envio.
      *
      * Se ficar vazio, o botão cai no seletor de compartilhamento.
      */
-    const val EMAIL = "rafael.huppes@gmail.com"
+    const val EMAIL = "suporteterrabr@gmail.com"
 }
 
 /** Um problema que o usuário pode marcar. `chave` é o que eu leio do lado de cá. */

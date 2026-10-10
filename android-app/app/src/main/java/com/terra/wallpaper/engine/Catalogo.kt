@@ -3,10 +3,10 @@ package com.terra.wallpaper.engine
 /**
  * Catálogo embarcado da primeira versão do Terra.
  *
- * Cada cenário oferece uma arte gratuita para experimentação. A compra única
- * do Premium libera todas as demais artes dos cinco cenários, além dos efeitos
- * e estilos Premium. Os cenários reservados para packs futuros ficam fora do
- * módulo Android e, portanto, não aumentam o tamanho do aplicativo.
+ * Cada cenário oferece uma arte gratuita para experimentação. Premium libera
+ * apenas efeitos e estilos. A compra individual das demais artes e a entrega
+ * do catálogo remoto ainda serão integradas; os arquivos remotos não fazem
+ * parte deste catálogo embarcado.
  *
  * [id] corresponde à pasta `assets/atmosfera/cenas/<id>/`.
  * [productId] foi mantido no contrato para compatibilidade, mas não há compras

@@ -106,9 +106,9 @@
   <p class="kicker">Terra - Live Wallpaper</p>
   <h1>Política de Privacidade</h1>
   <ul class="meta">
-    <li><strong>Versão da política:</strong> 1.4</li>
+    <li><strong>Versão da política:</strong> 1.5</li>
     <li><strong>Aplica-se a:</strong> Terra - Live Wallpaper (Android, <code>com.terra.wallpaper</code>), a partir da versão 1.0.5</li>
-    <li><strong>Última atualização:</strong> 5 de outubro de 2026</li>
+    <li><strong>Última atualização:</strong> 10 de outubro de 2026</li>
     <li><strong>Vigente desde:</strong> <span class="fill">[PREENCHER: data da primeira publicação na Google Play]</span></li>
   </ul>
 </header>
@@ -182,7 +182,7 @@
 <p>O histórico da compra fica na sua conta Google, e é ele que permite restaurar compras em outro aparelho. Base legal: execução de contrato (art. 7º, V da LGPD). O tratamento pelo Google segue a política dele (seção 6.3).</p>
 
 <h3>3.6 Cópia de segurança do Android</h3>
-<p>O app permite a Cópia de Segurança Automática do Android (<code>allowBackup="true"</code>). Isso significa que as preferências e o cache descritos em 3.1, 3.3 e 3.4 podem ser incluídos no backup do seu aparelho, armazenado na <strong>sua</strong> conta Google — pelo mecanismo do sistema operacional, sem nossa intervenção e sem acesso nosso a esse conteúdo. Você controla isso nas configurações de backup do Android. Base legal: legítimo interesse em preservar suas preferências entre aparelhos (art. 7º, IX da LGPD).</p>
+<p>O app permite a Cópia de Segurança Automática do Android (<code>allowBackup="true"</code>). Preferências comuns, como cenário e personalização, podem participar do backup ou da transferência entre aparelhos, conforme as configurações do sistema. As regras atuais <strong>excluem o cache de clima e coordenadas</strong>, o estado de pausa de consultas à MET e o arquivo do indicador Premium, tanto do backup quanto da transferência. Compras são restauradas pela Google Play; o clima precisa de uma nova consulta quando não houver cache local. Não temos acesso ao conteúdo do backup por esse mecanismo. Você controla o backup nas configurações do Android. Essa configuração não apaga automaticamente backups gerados por versões anteriores do app.</p>
 
 <h3>3.7 Diagnóstico e falhas</h3>
 <p>O app <strong>não usa nenhuma ferramenta de relatório de falhas ou telemetria</strong> (nada de Firebase Crashlytics, Analytics, Sentry ou equivalente). Mensagens de diagnóstico são escritas apenas no log do sistema Android, ficam no aparelho e não são transmitidas a nós. Se o Android enviar um relatório de falha ao Google depois de perguntar a você, isso é um mecanismo do sistema operacional, coberto pela política do Google.</p>
@@ -338,6 +338,7 @@
 <table>
   <thead><tr><th>Versão</th><th>Data</th><th>Mudança</th></tr></thead>
   <tbody>
+    <tr><td>1.5</td><td>10 de outubro de 2026</td><td>Exclui cache de clima/localização, pausas da MET e indicador Premium do backup/transferência; preserva preferências comuns e esclarece backups anteriores.</td></tr>
     <tr><td>1.4</td><td>5 de outubro de 2026</td><td>A partir do app 1.0.5, consultas somente com wallpaper visível na tela inicial, aparelho acordado/desbloqueado; companion e prévias usam cache; retirada da atualização periódica e do receiver próprio de boot.</td></tr>
     <tr><td>1.3</td><td>4 de outubro de 2026</td><td>Seção 11: define o público do app como 13 anos ou mais, com autorização de responsável para menores de 18 anos, em linha com a declaração de público-alvo no Google Play Console.</td></tr>
     <tr><td>1.2</td><td>3 de outubro de 2026</td><td>Troca o fornecedor de previsão do tempo: sai a Open-Meteo (Suíça), entra a MET Norway (Noruega) — seções 3.1, 3.2, 3.3, 5, 6.1, 7, 8 e 9. As coordenadas passam a sair do aparelho arredondadas para cerca de 1 km; sensação térmica e nascer/pôr do sol passam a ser calculados no aparelho. Corrigida a sigla do estado de São Paulo na seção 3.1.</td></tr>
@@ -349,7 +350,7 @@
 
 <footer>
   <p>Outros documentos: <a href="../termos/">Termos de Uso</a> · <a href="../contato/">Contato e uso de dados</a></p>
-  <p>Terra - Live Wallpaper — Política de Privacidade, versão 1.3.</p>
+  <p>Terra - Live Wallpaper — Política de Privacidade, versão 1.5.</p>
 </footer>
 </main>
 </body>

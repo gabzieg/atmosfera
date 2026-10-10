@@ -12,6 +12,10 @@
 
 **Última atualização:** 2026-10-09 · `main` @ `2d01d16`
 
+**Execução local em 2026-10-10:** etapa 1 do [checklist de finalização](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md) implementada: Premium não libera artes; UI e serviço compartilham a regra de acesso; oferta e termos corrigidos. **75 testes unitários, lint e build debug aprovados.** Falta aceite em aparelho/Play; mudanças locais ainda não incorporadas à `main`. Usuário confirmou que houve somente compras de teste, sem cobrança real. O estado da `main` registrado abaixo não representa automaticamente essa árvore modificada.
+
+**Etapa 2 local em 2026-10-10:** G05/G08/G09/G16 implementados: canal oficial no relato, cache de localização/freio da MET excluídos de backup/transferência, logs minimizados em release e função de Geocoder sem uso removida. **78 testes, lint e build debug aprovados.** Seção de backup da política e três HTMLs atualizados. Por orientação do usuário, avaliações no app ficam com **Rafael**, com roteiro no checklist; seguem pendentes e não impedem avançar nas próximas implementações.
+
 ## Estado (confirmado em 2026-10-09)
 
 - **App**: versão **1.0.5, versionCode 6** na `main`. AAB assinado gerado em 06/10 (SHA-256 `19b88b3d…e353e6bb`). **Não está confirmado** que foi enviado ao Console nem que o código 6 está livre — só o Gabriel vê o Console.
@@ -25,12 +29,12 @@
 Detalhe e opções em `.lgpd/gaps.md` e `.lgpd/STATUS.md` — **ainda no PR #48 (rascunho), não na `main`**.
 
 1. **Escopo do lançamento** — 5 cenas embutidas agora e packs depois, ou catálogo remoto completo. O SPEC (29/09) diz catálogo completo; o Gabriel disse 5 cenas (05/10); o **Rafael não confirmou a mudança**. A Loja remota **não existe** no app (só o painel de debug baixa; `Acervo.BASE_PADRAO` vazio).
-2. **O que o Premium libera nas 5 cenas** — o código e os Termos §5.1 dizem "todas as artes"; a decisão de 04/10 e o SPEC dizem "só efeitos e estilos". Conferir no Console se houve compra real antes de mudar.
+2. **Premium nas 5 cenas — decisão fechada e correção local implementada em 10/10.** Apenas efeitos/estilos. Termos §5.1 e interface atualizados; aceite em aparelho/Play ainda pendente. Usuário informou somente compras de teste.
 3. **Público 13+ ou 18+** (ECA Digital).
 4. **Encarregado** — designar o Rafael ou manter a dispensa de ATPP.
 5. **Retenção do atendimento** — 60 dias após resolver?
 6. **Qual texto legal vale** — o `.md` canônico (com `[PREENCHER]`) e os HTML divergem; e o que fazer com `docs/legal/revisao-2026-10-05/` (fora do Git).
-7. **Correções pequenas de código** (G05 e-mail do "Reportar problema", G08 backup, G09 log, G16 código morto).
+7. **Correções G05/G08/G09/G16 — implementadas localmente em 10/10.** Ver evidência acima; avaliação em aparelho pelo Rafael ainda pendente.
 8. **Advogado** — quem revisa (G03, G11, G12, G20) e quando.
 
 ## Em andamento / a fazer
@@ -54,7 +58,7 @@ Detalhe e opções em `.lgpd/gaps.md` e `.lgpd/STATUS.md` — **ainda no PR #48 
 ## Decisões tomadas (não reabrir sem motivo novo)
 
 - **Clima**: MET Norway (2026-10-03, a API gratuita da Open-Meteo é só não comercial); consulta **só com o wallpaper visível na home, tela acordada e desbloqueada** (2026-10-05, PR #46); freio persistente em 429/403.
-- **Monetização** (SPEC 29/09, reconfirmada 04/10): Premium **R$ 49,90**, compra única, só efeitos e estilos; cenários avulsos **R$ 1,99**. Packs comerciais ainda indefinidos. **O código ainda não separa os dois** (decisão pendente 2).
+- **Monetização**: Premium **R$ 49,90**, compra única, só efeitos e estilos; compra avulsa de **uma arte específica por R$ 1,99**, segundo o questionário do titular de 08/10. Packs comerciais ainda indefinidos. Separação de Premium implementada localmente em 10/10; compra por arte ainda será integrada. Conferir o estado efetivo da versão distribuída.
 - **Acervo remoto (R2)**: objetivo de lançamento desde 29/09, a pedido do Rafael — **sujeito à decisão pendente 1**.
 - **Público 13+** (2026-10-04) — sujeito à decisão pendente 3.
 - **Prévia ao vivo fora da Home** (2026-08-10): fica no onboarding, no detalhe da Loja e no comparador do Premium.

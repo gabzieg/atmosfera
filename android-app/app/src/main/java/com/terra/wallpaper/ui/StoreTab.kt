@@ -196,7 +196,6 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, on
         val idx = Catalogo.cenarios.indexOfFirst { it.id == cenario.id }.coerceAtLeast(0)
         CenarioTile(
             cenario = cenario,
-            isPremium = isPremium,
             isUnlocked = viewModel.isSceneUnlocked(cenario),
             isActive = currentSceneId == cenario.id,
             aspect = aspectos[idx % aspectos.size],
@@ -210,7 +209,6 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, on
 @Composable
 private fun CenarioTile(
     cenario: Cenario,
-    isPremium: Boolean,
     isUnlocked: Boolean,
     isActive: Boolean,
     aspect: Float,
@@ -241,9 +239,8 @@ private fun CenarioTile(
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
                     contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
                 )
-                isPremium && isUnlocked -> StatusPill("Premium")
                 isUnlocked -> StatusPill("Liberado")
-                // Uma arte de vitrine é grátis; o Premium libera as demais.
+                // A amostra é gratuita; outras artes exigem direito próprio.
                 cenario.artesGratis.isNotEmpty() -> StatusPill(
                     "Arte grátis",
                     containerColor = MaterialTheme.colorScheme.tertiaryContainer,
@@ -311,7 +308,7 @@ internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onVerPremium:
             Icon(Icons.Default.Star, contentDescription = null, tint = onContainer, modifier = Modifier.size(20.dp))
             Spacer(Modifier.width(Spacing.sm))
             Text(
-                if (isPremium) "Você é Premium" else "Desbloquear experiência completa",
+                if (isPremium) "Você é Premium" else "Desbloquear efeitos Premium",
                 style = MaterialTheme.typography.titleMedium,
                 color = onContainer,
                 fontWeight = FontWeight.SemiBold,
@@ -319,8 +316,8 @@ internal fun PremiumBanner(isPremium: Boolean, priceText: String?, onVerPremium:
         }
         Spacer(Modifier.height(Spacing.sm))
         Text(
-            if (isPremium) "Todas as artes dos cinco cenários, todos os estilos e os oito efeitos vivos estão liberados."
-            else "Compra única que libera todas as artes dos cinco cenários, todos os estilos e os oito efeitos vivos.",
+            if (isPremium) "Os oito efeitos vivos e todos os estilos de efeito estão liberados. Artes e cenários são independentes do Premium."
+            else "Compra única que libera os oito efeitos vivos e todos os estilos de efeito. Não inclui artes ou cenários.",
             style = MaterialTheme.typography.bodyMedium,
             color = onContainer.copy(alpha = 0.9f),
         )
