@@ -135,6 +135,8 @@ tasks.matching { it.name.startsWith('test') && it.name.endsWith('UnitTest') }.co
     // teste NÃO rodava — falso verde. Confirmado na prática: readicionei
     // ACCESS_FINE_LOCATION e o gate passou verde até declarar isto aqui.
     inputs.file('src/main/AndroidManifest.xml').withPropertyName('manifesto')
+    inputs.files('src/main/res/xml/backup_rules.xml', 'src/main/res/xml/data_extraction_rules.xml')
+        .withPropertyName('regrasBackup')
 }
 
 dependencies {

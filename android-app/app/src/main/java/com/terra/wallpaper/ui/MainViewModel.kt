@@ -11,6 +11,7 @@ import com.terra.wallpaper.billing.BillingManager
 import com.terra.wallpaper.billing.Plano
 import com.terra.wallpaper.debug.DebugOverride
 import com.terra.wallpaper.engine.ArteFundo
+import com.terra.wallpaper.engine.AcessoArte
 import com.terra.wallpaper.engine.Catalogo
 import com.terra.wallpaper.engine.Cena
 import com.terra.wallpaper.engine.EstiloEfeito
@@ -158,13 +159,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     private fun onPremiumMudou(premium: Boolean) {
         _isPremium.value = premium
         _currentEffectStyle.value = EstiloEfeito.atual(context)
-        // Se a compra deixar de estar válida, não mantenha selecionada uma arte
-        // Premium: volte para a arte gratuita do cenário atual.
-        if (!premium) {
-            Catalogo.por(_currentSceneId.value)?.let { cenario ->
-                if (!isArtUnlocked(cenario, _currentArt.value)) {
-                    setArt(arteInicial(cenario))
-                }
+        // A validade da arte é independente de compra/restauração do Premium.
+        Catalogo.por(_currentSceneId.value)?.let { cenario ->
+            if (!isArtUnlocked(cenario, _currentArt.value)) {
+                setArt(arteInicial(cenario))
             }
         }
         prefs.edit().putLong("KEY_PREMIUM_STATUS", System.currentTimeMillis()).apply()
@@ -187,6 +185,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     }
 
     fun setScene(sceneId: String) {
+        if (Catalogo.por(sceneId) == null) return
         Cena.definir(context, sceneId)
         _currentSceneId.value = sceneId
         // A arte é preferência GLOBAL (vale pra qualquer cenário) e o serviço
@@ -200,11 +199,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
 
     /** Aplica cenário E arte juntos — é o que o botão "Aplicar" do detalhe faz. */
     fun aplicar(sceneId: String, arteId: String) {
-        setArt(arteId)
+        val cenario = Catalogo.por(sceneId) ?: return
+        if (!isArtUnlocked(cenario, arteId)) return
         setScene(sceneId)
+        setArt(arteId)
     }
 
     fun setArt(arteId: String) {
+        val cenario = Catalogo.por(_currentSceneId.value) ?: return
+        if (!isArtUnlocked(cenario, arteId)) return
         ArteFundo.definir(context, arteId)
         _currentArt.value = arteId
     }
@@ -260,22 +263,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     }
 
     fun isSceneUnlocked(cenario: com.terra.wallpaper.engine.Cenario): Boolean {
-        if (cenario.gratis) return true
-        if (_isPremium.value) return true
-        // Destrave de teste: só responde true em build debug (a checagem de
-        // BuildConfig.DEBUG mora dentro de destravarPagos), então release
-        // continua exigindo compra de verdade.
-        if (DebugOverride.destravarPagos(context)) return true
-        return billingManager.isAvulsoDesbloqueado(cenario.id)
+        return cenario.artes.isNotEmpty() && cenario.artes.all { isArtUnlocked(cenario, it) }
     }
 
-    /** Esta arte deste cenário pode ser usada? (a arte grátis avulsa, ou o cenário inteiro liberado) */
+    /** A mesma regra lida por ArteFundo no serviço; não depende de Premium. */
     fun isArtUnlocked(cenario: com.terra.wallpaper.engine.Cenario, arte: String): Boolean =
-        arte in cenario.artesGratis || isSceneUnlocked(cenario)
+        AcessoArte.permitida(cenario, arte, DebugOverride.destravarPagos(context))
 
     /** Tem ao menos uma arte utilizável — é o que põe o cenário em "Meus cenários". */
     fun temAlgoLiberado(cenario: com.terra.wallpaper.engine.Cenario): Boolean =
-        cenario.artesGratis.isNotEmpty() || isSceneUnlocked(cenario)
+        cenario.artes.any { isArtUnlocked(cenario, it) }
 
     /**
      * A arte que o cenário mostra ao ser aberto/aplicado: a atual, se o usuário

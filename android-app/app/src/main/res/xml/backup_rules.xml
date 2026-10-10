@@ -2,4 +2,7 @@
 <full-backup-content>
     <!-- A posse é restaurada pelo Google Play, não pelo backup do aparelho. -->
     <exclude domain="sharedpref" path="atmosfera_plano.xml" />
+    <!-- Clima/localização e pausas do provedor são estado local, não portátil. -->
+    <exclude domain="sharedpref" path="atmosfera_weather_cache.xml" />
+    <exclude domain="sharedpref" path="atmosfera_met_freio.xml" />
 </full-backup-content>

@@ -12,9 +12,9 @@
 > `billing/`, no `AndroidManifest.xml` ou a entrada de um SDK de anúncios/
 > analytics invalida o texto abaixo. Ver seção 13.
 
-**Versão da política:** 1.4
+**Versão da política:** 1.5
 **Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.5
-**Última atualização:** 5 de outubro de 2026
+**Última atualização:** 10 de outubro de 2026
 **Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
 
 ---
@@ -154,12 +154,15 @@ LGPD). O tratamento pelo Google segue a política dele (seção 6.3).
 ### 3.6 Cópia de segurança do Android
 
 O app permite a Cópia de Segurança Automática do Android
-(`allowBackup="true"`). Isso significa que as preferências e o cache descritos
-em 3.1, 3.3 e 3.4 podem ser incluídos no backup do seu aparelho, armazenado na
-**sua** conta Google — pelo mecanismo do sistema operacional, sem nossa
-intervenção e sem acesso nosso a esse conteúdo. Você controla isso nas
-configurações de backup do Android. Base legal: legítimo interesse em preservar
-suas preferências entre aparelhos (art. 7º, IX da LGPD).
+(`allowBackup="true"`). Preferências comuns, como cenário e personalização,
+podem participar do backup ou da transferência entre aparelhos, conforme as
+configurações do sistema. As regras atuais **excluem o cache de clima e
+coordenadas**, o estado de pausa de consultas à MET e o arquivo do indicador
+Premium, tanto do backup quanto da transferência. Compras são restauradas
+pela Google Play; o clima precisa de uma nova consulta quando não houver
+cache local. Não temos acesso ao conteúdo do backup por esse mecanismo.
+Você controla o backup nas configurações do Android. Essa configuração não
+apaga automaticamente backups gerados por versões anteriores do app.
 
 ### 3.7 Diagnóstico e falhas
 
@@ -427,6 +430,7 @@ O texto canônico desta política é o **português do Brasil**, publicado em [h
 
 | Versão | Data | Mudança |
 |---|---|---|
+| 1.5 | 10 de outubro de 2026 | Exclui cache de clima/localização, pausas da MET e indicador Premium do backup/transferência; preserva preferências comuns e esclarece backups anteriores. |
 | 1.4 | 5 de outubro de 2026 | A partir do app 1.0.5, consultas somente com wallpaper visível na tela inicial, aparelho acordado/desbloqueado; companion e prévias usam cache; retirada da atualização periódica e do receiver próprio de boot. |
 | 1.3 | 4 de outubro de 2026 | Seção 11: define o público do app como 13 anos ou mais, com autorização de responsável para menores de 18 anos, em linha com a declaração de público-alvo no Google Play Console. |
 | 1.2 | 3 de outubro de 2026 | Troca o fornecedor de previsão do tempo: sai a Open-Meteo (Suíça), entra a MET Norway (Noruega) — seções 3.1, 3.2, 3.3, 5, 6.1, 7, 8 e 9. As coordenadas passam a sair do aparelho arredondadas para cerca de 1 km; sensação térmica e nascer/pôr do sol passam a ser calculados no aparelho. Corrigida a sigla do estado de São Paulo na seção 3.1. |
