@@ -22,6 +22,8 @@
 
 ## Estado (confirmado em 2026-10-09)
 
+**Atualização do acervo em 11/10:** Rafael confirmou bucket existente, acessível na URL de testes. Conciliação do manifesto público confirma 71 cenas/366 artes após cortes: todas as 75 locais, mais 291; 54 variantes ausentes das declarações locais do motor. A PR #50 precisa adaptar caminhos com hash, manifesto WebP, catálogo e miniaturas antes de usar a URL. Não houve upload, novo build nem ajuste de R8 nesta conferência. O init script mencionado está apenas na máquina do Rafael. Evidências em [conciliação R2](../loja/conciliacao-2026-10-11/README.md). Esta atualização substitui a indicação anterior de bucket inexistente; endpoint de produção segue pendente.
+
 - **App**: versão **1.0.5, versionCode 6** na `main`. AAB assinado gerado em 06/10 (SHA-256 `19b88b3d…e353e6bb`). **Não está confirmado** que foi enviado ao Console nem que o código 6 está livre — só o Gabriel vê o Console.
 - **Gate**: `testDebugUnitTest lintDebug assembleDebug` verde, **69 testes** unitários (14 classes), CI verde na `main`.
 - **Teste em aparelho do clima só na home (PR #46)**: **ainda não feito.** O emulador não sobe a partir do agente (virtualização negada no Windows); o Gabriel precisa ligá-lo, ou testar pelo teste interno em um celular. Roteiro em [CLIMA-SOMENTE-HOME.md](CLIMA-SOMENTE-HOME.md).

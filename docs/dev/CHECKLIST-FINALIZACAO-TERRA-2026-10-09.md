@@ -100,6 +100,8 @@ Conferir separadamente backups produzidos por versões antigas: a nova configura
 
 ## 4. Implementar compra por arte e entrega remota
 
+**Atualização em 11/10:** bucket de testes existente e manifesto público conferido: 71 cenas/366 artes após cortes, incluindo todas as 75 locais. Três objetos de exemplo responderam HEAD 200 com tamanhos correspondentes. Falta adaptar a PR #50 aos pacotes WebP e nomes com hash, mesclar as variantes remotas e incorporar miniaturas. A URL de produção, os produtos e o aceite Android continuam pendentes. Ver [conciliação e próximos ajustes](../loja/conciliacao-2026-10-11/README.md). Não houve upload ou novo candidato nesta conferência.
+
 **Dependência para aceite:** catálogo/produtos da etapa 3 aprovados. Por solicitação do usuário, implementação adiantada em 10/10 com arquivos disponíveis; isso não conclui a etapa 3. Ver [integração e roteiro](INTEGRACAO-ARTES-ACERVO-2026-10-10.md).
 
 - [x] Modelar posse por cenário + arte e associar os produtos pagos correspondentes; não usar um direito por cenário para liberar todas as variantes.

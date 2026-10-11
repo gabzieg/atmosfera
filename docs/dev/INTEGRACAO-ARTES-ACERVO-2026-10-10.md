@@ -15,9 +15,9 @@ O fluxo de compras usa validação no cliente; **não foi implementado servidor 
 
 ## Preparar e conectar o bucket
 
-**Confirmado pelo usuário em 10/10:** ainda não existe bucket configurado. Referências históricas a uma conta R2 do Rafael não comprovam um bucket disponível. Cloudflare R2 é a proposta já registrada; nenhuma conta, cobrança ou recurso externo foi criado nesta execução.
+**Atualização de 11/10, substitui a informação de 10/10:** Rafael confirmou que `terra-acervo` já foi criado e recebeu o acervo. URL de testes: `https://pub-722473b758b144279fc34ecb931a6045.r2.dev/`. O manifesto respondeu HTTP 200; três arquivos de exemplo responderam HEAD 200 com tamanhos iguais ao índice. Após cortes, foram confirmadas 71 cenas/366 artes, incluindo as 75 locais. Ver [conciliação](../loja/conciliacao-2026-10-11/README.md).
 
-**Primeiro passo acompanhado:** entrar na conta Cloudflare que será responsável pelo Terra, abrir **R2 Object Storage** e criar o bucket `terra-acervo`. Se o painel exigir ativação do serviço ou faturamento, conferir as condições exibidas com o titular. A criação mantém o bucket privado por padrão; preparar os próximos passos antes de habilitar acesso público ou enviar conteúdo.
+**Próximo passo:** adaptar o catálogo/manifesto da PR #50 ao acervo WebP já hospedado. Não criar outro bucket nem substituir os arquivos remotos pelos PNGs locais. Os caminhos com hash e os hashes do formato publicado ainda não são compatíveis com o manifesto/validação atuais do app; não basta preencher a URL. A configuração de produção continua pendente.
 
 Para teste, a Cloudflare oferece URL de desenvolvimento `r2.dev`. Ela tem limites e não é indicada para produção; o lançamento precisa de domínio próprio conectado ao bucket ou outra entrega de produção adequada. O domínio do Terra ainda não foi definido. Referências: [criar bucket](https://developers.cloudflare.com/r2/buckets/create-buckets/) e [acesso público](https://developers.cloudflare.com/r2/buckets/public-buckets/).
 
