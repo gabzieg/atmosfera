@@ -11,7 +11,7 @@
 Live wallpaper Android que desenha uma cena animada reagindo ao clima real
 (MET Norway) — chuva, neve, nuvens, sol/lua, vento, névoa, fumaça de chaminé —
 via motor de partículas próprio em `Canvas` (não vídeo/imagem). App companion
-em Compose pra ativar o wallpaper e vender Premium + cenários extras via
+em Compose pra ativar o wallpaper e vender Premium + artes individuais via
 Google Play Billing.
 
 ## Não-objetivos (decidido, não é falta de tempo)
@@ -200,8 +200,10 @@ dependentes junto — nunca isolado.
   `local.properties`, `secrets.properties` — cobertos pelo `.gitignore`, e a
   CI roda `gitleaks` (job `secret-scan`) como segunda camada.
 - Localização aproximada é o único dado sensível coletado — usada só
-  localmente (MET Norway + cache), nunca enviada a servidor próprio (o
-  projeto não tem backend).
+  para consultas diretas a MET Norway e cache. R2 recebe IP/caminhos de
+  arquivos solicitados, sem coordenadas ou comprovantes; Play e atendimento
+  tambem tratam dados conforme os documentos. Nao presumir ausencia de
+  tratamento por nao haver login/backend de usuarios.
 - Permissão nova no `AndroidManifest.xml` = precisa justificativa no PR e
   atualização do Data Safety Form (`CHECKLIST_PUBLICACAO.md`) antes de
   publicar — não depois.
@@ -221,3 +223,7 @@ Catalogo embarcado de miniaturas e metadados para 75 artes fisicamente disponive
 ## Adaptacao vigente do acervo (11/10/2026)
 
 Manifesto conferido com Rafael: 71 cenas/366 artes, cinco amostras e 361 propostas de SKUs pagos. Apenas nove artes nativas continuam embutidas; 357 sao remotas. As 366 miniaturas leves acompanham o app. R8 9.1.29 fixado para Kotlin 2.4; debug usa URL R2 de testes, release requer endpoint explicito. A fonte atual e a copia conferida do manifesto R2, nao a preparacao PNG local. Aceite de todas as artes e configuracao comercial/operacional continuam pendentes. Ver [adaptacao R2/R8](ADAPTACAO-R2-R8-2026-10-11.md).
+
+## Processo editorial (11/10/2026)
+
+Fontes em docs/legal, com revisao.json e gerador explicito de nove HTMLs e manifesto de integridade. Privacidade 1.7, termos 1.4 e contato 1.1 sao rascunhos para o candidato; dominio, vigencia/versao aplicavel e aceite juridico pendentes. A CI verifica fidelidade a fonte e o teste Android compara as tres copias. A landing importa a revisao identificada preservando o layout de Willian. Ver [etapa 5](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md).

@@ -1,5 +1,8 @@
 # Checklist de publicação — Google Play
 
+> Atualização de 11/10/2026: o roteiro vigente é [CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md). A oferta atual separa Premium de artes individuais; o R2 já existe e o catálogo tem 366 artes após cortes. Os documentos canônicos estão em revisão, com vigência/versão de distribuição pendentes; ver [etapa 5](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md). As seções abaixo preservam registros anteriores e não substituem essas decisões nem as declarações atuais exigidas pelo Console.
+
+
 > Ver também: [README.md](../../README.md) (visão geral + build de release).
 >
 > Este arquivo substitui o antigo `estrutura.md`, que era uma resposta

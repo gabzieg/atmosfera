@@ -22,6 +22,8 @@
 
 **Adaptacao R2/R8 em 11/10:** catalogo/miniaturas de 366 artes integrados, variantes remotas mescladas as cenas nativas e validacao de caminhos com hash adaptada. R8 9.1.29 integrado ao build e release minificada incluida na CI. Sem novo AAB, upload ou cadastro de produtos. Conferencia HTTP de seis ZIPs representativos aprovada; aceite de renderizacao, compras e producao com Rafael. Ver [adaptacao e roteiro](ADAPTACAO-R2-R8-2026-10-11.md).
 
+**Etapa 5 em 11/10:** textos canonicos refinados (privacidade 1.7, termos 1.4, contato 1.1), identificacao/canal unificados e atendimento de 60 dias incorporado. Geracao explicita sincroniza nove HTMLs e manifesto; checks locais e importador de Willian aprovados sem alterar seu front-end. Mantidos como rascunho: faltam aprovacao juridica, dominios/hospedagem, vigencia/versao aplicavel e processos de continuidade/transferencias/publico. Historico preservado; rascunhos pessoais nao publicados. Ver [entrega da etapa 5](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md).
+
 ## Estado (confirmado em 2026-10-09)
 
 **Atualização do acervo em 11/10:** Rafael confirmou bucket existente, acessível na URL de testes. Conciliação do manifesto público confirma 71 cenas/366 artes após cortes: todas as 75 locais, mais 291; 54 variantes ausentes das declarações locais do motor. A PR #50 precisa adaptar caminhos com hash, manifesto WebP, catálogo e miniaturas antes de usar a URL. Não houve upload, novo build nem ajuste de R8 nesta conferência. O init script mencionado está apenas na máquina do Rafael. Evidências em [conciliação R2](../loja/conciliacao-2026-10-11/README.md). Esta atualização substitui a indicação anterior de bucket inexistente; endpoint de produção segue pendente.

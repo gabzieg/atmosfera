@@ -1,83 +1,35 @@
-# Contato e uso de dados — Terra - Live Wallpaper
+# Contato — Terra
 
-> **Texto canônico.** A página publicada
-> ([`docs/contato/index.html`](docs/contato/index.html)) é um espelho deste
-> arquivo. Ao mudar um, mude o outro no mesmo commit.
->
-> **Antes de publicar, preencha os `[PREENCHER: …]`** — os mesmos dados de
-> [PRIVACIDADE.md](PRIVACIDADE.md) e [TERMOS.md](TERMOS.md).
->
-> Esta página existe porque a tela de Ajustes do app abre um HTML local em vez
-> de um `mailto:` — decisão do usuário: além do endereço de contato, a página
-> precisa dizer **o que acontece com os dados** de quem escreve.
+**Versão do documento:** 1.1
+**Última atualização:** 11 de outubro de 2026
+**Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
+**Aplica-se a:** Atendimento do Terra e revisão candidata dos documentos.
+**Vigência:** A definir após aprovação da revisão correspondente.
 
-**Última atualização:** 3 de outubro de 2026
+## Resumo
 
----
+O responsável é **Rafael Huppes, pessoa física**. Use [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com) para suporte, compras, privacidade e direitos sobre dados pessoais.
 
-## Como falar com a gente
+## 1. Como pedir ajuda
 
-| Assunto | Canal |
-|---|---|
-| **Suporte, bug, sugestão** | [PREENCHER: e-mail de contato] |
-| **Privacidade e direitos do titular (LGPD)** | [PREENCHER: e-mail de contato] |
-| **Reembolso de compra** | Google Play — <https://play.google.com/store/account> (não conseguimos processar reembolso, é com o Google) |
-| **Autoridade brasileira de proteção de dados** | ANPD — <https://www.gov.br/anpd> |
+Informe modelo do aparelho, versão do Android/app, cenário e variante, ocorrido e resultado esperado. Capturas são opcionais; remova notificações e dados pessoais de terceiros. Não envie senhas, chaves, dados de cartão, CPF ou documento sem necessidade demonstrada.
 
-Respondemos pedidos relativos a dados pessoais em até **15 dias**, prazo do
-art. 19, II da LGPD.
+O identificador de um pedido pode ser solicitado se necessário para localizar a compra. Não publique comprovantes completos em canais abertos. Reembolsos podem ser solicitados na [Google Play](https://support.google.com/googleplay/answer/2479637?hl=pt-BR) e pelo nosso suporte; a plataforma não substitui nosso atendimento.
 
-## O que informar num pedido de suporte
+## 2. Dados do atendimento
 
-Quanto mais específico, mais rápido resolvemos. Ajuda muito:
+Recebemos e-mail, mensagem e anexos enviados. Usamos essas informações para responder, investigar defeitos, atender direitos e cumprir obrigações ou exercer direitos quando necessário. O canal usa **Gmail/Google**. Acesso é restrito ao responsável e a colaboradores autorizados que precisem participar do atendimento; não usamos mensagens para publicidade.
 
-- modelo do aparelho e versão do Android;
-- versão do app (aparece em **Ajustes → Sobre**);
-- qual cenário e estilo estavam ativos;
-- o que você esperava que acontecesse e o que aconteceu;
-- se der, um print ou vídeo curto da tela.
+A retenção definida é **60 dias após o encerramento do atendimento**, salvo obrigação legal ou necessidade justificada de defesa em processo. Nessas exceções, conservar apenas o necessário, com motivo, acesso e prazo registrados. O responsável executa essa rotina; o aplicativo não apaga automaticamente a caixa de e-mail ou registros independentes do provedor.
 
-**Não envie** senha, dados de cartão, CPF ou documento. Nunca pedimos isso, e
-não temos como usá-los — pagamentos são processados inteiramente pelo Google.
+## 3. Privacidade e direitos
 
-### Identificação do controlador
-Para os fins da LGPD, o controlador de dados é **Rafael Huppes**.
+Escreva ao mesmo canal para informações, acesso, correção, eliminação ou outros direitos aplicáveis. Confirmação/acesso simplificado deve ser atendido imediatamente quando possível; declaração completa segue o prazo legal aplicável, em regra até 15 dias. Esse prazo não é uma promessa uniforme para todo suporte ou direito. Eventual confirmação de identidade deve ser proporcional ao pedido.
 
-## O que fazemos com os dados do seu contato
+Limpar dados ou desinstalar não elimina mensagens, pedidos da Play ou logs de fornecedores. Consulte a [Política de Privacidade](PRIVACIDADE.md) e os [Termos de Uso](TERMOS.md). A autoridade brasileira é a [ANPD](https://www.gov.br/anpd).
 
-Esta é a parte que a Política de Privacidade não cobre, porque trata do app —
-aqui trata-se do **e-mail que você nos envia**.
+## 4. Site e histórico
 
-| | |
-|---|---|
-| **O que recebemos** | O que você escrever: seu endereço de e-mail, o conteúdo da mensagem e qualquer anexo que você decidir mandar (print, vídeo). |
-| **Para quê** | Responder você e corrigir o problema relatado. Nada mais. |
-| **Base legal** | Execução de procedimento preliminar a pedido do titular (art. 7º, V da LGPD) e, para pedidos de direitos, cumprimento de obrigação legal (art. 7º, II). |
-| **Com quem é compartilhado** | Ninguém. A mensagem fica na caixa de e-mail do desenvolvedor, no provedor de e-mail utilizado. Não repassamos a terceiros, não usamos para marketing e não alimentamos lista de contatos. |
-| **Por quanto tempo** | Enquanto for útil para o atendimento e o histórico do caso; pedidos de direitos do titular ficam registrados pelo prazo necessário para comprovar o atendimento. Você pode pedir a exclusão a qualquer momento. |
-| **Seus direitos** | Os mesmos do art. 18 da LGPD — acesso, correção, eliminação, portabilidade e revogação. Escreva para o mesmo endereço pedindo. |
+Domínio e hospedagem da landing ainda serão definidos. Esta página não afirma que o futuro site esteja livre de cookies, formulários ou logs; isso precisa ser conferido antes da publicação.
 
-Importante: **o app em si continua não coletando nada disso.** Ele não tem
-formulário, não envia mensagem em segundo plano e não sabe o seu e-mail. O
-único dado pessoal tratado pelo aplicativo é a localização aproximada, para
-consultar o clima — detalhes em [PRIVACIDADE.md](PRIVACIDADE.md).
-
-## Resumo do que o app trata (atalho)
-
-Para não obrigar você a abrir a política inteira:
-
-- **Localização aproximada** → enviada só à MET Norway (Instituto
-  Meteorológico da Noruega), arredondada para cerca de 1 km, para saber o clima.
-  Sem ela, o app usa São Paulo (SP) e funciona igual. Nunca vai pro servidor
-  de conteúdo abaixo.
-- **Preferências** (cenário, arte, estilo, Premium) → ficam só no aparelho.
-- **Último clima consultado** → cache local, sobrescrito a cada consulta.
-- **Compras** → processadas pelo Google Play; não vemos dados de pagamento.
-- **Download de cenários** → alguns vêm de um servidor de arquivos (Cloudflare
-  R2), baixado só quando você escolhe aplicar. Esse servidor não recebe sua
-  localização nem processa dado pessoal.
-- **Não existe** conta, login, anúncio, analytics, rastreamento ou banco de
-  dados de usuários do nosso lado.
-
-Texto completo: [Política de Privacidade](PRIVACIDADE.md) ·
-[Termos de Uso](TERMOS.md)
+Revisão 1.1 de 11/10/2026: canal oficial, responsável, retenção de 60 dias e atendimento de compras/privacidade.

@@ -34,9 +34,12 @@ class PaginasLegaisSincronizadasTest {
         paginas.forEach { pagina ->
             val web = File(raizRepo, "docs/$pagina/index.html")
             val asset = File(raizRepo, "android-app/app/src/main/assets/legal/$pagina/index.html")
+            val export = File(raizRepo, "public_html/$pagina/index.html")
 
             assertTrue("Não achei a página publicada: ${web.path}", web.isFile)
             assertTrue("Não achei o asset embutido: ${asset.path}", asset.isFile)
+            assertTrue("Não achei a exportação do site: ${export.path}", export.isFile)
+            assertEquals("Exportação do site diverge de docs", web.readText(), export.readText())
 
             assertEquals(
                 "docs/$pagina/index.html e o asset embutido divergiram — copie um " +

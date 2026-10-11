@@ -120,17 +120,20 @@ Conferir separadamente backups produzidos por versões antigas: a nova configura
 
 ## 5. Refinar, revisar e sincronizar documentos
 
-- [ ] Reconciliar `SPEC.md`, `TASKS.md`, plano de lançamento e pós-lançamento com as decisões atuais.
-- [ ] Atualizar os [rascunhos de 05/10](../legal/revisao-2026-10-05/README.md) para a mudança de clima do PR #46, a compra por arte, o canal oficial e a retenção definida.
-- [ ] Consolidar fonte canônica de privacidade, termos e contato; definir versões, aplicabilidade e vigência real, inclusive no teste.
-- [ ] Validar papéis dos fornecedores, bases legais, transferências, proteção de menores, reembolso, licenças e continuidade de conteúdo adquirido. Registrar revisão jurídica efetiva; “respondido pelo titular” não equivale a parecer jurídico.
-- [ ] Definir domínio e hospedagem com Willian; conferir registros, cookies e tratamento real da landing.
-- [ ] Preparar exportação de uma revisão aprovada para os HTMLs do app e o importador do site, preservando a apresentação do Willian.
-- [ ] Conferir texto, metadados, links e histórico; ampliar a verificação para `docs/`, `public_html/` e assets. Atualizar o site não altera apps já instalados.
-- [ ] Publicar e verificar as três páginas por HTTPS, sem login e sem campos pendentes.
-- [ ] Revisar o que pode ser público nos documentos e no PR #48, retirando dados pessoais internos desnecessários. Não confundir remoção da branch com apagamento de histórico/cópias.
+**Execucao editorial de 11/10:** fontes canonicas atualizadas: privacidade 1.7, termos 1.4, contato 1.1. Nove HTMLs gerados, hashes/estado registrados, checks de fidelidade e importador de Willian conferidos. Revisao continua rascunho; nao houve publicacao nem aprovacao juridica. Ver [entrega e pendencias](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md).
 
-**Aceite:** comportamento, oferta, textos e páginas públicas são coerentes para a mesma versão e escopo.
+- [x] Reconciliar SPEC, TASKS, plano de lancamento e pos-lancamento com a oferta atual; preservar planos anteriores como historico.
+- [x] Refinar fontes canonicas para clima na home, compras por arte, R2, canal oficial e atendimento de 60 dias; preservar rascunhos privados de 05/10.
+- [x] Consolidar fontes, versoes editoriais, modelo e manifesto de integridade; sincronizar docs, public_html e assets.
+- [ ] Definir vigencia real e versao de distribuicao aplicavel, inclusive teste/compras anteriores; registrar aprovacao efetiva.
+- [ ] Validar papeis, bases legais, transferencias, publico 13+/ECA Digital, licencas e continuidade do conteudo adquirido. Resposta do titular nao equivale a parecer juridico.
+- [ ] Definir dominio e hospedagem com Willian; conferir cookies, registros, formularios e tratamento real da landing.
+- [x] Preparar geracao/exportacao explicita e testar compatibilidade com o importador, sem alterar o front-end de Willian.
+- [x] Conferir texto, metadados, links relativos e historico; ampliar o check para as tres copias e a fonte canonica. Atualizar site nao altera apps instalados.
+- [ ] Importar a revisao aprovada, publicar e verificar as tres paginas HTTPS sem login e com metadados finais.
+- [ ] Decidir o tratamento de documentos pessoais na branch do Rafael e no PR #48, sem presumir apagamento do historico. Esta execucao nao publicou rascunhos pessoais.
+
+**Aceite:** comportamento, oferta, documentos e paginas publicas coerentes para a mesma revisao aprovada, sem confundir preparacao editorial com validacao juridica ou publicacao.
 
 ## 6. Preparar e validar uma única versão candidata
 
@@ -189,7 +192,7 @@ Referência: [requisitos oficiais de teste](https://support.google.com/googlepla
 | 2 — Privacidade técnica | Implementação local e checks concluídos; avaliação do Rafael pendente | Canal oficial, exclusões de backup/transferência, logs minimizados, Geocoder sem uso removido, política sincronizada e 78 testes aprovados em 10/10. |
 | 3 — Catálogo/produtos | Manifesto remoto conciliado; aceite pendente | 71 cenas/366 artes após cortes, incluindo as 75 locais. Cinco amostras e 361 SKUs pagos propostos. Faltam aceite Android, configuração comercial e regra de futuros efeitos. |
 | 4 — Compra/entrega remota | Adaptada ao R2; aceite pendente | Catálogo de 366 artes, miniaturas verificadas e caminhos/hashes WebP integrados; nove artes nativas preservadas. Seis ZIPs representativos conferidos. R8 9.1.29 versionado. Faltam revisão do Rafael, produtos reais, teste pela Play e produção. |
-| 5 — Documentos/site | Rascunhos existentes; conclusão pendente | Revisões locais não vigentes, domínio indefinido. |
+| 5 — Documentos/site | Refinamento e sincronizacao preparados; aceite pendente | Fontes 1.7/1.4/1.1, nove HTMLs, manifesto/hash e importador conferidos. Falta revisao juridica, dominio, vigencia/versao e publicacao. |
 | 6 — Candidato validado | Pendente | CI anterior aprovada; não substitui candidato após correções e teste real. |
 | 7 — Console/teste fechado | Pendente de evidência atual | Sem acesso ao painel nesta rodada. |
 | 8 — Publicação | Pendente | Nenhuma publicação realizada nesta rodada. |

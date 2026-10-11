@@ -1,0 +1,46 @@
+{
+  "revisao": "2026-10-11",
+  "status": "rascunho_para_revisao",
+  "aprovado_para_publicacao": false,
+  "aprovacao_registro": null,
+  "vigencia": null,
+  "versao_app": null,
+  "dominio_publico": null,
+  "controlador": "Rafael Huppes",
+  "contato": "suporteterrabr@gmail.com",
+  "documentos": {
+    "privacidade": {
+      "versao": "1.7",
+      "fonte": "docs/legal/PRIVACIDADE.md",
+      "sha256_fonte": "623947099685766a6c878f6bf8c8cc07887ffa8f849a3e24787f495a251eb535",
+      "sha256_html": "757b24cfa791ec417fca83e5f520026066a9d92cf2f1e7c3ce94852656eed87d",
+      "copias": [
+        "docs/privacidade/index.html",
+        "public_html/privacidade/index.html",
+        "android-app/app/src/main/assets/legal/privacidade/index.html"
+      ]
+    },
+    "termos": {
+      "versao": "1.4",
+      "fonte": "docs/legal/TERMOS.md",
+      "sha256_fonte": "d8e64d5d0eb7cfde3454c6ba60f799e83c42784fd18bf0f673666db37d3beb69",
+      "sha256_html": "1cf5d128a49599e9a6bc18e74ee8d2ab04107d547584a2214269443cf89fb95c",
+      "copias": [
+        "docs/termos/index.html",
+        "public_html/termos/index.html",
+        "android-app/app/src/main/assets/legal/termos/index.html"
+      ]
+    },
+    "contato": {
+      "versao": "1.1",
+      "fonte": "docs/legal/CONTATO.md",
+      "sha256_fonte": "c2c4ca5b7de5ee0e612a416de96f682a14d0d701ddb00ec5a72d6ef2bde2c3e8",
+      "sha256_html": "d53197e0b82870143c1cab6101cde761af22c82213798ff0dddcf5fc14b28912",
+      "copias": [
+        "docs/contato/index.html",
+        "public_html/contato/index.html",
+        "android-app/app/src/main/assets/legal/contato/index.html"
+      ]
+    }
+  }
+}

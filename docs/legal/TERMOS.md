@@ -1,240 +1,79 @@
-# Termos de Uso — Terra - Live Wallpaper
+# Termos de Uso — Terra
 
-> **Texto canônico.** Esta é a fonte da verdade dos termos; a página publicada
-> ([`docs/termos/index.html`](docs/termos/index.html)) é um espelho deste
-> arquivo. Ao mudar um, mude o outro no mesmo commit.
->
-> **Antes de publicar, preencha os `[PREENCHER: …]`** (desenvolvedor, e-mail de
-> contato, foro e data de vigência) — os mesmos dados usados em
-> [PRIVACIDADE.md](PRIVACIDADE.md).
->
-> **Rascunho não revisado juridicamente.** Foi redigido a partir do que o app
-> efetivamente faz (compra única via Google Play Billing, sem assinatura, sem
-> conta). Se o modelo de monetização mudar — assinatura, anúncios, conteúdo
-> gerado por usuário — este texto precisa ser refeito, não emendado.
-
-**Versão dos termos:** 1.3
-**Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.5
-**Última atualização:** 10 de outubro de 2026
-**Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
-
----
+**Versão dos termos:** 1.4
+**Última atualização:** 11 de outubro de 2026
+**Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
+**Aplica-se a:** Revisão candidata com Premium separado das artes e acervo por download. A versão de distribuição ainda será definida.
+**Vigência:** A definir após aprovação e identificação da versão correspondente. Esta revisão não altera retroativamente compras anteriores.
 
 ## Resumo
 
-Este resumo é uma cortesia e não substitui o texto completo abaixo.
+- Cinco amostras de arte são gratuitas. O wallpaper reage ao clima.
+- Terra Premium libera efeitos e estilos da oferta apresentada; artes adicionais são compras individuais separadas.
+- Compras são únicas, sem assinatura. O preço válido é o confirmado pela Google Play.
+- Miniaturas podem ser vistas sem baixar HD. Para usar uma arte remota adquirida, solicite seu download.
+- Canal oficial: [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com).
 
-- O Terra é um papel de parede animado que reage ao clima real da sua
-  região. O uso é pessoal e não comercial.
-- Parte do conteúdo é **gratuita**; cenários extras e o Premium são
-  **compras únicas** pelo Google Play — **não há assinatura** e não há cobrança
-  recorrente.
-- Você compra uma **licença de uso** do conteúdo dentro do app, não a
-  propriedade da arte. Não pode extrair, revender ou redistribuir os cenários.
-- **Reembolso** segue as regras da Google Play — é com o Google, não conosco.
-- O app depende de um serviço externo de meteorologia (MET Norway). Se ele
-  ficar fora do ar, o clima pode não atualizar. Isso não é defeito do app.
-- Tratamento de dados pessoais: ver a [Política de Privacidade](PRIVACIDADE.md).
+## 1. Responsável
 
----
+O Terra é oferecido por **Rafael Huppes, pessoa física**, responsável pelo aplicativo e atendimento. Canal: [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com). O domínio público definitivo dos documentos ainda será definido. A cópia no aplicativo acompanha sua versão; atualizar o site não atualiza automaticamente aplicativos instalados.
 
-## 1. Quem oferece o aplicativo
+## 2. Uso e público
 
-| | |
-|---|---|
-| **Desenvolvedor** | Rafael Huppes |
-| **Aplicativo** | Terra - Live Wallpaper — `com.terra.wallpaper` |
-| **Contato** | [PREENCHER: e-mail de contato] |
-| **Endereço destes termos** | [PREENCHER: URL pública desta página] |
+Leia estes termos e a [Política de Privacidade](PRIVACIDADE.md) antes de usar ou comprar conteúdo. O público pretendido é **13 anos ou mais**. Pessoas de 13 a 17 anos devem usar o app e realizar compras com autorização e acompanhamento do responsável legal. A indicação de público não substitui classificação indicativa ou controles legalmente exigidos. Não há conta própria ou rede social. Esta revisão não afirma que aferição de idade ou supervisão parental estejam implementadas.
 
-## 2. Aceitação
+## 3. Funcionalidade e clima
 
-Ao instalar, abrir ou usar o Terra, você concorda com estes Termos de Uso e
-com a [Política de Privacidade](PRIVACIDADE.md). Se não concordar, desinstale o
-aplicativo — não há outra forma de uso.
+O Terra desenha cenários com efeitos e ciclo de dia/noite. A meteorologia vem da **MET Norway**, com atribuição e licença [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Cálculos e apresentação do Terra não significam endosso da MET.
 
-Se você tem menos de 18 anos, o uso e qualquer compra dependem de autorização e
-supervisão de um responsável legal, que também fica sujeito a estes termos.
+Consultas automáticas de clima/localização só ocorrem com o wallpaper visível na tela inicial, aparelho acordado e desbloqueado, respeitando intervalo, cache e limites do fornecedor. Prévias e a tela do app usam o clima salvo. Sem permissão de localização, a referência é **São Paulo, SP**; sem rede, usa-se cache ou estado padrão. A meteorologia não se destina a decisões que dependam de previsão precisa. Falhas que afetem a oferta serão atendidas pelo suporte, sem afastar direitos legais.
 
-## 3. O que o aplicativo faz
+## 4. Licença
 
-O Terra instala um papel de parede animado que desenha uma cena reagindo às
-condições meteorológicas atuais da sua localização aproximada — chuva, neve,
-nuvens, sol, lua, vento, neblina, ciclo de dia e noite. O aplicativo companion
-permite ativar o papel de parede, escolher cenário, variante de arte e estilo
-dos efeitos, e adquirir conteúdo adicional.
+A compra concede uso pessoal no Terra, em aparelhos compatíveis vinculados à conta Google da compra; não transfere propriedade de arte ou marca. Não autoriza revenda, redistribuição, uso de arquivos fora do app ou fraude na verificação de compras. Direitos legalmente assegurados não são afastados por estas restrições. Procedência e licenças dos materiais precisam ser conferidas antes da oferta definitiva; uma miniatura não certifica aprovação jurídica ou visual.
 
-O clima vem do serviço de terceiros **MET Norway** (Instituto Meteorológico
-da Noruega), que publica os dados sob a licença
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Não somos autores desses
-dados meteorológicos e não garantimos precisão, atualidade ou disponibilidade
-deles — o Terra não é, e não deve ser usado como, ferramenta de previsão do
-tempo para qualquer decisão que dependa de exatidão meteorológica.
+## 5. Oferta e compras
 
-As consultas automáticas de clima ocorrem somente enquanto o wallpaper do Terra estiver visível na tela inicial, com o aparelho acordado e desbloqueado. Fora dessa condição, não há novas consultas; o último clima disponível é reutilizado. Ao voltar à tela inicial, a atualização respeita o intervalo escolhido, o cache e as restrições do fornecedor.
+- **Terra Premium:** compra única dos oito efeitos vivos e estilos de efeito da oferta aplicável. **Não inclui artes adicionais.** Preço-base planejado no Brasil: R$ 49,90.
+- **Arte individual:** compra única de uma combinação de cenário e variante; não libera todo o cenário. Preço-base planejado: R$ 1,99. Promoções de R$ 0,99 dependem de configuração e elegibilidade na Play.
+- Amostras: Cabana/pixel, Bruxa/clay, Lavanda/aqua, Esfinge/vangogh e Jardim/ukiyoe.
 
-## 4. Licença de uso concedida a você
+Não há packs comerciais ou assinaturas no lançamento definido. Cada nova arte/variante é uma compra separada. A inclusão de efeitos e estilos futuros no Premium ainda não foi definida e não constitui benefício prometido por esta revisão. A oferta efetivamente adquirida deve ser respeitada.
 
-Concedemos a você uma licença **pessoal, limitada, não exclusiva, intransferível
-e revogável** para usar o aplicativo e o conteúdo adquirido dentro dele, em
-aparelhos vinculados à sua conta Google, para fins não comerciais.
+Confira produto, preço, moeda e condições na Google Play antes da confirmação. Mudanças de preço não geram nova cobrança sobre compra concluída. Pagamento pendente não libera acesso. Compra, validação e confirmação utilizam Google Play Billing; não recebemos dados do cartão.
 
-Esta licença **não transfere propriedade** de nada. Toda a arte, código, sprites,
-cenários, texturas, som (se houver), marca e identidade visual continuam sendo
-de titularidade do desenvolvedor ou de seus licenciadores.
+## 6. Entrega e restauração
 
-### 4.1 O que você não pode fazer
+Miniaturas acompanham o app. As cinco cenas possuem artes nativas; variantes HD adicionais são entregues pelo **Cloudflare R2** quando você solicita **Baixar e aplicar**. Comprar ou restaurar não baixa todo o acervo. Download consome internet e armazenamento; confira o tamanho, cancele ou tente novamente se necessário. Aplicação exige instalação e conferência do direito.
 
-- extrair, copiar, descompilar, aplicar engenharia reversa ou modificar o
-  aplicativo ou seus recursos, salvo na medida em que a lei expressamente
-  permita apesar desta proibição;
-- extrair os arquivos de arte dos cenários para uso fora do aplicativo;
-- revender, sublicenciar, alugar, redistribuir ou disponibilizar publicamente o
-  conteúdo do aplicativo;
-- usar o conteúdo em produto, serviço, material promocional ou obra derivada de
-  terceiros;
-- contornar mecanismos de verificação de compra ou usar versões modificadas do
-  aplicativo;
-- usar o aplicativo para qualquer finalidade ilícita.
+Limpar downloads não apaga compras. Arte instalada com direito validado pode ser usada offline. Nova instalação, novo download e restauração pela Play exigem conexão. Consulta de compras que falha não deve revogar o direito local anterior.
 
-## 5. Compras dentro do aplicativo
+Use a mesma conta Google e **Restaurar compras** ao reinstalar ou trocar de aparelho. Artes remotas precisam de novo download. Reembolso, estorno ou perda do direito confirmada pela Play podem revogar o acesso correspondente. Relate falhas de entrega/restauração no canal oficial.
 
-### 5.1 Modelo
+## 7. Reembolso e atendimento
 
-O Terra oferece conteúdo gratuito e conteúdo pago. Todo conteúdo pago é
-vendido como **compra única** (não consumível), processada pelo **Google Play
-Billing**:
+Solicite reembolso pela [Google Play](https://support.google.com/googleplay/answer/2479637?hl=pt-BR) ou pelo nosso suporte. O processamento usa mecanismos da plataforma; isso não exclui nosso dever de atendimento.
 
-- **Premium** — libera os oito efeitos vivos e todos os estilos de efeito.
-  Não inclui artes ou cenários; as amostras gratuitas continuam disponíveis.
-  A compra individual de artes será oferecida separadamente quando disponível.
+No Brasil, permanecem os direitos legais do consumidor, inclusive arrependimento quando aplicável, garantias e reparação por descumprimento da oferta. Políticas da plataforma não afastam direitos obrigatórios. Consumidores de outros países mantêm os direitos legalmente aplicáveis.
 
-**Não há assinatura, mensalidade, renovação automática ou cobrança recorrente de
-nenhuma espécie.** Se isso mudar em versão futura, estes termos serão atualizados
-antes, e a mudança não afetará o que você já comprou.
+## 8. Disponibilidade
 
-### 5.2 Preço e cobrança
+O uso depende do Android, do fabricante e de serviços externos. Não se promete lançamento semanal de artes ou funcionamento ininterrupto. Mudanças não devem retirar arbitrariamente benefícios adquiridos. Se uma restrição técnica, jurídica ou de plataforma impedir entrega ou uso, procure o suporte para correção, alternativas e restituição cabível. Um substituto não será tratado como automaticamente aceito pelo comprador.
 
-Preços são exibidos dentro do aplicativo, na moeda e com os impostos aplicáveis
-à sua conta Google Play. A cobrança é feita pelo Google, pelo meio de pagamento
-cadastrado na sua conta. Não recebemos, não vemos e não armazenamos dados de
-pagamento (ver seção 3.5 da [Política de Privacidade](PRIVACIDADE.md)).
+O plano operacional de manutenção dos arquivos, restauração de compras anteriores e eventual encerramento ainda depende de aprovação antes da publicação definitiva. Esta revisão não promete hospedagem eterna nem elimina obrigações de entrega.
 
-Podemos alterar preços a qualquer momento. Alteração de preço **nunca** afeta
-compra já concluída.
+## 9. Privacidade e terceiros
 
-### 5.3 Restauração de compras
+A [Política de Privacidade](PRIVACIDADE.md) descreve localização, compras, backup, downloads e atendimento. MET Norway, Google e Cloudflare participam dessas operações. Requisições revelam IP e dados técnicos aos fornecedores; coordenadas meteorológicas não são enviadas ao R2. Ausência de conta própria não significa ausência de tratamento de dados.
 
-Compras ficam vinculadas à sua conta Google, não ao aparelho. Ao reinstalar o
-aplicativo ou usar outro aparelho com a mesma conta, use **Ajustes → Restaurar
-compras**. Não é preciso comprar de novo.
+## 10. Alterações e encerramento
 
-### 5.4 Reembolso e direito de arrependimento
+Desinstalar o app não solicita reembolso nem apaga pedidos da Play ou mensagens enviadas ao suporte. Medidas contra uso ilícito ou fraude devem ser proporcionais, justificadas e preservar direitos legais de contestação.
 
-Reembolsos são processados pelo **Google Play**, conforme as políticas dele —
-não temos acesso ao seu pagamento e, por isso, não conseguimos processar
-reembolso diretamente. Solicite em <https://play.google.com/store/account> ou
-pelo suporte do Google Play.
+Alterações materiais serão informadas antes ou junto da versão correspondente. Uso continuado não substitui consentimento que a lei exigir. Documentos novos não substituem silenciosamente condições de compras anteriores.
 
-Consumidores no Brasil têm o direito de arrependimento previsto no art. 49 do
-Código de Defesa do Consumidor (7 dias contados da compra, para contratação
-fora do estabelecimento comercial); esse direito é exercido pelo mesmo canal de
-reembolso da Google Play. Consumidores no Espaço Econômico Europeu e no Reino
-Unido têm direitos equivalentes de desistência sob a legislação local.
+## 11. Legislação e histórico editorial
 
-Nada nestes termos afeta direitos que a legislação de consumo aplicável garanta
-a você e que não possam ser afastados por contrato.
+Aplicam-se normas brasileiras pertinentes, sem afastar normas obrigatórias de outros países de distribuição. Controvérsias seguem regras legais de competência e garantias do consumidor; não se impõe foro exclusivo ao usuário.
 
-## 6. Conteúdo futuro e disponibilidade
-
-Podemos adicionar, alterar ou remover cenários, estilos e funcionalidades ao
-longo do tempo. Nos comprometemos a **não remover o acesso a conteúdo que você
-já comprou**, salvo se for tecnicamente impossível mantê-lo (por exemplo,
-alteração de política obrigatória da plataforma) — hipótese em que a remoção
-será comunicada.
-
-Não garantimos que o aplicativo estará disponível ininterruptamente, nem que
-funcionará em todos os aparelhos, versões de Android ou interfaces de fabricante.
-Papel de parede animado depende de recursos que alguns fabricantes restringem
-por economia de bateria; isso está fora do nosso controle.
-
-## 7. Serviços de terceiros
-
-O aplicativo depende de:
-
-- **MET Norway** (dados meteorológicos, licença CC BY 4.0) — <https://api.met.no/doc/TermsOfService>
-- **Google Play Services** (localização no aparelho) — <https://policies.google.com/terms>
-- **Google Play Billing** (pagamentos) — <https://policies.google.com/terms>
-
-O uso desses serviços é regido pelos termos de cada um. Não respondemos pela
-disponibilidade, precisão ou práticas deles.
-
-## 8. Privacidade
-
-O tratamento de dados pessoais é descrito na
-[Política de Privacidade](PRIVACIDADE.md), que integra estes termos. Em resumo:
-o app usa localização aproximada para consultar o clima, não tem conta, não
-exibe anúncios e não usa analytics. Alguns cenários são baixados de um
-servidor de arquivos (Cloudflare R2) quando você escolhe aplicá-los — esse
-servidor não recebe sua localização nem processa dado pessoal (política §3.8).
-
-## 9. Garantias e limitação de responsabilidade
-
-O aplicativo é fornecido **"no estado em que se encontra"**, sem garantias além
-das legalmente obrigatórias. Não garantimos que estará livre de erros, nem que
-os dados meteorológicos exibidos serão exatos.
-
-Na máxima extensão permitida pela lei aplicável, não respondemos por danos
-indiretos, lucros cessantes, perda de dados ou consumo de bateria/dados móveis
-decorrentes do uso do aplicativo. **Esta limitação não se aplica** a dolo, culpa
-grave, danos à vida, integridade física ou saúde, nem a qualquer
-responsabilidade que a legislação de consumo aplicável não permita excluir ou
-limitar — em especial as garantias legais do Código de Defesa do Consumidor
-brasileiro.
-
-## 10. Suspensão e encerramento
-
-Você pode encerrar o uso a qualquer momento desinstalando o aplicativo.
-Desinstalar não cancela nem reembolsa compras já feitas — elas permanecem
-vinculadas à sua conta Google e podem ser restauradas.
-
-Podemos encerrar ou suspender o acesso em caso de violação destes termos, em
-especial das vedações da seção 4.1.
-
-## 11. Alterações destes termos
-
-Podemos alterar estes termos para refletir mudanças no aplicativo, na
-legislação ou nas políticas das plataformas. A versão vigente é sempre a
-publicada no endereço indicado na seção 1, com data de última atualização no
-topo. Alterações materiais serão comunicadas nas notas de versão da Google Play
-e, quando a lei exigir, dentro do aplicativo.
-
-Continuar usando o aplicativo após a entrada em vigor de uma alteração significa
-que você tomou conhecimento dela.
-
-## 12. Lei aplicável e foro
-
-Estes termos são regidos pelas leis da **República Federativa do Brasil**.
-
-Fica eleito o foro de **Novo Hamburgo (RS)** para
-dirimir controvérsias, ressalvado o direito do consumidor de demandar no foro do
-seu próprio domicílio (art. 101, I do Código de Defesa do Consumidor) e as
-regras de competência que a lei do país de residência do usuário torne
-obrigatórias.
-
-## 13. Contato
-
-| | |
-|---|---|
-| **Suporte, dúvidas e reclamações** | [PREENCHER: e-mail de contato] |
-| **Assuntos de privacidade** | [PREENCHER: e-mail de contato] — ver [PRIVACIDADE.md](PRIVACIDADE.md) |
-| **Reembolso** | Google Play — <https://play.google.com/store/account> |
-
-## 14. Histórico de versões
-
-| Versão | Data | Mudança |
-|---|---|---|
-| 1.3 | 10 de outubro de 2026 | Alinha a oferta: Premium libera apenas efeitos e estilos, sem conceder artes pagas. |
-| 1.2 | 5 de outubro de 2026 | A partir do app 1.0.5, consultas automáticas somente na tela inicial com aparelho acordado e desbloqueado. |
-| 1.1 | 3 de outubro de 2026 | Troca o fornecedor de previsão do tempo: sai a Open-Meteo, entra a MET Norway (resumo e seções 3 e 7). |
-| 1.0 | [PREENCHER: data da primeira publicação] | Versão inicial, referente ao Terra 1.0.0 |
+Revisão 1.4 de 11/10/2026: compra por arte, entrega/restauração, atendimento e direitos de consumo. Revisão anterior 1.3 de 10/10: separação de Premium e artes. Histórico editorial não comprova publicação ou vigência de cada cópia.

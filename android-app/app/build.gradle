@@ -140,6 +140,7 @@ android {
 tasks.matching { it.name.startsWith('test') && it.name.endsWith('UnitTest') }.configureEach {
     inputs.dir(rootProject.file('../docs')).withPropertyName('paginasLegaisWeb')
     inputs.dir('src/main/assets/legal').withPropertyName('paginasLegaisAsset')
+    inputs.dir('../../public_html').withPropertyName('paginasLegaisExportadas')
     // PermissoesDeclaradasTest lê o manifesto. Mesmo motivo dos dois acima:
     // sem declarar a entrada, editar o manifesto deixava a task UP-TO-DATE e o
     // teste NÃO rodava — falso verde. Confirmado na prática: readicionei
