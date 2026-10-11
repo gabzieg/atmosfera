@@ -22,6 +22,10 @@ class BackupPrivacidadeTest {
         assertTrue("Não transportar coordenadas", "atmosfera_weather_cache.xml" in exclusions)
         assertTrue("Não transportar pausas da MET", "atmosfera_met_freio.xml" in exclusions)
         assertTrue("Restaurar Premium pela Play", "atmosfera_plano.xml" in exclusions)
+        assertTrue("Restaurar artes pela Play", "atmosfera_compras_artes.xml" in exclusions)
+        assertTrue((0 until nodes.length).map { nodes.item(it) as Element }.any {
+            it.getAttribute("domain") == "file" && it.getAttribute("path") == "acervo/"
+        })
         assertFalse("Preservar preferências comuns", "." in exclusions)
         assertEquals("Não substituir backup por lista parcial", 0,
             section.getElementsByTagName("include").length)

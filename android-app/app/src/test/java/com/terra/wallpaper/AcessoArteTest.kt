@@ -10,7 +10,7 @@ import org.junit.Test
 class AcessoArteTest {
     @Test
     fun `cada amostra continua disponivel sem compra`() {
-        Catalogo.cenarios.forEach { cenario ->
+        Catalogo.embarcados.forEach { cenario ->
             cenario.artesGratis.forEach { arte ->
                 assertTrue("${cenario.id}/$arte", AcessoArte.permitida(cenario, arte))
                 assertEquals(arte, AcessoArte.selecionada(cenario, arte))
@@ -20,7 +20,7 @@ class AcessoArteTest {
 
     @Test
     fun `artes adicionais ficam bloqueadas sem um direito proprio`() {
-        val pagas = Catalogo.cenarios.flatMap { cenario ->
+        val pagas = Catalogo.embarcados.flatMap { cenario ->
             (cenario.artes - cenario.artesGratis).map { cenario to it }
         }
         assertTrue("A regressão precisa incluir artes pagas reais do catálogo", pagas.isNotEmpty())
@@ -31,11 +31,11 @@ class AcessoArteTest {
 
     @Test
     fun `preferencia paga de versao anterior volta para a amostra do mesmo cenario`() {
-        Catalogo.cenarios.forEach { cenario ->
+        Catalogo.embarcados.forEach { cenario ->
             (cenario.artes - cenario.artesGratis).forEach { salva ->
                 val fallback = AcessoArte.selecionada(cenario, salva)
                 assertTrue("${cenario.id}/$fallback", fallback in cenario.artesGratis)
-                assertTrue(AcessoArte.permitida(cenario, fallback))
+                assertTrue(AcessoArte.permitida(cenario, requireNotNull(fallback)))
             }
         }
     }
@@ -49,7 +49,7 @@ class AcessoArteTest {
 
     @Test
     fun `preferencia inexistente nao passa nem no destrave de teste`() {
-        Catalogo.cenarios.forEach { cenario ->
+        Catalogo.embarcados.forEach { cenario ->
             assertFalse(AcessoArte.permitida(cenario, "inexistente", destraveTeste = true))
             assertTrue(AcessoArte.selecionada(cenario, "inexistente") in cenario.artesGratis)
         }

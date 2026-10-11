@@ -12,6 +12,12 @@ import com.terra.wallpaper.billing.Plano
 import com.terra.wallpaper.debug.DebugOverride
 import com.terra.wallpaper.engine.ArteFundo
 import com.terra.wallpaper.engine.AcessoArte
+import com.terra.wallpaper.engine.Acervo
+import com.terra.wallpaper.billing.ComprasArte
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import com.terra.wallpaper.engine.Catalogo
 import com.terra.wallpaper.engine.Cena
 import com.terra.wallpaper.engine.EstiloEfeito
@@ -62,6 +68,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     private val climaPrefs = context.getSharedPreferences("atmosfera_weather_cache", Context.MODE_PRIVATE)
     
     val billingManager = BillingManager(context) { onPremiumMudou(it) }
+    private val _artesCompradas = MutableStateFlow(ComprasArte.produtos(context))
+    val artesCompradas: StateFlow<Set<String>> = _artesCompradas
+    data class DownloadArte(val id: String = "", val progresso: Float? = null, val mensagem: String? = null)
+    private val _downloadArte = MutableStateFlow(DownloadArte())
+    val downloadArte: StateFlow<DownloadArte> = _downloadArte
+    private var downloadJob: Job? = null
 
     private val _hasLocationPermission = MutableStateFlow(checkPermission())
     val hasLocationPermission: StateFlow<Boolean> = _hasLocationPermission
@@ -157,6 +169,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     }
 
     private fun onPremiumMudou(premium: Boolean) {
+        _artesCompradas.value = ComprasArte.produtos(context)
+        _currentSceneId.value = Cena.atual(context)
+        _currentArt.value = ArteFundo.atual(context)
         _isPremium.value = premium
         _currentEffectStyle.value = EstiloEfeito.atual(context)
         // A validade da arte é independente de compra/restauração do Premium.
@@ -201,6 +216,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     fun aplicar(sceneId: String, arteId: String) {
         val cenario = Catalogo.por(sceneId) ?: return
         if (!isArtUnlocked(cenario, arteId)) return
+        if (!arteInstalada(cenario, arteId)) return
         setScene(sceneId)
         setArt(arteId)
     }
@@ -208,6 +224,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
     fun setArt(arteId: String) {
         val cenario = Catalogo.por(_currentSceneId.value) ?: return
         if (!isArtUnlocked(cenario, arteId)) return
+        if (!arteInstalada(cenario, arteId)) return
         ArteFundo.definir(context, arteId)
         _currentArt.value = arteId
     }
@@ -268,7 +285,50 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
 
     /** A mesma regra lida por ArteFundo no serviço; não depende de Premium. */
     fun isArtUnlocked(cenario: com.terra.wallpaper.engine.Cenario, arte: String): Boolean =
-        AcessoArte.permitida(cenario, arte, DebugOverride.destravarPagos(context))
+        AcessoArte.permitida(cenario, arte, DebugOverride.destravarPagos(context),
+            Catalogo.produtoArte(cenario, arte) in ComprasArte.produtos(context))
+
+    fun arteInstalada(cenario: com.terra.wallpaper.engine.Cenario, arte: String): Boolean =
+        arte !in cenario.artesRemotas || Acervo.temArte(context, cenario.id, arte)
+
+    fun entregaDisponivel(cenario: com.terra.wallpaper.engine.Cenario, arte: String): Boolean =
+        arteInstalada(cenario, arte) || Acervo.base(context).isNotEmpty()
+
+    fun cancelarDownload() {
+        downloadJob?.cancel()
+        _downloadArte.value = DownloadArte(mensagem = "Download cancelado.")
+    }
+
+    fun baixarEAplicar(cenario: com.terra.wallpaper.engine.Cenario, arte: String) {
+        if (!isArtUnlocked(cenario, arte)) return
+        if (arteInstalada(cenario, arte)) { aplicar(cenario.id, arte); return }
+        val anterior = downloadJob
+        anterior?.cancel()
+        val id = "${cenario.id}/$arte"
+        downloadJob = viewModelScope.launch {
+            anterior?.cancelAndJoin()
+            Acervo.baixarArte(context, cenario.id, arte).collect { estado ->
+                when (estado) {
+                    is Acervo.Progresso.Baixando -> _downloadArte.value = DownloadArte(id, estado.fracao)
+                    is Acervo.Progresso.Erro -> _downloadArte.value = DownloadArte(id, mensagem = estado.motivo)
+                    Acervo.Progresso.Ok -> {
+                        if (isArtUnlocked(cenario, arte)) aplicar(cenario.id, arte)
+                        _downloadArte.value = DownloadArte(id, mensagem = "Arte instalada.")
+                    }
+                }
+            }
+        }
+    }
+
+    fun removerDownloads(): Boolean {
+        if (downloadJob?.isActive == true) return false
+        val cena = Catalogo.por(Cena.atual(context))
+        val arte = ArteFundo.atual(context)
+        if (cena != null && arte in cena.artesRemotas) return false
+        Catalogo.cenarios.filter { it.artesRemotas.isNotEmpty() }.forEach { Acervo.apagarCena(context, it.id) }
+        _downloadArte.value = DownloadArte(mensagem = "Downloads removidos; compras preservadas.")
+        return true
+    }
 
     /** Tem ao menos uma arte utilizável — é o que põe o cenário em "Meus cenários". */
     fun temAlgoLiberado(cenario: com.terra.wallpaper.engine.Cenario): Boolean =

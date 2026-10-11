@@ -34,6 +34,16 @@ Google Play Billing.
 
 ## Monetização — o que é grátis e o que é pago
 
+**Consolidação da etapa 3 — 10/10/2026:** Gabriel reconfirmou todo o acervo
+**aprovado** como objetivo do lançamento, compra por **arte específica** e
+compra separada de cada nova variante futura. **Não haverá packs comerciais
+no lançamento.** A inclusão de futuros efeitos/estilos no Premium permanece
+a definir com Rafael; não prometer essa inclusão antes da definição.
+O [inventário por arte](../loja/catalogo-2026-10-10/README.md) encontrou 75
+artes com fundo em 71 cenas após os cortes, além de 237 variantes declaradas
+sem fundo local. Isso não comprova o inventário remoto de 366 artes nem muda
+o objetivo para um lote menor.
+
 **Reaberto em 2026-09-28/29** (proposta do Rafael, decisões do Gabriel em
 [PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md](PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md)):
 o acervo completo (69 cenários restantes) volta a ser objetivo de lançamento,
@@ -44,8 +54,8 @@ abaixo substitui o modelo de 23/09 (5 cenas embarcadas como teto final).
 |---|---|---|
 | **Premium** | Compra única global. Libera **só os efeitos**: os 8 efeitos vivos + todos os estilos de efeito, em qualquer cenário. **Não** dá nenhum cenário/arte — nem os embarcados além da amostra grátis, nem os do acervo remoto. | **R$ 49,90** |
 | **Cenários — 5 embarcados** | Cada um com uma arte grátis pra experimentar: cabana/pixel · jardim/ukiyoe · bruxa/clay · esfinge/vangogh · lavanda/aqua. As demais artes desses 5 cenários são compra avulsa (mesmo mecanismo dos remotos, mas os arquivos já estão no AAB). | Amostra grátis; demais artes avulsas |
-| **Cenários — acervo remoto (69)** | Baixados sob demanda de um bucket público (Cloudflare R2) só quando o usuário escolhe aplicar. Miniatura de todo o catálogo vem no AAB; o pack HD só desce depois da escolha. Posse verificada pela Play, não pelo arquivo. | **R$ 1,99** por cenário — confirmado 29/09, mesmo preço dos 5 embarcados |
-| **Packs (agrupamento comercial)** | Agrupamento de cenários do acervo remoto pra venda em conjunto — resolve o que "packs futuros" deixava em aberto. **Confirmado em 29/09: ninguém definiu isso ainda** (nem o Rafael, nem a proposta de 28/09) — não confundir com os "packs" do PAD no `ROADMAP.md` Fase 4, que é unidade técnica de download, conceito diferente. Quantidade por pack e regra de preço seguem em aberto. | a definir |
+| **Artes — acervo remoto** | Baixadas sob demanda do Cloudflare R2 quando o usuário escolhe aplicar. Miniaturas no AAB; HD após a escolha. Posse de cada arte verificada pela Play, independentemente do Premium. Quantidade final depende da conciliação do inventário e do aceite Android. | **R$ 1,99 por arte específica**, conforme o questionário do titular de 08/10 e confirmação de compra separada das novas variantes em 10/10 |
+| **Packs comerciais** | **Não serão ofertados no lançamento**, decisão de Gabriel em 10/10. Pacote técnico de download não equivale a produto comercial. | Não aplicável nesta versão |
 
 Ver [PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md](PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md)
 pro contrato completo de entrega (o que vai no AAB vs. no bucket, prévia,
@@ -203,3 +213,7 @@ dependentes junto — nunca isolado.
   `HANDOFF-FRONTEND.md`, resume aqui se afetar o critério de pronto.
 - **Qual é a fase atual e o que falta nela?** Ver `ROADMAP.md`.
 - **O que está em andamento agora, literalmente hoje?** Ver `TASKS.md`.
+
+## Integracao local da entrega (10/10/2026)
+
+Catalogo embarcado de miniaturas e metadados para 75 artes fisicamente disponiveis, sem certificar o acervo completo/aprovado. Posse por SKU `terra_arte_<cena>_<arte>`; Premium nao participa. Pacotes PNG externos com hashes SHA-256 completos fixados na versao do app, download solicitado e uso offline apos instalacao e compra validada. URL de producao ainda nao definida; sem endpoint, compra remota desabilitada. Ver [roteiro e limites](INTEGRACAO-ARTES-ACERVO-2026-10-10.md).

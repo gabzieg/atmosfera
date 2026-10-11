@@ -42,6 +42,7 @@ venv/
 # Ignoramos a pasta de output para não lotar o repositório,
 # mas os assets do motor (android-app/app/src/main/assets/atmosfera/) SÃO enviados.
 image-generator/output/
+dist/acervo-preparado/
 
 # --- Segurança (MUITO IMPORTANTE) ---
 # ATENÇÃO: não use "*.properties" aqui — isso ignoraria gradle.properties e

@@ -12,7 +12,7 @@
 > `billing/`, no `AndroidManifest.xml` ou a entrada de um SDK de anúncios/
 > analytics invalida o texto abaixo. Ver seção 13.
 
-**Versão da política:** 1.5
+**Versão da política:** 1.6
 **Aplica-se a:** Terra - Live Wallpaper (Android, `com.terra.wallpaper`), a partir da versão 1.0.5
 **Última atualização:** 10 de outubro de 2026
 **Vigente desde:** [PREENCHER: data da primeira publicação na Google Play]
@@ -158,7 +158,8 @@ O app permite a Cópia de Segurança Automática do Android
 podem participar do backup ou da transferência entre aparelhos, conforme as
 configurações do sistema. As regras atuais **excluem o cache de clima e
 coordenadas**, o estado de pausa de consultas à MET e o arquivo do indicador
-Premium, tanto do backup quanto da transferência. Compras são restauradas
+Premium, os direitos locais de compras de artes e os arquivos baixados do
+acervo, tanto do backup quanto da transferência. Compras são restauradas
 pela Google Play; o clima precisa de uma nova consulta quando não houver
 cache local. Não temos acesso ao conteúdo do backup por esse mecanismo.
 Você controla o backup nas configurações do Android. Essa configuração não
@@ -430,6 +431,7 @@ O texto canônico desta política é o **português do Brasil**, publicado em [h
 
 | Versão | Data | Mudança |
 |---|---|---|
+| 1.6 | 10 de outubro de 2026 | Exclui também direitos locais de artes e arquivos baixados do backup/transferência; compras são restauradas pela Play e artes remotas precisam de novo download. |
 | 1.5 | 10 de outubro de 2026 | Exclui cache de clima/localização, pausas da MET e indicador Premium do backup/transferência; preserva preferências comuns e esclarece backups anteriores. |
 | 1.4 | 5 de outubro de 2026 | A partir do app 1.0.5, consultas somente com wallpaper visível na tela inicial, aparelho acordado/desbloqueado; companion e prévias usam cache; retirada da atualização periódica e do receiver próprio de boot. |
 | 1.3 | 4 de outubro de 2026 | Seção 11: define o público do app como 13 anos ou mais, com autorização de responsável para menores de 18 anos, em linha com a declaração de público-alvo no Google Play Console. |

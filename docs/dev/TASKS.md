@@ -16,6 +16,10 @@
 
 **Etapa 2 local em 2026-10-10:** G05/G08/G09/G16 implementados: canal oficial no relato, cache de localização/freio da MET excluídos de backup/transferência, logs minimizados em release e função de Geocoder sem uso removida. **78 testes, lint e build debug aprovados.** Seção de backup da política e três HTMLs atualizados. Por orientação do usuário, avaliações no app ficam com **Rafael**, com roteiro no checklist; seguem pendentes e não impedem avançar nas próximas implementações.
 
+**Etapa 3 em 2026-10-10:** [inventário por arte](../loja/catalogo-2026-10-10/README.md) preparado, sem mudar o catálogo do aplicativo ou o bucket. Após cortes: 71 cenas/75 artes com fundo; 237 variantes declaradas sem fundo local; 70 propostas de produtos pagos. Usuário reconfirmou objetivo de todo o acervo aprovado, nova arte como compra separada e ausência de packs no lançamento. Falta conciliar o inventário de 366 artes do Rafael, aprovar renderização, definir futuros efeitos/estilos no Premium e conferir ofertas/países/Console.
+
+**Etapa 4 local em 2026-10-10:** compra por arte, reconciliacao de direitos, catalogo com miniaturas e download solicitado integrados. 71 cenas/75 artes com arquivos, cinco amostras e 70 SKUs propostos. ZIPs locais em `dist/acervo-preparado/`, sem upload; miniaturas JPEG somam cerca de 2 MB. Falta URL publica do bucket, produtos ativos e aceite do Rafael; nao e versao pronta para publicar. Roteiro em [INTEGRACAO-ARTES-ACERVO-2026-10-10.md](INTEGRACAO-ARTES-ACERVO-2026-10-10.md). 84 testes aprovados, lint sem erros e builds debug/release aprovados; R8 emite avisos de metadados Kotlin, a avaliar no candidato. Politica: delta de backup em revisao 1.6, demais refinamentos legais na etapa 5.
+
 ## Estado (confirmado em 2026-10-09)
 
 - **App**: versão **1.0.5, versionCode 6** na `main`. AAB assinado gerado em 06/10 (SHA-256 `19b88b3d…e353e6bb`). **Não está confirmado** que foi enviado ao Console nem que o código 6 está livre — só o Gabriel vê o Console.
@@ -28,7 +32,7 @@
 
 Detalhe e opções em `.lgpd/gaps.md` e `.lgpd/STATUS.md` — **ainda no PR #48 (rascunho), não na `main`**.
 
-1. **Escopo do lançamento** — 5 cenas embutidas agora e packs depois, ou catálogo remoto completo. O SPEC (29/09) diz catálogo completo; o Gabriel disse 5 cenas (05/10); o **Rafael não confirmou a mudança**. A Loja remota **não existe** no app (só o painel de debug baixa; `Acervo.BASE_PADRAO` vazio).
+1. **Escopo fechado em 10/10:** objetivo de todo o acervo aprovado, reconfirmado pelo usuário. Sem packs comerciais no lançamento; cada arte nova é compra separada. Falta conciliar/validar arquivos e implementar a Loja remota; o catálogo de produção não foi aprovado pelo inventário local.
 2. **Premium nas 5 cenas — decisão fechada e correção local implementada em 10/10.** Apenas efeitos/estilos. Termos §5.1 e interface atualizados; aceite em aparelho/Play ainda pendente. Usuário informou somente compras de teste.
 3. **Público 13+ ou 18+** (ECA Digital).
 4. **Encarregado** — designar o Rafael ou manter a dispensa de ATPP.
@@ -58,7 +62,7 @@ Detalhe e opções em `.lgpd/gaps.md` e `.lgpd/STATUS.md` — **ainda no PR #48 
 ## Decisões tomadas (não reabrir sem motivo novo)
 
 - **Clima**: MET Norway (2026-10-03, a API gratuita da Open-Meteo é só não comercial); consulta **só com o wallpaper visível na home, tela acordada e desbloqueada** (2026-10-05, PR #46); freio persistente em 429/403.
-- **Monetização**: Premium **R$ 49,90**, compra única, só efeitos e estilos; compra avulsa de **uma arte específica por R$ 1,99**, segundo o questionário do titular de 08/10. Packs comerciais ainda indefinidos. Separação de Premium implementada localmente em 10/10; compra por arte ainda será integrada. Conferir o estado efetivo da versão distribuída.
+- **Monetização**: Premium **R$ 49,90**, compra única, só efeitos e estilos; compra avulsa de **uma arte específica por R$ 1,99**, segundo o questionário do titular de 08/10. Sem packs comerciais no lançamento, confirmado em 10/10. Separação de Premium implementada localmente em 10/10; compra por arte integrada localmente; aceite pela Play pendente. Conferir o estado efetivo da versão distribuída.
 - **Acervo remoto (R2)**: objetivo de lançamento desde 29/09, a pedido do Rafael — **sujeito à decisão pendente 1**.
 - **Público 13+** (2026-10-04) — sujeito à decisão pendente 3.
 - **Prévia ao vivo fora da Home** (2026-08-10): fica no onboarding, no detalhe da Loja e no comparador do Premium.

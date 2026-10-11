@@ -141,16 +141,17 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, on
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
     val precos by viewModel.billingManager.precos.collectAsState()
+    val compras by viewModel.artesCompradas.collectAsState()
 
     val assets = LocalContext.current.assets
     // Checado uma vez por sessão (abre e fecha um handle por cenário), não a
     // cada tecla digitada na busca.
     val publicados = remember(assets) {
-        Catalogo.cenarios.filter { cenarioTemAsset(assets, it.id) }
+        Catalogo.cenarios.filter { cenarioTemAsset(assets, it.id) || it.miniaturas.isNotEmpty() }
     }
 
     var query by remember { mutableStateOf("") }
-    val cenarios = remember(publicados, query) {
+    val cenarios = remember(publicados, query, compras) {
         publicados.filter { it.nome.contains(query.trim(), ignoreCase = true) }
     }
     // Alturas variadas → efeito escalonado do mosaico.

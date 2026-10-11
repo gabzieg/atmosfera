@@ -52,6 +52,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.terra.wallpaper.engine.Catalogo
 import com.terra.wallpaper.engine.Estilos
+import com.terra.wallpaper.engine.Acervo
+import android.app.Activity
+import androidx.compose.material3.LinearProgressIndicator
 import com.terra.wallpaper.service.AtmosferaWallpaperService
 import androidx.compose.material3.TextButton
 import com.terra.wallpaper.ui.components.ConfirmarWallpaperDialog
@@ -78,7 +81,13 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
     val currentArt by viewModel.currentArt.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
     val isPremium by viewModel.isPremium.collectAsState()
+    val compras by viewModel.artesCompradas.collectAsState()
+    val precos by viewModel.billingManager.precos.collectAsState()
+    val mensagemCompra by viewModel.billingManager.mensagemPremium.collectAsState()
+    val download by viewModel.downloadArte.collectAsState()
     val context = LocalContext.current
+    val activity = generateSequence(context) { (it as? android.content.ContextWrapper)?.baseContext }
+        .filterIsInstance<Activity>().firstOrNull()
 
     val isActiveScene = currentSceneId == sceneId
     val artes = artesDoCenario(sceneId)
@@ -86,7 +95,11 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
     // global, e mexer nela olhando outro cenário trocava a arte do wallpaper que
     // está no ar (e, com arte grátis avulsa, podia pôr no ar uma arte paga).
     var arteExibida by remember(sceneId) { mutableStateOf(viewModel.arteInicial(cenario)) }
-    val isUnlocked = viewModel.isArtUnlocked(cenario, arteExibida)
+    val isUnlocked = remember(cenario, arteExibida, compras) { viewModel.isArtUnlocked(cenario, arteExibida) }
+    val instalada = viewModel.arteInstalada(cenario, arteExibida)
+    val produto = Catalogo.produtoArte(cenario, arteExibida)
+    val preco = precos[produto]
+    val baixando = download.id == "$sceneId/$arteExibida" && download.progresso != null
     val isActive = isUnlocked && isActiveScene && currentArt == arteExibida
     var mostrarConfirmacao by remember { mutableStateOf(false) }
     var mostrarReporte by remember { mutableStateOf(false) }
@@ -147,7 +160,7 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
         // nome, dos botões e da seção de estilos abaixo.
         Box(modifier = Modifier.fillMaxWidth().height(340.dp).clipToBounds()) {
             SceneThumbnail(sceneId = sceneId, arte = arteExibida, modifier = Modifier.fillMaxSize())
-            EngineLivePreview(
+            if (instalada) EngineLivePreview(
                 sceneId = sceneId,
                 arte = arteExibida,
                 estilo = currentEffectStyle,
@@ -175,11 +188,23 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                     Text(cenario.nome, style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground)
                 }
                 Spacer(Modifier.width(Spacing.md))
-                AcaoPrincipal(
+                if (isUnlocked) AcaoPrincipal(
                     isActive = isActive,
                     isUnlocked = isUnlocked,
-                    onAplicar = { viewModel.aplicar(sceneId, arteExibida) },
+                    onAplicar = { viewModel.baixarEAplicar(cenario, arteExibida) },
+                    textoAplicar = if (instalada) "Aplicar" else "Baixar e aplicar",
+                    enabled = !baixando && viewModel.entregaDisponivel(cenario, arteExibida),
                 )
+                else Button(
+                    enabled = produto != null && preco != null && viewModel.entregaDisponivel(cenario, arteExibida) && activity != null,
+                    onClick = { if (produto != null && activity != null) viewModel.buyScene(activity, produto) },
+                    shape = RoundedCornerShape(Radius.pill),
+                ) { Text(if (preco != null) "Comprar $preco" else "Compra indisponível") }
+            }
+
+            if (!instalada) {
+                val bytes = Acervo.bytesParaBaixar(context, sceneId, arteExibida)
+                Text(String.format(java.util.Locale.forLanguageTag("pt-BR"), "Download: %.1f MB", bytes / (1024f * 1024f)))
             }
 
             // ── Ações secundárias em pílula ─────────────────────────────
@@ -190,7 +215,7 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                     onClick = {
                         if (isUnlocked) mostrarConfirmacao = true
                     },
-                    enabled = isUnlocked,
+                    enabled = isUnlocked && instalada,
                 )
                 PilulaAcao(
                     icone = Icons.Default.Share,
@@ -208,11 +233,23 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
 
             if (!isUnlocked) {
                 Text(
-                    "Esta arte não está incluída no Premium. A compra individual ainda não está disponível nesta versão.",
+                    "Esta arte é uma compra individual e não está incluída no Premium." +
+                        if (preco == null || !viewModel.entregaDisponivel(cenario, arteExibida)) " A compra está indisponível no momento." else "",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
+            if (baixando) {
+                LinearProgressIndicator(progress = { download.progresso ?: 0f }, modifier = Modifier.fillMaxWidth())
+                TextButton(onClick = { viewModel.cancelarDownload() }) { Text("Cancelar download") }
+            }
+            if (!instalada && !viewModel.entregaDisponivel(cenario, arteExibida)) {
+                Text("Download indisponível no momento. As artes já instaladas continuam disponíveis.", style = MaterialTheme.typography.bodySmall)
+            }
+            download.mensagem?.takeIf { download.id == "$sceneId/$arteExibida" || download.id.isEmpty() }?.let {
+                Text(it, style = MaterialTheme.typography.bodySmall)
+            }
+            mensagemCompra?.let { Text(it, style = MaterialTheme.typography.bodySmall) }
 
             // ── Seção: arte do cenário (só quem tem variantes) ──────────
             if (artes.size > 1) {
@@ -300,6 +337,8 @@ private fun AcaoPrincipal(
     isActive: Boolean,
     isUnlocked: Boolean,
     onAplicar: () -> Unit,
+    textoAplicar: String = "Aplicar",
+    enabled: Boolean = true,
 ) {
     when {
         isActive && isUnlocked -> Row(verticalAlignment = Alignment.CenterVertically) {
@@ -307,7 +346,7 @@ private fun AcaoPrincipal(
             Spacer(Modifier.width(Spacing.xs))
             Text("Atual", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleMedium)
         }
-        isUnlocked -> Button(onClick = onAplicar, shape = RoundedCornerShape(Radius.pill)) { Text("Aplicar") }
+        isUnlocked -> Button(onClick = onAplicar, enabled = enabled, shape = RoundedCornerShape(Radius.pill)) { Text(textoAplicar) }
         else -> Button(
             onClick = {},
             enabled = false,

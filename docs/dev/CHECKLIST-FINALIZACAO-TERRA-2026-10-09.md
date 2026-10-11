@@ -81,12 +81,17 @@ Conferir separadamente backups produzidos por versões antigas: a nova configura
 
 ## 3. Congelar o catálogo e os produtos do lançamento
 
-- [ ] Conciliar a decisão registrada pelo Rafael de acervo completo com eventual lançamento em fases. Documentar uma regra definitiva antes de anunciar o catálogo.
-- [ ] Conferir o inventário efetivo após as exclusões; não tratar “71 cenas/366 artes” como contagem já validada no aplicativo.
-- [ ] Separar amostras gratuitas, artes pagas e itens excluídos; conferir o corte também nos arquivos distribuídos e manifestos.
-- [ ] Criar tabela de cada arte ofertada: identificador, cenário/variante, miniatura, arquivos, produto Play, preço e resultado de teste.
-- [ ] Definir a regra de novas variantes e novos efeitos/estilos futuros. Não prometer inclusões automáticas sem essa definição.
-- [ ] Definir packs ou registrar expressamente que não serão ofertados nesta versão.
+**Avanço em 10/10:** [inventário por arte](../loja/catalogo-2026-10-10/README.md) gerado a partir da fonte local, com CSV, JSON, hashes e propostas de produto. Nenhuma consulta/cadastro no Console, publicação no bucket ou avaliação visual por esta execução.
+
+- [x] Escopo reconfirmado pelo usuário em 10/10: **todo o acervo aprovado** como objetivo do lançamento. Não substituir por um lote menor sem nova decisão; testar por lotes não altera a oferta pretendida.
+- [x] Conferir a fonte local após os cortes: **71 cenas/75 artes com fundo**, cinco gratuitas e 70 pagas candidatas. O motor declara 312 variantes após exclusões, **237 sem fundo local**; há declaração duplicada de `vale/cartoon`. CSV/JSON preparados, sem aprovação de renderização.
+- [ ] Conciliar a fonte local com o inventário remoto de **71 cenas/366 artes** mencionado pelo Rafael. Caminho/manifesto e composição ainda não comprovados nesta execução.
+- [x] Separar amostras, artes pagas e exclusões na tabela. Os sete temas excluídos não recebem proposta de produto; `timessquare`, `ogro` e `eiffel` ainda existem no acervo local e permanecem identificados como excluídos, sem apagar os arquivos.
+- [ ] Conferir cortes no manifesto de produção e artefato efetivamente distribuído. Inventário local não é manifesto de publicação.
+- [x] Preparar tabela por arte: identificação, origem, arquivos, hashes, dimensões, bytes, miniaturas, preço regular e ID de produto **proposto**. Console e teste Android marcados como não verificados; miniaturas dedicadas ausentes identificadas.
+- [x] Novas artes/variantes: **cada arte nova será uma compra separada**, confirmado pelo usuário em 10/10.
+- [ ] Definir com Rafael se **futuros efeitos/estilos** ficam incluídos no Premium. Não prometer inclusão automática enquanto essa regra estiver aberta.
+- [x] **Sem packs comerciais no lançamento**, confirmado pelo usuário em 10/10. Pacotes de arquivo para download são outro conceito.
 - [ ] Configurar preço regular e ofertas reais de R$ 0,99, sem confundir preço promocional com uma nova posse.
 - [ ] Conferir países de oferta/distribuição e preços correspondentes.
 - [ ] Preservar registros de origem e licenças das artes, fontes, sprites e dados meteorológicos, com revisão dos itens efetivamente distribuídos.
@@ -95,11 +100,11 @@ Conferir separadamente backups produzidos por versões antigas: a nova configura
 
 ## 4. Implementar compra por arte e entrega remota
 
-**Dependência:** etapa 3 concluída. Começar por um lote representativo; ampliar apenas após validar a jornada.
+**Dependência para aceite:** catálogo/produtos da etapa 3 aprovados. Por solicitação do usuário, implementação adiantada em 10/10 com arquivos disponíveis; isso não conclui a etapa 3. Ver [integração e roteiro](INTEGRACAO-ARTES-ACERVO-2026-10-10.md).
 
-- [ ] Modelar posse por cenário + arte e associar os produtos pagos correspondentes; não usar um direito por cenário para liberar todas as variantes.
+- [x] Modelar posse por cenário + arte e associar os produtos pagos correspondentes; não usar um direito por cenário para liberar todas as variantes.
 - [ ] Integrar carregamento de produtos/preços, compra, estados pendentes, confirmação, restauração e revogação.
-- [ ] Implementar catálogo e miniaturas sem embutir todo o acervo HD.
+- [x] Implementar catálogo e miniaturas sem embutir todo o acervo HD (75 artes locais; aprovação/completude pendentes).
 - [ ] Configurar endpoint de produção do bucket e conferir controles de upload/acesso. Não incluir credenciais no aplicativo.
 - [ ] Verificar origem/integridade de manifesto e pacotes, versionamento e compatibilidade com o motor.
 - [ ] Implementar download solicitado pelo usuário: tamanho, progresso, cancelamento, repetição, instalação segura e falhas compreensíveis.
@@ -179,8 +184,8 @@ Referência: [requisitos oficiais de teste](https://support.google.com/googlepla
 | Decisões registradas | Concluído o registro acima | Conversa e questionário do titular; não valida configuração do Console. |
 | 1 — Premium × artes | Implementação local e checks concluídos; aceite em aparelho pendente | `AcessoArte` compartilhado, seleção/aplicação protegidas, oferta corrigida, 75 testes aprovados, lint e build debug aprovados em 10/10. Não publicado. |
 | 2 — Privacidade técnica | Implementação local e checks concluídos; avaliação do Rafael pendente | Canal oficial, exclusões de backup/transferência, logs minimizados, Geocoder sem uso removido, política sincronizada e 78 testes aprovados em 10/10. |
-| 3 — Catálogo/produtos | Pendente | Escopo e oferta registrados em documentos diferentes; falta lista final reconciliada. |
-| 4 — Compra/entrega remota | Pendente | Base de acervo existe; jornada principal não concluída. |
+| 3 — Catálogo/produtos | Inventário local preparado e decisões registradas; conclusão pendente | CSV/JSON: 75 artes com fundo após cortes, 237 declaradas sem fundo, 70 produtos propostos. Objetivo acervo completo aprovado; arte nova compra separada; sem packs. Falta fonte das 366 artes, aceite Android, regras de futuros efeitos e configuração real de ofertas/países. |
+| 4 — Compra/entrega remota | Implementação local adiantada; aceite pendente | Posse por arte, faturamento, catálogo/miniaturas e download integrados. Pacotes preparados em `dist/acervo-preparado/`, sem upload. Faltam URL, produtos reais, acervo aprovado e avaliação do Rafael; 84 testes e lint sem erros; ver roteiro de integração. |
 | 5 — Documentos/site | Rascunhos existentes; conclusão pendente | Revisões locais não vigentes, domínio indefinido. |
 | 6 — Candidato validado | Pendente | CI anterior aprovada; não substitui candidato após correções e teste real. |
 | 7 — Console/teste fechado | Pendente de evidência atual | Sem acesso ao painel nesta rodada. |

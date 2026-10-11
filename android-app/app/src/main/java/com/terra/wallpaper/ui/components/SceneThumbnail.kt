@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.terra.wallpaper.engine.Cenas
+import com.terra.wallpaper.engine.Catalogo
 
 /**
  * Carrega e mostra o fundo (fundo.png) de um cenário a partir dos assets,
@@ -139,6 +140,13 @@ private fun carregarFundo(
     arte: String,
     larguraAlvoPx: Int,
 ): Bitmap? {
+    val miniatura = "atmosfera/miniaturas/${sceneId}__${arte}.jpg"
+    val chaveMiniatura = "thumb:$sceneId/$arte"
+    cacheMiniaturas.get(chaveMiniatura)?.let { return it }
+    val local = runCatching {
+        assets.open(miniatura).use { BitmapFactory.decodeStream(it) }
+    }.getOrNull()
+    if (local != null) { cacheMiniaturas.put(chaveMiniatura, local); return local }
     val prefixo = Cenas.por(sceneId).fundoPrefixo(arte)   // ex.: "", "cenas/tanque/", "cenas/cabana_clay/"
 
     // Arredonda pra múltiplo de 64 pra que larguras quase iguais (as duas colunas

@@ -99,7 +99,13 @@ object ArteFundo {
         val salvo = c.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
             .getString(KEY, "pixel") ?: "pixel"
         val cenario = Catalogo.por(Cena.atual(c)) ?: Catalogo.padrao
-        return AcessoArte.selecionada(cenario, salvo, DebugOverride.destravarPagos(c))
+        val produtos = com.terra.wallpaper.billing.ComprasArte.produtos(c)
+        val compradas = cenario.artes.filter {
+            Catalogo.produtoArte(cenario, it) in produtos &&
+                (it !in cenario.artesRemotas || Acervo.temArte(c, cenario.id, it))
+        }.toSet()
+        return AcessoArte.selecionada(cenario, salvo, DebugOverride.destravarPagos(c), compradas)
+            ?: Catalogo.padrao.artesGratis.first()
     }
     fun definir(c: Context, id: String) =
         c.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putString(KEY, id).apply()

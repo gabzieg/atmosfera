@@ -1,0 +1,1170 @@
+{
+  "versao": 2,
+  "formato": "png",
+  "cenas": {
+    "aldeiajapao": {
+      "cena": {
+        "arquivo": "pack/aldeiajapao/_cena.zip",
+        "bytes": 182721,
+        "sha256": "f3836bdfde0cfe61a3be5bbe16fe7caf1edd9d004d533da4abf3a2b9579e760e"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/aldeiajapao/pixel.zip",
+            "bytes": 5142352,
+            "sha256": "dcf659f9b9e53fd8ccc9e52060fff1bcb563f49e529d9ec2ce9bddd9949af02f"
+          }
+        }
+      }
+    },
+    "apefino": {
+      "cena": {
+        "arquivo": "pack/apefino/_cena.zip",
+        "bytes": 154372,
+        "sha256": "87d14374fb838ccc46c24f2c26aceb4139c38610cb7eb7d131c1c6c50f6c208b"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/apefino/pixel.zip",
+            "bytes": 3982327,
+            "sha256": "be82ac868e05b7100ae20476a9b162bd09794c154e49c7132e5a07346601eb55"
+          }
+        }
+      }
+    },
+    "babilonia": {
+      "cena": {
+        "arquivo": "pack/babilonia/_cena.zip",
+        "bytes": 110696,
+        "sha256": "c738e8a64029ee1311ae90121f7d5a2cbbc23268964179b081d474a41f81ce47"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/babilonia/pixel.zip",
+            "bytes": 6343404,
+            "sha256": "8ad02f67092d02fbc62e1e40769c540b43b7181f6261fe640f1cb4c7cfecd389"
+          }
+        }
+      }
+    },
+    "baobas": {
+      "cena": {
+        "arquivo": "pack/baobas/_cena.zip",
+        "bytes": 94208,
+        "sha256": "1f8d92bb1a8dd0d5181fe76f9274254f5af00af34bb5199a214714ae51592539"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/baobas/pixel.zip",
+            "bytes": 4026168,
+            "sha256": "25179d3e834aa591cc97d37d38405cbef1a1d65415be0cd987a1047ecc6a6596"
+          }
+        }
+      }
+    },
+    "beco": {
+      "cena": {
+        "arquivo": "pack/beco/_cena.zip",
+        "bytes": 103410,
+        "sha256": "31892e9be80d35deded49dfbae1c80c6b162344e81f91d4499fd56ef436d3e69"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/beco/pixel.zip",
+            "bytes": 5785360,
+            "sha256": "98d30a74a9ef05336d9b5b4ff313f5c5af952513ad2f20cc8220b38a3a48dce7"
+          }
+        }
+      }
+    },
+    "biblioteca": {
+      "cena": {
+        "arquivo": "pack/biblioteca/_cena.zip",
+        "bytes": 144784,
+        "sha256": "3238d64cdcbad89d15bd635cb8c23949e6710040c690bd288c3bb8237f8b254c"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/biblioteca/pixel.zip",
+            "bytes": 5045214,
+            "sha256": "8da305bea925e1e6cd54ba333d5a9c44e8cd4b6e1856e9c5afce24e8c17a3318"
+          }
+        }
+      }
+    },
+    "bruxa": {
+      "cena": {
+        "arquivo": "pack/bruxa/_cena.zip",
+        "bytes": 150382,
+        "sha256": "a1c5382ba54d6466bf2f59d9aae9f4d8c9ba58ad5519dfe70545bc10ca803700"
+      },
+      "artes": {
+        "clay": {
+          "pack": {
+            "arquivo": "pack/bruxa/clay.zip",
+            "bytes": 6619171,
+            "sha256": "afab781bb37e9159d740c38cbb0f82af1f4a4ce626edbd04e525391fff6494f0"
+          }
+        },
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/bruxa/pixel.zip",
+            "bytes": 5539722,
+            "sha256": "77cf639233ffc4ba2fffd847e5a7385178b080e10c35e993cb7a184c9d78ad3b"
+          }
+        }
+      }
+    },
+    "cabana": {
+      "cena": {
+        "arquivo": "pack/cabana/_cena.zip",
+        "bytes": 50918,
+        "sha256": "afb51924b2c19929fa1e41e4e2e67ab0a5813dd615a692c0d63ca234cd29ea92"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/cabana/pixel.zip",
+            "bytes": 3869590,
+            "sha256": "33e2bfbe88a9a4fe1ba3485e17aca7bfd20d87c37c5a92f44ee6673a90caf476"
+          }
+        }
+      }
+    },
+    "cabana2": {
+      "cena": {
+        "arquivo": "pack/cabana2/_cena.zip",
+        "bytes": 122101,
+        "sha256": "d683a8145e92b5985917a63951fe226bea814b407274dcc00c4fe73984a94ad4"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/cabana2/pixel.zip",
+            "bytes": 3457781,
+            "sha256": "d7d5f733b4b5d1e6170ff15bc201c9418b5a55a48f4c069d4cdb0451dc01651b"
+          }
+        }
+      }
+    },
+    "cachoeira": {
+      "cena": {
+        "arquivo": "pack/cachoeira/_cena.zip",
+        "bytes": 212193,
+        "sha256": "68e2ba708cf571ab4b7ef2f91549e12005481ee040aefde68b52d02db02b2d53"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/cachoeira/pixel.zip",
+            "bytes": 5343138,
+            "sha256": "6f36cc0047a7ad6fe327b862aa2487c559cf8fc480393c6c3e8f2c6c94b2504a"
+          }
+        }
+      }
+    },
+    "cafeinterno": {
+      "cena": {
+        "arquivo": "pack/cafeinterno/_cena.zip",
+        "bytes": 97263,
+        "sha256": "e9da3a82a022a280117468be1fc4dc76a0f6143ff5dd50a9fd0ac3013b9aa634"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/cafeinterno/pixel.zip",
+            "bytes": 4521971,
+            "sha256": "e8d11eae1ec4bb7b8271e8106bd0ba659d86fcc7a32e9d3d14d9f5527b187e65"
+          }
+        }
+      }
+    },
+    "cafeparis": {
+      "cena": {
+        "arquivo": "pack/cafeparis/_cena.zip",
+        "bytes": 172973,
+        "sha256": "cd904def5fd2a4a2be6043bf1f9bf6be9225652d00503f5ab5dea599f36bfb0b"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/cafeparis/pixel.zip",
+            "bytes": 5338143,
+            "sha256": "e71616caf8b0d551d527a7277d3fd061562b470f3c8d4b79bc55bf0dbe356261"
+          }
+        }
+      }
+    },
+    "camboja": {
+      "cena": {
+        "arquivo": "pack/camboja/_cena.zip",
+        "bytes": 153276,
+        "sha256": "afc7dc752e2d890838b22b708a2ec60f1213ae69355b671cc70f51e937eb773b"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/camboja/pixel.zip",
+            "bytes": 5120484,
+            "sha256": "dce30f45a8b8108873802e8ca2fa2c507589cf9f934c30d5e97242716dfb5e90"
+          }
+        }
+      }
+    },
+    "castelo": {
+      "cena": {
+        "arquivo": "pack/castelo/_cena.zip",
+        "bytes": 191771,
+        "sha256": "99250f9c7539ba3119c0bd46afd7c8b69689c85a70607d6ddef52889f6053354"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/castelo/pixel.zip",
+            "bytes": 3995421,
+            "sha256": "891a5c28376310ee9257250d9488b31091ed4819fe5639cd04ed28b469acfae2"
+          }
+        }
+      }
+    },
+    "caverna": {
+      "cena": {
+        "arquivo": "pack/caverna/_cena.zip",
+        "bytes": 87433,
+        "sha256": "04d3ce053757669be746028f883f6acfe748428cc995bc0c181e4aea4c7fc661"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/caverna/pixel.zip",
+            "bytes": 4805491,
+            "sha256": "bca8baece5829f56034ca4296b368ac215b17a22a6c17c4e5f7d7d92aa2527fb"
+          }
+        }
+      }
+    },
+    "cidadeproibida": {
+      "cena": {
+        "arquivo": "pack/cidadeproibida/_cena.zip",
+        "bytes": 141093,
+        "sha256": "2c45b1be0c40c511055c19bf1927750fd3a90d25157bf0d415f5a18ac4a5dd1b"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/cidadeproibida/pixel.zip",
+            "bytes": 4381996,
+            "sha256": "bacd7880b8943efeaae34417ddf4564a04627088d1dddbb3cdc4e436586c64c7"
+          }
+        }
+      }
+    },
+    "cofre": {
+      "cena": {
+        "arquivo": "pack/cofre/_cena.zip",
+        "bytes": 87223,
+        "sha256": "4c9acebde4c6d8019f3d6e725f96c944dd767714bbcc2a1d01d9c33c6372b45e"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/cofre/pixel.zip",
+            "bytes": 6136019,
+            "sha256": "13d99e743756435c1f72dc23bbe5570e6736616531c5ead6f223cb6e1bb084c9"
+          }
+        }
+      }
+    },
+    "coliseu": {
+      "cena": {
+        "arquivo": "pack/coliseu/_cena.zip",
+        "bytes": 186364,
+        "sha256": "7eb9ceeb023c8d8eedc2436c331d5e634b8f8a1e6bf56d7034b979bc6244e034"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/coliseu/pixel.zip",
+            "bytes": 4736126,
+            "sha256": "b0ac48cff2298c2edd5cb0c12aefd956247aff24d36a06039b226d20ce92379a"
+          }
+        }
+      }
+    },
+    "cyberpunk": {
+      "cena": {
+        "arquivo": "pack/cyberpunk/_cena.zip",
+        "bytes": 320040,
+        "sha256": "219fd030c1e5b8cc92a8c22bb6c63530944c7a244cb6ade1b7021b10e80b02ed"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/cyberpunk/pixel.zip",
+            "bytes": 5225050,
+            "sha256": "3f0a302112600b89f728510c164c28a3bf8775c9dfa3f78a48203f4a37d5fec6"
+          }
+        }
+      }
+    },
+    "cyberseco": {
+      "cena": {
+        "arquivo": "pack/cyberseco/_cena.zip",
+        "bytes": 411500,
+        "sha256": "7eaed47212b40443f1159ff501039c5cbfd41bbe754df7e8d01d0ad4182ae08b"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/cyberseco/pixel.zip",
+            "bytes": 6410644,
+            "sha256": "6706d5be3dcecafa8b6e9b7c64f97d4c7df6e5ed13a93146f51be0350880b138"
+          }
+        }
+      }
+    },
+    "duomo": {
+      "cena": {
+        "arquivo": "pack/duomo/_cena.zip",
+        "bytes": 107457,
+        "sha256": "c156a451f18d3587595b51787a4e87da58ecfd84e840af3338a26d5046cfd25c"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/duomo/pixel.zip",
+            "bytes": 4786386,
+            "sha256": "f9362d8243c63a34e4df408845f13136b8b6c03653327d20d905a9a339f962e3"
+          }
+        }
+      }
+    },
+    "elfico": {
+      "cena": {
+        "arquivo": "pack/elfico/_cena.zip",
+        "bytes": 147288,
+        "sha256": "432f485a9ea300dde68c0dde9ad77f4523d1029424ec686a71f74e8f1ee50e33"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/elfico/pixel.zip",
+            "bytes": 6881431,
+            "sha256": "41381a9797a0885601d2a42d9a4d8d205d90758697cc481883aa432e34943ced"
+          }
+        }
+      }
+    },
+    "enseada": {
+      "cena": {
+        "arquivo": "pack/enseada/_cena.zip",
+        "bytes": 46689,
+        "sha256": "8d5a41f042ae3c68744c27917dd0200e05a87eed597e5bed56a23d33720e279f"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/enseada/pixel.zip",
+            "bytes": 3540037,
+            "sha256": "a8031314fba1c4824ef400d8af7a779a666a277a11797d8414f744a04373ef9d"
+          }
+        }
+      }
+    },
+    "esfinge": {
+      "cena": {
+        "arquivo": "pack/esfinge/_cena.zip",
+        "bytes": 85968,
+        "sha256": "ad2efd95c7d67b57ecfa9eabf3114cce5da1bf64c9f19e53289a411f8355b471"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/esfinge/pixel.zip",
+            "bytes": 4889011,
+            "sha256": "5dda2351232070b63a20568d2f828abe2615f6c08ecf5ccc5f2d0b76ae3fffeb"
+          }
+        },
+        "vangogh": {
+          "pack": {
+            "arquivo": "pack/esfinge/vangogh.zip",
+            "bytes": 9559249,
+            "sha256": "46b203137f59873af40707deedac5fee24f766fba26f1fdab388c382a902b678"
+          }
+        }
+      }
+    },
+    "estacionamento": {
+      "cena": {
+        "arquivo": "pack/estacionamento/_cena.zip",
+        "bytes": 110681,
+        "sha256": "e2d5655e2fd5614f249306433e333f4e749f89e78999a1f16e850b8dd2bad116"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/estacionamento/pixel.zip",
+            "bytes": 4001735,
+            "sha256": "c4c8f5c032c27edf30474fedb7c736bb6ea84a61909a743b27ae921191c6ccc9"
+          }
+        }
+      }
+    },
+    "estrada": {
+      "cena": {
+        "arquivo": "pack/estrada/_cena.zip",
+        "bytes": 111964,
+        "sha256": "68512023d1534d2311e01c97634c7d07ddd7458222ee89a0013f1eab45af2131"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/estrada/pixel.zip",
+            "bytes": 4428685,
+            "sha256": "df721962f8fe9f7bf422087e3c65aefd031f45fa5292770f0570fac6b8dd96d2"
+          }
+        }
+      }
+    },
+    "estufa": {
+      "cena": {
+        "arquivo": "pack/estufa/_cena.zip",
+        "bytes": 433466,
+        "sha256": "26f3f970be423bfa5a7f04d464d67323b17bee5e5348ef91e70fa5b6b00ace3a"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/estufa/pixel.zip",
+            "bytes": 5963741,
+            "sha256": "41a6ebb5703065320cf542466c0d30168b4d903235faed9f36268adceab628a1"
+          }
+        }
+      }
+    },
+    "farol": {
+      "cena": {
+        "arquivo": "pack/farol/_cena.zip",
+        "bytes": 39632,
+        "sha256": "a38dbb656b7e2498cc3f06b9feb6e8b7ac4acdd8b7c391f34f74a70cdc225d37"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/farol/pixel.zip",
+            "bytes": 2683085,
+            "sha256": "c21a74a1572fcd5016d4f9fcd621b4366f85b00a2adc41a1c90805330a65b9d8"
+          }
+        }
+      }
+    },
+    "fiordes": {
+      "cena": {
+        "arquivo": "pack/fiordes/_cena.zip",
+        "bytes": 142184,
+        "sha256": "f2cec0e9941b9cc9b8c75b7f58c2a387f824c24011b44392dae04b86b3ac778f"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/fiordes/pixel.zip",
+            "bytes": 4338017,
+            "sha256": "e84f6739e727ba6837ddbb30b854e2fee008d2de57217c58f00f66e456fe335d"
+          }
+        }
+      }
+    },
+    "forte": {
+      "cena": {
+        "arquivo": "pack/forte/_cena.zip",
+        "bytes": 147264,
+        "sha256": "6c60b469caa7afca06f8fac0d8e1546b5c1bdbd0757ffa32d6922d00f9869355"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/forte/pixel.zip",
+            "bytes": 4216163,
+            "sha256": "842e5f5e531b8b0b3c8105f45ca5347941eb279394d51fd63d3867aa5cb39ab3"
+          }
+        }
+      }
+    },
+    "halloween": {
+      "cena": {
+        "arquivo": "pack/halloween/_cena.zip",
+        "bytes": 274239,
+        "sha256": "0b105df9a34c4693861da8356d7179c9229050e01641f2d826a05272fd1ca4ae"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/halloween/pixel.zip",
+            "bytes": 5473388,
+            "sha256": "029c31499904fc89f035dee52b9931de0cee8e3f85cb471bcba9390cbd0bd0d4"
+          }
+        }
+      }
+    },
+    "heroi": {
+      "cena": {
+        "arquivo": "pack/heroi/_cena.zip",
+        "bytes": 95874,
+        "sha256": "b05571094e990b8cbdf138b6470cf3d83448ed50bb6b82d340bcae12ebc4dc52"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/heroi/pixel.zip",
+            "bytes": 4012173,
+            "sha256": "bdf791c33f069fc60868d5e611828507841908082f92db80697b68930d67b60b"
+          }
+        }
+      }
+    },
+    "himalaia": {
+      "cena": {
+        "arquivo": "pack/himalaia/_cena.zip",
+        "bytes": 168328,
+        "sha256": "7f52bf34d8665967907e168cffdcddaf1ce9d508679cd0ca4da293dfb843ce9d"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/himalaia/pixel.zip",
+            "bytes": 5363438,
+            "sha256": "4dc09dbac5a3da584c7026fcc97c68c8e3b71680ef52675583898c78f5103fa7"
+          }
+        }
+      }
+    },
+    "jardim": {
+      "cena": {
+        "arquivo": "pack/jardim/_cena.zip",
+        "bytes": 204600,
+        "sha256": "207154401e405e7558b518047869b768806d848e7d86683c5c2c5098a366f9a7"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/jardim/pixel.zip",
+            "bytes": 6090840,
+            "sha256": "99764b13bb7116dc1ff01810823b0177d798d0e562936e4b9e53ffa2f9e4c7f1"
+          }
+        },
+        "ukiyoe": {
+          "pack": {
+            "arquivo": "pack/jardim/ukiyoe.zip",
+            "bytes": 8793517,
+            "sha256": "6e8ea94a24c22af005fa6ef6f8cdc9ae3308b713848e55f848a8c0255daa3dd6"
+          }
+        }
+      }
+    },
+    "lavanda": {
+      "cena": {
+        "arquivo": "pack/lavanda/_cena.zip",
+        "bytes": 45057,
+        "sha256": "56480f4279a82a165def5cc9037f89313d70266282677333a693bf8a39e3c750"
+      },
+      "artes": {
+        "aqua": {
+          "pack": {
+            "arquivo": "pack/lavanda/aqua.zip",
+            "bytes": 6470351,
+            "sha256": "3a15a63c8151e4dfd055a073530b7c166246ca9efe1fa90b47ad7038441d2e31"
+          }
+        },
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/lavanda/pixel.zip",
+            "bytes": 4942739,
+            "sha256": "74d39d13381614988bd652bf4e783e500184470f5baf37a8832d7590410aacc4"
+          }
+        }
+      }
+    },
+    "mesquita": {
+      "cena": {
+        "arquivo": "pack/mesquita/_cena.zip",
+        "bytes": 229615,
+        "sha256": "1975bc85ac36cced49c16995678f196abf5dcde194b2149d8f56c45d9e1ff8ac"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/mesquita/pixel.zip",
+            "bytes": 4365529,
+            "sha256": "b86ef30d11e9d197c2a4ede0f2c9665799d40658a9557d25197bc0423d6ee9d5"
+          }
+        }
+      }
+    },
+    "muralha": {
+      "cena": {
+        "arquivo": "pack/muralha/_cena.zip",
+        "bytes": 168288,
+        "sha256": "821b9783ad5c84210d955f5b2d2ed973c9f2310ffc12f4f9d51d593f62f7feb5"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/muralha/pixel.zip",
+            "bytes": 5216710,
+            "sha256": "afd9e4af7255b7522603f57ed8d7cc7cd9c7ac48e7ba3e32931951f876ef2260"
+          }
+        }
+      }
+    },
+    "mureta": {
+      "cena": {
+        "arquivo": "pack/mureta/_cena.zip",
+        "bytes": 139334,
+        "sha256": "ce9e940cf9cdb663a8acafce8722199cd158a7dfa861208e020f678b4fad102f"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/mureta/pixel.zip",
+            "bytes": 4514088,
+            "sha256": "fe7fba5534c5ebfc6c3cfb05bf5a85cbc8923159bae43a8a0a53d631892b16ae"
+          }
+        }
+      }
+    },
+    "natal": {
+      "cena": {
+        "arquivo": "pack/natal/_cena.zip",
+        "bytes": 239720,
+        "sha256": "97af317601fa8d9ac4d4161eb0ad9852204059501a63ca99ed79810c0874f23e"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/natal/pixel.zip",
+            "bytes": 5385478,
+            "sha256": "f8695f51f17ec9a29046a9af716e3f6cfbb932dd3f17fc46e2f811500aa36be3"
+          }
+        }
+      }
+    },
+    "natalchale": {
+      "cena": {
+        "arquivo": "pack/natalchale/_cena.zip",
+        "bytes": 18773,
+        "sha256": "272bb8c660c5c18204960c90bd41eb3438d7c1b3737d554209ad1dda5eca73e5"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/natalchale/pixel.zip",
+            "bytes": 4914328,
+            "sha256": "07db4024259210c867fa1e6c63739a8f7ce1a047d8ea1758aa43dbf707582bd6"
+          }
+        }
+      }
+    },
+    "natalsala": {
+      "cena": {
+        "arquivo": "pack/natalsala/_cena.zip",
+        "bytes": 108081,
+        "sha256": "153be6cbd5ebaa4053b3c3ebe36ee46d6a2026e8230e4189c415d715b2ef4f8d"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/natalsala/pixel.zip",
+            "bytes": 5598975,
+            "sha256": "eacc42855ecdbff1f69ec11335c8ec8b5adea532ffeabbde10c585753634f517"
+          }
+        }
+      }
+    },
+    "navio": {
+      "cena": {
+        "arquivo": "pack/navio/_cena.zip",
+        "bytes": 103359,
+        "sha256": "9b9a58a4d53fd81655baa3868c588d54683bbc96cc8d09fb485f5dd2dbf04c40"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/navio/pixel.zip",
+            "bytes": 4333167,
+            "sha256": "426ab43adbad4e54f062c87a96396df7ee9e482963a4945994ea36edfa63bdb4"
+          }
+        }
+      }
+    },
+    "nortada": {
+      "cena": {
+        "arquivo": "pack/nortada/_cena.zip",
+        "bytes": 172625,
+        "sha256": "bc8a457d44d4be3a6971c0768598e53f8aa8abb4cf86d5eee36a92ff3b2439d2"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/nortada/pixel.zip",
+            "bytes": 4449928,
+            "sha256": "a7d3f8cb558bc79096d749a4428dc93309006abfcf6411015a31a010e446d79b"
+          }
+        }
+      }
+    },
+    "notredame": {
+      "cena": {
+        "arquivo": "pack/notredame/_cena.zip",
+        "bytes": 202726,
+        "sha256": "9d7cd9ee7da7396f51edf16d6c2fe48654de5cfa6a8a3027fcb33edb51346a6a"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/notredame/pixel.zip",
+            "bytes": 5213699,
+            "sha256": "ca2296daf4edd0e5fad25c793d6cfefaab6aaa2b3ce84ca50c0ab9a11b5254b7"
+          }
+        }
+      }
+    },
+    "oasis": {
+      "cena": {
+        "arquivo": "pack/oasis/_cena.zip",
+        "bytes": 91664,
+        "sha256": "6ab869bf59b0e4203c628ec2f605d4ef65ef83f99f07fa4f74a0fb9d17e392f9"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/oasis/pixel.zip",
+            "bytes": 5367561,
+            "sha256": "d4ebffb3f2798cad648b0d2c84e4ef2b3a65fd9953a808f1d452662e87925250"
+          }
+        }
+      }
+    },
+    "orbita": {
+      "cena": {
+        "arquivo": "pack/orbita/_cena.zip",
+        "bytes": 230939,
+        "sha256": "6cbd579a070374e3b971a75d3eebd4d670893bae282df543f893a2775c986074"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/orbita/pixel.zip",
+            "bytes": 4222715,
+            "sha256": "38def5b1bd483aa404057105e88e169efe17b4d6075381039e3990b26db107dc"
+          }
+        }
+      }
+    },
+    "pantano": {
+      "cena": {
+        "arquivo": "pack/pantano/_cena.zip",
+        "bytes": 122189,
+        "sha256": "2db715c3cb578a886f32ca887393d2bb0fdd9847da175f186c7797c7d80fa470"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/pantano/pixel.zip",
+            "bytes": 3699030,
+            "sha256": "b3fa4f94b8678bade13c4d72f822232ab9e172613ee9d4e7a0cfc91a302d82eb"
+          }
+        }
+      }
+    },
+    "pizzaria": {
+      "cena": {
+        "arquivo": "pack/pizzaria/_cena.zip",
+        "bytes": 229310,
+        "sha256": "86bdee40626b8849d203355efe52d67fb18e996dd2c38593d095fac67bac33ee"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/pizzaria/pixel.zip",
+            "bytes": 5106364,
+            "sha256": "83630487ef95c4212123c1f57494573bb705fc3350fe5354a24315ca5c5edcd0"
+          }
+        }
+      }
+    },
+    "porto": {
+      "cena": {
+        "arquivo": "pack/porto/_cena.zip",
+        "bytes": 169845,
+        "sha256": "82f01831e690bd3fe40e4238840a280f0c1868d87a70c55068c49cb545011d9e"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/porto/pixel.zip",
+            "bytes": 5101298,
+            "sha256": "2c20c1e716a8a151bd951858bb7154a5137a0ca662ef1b83106adc3379d2aa9b"
+          }
+        }
+      }
+    },
+    "postapoc": {
+      "cena": {
+        "arquivo": "pack/postapoc/_cena.zip",
+        "bytes": 128087,
+        "sha256": "c8e5a83d2625b2cd97de616df23ffa8f7533624f4b65c28e067c3039967e01e9"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/postapoc/pixel.zip",
+            "bytes": 5552106,
+            "sha256": "6fa9179990905285e42999a3ae5d946370731a9cfb9c5910a0c68e4927935a2c"
+          }
+        }
+      }
+    },
+    "praia": {
+      "cena": {
+        "arquivo": "pack/praia/_cena.zip",
+        "bytes": 92816,
+        "sha256": "756fd2c6eef84b70bd25ae5e23d8660f0021088c5c8a43f97b71332e40d27738"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/praia/pixel.zip",
+            "bytes": 4239013,
+            "sha256": "b5d40f07d60cb1fa07782de6a2ae7023bd8561fd634f68f76472ab30d9fcf8ef"
+          }
+        }
+      }
+    },
+    "praiaeuropa": {
+      "cena": {
+        "arquivo": "pack/praiaeuropa/_cena.zip",
+        "bytes": 66723,
+        "sha256": "5e05fcce31f8f8850b22939d546516a03bf7762d0f76b5ab3cdc5a47224364ea"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/praiaeuropa/pixel.zip",
+            "bytes": 4998973,
+            "sha256": "630ff28c87cad8676579180e698d88f065ca770277d76b03d7c4d1a41dbaf44b"
+          }
+        }
+      }
+    },
+    "quarto": {
+      "cena": {
+        "arquivo": "pack/quarto/_cena.zip",
+        "bytes": 146707,
+        "sha256": "5cf78650e9d01b45ee61c1a9360ec913a6cbe05922fe43d13f3f7a7cf8f76f8d"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/quarto/pixel.zip",
+            "bytes": 4568839,
+            "sha256": "432a8304dcd6ac22b9b113e97d0df1aa3ff34ee89114829bd438198897ea5669"
+          }
+        }
+      }
+    },
+    "recife": {
+      "cena": {
+        "arquivo": "pack/recife/_cena.zip",
+        "bytes": 23458,
+        "sha256": "01cc89122ffe4b456d5393239d7815d72c9331bd0e719c167b8d72ea8ae2528c"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/recife/pixel.zip",
+            "bytes": 4769968,
+            "sha256": "7fee7f2de8ec1f8fa580ee63b75b5f7eb1fa82b7dab0c3d2243b807d872d60ee"
+          }
+        }
+      }
+    },
+    "rio": {
+      "cena": {
+        "arquivo": "pack/rio/_cena.zip",
+        "bytes": 69786,
+        "sha256": "5616b6b139baca99c3da006db78284e1d457752798c9481671e1420a9d66cdb0"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/rio/pixel.zip",
+            "bytes": 5352564,
+            "sha256": "cd10f6a4937cedb00907a3b6383afe121f05fabf78b04f2bd4f5f0ea6eba8061"
+          }
+        }
+      }
+    },
+    "ruinas": {
+      "cena": {
+        "arquivo": "pack/ruinas/_cena.zip",
+        "bytes": 212950,
+        "sha256": "22ca6a9a9fc0c550df2b0509a943469e527a01cb3ac9eef7ebe0230478b7f945"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/ruinas/pixel.zip",
+            "bytes": 5081940,
+            "sha256": "5537ed0ce22cb115c85d2c408d9b3fc77e2472a0ae6562bdbd0e5f57a37a8f90"
+          }
+        }
+      }
+    },
+    "savana": {
+      "cena": {
+        "arquivo": "pack/savana/_cena.zip",
+        "bytes": 98503,
+        "sha256": "ed955d5f6978f45a0ccc35dbb87d4c4ed13602860b6f68d8a53c6dd9bc25e815"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/savana/pixel.zip",
+            "bytes": 3626777,
+            "sha256": "0b7d4e90db297dbfbaca5ee13516736d1d55703a1f8b62a0dd15789a0029dbff"
+          }
+        }
+      }
+    },
+    "sitio": {
+      "cena": {
+        "arquivo": "pack/sitio/_cena.zip",
+        "bytes": 212279,
+        "sha256": "80688492dd88fa7812d158492b0d669ea0f2249050eed0d9684f8aa3d6d5ed01"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/sitio/pixel.zip",
+            "bytes": 3895485,
+            "sha256": "d990265c5c45f92eea6b17b9775052da6544a96db9434e8024235df4c8aee311"
+          }
+        }
+      }
+    },
+    "tanque": {
+      "cena": {
+        "arquivo": "pack/tanque/_cena.zip",
+        "bytes": 90029,
+        "sha256": "c8c77b12a44edfee53b279e2cc0ba41cd0fb675f118ea563986b03943c1898a4"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/tanque/pixel.zip",
+            "bytes": 2962018,
+            "sha256": "fe32a69b8ecc19ec1e8b7eb24d9e23a04e1830a31b875c92319bb46193f3eb0a"
+          }
+        }
+      }
+    },
+    "telhados": {
+      "cena": {
+        "arquivo": "pack/telhados/_cena.zip",
+        "bytes": 509272,
+        "sha256": "aedd590f5598b396ab5198a0f53132626dbacf4069a418b54ca98e3cf5316ab6"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/telhados/pixel.zip",
+            "bytes": 7776818,
+            "sha256": "c4583b40bfb7c7847fc9b584d141f5a1847545ab7314bc7c6b57a78a72e02e90"
+          }
+        }
+      }
+    },
+    "templo": {
+      "cena": {
+        "arquivo": "pack/templo/_cena.zip",
+        "bytes": 82808,
+        "sha256": "fffe948600fd38c1d17121de96b244a0db9cfc4c032f230671d9d2dd2bf9468b"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/templo/pixel.zip",
+            "bytes": 5248820,
+            "sha256": "72e7dc8f08429b065069a9264c0533a959e3f18d6883cfb43bac5f59e956ece3"
+          }
+        }
+      }
+    },
+    "terrao": {
+      "cena": {
+        "arquivo": "pack/terrao/_cena.zip",
+        "bytes": 122888,
+        "sha256": "af918c8cc87a823c5286c534157dbf225a2f1f7e2142dba84410981e9d30e872"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/terrao/pixel.zip",
+            "bytes": 3617771,
+            "sha256": "040336464c19d65cc2633d3ed199f3ea8dfb48f1d79bfd2c3225c0ac477e6052"
+          }
+        }
+      }
+    },
+    "torii": {
+      "cena": {
+        "arquivo": "pack/torii/_cena.zip",
+        "bytes": 116436,
+        "sha256": "8f3154c8445714fe10ae9ae8f3c97fc4e762f7d169430144fb774f7d2d3973db"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/torii/pixel.zip",
+            "bytes": 4431173,
+            "sha256": "c639c91d511170d8fb2120aaf6143cbee0e69dfbc1c741f62d062c7c2f3d7b1b"
+          }
+        }
+      }
+    },
+    "trem": {
+      "cena": {
+        "arquivo": "pack/trem/_cena.zip",
+        "bytes": 114103,
+        "sha256": "6db6696e719306f486fa3182c8e13902e7a1d45eec8adbe1fac3f37b04ff4f76"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/trem/pixel.zip",
+            "bytes": 4705254,
+            "sha256": "34b11f2baea526c7d11e66f6bee034d9f4a8f9117b6de6a6143cfc9cfb7785b7"
+          }
+        }
+      }
+    },
+    "trincheira": {
+      "cena": {
+        "arquivo": "pack/trincheira/_cena.zip",
+        "bytes": 84467,
+        "sha256": "6b4af6877e639d65af1e1a6d521bb0c7aca96faaf59088b0525606dc506a4a39"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/trincheira/pixel.zip",
+            "bytes": 4114583,
+            "sha256": "8200de6513822dc7c626dc772ed08a472050822bff0d8f738a8ac22dd6c99445"
+          }
+        }
+      }
+    },
+    "vale": {
+      "cena": {
+        "arquivo": "pack/vale/_cena.zip",
+        "bytes": 123071,
+        "sha256": "1fe5b42290540b145d8deac608426443eb60705e118d8e690bd921b1a951bca1"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/vale/pixel.zip",
+            "bytes": 5653872,
+            "sha256": "5d25407166862a7c58fd256f8160c517748b12804e3c678045b0eaa0a182ef2c"
+          }
+        }
+      }
+    },
+    "velhooeste": {
+      "cena": {
+        "arquivo": "pack/velhooeste/_cena.zip",
+        "bytes": 94872,
+        "sha256": "38dffc6f11f2d1ce6f2aa9e05eedda6119d2ab9e607e7d08a0ceee5058d17e06"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/velhooeste/pixel.zip",
+            "bytes": 4142038,
+            "sha256": "7d73f87527e0fef322a9c283ca6d936e1dc702a27afb538ead0209f87422e43b"
+          }
+        }
+      }
+    },
+    "versalhes": {
+      "cena": {
+        "arquivo": "pack/versalhes/_cena.zip",
+        "bytes": 66864,
+        "sha256": "19d4a7b1d8ec59ea456beac58221aed53c152ea8f168bb3ccf0b8faba4bd311a"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/versalhes/pixel.zip",
+            "bytes": 3610807,
+            "sha256": "38ade6fe8cfa339f4addf369227638f9ec9686ed152b52b025a546f8874229ad"
+          }
+        }
+      }
+    },
+    "vigia": {
+      "cena": {
+        "arquivo": "pack/vigia/_cena.zip",
+        "bytes": 169449,
+        "sha256": "fddd10ff495633e8e0518d7d66957333a79b7582384893047db6b47ec3c7e2b9"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/vigia/pixel.zip",
+            "bytes": 5022324,
+            "sha256": "294dad918073dbf3be02b4479fc2f18a1efb09f9675a92b80a5cf939ae410929"
+          }
+        }
+      }
+    },
+    "vilaviking": {
+      "cena": {
+        "arquivo": "pack/vilaviking/_cena.zip",
+        "bytes": 180238,
+        "sha256": "d8d829eaac76e9985aba980ecd010f90f4593ee7fdfaa69360ae949aaf16a314"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/vilaviking/pixel.zip",
+            "bytes": 4963500,
+            "sha256": "e9b4d8a0fda66e212023d3619531a38012df153f0f4fe84e3eabececa47e4057"
+          }
+        }
+      }
+    },
+    "vulcao": {
+      "cena": {
+        "arquivo": "pack/vulcao/_cena.zip",
+        "bytes": 138788,
+        "sha256": "6b6e98f416ccf29931f92ac8398bc14d3891d0a7a230b36533da777a3a9ebc77"
+      },
+      "artes": {
+        "pixel": {
+          "pack": {
+            "arquivo": "pack/vulcao/pixel.zip",
+            "bytes": 4376591,
+            "sha256": "31ff1690dd7a20947dcb74e871c6748d1c24f141fe1d93c006c75ed424f440ed"
+          }
+        }
+      }
+    }
+  }
+}
