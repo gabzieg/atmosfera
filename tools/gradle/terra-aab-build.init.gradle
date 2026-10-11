@@ -1,0 +1,14 @@
+// Ajuste de R8 usado no AAB Terra 1.0.5/código 6, isolado para revisão.
+// Sem chave de compras, assinatura, senhas ou caminhos de máquina.
+// Kotlin 2.4 requer R8 >= 9.1.29:
+// https://developer.android.com/build/kotlin-support
+
+gradle.beforeProject { project ->
+    if (project.path == ':') {
+        project.buildscript.repositories.google()
+        project.buildscript.repositories.maven { repo ->
+            repo.url = 'https://storage.googleapis.com/r8-releases/raw'
+        }
+        project.buildscript.dependencies.add('classpath', 'com.android.tools:r8:9.1.29')
+    }
+}

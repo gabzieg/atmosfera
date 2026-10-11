@@ -28,8 +28,8 @@ data class Cenario(
 )
 
 object Catalogo {
-    @Volatile private var extras: List<Cenario> = emptyList()
-    val cenarios: List<Cenario> get() = embarcados + extras
+    @Volatile private var carregados: List<Cenario>? = null
+    val cenarios: List<Cenario> get() = carregados ?: embarcados
     val embarcados: List<Cenario> = listOf(
         Cenario(
             id = "cabana",
@@ -82,20 +82,25 @@ object Catalogo {
 
     /** Metadados/miniaturas locais; nao baixa HD nem concede direito. */
     fun carregar(c: Context) {
-        extras = try {
+        carregados = try {
             val linhas = JSONArray(c.assets.open("atmosfera/catalogo/artes.json").bufferedReader().use { it.readText() })
             val grupos = (0 until linhas.length()).map { linhas.getJSONObject(it) }
-                .filter { !it.getBoolean("embarcada") && it.getString("cena") !in excluidos }
+                .filter { it.getString("cena") !in excluidos }
                 .groupBy { it.getString("cena") }
             grupos.mapNotNull { (id, artes) ->
                 if (!id.matches(Regex("[a-z0-9_]+")) || Cenas.por(id).id != id) return@mapNotNull null
                 val ids = artes.map { it.getString("arte") }.distinct()
                 if (ids.any { !it.matches(Regex("[a-z0-9_]+")) }) return@mapNotNull null
-                Cenario(id, id.replaceFirstChar { it.uppercase() }, "Arte do acervo Terra.",
-                    false, null, ids, artesRemotas = ids.toSet(),
-                    miniaturas = ids.associateWith { "atmosfera/miniaturas/${id}__${it}.jpg" })
-            }.sortedBy { it.id }
-        } catch (_: Exception) { emptyList() }
+                val miniaturas = artes.associate { it.getString("arte") to it.getString("miniatura") }
+                val nativa = embarcados.firstOrNull { it.id == id }
+                if (nativa != null) {
+                    require(ids.containsAll(nativa.artes))
+                    nativa.copy(artes = nativa.artes + (ids - nativa.artes.toSet()),
+                        artesRemotas = ids.toSet() - nativa.artes.toSet(), miniaturas = miniaturas)
+                } else Cenario(id, id.replaceFirstChar { it.uppercase() }, "Arte do acervo Terra.",
+                    false, null, ids, artesRemotas = ids.toSet(), miniaturas = miniaturas)
+            }.sortedWith(compareBy<Cenario> { embarcados.indexOfFirst { c -> c.id == it.id }.let { n -> if (n < 0) 100 else n } }.thenBy { it.id })
+        } catch (_: Exception) { embarcados }
     }
 
     fun produtoArte(cenario: Cenario, arte: String): String? =

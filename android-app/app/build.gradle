@@ -60,6 +60,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Public test bucket only. Release requires an explicit endpoint.
+            def acervoTeste = providers.gradleProperty('terraAcervoUrl').getOrElse('https://pub-722473b758b144279fc34ecb931a6045.r2.dev/')
+            buildConfigField 'String', 'ACERVO_URL', '"' + acervoTeste + '"'
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

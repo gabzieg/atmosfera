@@ -2,6 +2,8 @@
 
 Implementação local de 10/10/2026. Não houve upload, cadastro de produtos nem publicação na Play. Este documento complementa o checklist; não certifica o aceite no Android.
 
+**Atualizacao de 11/10:** a preparacao descrita abaixo e o historico do lote local de 75 artes. O app agora foi adaptado ao manifesto R2 de 366 artes e ao R8 9.1.29. Para reproduzir a revisao atual, seguir [ADAPTACAO-R2-R8-2026-10-11.md](ADAPTACAO-R2-R8-2026-10-11.md); nao regenerar o catalogo PNG como se fosse a fonte vigente. Aceite em aparelho e AAB continuam pendentes.
+
 ## O que foi integrado
 
 - Premium continua independente: somente efeitos e estilos. Uma compra de arte concede apenas aquela combinação de cenário e variante.

@@ -303,13 +303,15 @@ object Acervo {
      * Baixa o ZIP, confere o sha256 e extrai. Só troca a pasta definitiva no
      * fim — pack pela metade nunca vira cena carregável.
      */
-    private fun validarArquivo(info: ArquivoRemoto) {
+    internal fun validarArquivo(info: ArquivoRemoto) {
         require(info.sha256.matches(Regex("[a-fA-F0-9]{64}"))) { "Hash completo do pacote ausente." }
         require(info.bytes in 1..128L * 1024 * 1024) { "Tamanho do pacote inválido." }
-        require(info.arquivo.matches(Regex("pack/[a-z0-9_]+/(?:[a-z0-9_]+|_cena)\\.zip"))) { "Caminho de pacote inválido." }
+        require(info.arquivo.matches(Regex("pack/[a-z0-9_]+/[a-z0-9_]+(?:\\.[a-f0-9]{64})?\\.zip"))) { "Caminho de pacote inválido." }
+        val noNome = Regex("\\.([a-f0-9]{64})\\.zip$").find(info.arquivo)?.groupValues?.get(1)
+        require(noNome == null || noNome == info.sha256.lowercase()) { "Nome e hash do pacote divergem." }
     }
 
-    private suspend fun baixarZip(url: String, sha: String, destino: File, andamento: (Long) -> Unit) {
+    internal suspend fun baixarZip(url: String, sha: String, destino: File, andamento: (Long) -> Unit) {
         destino.parentFile?.mkdirs()
         val arquivo = File.createTempFile("pack-", ".download", destino.parentFile)
         val call = http.newCall(Request.Builder().url(url).build())

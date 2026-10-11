@@ -100,7 +100,8 @@ Conferir separadamente backups produzidos por versões antigas: a nova configura
 
 ## 4. Implementar compra por arte e entrega remota
 
-**Atualização em 11/10:** bucket de testes existente e manifesto público conferido: 71 cenas/366 artes após cortes, incluindo todas as 75 locais. Três objetos de exemplo responderam HEAD 200 com tamanhos correspondentes. Falta adaptar a PR #50 aos pacotes WebP e nomes com hash, mesclar as variantes remotas e incorporar miniaturas. A URL de produção, os produtos e o aceite Android continuam pendentes. Ver [conciliação e próximos ajustes](../loja/conciliacao-2026-10-11/README.md). Não houve upload ou novo candidato nesta conferência.
+**Adaptacao em 11/10:** 366 variantes mescladas ao catalogo, 366 miniaturas WebP verificadas, caminhos remotos e hashes completos integrados. R8 9.1.29 versionado; CI passa a compilar release minificada. Debug aponta ao bucket de testes; release exige URL explicita. Seis ZIPs representativos conferidos. Falta revisao/aceite do Rafael, produtos na Play e configuracao de producao. Ver [roteiro atualizado](ADAPTACAO-R2-R8-2026-10-11.md). Nenhum AAB novo.
+
 
 **Dependência para aceite:** catálogo/produtos da etapa 3 aprovados. Por solicitação do usuário, implementação adiantada em 10/10 com arquivos disponíveis; isso não conclui a etapa 3. Ver [integração e roteiro](INTEGRACAO-ARTES-ACERVO-2026-10-10.md).
 
@@ -181,13 +182,13 @@ Referência: [requisitos oficiais de teste](https://support.google.com/googlepla
 
 ## Acompanhamento
 
-| Etapa | Estado em 09/10 | Evidência |
+| Etapa | Estado atualizado em 11/10 | Evidência |
 |---|---|---|
 | Decisões registradas | Concluído o registro acima | Conversa e questionário do titular; não valida configuração do Console. |
 | 1 — Premium × artes | Implementação local e checks concluídos; aceite em aparelho pendente | `AcessoArte` compartilhado, seleção/aplicação protegidas, oferta corrigida, 75 testes aprovados, lint e build debug aprovados em 10/10. Não publicado. |
 | 2 — Privacidade técnica | Implementação local e checks concluídos; avaliação do Rafael pendente | Canal oficial, exclusões de backup/transferência, logs minimizados, Geocoder sem uso removido, política sincronizada e 78 testes aprovados em 10/10. |
-| 3 — Catálogo/produtos | Inventário local preparado e decisões registradas; conclusão pendente | CSV/JSON: 75 artes com fundo após cortes, 237 declaradas sem fundo, 70 produtos propostos. Objetivo acervo completo aprovado; arte nova compra separada; sem packs. Falta fonte das 366 artes, aceite Android, regras de futuros efeitos e configuração real de ofertas/países. |
-| 4 — Compra/entrega remota | Implementação local adiantada; aceite pendente | Posse por arte, faturamento, catálogo/miniaturas e download integrados. Pacotes preparados em `dist/acervo-preparado/`, sem upload. Faltam URL, produtos reais, acervo aprovado e avaliação do Rafael; 84 testes e lint sem erros; ver roteiro de integração. |
+| 3 — Catálogo/produtos | Manifesto remoto conciliado; aceite pendente | 71 cenas/366 artes após cortes, incluindo as 75 locais. Cinco amostras e 361 SKUs pagos propostos. Faltam aceite Android, configuração comercial e regra de futuros efeitos. |
+| 4 — Compra/entrega remota | Adaptada ao R2; aceite pendente | Catálogo de 366 artes, miniaturas verificadas e caminhos/hashes WebP integrados; nove artes nativas preservadas. Seis ZIPs representativos conferidos. R8 9.1.29 versionado. Faltam revisão do Rafael, produtos reais, teste pela Play e produção. |
 | 5 — Documentos/site | Rascunhos existentes; conclusão pendente | Revisões locais não vigentes, domínio indefinido. |
 | 6 — Candidato validado | Pendente | CI anterior aprovada; não substitui candidato após correções e teste real. |
 | 7 — Console/teste fechado | Pendente de evidência atual | Sem acesso ao painel nesta rodada. |

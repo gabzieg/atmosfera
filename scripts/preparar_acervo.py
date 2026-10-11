@@ -6,7 +6,7 @@ import zipfile
 from pathlib import Path
 
 
-def preparar(raiz, inventario, saida):
+def preparar(raiz, inventario, saida, usar_no_app=False):
     dados = json.loads(inventario.read_text(encoding="utf-8"))
     cenas, catalogo = {}, []
     def pacote(arquivos, relativo):
@@ -36,7 +36,8 @@ def preparar(raiz, inventario, saida):
                          "embarcada": arte["origem"] == "embarcada",
                          "miniatura": f"atmosfera/miniaturas/{cena}__{variante}.jpg"})
     manifesto = {"versao": 2, "formato": "png", "cenas": cenas}
-    assets = raiz / "android-app/app/src/main/assets/atmosfera/catalogo"
+    # PNG preparation is now an alternative; do not replace the reviewed R2 catalog by default.
+    assets = (raiz / "android-app/app/src/main/assets/atmosfera/catalogo") if usar_no_app else saida / "assets-catalogo"
     assets.mkdir(parents=True, exist_ok=True)
     for destino in (saida / "manifest.json", assets / "manifest.json"):
         destino.write_text(json.dumps(manifesto, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -48,7 +49,8 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--inventario", default="docs/loja/catalogo-2026-10-10/ARTES.json")
     p.add_argument("--saida", default="dist/acervo-preparado")
+    p.add_argument("--usar-no-app", action="store_true", help="Substitui explicitamente o catalogo R2 pelo catalogo PNG local")
     args = p.parse_args()
     raiz = Path(__file__).resolve().parents[1]
     saida = (raiz / args.saida).resolve(); saida.relative_to(raiz)
-    print("Pacotes locais preparados (nao publicados):", preparar(raiz, raiz / args.inventario, saida))
+    print("Pacotes locais preparados (nao publicados):", preparar(raiz, raiz / args.inventario, saida, args.usar_no_app))

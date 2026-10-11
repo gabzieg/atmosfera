@@ -140,7 +140,8 @@ private fun carregarFundo(
     arte: String,
     larguraAlvoPx: Int,
 ): Bitmap? {
-    val miniatura = "atmosfera/miniaturas/${sceneId}__${arte}.jpg"
+    val miniatura = Catalogo.por(sceneId)?.miniaturas?.get(arte)
+        ?: "atmosfera/miniaturas/${sceneId}__${arte}.jpg"
     val chaveMiniatura = "thumb:$sceneId/$arte"
     cacheMiniaturas.get(chaveMiniatura)?.let { return it }
     val local = runCatching {

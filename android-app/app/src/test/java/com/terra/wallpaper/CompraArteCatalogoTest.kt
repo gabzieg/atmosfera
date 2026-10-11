@@ -25,13 +25,13 @@ class CompraArteCatalogoTest {
 
     @Test fun catalogoTemSomenteArtesComArquivosEMiniatura() {
         assertEquals(71, Catalogo.cenarios.size)
-        assertEquals(75, Catalogo.cenarios.sumOf { it.artes.size })
-        assertEquals(70, Catalogo.produtosArtes().size)
+        assertEquals(366, Catalogo.cenarios.sumOf { it.artes.size })
+        assertEquals(361, Catalogo.produtosArtes().size)
         assertEquals(5, Catalogo.cenarios.sumOf { it.artesGratis.size })
         val excluidas = setOf("simpsons", "budokai", "konoha", "timessquare", "burj", "ogro", "eiffel")
         assertFalse(Catalogo.cenarios.any { it.id in excluidas })
         Catalogo.cenarios.forEach { cena -> cena.artes.forEach { arte ->
-            context.assets.open("atmosfera/miniaturas/${cena.id}__$arte.jpg").use { assertTrue(it.read() >= 0) }
+            context.assets.open(cena.miniaturas.getValue(arte)).use { assertTrue(it.read() >= 0) }
         } }
     }
 
@@ -48,7 +48,7 @@ class CompraArteCatalogoTest {
     }
 
     @Test fun metadadosNaoConcedemCompraNemInstalacao() {
-        val cena = Catalogo.cenarios.first { it.artesRemotas.isNotEmpty() }
+        val cena = Catalogo.cenarios.first { it.artesGratis.isEmpty() }
         assertTrue(ComprasArte.produtos(context).isEmpty())
         assertNull(AcessoArte.selecionada(cena, cena.artes.first()))
         assertFalse(Acervo.temArte(context, cena.id, cena.artes.first()))
@@ -63,7 +63,30 @@ class CompraArteCatalogoTest {
             cena.artes.values.forEach {
                 assertTrue(it.pack.sha256.matches(Regex("[a-f0-9]{64}")))
                 assertTrue(it.pack.bytes > 0)
+                Acervo.validarArquivo(it.pack)
             }
+            Acervo.validarArquivo(cena.cena)
         }
+    }
+
+    @Test fun cenasNativasRecebemVariantesRemotasSemDuplicacao() {
+        assertEquals(71, Catalogo.cenarios.map { it.id }.toSet().size)
+        Catalogo.embarcados.forEach { nativa ->
+            val mesclada = Catalogo.por(nativa.id)!!
+            assertEquals(nativa.artesGratis, mesclada.artesGratis)
+            assertTrue(mesclada.artes.containsAll(nativa.artes))
+            assertEquals(mesclada.artes.toSet() - nativa.artes.toSet(), mesclada.artesRemotas)
+            assertTrue(mesclada.artesRemotas.isNotEmpty())
+        }
+    }
+
+    @Test fun destraveDebugNaoAplicaArteRemotaAusente() {
+        com.terra.wallpaper.debug.DebugOverride.setDestravarPagos(context, true)
+        val cena = Catalogo.cenarios.first { it.artesGratis.isEmpty() }
+        com.terra.wallpaper.engine.Cena.definir(context, cena.id)
+        com.terra.wallpaper.engine.ArteFundo.definir(context, cena.artes.first())
+        assertEquals(Catalogo.padrao.id, com.terra.wallpaper.engine.Cena.atual(context))
+        assertEquals(Catalogo.padrao.artesGratis.first(), com.terra.wallpaper.engine.ArteFundo.atual(context))
+        assertTrue(ComprasArte.produtos(context).isEmpty())
     }
 }

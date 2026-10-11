@@ -13,6 +13,18 @@ import org.junit.Test
  */
 class AcervoManifestoTest {
 
+    @Test fun `caminho com hash completo e aceito mas travessia e divergencia sao negadas`() {
+        val sha = "a".repeat(64)
+        Acervo.validarArquivo(Acervo.ArquivoRemoto("pack/cabana/pixel.$sha.zip", 100, sha))
+        for (path in listOf("pack/../pixel.$sha.zip", "https://outro/pack/cabana/pixel.zip",
+            "pack/cabana/pixel.${"b".repeat(64)}.zip")) {
+            assertTrue(runCatching { Acervo.validarArquivo(Acervo.ArquivoRemoto(path, 100, sha)) }.isFailure)
+        }
+        assertTrue(runCatching {
+            Acervo.validarArquivo(Acervo.ArquivoRemoto("pack/cabana/pixel.zip", 100, sha.take(16)))
+        }.isFailure)
+    }
+
     /** Recorte real da saída do pacote_cenas.py (cena porto, arte pixel). */
     private val json = """
         {"versao":1,"formato":"webp","qualidade":92,

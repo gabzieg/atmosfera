@@ -21,7 +21,8 @@ object Cena {
         val cena = Catalogo.por(salva) ?: return Catalogo.padrao.id
         val produtos = com.terra.wallpaper.billing.ComprasArte.produtos(c)
         val utilizavel = cena.artes.any { arte ->
-            AcessoArte.permitida(cena, arte, comprada = Catalogo.produtoArte(cena, arte) in produtos) &&
+            AcessoArte.permitida(cena, arte, com.terra.wallpaper.debug.DebugOverride.destravarPagos(c),
+                comprada = Catalogo.produtoArte(cena, arte) in produtos) &&
                 (arte !in cena.artesRemotas || Acervo.temArte(c, cena.id, arte))
         }
         return if (utilizavel) salva else Catalogo.padrao.id

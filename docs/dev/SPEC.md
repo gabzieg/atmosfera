@@ -217,3 +217,7 @@ dependentes junto — nunca isolado.
 ## Integracao local da entrega (10/10/2026)
 
 Catalogo embarcado de miniaturas e metadados para 75 artes fisicamente disponiveis, sem certificar o acervo completo/aprovado. Posse por SKU `terra_arte_<cena>_<arte>`; Premium nao participa. Pacotes PNG externos com hashes SHA-256 completos fixados na versao do app, download solicitado e uso offline apos instalacao e compra validada. URL de producao ainda nao definida; sem endpoint, compra remota desabilitada. Ver [roteiro e limites](INTEGRACAO-ARTES-ACERVO-2026-10-10.md).
+
+## Adaptacao vigente do acervo (11/10/2026)
+
+Manifesto conferido com Rafael: 71 cenas/366 artes, cinco amostras e 361 propostas de SKUs pagos. Apenas nove artes nativas continuam embutidas; 357 sao remotas. As 366 miniaturas leves acompanham o app. R8 9.1.29 fixado para Kotlin 2.4; debug usa URL R2 de testes, release requer endpoint explicito. A fonte atual e a copia conferida do manifesto R2, nao a preparacao PNG local. Aceite de todas as artes e configuracao comercial/operacional continuam pendentes. Ver [adaptacao R2/R8](ADAPTACAO-R2-R8-2026-10-11.md).

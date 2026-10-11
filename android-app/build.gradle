@@ -1,4 +1,13 @@
 // Top-level build file
+// Kotlin 2.4 requires R8 >= 9.1.29. Reviewed from Rafael's 6cf8023.
+buildscript {
+    repositories {
+        google()
+        maven { url 'https://storage.googleapis.com/r8-releases/raw' }
+    }
+    dependencies { classpath 'com.android.tools:r8:9.1.29' }
+}
+
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.android) apply false

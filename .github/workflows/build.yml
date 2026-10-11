@@ -48,6 +48,12 @@ jobs:
         working-directory: android-app
         run: ./gradlew assembleDebug --stacktrace --no-daemon
 
+      # Also checks the versioned R8 override and reflection keep rules.
+      # CI does not receive signing files; this is build validation, not a Play candidate.
+      - name: Compilar release minificada
+        working-directory: android-app
+        run: ./gradlew assembleRelease --stacktrace --no-daemon
+
       - name: Publicar o APK como artefato
         if: success()
         uses: actions/upload-artifact@v7
