@@ -123,7 +123,7 @@ Conferir separadamente backups produzidos por versões antigas: a nova configura
 **Execucao editorial de 11/10:** fontes canonicas atualizadas: privacidade 1.7, termos 1.4, contato 1.1. Nove HTMLs gerados, hashes/estado registrados, checks de fidelidade e importador de Willian conferidos. Revisao continua rascunho; nao houve publicacao nem aprovacao juridica. Ver [entrega e pendencias](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md).
 
 - [x] Reconciliar SPEC, TASKS, plano de lancamento e pos-lancamento com a oferta atual; preservar planos anteriores como historico.
-- [x] Refinar fontes canonicas para clima na home, compras por arte, R2, canal oficial e atendimento de 60 dias; preservar rascunhos privados de 05/10.
+- [x] Refinar fontes canonicas para clima na home, compras por arte, R2, canal oficial e atendimento de 60 dias; preservar rascunhos de 05/10 como registros historicos.
 - [x] Consolidar fontes, versoes editoriais, modelo e manifesto de integridade; sincronizar docs, public_html e assets.
 - [ ] Definir vigencia real e versao de distribuicao aplicavel, inclusive teste/compras anteriores; registrar aprovacao efetiva.
 - [ ] Validar papeis, bases legais, transferencias, publico 13+/ECA Digital, licencas e continuidade do conteudo adquirido. Resposta do titular nao equivale a parecer juridico.
@@ -131,11 +131,13 @@ Conferir separadamente backups produzidos por versões antigas: a nova configura
 - [x] Preparar geracao/exportacao explicita e testar compatibilidade com o importador, sem alterar o front-end de Willian.
 - [x] Conferir texto, metadados, links relativos e historico; ampliar o check para as tres copias e a fonte canonica. Atualizar site nao altera apps instalados.
 - [ ] Importar a revisao aprovada, publicar e verificar as tres paginas HTTPS sem login e com metadados finais.
-- [ ] Decidir o tratamento de documentos pessoais na branch do Rafael e no PR #48, sem presumir apagamento do historico. Esta execucao nao publicou rascunhos pessoais.
+- [ ] Decidir o tratamento de documentos pessoais na branch do Rafael e no PR #48, sem presumir apagamento do historico. Os registros locais foram versionados como historicos por solicitacao do usuario, com dados internos desnecessarios omitidos.
 
 **Aceite:** comportamento, oferta, documentos e paginas publicas coerentes para a mesma revisao aprovada, sem confundir preparacao editorial com validacao juridica ou publicacao.
 
 ## 6. Preparar e validar uma única versão candidata
+
+**Inicio em 11/10:** CI da revisao `6dffa5a` aprovada (build e varredura de segredos). Usuario ainda nao sabe o maior versionCode enviado e nao recebeu o resultado da avaliacao de Rafael. A versao do projeto segue codigo 6/1.0.5; nenhum novo AAB foi gerado para envio. Validacao em aparelho permanece com Rafael. Ver [encaminhamento](ENCAMINHAMENTO-HUPPES-2026-10-11.md).
 
 - [ ] Resolver defeitos conhecidos das jornadas ofertadas; não confundir CI aprovada com aceite do produto.
 - [ ] Validar instalação limpa online/offline, onboarding e atualização de uma versão de teste anterior.

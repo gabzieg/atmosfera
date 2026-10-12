@@ -24,6 +24,8 @@
 
 **Etapa 5 em 11/10:** textos canonicos refinados (privacidade 1.7, termos 1.4, contato 1.1), identificacao/canal unificados e atendimento de 60 dias incorporado. Geracao explicita sincroniza nove HTMLs e manifesto; checks locais e importador de Willian aprovados sem alterar seu front-end. Mantidos como rascunho: faltam aprovacao juridica, dominios/hospedagem, vigencia/versao aplicavel e processos de continuidade/transferencias/publico. Historico preservado; rascunhos pessoais nao publicados. Ver [entrega da etapa 5](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md).
 
+**Encaminhamento em 11/10:** usuario solicitou commit/push de todo o material pendente para Huppes. Registros locais antigos agora marcados como historicos; canal antigo e caminhos pessoais desnecessarios omitidos. Checklist e roteiro de passagem atualizados. Etapa 6 ainda depende do maior versionCode no Console (usuario nao sabe) e da avaliacao do Rafael (resultado ainda nao recebido). Nenhum novo AAB gerado. Ver [encaminhamento ao Huppes](ENCAMINHAMENTO-HUPPES-2026-10-11.md).
+
 ## Estado (confirmado em 2026-10-09)
 
 **Atualização do acervo em 11/10:** Rafael confirmou bucket existente, acessível na URL de testes. Conciliação do manifesto público confirma 71 cenas/366 artes após cortes: todas as 75 locais, mais 291; 54 variantes ausentes das declarações locais do motor. A PR #50 precisa adaptar caminhos com hash, manifesto WebP, catálogo e miniaturas antes de usar a URL. Não houve upload, novo build nem ajuste de R8 nesta conferência. O init script mencionado está apenas na máquina do Rafael. Evidências em [conciliação R2](../loja/conciliacao-2026-10-11/README.md). Esta atualização substitui a indicação anterior de bucket inexistente; endpoint de produção segue pendente.

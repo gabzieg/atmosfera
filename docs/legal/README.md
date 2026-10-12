@@ -17,6 +17,6 @@ Depois da avaliação e decisão do responsável, atualizar textos e `revisao.js
 
 `historico/anterior-a-2026-10-11/` conserva as três fontes e três exportações anteriores exatamente como encontradas. Elas podem conter campos pendentes e afirmações corrigidas na revisão atual; não são fontes vigentes para nova exportação. Seu arquivamento não comprova que tenham sido publicadas ou aceitas por usuários. O Git preserva também o histórico das cópias do app.
 
-Os rascunhos locais de 05/10 não foram apagados ou publicados. A fonte desta revisão é a pasta canônica acima. Não distribuir referências que dependam de arquivos privados locais.
+Os rascunhos locais de 05/10 foram preservados e, por solicitação do usuário em 11/10, versionados como registros históricos, sem vigência ou aprovação para uso público no app/site. A fonte desta revisão é a pasta canônica acima. Não distribuir referências que dependam de arquivos privados locais.
 
 Para aceite e entrega ao site, consultar [ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md](../dev/ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md).
