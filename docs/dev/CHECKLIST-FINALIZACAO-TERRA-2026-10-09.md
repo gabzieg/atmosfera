@@ -1,5 +1,8 @@
 # Checklist de finalização do Terra — 09/10/2026
 
+**Reconferencia em 13/10:** PR #50 examinada em `1998ae6`, ainda rascunho e com checks aprovados. Rafael informou uma avaliacao v2 local (69 cenas/358 artes/67 cards, 98 testes e lint sem erros); codigo e patches nao foram encontrados no remoto configurado ou nesta maquina. Catalogo versionado continua 71 cenas/366 artes. Numeros e melhorias da v2 aguardam publicacao/revisao/integracao; avaliacoes em aparelho/Play e novo AAB continuam pendentes. Ver [conferencia da v2 e encaminhamento](AVALIACAO-V2-RAFAEL-2026-10-13.md).
+
+
 **Regra de trabalho:** executar uma etapa por vez, registrar a evidência e só marcar conclusão quando seu critério de aceite estiver atendido. Código preparado, teste local, teste pela Play e publicação são estados distintos.
 
 **Orientação do usuário em 10/10:** avaliações no aplicativo serão feitas pelo Rafael. Podemos avançar na implementação das próximas etapas, mantendo o aceite em aparelho das anteriores explicitamente pendente. Não houve envio de mensagem ao Rafael por esta execução.
@@ -187,7 +190,7 @@ Referência: [requisitos oficiais de teste](https://support.google.com/googlepla
 
 ## Acompanhamento
 
-| Etapa | Estado atualizado em 11/10 | Evidência |
+| Etapa | Estado atualizado em 13/10 | Evidência |
 |---|---|---|
 | Decisões registradas | Concluído o registro acima | Conversa e questionário do titular; não valida configuração do Console. |
 | 1 — Premium × artes | Implementação local e checks concluídos; aceite em aparelho pendente | `AcessoArte` compartilhado, seleção/aplicação protegidas, oferta corrigida, 75 testes aprovados, lint e build debug aprovados em 10/10. Não publicado. |
@@ -195,7 +198,7 @@ Referência: [requisitos oficiais de teste](https://support.google.com/googlepla
 | 3 — Catálogo/produtos | Manifesto remoto conciliado; aceite pendente | 71 cenas/366 artes após cortes, incluindo as 75 locais. Cinco amostras e 361 SKUs pagos propostos. Faltam aceite Android, configuração comercial e regra de futuros efeitos. |
 | 4 — Compra/entrega remota | Adaptada ao R2; aceite pendente | Catálogo de 366 artes, miniaturas verificadas e caminhos/hashes WebP integrados; nove artes nativas preservadas. Seis ZIPs representativos conferidos. R8 9.1.29 versionado. Faltam revisão do Rafael, produtos reais, teste pela Play e produção. |
 | 5 — Documentos/site | Refinamento e sincronizacao preparados; aceite pendente | Fontes 1.7/1.4/1.1, nove HTMLs, manifesto/hash e importador conferidos. Falta revisao juridica, dominio, vigencia/versao e publicacao. |
-| 6 — Candidato validado | Pendente | CI anterior aprovada; não substitui candidato após correções e teste real. |
+| 6 — Candidato validado | Integracao v2 e aceite pendentes | CI da base 1998ae6 aprovada. V2 local informada por Rafael ainda nao acessivel; 98 testes informados nao substituem checks integrados ou teste em aparelho/Play. VersionCode nao conferido; nenhum novo AAB. |
 | 7 — Console/teste fechado | Pendente de evidência atual | Sem acesso ao painel nesta rodada. |
 | 8 — Publicação | Pendente | Nenhuma publicação realizada nesta rodada. |
 | 9 — Operação | Planejada | Começa após a publicação real. |

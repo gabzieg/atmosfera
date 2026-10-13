@@ -10,7 +10,11 @@
 > justamente por acumular item feito e referenciar uma branch que já tinha sido
 > mesclada.
 
-**Última atualização:** 2026-10-09 · `main` @ `2d01d16`
+**Última atualização:** 2026-10-13. Base de trabalho examinada: PR #50 @ `1998ae6`; `main` remota @ `e7129f6`.
+
+**Prioridade atual:** localizar e revisar o codigo/patches da avaliacao v2 de Rafael. Ele informa 69 cenas/358 artes/67 cards, previas intermediarias/cache, ajustes de navegacao/cadeados e testes separados de Premium/artes; 98 testes e lint sem erros no ambiente dele. Nada dessa v2 foi encontrado no remoto configurado ou nesta maquina em 13/10. Manter catalogo Git de 71 cenas/366 artes ate reconciliacao efetiva. Avaliacao de 34 cenas com mapeamento automatico, testes em aparelho/Play, produtos, producao, legais e versionCode continuam pendentes. Ver [conferencia e prompt](AVALIACAO-V2-RAFAEL-2026-10-13.md).
+
+Os registros datados abaixo sao historicos; a prioridade acima e o checklist representam o acompanhamento atual.
 
 **Execução local em 2026-10-10:** etapa 1 do [checklist de finalização](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md) implementada: Premium não libera artes; UI e serviço compartilham a regra de acesso; oferta e termos corrigidos. **75 testes unitários, lint e build debug aprovados.** Falta aceite em aparelho/Play; mudanças locais ainda não incorporadas à `main`. Usuário confirmou que houve somente compras de teste, sem cobrança real. O estado da `main` registrado abaixo não representa automaticamente essa árvore modificada.
 
