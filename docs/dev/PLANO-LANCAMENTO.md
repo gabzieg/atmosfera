@@ -1,11 +1,11 @@
-# Plano de lançamento — atualizado em 11/10/2026
+# Plano de lançamento — atualizado em 13/10/2026
 
 Roteiro vigente: [checklist de finalização](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md). A versão candidata ainda não está aprovada nem publicada. Plano anterior preservado em `historico/anterior-a-2026-10-11/PLANO-LANCAMENTO.md`; suas ofertas, estados de teste e números não são o estado atual.
 
 ## Oferta e conteúdo
 
-- Cinco cenas nativas, nove artes HD e cinco amostras gratuitas. Acervo R2 conciliado: 71 cenas/366 variantes após cortes, com miniaturas locais e download escolhido.
-- Premium: efeitos/estilos da oferta, preço-base R$ 49,90. Artes individuais: R$ 1,99, promoções configuradas na Play; 361 SKUs propostos, cadastro atual não comprovado. Não há packs comerciais. Cada arte nova é compra separada; efeitos futuros aguardam decisão.
+- Cinco cenas nativas, nove artes HD e cinco amostras gratuitas. Vitrine v2: 69 cenas/358 variantes em 67 cards, com miniaturas locais, prévias intermediárias e download HD escolhido. Manifesto R2 preserva 71 cenas/366 variantes; Estacionamento e Feira de Natal ficam temporariamente indisponíveis. Catálogo final e continuidade ainda precisam de aceite.
+- Premium: efeitos/estilos da oferta, preço-base R$ 49,90. Artes individuais: R$ 1,99, promoções dependem de configuração na Play; 353 SKUs propostos na vitrine v2, cadastro atual não comprovado. Não há packs comerciais. Cada arte nova é compra separada; efeitos futuros aguardam decisão.
 - As implementações locais das etapas 1–4 estão na PR #50. Aceite visual, jornada pela Play, catálogo anunciado e produção ainda dependem de evidência.
 
 ## Sequência até publicar

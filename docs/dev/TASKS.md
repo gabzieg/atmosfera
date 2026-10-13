@@ -10,7 +10,7 @@
 > justamente por acumular item feito e referenciar uma branch que já tinha sido
 > mesclada.
 
-**Última atualização:** 2026-10-13. Integração baseada na PR #50 @ `8ec0993`.
+**Última atualização:** 2026-10-13. V2 publicada na PR #50 @ `e9a221f` e incorporada à cópia local. Build e secret-scan do GitHub aprovados; reconferência local de 17 testes direcionados sem falhas/erros e sincronização legal conferida. PR permanece em rascunho; avaliação em aparelho/Play, produtos, produção, documentos aprovados e versionCode continuam pendentes. Nenhum novo AAB.
 
 **Integração da v2 em 13/10:** ajustes funcionais aplicados sobre `8ec0993` na branch `fix/premium-privacidade-etapas-1-2`, para revisão na PR #50. Prévias/cache, navegação, cadeados, controles debug independentes, nomes e agrupamentos integrados. Vitrine: 69 cenas/358 artes/67 cards; manifesto e miniaturas preservam 71 cenas/366 artes. Estacionamento (`estacionamento`) e Feira de Natal (`natal`) ficam temporariamente fora da vitrine; Chalé/Sala de Natal permanecem. Validação desta integração: 98 testes sem falhas, lint sem erros, builds debug/release e conferência dos documentos aprovados; aparelho/Play, produtos, produção, documentos legais e candidato AAB continuam pendentes. Ver [entrega da v2](AVALIACAO-V2-RAFAEL-2026-10-13.md).
 

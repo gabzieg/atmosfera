@@ -1,5 +1,7 @@
 # Checklist de finalização do Terra — 09/10/2026
 
+**Reconferência em 13/10:** commit `e9a221f` publicado e incorporado à cópia local. Build e secret-scan do GitHub aprovados na [execução da PR #50](https://github.com/gabzieg/atmosfera/actions/runs/38403864423). Reexecução local de 17 testes direcionados (prévias, cache, catálogo e documentos): zero falhas/erros; gerador legal conferido. PR continua em rascunho, sem merge ou novo AAB. Avaliação no aparelho permanece com Rafael.
+
 **Integração da v2 em 13/10:** ajustes funcionais aplicados sobre `8ec0993` na branch `fix/premium-privacidade-etapas-1-2`, para revisão na PR #50. Prévias/cache, navegação, cadeados, controles debug independentes, nomes e agrupamentos integrados. Vitrine: 69 cenas/358 artes/67 cards; manifesto e miniaturas preservam 71 cenas/366 artes. Estacionamento (`estacionamento`) e Feira de Natal (`natal`) ficam temporariamente fora da vitrine; Chalé/Sala de Natal permanecem. Validação desta integração: 98 testes sem falhas, lint sem erros, builds debug/release e conferência dos documentos aprovados; aparelho/Play, produtos, produção, documentos legais e candidato AAB continuam pendentes. Ver [entrega da v2](AVALIACAO-V2-RAFAEL-2026-10-13.md).
 
 
@@ -195,10 +197,10 @@ Referência: [requisitos oficiais de teste](https://support.google.com/googlepla
 | Decisões registradas | Concluído o registro acima | Conversa e questionário do titular; não valida configuração do Console. |
 | 1 — Premium × artes | Implementação local e checks concluídos; aceite em aparelho pendente | `AcessoArte` compartilhado, seleção/aplicação protegidas, oferta corrigida, 75 testes aprovados, lint e build debug aprovados em 10/10. Não publicado. |
 | 2 — Privacidade técnica | Implementação local e checks concluídos; avaliação do Rafael pendente | Canal oficial, exclusões de backup/transferência, logs minimizados, Geocoder sem uso removido, política sincronizada e 78 testes aprovados em 10/10. |
-| 3 — Catálogo/produtos | Manifesto remoto conciliado; aceite pendente | 71 cenas/366 artes após cortes, incluindo as 75 locais. Cinco amostras e 361 SKUs pagos propostos. Faltam aceite Android, configuração comercial e regra de futuros efeitos. |
-| 4 — Compra/entrega remota | Adaptada ao R2; aceite pendente | Catálogo de 366 artes, miniaturas verificadas e caminhos/hashes WebP integrados; nove artes nativas preservadas. Seis ZIPs representativos conferidos. R8 9.1.29 versionado. Faltam revisão do Rafael, produtos reais, teste pela Play e produção. |
-| 5 — Documentos/site | Refinamento e sincronizacao preparados; aceite pendente | Fontes 1.7/1.4/1.1, nove HTMLs, manifesto/hash e importador conferidos. Falta revisao juridica, dominio, vigencia/versao e publicacao. |
-| 6 — Candidato validado | Integracao v2 e aceite pendentes | CI da base 1998ae6 aprovada. V2 local informada por Rafael ainda nao acessivel; 98 testes informados nao substituem checks integrados ou teste em aparelho/Play. VersionCode nao conferido; nenhum novo AAB. |
+| 3 — Catálogo/produtos | V2 integrada; catálogo final e aceite pendentes | Vitrine com 69 cenas/358 artes/67 cards, cinco amostras e 353 SKUs pagos propostos. Manifesto preserva 71 cenas/366 artes; `estacionamento` e `natal` temporariamente indisponíveis. Faltam aceite Android, configuração comercial, continuidade do conteúdo e regra de futuros efeitos. |
+| 4 — Compra/entrega remota | R2 e ajustes v2 integrados; aceite pendente | Prévias intermediárias, cache temporário, navegação e cadeados integrados em `e9a221f`; controles debug de Premium e artes independentes. Nove artes nativas preservadas; R8 9.1.29 versionado. Faltam avaliação do Rafael, produtos reais, teste pela Play e produção. |
+| 5 — Documentos/site | Refinamento e sincronização preparados; aceite pendente | Privacidade 1.8, termos 1.4 e contato 1.1; nove HTMLs e manifesto/hash conferidos. Falta revisão jurídica, domínio, vigência/versão e publicação. |
+| 6 — Candidato validado | Integração v2 e CI aprovadas; aceite pendente | `e9a221f` publicado; build e secret-scan do GitHub aprovados. Rafael registrou 98 testes, lint e builds; reconferência local com 17 testes direcionados aprovada. Aparelho/Play e versionCode ainda não conferidos; nenhum novo AAB. |
 | 7 — Console/teste fechado | Pendente de evidência atual | Sem acesso ao painel nesta rodada. |
 | 8 — Publicação | Pendente | Nenhuma publicação realizada nesta rodada. |
 | 9 — Operação | Planejada | Começa após a publicação real. |

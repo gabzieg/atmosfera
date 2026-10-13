@@ -224,6 +224,10 @@ Catalogo embarcado de miniaturas e metadados para 75 artes fisicamente disponive
 
 Manifesto conferido com Rafael: 71 cenas/366 artes, cinco amostras e 361 propostas de SKUs pagos. Apenas nove artes nativas continuam embutidas; 357 sao remotas. As 366 miniaturas leves acompanham o app. R8 9.1.29 fixado para Kotlin 2.4; debug usa URL R2 de testes, release requer endpoint explicito. A fonte atual e a copia conferida do manifesto R2, nao a preparacao PNG local. Aceite de todas as artes e configuracao comercial/operacional continuam pendentes. Ver [adaptacao R2/R8](ADAPTACAO-R2-R8-2026-10-11.md).
 
+### Vitrine v2 — 13/10/2026
+
+Commit `e9a221f`: 69 cenas/358 artes utilizáveis, cinco amostras e 353 propostas de SKUs pagos. Os agrupamentos visuais Cabana e Cyberpunk resultam em 67 cards sem unificar direitos. `estacionamento` e `natal` ficam temporariamente indisponíveis; manifesto e 366 miniaturas continuam preservados. Prévias intermediárias usam cache separado dos nove HD nativos e das instalações escolhidas. Premium e artes têm controles de avaliação independentes, exclusivos de debug. CI e testes direcionados aprovados; aceite em aparelho/Play, catálogo final e continuidade permanecem pendentes. Ver [integração e limites](AVALIACAO-V2-RAFAEL-2026-10-13.md).
+
 ## Processo editorial (11/10/2026)
 
 Fontes em docs/legal, com revisao.json e gerador explicito de nove HTMLs e manifesto de integridade. Privacidade 1.7, termos 1.4 e contato 1.1 sao rascunhos para o candidato; dominio, vigencia/versao aplicavel e aceite juridico pendentes. A CI verifica fidelidade a fonte e o teste Android compara as tres copias. A landing importa a revisao identificada preservando o layout de Willian. Ver [etapa 5](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md).

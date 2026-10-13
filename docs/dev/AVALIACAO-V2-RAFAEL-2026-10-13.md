@@ -27,6 +27,8 @@ Navio, Órbita e Trem continuam para avaliação. Há 34 cenas disponíveis com 
 
 ## Pendências externas
 
+**Reconferência após publicação:** commit `e9a221f` recuperado e incorporado à cópia local em 13/10. Build e secret-scan aprovados no GitHub ([execução](https://github.com/gabzieg/atmosfera/actions/runs/38403864423)). Reexecutados localmente 17 testes: catálogo (9), cache (3), download de prévias (3) e sincronização legal (2), todos sem falhas/erros. O gerador legal também passou em `--check`. Esta reconferência não repetiu os 98 testes/builds locais registrados acima nem substitui a avaliação no aparelho. PR segue em rascunho.
+
 Avaliação no aparelho e pela Play: visual, clima, efeitos, direitos, compras/download/restauração, offline, cancelamento/falha e atualização. Produtos/ofertas, endpoint de produção, continuidade do conteúdo e catálogo final continuam pendentes. Revisão/aprovação jurídica, domínio/hospedagem e vigência dos documentos também permanecem pendentes.
 
 Reflexos do ouro/Natal, carros variáveis, dragão opcional, vapor da Pizzaria e movimento no exterior do Trem estão registrados como melhorias futuras, não implementadas neste commit. Nenhum novo AAB, merge ou envio à Play foi realizado.
