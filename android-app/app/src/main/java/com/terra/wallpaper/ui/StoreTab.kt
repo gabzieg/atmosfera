@@ -1,6 +1,8 @@
 package com.terra.wallpaper.ui
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -106,6 +108,8 @@ fun StoreTab(viewModel: MainViewModel) {
     var cenarioAberto by rememberSaveable { mutableStateOf<String?>(null) }
     var premiumAberto by rememberSaveable { mutableStateOf(false) }
     var estiloPrevia by rememberSaveable { mutableStateOf<String?>(null) }
+    val posicaoLista = rememberLazyStaggeredGridState()
+    var busca by rememberSaveable { mutableStateOf("") }
 
     fun abrirPremium(estiloId: String? = null) {
         estiloPrevia = estiloId
@@ -125,34 +129,41 @@ fun StoreTab(viewModel: MainViewModel) {
                 viewModel = viewModel,
                 onBack = { cenarioAberto = null },
                 onVerPremium = { abrirPremium(it) },
+                onAbrirCenario = { cenarioAberto = it },
             )
         }
         else -> StoreBrowser(
             viewModel = viewModel,
             onAbrir = { cenarioAberto = it },
             onVerPremium = { abrirPremium(it) },
+            posicaoLista = posicaoLista,
+            query = busca,
+            onQueryChange = { busca = it },
         )
     }
 }
 
 @Composable
-private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, onVerPremium: (String?) -> Unit) {
+private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, onVerPremium: (String?) -> Unit,
+    posicaoLista: LazyStaggeredGridState, query: String, onQueryChange: (String) -> Unit) {
     val isPremium by viewModel.isPremium.collectAsState()
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
     val precos by viewModel.billingManager.precos.collectAsState()
     val compras by viewModel.artesCompradas.collectAsState()
+    val revisaoAcesso by viewModel.revisaoAcesso.collectAsState()
 
     val assets = LocalContext.current.assets
     // Checado uma vez por sessão (abre e fecha um handle por cenário), não a
     // cada tecla digitada na busca.
     val publicados = remember(assets) {
-        Catalogo.cenarios.filter { cenarioTemAsset(assets, it.id) || it.miniaturas.isNotEmpty() }
+        Catalogo.cenarios.filter { (cenarioTemAsset(assets, it.id) || it.miniaturas.isNotEmpty()) &&
+            (Catalogo.familia(it.id) == it.id || Catalogo.por(Catalogo.familia(it.id)) == null) }
     }
 
-    var query by remember { mutableStateOf("") }
-    val cenarios = remember(publicados, query, compras) {
-        publicados.filter { it.nome.contains(query.trim(), ignoreCase = true) }
+    val cenarios = remember(publicados, query, compras, revisaoAcesso) {
+        publicados.filter { cena -> cena.nome.contains(query.trim(), ignoreCase = true) ||
+            Catalogo.ambientes(cena.id).any { Catalogo.nomeAmbiente(it.id).contains(query.trim(), ignoreCase = true) } }
     }
     // Alturas variadas → efeito escalonado do mosaico.
     val aspectos = listOf(0.72f, 0.95f, 0.78f, 0.68f, 0.88f)
@@ -161,11 +172,12 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, on
         items = cenarios,
         modifier = Modifier.fillMaxSize(),
         columns = 2,
+        state = posicaoLista,
         key = { it.id },
         header = {
             Column(verticalArrangement = Arrangement.spacedBy(Spacing.lg)) {
                 Text("Loja", style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground)
-                PillSearchBar(query = query, onQueryChange = { query = it })
+                PillSearchBar(query = query, onQueryChange = onQueryChange)
                 PremiumBanner(
                     isPremium = isPremium,
                     priceText = precos[BillingManager.PRODUTO_PREMIUM],
@@ -197,7 +209,7 @@ private fun StoreBrowser(viewModel: MainViewModel, onAbrir: (String) -> Unit, on
         val idx = Catalogo.cenarios.indexOfFirst { it.id == cenario.id }.coerceAtLeast(0)
         CenarioTile(
             cenario = cenario,
-            isUnlocked = viewModel.isSceneUnlocked(cenario),
+            isUnlocked = Catalogo.ambientes(cenario.id).all { viewModel.isSceneUnlocked(it) },
             isActive = currentSceneId == cenario.id,
             aspect = aspectos[idx % aspectos.size],
             onClick = { onAbrir(cenario.id) },

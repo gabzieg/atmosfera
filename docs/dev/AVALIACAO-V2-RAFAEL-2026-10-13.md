@@ -1,46 +1,32 @@
-# Avaliação v2 do Rafael — situação conferida em 13/10/2026
+# Integração da avaliação v2 de Rafael — 13/10/2026
 
-Mensagem recebida pelo usuário; não representa integração ou aceite em aparelho. Nesta conferência, `git fetch`, lista de branches remotas e PRs abertos não revelaram o código da v2 no repositório configurado `gabzieg/atmosfera`. Nenhum patch correspondente foi encontrado nesta máquina.
+Os patches da entrega local de 12/10 foram encontrados na máquina de Rafael e aplicados sobre o commit `8ec0993` da branch `fix/premium-privacidade-etapas-1-2`. Esta entrega incorpora o código funcional à revisão da PR #50, mantida em rascunho. O registro documental anterior permanece no histórico Git.
 
-## Evidência acessível
+## Alterações integradas
 
-Estado examinado antes desta atualizacao documental; ela nao incorpora codigo da v2.
+- Prévia intermediária da variante aberta, com miniatura imediata e cancelamento ao trocar/sair. Selecionar uma variante só mostra a prévia; Aplicar muda o wallpaper.
+- Cache separado do HD instalado, limite de 24 MB e limpeza após cinco minutos sem uso. A prévia aberta é protegida; se o processo encerrar, a limpeza física pode esperar a próxima abertura.
+- Busca e posição de rolagem preservadas ao voltar à Loja; cadeados atualizados ao retornar do painel.
+- Simular Premium e liberar artes são controles independentes, restritos a debug. Não simulam compras reais.
+- Nomes de apresentação e agrupamentos Cabana Lago/Selva e Cyberpunk Canal/Rua. IDs, SKUs e direitos de cada variante permanecem separados.
+- Privacidade 1.8 descreve prévias e cache; fonte, manifesto e três HTMLs correspondentes sincronizados. Termos/contato e demais exportações preservados. Documentos continuam rascunhos.
 
-| Item | Resultado conferido |
-|---|---|
-| PR #50 | Aberta, em rascunho, cabeça `1998ae6`; sem revisão registrada |
-| Checks do GitHub dessa revisão | Build e secret-scan aprovados |
-| Catálogo nos assets versionados | 71 cenas / 366 artes |
-| Branch `motor/cenas-efeitos-marcacao` | Continua em `6cf8023`, entrega sanitizada de R8 |
-| `main` | Continua em `e7129f6`; PR #50 não mesclada |
-| Novidades encontradas no fetch | Branches Dependabot; não foram integradas |
+Os nomes dos atalhos, o pacote `.avaliacao`, seu versionCode local 7 e o destrave inicial exclusivo do APK de avaliação não foram integrados. O app mantém a configuração de versão existente; ela não foi conferida no Console.
 
-Um commit local ou publicado em outro remoto pode existir. Para localizá-lo, falta hash e branch/URL, ou publicação dos patches no repositório compartilhado. Não foi aplicado código inferido a partir da mensagem.
+## Catálogo e continuidade
 
-## Trabalho relatado por Rafael, ainda não conferido aqui
+O manifesto embarcado continua com 71 cenas/366 artes e suas miniaturas. A vitrine filtra temporariamente `estacionamento` e `natal`, quatro artes cada: 69 cenas/358 artes, cinco amostras e 353 artes pagas propostas. Os agrupamentos de duas famílias produzem 67 cards. `natalchale` e `natalsala` continuam disponíveis.
 
-- Prévias intermediárias e cache temporário.
-- Preservação da busca/rolagem e atualização dos cadeados.
-- Controles independentes para testar Premium e artes.
-- Nomes/agrupamentos ajustados; retirada temporária de Estacionamento e Feira de Natal.
-- Resultado local: **69 cenas / 358 artes / 67 cards**, 98 testes unitários e lint sem erros.
-- 34 cenas disponíveis com mapeamento automático dos efeitos, ainda sem conferência visual. Esse número não demonstra aprovação das demais cenas ou correto funcionamento do mapeamento.
-- Brilho, vapor e sprites registrados para trabalho posterior.
+Não houve remoção no bucket, renomeação de produto ou revogação de compra por esta integração. O filtro retira as cenas do catálogo utilizável nesta revisão: não comprova continuidade de acesso a uma arte dessas cenas previamente adquirida. Conforme informação registrada pelo titular, só houve compras de teste; continuidade de conteúdo e oferta definitiva ainda precisam de aceite antes da produção. Produtos ativos, preços e países não foram alterados.
 
-No catálogo atual, `estacionamento` tem quatro artes. Há IDs distintos de Natal (`natal`, `natalchale`, `natalsala`); o patch deve identificar qual corresponde à retirada da Feira de Natal. Cards agrupados são uma organização visual, não necessariamente cenários ou direitos de compra. Manter SKU e posse por variante, respeitando a oferta de cada arte.
+Navio, Órbita e Trem continuam para avaliação. Há 34 cenas disponíveis com mapeamento automático das zonas, sem marcação manual arquivada; isso não equivale a aprovação visual das demais cenas.
 
-## Ordem da integração
+## Validação da integração
 
-1. Rafael publicar uma branch de revisão baseada na cabeça da PR #50, ou disponibilizar os patches e indicar o commit-base. Não fazer force-push para substituir a revisão compartilhada.
-2. Conferir diff e origem de alterações: prévias/cache, navegação, cadeados, controles debug, nomes/agrupamentos, exclusões e configurações do motor. As prévias intermediárias implicam nova requisição de rede antes do HD; avaliar dados enviados, hash, tamanho, retenção/limpeza e textos legais. Conferir que os controles de teste não concedam direitos em release.
-3. Reconciliar os IDs retirados e as 358 artes com manifesto, miniaturas, propostas de produtos e agrupamento de cards. Retirada da vitrine não deve revogar automaticamente direitos de uma compra válida; definir continuidade conforme a oferta.
-4. Executar novamente os checks na revisão integrada. Os 98 testes relatados são do ambiente do Rafael, não resultado da PR atual.
-5. Atualizar checklist, SPEC e documentos com o comportamento final. A privacidade atual descreve miniaturas locais e HD solicitado; a descrição da prévia/cache precisa acompanhar a implementação real, sem adivinhar o que foi enviado/guardado.
-6. Rafael avaliar no aparelho e pela Play: visual, efeitos, compra/download/restauração, offline, cancelamento/falha e atualização. As 34 cenas com mapeamento automático precisam de evidências específicas.
-7. Depois de revisão/aceite, código de versão e configuração definidos, gerar um único novo candidato AAB da revisão integrada. Nenhum novo AAB ou publicação foi realizado nesta conferência.
+98 testes unitários em 20 classes, zero falhas/erros; lint debug sem erros; assembleDebug e assembleRelease aprovados com JDK 17. Conferência do gerador de documentos legais e git diff --check aprovadas. O primeiro empacotamento de recursos de testes falhou no caminho longo do checkout Windows; a execução completa passou ao redirecionar somente o diretório de build para uma pasta temporária curta. Nenhuma configuração de versão/assinatura foi alterada. R8 emitiu dois avisos de parsing síncrono do provedor AGP; sem falha de build. CI da nova revisão será conferida após o push.
 
-## Texto para Gabriel encaminhar ao Rafael
+## Pendências externas
 
-> Rafael, a PR #50 ainda está no commit 1998ae6 e a branch do motor em 6cf8023. Não encontrei sua v2 nas branches do repositório compartilhado. Publique os patches/ajustes em uma branch baseada na PR #50 e informe hash e branch/URL, ou indique onde já estão publicados e o commit-base. Precisamos conferir as prévias/cache, os controles debug, o agrupamento dos 67 cards e os IDs exatos de Estacionamento/Feira de Natal antes de atualizar o catálogo para 69 cenas/358 artes. Depois executaremos os checks da revisão integrada; sua avaliação no aparelho e o ciclo de compras pela Play continuam pendentes. Não inclua assinatura, senhas, comprovantes ou dados de testadores.
+Avaliação no aparelho e pela Play: visual, clima, efeitos, direitos, compras/download/restauração, offline, cancelamento/falha e atualização. Produtos/ofertas, endpoint de produção, continuidade do conteúdo e catálogo final continuam pendentes. Revisão/aprovação jurídica, domínio/hospedagem e vigência dos documentos também permanecem pendentes.
 
-Este texto não foi enviado a terceiros por ferramentas. As etapas 1–5 permanecem com os aceites externos já registrados; a etapa 6 ainda não tem candidato validado.
+Reflexos do ouro/Natal, carros variáveis, dragão opcional, vapor da Pizzaria e movimento no exterior do Trem estão registrados como melhorias futuras, não implementadas neste commit. Nenhum novo AAB, merge ou envio à Play foi realizado.

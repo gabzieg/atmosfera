@@ -1,5 +1,5 @@
 {
-  "revisao": "2026-10-11",
+  "revisao": "2026-10-12",
   "status": "rascunho_para_revisao",
   "aprovado_para_publicacao": false,
   "aprovacao_registro": null,
@@ -10,10 +10,10 @@
   "contato": "suporteterrabr@gmail.com",
   "documentos": {
     "privacidade": {
-      "versao": "1.7",
+      "versao": "1.8",
       "fonte": "docs/legal/PRIVACIDADE.md",
-      "sha256_fonte": "623947099685766a6c878f6bf8c8cc07887ffa8f849a3e24787f495a251eb535",
-      "sha256_html": "757b24cfa791ec417fca83e5f520026066a9d92cf2f1e7c3ce94852656eed87d",
+      "sha256_fonte": "50f017b4726dbc1ccb4923cb51b60ccee54995c1098fcb2028c7c7123720f977",
+      "sha256_html": "a1a5b74d9479aa246f571f3a87a381f69259795d830ca4bb8997621484c48ea2",
       "copias": [
         "docs/privacidade/index.html",
         "public_html/privacidade/index.html",

@@ -17,6 +17,7 @@ class AtmosferaApp : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         com.terra.wallpaper.engine.Catalogo.carregar(this)
+        com.terra.wallpaper.engine.Acervo.limparPrevias(this)
         WeatherWorker.cancelarLegado(this)
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityStarted(activity: Activity) {

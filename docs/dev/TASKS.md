@@ -10,9 +10,9 @@
 > justamente por acumular item feito e referenciar uma branch que já tinha sido
 > mesclada.
 
-**Última atualização:** 2026-10-13. Base de trabalho examinada: PR #50 @ `1998ae6`; `main` remota @ `e7129f6`.
+**Última atualização:** 2026-10-13. Integração baseada na PR #50 @ `8ec0993`.
 
-**Prioridade atual:** localizar e revisar o codigo/patches da avaliacao v2 de Rafael. Ele informa 69 cenas/358 artes/67 cards, previas intermediarias/cache, ajustes de navegacao/cadeados e testes separados de Premium/artes; 98 testes e lint sem erros no ambiente dele. Nada dessa v2 foi encontrado no remoto configurado ou nesta maquina em 13/10. Manter catalogo Git de 71 cenas/366 artes ate reconciliacao efetiva. Avaliacao de 34 cenas com mapeamento automatico, testes em aparelho/Play, produtos, producao, legais e versionCode continuam pendentes. Ver [conferencia e prompt](AVALIACAO-V2-RAFAEL-2026-10-13.md).
+**Integração da v2 em 13/10:** ajustes funcionais aplicados sobre `8ec0993` na branch `fix/premium-privacidade-etapas-1-2`, para revisão na PR #50. Prévias/cache, navegação, cadeados, controles debug independentes, nomes e agrupamentos integrados. Vitrine: 69 cenas/358 artes/67 cards; manifesto e miniaturas preservam 71 cenas/366 artes. Estacionamento (`estacionamento`) e Feira de Natal (`natal`) ficam temporariamente fora da vitrine; Chalé/Sala de Natal permanecem. Validação desta integração: 98 testes sem falhas, lint sem erros, builds debug/release e conferência dos documentos aprovados; aparelho/Play, produtos, produção, documentos legais e candidato AAB continuam pendentes. Ver [entrega da v2](AVALIACAO-V2-RAFAEL-2026-10-13.md).
 
 Os registros datados abaixo sao historicos; a prioridade acima e o checklist representam o acompanhamento atual.
 

@@ -85,7 +85,7 @@ object Catalogo {
         carregados = try {
             val linhas = JSONArray(c.assets.open("atmosfera/catalogo/artes.json").bufferedReader().use { it.readText() })
             val grupos = (0 until linhas.length()).map { linhas.getJSONObject(it) }
-                .filter { it.getString("cena") !in excluidos }
+                .filter { it.getString("cena") !in excluidos && it.getString("cena") !in NomesCatalogo.temporariamenteFora }
                 .groupBy { it.getString("cena") }
             grupos.mapNotNull { (id, artes) ->
                 if (!id.matches(Regex("[a-z0-9_]+")) || Cenas.por(id).id != id) return@mapNotNull null
@@ -97,7 +97,7 @@ object Catalogo {
                     require(ids.containsAll(nativa.artes))
                     nativa.copy(artes = nativa.artes + (ids - nativa.artes.toSet()),
                         artesRemotas = ids.toSet() - nativa.artes.toSet(), miniaturas = miniaturas)
-                } else Cenario(id, id.replaceFirstChar { it.uppercase() }, "Arte do acervo Terra.",
+                } else Cenario(id, NomesCatalogo.nome(id), "Arte do acervo Terra.",
                     false, null, ids, artesRemotas = ids.toSet(), miniaturas = miniaturas)
             }.sortedWith(compareBy<Cenario> { embarcados.indexOfFirst { c -> c.id == it.id }.let { n -> if (n < 0) 100 else n } }.thenBy { it.id })
         } catch (_: Exception) { embarcados }
@@ -109,5 +109,8 @@ object Catalogo {
 
     fun produtosArtes(): Set<String> = cenarios.flatMap { c -> c.artes.mapNotNull { produtoArte(c, it) } }.toSet()
     fun por(id: String): Cenario? = cenarios.firstOrNull { it.id == id }
+    fun familia(id: String): String = NomesCatalogo.familia(id)
+    fun ambientes(id: String): List<Cenario> = cenarios.filter { familia(it.id) == familia(id) }
+    fun nomeAmbiente(id: String): String = NomesCatalogo.ambiente(id)
     val padrao: Cenario get() = cenarios.first()
 }

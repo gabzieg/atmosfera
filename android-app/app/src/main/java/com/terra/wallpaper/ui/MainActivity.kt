@@ -47,6 +47,7 @@ class MainActivity : ComponentActivity() {
      */
     override fun onResume() {
         super.onResume()
+        viewModel.atualizarDireitos()
         viewModel.billingManager.restaurar()
         viewModel.refreshWeather()
     }

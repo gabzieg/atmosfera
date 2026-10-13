@@ -17,6 +17,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.File
@@ -247,9 +253,81 @@ object Acervo {
     suspend fun thumb(c: Context, cena: String, arte: String): File? =
         imagem(c, cena, arte, "thumb")
 
-    /** Preview da tela do cenário (543×724) — o "meio-termo" da pré-venda. */
-    suspend fun preview(c: Context, cena: String, arte: String): File? =
-        imagem(c, cena, arte, "preview")
+    private val escopoLimpeza = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val mutexPrevia = Mutex()
+    private var cachePrevia: CachePrevias? = null
+    @Synchronized private fun cachePrevia(c: Context): CachePrevias =
+        cachePrevia ?: CachePrevias(File(c.cacheDir, "terra_previas")).also { cachePrevia = it }
+
+    fun reterPrevia(c: Context, cena: String, arte: String) = cachePrevia(c).reter("${cena}__$arte")
+    fun soltarPrevia(c: Context, cena: String, arte: String) {
+        val cache = cachePrevia(c)
+        cache.soltar("${cena}__$arte")
+        escopoLimpeza.launch { delay(5 * 60 * 1000L + 1000); cache.limpar() }
+    }
+    fun limparPrevias(c: Context) = cachePrevia(c).limpar()
+
+    /** Só a arte aberta: imagem intermediária, cancelável, cache descartável de cinco minutos. */
+    suspend fun preview(c: Context, cena: String, arte: String): File? = withContext(Dispatchers.IO) {
+        mutexPrevia.withLock {
+            val cache = cachePrevia(c)
+            cache.limpar()
+            val info = manifesto(c).arte(cena, arte)?.preview ?: return@withLock null
+            val url = base(c)
+            if (url.isEmpty()) return@withLock null
+            try {
+                require(info.bytes in 1..4L * 1024 * 1024)
+                require(info.arquivo.matches(Regex("preview/[a-z0-9_]+\\.[a-f0-9]{64}\\.webp")))
+                val destino = cache.arquivo("${cena}__$arte", info.sha256)
+                if (destino.exists() && destino.length() == info.bytes && confere(destino.readBytes(), info.sha256)) {
+                    cache.tocar(destino)
+                    return@withLock destino
+                }
+                val dados = baixarImagem(url + info.arquivo, info)
+                val temporario = File.createTempFile(destino.name.substringBefore('.') + ".", ".tmp", destino.parentFile)
+                try {
+                    temporario.writeBytes(dados)
+                    if (!temporario.renameTo(destino)) return@withLock null
+                    cache.tocar(destino)
+                    destino
+                } finally { temporario.delete() }
+            } catch (e: CancellationException) { throw e }
+            catch (_: Exception) { null }
+        }
+    }
+
+    internal suspend fun baixarImagem(url: String, info: ArquivoRemoto): ByteArray {
+        require(info.bytes in 1..4L * 1024 * 1024 && info.sha256.matches(Regex("[a-fA-F0-9]{64}")))
+        val call = http.newCall(Request.Builder().url(url).header("User-Agent", "Terra/1.0 previa").build())
+        return suspendCancellableCoroutine { cont ->
+            cont.invokeOnCancellation { call.cancel() }
+            call.enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) { if (cont.isActive) cont.resumeWithException(e) }
+                override fun onResponse(call: Call, response: Response) {
+                    try {
+                        val dados = response.use { resp ->
+                            if (!resp.isSuccessful) throw IOException("HTTP ${resp.code}")
+                            val body = resp.body ?: throw IOException("Imagem vazia")
+                            body.byteStream().use { entrada ->
+                                val saida = java.io.ByteArrayOutputStream()
+                                val buffer = ByteArray(16 * 1024)
+                                while (true) {
+                                    if (!cont.isActive) throw CancellationException()
+                                    val n = entrada.read(buffer)
+                                    if (n < 0) break
+                                    if (saida.size() + n > info.bytes) throw IOException("Prévia maior que o manifesto")
+                                    saida.write(buffer, 0, n)
+                                }
+                                saida.toByteArray()
+                            }
+                        }
+                        if (dados.size.toLong() != info.bytes || !confere(dados, info.sha256)) throw IOException("Prévia inválida")
+                        if (cont.isActive) cont.resume(dados)
+                    } catch (e: Exception) { if (cont.isActive) cont.resumeWithException(e) }
+                }
+            })
+        }
+    }
 
     private suspend fun imagem(c: Context, cena: String, arte: String, tipo: String): File? =
         withContext(Dispatchers.IO) {

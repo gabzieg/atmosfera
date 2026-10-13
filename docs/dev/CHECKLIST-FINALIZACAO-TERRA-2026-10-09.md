@@ -1,6 +1,6 @@
 # Checklist de finalização do Terra — 09/10/2026
 
-**Reconferencia em 13/10:** PR #50 examinada em `1998ae6`, ainda rascunho e com checks aprovados. Rafael informou uma avaliacao v2 local (69 cenas/358 artes/67 cards, 98 testes e lint sem erros); codigo e patches nao foram encontrados no remoto configurado ou nesta maquina. Catalogo versionado continua 71 cenas/366 artes. Numeros e melhorias da v2 aguardam publicacao/revisao/integracao; avaliacoes em aparelho/Play e novo AAB continuam pendentes. Ver [conferencia da v2 e encaminhamento](AVALIACAO-V2-RAFAEL-2026-10-13.md).
+**Integração da v2 em 13/10:** ajustes funcionais aplicados sobre `8ec0993` na branch `fix/premium-privacidade-etapas-1-2`, para revisão na PR #50. Prévias/cache, navegação, cadeados, controles debug independentes, nomes e agrupamentos integrados. Vitrine: 69 cenas/358 artes/67 cards; manifesto e miniaturas preservam 71 cenas/366 artes. Estacionamento (`estacionamento`) e Feira de Natal (`natal`) ficam temporariamente fora da vitrine; Chalé/Sala de Natal permanecem. Validação desta integração: 98 testes sem falhas, lint sem erros, builds debug/release e conferência dos documentos aprovados; aparelho/Play, produtos, produção, documentos legais e candidato AAB continuam pendentes. Ver [entrega da v2](AVALIACAO-V2-RAFAEL-2026-10-13.md).
 
 
 **Regra de trabalho:** executar uma etapa por vez, registrar a evidência e só marcar conclusão quando seu critério de aceite estiver atendido. Código preparado, teste local, teste pela Play e publicação são estados distintos.

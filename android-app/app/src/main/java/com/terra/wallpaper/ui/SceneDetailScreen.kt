@@ -61,6 +61,7 @@ import com.terra.wallpaper.ui.components.ConfirmarWallpaperDialog
 import com.terra.wallpaper.ui.components.ReportarProblemaDialog
 import com.terra.wallpaper.ui.components.EngineLivePreview
 import com.terra.wallpaper.ui.components.SceneThumbnail
+import com.terra.wallpaper.ui.components.ScenePreview
 import com.terra.wallpaper.ui.theme.Radius
 import com.terra.wallpaper.ui.theme.Spacing
 
@@ -75,13 +76,15 @@ import com.terra.wallpaper.ui.theme.Spacing
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> Unit, onVerPremium: (String?) -> Unit) {
+fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> Unit, onVerPremium: (String?) -> Unit,
+    onAbrirCenario: (String) -> Unit) {
     val cenario = Catalogo.por(sceneId) ?: return
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentArt by viewModel.currentArt.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
     val isPremium by viewModel.isPremium.collectAsState()
     val compras by viewModel.artesCompradas.collectAsState()
+    val revisaoAcesso by viewModel.revisaoAcesso.collectAsState()
     val precos by viewModel.billingManager.precos.collectAsState()
     val mensagemCompra by viewModel.billingManager.mensagemPremium.collectAsState()
     val download by viewModel.downloadArte.collectAsState()
@@ -95,7 +98,9 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
     // global, e mexer nela olhando outro cenário trocava a arte do wallpaper que
     // está no ar (e, com arte grátis avulsa, podia pôr no ar uma arte paga).
     var arteExibida by remember(sceneId) { mutableStateOf(viewModel.arteInicial(cenario)) }
-    val isUnlocked = remember(cenario, arteExibida, compras) { viewModel.isArtUnlocked(cenario, arteExibida) }
+    val isUnlocked = remember(cenario, arteExibida, compras, revisaoAcesso) {
+        viewModel.isArtUnlocked(cenario, arteExibida)
+    }
     val instalada = viewModel.arteInstalada(cenario, arteExibida)
     val produto = Catalogo.produtoArte(cenario, arteExibida)
     val preco = precos[produto]
@@ -159,7 +164,7 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
         // motor pinta além da altura da View — sem isso a chuva vaza por cima do
         // nome, dos botões e da seção de estilos abaixo.
         Box(modifier = Modifier.fillMaxWidth().height(340.dp).clipToBounds()) {
-            SceneThumbnail(sceneId = sceneId, arte = arteExibida, modifier = Modifier.fillMaxSize())
+            ScenePreview(sceneId = sceneId, arte = arteExibida, remota = !instalada, modifier = Modifier.fillMaxSize())
             if (instalada) EngineLivePreview(
                 sceneId = sceneId,
                 arte = arteExibida,
@@ -175,6 +180,14 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
             ) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar", tint = Color.White)
             }
+            if (!isUnlocked) Row(
+                modifier = Modifier.align(Alignment.BottomEnd).padding(Spacing.md)
+                    .background(Color.Black.copy(alpha = 0.65f), RoundedCornerShape(Radius.pill)).padding(Spacing.sm),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(Icons.Default.Lock, contentDescription = "Arte não adquirida", tint = Color.White)
+                Text("Arte não adquirida", color = Color.White)
+            }
         }
 
         Column(
@@ -185,7 +198,8 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text("CENÁRIO", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, fontWeight = FontWeight.SemiBold)
-                    Text(cenario.nome, style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground)
+                    Text(Catalogo.por(Catalogo.familia(sceneId))?.nome ?: cenario.nome,
+                        style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground)
                 }
                 Spacer(Modifier.width(Spacing.md))
                 if (isUnlocked) AcaoPrincipal(
@@ -251,6 +265,16 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
             }
             mensagemCompra?.let { Text(it, style = MaterialTheme.typography.bodySmall) }
 
+            val ambientes = Catalogo.ambientes(sceneId)
+            if (ambientes.size > 1) SecaoDetalhe(titulo = "Ambiente") {
+                Row(horizontalArrangement = Arrangement.spacedBy(Spacing.sm)) {
+                    ambientes.forEach { ambiente ->
+                        OutlinedButton(onClick = { onAbrirCenario(ambiente.id) }, enabled = ambiente.id != sceneId) {
+                            Text(Catalogo.nomeAmbiente(ambiente.id))
+                        }
+                    }
+                }
+            }
             // ── Seção: arte do cenário (só quem tem variantes) ──────────
             if (artes.size > 1) {
                 SecaoDetalhe(titulo = "Arte do cenário") {
@@ -271,8 +295,7 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                                 gratis = arte in cenario.artesGratis,
                                 onClick = {
                                     arteExibida = arte
-                                    // no cenário que já está no ar, trocar a arte é trocar o wallpaper
-                                    if (isActiveScene && viewModel.isArtUnlocked(cenario, arte)) viewModel.setArt(arte)
+                                    // Seleção é apenas prévia; o wallpaper só muda em Aplicar.
                                 },
                             )
                         }

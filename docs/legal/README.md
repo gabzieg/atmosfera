@@ -1,6 +1,6 @@
 # Fonte editorial dos documentos do Terra
 
-Revisão de trabalho de 11/10/2026. Fontes únicas: `TERMOS.md` (1.4), `PRIVACIDADE.md` (1.7) e `CONTATO.md` (1.1). Os HTMLs são exportações; não editar cada cópia separadamente.
+Revisão de trabalho de 12/10/2026. Fontes únicas: `TERMOS.md` (1.4), `PRIVACIDADE.md` (1.8) e `CONTATO.md` (1.1). Os HTMLs são exportações; não editar cada cópia separadamente.
 
 ```powershell
 python scripts/sincronizar_documentos_legais.py

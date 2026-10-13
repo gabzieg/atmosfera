@@ -20,15 +20,18 @@ class CompraArteCatalogoTest {
 
     @Before fun preparar() {
         ComprasArte.reconciliar(context, emptySet())
+        com.terra.wallpaper.debug.DebugOverride.setDestravarPagos(context, false)
+        com.terra.wallpaper.debug.DebugOverride.setPremiumTeste(context, false)
+        com.terra.wallpaper.billing.Plano.setPremium(context, false)
         Catalogo.carregar(context)
     }
 
     @Test fun catalogoTemSomenteArtesComArquivosEMiniatura() {
-        assertEquals(71, Catalogo.cenarios.size)
-        assertEquals(366, Catalogo.cenarios.sumOf { it.artes.size })
-        assertEquals(361, Catalogo.produtosArtes().size)
+        assertEquals(69, Catalogo.cenarios.size)
+        assertEquals(358, Catalogo.cenarios.sumOf { it.artes.size })
+        assertEquals(353, Catalogo.produtosArtes().size)
         assertEquals(5, Catalogo.cenarios.sumOf { it.artesGratis.size })
-        val excluidas = setOf("simpsons", "budokai", "konoha", "timessquare", "burj", "ogro", "eiffel")
+        val excluidas = setOf("simpsons", "budokai", "konoha", "timessquare", "burj", "ogro", "eiffel", "estacionamento", "natal")
         assertFalse(Catalogo.cenarios.any { it.id in excluidas })
         Catalogo.cenarios.forEach { cena -> cena.artes.forEach { arte ->
             context.assets.open(cena.miniaturas.getValue(arte)).use { assertTrue(it.read() >= 0) }
@@ -70,7 +73,7 @@ class CompraArteCatalogoTest {
     }
 
     @Test fun cenasNativasRecebemVariantesRemotasSemDuplicacao() {
-        assertEquals(71, Catalogo.cenarios.map { it.id }.toSet().size)
+        assertEquals(69, Catalogo.cenarios.map { it.id }.toSet().size)
         Catalogo.embarcados.forEach { nativa ->
             val mesclada = Catalogo.por(nativa.id)!!
             assertEquals(nativa.artesGratis, mesclada.artesGratis)
@@ -88,5 +91,28 @@ class CompraArteCatalogoTest {
         assertEquals(Catalogo.padrao.id, com.terra.wallpaper.engine.Cena.atual(context))
         assertEquals(Catalogo.padrao.artesGratis.first(), com.terra.wallpaper.engine.ArteFundo.atual(context))
         assertTrue(ComprasArte.produtos(context).isEmpty())
+    }
+
+    @Test fun agrupamentoVisualNaoConcedeArtesDoOutroAmbiente() {
+        val cabana = Catalogo.por("cabana")!!
+        val selva = Catalogo.por("cabana2")!!
+        assertEquals(setOf("cabana", "cabana2"), Catalogo.ambientes("cabana").map { it.id }.toSet())
+        assertTrue(AcessoArte.permitida(cabana, "pixel"))
+        assertFalse(AcessoArte.permitida(selva, "pixel"))
+        assertEquals("terra_arte_cabana2_pixel", Catalogo.produtoArte(selva, "pixel"))
+    }
+
+    @Test fun premiumSimuladoNaoLiberaArtes() {
+        com.terra.wallpaper.debug.DebugOverride.setPremiumTeste(context, true)
+        assertTrue(com.terra.wallpaper.billing.Plano.isPremium(context))
+        assertFalse(AcessoArte.permitida(Catalogo.por("cabana2")!!, "pixel",
+            com.terra.wallpaper.debug.DebugOverride.destravarPagos(context)))
+    }
+
+    @Test fun liberarArtesNaoSimulaPremium() {
+        com.terra.wallpaper.debug.DebugOverride.setDestravarPagos(context, true)
+        assertFalse(com.terra.wallpaper.billing.Plano.isPremium(context))
+        assertTrue(AcessoArte.permitida(Catalogo.por("cabana2")!!, "pixel",
+            com.terra.wallpaper.debug.DebugOverride.destravarPagos(context)))
     }
 }

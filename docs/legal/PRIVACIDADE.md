@@ -1,7 +1,7 @@
 # Política de Privacidade — Terra
 
-**Versão da política:** 1.7
-**Última atualização:** 11 de outubro de 2026
+**Versão da política:** 1.8
+**Última atualização:** 12 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
 **Aplica-se a:** Revisão candidata com entrega remota de artes. A versão de distribuição ainda será definida. Não descreve automaticamente o funcionamento de versões anteriores.
 **Vigência:** A definir após aprovação e identificação da versão correspondente.
@@ -39,6 +39,8 @@ Não há SDK de publicidade, analytics ou relatório de falhas integrado ao Terr
 ## 4. Entrega de artes pelo Cloudflare R2
 
 As miniaturas e o índice conferido acompanham o aplicativo. Visualizar o catálogo não exige download de HD. Quando você solicita **Baixar e aplicar**, o app pede os arquivos comuns do cenário e da arte que faltam. Comprar ou restaurar não baixa automaticamente todo o acervo. A instalação confere hash completo e arquivos necessários antes de aplicar.
+
+Ao abrir uma arte ainda não instalada ou selecionar outra variante na tela do cenário, o app solicita automaticamente uma prévia de resolução intermediária ao Cloudflare R2, sem exigir compra. Essa prévia não instala nem concede a arte completa. Ela fica em cache temporário, com limite de espaço e limpeza após cerca de cinco minutos sem uso. A imagem aberta é preservada; se o processo for encerrado pelo Android, a limpeza pendente ocorre na próxima abertura. Falhas de rede mantêm a miniatura local como alternativa. As requisições de prévia revelam os dados técnicos descritos abaixo, sem acrescentar localização ou dados da compra.
 
 A infraestrutura recebe IP, caminho do arquivo solicitado, horário e outros dados técnicos da conexão; o caminho pode revelar qual cenário/variante foi solicitado. O Terra não acrescenta coordenadas, clima, e-mail do usuário, token ou comprovante da compra a essas requisições. Cloudflare pode tratar dados de rede e segurança segundo sua política e configurações contratadas. Não afirmamos que seu servidor deixe de tratar dados pessoais ou que não existam logs acessíveis ao administrador.
 
@@ -102,4 +104,4 @@ O enquadramento do Terra na LGPD, ECA Digital e orientações vigentes da ANPD p
 
 Mudanças materiais serão refletidas nos documentos e informadas antes ou junto da versão correspondente. Consentimento será solicitado quando exigido; uso continuado não o substitui. A cópia offline acompanha a versão instalada. O domínio público definitivo, vigência e versão aplicável ainda serão preenchidos após aprovação.
 
-Revisão 1.7 de 11/10/2026: responsável/canal, atendimento de 60 dias, compras por arte, miniaturas/HD, dados de rede e limites de promessas. Revisão anterior 1.6 de 10/10: exclusões de backup do acervo e direitos. Histórico editorial não comprova publicação ou vigência das cópias anteriores.
+Revisão 1.8 de 12/10/2026: prévias intermediárias automáticas e cache temporário. Revisão 1.7 de 11/10/2026: responsável/canal, atendimento de 60 dias, compras por arte, miniaturas/HD, dados de rede e limites de promessas. Revisão anterior 1.6 de 10/10: exclusões de backup do acervo e direitos. Histórico editorial não comprova publicação ou vigência das cópias anteriores.

@@ -96,6 +96,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
 
     private val _isPremium = MutableStateFlow(Plano.isPremium(context))
     val isPremium: StateFlow<Boolean> = _isPremium
+    private val _revisaoAcesso = MutableStateFlow(0)
+    val revisaoAcesso: StateFlow<Int> = _revisaoAcesso
 
     // Arte do fundo (pixel/clay/aqua) e estilo dos efeitos (pixel/clay/bizantino/aqua).
     // O serviço do wallpaper relê essas prefs ao voltar à tela inicial.
@@ -181,6 +183,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
             }
         }
         prefs.edit().putLong("KEY_PREMIUM_STATUS", System.currentTimeMillis()).apply()
+    }
+
+    /** Retorno do painel debug ou da compra: refletir novamente os direitos atuais. */
+    fun atualizarDireitos() {
+        onPremiumMudou(Plano.isPremium(context))
+        // O destrave de artes pode mudar sem alterar Premium ou compras reais.
+        _revisaoAcesso.value += 1
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

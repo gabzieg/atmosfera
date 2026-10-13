@@ -5,6 +5,8 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
@@ -29,11 +31,13 @@ fun <T> MasonryGrid(
     horizontalSpacing: Dp = Spacing.md,
     verticalSpacing: Dp = Spacing.md,
     key: ((T) -> Any)? = null,
+    state: LazyStaggeredGridState = rememberLazyStaggeredGridState(),
     header: (@Composable () -> Unit)? = null,
     itemContent: @Composable (T) -> Unit,
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(columns),
+        state = state,
         modifier = modifier,
         contentPadding = contentPadding,
         horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(horizontalSpacing),
