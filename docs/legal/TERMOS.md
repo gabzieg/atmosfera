@@ -1,12 +1,16 @@
 # Termos de Uso — Terra
 
-**Versão dos termos:** 1.4
-**Última atualização:** 11 de outubro de 2026
+**Página pública:** [https://sites.google.com/view/terra-live-wallpaper/termos](https://sites.google.com/view/terra-live-wallpaper/termos)
+
+**Versão dos termos:** 1.5
+**Última atualização:** 15 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
 **Aplica-se a:** Revisão candidata com Premium separado das artes e acervo por download. A versão de distribuição ainda será definida.
 **Vigência:** A definir após aprovação e identificação da versão correspondente. Esta revisão não altera retroativamente compras anteriores.
 
 ## Resumo
+
+O teste fechado será realizado somente com contas cadastradas como testadoras de licença da Google Play e instrumentos de pagamento de teste, sem cobrança real. A equipe deve conferir a conta e a indicação de compra de teste no checkout. Inscrição no teste fechado, sozinha, não garante essa condição. Compras simuladas não comprovam uma aquisição paga para uma futura oferta comercial; suas condições serão informadas antes de qualquer mudança. Durante o teste, problemas, efeitos, artes e nomes podem receber ajustes; isso não afasta os direitos aplicáveis de privacidade e atendimento.
 
 - Cinco amostras de arte são gratuitas. O wallpaper reage ao clima.
 - Terra Premium libera efeitos e estilos da oferta apresentada; artes adicionais são compras individuais separadas.
@@ -16,7 +20,7 @@
 
 ## 1. Responsável
 
-O Terra é oferecido por **Rafael Huppes, pessoa física**, responsável pelo aplicativo e atendimento. Canal: [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com). O domínio público definitivo dos documentos ainda será definido. A cópia no aplicativo acompanha sua versão; atualizar o site não atualiza automaticamente aplicativos instalados.
+O Terra é oferecido por **Rafael Huppes, pessoa física**, responsável pelo aplicativo e atendimento. Canal: [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com). Os documentos estão disponíveis no Google Sites em https://sites.google.com/view/terra-live-wallpaper; um domínio próprio poderá ser conectado depois. A cópia no aplicativo acompanha sua versão; atualizar o site não atualiza automaticamente aplicativos instalados.
 
 ## 2. Uso e público
 
@@ -77,3 +81,5 @@ Alterações materiais serão informadas antes ou junto da versão correspondent
 Aplicam-se normas brasileiras pertinentes, sem afastar normas obrigatórias de outros países de distribuição. Controvérsias seguem regras legais de competência e garantias do consumidor; não se impõe foro exclusivo ao usuário.
 
 Revisão 1.4 de 11/10/2026: compra por arte, entrega/restauração, atendimento e direitos de consumo. Revisão anterior 1.3 de 10/10: separação de Premium e artes. Histórico editorial não comprova publicação ou vigência de cada cópia.
+
+Revisão 1.5 de 15/10/2026: preparação no Google Sites e escopo de compras somente com contas de licença durante o teste fechado; vigência e identificação do artefato ainda pendentes.

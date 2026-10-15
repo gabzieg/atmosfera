@@ -1,5 +1,19 @@
 # Etapa 5 — revisão editorial e integração com a landing
 
+## Site publicado em 15/10/2026
+
+Rafael informou a publicação do Google Sites. Links conferidos na navegação, documentados sem seleção de conta:
+
+| Destino | URL |
+|---|---|
+| Site | https://sites.google.com/view/terra-live-wallpaper |
+| Política de Privacidade — campo do Console | https://sites.google.com/view/terra-live-wallpaper/privacidade |
+| Termos | https://sites.google.com/view/terra-live-wallpaper/termos |
+| Contato | https://sites.google.com/view/terra-live-wallpaper/contato |
+
+Compras do teste: somente contas testadoras de licença, conforme decisão do titular em 15/10. Falta conferir a configuração efetiva das contas e dos instrumentos de pagamento. O site está publicado com metadados de rascunho; publicação não significa aprovação jurídica, vigência do candidato, cadastro no Console ou começo dos 14 dias. Ainda é necessário conferir o acesso sem login em sessão anônima e conciliar versão/vigência/textos do artefato. Alterações nas fontes locais exigem republicação no Google Sites; gerar os HTMLs não modifica o site.
+
+
 Preparação concluída em 11/10/2026; **aceite jurídico e publicação pendentes**. Revisão para o candidato da PR #50, não alteração retroativa de contratos de compras anteriores.
 
 ## Alterações concretas

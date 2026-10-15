@@ -1,5 +1,19 @@
 # Checklist de publicação — Google Play
 
+## Site publicado em 15/10/2026
+
+Rafael informou a publicação do Google Sites. Links conferidos na navegação, documentados sem seleção de conta:
+
+| Destino | URL |
+|---|---|
+| Site | https://sites.google.com/view/terra-live-wallpaper |
+| Política de Privacidade — campo do Console | https://sites.google.com/view/terra-live-wallpaper/privacidade |
+| Termos | https://sites.google.com/view/terra-live-wallpaper/termos |
+| Contato | https://sites.google.com/view/terra-live-wallpaper/contato |
+
+Compras do teste: somente contas testadoras de licença, conforme decisão do titular em 15/10. Falta conferir a configuração efetiva das contas e dos instrumentos de pagamento. O site está publicado com metadados de rascunho; publicação não significa aprovação jurídica, vigência do candidato, cadastro no Console ou começo dos 14 dias. Ainda é necessário conferir o acesso sem login em sessão anônima e conciliar versão/vigência/textos do artefato. Alterações nas fontes locais exigem republicação no Google Sites; gerar os HTMLs não modifica o site.
+
+
 > Atualização de 11/10/2026: o roteiro vigente é [CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md). A oferta atual separa Premium de artes individuais; o R2 já existe e o catálogo tem 366 artes após cortes. Os documentos canônicos estão em revisão, com vigência/versão de distribuição pendentes; ver [etapa 5](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md). As seções abaixo preservam registros anteriores e não substituem essas decisões nem as declarações atuais exigidas pelo Console.
 
 

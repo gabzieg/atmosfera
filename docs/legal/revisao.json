@@ -1,11 +1,22 @@
 {
-  "revisao": "2026-10-12",
+  "revisao": "2026-10-15",
   "status": "rascunho_para_revisao",
   "aprovado_para_publicacao": false,
   "aprovacao_registro": null,
   "vigencia": null,
   "versao_app": null,
-  "dominio_publico": null,
+  "dominio_publico": "https://sites.google.com/view/terra-live-wallpaper",
   "controlador": "Rafael Huppes",
-  "contato": "suporteterrabr@gmail.com"
+  "contato": "suporteterrabr@gmail.com",
+  "paginas_publicas": {
+    "privacidade": "https://sites.google.com/view/terra-live-wallpaper/privacidade",
+    "termos": "https://sites.google.com/view/terra-live-wallpaper/termos",
+    "contato": "https://sites.google.com/view/terra-live-wallpaper/contato"
+  },
+  "publicacao_web": {
+    "data_informada_pelo_titular": "2026-10-15",
+    "plataforma": "Google Sites",
+    "estado": "publicado_pelo_titular_com_metadados_de_rascunho",
+    "verificacao": "URLs de navegação conferidas no navegador; seleção authuser removida dos links documentados. Verificação anônima independente não concluída nesta rodada."
+  }
 }

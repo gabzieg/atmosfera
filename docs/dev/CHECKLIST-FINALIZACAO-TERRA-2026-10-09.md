@@ -1,5 +1,21 @@
 # Checklist de finalização do Terra — 09/10/2026
 
+## Site publicado em 15/10/2026
+
+Rafael informou a publicação do Google Sites. Links conferidos na navegação, documentados sem seleção de conta:
+
+| Destino | URL |
+|---|---|
+| Site | https://sites.google.com/view/terra-live-wallpaper |
+| Política de Privacidade — campo do Console | https://sites.google.com/view/terra-live-wallpaper/privacidade |
+| Termos | https://sites.google.com/view/terra-live-wallpaper/termos |
+| Contato | https://sites.google.com/view/terra-live-wallpaper/contato |
+
+Compras do teste: somente contas testadoras de licença, conforme decisão do titular em 15/10. Falta conferir a configuração efetiva das contas e dos instrumentos de pagamento. O site está publicado com metadados de rascunho; publicação não significa aprovação jurídica, vigência do candidato, cadastro no Console ou começo dos 14 dias. Ainda é necessário conferir o acesso sem login em sessão anônima e conciliar versão/vigência/textos do artefato. Alterações nas fontes locais exigem republicação no Google Sites; gerar os HTMLs não modifica o site.
+
+
+**Prioridade definida em 14/10 por Rafael:** preparar documentação e declarações para iniciar o teste fechado. Compras, wallpapers, efeitos e nomes serão avaliados durante os 14 dias. Domínio próprio não é necessário; Google Sites/Blogger públicos são opções. Ver [preparação legal do teste](PREPARACAO-LEGAL-TESTE-FECHADO-2026-10-14.md) e guia do Console atualizado. URL/plataforma, regime de compras, versão/vigência e aprovação permanecem a confirmar.
+
 **Reconferência em 13/10:** commit `e9a221f` publicado e incorporado à cópia local. Build e secret-scan do GitHub aprovados na [execução da PR #50](https://github.com/gabzieg/atmosfera/actions/runs/38403864423). Reexecução local de 17 testes direcionados (prévias, cache, catálogo e documentos): zero falhas/erros; gerador legal conferido. PR continua em rascunho, sem merge ou novo AAB. Avaliação no aparelho permanece com Rafael.
 
 **Integração da v2 em 13/10:** ajustes funcionais aplicados sobre `8ec0993` na branch `fix/premium-privacidade-etapas-1-2`, para revisão na PR #50. Prévias/cache, navegação, cadeados, controles debug independentes, nomes e agrupamentos integrados. Vitrine: 69 cenas/358 artes/67 cards; manifesto e miniaturas preservam 71 cenas/366 artes. Estacionamento (`estacionamento`) e Feira de Natal (`natal`) ficam temporariamente fora da vitrine; Chalé/Sala de Natal permanecem. Validação desta integração: 98 testes sem falhas, lint sem erros, builds debug/release e conferência dos documentos aprovados; aparelho/Play, produtos, produção, documentos legais e candidato AAB continuam pendentes. Ver [entrega da v2](AVALIACAO-V2-RAFAEL-2026-10-13.md).

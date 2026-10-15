@@ -1,186 +1,66 @@
-# Guia — Data Safety Form e Content Rating (IARC)
+# Guia de Segurança dos dados e público — candidato Terra para teste fechado
 
-> Respostas derivadas do **código atual**, não de suposição. Cada resposta
-> abaixo tem a linha de código que a sustenta. Se o código mudar, esta folha
-> mente — a tabela de rastreio em
-> [CHECKLIST_PUBLICACAO.md](CHECKLIST_PUBLICACAO.md#rastreio-código--política)
-> diz o que revisar.
->
-> **Divisão de responsabilidade** (ver [SPEC.md](SPEC.md)): o Data Safety é
-> declaração sobre o que o código faz, e é do Gabriel — junto com os textos
-> legais, desde a saída do Willian em 2026-08-28. A conferência que era dele
-> agora é feita por teste: `PoliticaBatecomManifestoTest` quebra o gate se a
-> política divergir das permissões do manifesto.
+## Site publicado em 15/10/2026
 
-**Última atualização:** 3 de outubro de 2026 · confere com o código da `main` após a troca para a MET Norway
+Rafael informou a publicação do Google Sites. Links conferidos na navegação, documentados sem seleção de conta:
 
-> **Mudança de 03/10:** o clima saiu da Open-Meteo (API gratuita só para uso
-> não comercial) e foi para a MET Norway. **Nenhuma resposta do formulário
-> muda de categoria**: continua só "Localização aproximada", compartilhada com
-> o serviço de clima para funcionalidade do app. Muda apenas o nome do
-> destinatário na política (§6.1) e as coordenadas, que agora saem
-> arredondadas para ~1 km. O cabeçalho User-Agent que a MET exige leva o nome
-> do app e o e-mail de suporte — dado nosso, não do usuário.
+| Destino | URL |
+|---|---|
+| Site | https://sites.google.com/view/terra-live-wallpaper |
+| Política de Privacidade — campo do Console | https://sites.google.com/view/terra-live-wallpaper/privacidade |
+| Termos | https://sites.google.com/view/terra-live-wallpaper/termos |
+| Contato | https://sites.google.com/view/terra-live-wallpaper/contato |
 
-> **Mudança de 29/09:** o app passou a baixar alguns cenários/artes sob
-> demanda de um servidor de arquivos (Cloudflare R2) — ver
-> `docs/legal/PRIVACIDADE.md` §3.8/§6.5. Isso **não adiciona nenhum tipo de
-> dado novo** ao formulário (ver "Download de conteúdo (R2)" abaixo) — é a
-> mesma categoria de tráfego que o serviço de clima já tinha (endereço IP inerente à
-> requisição, não coletado nem usado pra identificar ninguém).
+Compras do teste: somente contas testadoras de licença, conforme decisão do titular em 15/10. Falta conferir a configuração efetiva das contas e dos instrumentos de pagamento. O site está publicado com metadados de rascunho; publicação não significa aprovação jurídica, vigência do candidato, cadastro no Console ou começo dos 14 dias. Ainda é necessário conferir o acesso sem login em sessão anônima e conciliar versão/vigência/textos do artefato. Alterações nas fontes locais exigem republicação no Google Sites; gerar os HTMLs não modifica o site.
 
----
 
-## Antes de começar
+Atualizado em 15/10/2026 para a PR #50, base `a809f30` com v2 integrada. É uma matriz de preparação; as respostas finais dependem do artefato distribuído e das configurações de fornecedores/Console. Não copiar como declaração já aprovada.
 
-O Data Safety só aparece depois que o app existe no Play Console. Ordem:
+O guia anterior de outubro descrevia apenas uma flag local de compras e afirmava que desinstalar apagava todos os dados. Foi superado por compras por arte, tokens/comprovantes, prévias automáticas R2 e suporte. Essas conclusões não devem ser usadas no formulário.
 
-1. Conta de desenvolvedor criada (US$ 25, uma vez — pode levar dias pra aprovar)
-2. App criado no console (`com.terra.wallpaper`)
-3. **URL da política de privacidade já no ar** — o formulário a exige
-4. Aí sim: Política do app → Segurança dos dados
+## Pré-requisitos do teste fechado
 
----
+Política pública ativa e acessível sem login/geobloqueio, em formato de página (não PDF), também disponível no app. Domínio próprio não é obrigatório: endereço público do Google Sites ou Blogger pode ser utilizado. Identificar Terra e responsável/canal. Preencher Segurança dos dados também para a faixa fechada; somente faixa exclusivamente interna tem a exceção indicada pela Play.
 
-## Atualização de clima somente na home — 05/10/2026
+Ver [preparação legal do teste](PREPARACAO-LEGAL-TESTE-FECHADO-2026-10-14.md). As cópias atuais ainda são rascunhos. Definir aprovação, versão distribuída e vigência reais antes de apresentá-las como documentos aplicáveis ao teste.
 
-A partir do app 1.0.5 (código 6 preparado nesta alteração), consultas e aquisição de localização ficam limitadas à home com wallpaper visível, tela interativa e aparelho desbloqueado. Companion, bloqueio e prévias usam dados já disponíveis. O worker antigo não consulta nem é reagendado; Application cancela a fila legada. O receiver próprio de boot e sua permissão direta foram removidos; conferir permissões transitivas do manifesto mesclado no AAB final. Isso não muda automaticamente os tipos de dados enviados à MET: localização aproximada continua sendo transmitida quando ocorre consulta. Este guia não comprova que o novo AAB já foi enviado ao Console.
+## Matriz de dados e evidências
 
-## Data Safety Form
-
-### Passo 1 — Visão geral
-
-| Pergunta | Resposta | Base no código |
+| Operação | Evidência do candidato | Orientação para declaração |
 |---|---|---|
-| O app coleta ou compartilha algum dos tipos de dados exigidos? | **Sim** | Localização é enviada à MET Norway |
-| Todos os dados são criptografados em trânsito? | **Sim** | `WeatherRepository` usa `https://api.met.no/`; o download de conteúdo (`Acervo.kt`) usa HTTPS contra o bucket R2 |
-| Você fornece um meio de o usuário pedir exclusão dos dados? | **Sim** | Nenhum servidor nosso guarda dado pessoal — limpar dados do app ou desinstalar apaga tudo do lado do usuário, descrito na política §10 |
+| Localização/clima | `LocationHelper.kt`, `MetNorway.kt`, `WeatherRepository.kt`, `ClimaNaHome.kt`; COARSE, coordenadas arredondadas a duas casas para MET. Sem permissão, São Paulo/SP. | Localização aproximada: coletada por transmissão externa; opcional, funcionalidade. Conferir compartilhamento/exceções e retenção externa. Não classificar como efêmera sem comprovar uso somente em memória pelos destinatários. |
+| Localização precisa | Manifesto fonte não declara FINE nem localização em segundo plano. | Não identificado envio de localização precisa no código conferido; confirmar permissões mescladas e SDKs do artefato final. A precisão transmitida é relevante além da permissão nominal. |
+| Compras | `BillingManager.kt`, `ComprasArte.kt`, `Plano.kt`: produtos/estados, token e comprovante/assinatura para validação, confirmação e restauração. | A ausência de cartão no app não permite excluir automaticamente histórico de compras. Conferir os dados efetivamente transmitidos por Billing e as orientações de pagamentos/SDKs antes de fechar a categoria e compartilhamento. Direitos tratados só no aparelho têm tratamento distinto da transmissão externa. |
+| Prévias e HD | `Acervo.kt` e `ScenePreview.kt`: prévia intermediária automática da arte aberta; HD solicitado. R2 recebe IP, caminho e dados técnicos; não recebe coordenadas/token de compra pelo código. | Avaliar IP e usos reais (localização inferida/identificadores), caminho da arte/atividade e dados de diagnóstico conforme configurações/SDKs. Não dizer que IP inerente é automaticamente fora de escopo. |
+| Suporte/feedback | `ReportarProblemaDialog.kt`, canal Gmail; mensagem, anexos e eventual pedido enviados voluntariamente. | Política descreve atendimento. Conferir dados incluídos na ação e eventual exceção de compartilhamento iniciado pelo usuário; não presumir ausência de coleta/atendimento porque não há conta própria. Lista de testadores/Console é operação adicional a documentar. |
+| Preferências/cache/downloads | Armazenamento privado, backup seletivo; cache clima/coordenadas e direitos/acervo excluídos pelas regras. | Processamento exclusivamente local não precisa ser declarado como coleta no formulário. Conferir backup/SDKs e distinguir fornecedores externos. Desinstalar não apaga e-mails/pedidos/logs de fornecedores. |
+| Analytics/anúncios/falhas | Nenhum SDK dedicado de anúncios, analytics ou crash reporting foi identificado na revisão; há mecanismos e relatórios da plataforma. | Conferir dependências/manifesto final e práticas publicadas dos SDKs; não usar “tudo o mais: não” como conclusão geral sem essa conferência. |
 
-### Passo 2 — Tipos de dados
+Google define coleta como transmissão para fora do aparelho, inclusive por SDK e para terceiros. Transferência para provedor de serviços ou por ação esperada do usuário pode ter exceção de compartilhamento; isso não elimina automaticamente coleta. As classificações do formulário não substituem o conteúdo mais amplo da política.
 
-Marque **apenas** o que está abaixo. Marcar a mais é tão problemático quanto a
-menos.
+## Práticas de segurança e direitos
 
-#### Localização → Localização aproximada — **SIM**
+- HTTPS é usado para MET/R2 no candidato; confirmar URLs, SDKs e configuração do artefato antes de declarar criptografia de todos os dados em trânsito. HTTPS não significa que o destinatário não possa ler os dados.
+- Solicitação de direitos/exclusão por `suporteterrabr@gmail.com`; implementar o atendimento e retenção declarados. Não apresentar limpeza/desinstalação como mecanismo que apaga tudo nos fornecedores.
+- O Terra não oferece criação de conta própria nesta revisão. A exigência específica de apagar conta precisa ser avaliada pelo fluxo real; direitos sobre dados de suporte/fornecedores permanecem.
+- Nenhuma avaliação independente de segurança foi comprovada; não declarar certificação.
 
-| Campo | Resposta |
-|---|---|
-| Coletado | Sim |
-| Compartilhado | **Sim** — enviado à MET Norway (arredondado para ~1 km) |
-| Obrigatório? | **Opcional** (o app funciona sem; cai no fallback de São Paulo/SP) |
-| Finalidade | **Funcionalidade do app** |
-| Processado de forma efêmera? | Não (fica em cache local) |
+## Público, classificação e acesso
 
-#### Localização → Localização precisa — **NÃO**
+O público pretendido registrado é 13+. Conciliar seleção de faixas no Console, IARC e obrigações aplicáveis de proteção de adolescentes antes de incluir esses participantes. Não inventar classificação indicativa nem afirmar que ausência de login/ads dispensa controles. Os nomes/miniaturas reais do candidato devem orientar a classificação; nomes ajustados durante o teste exigem reconferência quando mudarem conteúdo/oferta.
 
-Era **SIM** até 2026-08-08, porque o manifesto declarava `ACCESS_FINE_LOCATION`
-e o Google compara a declaração com o que o APK pede. A permissão foi
-**removida** naquela data: nenhum caminho do código exigia precisão fina (o
-portão é `LocationHelper.hasPermission()`, que só checa COARSE, e a busca pede
-`PRIORITY_BALANCED_POWER_ACCURACY`).
+Testes práticos de wallpapers/efeitos/nomes durante os 14 dias não dispensam política e declarações corretas no início. Para testar compras sem cobrar, inscrição na faixa e cadastro como testador de licença são configurações distintas; conferir a indicação de compra de teste no checkout. Não enviar ao Console o APK local com pacote `.avaliacao` ou seu destrave inicial como se fosse o candidato de distribuição.
 
-Agora a resposta consistente é **não coletar localização precisa**. Marcar
-"sim" passaria a ser a inconsistência — e inconsistência entre Data Safety e
-APK é a **causa nº1 de rejeição**. Se alguém readicionar `ACCESS_FINE_LOCATION`
-ao manifesto, este item volta a ser **SIM** e a política §5 precisa acompanhar.
+## Registro para concluir o formulário
 
-#### Compras no app — **NÃO marcar como coletado por você**
+Gabriel/responsável pelo Console: registrar commit, versão/código, permissões mescladas, lista e práticas dos SDKs, fluxos externos, configurações/retencão de fornecedores, respostas escolhidas com justificativa, URL pública e data da conferência. Rafael: confirmar suporte, público, compras, fornecedores e evidências. Manter registros pessoais de testadores fora de documentos públicos.
 
-O Google Play Billing processa tudo. O app recebe só o resultado da compra e
-grava um booleano local (`Plano`). Você não coleta histórico de compras — o
-Google coleta, e isso é declarado por ele, não por você.
+## Fontes oficiais
 
-#### Download de conteúdo (R2) — **NÃO marcar como tipo de dado novo**
+- [Formulário: coleta, compartilhamento, dados e exceções](https://support.google.com/googleplay/android-developer/answer/10787469?hl=pt-BR).
+- [Declaração de uso: Billing e histórico de compras](https://developer.android.com/privacy-and-security/declare-data-use).
+- [Dados de SDKs Google Play services](https://developers.google.com/android/guides/play-data-disclosure).
+- [Política de dados e privacidade pública](https://support.google.com/googleplay/android-developer/answer/10144311?hl=pt-BR).
+- [Teste de compras/licenças](https://developer.android.com/google/play/billing/test?hl=pt-br).
 
-`Acervo.kt` baixa arquivo de cenário/arte de um bucket Cloudflare R2 quando o
-usuário toca em aplicar (política §3.8). A requisição HTTP carrega, de forma
-inerente, o endereço IP do aparelho — exatamente a mesma situação que a
-consulta de clima já tinha, e que este guia nunca tratou como "Device or
-other IDs" coletado. Não há usuário, sessão, token nem qualquer identificador
-enviado junto do pedido: `Acervo.baixarArte()` recebe só `cena`/`arte`/URL, sem
-parâmetro de conta, e a posse do conteúdo é validada pelo `Plano`/`Catalogo`
-**antes** de chamar o download, não pelo servidor (o R2 nem sabe que existe
-uma compra). Se algum dia o bucket passar a exigir token de compra (ver
-`docs/dev/PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md` §3, "Proteção do
-bucket"), esta resposta precisa ser revisada — um backend que valida token de
-usuário passa a ser um identificador associável a você.
-
-#### Tudo o mais — **NÃO**
-
-Nome, e-mail, telefone, ID de usuário, contatos, fotos, arquivos, mensagens,
-áudio, calendário, atividade no app, histórico de navegação, desempenho,
-diagnósticos, ID de dispositivo, ID de publicidade: **nenhum**. Não há conta,
-analytics, crash reporting ou SDK de anúncios — política §4 e §12.
-
-### Passo 3 — Práticas de segurança
-
-| Pergunta | Resposta |
-|---|---|
-| Dados criptografados em trânsito | **Sim** (HTTPS/TLS) |
-| Usuário pode pedir exclusão | **Sim** |
-| Comprometido com a Play Families Policy | Não (o app não é direcionado a crianças) |
-| Passou por avaliação de segurança independente | Não |
-
-### Armadilha do backup
-
-`AndroidManifest.xml` tem `allowBackup="true"`: preferências comuns podem ir
-pro backup do Android, na conta Google **do usuário**. O arquivo de posse
-`atmosfera_plano.xml` está excluído do backup e da transferência entre aparelhos;
-o Premium é restaurado pela compra na Play. Não é coleta sua (é mecanismo do
-sistema) e **não** precisa ser declarado como compartilhamento — mas está
-documentado na política §3.6 para ser honesto.
-
----
-
-## Público-alvo e conteúdo (decidido em 2026-10-04)
-
-Declare **13 anos ou mais** (faixas 13–15, 16–17 e 18+). **Não** marque as
-faixas abaixo de 13: isso colocaria o app na Política de Famílias do Google, com
-regras bem mais duras, e contradiria a política de privacidade (§11). Não é
-preciso marcar só 18+: a autorização de responsável para menores de 18 anos já
-está nos Termos (seção 2), e a Google Play tem controles parentais próprios para
-aprovar compras (Family Link), que não dependem do app.
-
-Pergunta "o app atrai crianças?": **não** — são paisagens, mas sem personagem,
-mascote ou linguagem voltada a criança pequena. Se a arte mudar nesse sentido,
-refaça esta declaração.
-
-A classificação indicativa (IARC, abaixo) é **separada** do público-alvo: o app
-pode ser "Livre" e mesmo assim declarar 13+.
-
----
-
-## Content Rating (IARC)
-
-Questionário rápido. O Terra é um papel de parede sem conteúdo gerado por
-usuário, sem interação social e sem compras aleatórias.
-
-| Pergunta | Resposta |
-|---|---|
-| Categoria do app | **Utilitário / Personalização** (não é jogo) |
-| Violência, sangue, conteúdo sexual, linguagem imprópria, drogas | **Não** para todas |
-| Jogos de azar / simulação de apostas | **Não** |
-| Usuários interagem ou trocam conteúdo entre si | **Não** |
-| Compartilha localização com outros usuários | **Não** — a localização vai só ao serviço de meteorologia, nunca a outro usuário |
-| Permite compras digitais | **Sim** — Premium e cenários avulsos |
-| Contém anúncios | **Não** — nenhum SDK de anúncios integrado |
-| Conteúdo gerado por usuário | **Não** |
-
-Resultado esperado: **Livre / L (todas as idades)** nas classificações
-brasileira e internacional.
-
-> O cenário de tanque foi retirado da versão inicial e está preservado entre os
-> packs futuros. Se ele voltar ao aplicativo, refaça a classificação indicativa
-> antes de publicar a atualização.
-
----
-
-## Depois de enviar
-
-- **Data Safety e política precisam concordar.** Se você marcar algo aqui que a
-  política não menciona (ou o contrário), é rejeição. As duas fontes são este
-  guia e `PRIVACIDADE.md`.
-- **Toda mudança em `weather/`, `billing/` ou no manifesto** obriga a revisar os
-  dois. Ver a tabela de rastreio no `CHECKLIST_PUBLICACAO.md`.
-- Reenviar o formulário é gratuito e rápido — errar por omissão e corrigir é
-  melhor que declarar a mais "por segurança".
+Nenhum formulário enviado nesta preparação. Conferência técnica/editorial não registra parecer jurídico ou aprovação do Google.

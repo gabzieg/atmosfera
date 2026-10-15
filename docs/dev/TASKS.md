@@ -1,5 +1,19 @@
 # Terra — Tasks (fase atual)
 
+## Site publicado em 15/10/2026
+
+Rafael informou a publicação do Google Sites. Links conferidos na navegação, documentados sem seleção de conta:
+
+| Destino | URL |
+|---|---|
+| Site | https://sites.google.com/view/terra-live-wallpaper |
+| Política de Privacidade — campo do Console | https://sites.google.com/view/terra-live-wallpaper/privacidade |
+| Termos | https://sites.google.com/view/terra-live-wallpaper/termos |
+| Contato | https://sites.google.com/view/terra-live-wallpaper/contato |
+
+Compras do teste: somente contas testadoras de licença, conforme decisão do titular em 15/10. Falta conferir a configuração efetiva das contas e dos instrumentos de pagamento. O site está publicado com metadados de rascunho; publicação não significa aprovação jurídica, vigência do candidato, cadastro no Console ou começo dos 14 dias. Ainda é necessário conferir o acesso sem login em sessão anônima e conciliar versão/vigência/textos do artefato. Alterações nas fontes locais exigem republicação no Google Sites; gerar os HTMLs não modifica o site.
+
+
 > Estado do trabalho em andamento, literalmente agora. Diferente do
 > `ROADMAP.md` (fases do produto até publicar), isto é o dia a dia — o que
 > está pela metade, o que decidir, o que testar. Atualizar sempre que algo
@@ -10,7 +24,9 @@
 > justamente por acumular item feito e referenciar uma branch que já tinha sido
 > mesclada.
 
-**Última atualização:** 2026-10-13. V2 publicada na PR #50 @ `e9a221f` e incorporada à cópia local. Build e secret-scan do GitHub aprovados; reconferência local de 17 testes direcionados sem falhas/erros e sincronização legal conferida. PR permanece em rascunho; avaliação em aparelho/Play, produtos, produção, documentos aprovados e versionCode continuam pendentes. Nenhum novo AAB.
+**Última atualização:** 2026-10-15. V2 publicada na PR #50 @ `e9a221f` e incorporada à cópia local. Build e secret-scan do GitHub aprovados; reconferência local de 17 testes direcionados sem falhas/erros e sincronização legal conferida. PR permanece em rascunho; avaliação em aparelho/Play, produtos, produção, documentos aprovados e versionCode continuam pendentes. Nenhum novo AAB.
+
+**Prioridade definida em 14/10 por Rafael:** preparar documentação e declarações para iniciar o teste fechado. Compras, wallpapers, efeitos e nomes serão avaliados durante os 14 dias. Domínio próprio não é necessário; Google Sites/Blogger públicos são opções. Ver [preparação legal do teste](PREPARACAO-LEGAL-TESTE-FECHADO-2026-10-14.md) e guia do Console atualizado. Google Sites e URLs registrados em 15/10; compras somente com contas de licença confirmadas pelo titular. Configuração efetiva das contas, versão/vigência e aprovação dos textos permanecem pendentes.
 
 **Integração da v2 em 13/10:** ajustes funcionais aplicados sobre `8ec0993` na branch `fix/premium-privacidade-etapas-1-2`, para revisão na PR #50. Prévias/cache, navegação, cadeados, controles debug independentes, nomes e agrupamentos integrados. Vitrine: 69 cenas/358 artes/67 cards; manifesto e miniaturas preservam 71 cenas/366 artes. Estacionamento (`estacionamento`) e Feira de Natal (`natal`) ficam temporariamente fora da vitrine; Chalé/Sala de Natal permanecem. Validação desta integração: 98 testes sem falhas, lint sem erros, builds debug/release e conferência dos documentos aprovados; aparelho/Play, produtos, produção, documentos legais e candidato AAB continuam pendentes. Ver [entrega da v2](AVALIACAO-V2-RAFAEL-2026-10-13.md).
 

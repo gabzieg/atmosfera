@@ -1,12 +1,16 @@
 # Política de Privacidade — Terra
 
-**Versão da política:** 1.8
-**Última atualização:** 12 de outubro de 2026
+**Página pública:** [https://sites.google.com/view/terra-live-wallpaper/privacidade](https://sites.google.com/view/terra-live-wallpaper/privacidade)
+
+**Versão da política:** 1.9
+**Última atualização:** 15 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
 **Aplica-se a:** Revisão candidata com entrega remota de artes. A versão de distribuição ainda será definida. Não descreve automaticamente o funcionamento de versões anteriores.
 **Vigência:** A definir após aprovação e identificação da versão correspondente.
 
 ## Resumo
+
+O teste fechado será realizado somente com contas cadastradas como testadoras de licença da Google Play e instrumentos de pagamento de teste, sem cobrança real. A equipe deve conferir a conta e a indicação de compra de teste no checkout. Inscrição no teste fechado, sozinha, não garante essa condição. Compras simuladas não comprovam uma aquisição paga para uma futura oferta comercial; suas condições serão informadas antes de qualquer mudança. Durante o teste, problemas, efeitos, artes e nomes podem receber ajustes; isso não afasta os direitos aplicáveis de privacidade e atendimento.
 
 - O responsável é **Rafael Huppes, pessoa física**. Canal: [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com).
 - Localização aproximada é opcional e usada para consultar clima na **MET Norway**. Coordenadas saem por HTTPS, arredondadas a duas casas decimais; sem autorização, a referência é **São Paulo, SP**.
@@ -18,7 +22,7 @@
 
 **Rafael Huppes** decide sobre o tratamento realizado pelo Terra e atende questões de privacidade em [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com). Esse canal não pressupõe dispensa legal nem comprova designação formal de encarregado; o enquadramento e eventual formalização devem ser validados antes da publicação definitiva.
 
-A política abrange aplicativo, wallpaper e atendimento por e-mail. Fornecedores possuem suas próprias políticas. O futuro site terá seu funcionamento conferido antes da publicação; não se presume ausência de cookies ou logs. Domínio e hospedagem definitivos ainda não foram definidos.
+A política abrange aplicativo, wallpaper e atendimento por e-mail. Fornecedores possuem suas próprias políticas. A estrutura inicial dos documentos foi criada no Google Sites, na conta de suporte do Terra. A plataforma pode tratar dados técnicos de navegação conforme a política do Google. Não foram adicionados formulários, anúncios ou analytics próprios. O titular informou a publicação em 15/10/2026 no endereço https://sites.google.com/view/terra-live-wallpaper. Não se presume ausência de cookies ou logs da plataforma; configurações de tratamento e acesso público ainda exigem conferência operacional.
 
 ## 2. Localização e meteorologia
 
@@ -102,6 +106,8 @@ O enquadramento do Terra na LGPD, ECA Digital e orientações vigentes da ANPD p
 
 ## 12. Alterações e histórico editorial
 
-Mudanças materiais serão refletidas nos documentos e informadas antes ou junto da versão correspondente. Consentimento será solicitado quando exigido; uso continuado não o substitui. A cópia offline acompanha a versão instalada. O domínio público definitivo, vigência e versão aplicável ainda serão preenchidos após aprovação.
+Mudanças materiais serão refletidas nos documentos e informadas antes ou junto da versão correspondente. Consentimento será solicitado quando exigido; uso continuado não o substitui. A cópia offline acompanha a versão instalada. O endereço público atual é https://sites.google.com/view/terra-live-wallpaper. Vigência e versão aplicável ainda serão identificadas após a aprovação correspondente; uma mudança futura de domínio será refletida nos links.
 
 Revisão 1.8 de 12/10/2026: prévias intermediárias automáticas e cache temporário. Revisão 1.7 de 11/10/2026: responsável/canal, atendimento de 60 dias, compras por arte, miniaturas/HD, dados de rede e limites de promessas. Revisão anterior 1.6 de 10/10: exclusões de backup do acervo e direitos. Histórico editorial não comprova publicação ou vigência das cópias anteriores.
+
+Revisão 1.9 de 15/10/2026: preparação no Google Sites e escopo de compras somente com contas de licença durante o teste fechado; vigência e identificação do artefato ainda pendentes.

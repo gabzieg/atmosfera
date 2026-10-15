@@ -1,12 +1,16 @@
 # Contato — Terra
 
-**Versão do documento:** 1.1
-**Última atualização:** 11 de outubro de 2026
+**Página pública:** [https://sites.google.com/view/terra-live-wallpaper/contato](https://sites.google.com/view/terra-live-wallpaper/contato)
+
+**Versão do documento:** 1.2
+**Última atualização:** 15 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
 **Aplica-se a:** Atendimento do Terra e revisão candidata dos documentos.
 **Vigência:** A definir após aprovação da revisão correspondente.
 
 ## Resumo
+
+O teste fechado será realizado somente com contas cadastradas como testadoras de licença da Google Play e instrumentos de pagamento de teste, sem cobrança real. A equipe deve conferir a conta e a indicação de compra de teste no checkout. Inscrição no teste fechado, sozinha, não garante essa condição. Compras simuladas não comprovam uma aquisição paga para uma futura oferta comercial; suas condições serão informadas antes de qualquer mudança. Durante o teste, problemas, efeitos, artes e nomes podem receber ajustes; isso não afasta os direitos aplicáveis de privacidade e atendimento.
 
 O responsável é **Rafael Huppes, pessoa física**. Use [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com) para suporte, compras, privacidade e direitos sobre dados pessoais.
 
@@ -30,6 +34,8 @@ Limpar dados ou desinstalar não elimina mensagens, pedidos da Play ou logs de f
 
 ## 4. Site e histórico
 
-Domínio e hospedagem da landing ainda serão definidos. Esta página não afirma que o futuro site esteja livre de cookies, formulários ou logs; isso precisa ser conferido antes da publicação.
+A estrutura inicial está no Google Sites, na conta de suporte do Terra. Não foram adicionados formulários, anúncios ou analytics próprios. Google pode tratar dados técnicos de navegação. O titular informou a publicação em 15/10/2026 em https://sites.google.com/view/terra-live-wallpaper; configurações de tratamento ainda exigem conferência operacional. Um domínio próprio poderá ser conectado posteriormente.
 
 Revisão 1.1 de 11/10/2026: canal oficial, responsável, retenção de 60 dias e atendimento de compras/privacidade.
+
+Revisão 1.2 de 15/10/2026: preparação no Google Sites e escopo de compras somente com contas de licença durante o teste fechado; vigência e identificação do artefato ainda pendentes.

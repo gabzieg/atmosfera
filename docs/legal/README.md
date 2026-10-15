@@ -1,6 +1,6 @@
 # Fonte editorial dos documentos do Terra
 
-Revisão de trabalho de 12/10/2026. Fontes únicas: `TERMOS.md` (1.4), `PRIVACIDADE.md` (1.8) e `CONTATO.md` (1.1). Os HTMLs são exportações; não editar cada cópia separadamente.
+Revisão de trabalho de 15/10/2026. Fontes únicas: `TERMOS.md` (1.5), `PRIVACIDADE.md` (1.9) e `CONTATO.md` (1.2). Os HTMLs são exportações; não editar cada cópia separadamente.
 
 ```powershell
 python scripts/sincronizar_documentos_legais.py
@@ -9,9 +9,18 @@ python scripts/sincronizar_documentos_legais.py --check
 
 O gerador usa somente a biblioteca padrão Python e o subconjunto Markdown dos três documentos. Preserva os estilos das páginas locais no modelo; não altera a apresentação da landing. Produz as nove cópias em `docs/`, `public_html/` e assets do app, e `manifesto-documentos.json` com versões e hashes. `--check` falha se fonte, modelo, manifesto ou uma cópia divergirem. A CI executa essa conferência; o teste Android também compara `public_html`.
 
-Estado **rascunho para revisão**, sem vigência, domínio ou versão de distribuição inventados. Não houve publicação na web, envio ao Console ou aprovação jurídica. A configuração editorial `revisao.json` mantém `aprovado_para_publicacao=false`; o manifesto é gerado a partir dela. As versões são lidas dos textos, sem manter outra lista no código.
+Estado editorial **rascunho para revisão**. O titular publicou o site no Google Sites em 15/10/2026. O endereço público foi registrado; vigência e versão de distribuição permanecem sem definição. Publicação web não comprova aprovação jurídica, início do teste ou envio ao Console. A configuração editorial `revisao.json` mantém `aprovado_para_publicacao=false`; o manifesto é gerado a partir dela. As versões são lidas dos textos, sem manter outra lista no código.
 
 Depois da avaliação e decisão do responsável, atualizar textos e `revisao.json`: registro de aprovação, vigência ISO, versão do app, domínio HTTPS e estado aprovado. O gerador recusa aprovação sem esses campos ou com metadados de rascunho ainda no texto. Preencher o JSON não executa revisão jurídica nem publica páginas; o registro deve corresponder a uma aprovação real.
+
+## Endereços publicados
+
+- Site: [https://sites.google.com/view/terra-live-wallpaper](https://sites.google.com/view/terra-live-wallpaper).
+- Privacidade (URL a usar no campo correspondente do Console): [https://sites.google.com/view/terra-live-wallpaper/privacidade](https://sites.google.com/view/terra-live-wallpaper/privacidade).
+- Termos: [https://sites.google.com/view/terra-live-wallpaper/termos](https://sites.google.com/view/terra-live-wallpaper/termos).
+- Contato: [https://sites.google.com/view/terra-live-wallpaper/contato](https://sites.google.com/view/terra-live-wallpaper/contato).
+
+Usar URLs sem `authuser`, que apenas seleciona uma conta Google. O nome `dominio_publico` no JSON aceita esta URL-base com caminho do Google Sites; não implica compra de domínio próprio. Fontes/HTMLs locais agora incluem os links públicos. As páginas atualmente publicadas ainda mostram “Documento em revisão” e vigência a definir; mudanças futuras na fonte precisam ser aplicadas/republicadas no Sites manualmente. Não há sincronização automática com o Google Sites ou com apps já instalados.
 
 ## Histórico
 
