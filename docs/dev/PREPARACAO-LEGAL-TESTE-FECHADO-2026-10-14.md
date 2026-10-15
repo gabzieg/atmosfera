@@ -61,7 +61,7 @@ O prazo é roteiro de trabalho, sem datas de início/fim inventadas. Para contas
 3. Versão/artefato do teste, data real de vigência e registro de aprovação dos textos.
 4. Público/participantes, países, configurações de fornecedores e rotinas operacionais efetivas.
 
-Fontes canônicas: `docs/legal/PRIVACIDADE.md` 1.8, `TERMOS.md` 1.4 e `CONTATO.md` 1.1. `revisao.json` permanece em rascunho; nenhum campo de aprovação foi preenchido por inferência. O gerador sincroniza nove HTMLs/manifesto depois de uma mudança aprovada.
+Fontes canônicas: `docs/legal/PRIVACIDADE.md` 1.9, `TERMOS.md` 1.5 e `CONTATO.md` 1.2. `revisao.json` permanece em rascunho; nenhum campo de aprovação foi preenchido por inferência. O gerador sincroniza nove HTMLs/manifesto depois de uma mudança aprovada.
 
 ## Fontes oficiais consultadas em 14/10/2026
 
