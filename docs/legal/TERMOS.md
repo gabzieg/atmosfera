@@ -2,10 +2,10 @@
 
 **Página pública:** [https://sites.google.com/view/terra-live-wallpaper/termos](https://sites.google.com/view/terra-live-wallpaper/termos)
 
-**Versão dos termos:** 1.6
+**Versão dos termos:** 1.7
 **Última atualização:** 15 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
-**Aplica-se a:** Revisão candidata com Premium separado das artes e acervo por download. A versão de distribuição ainda será definida.
+**Aplica-se a:** Próxima versão destinada ao teste fechado no Brasil, somente com participantes adultos, Premium separado das artes e acervo por download. Número e código da versão de distribuição ainda serão identificados.
 **Vigência:** A definir após aprovação e identificação da versão correspondente. Esta revisão não altera retroativamente compras anteriores.
 
 ## Resumo
@@ -24,7 +24,7 @@ O Terra é oferecido por **Rafael Huppes, pessoa física**, responsável pelo ap
 
 ## 2. Uso e público
 
-Leia estes termos e a [Política de Privacidade](PRIVACIDADE.md) antes de usar ou comprar conteúdo. O público pretendido é **13 anos ou mais**. Pessoas de 13 a 17 anos devem usar o app e realizar compras com autorização e acompanhamento do responsável legal. A indicação de público não substitui classificação indicativa ou controles legalmente exigidos. Não há conta própria ou rede social. Esta revisão não afirma que aferição de idade ou supervisão parental estejam implementadas.
+Leia estes termos e a [Política de Privacidade](PRIVACIDADE.md) antes de usar ou comprar conteúdo. Nesta fase de teste fechado, a participação é restrita a pessoas com **18 anos ou mais, no Brasil**. O público pretendido para distribuição posterior é **13 anos ou mais**, sujeito à revisão correspondente antes da ampliação. Pessoas de 13 a 17 anos devem usar o app e realizar compras com autorização e acompanhamento do responsável legal. A indicação de público não substitui classificação indicativa ou controles legalmente exigidos. Não há conta própria ou rede social. Esta revisão não afirma que aferição de idade ou supervisão parental estejam implementadas.
 
 ## 3. Funcionalidade e clima
 
@@ -44,7 +44,7 @@ A compra concede uso pessoal no Terra, em aparelhos compatíveis vinculados à c
 
 Os estilos de efeito desta revisão são: clay, bizantino, aqua, ukiyoe, low poly, fantasia, minimalista, papel recortado, rupestre, pontilhismo, talhe doce, doodle, papel machê, feltro e Van Gogh. O estilo pixel é gratuito. Estilo de efeito altera a aparência dos efeitos e não libera a arte de fundo com nome semelhante. A presença de cada efeito na cena depende do clima, do horário e das características do cenário; os oito não aparecem necessariamente ao mesmo tempo.
 
-Não há packs comerciais ou assinaturas no lançamento definido. Cada nova arte/variante é uma compra separada. A inclusão de efeitos e estilos futuros no Premium ainda não foi definida e não constitui benefício prometido por esta revisão. A oferta efetivamente adquirida deve ser respeitada.
+Não há packs comerciais ou assinaturas no lançamento definido. Cada nova arte/variante é uma compra separada. Quem já adquiriu ou adquirir o Terra Premium terá acesso aos novos efeitos e estilos de efeitos que forem disponibilizados futuramente no app, sem nova compra de Premium para esses itens. Isso não inclui artes ou variantes de wallpaper, que continuam sendo compras separadas, nem promete quantidade ou calendário de lançamentos. A oferta efetivamente adquirida deve ser respeitada.
 
 Confira produto, preço, moeda e condições na Google Play antes da confirmação. Mudanças de preço não geram nova cobrança sobre compra concluída. Pagamento pendente não libera acesso. Compra, validação e confirmação utilizam Google Play Billing; não recebemos dados do cartão.
 
@@ -87,3 +87,5 @@ Revisão 1.4 de 11/10/2026: compra por arte, entrega/restauração, atendimento 
 Revisão 1.5 de 15/10/2026: preparação no Google Sites e escopo de compras somente com contas de licença durante o teste fechado; vigência e identificação do artefato ainda pendentes.
 
 Revisão 1.6 de 15/10/2026: condições do teste concentradas nos Termos, identificação dos efeitos e estilos atuais e simplificação editorial. Regra de efeitos futuros e continuidade permanecem pendentes; sem aprovação ou nova vigência.
+
+Revisão 1.7 de 15/10/2026: teste fechado restrito a adultos no Brasil e inclusão de futuros efeitos/estilos no Premium, preservadas artes separadas. Mantém a identificação dos efeitos/estilos atuais e o refinamento 1.6; aprovação e vigência continuam pendentes.

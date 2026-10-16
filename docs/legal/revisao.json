@@ -18,5 +18,20 @@
     "plataforma": "Google Sites",
     "estado": "publicado_pelo_titular_com_metadados_de_rascunho",
     "verificacao": "URLs de navegação conferidas no navegador; seleção authuser removida dos links documentados. Verificação anônima independente não concluída nesta rodada."
+  },
+  "decisoes_teste": {
+    "data": "2026-10-15",
+    "pais": "BR",
+    "somente_maiores_de_idade": true,
+    "compras_somente_licenca": true,
+    "quantidade_contas_licenca_confirmada": null,
+    "revisao_aprovacao_responsavel": "Gabriel",
+    "revisao_aprovacao_concluida": false,
+    "versao_candidata_escopo": "Proxima versao apos os ajustes; numero e versionCode ainda dependem de conferencia no Console.",
+    "inicio_teste_confirmado": null,
+    "configuracao_fornecedores_verificada": false,
+    "premium_inclui_efeitos_estilos_futuros": true,
+    "artes_variantes_permanecem_separadas": true,
+    "continuidade_conteudo": "Intencao de nao remover; plano de excecao, disponibilidade e restauracao ainda em estudo."
   }
 }

@@ -19,12 +19,27 @@
     "estado": "publicado_pelo_titular_com_metadados_de_rascunho",
     "verificacao": "URLs de navegação conferidas no navegador; seleção authuser removida dos links documentados. Verificação anônima independente não concluída nesta rodada."
   },
+  "decisoes_teste": {
+    "data": "2026-10-15",
+    "pais": "BR",
+    "somente_maiores_de_idade": true,
+    "compras_somente_licenca": true,
+    "quantidade_contas_licenca_confirmada": null,
+    "revisao_aprovacao_responsavel": "Gabriel",
+    "revisao_aprovacao_concluida": false,
+    "versao_candidata_escopo": "Proxima versao apos os ajustes; numero e versionCode ainda dependem de conferencia no Console.",
+    "inicio_teste_confirmado": null,
+    "configuracao_fornecedores_verificada": false,
+    "premium_inclui_efeitos_estilos_futuros": true,
+    "artes_variantes_permanecem_separadas": true,
+    "continuidade_conteudo": "Intencao de nao remover; plano de excecao, disponibilidade e restauracao ainda em estudo."
+  },
   "documentos": {
     "privacidade": {
-      "versao": "1.10",
+      "versao": "1.11",
       "fonte": "docs/legal/PRIVACIDADE.md",
-      "sha256_fonte": "f18d5c7d550dfd27f53bddeb17decb697f3d1a5908638afb587cfa9fd7eece50",
-      "sha256_html": "815dc2511729e0bebba2f60af0ed23b3c738d49c6722c6d00d435a9855b69947",
+      "sha256_fonte": "ee071e7e8cbf00fe59a3de4e72a1b2eecd32755de7bc99d553903967b4ba8e3e",
+      "sha256_html": "039f6ca6a2fd8430845bd60899585f3aa0c8d18b01eaae3df974bc94d2db9ff0",
       "copias": [
         "docs/privacidade/index.html",
         "public_html/privacidade/index.html",
@@ -32,10 +47,10 @@
       ]
     },
     "termos": {
-      "versao": "1.6",
+      "versao": "1.7",
       "fonte": "docs/legal/TERMOS.md",
-      "sha256_fonte": "5588a94310cd9496d756169bc29cef9cf452600f47bff4a4c6b92e863d3f256f",
-      "sha256_html": "ff3fb8c68d1d512e78cb9d779a80d17b3b4564b3e220f22af341fe59ff7fd46e",
+      "sha256_fonte": "edb00b3ec7f587ec7618a175e7946666715442825dfd8a59e21badc1eaa8179a",
+      "sha256_html": "e5f7d1e0b96b544df7f3d6aed55223fb29c1ef1ff293132a6b8fbc59b31f2c13",
       "copias": [
         "docs/termos/index.html",
         "public_html/termos/index.html",

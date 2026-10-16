@@ -1,6 +1,6 @@
 # Fonte editorial dos documentos do Terra
 
-Revisão de trabalho de 15/10/2026. Fontes únicas: `TERMOS.md` (1.6), `PRIVACIDADE.md` (1.10) e `CONTATO.md` (1.3). Os HTMLs são exportações; não editar cada cópia separadamente. O [registro de refinamento](../dev/REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md) reúne instruções internas e decisões pendentes. As versões refinadas não foram republicadas no Google Sites por esta execução.
+Revisão de trabalho de 15/10/2026. Fontes únicas: `TERMOS.md` (1.7), `PRIVACIDADE.md` (1.11) e `CONTATO.md` (1.3). Os HTMLs são exportações; não editar cada cópia separadamente. O [registro de refinamento](../dev/REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md) reúne instruções internas e decisões pendentes. As versões refinadas não foram republicadas no Google Sites por esta execução.
 
 ```powershell
 python scripts/sincronizar_documentos_legais.py
@@ -29,3 +29,7 @@ Usar URLs sem `authuser`, que apenas seleciona uma conta Google. O nome `dominio
 Os rascunhos locais de 05/10 foram preservados e, por solicitação do usuário em 11/10, versionados como registros históricos, sem vigência ou aprovação para uso público no app/site. A fonte desta revisão é a pasta canônica acima. Não distribuir referências que dependam de arquivos privados locais.
 
 Para aceite e entrega ao site, consultar [ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md](../dev/ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md).
+
+## Respostas do titular integradas em 15/10
+
+Preservado o refinamento editorial de Gabriel em `1bd5a70`. As respostas posteriores restringem o teste a adultos no Brasil e definem futuros efeitos/estilos inclusos no Premium. Gabriel é o responsável pela revisão/aprovação final; esse aceite não foi presumido. Detalhes e pendências em [registro de respostas](../dev/RESPOSTAS-RAFAEL-TESTE-FECHADO-2026-10-15.md).

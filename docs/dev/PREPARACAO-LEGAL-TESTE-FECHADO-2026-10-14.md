@@ -1,5 +1,14 @@
 # Documentação para iniciar o teste fechado — Terra
 
+## Respostas de Rafael em 15/10 — atualização do escopo
+
+Teste fechado exclusivamente no Brasil, somente com adultos e contas de licença. Gabriel fará a revisão/aprovação final dos textos, ainda pendente. O candidato é a próxima versão após os ajustes; número/versionCode e data inicial dependem de conferência no Console. Quantidade de contas e configuração efetiva de licença não confirmadas. Premium inclui futuros efeitos e estilos, preservadas artes/variantes separadas. Intenção de não retirar conteúdo, com plano de exceção ainda em estudo. Logs, retenção e acesso dos fornecedores seguem sem definição/verificação.
+
+Este registro supera as pendências de decisão sobre país, participantes menores, responsável pela revisão e inclusão de efeitos/estilos futuros nos registros anteriores. Não confirma configuração do Console, aprovação jurídica ou início da contagem. Fontes locais 1.11/1.7/1.3 precisam de revisão e republicação no Sites; geração de HTML não altera páginas públicas.
+
+Detalhe: [respostas e roteiro para iniciar o teste](RESPOSTAS-RAFAEL-TESTE-FECHADO-2026-10-15.md).
+
+
 **Refinamento posterior em 15/10:** as fontes locais atuais são Privacidade 1.10, Termos 1.6 e Contato 1.3, ainda rascunhos e sem republicação. Instruções internas e decisões materiais estão no [registro de refinamento](REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md). As versões da preparação original abaixo não comprovam equivalência com as páginas públicas.
 
 ## Site publicado em 15/10/2026
@@ -24,12 +33,12 @@ Base de código: PR #50, `a809f30`, incluindo integração v2 `e9a221f`; build e
 
 | Entrega | Situação e critério de conclusão |
 |---|---|
-| Política de Privacidade | Fonte 1.9 já descreve MET/localização, Play/compras, R2/prévias/downloads, backup e suporte. Aprovar o texto aplicável ao teste, identificar a versão efetivamente distribuída e a vigência real; remover os metadados de rascunho apenas depois desse registro. |
-| Termos | Fonte 1.5 separa Premium e artes e preserva direitos de atendimento/reembolso. Fechar se haverá somente pagamentos de teste ou compras reais. Informar que a versão está em avaliação sem afastar obrigações de privacidade, consumo e entrega. |
+| Política de Privacidade | Fonte 1.11 já descreve MET/localização, Play/compras, R2/prévias/downloads, backup e suporte. Aprovar o texto aplicável ao teste, identificar a versão efetivamente distribuída e a vigência real; remover os metadados de rascunho apenas depois desse registro. |
+| Termos | Fonte 1.7 separa Premium e artes e preserva direitos de atendimento/reembolso. Somente contas de licença e pagamentos de teste, conforme decisão do titular; configuração efetiva ainda a conferir. Informar que a versão está em avaliação sem afastar obrigações de privacidade, consumo e entrega. |
 | Contato | Fonte 1.2 indica Rafael Huppes e `suporteterrabr@gmail.com`. Conferir acesso e rotina da caixa, atendimento e exclusão dos registros após 60 dias do encerramento, com exceções justificadas. |
 | Páginas públicas | Não é necessário comprar domínio. Publicar páginas HTML/texto em endereço HTTPS ativo, acessível sem login/restrição geográfica, inclusive em Google Sites ou Blogger. Conferir links em sessão anônima e celular. Não usar PDF ou link de edição como política. |
 | Segurança dos dados | Revisar o guia atualizado, SDKs, dados enviados à MET/R2/Play e permissões do artefato final; confirmar as declarações no Console. O formulário é exigido também no teste fechado. |
-| Público e classificação | Conciliar público pretendido 13+, participantes, IARC e proteção de adolescentes. Teste fechado não dispensa obrigações aplicáveis. Não presumir que a revisão jurídica pode aguardar a produção quando adolescentes já participarem do teste. |
+| Público e classificação | Teste restrito a adultos no Brasil. Conferir recrutamento, configuração da faixa e IARC; público posterior 13+ continua sujeito à revisão antes da ampliação. |
 | Fornecedores e licenças | Confirmar configurações reais de logs/retencão/acesso e papéis/transferências de MET, Google e Cloudflare; conferir os direitos do material efetivamente distribuído. O tratamento já começa no teste. |
 | Artefato e metadados | Gabriel identifica commit, versionName/versionCode disponíveis no Console e artefato da faixa. Cópias offline e páginas públicas devem corresponder ao mesmo texto aprovado. Novo AAB/envio ainda não realizados. |
 

@@ -2,10 +2,10 @@
 
 **Página pública:** [https://sites.google.com/view/terra-live-wallpaper/privacidade](https://sites.google.com/view/terra-live-wallpaper/privacidade)
 
-**Versão da política:** 1.10
+**Versão da política:** 1.11
 **Última atualização:** 15 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
-**Aplica-se a:** Revisão candidata com entrega remota de artes. A versão de distribuição ainda será definida. Não descreve automaticamente o funcionamento de versões anteriores.
+**Aplica-se a:** Próxima versão destinada ao teste fechado no Brasil, somente com participantes adultos e entrega remota de artes. Número e código da versão de distribuição ainda serão identificados. Não descreve automaticamente o funcionamento de versões anteriores.
 **Vigência:** A definir após aprovação e identificação da versão correspondente.
 
 ## Resumo
@@ -96,9 +96,11 @@ Solicite informações, confirmação/acesso, correção, eliminação e outros 
 
 Explique a solicitação sem enviar documentos desnecessários. Exclusão pode ter limites por obrigações legais ou defesa de direitos, que devem ser informados. Você pode procurar a [ANPD](https://www.gov.br/anpd). Não existe conta própria a excluir; isso não afasta direitos sobre atendimento ou tratamento efetivamente realizado.
 
-## 11. Adolescentes
+## 11. Público e participantes do teste
 
-Público pretendido: **13 anos ou mais**. Entre 13 e 17 anos, uso e compras devem contar com autorização e acompanhamento do responsável. Não coletamos data de nascimento nem oferecemos conta social. Não afirmamos que essas escolhas dispensam obrigações de proteção de adolescentes, aferição de idade ou supervisão quando aplicáveis.
+Nesta fase de teste fechado, a participação é restrita a pessoas com **18 anos ou mais, no Brasil**. Não haverá participação de menores nesta fase. Essa delimitação do teste não significa que o app implemente verificação automática de idade.
+
+Público pretendido para distribuição posterior: **13 anos ou mais**, sujeito à revisão correspondente antes da ampliação do público. Entre 13 e 17 anos, uso e compras devem contar com autorização e acompanhamento do responsável. Não coletamos data de nascimento nem oferecemos conta social. Não afirmamos que essas escolhas dispensam obrigações de proteção de adolescentes, aferição de idade ou supervisão quando aplicáveis.
 
 A indicação 13+ descreve o público pretendido; não comprova que controles de idade e supervisão estejam implementados. O enquadramento e as medidas aplicáveis de proteção de adolescentes permanecem em avaliação nesta revisão. Para dúvidas ou dados enviados por menores, procure o canal oficial.
 
@@ -111,3 +113,5 @@ Revisão 1.8 de 12/10/2026: prévias intermediárias automáticas e cache tempor
 Revisão 1.9 de 15/10/2026: preparação no Google Sites e escopo de compras somente com contas de licença durante o teste fechado; vigência e identificação do artefato ainda pendentes.
 
 Revisão 1.10 de 15/10/2026: simplificação editorial, explicitação das prévias no resumo e separação das instruções internas de teste. Permanecem as pendências indicadas nesta revisão; sem aprovação ou nova vigência.
+
+Revisão 1.11 de 15/10/2026: delimitação do teste fechado a adultos no Brasil, conforme decisão do responsável. Preserva o refinamento editorial 1.10; aprovação e vigência continuam pendentes.

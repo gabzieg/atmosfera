@@ -1,5 +1,14 @@
 # Guia de Segurança dos dados e público — candidato Terra para teste fechado
 
+## Respostas de Rafael em 15/10 — atualização do escopo
+
+Teste fechado exclusivamente no Brasil, somente com adultos e contas de licença. Gabriel fará a revisão/aprovação final dos textos, ainda pendente. O candidato é a próxima versão após os ajustes; número/versionCode e data inicial dependem de conferência no Console. Quantidade de contas e configuração efetiva de licença não confirmadas. Premium inclui futuros efeitos e estilos, preservadas artes/variantes separadas. Intenção de não retirar conteúdo, com plano de exceção ainda em estudo. Logs, retenção e acesso dos fornecedores seguem sem definição/verificação.
+
+Este registro supera as pendências de decisão sobre país, participantes menores, responsável pela revisão e inclusão de efeitos/estilos futuros nos registros anteriores. Não confirma configuração do Console, aprovação jurídica ou início da contagem. Fontes locais 1.11/1.7/1.3 precisam de revisão e republicação no Sites; geração de HTML não altera páginas públicas.
+
+Detalhe: [respostas e roteiro para iniciar o teste](RESPOSTAS-RAFAEL-TESTE-FECHADO-2026-10-15.md).
+
+
 ## Site publicado em 15/10/2026
 
 Rafael informou a publicação do Google Sites. Links conferidos na navegação, documentados sem seleção de conta:
