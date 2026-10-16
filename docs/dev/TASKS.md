@@ -1,5 +1,7 @@
 # Terra — Tasks (fase atual)
 
+**Conciliação atual em 15/10:** `0d36b4a` integrado; documentos 1.12/1.8/1.5 preparados. Adultos/Brasil no teste e futuros efeitos/estilos incluídos no Premium confirmados; artes separadas. Registros anteriores de regra de efeitos futuros pendente foram superados. Fornecedores, bases, governança, continuidade, candidato e aprovação continuam pendentes, conforme [D01–D10](../../.lgpd/gaps.md).
+
 ## Respostas de Rafael em 15/10 — atualização do escopo
 
 Teste fechado exclusivamente no Brasil, somente com adultos e contas de licença. Gabriel fará a revisão/aprovação final dos textos, ainda pendente. O candidato é a próxima versão após os ajustes; número/versionCode e data inicial dependem de conferência no Console. Quantidade de contas e configuração efetiva de licença não confirmadas. Premium inclui futuros efeitos e estilos, preservadas artes/variantes separadas. Intenção de não retirar conteúdo, com plano de exceção ainda em estudo. Logs, retenção e acesso dos fornecedores seguem sem definição/verificação.

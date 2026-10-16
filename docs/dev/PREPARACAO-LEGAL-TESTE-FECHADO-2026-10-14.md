@@ -1,5 +1,7 @@
 # Documentação para iniciar o teste fechado — Terra
 
+**Conciliação atual em 15/10:** fontes locais 1.12/1.8/1.5, preservando adultos/Brasil e Premium futuro decididos em `0d36b4a`. [Quadro D01–D10](../../.lgpd/gaps.md) distingue redação de aceites externos; não considerar concluídos fornecedores, bases/governança ou continuidade apenas pela edição dos textos. Sem aprovação, vigência ou republicação nesta rodada.
+
 ## Respostas de Rafael em 15/10 — atualização do escopo
 
 Teste fechado exclusivamente no Brasil, somente com adultos e contas de licença. Gabriel fará a revisão/aprovação final dos textos, ainda pendente. O candidato é a próxima versão após os ajustes; número/versionCode e data inicial dependem de conferência no Console. Quantidade de contas e configuração efetiva de licença não confirmadas. Premium inclui futuros efeitos e estilos, preservadas artes/variantes separadas. Intenção de não retirar conteúdo, com plano de exceção ainda em estudo. Logs, retenção e acesso dos fornecedores seguem sem definição/verificação.
