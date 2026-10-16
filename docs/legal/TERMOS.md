@@ -2,7 +2,7 @@
 
 **Página pública:** [https://sites.google.com/view/terra-live-wallpaper/termos](https://sites.google.com/view/terra-live-wallpaper/termos)
 
-**Versão dos termos:** 1.5
+**Versão dos termos:** 1.6
 **Última atualização:** 15 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
 **Aplica-se a:** Revisão candidata com Premium separado das artes e acervo por download. A versão de distribuição ainda será definida.
@@ -10,7 +10,7 @@
 
 ## Resumo
 
-O teste fechado será realizado somente com contas cadastradas como testadoras de licença da Google Play e instrumentos de pagamento de teste, sem cobrança real. A equipe deve conferir a conta e a indicação de compra de teste no checkout. Inscrição no teste fechado, sozinha, não garante essa condição. Compras simuladas não comprovam uma aquisição paga para uma futura oferta comercial; suas condições serão informadas antes de qualquer mudança. Durante o teste, problemas, efeitos, artes e nomes podem receber ajustes; isso não afasta os direitos aplicáveis de privacidade e atendimento.
+Esta revisão foi preparada para o teste fechado. Nesse teste, as compras devem usar contas de licença e instrumentos de pagamento de teste da Google Play, sem cobrança real. Antes de confirmar, confira se o checkout identifica uma compra de teste; se não identificar, interrompa e procure o suporte. Inscrição na faixa, sozinha, não garante essa condição. Uma compra simulada não comprova uma compra comercial. Problemas e ajustes durante a avaliação não afastam os direitos aplicáveis de privacidade e atendimento.
 
 - Cinco amostras de arte são gratuitas. O wallpaper reage ao clima.
 - Terra Premium libera efeitos e estilos da oferta apresentada; artes adicionais são compras individuais separadas.
@@ -34,13 +34,15 @@ Consultas automáticas de clima/localização só ocorrem com o wallpaper visív
 
 ## 4. Licença
 
-A compra concede uso pessoal no Terra, em aparelhos compatíveis vinculados à conta Google da compra; não transfere propriedade de arte ou marca. Não autoriza revenda, redistribuição, uso de arquivos fora do app ou fraude na verificação de compras. Direitos legalmente assegurados não são afastados por estas restrições. Procedência e licenças dos materiais precisam ser conferidas antes da oferta definitiva; uma miniatura não certifica aprovação jurídica ou visual.
+A compra concede uso pessoal no Terra, em aparelhos compatíveis vinculados à conta Google da compra; não transfere propriedade de arte ou marca. Não autoriza revenda, redistribuição, uso de arquivos fora do app ou fraude na verificação de compras. Direitos legalmente assegurados não são afastados por estas restrições.
 
 ## 5. Oferta e compras
 
-- **Terra Premium:** compra única dos oito efeitos vivos e estilos de efeito da oferta aplicável. **Não inclui artes adicionais.** Preço-base planejado no Brasil: R$ 49,90.
+- **Terra Premium:** compra única que libera raios, rajadas de vento, vagalumes, fumaça de chaminé, fases da lua, acúmulo de neve, estrela cadente e lampiões acendendo, além dos estilos de efeito listados abaixo. **Não inclui artes adicionais.** Preço-base planejado no Brasil: R$ 49,90.
 - **Arte individual:** compra única de uma combinação de cenário e variante; não libera todo o cenário. Preço-base planejado: R$ 1,99. Promoções de R$ 0,99 dependem de configuração e elegibilidade na Play.
 - Amostras: Cabana/pixel, Bruxa/clay, Lavanda/aqua, Esfinge/vangogh e Jardim/ukiyoe.
+
+Os estilos de efeito desta revisão são: clay, bizantino, aqua, ukiyoe, low poly, fantasia, minimalista, papel recortado, rupestre, pontilhismo, talhe doce, doodle, papel machê, feltro e Van Gogh. O estilo pixel é gratuito. Estilo de efeito altera a aparência dos efeitos e não libera a arte de fundo com nome semelhante. A presença de cada efeito na cena depende do clima, do horário e das características do cenário; os oito não aparecem necessariamente ao mesmo tempo.
 
 Não há packs comerciais ou assinaturas no lançamento definido. Cada nova arte/variante é uma compra separada. A inclusão de efeitos e estilos futuros no Premium ainda não foi definida e não constitui benefício prometido por esta revisão. A oferta efetivamente adquirida deve ser respeitada.
 
@@ -64,7 +66,7 @@ No Brasil, permanecem os direitos legais do consumidor, inclusive arrependimento
 
 O uso depende do Android, do fabricante e de serviços externos. Não se promete lançamento semanal de artes ou funcionamento ininterrupto. Mudanças não devem retirar arbitrariamente benefícios adquiridos. Se uma restrição técnica, jurídica ou de plataforma impedir entrega ou uso, procure o suporte para correção, alternativas e restituição cabível. Um substituto não será tratado como automaticamente aceito pelo comprador.
 
-O plano operacional de manutenção dos arquivos, restauração de compras anteriores e eventual encerramento ainda depende de aprovação antes da publicação definitiva. Esta revisão não promete hospedagem eterna nem elimina obrigações de entrega.
+A compra de uma arte não deve ser interpretada como garantia de hospedagem por prazo ilimitado. Isso não afasta as obrigações de entrega, restauração e atendimento. As condições operacionais de continuidade e eventual encerramento ainda estão em avaliação nesta revisão; não há alteração de condições de compras anteriores por este rascunho.
 
 ## 9. Privacidade e terceiros
 
@@ -83,3 +85,5 @@ Aplicam-se normas brasileiras pertinentes, sem afastar normas obrigatórias de o
 Revisão 1.4 de 11/10/2026: compra por arte, entrega/restauração, atendimento e direitos de consumo. Revisão anterior 1.3 de 10/10: separação de Premium e artes. Histórico editorial não comprova publicação ou vigência de cada cópia.
 
 Revisão 1.5 de 15/10/2026: preparação no Google Sites e escopo de compras somente com contas de licença durante o teste fechado; vigência e identificação do artefato ainda pendentes.
+
+Revisão 1.6 de 15/10/2026: condições do teste concentradas nos Termos, identificação dos efeitos e estilos atuais e simplificação editorial. Regra de efeitos futuros e continuidade permanecem pendentes; sem aprovação ou nova vigência.

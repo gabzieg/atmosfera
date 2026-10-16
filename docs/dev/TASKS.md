@@ -1,5 +1,7 @@
 # Terra — Tasks (fase atual)
 
+**Refinamento editorial em 15/10:** etapa 5 com Privacidade 1.10, Termos 1.6 e Contato 1.3; instruções internas e decisões no [registro de refinamento](REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md). Textos continuam rascunhos, sem aprovação/vigência ou republicação no Google Sites. Referências anteriores a 1.9/1.5/1.2 são históricas.
+
 ## Site publicado em 15/10/2026
 
 Rafael informou a publicação do Google Sites. Links conferidos na navegação, documentados sem seleção de conta:

@@ -21,10 +21,10 @@
   },
   "documentos": {
     "privacidade": {
-      "versao": "1.9",
+      "versao": "1.10",
       "fonte": "docs/legal/PRIVACIDADE.md",
-      "sha256_fonte": "6af1bc57aa3bfe24ba23019b955610d2f81d53e1a5f9035998948e11b6e0febc",
-      "sha256_html": "6a27792291328b72841efde0084c1dcfe2e2328ab375dcfa3c5528b2a1c747f7",
+      "sha256_fonte": "f18d5c7d550dfd27f53bddeb17decb697f3d1a5908638afb587cfa9fd7eece50",
+      "sha256_html": "815dc2511729e0bebba2f60af0ed23b3c738d49c6722c6d00d435a9855b69947",
       "copias": [
         "docs/privacidade/index.html",
         "public_html/privacidade/index.html",
@@ -32,10 +32,10 @@
       ]
     },
     "termos": {
-      "versao": "1.5",
+      "versao": "1.6",
       "fonte": "docs/legal/TERMOS.md",
-      "sha256_fonte": "f08cd2ec4502ba3967b329901d5b887e53bbaa14ac0e8ccd11b9e049e5d3decd",
-      "sha256_html": "4247f57d3a33472461ad6d1a6846dd4e9b30df2e90b4fe2d9c4649ff54b24d43",
+      "sha256_fonte": "5588a94310cd9496d756169bc29cef9cf452600f47bff4a4c6b92e863d3f256f",
+      "sha256_html": "ff3fb8c68d1d512e78cb9d779a80d17b3b4564b3e220f22af341fe59ff7fd46e",
       "copias": [
         "docs/termos/index.html",
         "public_html/termos/index.html",
@@ -43,10 +43,10 @@
       ]
     },
     "contato": {
-      "versao": "1.2",
+      "versao": "1.3",
       "fonte": "docs/legal/CONTATO.md",
-      "sha256_fonte": "17cc360887138ed491061b0bf33f890ad64d0ff978ea69042e55ee4b0e0efba2",
-      "sha256_html": "b7779d0f6a26503b959aa095f82645f60a160da68185205b1fcae4c2a2d3af93",
+      "sha256_fonte": "7a02cd784c7c2643b6a9a559a968c49d08a63fc96b57886eabfca61501f322fb",
+      "sha256_html": "f6f5606f7b978b7784068a8b15ec348e66419ae56fcf6d3e2f2f03bb5d839cc7",
       "copias": [
         "docs/contato/index.html",
         "public_html/contato/index.html",

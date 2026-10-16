@@ -1,5 +1,7 @@
 # Documentação para iniciar o teste fechado — Terra
 
+**Refinamento posterior em 15/10:** as fontes locais atuais são Privacidade 1.10, Termos 1.6 e Contato 1.3, ainda rascunhos e sem republicação. Instruções internas e decisões materiais estão no [registro de refinamento](REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md). As versões da preparação original abaixo não comprovam equivalência com as páginas públicas.
+
 ## Site publicado em 15/10/2026
 
 Rafael informou a publicação do Google Sites. Links conferidos na navegação, documentados sem seleção de conta:

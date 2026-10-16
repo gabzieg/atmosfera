@@ -1,6 +1,6 @@
 # Fonte editorial dos documentos do Terra
 
-Revisão de trabalho de 15/10/2026. Fontes únicas: `TERMOS.md` (1.5), `PRIVACIDADE.md` (1.9) e `CONTATO.md` (1.2). Os HTMLs são exportações; não editar cada cópia separadamente.
+Revisão de trabalho de 15/10/2026. Fontes únicas: `TERMOS.md` (1.6), `PRIVACIDADE.md` (1.10) e `CONTATO.md` (1.3). Os HTMLs são exportações; não editar cada cópia separadamente. O [registro de refinamento](../dev/REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md) reúne instruções internas e decisões pendentes. As versões refinadas não foram republicadas no Google Sites por esta execução.
 
 ```powershell
 python scripts/sincronizar_documentos_legais.py

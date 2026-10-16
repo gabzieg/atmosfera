@@ -1,5 +1,7 @@
 # Checklist de finalização do Terra — 09/10/2026
 
+**Refinamento editorial da etapa 5 em 15/10:** Privacidade 1.10, Termos 1.6 e Contato 1.3 preparados. Instruções operacionais separadas das páginas públicas; efeitos e estilos atuais identificados conforme o código. Estado de rascunho, aprovação, vigência e aceites preservados. Ver [alterações e pendências para fechamento](REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md). Gerar as cópias locais não republica o Google Sites; as referências datadas abaixo às versões 1.9/1.5/1.2 registram a entrega anterior.
+
 ## Reconferência do commit de Rafael — 15/10/2026
 
 Commit `84f2662` incorporado à cópia local: documentação, páginas legais e preparação do teste fechado; sem mudanças no código funcional. Privacidade 1.9, termos 1.5 e contato 1.2. A PR #50 continua em rascunho, sem revisão registrada. Secret-scan aprovado; o build dessa revisão falhou na conferência do manifesto legal, antes dos checks Android. Manifesto regenerado nesta reconferência: somente três hashes das fontes corrigidos, sem alterar textos ou HTMLs. Aprovação do CI desta correção ainda precisa ser conferida após o envio.
@@ -230,7 +232,7 @@ Referência: [requisitos oficiais de teste](https://support.google.com/googlepla
 | 2 — Privacidade técnica | Implementação local e checks concluídos; avaliação do Rafael pendente | Canal oficial, exclusões de backup/transferência, logs minimizados, Geocoder sem uso removido, política sincronizada e 78 testes aprovados em 10/10. |
 | 3 — Catálogo/produtos | V2 integrada; catálogo final e aceite pendentes | Vitrine com 69 cenas/358 artes/67 cards, cinco amostras e 353 SKUs pagos propostos. Manifesto preserva 71 cenas/366 artes; `estacionamento` e `natal` temporariamente indisponíveis. Faltam aceite Android, configuração comercial, continuidade do conteúdo e regra de futuros efeitos. |
 | 4 — Compra/entrega remota | R2 e ajustes v2 integrados; aceite pendente | Prévias intermediárias, cache temporário, navegação e cadeados integrados em `e9a221f`; controles debug de Premium e artes independentes. Nove artes nativas preservadas; R8 9.1.29 versionado. Faltam avaliação do Rafael, produtos reais, teste pela Play e produção. |
-| 5 — Documentos/site | Site informado como publicado; aceite pendente | Privacidade 1.9, termos 1.5 e contato 1.2; nove HTMLs sincronizados. Google Sites registrado; falta conferir acesso anônimo, conteúdo público, aprovação e vigência/versão. Manifesto corrigido após falha do CI em 84f2662. |
+| 5 — Documentos/site | Refinamento editorial preparado; aceite pendente | Privacidade 1.10, termos 1.6 e contato 1.3; instruções internas separadas. Google Sites registrado com revisão anterior; falta republicação/conferência, decisões materiais, aprovação e vigência/versão. |
 | 6 — Candidato validado | V2 verificada; CI da revisão legal e aceite pendentes | `e9a221f` teve CI aprovada; 98 testes registrados por Rafael e 17 direcionados reconferidos. `84f2662` falhou no manifesto legal; correção local aprovada em --check, aguardando CI. Aparelho/Play e versionCode ainda não conferidos; nenhum novo AAB. |
 | 7 — Console/teste fechado | Pendente de evidência atual | Sem acesso ao painel nesta rodada. |
 | 8 — Publicação | Pendente | Nenhuma publicação realizada nesta rodada. |

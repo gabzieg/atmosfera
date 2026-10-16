@@ -2,15 +2,13 @@
 
 **Página pública:** [https://sites.google.com/view/terra-live-wallpaper/contato](https://sites.google.com/view/terra-live-wallpaper/contato)
 
-**Versão do documento:** 1.2
+**Versão do documento:** 1.3
 **Última atualização:** 15 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
 **Aplica-se a:** Atendimento do Terra e revisão candidata dos documentos.
 **Vigência:** A definir após aprovação da revisão correspondente.
 
 ## Resumo
-
-O teste fechado será realizado somente com contas cadastradas como testadoras de licença da Google Play e instrumentos de pagamento de teste, sem cobrança real. A equipe deve conferir a conta e a indicação de compra de teste no checkout. Inscrição no teste fechado, sozinha, não garante essa condição. Compras simuladas não comprovam uma aquisição paga para uma futura oferta comercial; suas condições serão informadas antes de qualquer mudança. Durante o teste, problemas, efeitos, artes e nomes podem receber ajustes; isso não afasta os direitos aplicáveis de privacidade e atendimento.
 
 O responsável é **Rafael Huppes, pessoa física**. Use [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com) para suporte, compras, privacidade e direitos sobre dados pessoais.
 
@@ -34,8 +32,10 @@ Limpar dados ou desinstalar não elimina mensagens, pedidos da Play ou logs de f
 
 ## 4. Site e histórico
 
-A estrutura inicial está no Google Sites, na conta de suporte do Terra. Não foram adicionados formulários, anúncios ou analytics próprios. Google pode tratar dados técnicos de navegação. O titular informou a publicação em 15/10/2026 em https://sites.google.com/view/terra-live-wallpaper; configurações de tratamento ainda exigem conferência operacional. Um domínio próprio poderá ser conectado posteriormente.
+As páginas de documentos são hospedadas no Google Sites. Não foram adicionados formulários, anúncios ou analytics próprios; Google pode tratar dados técnicos de navegação. Consulte a Política de Privacidade para os detalhes. As condições específicas das compras de teste estão nos Termos de Uso.
 
 Revisão 1.1 de 11/10/2026: canal oficial, responsável, retenção de 60 dias e atendimento de compras/privacidade.
 
 Revisão 1.2 de 15/10/2026: preparação no Google Sites e escopo de compras somente com contas de licença durante o teste fechado; vigência e identificação do artefato ainda pendentes.
+
+Revisão 1.3 de 15/10/2026: página concentrada em atendimento, dados e direitos; instruções internas de teste separadas. Sem aprovação ou nova vigência.
