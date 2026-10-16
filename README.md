@@ -70,8 +70,8 @@ atmosfera/
   descreve a fronteira entre o motor (congelado) e o front, e a interface estável entre os dois.
 - **Vai publicar uma versão?** → [docs/dev/CHECKLIST_PUBLICACAO.md](docs/dev/CHECKLIST_PUBLICACAO.md)
 - **Mexeu em `weather/`, `billing/` ou no manifesto?** → confira se
-  [docs/legal/PRIVACIDADE.md](docs/legal/PRIVACIDADE.md) continua verdadeira (é o texto publicado, não
-  um rascunho) e replique a mudança em [`docs/privacidade/index.html`](docs/privacidade/index.html).
+  [docs/legal/PRIVACIDADE.md](docs/legal/PRIVACIDADE.md) corresponde ao comportamento. A revisão atual ainda é rascunho; use
+  `python scripts/sincronizar_documentos_legais.py` para gerar as três exportações. Ver [processo editorial](docs/legal/README.md).
 - **Usando Claude Code neste repo?** → [CLAUDE.md](CLAUDE.md) tem os comandos de build/verificação
   e as convenções do projeto pra não precisar reler tudo a cada sessão.
 

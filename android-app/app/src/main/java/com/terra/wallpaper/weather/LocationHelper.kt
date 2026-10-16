@@ -3,19 +3,14 @@ package com.terra.wallpaper.weather
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Geocoder
 import android.location.Location
-import android.os.Build
 import android.util.Log
 import androidx.core.content.ContextCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
-import java.util.Locale
 import kotlin.coroutines.resume
 
 /**
@@ -69,19 +64,18 @@ class LocationHelper(private val context: Context) {
                         .addOnSuccessListener { location: Location? ->
                             if (!cont.isActive) return@addOnSuccessListener
                             if (location != null) {
-                                Log.d(TAG, "Localização obtida: ${location.latitude}, ${location.longitude}")
                                 cont.resume(Localizacao(location.latitude, location.longitude, false))
                             } else {
                                 Log.w(TAG, "Localização nula, usando padrão.")
                                 cont.resume(Localizacao(DEFAULT_LAT, DEFAULT_LON, true))
                             }
                         }
-                        .addOnFailureListener { e ->
+                        .addOnFailureListener {
                             if (!cont.isActive) return@addOnFailureListener
-                            Log.e(TAG, "Erro ao obter localização: ${e.message}")
+                            Log.e(TAG, "Falha ao obter localização; usando local padrão.")
                             cont.resume(Localizacao(DEFAULT_LAT, DEFAULT_LON, true))
                         }
-                } catch (e: SecurityException) {
+                } catch (_: SecurityException) {
                     // Lançada antes de qualquer listener ser registrado, então não
                     // há risco de retomar a continuation duas vezes.
                     Log.w(TAG, "Permissão revogada durante a busca, usando padrão.")
@@ -96,52 +90,4 @@ class LocationHelper(private val context: Context) {
         }
     }
 
-    /**
-     * Nome curto do lugar ("São Paulo, SP") pra mostrar junto do clima.
-     *
-     * Usa o [Geocoder] do próprio aparelho — nada de API nova nem de mandar a
-     * coordenada pra outro serviço. Falha é normal (aparelho sem serviço de
-     * geocoding, sem rede): aí devolve null e a tela mostra só o horário da
-     * última leitura.
-     */
-    suspend fun nomeDoLugar(lat: Double, lon: Double): String? = withContext(Dispatchers.IO) {
-        if (!Geocoder.isPresent()) return@withContext null
-        try {
-            val g = Geocoder(context, Locale("pt", "BR"))
-            val enderecos = if (Build.VERSION.SDK_INT >= 33) {
-                // A partir do 33 a versão síncrona é depreciada e pode lançar;
-                // a assíncrona devolve por callback, então espero por ele.
-                withTimeoutOrNull(4_000L) {
-                    suspendCancellableCoroutine { cont ->
-                        g.getFromLocation(lat, lon, 1) { cont.resume(it) }
-                    }
-                }
-            } else {
-                @Suppress("DEPRECATION")
-                g.getFromLocation(lat, lon, 1)
-            }
-            val e = enderecos?.firstOrNull() ?: return@withContext null
-            val cidade = e.locality ?: e.subAdminArea ?: e.adminArea ?: return@withContext null
-            val uf = e.adminArea?.takeIf { it != cidade }
-            if (uf != null) "$cidade, ${sigla(uf)}" else cidade
-        } catch (e: Exception) {
-            Log.w(TAG, "Geocoder falhou: ${e.message}")
-            null
-        }
-    }
-
-    /** "Paraná" → "PR". Fora do Brasil o Geocoder já devolve a sigla. */
-    private fun sigla(uf: String): String = UFS[uf.lowercase()] ?: uf
 }
-
-private val UFS = mapOf(
-    "acre" to "AC", "alagoas" to "AL", "amapá" to "AP", "amazonas" to "AM",
-    "bahia" to "BA", "ceará" to "CE", "distrito federal" to "DF",
-    "espírito santo" to "ES", "goiás" to "GO", "maranhão" to "MA",
-    "mato grosso" to "MT", "mato grosso do sul" to "MS", "minas gerais" to "MG",
-    "pará" to "PA", "paraíba" to "PB", "paraná" to "PR", "pernambuco" to "PE",
-    "piauí" to "PI", "rio de janeiro" to "RJ", "rio grande do norte" to "RN",
-    "rio grande do sul" to "RS", "rondônia" to "RO", "roraima" to "RR",
-    "santa catarina" to "SC", "são paulo" to "SP", "sergipe" to "SE",
-    "tocantins" to "TO",
-)

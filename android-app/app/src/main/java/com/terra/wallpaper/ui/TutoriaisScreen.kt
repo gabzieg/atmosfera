@@ -88,9 +88,9 @@ private val ITENS_AJUDA = listOf(
     ),
     ItemAjuda(
         "O que o Premium desbloqueia?",
-        "Premium é uma compra única que libera todas as artes dos cinco cenários, todos " +
-            "os estilos de efeito e os oito efeitos vivos. Não existe assinatura nem " +
-            "cobrança recorrente.",
+        "Premium é uma compra única que libera os oito efeitos vivos e todos os estilos " +
+            "de efeito. Não inclui artes ou cenários; cada cenário inicial oferece uma " +
+            "arte gratuita. Não existe assinatura nem cobrança recorrente.",
     ),
     ItemAjuda(
         "Comprei em outro aparelho. Como recupero?",

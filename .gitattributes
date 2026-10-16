@@ -17,3 +17,14 @@ gradlew       text eol=lf
 *.webp  binary
 *.jks   binary
 *.keystore binary
+
+# Legal exports have pinned byte hashes; keep identical line endings across OSes.
+docs/legal/*.md text eol=lf
+docs/legal/*.html text eol=lf
+docs/legal/*.json text eol=lf
+docs/privacidade/index.html text eol=lf
+docs/termos/index.html text eol=lf
+docs/contato/index.html text eol=lf
+public_html/*/index.html text eol=lf
+android-app/app/src/main/assets/legal/*/index.html text eol=lf
+scripts/sincronizar_documentos_legais.py text eol=lf
