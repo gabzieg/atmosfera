@@ -2,7 +2,7 @@
 
 **Página pública:** [https://sites.google.com/view/terra-live-wallpaper/privacidade](https://sites.google.com/view/terra-live-wallpaper/privacidade)
 
-**Versão da política:** 1.11
+**Versão da política:** 1.12
 **Última atualização:** 15 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
 **Aplica-se a:** Próxima versão destinada ao teste fechado no Brasil, somente com participantes adultos e entrega remota de artes. Número e código da versão de distribuição ainda serão identificados. Não descreve automaticamente o funcionamento de versões anteriores.
@@ -10,108 +10,147 @@
 
 ## Resumo
 
-- O responsável é **Rafael Huppes, pessoa física**. Canal: [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com).
-- Localização aproximada é opcional e usada para consultar clima na **MET Norway**. Coordenadas saem por HTTPS, arredondadas a duas casas decimais; sem autorização, a referência é **São Paulo, SP**.
-- O app não possui conta própria, anúncios ou SDK de analytics. Compras utilizam Google Play; prévias automáticas e downloads HD solicitados utilizam **Cloudflare R2**.
-- Internet revela IP e dados técnicos aos fornecedores. Coordenadas de clima, comprovantes e tokens de compra não são enviados ao R2.
-- Preferências e clima ficam no aparelho, com as ressalvas de backup abaixo. E-mails enviados ao suporte e registros de fornecedores não são apagados pela desinstalação.
+- O controlador responsável é **Rafael Huppes, pessoa física**, que também responde pelo canal de comunicação com titulares e com a ANPD em [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com).
+- Localização aproximada (`ACCESS_COARSE_LOCATION`) é opcional e usada apenas para consultar clima na **MET Norway**. Coordenadas saem por HTTPS, arredondadas a duas casas decimais; se você negar ou revogar a permissão, o aplicativo funciona normalmente usando **São Paulo, SP**.
+- O app não possui conta própria, rede social, anúncios ou SDK de analytics. Compras utilizam Google Play; prévias automáticas e downloads HD solicitados utilizam **Cloudflare R2**.
+- A opção **Reportar problema** não envia dados em segundo plano: apenas preenche um rascunho no seu app de e-mail externo com cenário, arte, estilo, sintomas marcados, versão do app, modelo do aparelho e versão do Android, permitindo revisão ou cancelamento antes do envio.
+- Requisições de internet revelam IP e metadados técnicos de conexão aos respectivos fornecedores. Coordenadas de clima, comprovantes e tokens de compra nunca são enviados ao R2.
+- Preferências e clima ficam no aparelho, com as exclusões de backup abaixo. E-mails enviados ao suporte são mantidos por até **60 dias após o encerramento** do caso (salvo obrigação legal ou defesa de direitos) e registros de fornecedores externos não são apagados pela desinstalação.
 
-## 1. Responsável e alcance
+## 1. Responsável, canal de comunicação e alcance
 
-**Rafael Huppes** é o responsável pelo tratamento realizado pelo Terra. Para dúvidas e solicitações sobre dados pessoais, escreva a [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com).
+**Rafael Huppes** (pessoa física) é o controlador responsável pelo tratamento de dados pessoais realizado pelo Terra e atende titulares e comunicações da Autoridade Nacional de Proteção de Dados (ANPD) pelo canal [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com). A indicação desse contato não comprova designação formal de encarregado nem enquadramento em dispensa; essa avaliação permanece pendente nesta revisão.
 
-A política abrange aplicativo, wallpaper, páginas de documentos e atendimento por e-mail. As páginas são hospedadas no Google Sites, que pode tratar dados técnicos de navegação conforme a política do Google. Não foram adicionados formulários, anúncios ou analytics próprios às páginas. O tratamento realizado por MET Norway, Google e Cloudflare é descrito nas seções correspondentes e nas políticas desses fornecedores.
+Esta política abrange o aplicativo Android, o serviço de live wallpaper, as páginas públicas de documentos e o atendimento por e-mail. As páginas públicas são hospedadas no Google Sites, que pode tratar dados técnicos de navegação conforme a política do Google. Não foram adicionados formulários, anúncios, rastreadores ou analytics próprios às páginas. O tratamento realizado por MET Norway, Google e Cloudflare em suas respectivas operações é descrito nas seções abaixo.
 
 ## 2. Localização e meteorologia
 
-O app solicita apenas **ACCESS_COARSE_LOCATION**, usando localização aproximada para previsão. Consultas automáticas de clima/localização só são iniciadas com o wallpaper visível na tela inicial, aparelho acordado e desbloqueado. Intervalo escolhido, cache e restrições do fornecedor limitam atualizações. Prévias e tela do Terra usam o último clima salvo; não há worker periódico buscando clima em segundo plano.
+O app solicita apenas **ACCESS_COARSE_LOCATION**, usando localização aproximada para obter previsão meteorológica. Consultas automáticas de clima e localização só são iniciadas com o wallpaper visível na tela inicial, aparelho acordado e desbloqueado. O intervalo escolhido (15, 30 ou 60 minutos), o cache HTTP e as restrições de taxa do fornecedor limitam novas chamadas. Prévias e a tela de configuração do Terra usam o último clima salvo; não há worker periódico buscando clima em segundo plano.
 
-Coordenadas são arredondadas a duas casas decimais, aproximadamente 1 km conforme latitude, e enviadas diretamente à MET Norway por HTTPS. A requisição inclui identificação do aplicativo e contato de suporte. MET recebe IP e coordenadas da consulta e pode registrá-los em seus logs. Esses dados não passam pelo servidor de conteúdo do Terra.
+As coordenadas são arredondadas a duas casas decimais (aproximadamente 1,1 km conforme a latitude) e enviadas diretamente à MET Norway por HTTPS. A requisição inclui `User-Agent` técnico com nome/versão do aplicativo e o e-mail público de suporte, conforme exigido pelos termos da API. A MET Norway recebe o IP e as coordenadas arredondadas da consulta e pode registrá-los em seus logs operacionais. Esses dados não passam pelo bucket de conteúdo do Terra. O nascer e o pôr do sol são calculados localmente no aparelho, sem requisição adicional.
 
-O último clima e as coordenadas utilizadas ficam no armazenamento privado do app, substituídos nas novas consultas bem-sucedidas. Revogue a autorização nas configurações Android; sem ela, o app usa São Paulo, SP. Sem rede/cache, usa estado padrão. Revogar a permissão não apaga automaticamente o cache existente; limpar os dados ou desinstalar remove o armazenamento local.
+O último clima e as coordenadas utilizadas ficam no armazenamento privado do app, sendo substituídos a cada nova consulta bem-sucedida. Você pode negar ou revogar a autorização a qualquer momento nas configurações do Android; sem ela, o app utiliza **São Paulo, SP** como referência padrão, sem bloqueio de funcionalidades. Sem rede ou cache válido, aplica um estado visual padrão. Revogar a permissão interrompe novas leituras de posição, e limpar os dados ou desinstalar o app remove imediatamente o cache local.
 
 ## 3. Preferências, compras e diagnóstico
 
-Preferências de cenário, arte, estilo e clima ficam no armazenamento privado. O app mantém um indicador de Premium e um conjunto de produtos de arte liberados. A Google Play mantém pedidos e fornece ao app produtos, estados, comprovantes assinados e tokens usados para verificar e confirmar compras. O app não recebe dados de cartão, CPF ou endereço de cobrança; não possui servidor próprio de validação de pedidos nesta revisão.
+Preferências de cenário, arte, estilo e intervalo de clima ficam no armazenamento privado do aparelho. O app mantém localmente um indicador de acesso ao Terra Premium e a lista de identificadores de artes liberadas, sempre excluídos do backup em nuvem. A Google Play processa os pagamentos e disponibiliza ao aplicativo, por meio da biblioteca Google Play Billing, os produtos, estados da compra, comprovantes assinados (JSON/assinatura RSA) e tokens (`purchaseToken`) estritamente necessários para validar a assinatura local, confirmar o recebimento (`acknowledge`) e restaurar direitos. O Terra não recebe nem armazena dados de cartão, CPF ou endereço de cobrança e não mantém servidor próprio de recibos.
 
-Compras podem ser restauradas com a mesma conta Google. Consulta bem-sucedida reconcilia os direitos; falha na consulta não deve apagar o acesso anteriormente validado. Direitos locais não são prova de que os arquivos HD estejam instalados.
+Compras são vinculadas à conta Google utilizada na aquisição e podem ser restauradas pela função **Restaurar compras**. Uma consulta bem-sucedida à Play Store reconcilia os direitos locais; falhas de rede na consulta não revogam o acesso já validado no aparelho. O registro local de direito é separado dos arquivos HD instalados.
 
-Não há SDK de publicidade, analytics ou relatório de falhas integrado ao Terra. Logs de diagnóstico ficam no Android; relatórios da plataforma e eventuais dados de qualidade no Play Console seguem os mecanismos e regras do Google. Um relato enviado por você ao suporte é tratado como atendimento, conforme seção 6.
+Não há SDK de publicidade, analytics ou relatório automático de falhas integrado ao código do Terra. Logs técnicos permanecem no sistema Android do aparelho (em versão de distribuição, o log HTTP de consultas meteorológicas fica desativado). Relatórios de estabilidade da própria plataforma Android e do Google Play Console seguem os controles da conta Google do usuário.
+
+Quando você utiliza o botão **Reportar problema** na tela de um cenário, o aplicativo monta localmente um texto pré-preenchido com os sintomas selecionados e um bloco técnico contendo identificador do cenário (`cena`), variante (`arte`), estilo ativo (`efeito`), códigos dos sintomas marcados (`sintomas`), versão do aplicativo (`app`), fabricante e modelo do dispositivo e versão do sistema (`aparelho` / `Android`). O Terra abre o seletor do seu aplicativo de e-mail ou mensagem externo e **não envia nenhum dado em segundo plano**: você visualiza todo o conteúdo, pode editar ou apagar qualquer linha, anexar ou não uma captura de tela e decidir se deseja enviar a mensagem.
 
 ## 4. Entrega de artes pelo Cloudflare R2
 
-As miniaturas e o índice conferido acompanham o aplicativo. Visualizar o catálogo não exige download de HD. Quando você solicita **Baixar e aplicar**, o app pede os arquivos comuns do cenário e da arte que faltam. Comprar ou restaurar não baixa automaticamente todo o acervo. A instalação confere hash completo e arquivos necessários antes de aplicar.
+As cinco amostras gratuitas, as miniaturas do catálogo e o índice de pacotes com verificação SHA-256 acompanham o aplicativo. Explorar a loja não exige baixar os pacotes HD completos. Quando você aciona **Baixar e aplicar**, o aplicativo baixa sob demanda o pacote comum do cenário (se ainda não estiver no aparelho) e o pacote HD da variante escolhida, conferindo tamanho e hash SHA-256 completo antes da instalação. Comprar ou restaurar compras não inicia o download automático de todo o acervo.
 
-Ao abrir uma arte ainda não instalada ou selecionar outra variante na tela do cenário, o app solicita automaticamente uma prévia de resolução intermediária ao Cloudflare R2, sem exigir compra. Essa prévia não instala nem concede a arte completa. Ela fica em cache temporário, com limite de espaço e limpeza após cerca de cinco minutos sem uso. A imagem aberta é preservada; se o processo for encerrado pelo Android, a limpeza pendente ocorre na próxima abertura. Falhas de rede mantêm a miniatura local como alternativa. As requisições de prévia revelam os dados técnicos descritos abaixo, sem acrescentar localização ou dados da compra.
+Ao abrir uma variante ainda não instalada ou alternar entre variantes na tela de detalhes do cenário, o aplicativo solicita automaticamente uma prévia de resolução intermediária ao **Cloudflare R2**, sem exigir compra prévia. Essa prévia serve apenas para visualização, utiliza `User-Agent` técnico (`Terra/1.0 previa`) e fica em cache temporário privado (`cacheDir/terra_previas`), com limite nominal de 24 MiB e remoção após cerca de cinco minutos sem uso, preservando a imagem que estiver aberta em tela. Se o processo do app for encerrado pelo sistema, a limpeza pendente ocorre na abertura seguinte; sem rede, a miniatura embarcada continua sendo exibida.
 
-A infraestrutura recebe IP, caminho do arquivo solicitado, horário e outros dados técnicos da conexão; o caminho pode revelar qual cenário/variante foi solicitado. O Terra não acrescenta coordenadas, clima, e-mail do usuário, token ou comprovante da compra a essas requisições. Cloudflare pode tratar dados de rede e segurança segundo sua política e configurações contratadas. Não afirmamos que seu servidor deixe de tratar dados pessoais ou que não existam logs acessíveis ao administrador.
+Em qualquer requisição de prévia ou download HD, a infraestrutura do Cloudflare R2 recebe os dados inerentes à comunicação HTTP/HTTPS: endereço IP, caminho do arquivo solicitado (que indica o identificador do cenário e da variante), horário e cabeçalhos técnicos da conexão. O aplicativo não envia coordenadas de localização, clima, endereço de e-mail, identificadores de conta Google ou tokens de compra ao Cloudflare R2.
 
-Arquivos ficam na pasta privada do app. Apagar downloads preserva compras; a limpeza de uma arte remota ativa exige trocar primeiro para uma amostra nativa. Arquivos instalados e direitos são independentes. O bucket atual de testes é público; acesso ao arquivo fora do app não concede direito dentro do Terra.
+Os pacotes HD instalados ficam na pasta privada do aplicativo (`filesDir/acervo`). Apagar downloads pelo app libera espaço sem cancelar compras; para remover uma arte remota que esteja em uso, basta alternar antes para outra arte instalada ou amostra nativa.
 
 ## 5. Backup, permissões e segurança
 
-O Android pode incluir preferências comuns em backup ou transferência, sob seu controle. As regras do Terra excluem cache de clima/coordenadas, pausa da MET, indicador Premium, direitos locais de artes e pasta do acervo baixado. Reinstalação exige restaurar compras pela Play e baixar novamente as artes remotas escolhidas. Não controlamos cópias geradas por versões anteriores.
+O sistema Android pode incluir preferências comuns de interface em rotinas de backup ou transferência de aparelho, conforme a configuração da sua conta no dispositivo. As regras de backup do Terra (`backup_rules.xml` e `data_extraction_rules.xml`) excluem expressamente o cache de clima e coordenadas (`atmosfera_weather_cache.xml`), o controle de pausa da API meteorológica (`atmosfera_met_freio.xml`), o estado do Premium (`atmosfera_plano.xml`), os direitos locais de artes (`atmosfera_compras_artes.xml`) e os pacotes baixados (`acervo/`). Ao reinstalar o app ou trocar de aparelho, use **Restaurar compras** na mesma conta Google e baixe novamente as artes desejadas.
 
-Além da localização opcional, INTERNET e ACCESS_NETWORK_STATE permitem consultar clima, faturamento e arquivos. Bibliotecas podem acrescentar permissões técnicas ao manifesto mesclado; isso não autoriza coleta de clima fora das condições descritas.
+Permissões declaradas pelo aplicativo no manifesto:
 
-Comunicações externas usam HTTPS na configuração de distribuição. Assinaturas de compras e hashes dos pacotes são verificados pelo app; arquivos locais usam armazenamento privado. Esses controles reduzem riscos, sem prometer segurança absoluta. Incidentes devem ser avaliados e comunicados quando a legislação exigir.
+- **ACCESS_COARSE_LOCATION:** opcional, utilizada exclusivamente para obter a posição aproximada e consultar o clima regional na MET Norway enquanto o wallpaper está ativo na tela inicial com o aparelho desbloqueado.
+- **INTERNET:** necessária para consultar a previsão na MET Norway, validar/restaurar compras no Google Play Billing e baixar prévias e pacotes de arte no Cloudflare R2.
+- **ACCESS_NETWORK_STATE:** utilizada para verificar a conectividade antes de iniciar chamadas de rede.
 
-## 6. Atendimento por e-mail
+As comunicações externas do aplicativo em distribuição utilizam HTTPS, com verificação de assinatura RSA nas compras da Google Play e validação de integridade SHA-256 nos pacotes e prévias do acervo. Esses controles técnicos reduzem riscos de interceptação e adulteração, dentro dos limites da plataforma e da rede utilizada. Caso ocorra incidente de segurança sob controle do responsável que possa acarretar risco ou dano relevante aos titulares, serão adotadas as medidas de mitigação e as comunicações previstas no art. 48 da LGPD.
 
-Em [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com), recebemos remetente, mensagem, anexos e eventual identificador de pedido necessário ao caso. Finalidades: atender, corrigir defeitos, responder direitos e cumprir obrigações ou exercer direitos. Gmail/Google processa essas mensagens; acesso é limitado ao responsável e colaboradores autorizados que precisem do caso. Não usamos atendimento para publicidade.
+## 6. Atendimento por e-mail e relato de problemas
 
-Retenção definida: **60 dias após encerrar o atendimento**, salvo obrigação legal ou necessidade justificada de defesa em processo. Nessas exceções, a conservação deve se limitar aos dados necessários, com motivo, prazo e acesso registrados. A exclusão é realizada pelo responsável pelo atendimento, não automaticamente pelo app. Não envie senhas, dados de cartão ou documentos sem necessidade demonstrada. Veja [Contato](CONTATO.md).
+O canal [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com) concentra três tipos de atendimento, tratados de forma distinta conforme a necessidade:
 
-## 7. Finalidades e limites de uso
+- **Relato técnico iniciado pelo botão "Reportar problema":** caso você decida enviar o e-mail aberto pelo aplicativo, recebemos seu endereço de e-mail remetente, os sintomas marcados, o bloco técnico pré-preenchido (`cena`, `arte`, `efeito`, `sintomas`, versão do `app`, fabricante/modelo do `aparelho` e versão do `Android`) e eventuais descrições ou capturas de tela que você anexar voluntariamente.
+- **Suporte geral, entrega e reembolso:** recebemos remetente, mensagem e, apenas quando estritamente necessário para localizar uma compra específica na Google Play, o código do pedido (`GPA....`).
+- **Exercício de direitos do titular (LGPD):** recebemos remetente e o objeto da solicitação relativa a dados pessoais. Não exigimos envio de documentos oficiais ou fotos; eventual confirmação adicional de titularidade só será solicitada se houver dúvida razoável quanto à identidade do remetente perante os registros existentes no suporte.
 
-Localização e clima são usados para adaptar o wallpaper; preferências preservam as escolhas no app; dados de compras verificam, confirmam e restauram os produtos adquiridos; requisições ao R2 entregam prévias e arquivos escolhidos. Mensagens de suporte são usadas para atendimento, investigação de defeitos, pedidos de direitos e obrigações ou defesa em processo quando necessárias.
+As mensagens são processadas por meio do **Gmail/Google**, com acesso restrito ao responsável (**Rafael Huppes**) e a eventual colaborador expressamente autorizado para a resolução técnica do chamado. Os dados do atendimento nunca são utilizados para listas de marketing ou publicidade.
 
-O Terra não utiliza esses dados para publicidade, venda de perfis ou treinamento de inteligência artificial. Não há conta própria nem rastreamento entre aplicativos. A permissão de localização é opcional; sua concessão no Android não substitui outros requisitos legais aplicáveis. Esta revisão permanece em avaliação: as bases legais por operação e os procedimentos relativos a adolescentes ainda não foram aprovados.
+O prazo de retenção das mensagens e anexos de suporte é de **60 dias após o encerramento do atendimento**, findos os quais os registros são excluídos da caixa de suporte. A conservação além desse prazo só ocorre, de forma restrita e fundamentada, quando indispensável para cumprimento de obrigação legal ou regulatória (art. 16, I da LGPD) ou para exercício regular de direitos em processo judicial, administrativo ou arbitral (art. 7º, VI). Não envie senhas, dados de cartão de crédito, CPF ou informações pessoais sensíveis; caso dados excessivos ou sensíveis sejam enviados incidentalmente em anexos, serão eliminados assim que identificados. Consulte também a página de [Contato](CONTATO.md).
 
-## 8. Fornecedores e tratamento internacional
+## 7. Finalidades e bases legais por operação
 
-| Fornecedor | Operação e dados envolvidos | Referência |
+As finalidades do Terra e as hipóteses legais propostas para esta revisão estão relacionadas abaixo. A tabela organiza a análise com base no código; a adoção final por operação, incluindo localização, ainda depende de avaliação e aprovação. A permissão Android não substitui essa avaliação nem constitui consentimento genérico para outros tratamentos.
+
+| Operação | Finalidade específica | Base legal na LGPD |
 |---|---|---|
-| MET Norway | Clima: coordenadas arredondadas, IP e identificação técnica do app; acesso direto ao serviço na Noruega | [Termos da API](https://api.met.no/doc/TermsOfService) |
-| Google | Play/Billing: pedidos e dados da compra; localização e backup: dados necessários a essas funções; Gmail: remetente, mensagens e anexos; Sites: dados técnicos de navegação | [Política do Google](https://policies.google.com/privacy?hl=pt-BR) |
-| Cloudflare | Entrega R2: IP, caminho da arte e dados técnicos; armazenamento e segurança da infraestrutura | [Política da Cloudflare](https://www.cloudflare.com/privacypolicy/) |
+| Clima conforme localização opcional | Adaptar o cenário na tela inicial ao clima aproximado da região escolhida pelo usuário, com alternativa padrão em São Paulo, SP | Execução de procedimentos ou funcionalidade solicitada pelo titular (art. 7º, V), mediante permissão opcional `ACCESS_COARSE_LOCATION` no sistema Android |
+| Preferências locais e arquivos instalados | Preservar escolhas visuais (cenário, arte, estilo, intervalo) e pacotes HD no armazenamento privado do aparelho | Execução das funcionalidades do aplicativo a pedido do titular (art. 7º, V) |
+| Validação, confirmação e restauração de compras | Verificar titularidade de produtos únicos, confirmar o recebimento junto à Google Play e restaurar itens adquiridos | Execução de contrato de licença de uso (art. 7º, V); eventual guarda por obrigação legal exige identificar a obrigação específica, sem presumir retenção comercial pelo Terra |
+| Prévias automáticas e download de pacotes HD | Exibir prévia intermediária ao inspecionar variante na loja e entregar os pacotes HD solicitados no Cloudflare R2 | Execução de procedimentos preliminares e entrega de conteúdo solicitado pelo titular (art. 7º, V) |
+| Relato de problemas e suporte técnico/comercial | Diagnosticar falhas de recorte/renderização, auxiliar na restauração de compras e processar pedidos de reembolso ou garantia | Execução de contrato e suporte solicitado pelo titular (art. 7º, V) e cumprimento de obrigações do Código de Defesa do Consumidor (art. 7º, II) |
+| Atendimento de direitos do titular e resguardo jurídico | Responder requerimentos dos arts. 18 e 19 da LGPD e conservar prova estritamente necessária em caso de litígio ou obrigação legal | Cumprimento de obrigação legal ou regulatória (art. 7º, II) e exercício regular de direitos em processo (art. 7º, VI) |
+| Participação em teste fechado (quando aplicável) | Viabilizar a distribuição da versão de avaliação no Google Play Console e receber feedback dos testadores inscritos | Execução de procedimentos solicitados pelo participante inscrito (art. 7º, V) |
 
-Os serviços podem tratar dados fora do Brasil; a API meteorológica é acessada diretamente na Noruega. Google e Cloudflare não têm um único país de processamento identificado nesta revisão. A identificação dos papéis de cada fornecedor e dos mecanismos aplicáveis de transferência internacional permanece pendente de validação; os links acima não substituem essa análise.
+O Terra não realiza venda de dados, criação de perfis comportamentais, rastreamento entre aplicativos ou treinamento de modelos de inteligência artificial com dados de usuários.
+
+## 8. Fornecedores, papéis e tratamento internacional
+
+Para executar as funcionalidades descritas, o aplicativo interage com os serviços abaixo. Operações e dados foram identificados no código; papéis contratuais, instrumentos aplicáveis às contas, destinos e retenção ainda precisam de confirmação administrativa. Citar a política pública de um fornecedor não comprova adesão ou regularidade de todos os fluxos.
+
+| Serviço | Papel e dados envolvidos na operação | Localização / Transferência internacional e referência |
+|---|---|---|
+| MET Norway (Instituto Meteorológico da Noruega) | Provedor público da API meteorológica consultada diretamente pelo app; recebe IP, `User-Agent` técnico do Terra e coordenadas arredondadas a duas casas decimais, tratando seus logs sob termos próprios | Processamento na **Noruega** (país integrante do EEE coberto por decisão de adequação reconhecida pela **Resolução CD/ANPD nº 32/2026**). [Termos e privacidade da API](https://api.met.no/doc/TermsOfService) |
+| Google (Google Play Billing, Play services, Gmail e Google Sites) | Serviços de loja/faturamento, localização, backup, correio e hospedagem; os dados envolvidos dependem de cada operação descrita nesta política. Não se atribui um papel único a todos esses serviços | Infraestrutura global, sujeita aos termos aplicáveis a cada serviço e conta, ainda a conferir. [Política de Privacidade do Google](https://policies.google.com/privacy?hl=pt-BR) |
+| Cloudflare (Cloudflare R2) | Infraestrutura de armazenamento e entrega de prévias e pacotes HD; recebe IP, caminho e dados técnicos. O papel na entrega e no tratamento próprio de segurança deve ser distinguido | Rede de armazenamento e entrega; existe DPA público, cuja aplicabilidade à conta ainda precisa ser confirmada. [Política de Privacidade da Cloudflare](https://www.cloudflare.com/privacypolicy/) |
+
+O aplicativo não recebe dados de cartão pelo Billing, mas recebe estados, produtos e comprovantes necessários às compras. Pedidos também podem ser tratados no Console ou no suporte. Não foram conferidos os logs/exportações e prazos disponíveis na conta Cloudflare, nem todos os registros mantidos pelos fornecedores; não se presume ausência de acesso ou controle administrativo sobre eles.
 
 ## 9. Retenção e exclusão
 
-| Informação | Retenção ou controle |
+| Categoria de dado | Prazo de retenção e forma de exclusão |
 |---|---|
-| Clima/coordenadas locais | Último registro, atualizado por consulta; removido ao limpar dados ou desinstalar |
-| Preferências e direitos locais | Até limpeza/desinstalação, com possível backup de preferências comuns |
-| Artes baixadas | Até limpeza dos downloads, dados ou desinstalação |
-| Atendimento | 60 dias após encerramento, ressalvadas exceções justificadas da seção 6 |
-| Pedidos, backups e logs de fornecedores | Conforme políticas/configurações e obrigações de cada serviço; não apagados pelo app |
+| Clima e coordenadas no aparelho | Apenas o último registro consultado (`atmosfera_weather_cache.xml`), sobrescrito a cada atualização; eliminado imediatamente ao limpar os dados do app ou desinstalar |
+| Cache de prévias de cenários | Armazenamento temporário em `cacheDir/terra_previas`; política de limpeza após cerca de 5 minutos sem uso e limite nominal de 24 MiB. A imagem aberta é preservada; a execução da limpeza pode ocorrer depois, inclusive na próxima abertura do app |
+| Preferências e direitos locais | Mantidos no aparelho enquanto o app estiver instalado, até limpeza de dados ou desinstalação (com direitos e clima excluídos do backup em nuvem) |
+| Pacotes HD de artes baixadas | Mantidos em `filesDir/acervo` até que você remova o download nas configurações do app, limpe os dados ou desinstale o aplicativo |
+| E-mails e anexos de suporte | Eliminados da caixa de atendimento em até **60 dias após o encerramento do chamado**, salvo conservação restrita e justificada para cumprimento de obrigação legal ou defesa em processo (art. 16 da LGPD) |
+| Pedidos na Google Play e logs de fornecedores | Mantidos pelos respectivos serviços conforme suas políticas e obrigações legais próprias; não são apagados pela desinstalação do aplicativo |
 
-O prazo de 60 dias refere-se ao atendimento sob nossa responsabilidade. Não se aplica automaticamente a pedidos da Play, backups ou registros dos fornecedores. Os prazos e a eventual exportação de logs na infraestrutura R2 ainda não foram confirmados nesta revisão. Apagar o app não elimina esses registros externos.
+## 10. Direitos do titular e prazos de atendimento
 
-## 10. Direitos e solicitações
+Nos termos do **art. 18 da LGPD**, você pode solicitar gratuitamente ao responsável, pelo canal [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com), em relação aos dados pessoais sob tratamento do Terra:
 
-Solicite informações, confirmação/acesso, correção, eliminação e outros direitos aplicáveis em [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com). Confirmação/acesso simplificado deve ser atendido imediatamente quando possível; declaração completa segue o prazo legal aplicável, em regra até 15 dias. Outros pedidos seguem seus requisitos e prazos, sem promessa uniforme para todos os casos. Eventual identificação adicional deve ser proporcional.
+- **Confirmação da existência de tratamento e acesso aos dados:** saber se tratamos dados pessoais seus (como mensagens enviadas ao suporte) e obter cópia ou informações claras sobre eles.
+- **Correção:** retificar dados incompletos, inexatos ou desatualizados em registros de atendimento ativos.
+- **Anonimização, bloqueio ou eliminação:** solicitar a exclusão de dados desnecessários, excessivos ou tratados em desconformidade com a LGPD, bem como a eliminação de mensagens de suporte antes do prazo regular de 60 dias quando não houver obrigação legal de guarda.
+- **Informação sobre compartilhamento:** obter detalhes sobre os fornecedores e serviços com os quais os dados técnicos interagem (MET Norway, Google e Cloudflare).
+- **Informação sobre a possibilidade de não fornecer consentimento e sobre as consequências da negativa:** a permissão de localização no Android é inteiramente opcional; caso não seja concedida, a única consequência é o uso do clima padrão de **São Paulo, SP**, mantendo-se todas as cenas, compras e ajustes disponíveis.
+- **Revogação:** revogar a permissão de localização diretamente nas configurações do Android a qualquer momento, ou revogar eventual autorização específica concedida no atendimento.
+- **Portabilidade e revisão de decisões automatizadas:** quando aplicáveis (nota: o Terra não mantém cadastro de conta própria nem realiza decisões automatizadas ou definição de perfis pessoais).
+- **Oposição:** contestar tratamento realizado sem consentimento quando houver descumprimento da LGPD, nos termos aplicáveis.
 
-Explique a solicitação sem enviar documentos desnecessários. Exclusão pode ter limites por obrigações legais ou defesa de direitos, que devem ser informados. Você pode procurar a [ANPD](https://www.gov.br/anpd). Não existe conta própria a excluir; isso não afasta direitos sobre atendimento ou tratamento efetivamente realizado.
+**Prazos de resposta (art. 19 da LGPD):** pedidos de confirmação de existência ou de acesso a dados pessoais serão respondidos em formato simplificado imediatamente, quando possível, ou por meio de declaração clara e completa no prazo de **até 15 (quinze) dias** contados da data do requerimento do titular. Demais solicitações de direitos serão analisadas e respondidas dentro dos prazos legais aplicáveis.
 
-## 11. Público e participantes do teste
+Como o Terra não possui sistema de contas ou identificadores próprios dos usuários no servidor, solicitações de acesso ou exclusão referem-se aos registros identificáveis sob controle do responsável (como e-mails enviados a `suporteterrabr@gmail.com`). Para dados mantidos diretamente na sua conta Google (como histórico de pedidos da Google Play), o exercício de controle também deve ser feito nas ferramentas da própria conta Google. Você sempre tem o direito de apresentar petição à [Autoridade Nacional de Proteção de Dados (ANPD)](https://www.gov.br/anpd) e aos órgãos de defesa do consumidor.
 
-Nesta fase de teste fechado, a participação é restrita a pessoas com **18 anos ou mais, no Brasil**. Não haverá participação de menores nesta fase. Essa delimitação do teste não significa que o app implemente verificação automática de idade.
+## 11. Adolescentes e proteção por padrão
 
-Público pretendido para distribuição posterior: **13 anos ou mais**, sujeito à revisão correspondente antes da ampliação do público. Entre 13 e 17 anos, uso e compras devem contar com autorização e acompanhamento do responsável. Não coletamos data de nascimento nem oferecemos conta social. Não afirmamos que essas escolhas dispensam obrigações de proteção de adolescentes, aferição de idade ou supervisão quando aplicáveis.
+O teste fechado desta revisão será restrito a participantes com **18 anos ou mais, no Brasil**. A restrição é de recrutamento e distribuição planejada; não comprova aferição de idade implementada no aplicativo. O público pretendido para distribuição posterior é de **13 anos ou mais**, sujeito à revisão das medidas e documentos antes da ampliação.
 
-A indicação 13+ descreve o público pretendido; não comprova que controles de idade e supervisão estejam implementados. O enquadramento e as medidas aplicáveis de proteção de adolescentes permanecem em avaliação nesta revisão. Para dúvidas ou dados enviados por menores, procure o canal oficial.
+O código apresenta as características abaixo. Elas ajudam a descrever o produto, mas não constituem declaração de conformidade integral com a LGPD ou o ECA Digital, nem encerram a avaliação de experiência adequada à idade e demais requisitos aplicáveis:
+
+- **Sem rede social ou exposição pública:** o aplicativo não possui criação de conta, perfil de usuário, chat, comentários, envio de conteúdo público ou qualquer interação entre usuários (não se enquadrando como serviço de rede social).
+- **Localização opcional:** a leitura depende de permissão no Android; as coordenadas enviadas à MET são arredondadas a duas casas decimais, e existe alternativa sem geolocalização em São Paulo, SP. Negar ou revogar permissão não apaga automaticamente o cache anterior.
+- **Sem publicidade ou perfilamento:** não há anúncios, rastreamento comportamental, venda de dados ou mecânicas de recompensa aleatória (*loot boxes*).
+- **Compras pela plataforma:** são processadas pelo Google Play Billing. Autenticação e eventual supervisão familiar dependem das configurações e regras da conta/dispositivo; o Terra não implementa controle parental próprio nesta revisão.
+- **Atendimento:** o responsável legal pode solicitar análise e exclusão de dados pessoais enviados por menores em [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com), observados os requisitos e limites legais aplicáveis.
 
 ## 12. Alterações e histórico editorial
 
-Mudanças materiais serão refletidas nos documentos e informadas antes ou junto da versão correspondente. Consentimento será solicitado quando exigido; uso continuado não o substitui. A cópia offline acompanha a versão instalada e não muda apenas porque o site foi atualizado. Vigência e versão aplicável serão identificadas na aprovação desta revisão.
+Mudanças materiais nesta política serão refletidas nos documentos oficiais e informadas antes ou junto da versão correspondente do aplicativo. Quando a lei exigir consentimento para uma nova finalidade, ele será solicitado de forma destacada; o simples uso continuado não equivale a consentimento. A cópia offline embutida acompanha a versão instalada do aplicativo e só é atualizada quando você instala uma nova versão. Vigência e versão de distribuição serão registradas na aprovação do candidato.
 
-Revisão 1.8 de 12/10/2026: prévias intermediárias automáticas e cache temporário. Revisão 1.7 de 11/10/2026: responsável/canal, atendimento de 60 dias, compras por arte, miniaturas/HD, dados de rede e limites de promessas. Revisão anterior 1.6 de 10/10: exclusões de backup do acervo e direitos. Histórico editorial não comprova publicação ou vigência das cópias anteriores.
+Revisão 1.8 de 12/10/2026: prévias intermediárias automáticas e cache temporário. Revisão 1.7 de 11/10/2026: responsável/canal, atendimento de 60 dias, compras por arte, miniaturas/HD, dados de rede e limites de promessas. Revisão anterior 1.6 de 10/10: exclusões de backup do acervo e direitos.
 
-Revisão 1.9 de 15/10/2026: preparação no Google Sites e escopo de compras somente com contas de licença durante o teste fechado; vigência e identificação do artefato ainda pendentes.
+Revisão 1.9 de 15/10/2026: preparação no Google Sites e escopo de compras somente com contas de licença durante o teste fechado. Revisão 1.10 de 15/10/2026: simplificação editorial, explicitação das prévias no resumo e separação das instruções internas de teste.
 
-Revisão 1.10 de 15/10/2026: simplificação editorial, explicitação das prévias no resumo e separação das instruções internas de teste. Permanecem as pendências indicadas nesta revisão; sem aprovação ou nova vigência.
+Revisão 1.11 de 15/10/2026: detalhamento dos campos pré-preenchidos na função "Reportar problema" (`enviarRelato`), consolidação da tabela de bases legais por operação (art. 7º da LGPD), explicitação dos papéis dos fornecedores e da decisão de adequação para a Noruega (Resolução CD/ANPD nº 32/2026), detalhamento dos direitos do titular (arts. 18 e 19 da LGPD), distinção entre suporte técnico e requisições de direitos, e documentação das salvaguardas de proteção por padrão para adolescentes (13+).
 
-Revisão 1.11 de 15/10/2026: delimitação do teste fechado a adultos no Brasil, conforme decisão do responsável. Preserva o refinamento editorial 1.10; aprovação e vigência continuam pendentes.
+Revisão 1.12 de 15/10/2026: conciliação com o teste de adultos no Brasil registrado em 0d36b4a, preservando os campos do relato e direitos do refinamento local. Corrigidos enquadramentos sem comprovação de fornecedores/encarregado, bases ainda propostas e garantias de autenticação/cache. A numeração distingue esta redação das duas versões de trabalho 1.11; sem aprovação ou nova vigência.
