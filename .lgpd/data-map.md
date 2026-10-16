@@ -1,5 +1,7 @@
 # Mapa preliminar de dados — Terra
 
+**Complemento da etapa 2:** além do último clima em SharedPreferences, `WeatherRepository` mantém cache HTTP OkHttp em `cacheDir/clima-met`, com limite nominal de 512 KiB. Esse cache pode conter URLs com coordenadas, respostas e metadados de consultas; validade HTTP não equivale a exclusão física. As oito atividades continuam as mesmas: o armazenamento adicional integra A01. Logs reais, contas administrativas e listas de participantes não foram acessados.
+
 **Conciliação com `0d36b4a`:** teste somente com adultos no Brasil. O público adolescente continua como objetivo posterior, sem aceite de medidas presumido. As oito atividades abaixo permanecem inventário preliminar; confirmações administrativas não foram realizadas.
 
 Versão de análise 1; 15/10/2026; base `1bd5a70`. Responsável global confirmado: Rafael Huppes. Oito atividades; categorias de titulares incluem usuários adultos e possível público adolescente, além de participantes/testadores. Ausência de coleta intencional de dados sensíveis não impede recebimento incidental em anexos. Alto risco e necessidade de RIPD ainda não classificados; não inventar escala da base.

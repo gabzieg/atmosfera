@@ -2,7 +2,7 @@
 
 **Página pública:** [https://sites.google.com/view/terra-live-wallpaper/contato](https://sites.google.com/view/terra-live-wallpaper/contato)
 
-**Versão do documento:** 1.5
+**Versão do documento:** 1.6
 **Última atualização:** 15 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
 **Aplica-se a:** Atendimento do Terra e próxima revisão de teste fechado, restrita a adultos no Brasil; versão de distribuição ainda a identificar.
@@ -26,9 +26,9 @@ Para atendimento mais ágil sobre funcionamento do aplicativo ou cenários:
 
 Para solicitações baseadas nos **arts. 18 e 19 da Lei nº 13.709/2018 (LGPD)** — incluindo confirmação da existência de tratamento, acesso aos dados, correção, eliminação de registros de atendimento, informações sobre compartilhamento com fornecedores ou revogação de autorização — escreva para [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com) indicando no assunto ou no texto tratar-se de **solicitação de privacidade/LGPD**.
 
-- **Dados mínimos:** basta escrever a partir do próprio endereço de e-mail utilizado no contato anterior e descrever o pedido. Não envie cópias de documentos oficiais; eventual confirmação proporcional de titularidade só será solicitada se houver dúvida fundada para evitar acesso indevido por terceiros.
+- **Dados mínimos:** descreva o pedido e, quando possível, escreva a partir do endereço usado no atendimento ou na participação no teste. Não é necessário ter chamado de suporte anterior para exercer seus direitos. Não envie cópias de documentos oficiais; eventual confirmação proporcional de titularidade só será solicitada se houver dúvida fundada para evitar acesso indevido por terceiros.
 - **Prazos legais de resposta:** pedidos de confirmação de existência ou de acesso a dados pessoais são respondidos em formato simplificado imediatamente, quando cabível, ou por declaração clara e completa em **até 15 (quinze) dias** contados do requerimento (art. 19, II da LGPD). Demais solicitações seguem os prazos legais pertinentes, distintos do tempo de diagnóstico de suporte técnico comum.
-- **Escopo:** como o aplicativo não cria conta de usuário nem armazena perfis em servidor próprio, o controle direto de exclusão abrange os registros de atendimento em `suporteterrabr@gmail.com`. Limpar dados ou desinstalar o app apaga os dados locais do aparelho, mas não remove automaticamente e-mails já enviados, histórico de compras na conta Google ou logs sob controle independente dos fornecedores. O titular também pode peticionar perante a [ANPD](https://www.gov.br/anpd).
+- **Escopo:** o pedido pode abranger todos os dados pessoais sob controle do responsável pelo Terra, incluindo atendimento, listas de participantes do teste e eventuais registros administrativos identificáveis sob sua responsabilidade. A análise não se limita aos e-mails de suporte nem depende de existir conta própria no aplicativo. O atendimento considera os registros existentes, as responsabilidades de cada agente e os requisitos e limites legais de conservação. Limpar dados ou desinstalar o app remove os dados locais, mas não elimina automaticamente e-mails enviados, listas administrativas, histórico de compras na Google Play ou registros de fornecedores. Você pode usar as ferramentas da conta Google para dados sob controle desse serviço, sem perder o canal do Terra para esclarecer seu próprio tratamento e suas responsabilidades. O titular também pode peticionar perante a [ANPD](https://www.gov.br/anpd).
 
 ## 3. Tratamento e retenção dos dados do atendimento
 
@@ -45,3 +45,5 @@ Revisão 1.1 de 11/10/2026: canal oficial, responsável, retenção de 60 dias e
 Revisão 1.4 de 15/10/2026: detalhamento dos campos pré-preenchidos na opção "Reportar problema" (`enviarRelato`), distinção entre chamados de suporte técnico e requisições de direitos do titular (arts. 18 e 19 da LGPD), e explicitação do responsável como ponto focal de comunicação com titulares e com a ANPD.
 
 Revisão 1.5 de 15/10/2026: conciliação do escopo de adultos/Brasil no teste e distinção entre canal de contato e enquadramento de encarregado, preservado o detalhamento do relato e do atendimento. Sem aprovação ou nova vigência.
+
+Revisão 1.6 de 15/10/2026: pedidos de direitos abrangem dados identificáveis sob responsabilidade do Terra, incluindo participantes do teste e registros administrativos, sem exigir atendimento anterior. Sem aprovação ou nova vigência.

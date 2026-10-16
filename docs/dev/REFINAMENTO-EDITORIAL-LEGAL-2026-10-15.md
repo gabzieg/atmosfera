@@ -1,5 +1,9 @@
 # Refinamento editorial e pendências legais — 15/10/2026
 
+**Etapa 2 da preparação para o teste:** [evidências mínimas](../../.lgpd/evidencias-privacidade-etapa2.md), rotinas propostas e roteiro para Rafael preparados. Privacidade atual 1.14 inclui cache HTTP meteorológico identificado no código; Termos 1.8 e Contato 1.6 mantidos. Só Rafael tem acesso às contas: falta conferência administrativa, sem presumir configuração, descarte, base aprovada ou publicação. As referências de versões abaixo são registros anteriores.
+
+**Ajustes posteriores — etapa 1 da preparação para o teste:** fontes atuais Privacidade 1.13, Termos 1.8 e Contato 1.6. Corrigidos alcance dos pedidos de direitos (incluindo participantes e registros administrativos), clima em cache após revogação e limpeza conjunta de downloads condicionada a arte nativa e ausência de download ativo. As referências 1.12/1.8/1.5 abaixo registram a conciliação anterior. Estado de rascunho preservado; faltam evidências externas, aprovação e republicação. Ver [acompanhamento](../../.lgpd/gaps.md).
+
 ## Revisão conciliada
 
 Fontes: **Privacidade 1.12, Termos 1.8 e Contato 1.5**, ainda rascunhos. Incorporado `0d36b4a` com [decisões do Rafael](RESPOSTAS-RAFAEL-TESTE-FECHADO-2026-10-15.md), preservados os avanços locais de relato, direitos, lista de efeitos/estilos e atendimento. Números novos distinguem as redações locais das remotas que usavam 1.11/1.7. O histórico Git e a cópia de segurança local preservam os estados anteriores.

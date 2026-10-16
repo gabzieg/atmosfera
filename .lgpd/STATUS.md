@@ -1,6 +1,10 @@
 # Análise documental LGPD — Terra
 
-Conciliação em 15/10/2026. Base remota incorporada: `0d36b4a`, com decisões de Rafael. Preservado o refinamento local dos relatos, direitos e oferta. Fontes resultantes: **Privacidade 1.12, Termos 1.8 e Contato 1.5**. São rascunhos, sem aprovação, vigência ou candidato identificado.
+**Etapa 2 — preparação técnica/documental concluída; aceite pendente:** evidências em [evidencias-privacidade-etapa2.md](evidencias-privacidade-etapa2.md), rotina de suporte/direitos/retenção proposta e roteiro de conferência para Rafael. Só ele tem acesso às contas, conforme confirmação do usuário; não foram presumidas configurações. MET/Oslo, diferença entre Lixeira e exclusão e recurso Data Access Logs do R2 conferidos nas fontes oficiais. Cache HTTP adicional do clima incorporado ao inventário e ao rascunho de Privacidade 1.14; Termos 1.8 e Contato 1.6 preservados. Nenhuma base legal aprovada, configuração alterada ou ação de descarte executada.
+
+Conciliação em 15/10/2026. Base remota incorporada: `0d36b4a`, com decisões de Rafael. Preservado o refinamento local dos relatos, direitos e oferta. Fontes resultantes: **Privacidade 1.13, Termos 1.8 e Contato 1.6**. São rascunhos, sem aprovação, vigência ou candidato identificado.
+
+**Etapa 1 da preparação para o teste:** concluídos os três ajustes documentais de alcance dos direitos, cache de clima após revogação e limpeza conjunta de downloads. Código conferido estaticamente; sem alteração funcional. Próxima etapa: evidências mínimas de privacidade, conforme [gaps.md](gaps.md). A etapa 5 do checklist geral ainda não está encerrada.
 
 ## Decisões confirmadas e limites
 

@@ -1,5 +1,7 @@
 # Hipóteses de bases legais — para avaliação
 
+**Etapa 2:** hipóteses abaixo confrontadas com as [evidências de implementação e serviços](evidencias-privacidade-etapa2.md). A preparação não escolhe base em nome do responsável. O teste atual é de adultos/Brasil; nenhuma nova coleta ou finalidade foi autorizada por esta análise.
+
 **Conciliação com `0d36b4a`:** recrutamento do teste restrito a adultos no Brasil. As hipóteses abaixo não foram aprovadas só por terem sido inseridas na política. Privacidade 1.12 identifica esse caráter proposto; eventual ampliação a 13+ mantém análise específica pendente.
 
 15/10/2026. Proposta analítica, não decisão já adotada pelo controlador nem ROPA final. Correspondência com [mapa](data-map.md). Referências oficiais em [fontes](fontes.md), especialmente LGPD arts. 7º–10, 14–16 e 18–19. Permissão Android, inscrição na faixa e uso do app não são consentimento genérico.
@@ -16,6 +18,8 @@
 | A08 — diagnóstico/segurança | Art. 7º, IX e art. 10 somente se necessidade e balanceamento forem demonstrados; V quando estritamente ligado ao suporte solicitado | Nenhuma LIA foi concluída. Primeiro conferir campos, destinatários e retenção. A existência do log não aprova a finalidade ou a base. |
 
 ## O que já pode ser aproveitado
+
+Para adotar cada hipótese, registrar finalidade específica, dados mínimos, necessidade, alternativa menos intrusiva, retenção e quem aprovou. Em A01, diferenciar obtenção de localização, consulta externa e cache; o cache HTTP adicional não herda um prazo de descarte do último registro. Em A04, diferenciar entrega de conteúdo e logs de segurança. Em A05, distinguir suporte solicitado, pedido legal e defesa concreta. Em A07, distinguir cadastro da faixa, licença e feedback; a rotina proposta ainda exige critério de retenção confirmado por Rafael. A06/A08 não recebem fundamento genérico antes da conferência dos recursos e finalidades efetivos. Não foram preenchidos registros de aprovação nem emitida LIA final.
 
 As bases para preferências, entrega, compra e suporte podem ser propostas com as evidências atuais; não é necessário reinventar arquitetura ou perguntar novamente sobre a oferta. Localização, logs, site e adolescentes exigem análise mais específica. Não foi implementado ledger, coleta de documento, biometria ou nova interface de consentimento por esta entrega.
 

@@ -2,7 +2,7 @@
 
 **Página pública:** [https://sites.google.com/view/terra-live-wallpaper/privacidade](https://sites.google.com/view/terra-live-wallpaper/privacidade)
 
-**Versão da política:** 1.12
+**Versão da política:** 1.14
 **Última atualização:** 15 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
 **Aplica-se a:** Próxima versão destinada ao teste fechado no Brasil, somente com participantes adultos e entrega remota de artes. Número e código da versão de distribuição ainda serão identificados. Não descreve automaticamente o funcionamento de versões anteriores.
@@ -11,7 +11,7 @@
 ## Resumo
 
 - O controlador responsável é **Rafael Huppes, pessoa física**, que também responde pelo canal de comunicação com titulares e com a ANPD em [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com).
-- Localização aproximada (`ACCESS_COARSE_LOCATION`) é opcional e usada apenas para consultar clima na **MET Norway**. Coordenadas saem por HTTPS, arredondadas a duas casas decimais; se você negar ou revogar a permissão, o aplicativo funciona normalmente usando **São Paulo, SP**.
+- Localização aproximada (`ACCESS_COARSE_LOCATION`) é opcional e usada apenas para consultar clima na **MET Norway**. Coordenadas saem por HTTPS, arredondadas a duas casas decimais. Sem permissão, novas consultas usam **São Paulo, SP**; após revogação, o último clima salvo pode continuar em exibição enquanto o cache estiver válido ou até que uma atualização seja concluída.
 - O app não possui conta própria, rede social, anúncios ou SDK de analytics. Compras utilizam Google Play; prévias automáticas e downloads HD solicitados utilizam **Cloudflare R2**.
 - A opção **Reportar problema** não envia dados em segundo plano: apenas preenche um rascunho no seu app de e-mail externo com cenário, arte, estilo, sintomas marcados, versão do app, modelo do aparelho e versão do Android, permitindo revisão ou cancelamento antes do envio.
 - Requisições de internet revelam IP e metadados técnicos de conexão aos respectivos fornecedores. Coordenadas de clima, comprovantes e tokens de compra nunca são enviados ao R2.
@@ -29,7 +29,9 @@ O app solicita apenas **ACCESS_COARSE_LOCATION**, usando localização aproximad
 
 As coordenadas são arredondadas a duas casas decimais (aproximadamente 1,1 km conforme a latitude) e enviadas diretamente à MET Norway por HTTPS. A requisição inclui `User-Agent` técnico com nome/versão do aplicativo e o e-mail público de suporte, conforme exigido pelos termos da API. A MET Norway recebe o IP e as coordenadas arredondadas da consulta e pode registrá-los em seus logs operacionais. Esses dados não passam pelo bucket de conteúdo do Terra. O nascer e o pôr do sol são calculados localmente no aparelho, sem requisição adicional.
 
-O último clima e as coordenadas utilizadas ficam no armazenamento privado do app, sendo substituídos a cada nova consulta bem-sucedida. Você pode negar ou revogar a autorização a qualquer momento nas configurações do Android; sem ela, o app utiliza **São Paulo, SP** como referência padrão, sem bloqueio de funcionalidades. Sem rede ou cache válido, aplica um estado visual padrão. Revogar a permissão interrompe novas leituras de posição, e limpar os dados ou desinstalar o app remove imediatamente o cache local.
+O último clima e as coordenadas utilizadas ficam no armazenamento privado do app, sendo substituídos a cada nova consulta bem-sucedida. Você pode negar ou revogar a autorização a qualquer momento nas configurações do Android. Sem permissão, novas consultas usam **São Paulo, SP** como referência, sem impedir o uso do aplicativo. A revogação impede novas leituras de posição, mas não apaga o cache anterior nem provoca necessariamente troca imediata do clima exibido: o app pode reutilizá-lo enquanto estiver válido e preservá-lo se a atualização falhar. Consultas continuam sujeitas às condições de uso na home, intervalo e restrições do fornecedor. Sem clima salvo, aplica um estado visual padrão. Limpar os dados ou desinstalar o app remove o cache local.
+
+Separadamente do último clima salvo, o cliente de rede mantém cache HTTP privado em `cacheDir/clima-met`, com limite nominal de 512 KiB, para evitar downloads repetidos. Esse cache pode conter endereços de consulta com coordenadas, respostas e metadados HTTP. A validade de uma resposta não é prazo de exclusão física do arquivo; os dados podem permanecer até substituição ou limpeza do cache, limpeza dos dados ou desinstalação. Revogar localização não apaga automaticamente esse cache.
 
 ## 3. Preferências, compras e diagnóstico
 
@@ -49,7 +51,7 @@ Ao abrir uma variante ainda não instalada ou alternar entre variantes na tela d
 
 Em qualquer requisição de prévia ou download HD, a infraestrutura do Cloudflare R2 recebe os dados inerentes à comunicação HTTP/HTTPS: endereço IP, caminho do arquivo solicitado (que indica o identificador do cenário e da variante), horário e cabeçalhos técnicos da conexão. O aplicativo não envia coordenadas de localização, clima, endereço de e-mail, identificadores de conta Google ou tokens de compra ao Cloudflare R2.
 
-Os pacotes HD instalados ficam na pasta privada do aplicativo (`filesDir/acervo`). Apagar downloads pelo app libera espaço sem cancelar compras; para remover uma arte remota que esteja em uso, basta alternar antes para outra arte instalada ou amostra nativa.
+Os pacotes HD instalados ficam na pasta privada do aplicativo (`filesDir/acervo`). A opção de limpeza do app remove **todos os pacotes de artes baixados e os arquivos comuns dos respectivos cenários**, sem cancelar compras. Não há remoção individual por essa opção. Para utilizá-la, selecione e aplique antes uma arte nativa, como uma das cinco amostras, e aguarde ou cancele qualquer download em andamento. Trocar para outra arte remota já instalada não libera a limpeza. Para usar novamente uma arte removida, será necessário baixá-la outra vez.
 
 ## 5. Backup, permissões e segurança
 
@@ -108,6 +110,7 @@ O aplicativo não recebe dados de cartão pelo Billing, mas recebe estados, prod
 | Categoria de dado | Prazo de retenção e forma de exclusão |
 |---|---|
 | Clima e coordenadas no aparelho | Apenas o último registro consultado (`atmosfera_weather_cache.xml`), sobrescrito a cada atualização; eliminado imediatamente ao limpar os dados do app ou desinstalar |
+| Cache HTTP de clima | Cache privado em `cacheDir/clima-met`, com limite nominal de 512 KiB, incluindo possíveis coordenadas nas URLs, respostas e metadados. Persistência até substituição/limpeza do cache, limpeza dos dados ou desinstalação; expiração HTTP não garante exclusão física |
 | Cache de prévias de cenários | Armazenamento temporário em `cacheDir/terra_previas`; política de limpeza após cerca de 5 minutos sem uso e limite nominal de 24 MiB. A imagem aberta é preservada; a execução da limpeza pode ocorrer depois, inclusive na próxima abertura do app |
 | Preferências e direitos locais | Mantidos no aparelho enquanto o app estiver instalado, até limpeza de dados ou desinstalação (com direitos e clima excluídos do backup em nuvem) |
 | Pacotes HD de artes baixadas | Mantidos em `filesDir/acervo` até que você remova o download nas configurações do app, limpe os dados ou desinstale o aplicativo |
@@ -122,14 +125,14 @@ Nos termos do **art. 18 da LGPD**, você pode solicitar gratuitamente ao respons
 - **Correção:** retificar dados incompletos, inexatos ou desatualizados em registros de atendimento ativos.
 - **Anonimização, bloqueio ou eliminação:** solicitar a exclusão de dados desnecessários, excessivos ou tratados em desconformidade com a LGPD, bem como a eliminação de mensagens de suporte antes do prazo regular de 60 dias quando não houver obrigação legal de guarda.
 - **Informação sobre compartilhamento:** obter detalhes sobre os fornecedores e serviços com os quais os dados técnicos interagem (MET Norway, Google e Cloudflare).
-- **Informação sobre a possibilidade de não fornecer consentimento e sobre as consequências da negativa:** a permissão de localização no Android é inteiramente opcional; caso não seja concedida, a única consequência é o uso do clima padrão de **São Paulo, SP**, mantendo-se todas as cenas, compras e ajustes disponíveis.
+- **Informação sobre a possibilidade de não fornecer consentimento e sobre as consequências da negativa:** a permissão de localização no Android é opcional; sem ela, novas consultas usam **São Paulo, SP**, mantendo-se as cenas, compras e ajustes disponíveis. Após revogação, o clima anterior pode continuar em cache nas condições descritas na seção 2.
 - **Revogação:** revogar a permissão de localização diretamente nas configurações do Android a qualquer momento, ou revogar eventual autorização específica concedida no atendimento.
 - **Portabilidade e revisão de decisões automatizadas:** quando aplicáveis (nota: o Terra não mantém cadastro de conta própria nem realiza decisões automatizadas ou definição de perfis pessoais).
 - **Oposição:** contestar tratamento realizado sem consentimento quando houver descumprimento da LGPD, nos termos aplicáveis.
 
 **Prazos de resposta (art. 19 da LGPD):** pedidos de confirmação de existência ou de acesso a dados pessoais serão respondidos em formato simplificado imediatamente, quando possível, ou por meio de declaração clara e completa no prazo de **até 15 (quinze) dias** contados da data do requerimento do titular. Demais solicitações de direitos serão analisadas e respondidas dentro dos prazos legais aplicáveis.
 
-Como o Terra não possui sistema de contas ou identificadores próprios dos usuários no servidor, solicitações de acesso ou exclusão referem-se aos registros identificáveis sob controle do responsável (como e-mails enviados a `suporteterrabr@gmail.com`). Para dados mantidos diretamente na sua conta Google (como histórico de pedidos da Google Play), o exercício de controle também deve ser feito nas ferramentas da própria conta Google. Você sempre tem o direito de apresentar petição à [Autoridade Nacional de Proteção de Dados (ANPD)](https://www.gov.br/anpd) e aos órgãos de defesa do consumidor.
+As solicitações abrangem os dados pessoais sob controle do responsável pelo Terra, incluindo registros de atendimento, listas de participantes do teste e eventuais registros administrativos identificáveis que estejam sob sua responsabilidade. Não se limitam à caixa de suporte, e a ausência de conta própria no aplicativo não restringe esses direitos. Cada pedido será avaliado conforme os registros existentes, a responsabilidade pelo tratamento e os requisitos e limites legais de conservação. Para dados mantidos diretamente na sua conta Google (como histórico de pedidos da Google Play), você também pode utilizar as ferramentas da própria conta. O suporte continua disponível para esclarecer o tratamento realizado pelo Terra e a participação dos fornecedores. Você pode apresentar petição à [Autoridade Nacional de Proteção de Dados (ANPD)](https://www.gov.br/anpd) e aos órgãos de defesa do consumidor.
 
 ## 11. Adolescentes e proteção por padrão
 
@@ -154,3 +157,7 @@ Revisão 1.9 de 15/10/2026: preparação no Google Sites e escopo de compras som
 Revisão 1.11 de 15/10/2026: detalhamento dos campos pré-preenchidos na função "Reportar problema" (`enviarRelato`), consolidação da tabela de bases legais por operação (art. 7º da LGPD), explicitação dos papéis dos fornecedores e da decisão de adequação para a Noruega (Resolução CD/ANPD nº 32/2026), detalhamento dos direitos do titular (arts. 18 e 19 da LGPD), distinção entre suporte técnico e requisições de direitos, e documentação das salvaguardas de proteção por padrão para adolescentes (13+).
 
 Revisão 1.12 de 15/10/2026: conciliação com o teste de adultos no Brasil registrado em 0d36b4a, preservando os campos do relato e direitos do refinamento local. Corrigidos enquadramentos sem comprovação de fornecedores/encarregado, bases ainda propostas e garantias de autenticação/cache. A numeração distingue esta redação das duas versões de trabalho 1.11; sem aprovação ou nova vigência.
+
+Revisão 1.13 de 15/10/2026: alcance dos direitos inclui registros identificáveis sob responsabilidade do Terra, além do suporte; esclarecida a reutilização de clima em cache após revogar localização e a limpeza conjunta de downloads, condicionada a arte nativa e ausência de download em andamento. Sem alteração funcional, aprovação ou nova vigência.
+
+Revisão 1.14 de 15/10/2026: identificado separadamente o cache HTTP do cliente meteorológico, sua capacidade nominal e persistência, conforme evidências da etapa 2. Sem alteração de código, aprovação ou nova vigência.
