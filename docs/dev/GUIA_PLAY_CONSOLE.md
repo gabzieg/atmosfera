@@ -1,5 +1,7 @@
 # Guia de Segurança dos dados e público — candidato Terra para teste fechado
 
+**Revisão em 19/10:** usar a [matriz atual](../../.lgpd/seguranca-dados-play-2026-10-19.md) para MET/R2, exceções, IPs, prévias automáticas e SDKs, e o [diagnóstico da versão](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md). Fontes atuais: Privacidade 1.14, Termos 1.8, Contato 1.6. Sete contas na lista de licença foram informadas por Rafael, não verificadas no Console; não equivalem a adesões na faixa. Classificação 14 relatada não é prova de aferição de idade. Nenhum formulário enviado por esta preparação; registros anteriores abaixo preservam histórico.
+
 ## Respostas de Rafael em 15/10 — atualização do escopo
 
 Teste fechado exclusivamente no Brasil, somente com adultos e contas de licença. Gabriel fará a revisão/aprovação final dos textos, ainda pendente. O candidato é a próxima versão após os ajustes; número/versionCode e data inicial dependem de conferência no Console. Quantidade de contas e configuração efetiva de licença não confirmadas. Premium inclui futuros efeitos e estilos, preservadas artes/variantes separadas. Intenção de não retirar conteúdo, com plano de exceção ainda em estudo. Logs, retenção e acesso dos fornecedores seguem sem definição/verificação.

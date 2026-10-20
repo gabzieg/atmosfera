@@ -3,7 +3,7 @@
 **Versão**: 0.1 · **Data**: 2026-10-16 · **Estado: rascunho; contatos e responsáveis a preencher fora do Git**.
 Fonte: LGPD art. 48 e **Resolução CD/ANPD nº 15/2024** (texto conferido no DOU em 2026-10-16, arts. 5º, 6º, 9º e 10). Em caso de dúvida, vale o texto oficial.
 
-O Terra não tem servidor com base de usuários, então o dado pessoal em risco é limitado. Os incidentes plausíveis estão nas **contas que guardam dado** (suporte, lista de testadores, Cloudflare, Google Sites) e na **integridade do que é distribuído**.
+A ausência de servidor próprio com base de usuários não quantifica nem elimina riscos: considerar todos os fluxos A01–A08, contas administrativas, pedidos, participantes e anexos. Os incidentes plausíveis estão nas **contas que guardam dado** (suporte, lista de testadores, Cloudflare, Google Sites) e na **integridade do que é distribuído**.
 
 ## Quem faz o quê (preencher; **não** colocar telefones no Git)
 
@@ -54,7 +54,7 @@ O incidente pode acarretar risco ou dano relevante quando puder **afetar signifi
 
 ## Registro
 
-Cada incidente entra em [incidentes-registro.md](incidentes-registro.md), com o conteúdo mínimo do art. 10, §1º (8 itens).
+O modelo está em [incidentes-registro.md](incidentes-registro.md). Registros reais, detalhes técnicos exploráveis, protocolos e dados de titulares ficam em armazenamento privado com acesso controlado; o repositório público não é a base de incidentes.
 
 ## Pendências
 

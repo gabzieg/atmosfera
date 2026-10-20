@@ -4,6 +4,8 @@
 
 Este registro **não presume** que o Terra é agente de tratamento de pequeno porte, nem que pessoa física dispensa o encarregado. Organiza o que a norma pede para a decisão ser tomada e documentada.
 
+**Revisão em 19/10:** importado de `c746d19`; não foi adotada decisão A/B. A opção de indicar o próprio controlador exige avaliação de conflito e capacidade, não é atalho presumido. O canal foi confirmado como endereço, sem conferência de funcionamento nesta sessão.
+
 ## O que a Resolução 2/2022 diz
 
 | Artigo | Conteúdo |
@@ -16,7 +18,7 @@ Este registro **não presume** que o Terra é agente de tratamento de pequeno po
 
 ## O que já se sabe
 
-- O canal do titular existe e está confirmado: suporteterrabr@gmail.com. Isso cumpre o requisito de canal, **não** designa encarregado.
+- O canal do titular existe e está confirmado: suporteterrabr@gmail.com. A existência do endereço não comprova atendimento efetivo nem designação de encarregado.
 - Responsável: Rafael Huppes, pessoa física.
 - Não foi levantado: receita bruta, forma de atuação (pessoa natural com fins econômicos, microempresa etc.) e se há grupo econômico. **Sem esses dados, o enquadramento não está provado.**
 - Alto risco (art. 4º): ver [avaliacao-risco.md](avaliacao-risco.md). Com as evidências atuais o critério cumulativo não se fecha.
@@ -28,7 +30,7 @@ Este registro **não presume** que o Terra é agente de tratamento de pequeno po
 | **A. Designar formalmente um encarregado** (por exemplo, o próprio Rafael) | Não depende de provar o enquadramento. Exige ato escrito, publicar nome e canal em local de destaque e avaliar conflito de interesse. Conta como boa prática (art. 11, §2º). |
 | **B. Não designar e manter apenas o canal** | Só se sustenta se o enquadramento como ATPP for comprovado (art. 3º e 5º). Se a prova faltar, o texto "dispensa" fica sem base. |
 
-**Sugestão** (a decidir pelo responsável): a opção A reduz o risco de depender de uma prova que ainda não existe e custa pouco. Se escolhida, **o prazo em dobro do art. 14 só vale se o enquadramento ATPP também for comprovado**; a Política hoje promete até 15 dias, e esse compromisso público deve ser mantido.
+A escolha deve ser documentada com o enquadramento e os riscos. Designar não sana bases, contratos ou demais lacunas; dispensa não pode ser presumida. O prazo público de até 15 dias para declaração completa deve ser respeitado sem aplicar extensão por inferência.
 
 ## Pendências
 

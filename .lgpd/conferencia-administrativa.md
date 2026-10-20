@@ -1,5 +1,7 @@
 # Roteiro de confirmação administrativa — Rafael
 
+**Prioridade em 19/10:** confirmar maior versionCode de todas as faixas, código/processamento/inclusão do AAB no rascunho fechado e certificado de upload; seguir o [diagnóstico da versão](../docs/dev/DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md). Rafael informou sete contas selecionadas nas licenças; faltam checkout de teste e contagem separada das adesões na faixa. AAB local de 06/10 é antigo e não deve ser confundido com o candidato atual.
+
 15/10/2026. Gabriel informou que somente Rafael tem acesso às contas. Este roteiro foi preparado para encaminhamento pelo usuário; **nenhuma mensagem foi enviada pelo assistente**. Não retornar senhas, tokens, contratos integrais, listas de e-mails ou capturas com dados pessoais. Basta um resumo das configurações e referências não sensíveis.
 
 ## 1. Cloudflare — terra-acervo

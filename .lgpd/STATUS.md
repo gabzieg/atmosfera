@@ -1,5 +1,7 @@
 # Análise documental LGPD — Terra
 
+**Atualização de 19/10:** registros da PR #52 (`c746d19`) incorporados em `1f21454` e ajustados: retenção diária por data de encerramento, direitos abrangentes, evidência privada de incidentes e risco sem dispensa presumida. [Diagnóstico do teste](../docs/dev/DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md) e [Segurança dos dados](seguranca-dados-play-2026-10-19.md) preparados. API de sinais de idade confirmada, com análise de integração pendente. Sete contas de licença informadas por Rafael, sem contagem auditada de adesões/checkout. AAB local de 06/10 reprovado por HTMLs desatualizados; candidato e maior versionCode do Console não identificados. Não houve mudança no app, novo AAB, formulário enviado ou publicação.
+
 **Etapa 2 — preparação técnica/documental concluída; aceite pendente:** evidências em [evidencias-privacidade-etapa2.md](evidencias-privacidade-etapa2.md), rotina de suporte/direitos/retenção proposta e roteiro de conferência para Rafael. Só ele tem acesso às contas, conforme confirmação do usuário; não foram presumidas configurações. MET/Oslo, diferença entre Lixeira e exclusão e recurso Data Access Logs do R2 conferidos nas fontes oficiais. Cache HTTP adicional do clima incorporado ao inventário e ao rascunho de Privacidade 1.14; Termos 1.8 e Contato 1.6 preservados. Nenhuma base legal aprovada, configuração alterada ou ação de descarte executada.
 
 Conciliação em 15/10/2026. Base remota incorporada: `0d36b4a`, com decisões de Rafael. Preservado o refinamento local dos relatos, direitos e oferta. Fontes resultantes: **Privacidade 1.13, Termos 1.8 e Contato 1.6**. São rascunhos, sem aprovação, vigência ou candidato identificado.
@@ -38,7 +40,7 @@ Rascunhos que acompanham as pendências D04–D13, sem declarar conformidade nem
 
 - [x] [ROPA](ropa.md) — v0.1, derivado de [data-map.md](data-map.md).
 - [x] [Enquadramento e encarregado](governanca-encarregado.md) — opções e fontes (Res. 2/2022); decisão pendente.
-- [x] [Avaliação de alto risco / RIPD](avaliacao-risco.md) — conclusão provisória, sem limiar numérico inventado.
+- [x] [Avaliação de alto risco / RIPD](avaliacao-risco.md) — critérios organizados, conclusão não fechada; sem limiar numérico inventado.
 - [x] [ECA Digital](adolescentes-eca-digital.md) — com o texto da lei conferido; aplicabilidade em aberto.
 - [x] [Direitos do titular](direitos-operacao.md) e [retenção](retencao-operacao.md) — procedimentos propostos.
 - [x] [Plano de incidente](incidentes.md) e [registro](incidentes-registro.md) — Res. 15/2024 conferida no DOU.

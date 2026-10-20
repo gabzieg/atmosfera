@@ -1,34 +1,19 @@
-# Avaliação de alto risco e necessidade de RIPD — registro
+# Avaliação preliminar de risco e RIPD
 
-**Versão**: 0.1 · **Data**: 2026-10-16 · **Estado: rascunho; conclusão provisória, sujeita a avaliação jurídica**.
-Fonte: Resolução CD/ANPD nº 2/2022, art. 4º (texto conferido em gov.br em 2026-10-16) e LGPD art. 38.
+Atualizada em 19/10/2026 a partir da PR #52. Rascunho, sem classificação final ou dispensa de RIPD. Avaliar o conjunto A01–A08 do [mapa](data-map.md), não só o uso de localização.
 
-Este registro **não adota** o limiar de "2 milhões de titulares" que aparece em materiais de terceiros: o art. 4º, §1º define larga escala por **número significativo de titulares, volume de dados, duração, frequência e extensão geográfica**, sem número fixo.
+| Critério | Evidência e limite |
+|---|---|
+| Larga escala | Sete contas selecionadas na lista de licenças foram informadas por Rafael; isso não mede instalações, participantes aderentes nem todos os titulares/fluxos. Não há escala consolidada. |
+| Impacto significativo | Clima estético e ausência de decisão de perfil reduzem certos riscos; compras, acesso a contas, IP/localização e anexos de suporte ainda devem ser avaliados. Não afirmar “sem pagamento no app”: há Billing, ainda que só instrumentos de teste nesta fase. |
+| Tecnologias, vigilância e decisões automatizadas | Não foram identificados vigilância pública ou perfilamento no código lido. Conferir candidato e serviços; não transformar ausência de evidência em certificado. |
+| Dados/vulneráveis | Não foi identificada coleta intencional de sensíveis; anexos podem contê-los. Teste adulto não exclui idosos. Futuro acesso adolescente exige avaliação específica. |
 
-## O teste (art. 4º): pelo menos um critério **geral** e um **específico**, cumulativamente
+A Resolução 2/2022, art. 4º, trabalha com critério geral e específico cumulativos; não foi adotado limiar fixo de dois milhões de titulares. Na base atual não há elementos suficientes para fechar uma classificação final de alto ou baixo risco. Avaliar necessidade de RIPD e eventual determinação da ANPD no contexto concreto, conforme LGPD art. 38.
 
-| Critério | Evidência hoje | Atendido? |
-|---|---|---|
-| **Geral (a)** — larga escala | Teste fechado com poucos participantes; app não publicado; dado limitado à localização aproximada, opcional | **Não demonstrado** |
-| **Geral (b)** — afeta significativamente interesses e direitos fundamentais (§2º: impedir exercício de direitos ou uso de serviço; danos materiais ou morais, discriminação, fraude, roubo de identidade) | Localização aproximada só para escolher o clima; sem decisão sobre a pessoa; sem conta nem pagamento no app | **Não identificado** |
-| **Específico (a)** — tecnologias emergentes ou inovadoras | Nenhuma | Não |
-| **Específico (b)** — vigilância ou controle de zonas públicas | Nenhuma | Não |
-| **Específico (c)** — decisões unicamente automatizadas, inclusive perfis | Nenhuma | Não |
-| **Específico (d)** — dados sensíveis ou de crianças, adolescentes e idosos | Nenhum dado sensível coletado pelo app (relatos de suporte podem conter dado sensível incidental). **Teste fechado só com adultos**; adolescentes são objetivo posterior | **Hoje não** como regra; **pode passar a sim** com 13+ |
+- [ ] Consolidar operações, escala, público e impacto com responsáveis.
+- [ ] Avaliar risco de localização/IP, pedidos, acesso a contas e sensíveis incidentais.
+- [ ] Registrar conclusão e necessidade de RIPD, sem aprovação automática.
+- [ ] Rever se mudar público, SDKs, coleta, fornecedor ou escala.
 
-## Conclusão provisória
-
-Com as evidências atuais, **nenhum critério geral se fecha**, então o teste cumulativo do art. 4º **não** classifica o tratamento como de alto risco. **Não há indicação de RIPD obrigatório hoje.** Isso não impede que a ANPD o solicite (LGPD, art. 38), nem dispensa a avaliação quando algo mudar.
-
-## Quando refazer
-
-- Ampliar o público para **13+** (critério específico (d) passa a valer; avaliar também o critério geral com os números reais).
-- Crescimento que altere **número de titulares, duração, frequência ou extensão geográfica**.
-- Passar a usar localização precisa, contas, analytics, anúncios, dado sensível ou decisão automatizada.
-- Pedido da ANPD.
-
-## Pendências
-
-- [ ] **[JURÍDICO]** Concordar com a leitura de "larga escala" e do critério geral (b) para este produto.
-- [ ] **[DECISÃO]** Aprovação do responsável pela revisão (indicado: Gabriel).
-- [ ] Anexar, quando existir, o número real de participantes do teste e de instalações.
+Fontes oficiais em [fontes.md](fontes.md); avaliação de idade em [adolescentes-eca-digital.md](adolescentes-eca-digital.md).

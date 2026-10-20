@@ -1,50 +1,21 @@
-# Retenção — rotina de execução (rascunho)
+# Retenção — execução e evidências
 
-**Versão**: 0.1 · **Data**: 2026-10-16 · **Estado: rascunho; falta executar e comprovar (D06)**.
-A **tabela de prazos públicos** está na Política 1.12, seção 9. Este arquivo define a **rotina** que faz esses prazos acontecer. Prazo escrito sem rotina é promessa sem execução.
+Revisão 19/10/2026 do rascunho importado da PR #52. Rotina ainda não adotada/executada por esta sessão. Texto público atual: Privacidade 1.14, seção 9. Procedimento operacional canônico: [rotinas-atendimento-retencao.md](rotinas-atendimento-retencao.md).
 
-## 1. E-mails e anexos de suporte — 60 dias após o encerramento
+## Correções sobre a proposta anterior
 
-**Regra (Política 1.12 §9):** eliminados da caixa em até **60 dias após o encerramento do chamado**, salvo conservação restrita e justificada por obrigação legal ou defesa em processo (LGPD, art. 16).
+- Conferência mensal poderia ultrapassar 60 dias após encerramento; usar fila de vencimentos revisada diariamente para atender ao prazo declarado.
+- `older_than:60d` usa idade da mensagem, não data de encerramento do atendimento. Não usar essa busca como prova do vencimento correto. Marcadores não substituem o registro privado da data de encerramento/data-limite.
+- Excluir só os itens pertinentes vencidos; não esvaziar indiscriminadamente toda a Lixeira. Considerar mensagens enviadas, anexos e cópias sob controle da equipe. Não prometer remoção instantânea de backups do provedor.
+- Registro mínimo de pedidos/execução pode continuar identificável ou vinculável. Não qualificá-lo automaticamente como anônimo. Prazo de guarda precisa de justificativa própria, sem copiar cinco anos dos incidentes para todas as planilhas.
 
-**Rotina proposta**
+## Limites e pendências
 
-1. **Ao encerrar** um chamado: aplicar o rótulo `encerrado/AAAA-MM-DD` na conversa.
-2. **Todo mês** (dia fixo): buscar `label:encerrado older_than:60d`, **revisar** se há motivo de conservação e **excluir** as conversas restantes.
-3. **Esvaziar a lixeira** ao final (o Gmail mantém itens excluídos por um período próprio; o prazo efetivo de eliminação inclui isso).
-4. **Registrar a execução** (data, quantidade de conversas eliminadas, **sem conteúdo**) numa planilha de retenção.
-5. **Conservação além do prazo:** registrar **o motivo, a base e a data de revisão**; manter só o necessário e restringir o acesso.
+Os 60 dias são regra confirmada do suporte; lista/licença de testadores, logs R2 e exportações exigem critérios próprios. Existem cache de último clima, cache HTTP e cache de prévias, com mecanismos diferentes; ver [mapa](data-map.md).
 
-**Quem executa:** a pessoa que responde o suporte, com revisão do controlador. **[DECISÃO]**
+O prazo normativo de registro de incidentes permanece em [incidentes-registro.md](incidentes-registro.md); dados reais e evidências ficam em registro privado. Não declarar descarte executado por existir um procedimento escrito.
 
-## 2. Lista do teste fechado (A07)
-
-Os 60 dias do atendimento **não** se estendem à lista de participantes (data-map A07).
-
-- [ ] **[DECISÃO]** Quando apagar a lista ao fim do teste e onde ela fica (Console da Play).
-- [ ] Quem tem acesso, registrado fora do Git.
-- [ ] Não copiar e-mails de participantes para o repositório nem para documentos.
-
-## 3. Dados no aparelho (A01–A04)
-
-Não há rotina do controlador: o usuário apaga limpando os dados do app ou desinstalando. O **cache de prévias** tem política de cerca de 5 minutos sem uso e limite nominal de 24 MiB; a execução da limpeza pode ocorrer depois, inclusive na próxima abertura do app (Política §9). **Prazo de cache não é prova de eliminação física.**
-
-## 4. Registros de terceiros
-
-MET, Google e Cloudflare mantêm logs e pedidos conforme seus próprios termos; o Terra não controla esses prazos. A evidência de configuração e retenção está em [vendors.md](vendors.md) (pendente).
-
-## 5. Registros de conformidade
-
-| Registro | Guarda proposta | Justificativa |
-|---|---|---|
-| Incidentes ([incidentes-registro.md](incidentes-registro.md)) | Mínimo de 5 anos | Res. CD/ANPD 15/2024, art. 10 |
-| Planilha de pedidos de titulares | 5 anos **[DECISÃO]** | Prova de que o pedido foi atendido |
-| Planilha de execução da retenção | 5 anos **[DECISÃO]** | Prova de que a rotina rodou |
-
-Esses registros guardam **datas e contagens, sem conteúdo** nem dado pessoal.
-
-## Pendências
-
-- [ ] **[DECISÃO]** Executor, dia do mês e ferramenta da planilha.
-- [ ] **[JURÍDICO]** Hipóteses de conservação para atendimento de consumo e reembolso.
-- [ ] Rodar a rotina uma vez e anexar o registro, para fechar D06.
+- [ ] Rafael confirmar executor, substituto, controle de vencimentos e locais de cópias.
+- [ ] Adotar e testar a rotina em cenário fictício; registrar separadamente execuções reais.
+- [ ] Definir critério de retenção de participantes e evidência mínima das rotinas.
+- [ ] Conferir fornecedores no [roteiro administrativo](conferencia-administrativa.md).

@@ -5,6 +5,8 @@
 
 **Estado em 2026-10-16:** nenhum incidente registrado. Isso significa ausência de registro, **não** prova de que nenhum tenha ocorrido.
 
+**Complemento em 19/10:** este arquivo é somente modelo público. Não preencher aqui ocorrências reais, contatos, protocolos ou detalhes de vulnerabilidades; dados agregados e descrições também podem reidentificar. A existência do modelo não comprova registro privado implantado.
+
 ## Modelo (conteúdo mínimo do art. 10, §1º)
 
 ```markdown

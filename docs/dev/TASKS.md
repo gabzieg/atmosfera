@@ -1,5 +1,7 @@
 # Terra — Tasks (fase atual)
 
+**Prioridade em 19/10:** PR #52 incorporada e registros operacionais revisados. [Diagnóstico do teste fechado](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md) e auditor local de AAB preparados; pacote local de 06/10 reprovado por documentos desatualizados. Aguardar maior versionCode, composição do rascunho/certificado e configuração do Console para fechar candidato. Segurança dos dados e análise de Age Signals preparadas, sem SDK novo ou declaração final. Sete contas de licença informadas; checkout/adesões/contagem pendentes.
+
 **Conciliação atual em 15/10:** `0d36b4a` integrado; documentos 1.12/1.8/1.5 preparados. Adultos/Brasil no teste e futuros efeitos/estilos incluídos no Premium confirmados; artes separadas. Registros anteriores de regra de efeitos futuros pendente foram superados. Fornecedores, bases, governança, continuidade, candidato e aprovação continuam pendentes, conforme [D01–D10](../../.lgpd/gaps.md).
 
 ## Respostas de Rafael em 15/10 — atualização do escopo
