@@ -2,6 +2,8 @@
 
 Respostas diretas de Rafael nesta data; não inferir configuração do Console ou aprovação jurídica concluída.
 
+**Complemento de 19/10/2026:** consulte o [retorno consolidado para Gabriel](RETORNO-GABRIEL-PLAY-CONSOLE-2026-10-19.md) e a [conferência administrativa](../../.lgpd/conferencia-rafael-2026-10-17.md). Há evidência posterior de lista de licenças selecionada com sete contas, avanço relatado para 9/11, países selecionados além do Brasil e erros no envio da versão. As decisões originais abaixo permanecem históricas; quantidades e configurações ainda descritas como desconhecidas devem ser lidas junto ao complemento.
+
 | Pergunta | Resposta e situação |
 |---|---|
 | Versão e maior versionCode usado | “A próxima versão”, com últimos ajustes. É a escolha do candidato; não informa o número/código já usado no Console. Gabriel confere e identifica o artefato. |
