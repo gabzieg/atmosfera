@@ -38,6 +38,9 @@ jobs:
         working-directory: android-app
         run: ./gradlew testDebugUnitTest --stacktrace --no-daemon
 
+      - name: Conferir fonte e exportação dos documentos legais
+        run: python3 scripts/sincronizar_documentos_legais.py --check
+
       # Lint com baseline (app/lint-baseline.xml): falha só em erro NOVO — os
       # pré-existentes estão congelados. Regenere o baseline se corrigir um.
       - name: Rodar lint
@@ -47,6 +50,12 @@ jobs:
       - name: Compilar APK de debug
         working-directory: android-app
         run: ./gradlew assembleDebug --stacktrace --no-daemon
+
+      # Also checks the versioned R8 override and reflection keep rules.
+      # CI does not receive signing files; this is build validation, not a Play candidate.
+      - name: Compilar release minificada
+        working-directory: android-app
+        run: ./gradlew assembleRelease --stacktrace --no-daemon
 
       - name: Publicar o APK como artefato
         if: success()

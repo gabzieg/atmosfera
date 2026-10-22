@@ -1,12 +1,15 @@
 package com.terra.wallpaper.engine
 
+import android.content.Context
+import org.json.JSONArray
+
 /**
  * Catálogo embarcado da primeira versão do Terra.
  *
- * Cada cenário oferece uma arte gratuita para experimentação. A compra única
- * do Premium libera todas as demais artes dos cinco cenários, além dos efeitos
- * e estilos Premium. Os cenários reservados para packs futuros ficam fora do
- * módulo Android e, portanto, não aumentam o tamanho do aplicativo.
+ * Cada cenário oferece uma arte gratuita para experimentação. Premium libera
+ * apenas efeitos e estilos. A compra individual das demais artes e a entrega
+ * do catálogo remoto ainda serão integradas; os arquivos remotos não fazem
+ * parte deste catálogo embarcado.
  *
  * [id] corresponde à pasta `assets/atmosfera/cenas/<id>/`.
  * [productId] foi mantido no contrato para compatibilidade, mas não há compras
@@ -20,10 +23,14 @@ data class Cenario(
     val productId: String?,
     val artes: List<String>,
     val artesGratis: Set<String> = emptySet(),
+    val artesRemotas: Set<String> = emptySet(),
+    val miniaturas: Map<String, String> = emptyMap(),
 )
 
 object Catalogo {
-    val cenarios: List<Cenario> = listOf(
+    @Volatile private var carregados: List<Cenario>? = null
+    val cenarios: List<Cenario> get() = carregados ?: embarcados
+    val embarcados: List<Cenario> = listOf(
         Cenario(
             id = "cabana",
             nome = "Cabana na floresta",
@@ -71,6 +78,39 @@ object Catalogo {
         ),
     )
 
+    private val excluidos = setOf("simpsons", "budokai", "konoha", "timessquare", "burj", "ogro", "eiffel")
+
+    /** Metadados/miniaturas locais; nao baixa HD nem concede direito. */
+    fun carregar(c: Context) {
+        carregados = try {
+            val linhas = JSONArray(c.assets.open("atmosfera/catalogo/artes.json").bufferedReader().use { it.readText() })
+            val grupos = (0 until linhas.length()).map { linhas.getJSONObject(it) }
+                .filter { it.getString("cena") !in excluidos && it.getString("cena") !in NomesCatalogo.temporariamenteFora }
+                .groupBy { it.getString("cena") }
+            grupos.mapNotNull { (id, artes) ->
+                if (!id.matches(Regex("[a-z0-9_]+")) || Cenas.por(id).id != id) return@mapNotNull null
+                val ids = artes.map { it.getString("arte") }.distinct()
+                if (ids.any { !it.matches(Regex("[a-z0-9_]+")) }) return@mapNotNull null
+                val miniaturas = artes.associate { it.getString("arte") to it.getString("miniatura") }
+                val nativa = embarcados.firstOrNull { it.id == id }
+                if (nativa != null) {
+                    require(ids.containsAll(nativa.artes))
+                    nativa.copy(artes = nativa.artes + (ids - nativa.artes.toSet()),
+                        artesRemotas = ids.toSet() - nativa.artes.toSet(), miniaturas = miniaturas)
+                } else Cenario(id, NomesCatalogo.nome(id), "Arte do acervo Terra.",
+                    false, null, ids, artesRemotas = ids.toSet(), miniaturas = miniaturas)
+            }.sortedWith(compareBy<Cenario> { embarcados.indexOfFirst { c -> c.id == it.id }.let { n -> if (n < 0) 100 else n } }.thenBy { it.id })
+        } catch (_: Exception) { embarcados }
+    }
+
+    fun produtoArte(cenario: Cenario, arte: String): String? =
+        if (arte !in cenario.artes || cenario.gratis || arte in cenario.artesGratis) null
+        else "terra_arte_${cenario.id}_$arte"
+
+    fun produtosArtes(): Set<String> = cenarios.flatMap { c -> c.artes.mapNotNull { produtoArte(c, it) } }.toSet()
     fun por(id: String): Cenario? = cenarios.firstOrNull { it.id == id }
+    fun familia(id: String): String = NomesCatalogo.familia(id)
+    fun ambientes(id: String): List<Cenario> = cenarios.filter { familia(it.id) == familia(id) }
+    fun nomeAmbiente(id: String): String = NomesCatalogo.ambiente(id)
     val padrao: Cenario get() = cenarios.first()
 }

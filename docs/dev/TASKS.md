@@ -1,5 +1,32 @@
 # Terra — Tasks (fase atual)
 
+**Conciliação atual em 15/10:** `0d36b4a` integrado; documentos 1.12/1.8/1.5 preparados. Adultos/Brasil no teste e futuros efeitos/estilos incluídos no Premium confirmados; artes separadas. Registros anteriores de regra de efeitos futuros pendente foram superados. Fornecedores, bases, governança, continuidade, candidato e aprovação continuam pendentes, conforme [D01–D10](../../.lgpd/gaps.md).
+
+## Respostas de Rafael em 15/10 — atualização do escopo
+
+Teste fechado exclusivamente no Brasil, somente com adultos e contas de licença. Gabriel fará a revisão/aprovação final dos textos, ainda pendente. O candidato é a próxima versão após os ajustes; número/versionCode e data inicial dependem de conferência no Console. Quantidade de contas e configuração efetiva de licença não confirmadas. Premium inclui futuros efeitos e estilos, preservadas artes/variantes separadas. Intenção de não retirar conteúdo, com plano de exceção ainda em estudo. Logs, retenção e acesso dos fornecedores seguem sem definição/verificação.
+
+Este registro supera as pendências de decisão sobre país, participantes menores, responsável pela revisão e inclusão de efeitos/estilos futuros nos registros anteriores. Não confirma configuração do Console, aprovação jurídica ou início da contagem. Fontes locais 1.11/1.7/1.3 precisam de revisão e republicação no Sites; geração de HTML não altera páginas públicas.
+
+Detalhe: [respostas e roteiro para iniciar o teste](RESPOSTAS-RAFAEL-TESTE-FECHADO-2026-10-15.md).
+
+
+**Refinamento editorial em 15/10:** etapa 5 com Privacidade 1.10, Termos 1.6 e Contato 1.3; instruções internas e decisões no [registro de refinamento](REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md). Textos continuam rascunhos, sem aprovação/vigência ou republicação no Google Sites. Referências anteriores a 1.9/1.5/1.2 são históricas.
+
+## Site publicado em 15/10/2026
+
+Rafael informou a publicação do Google Sites. Links conferidos na navegação, documentados sem seleção de conta:
+
+| Destino | URL |
+|---|---|
+| Site | https://sites.google.com/view/terra-live-wallpaper |
+| Política de Privacidade — campo do Console | https://sites.google.com/view/terra-live-wallpaper/privacidade |
+| Termos | https://sites.google.com/view/terra-live-wallpaper/termos |
+| Contato | https://sites.google.com/view/terra-live-wallpaper/contato |
+
+Compras do teste: somente contas testadoras de licença, conforme decisão do titular em 15/10. Falta conferir a configuração efetiva das contas e dos instrumentos de pagamento. O site está publicado com metadados de rascunho; publicação não significa aprovação jurídica, vigência do candidato, cadastro no Console ou começo dos 14 dias. Ainda é necessário conferir o acesso sem login em sessão anônima e conciliar versão/vigência/textos do artefato. Alterações nas fontes locais exigem republicação no Google Sites; gerar os HTMLs não modifica o site.
+
+
 > Estado do trabalho em andamento, literalmente agora. Diferente do
 > `ROADMAP.md` (fases do produto até publicar), isto é o dia a dia — o que
 > está pela metade, o que decidir, o que testar. Atualizar sempre que algo
@@ -10,9 +37,31 @@
 > justamente por acumular item feito e referenciar uma branch que já tinha sido
 > mesclada.
 
-**Última atualização:** 2026-10-09 · `main` @ `2d01d16`
+**Última atualização:** 2026-10-15. V2 publicada na PR #50 @ `e9a221f` e incorporada à cópia local. Build e secret-scan do GitHub aprovados; reconferência local de 17 testes direcionados sem falhas/erros e sincronização legal conferida. PR permanece em rascunho; avaliação em aparelho/Play, produtos, produção, documentos aprovados e versionCode continuam pendentes. Nenhum novo AAB.
+
+**Prioridade definida em 14/10 por Rafael:** preparar documentação e declarações para iniciar o teste fechado. Compras, wallpapers, efeitos e nomes serão avaliados durante os 14 dias. Domínio próprio não é necessário; Google Sites/Blogger públicos são opções. Ver [preparação legal do teste](PREPARACAO-LEGAL-TESTE-FECHADO-2026-10-14.md) e guia do Console atualizado. Google Sites e URLs registrados em 15/10; compras somente com contas de licença confirmadas pelo titular. Configuração efetiva das contas, versão/vigência e aprovação dos textos permanecem pendentes.
+
+**Integração da v2 em 13/10:** ajustes funcionais aplicados sobre `8ec0993` na branch `fix/premium-privacidade-etapas-1-2`, para revisão na PR #50. Prévias/cache, navegação, cadeados, controles debug independentes, nomes e agrupamentos integrados. Vitrine: 69 cenas/358 artes/67 cards; manifesto e miniaturas preservam 71 cenas/366 artes. Estacionamento (`estacionamento`) e Feira de Natal (`natal`) ficam temporariamente fora da vitrine; Chalé/Sala de Natal permanecem. Validação desta integração: 98 testes sem falhas, lint sem erros, builds debug/release e conferência dos documentos aprovados; aparelho/Play, produtos, produção, documentos legais e candidato AAB continuam pendentes. Ver [entrega da v2](AVALIACAO-V2-RAFAEL-2026-10-13.md).
+
+Os registros datados abaixo sao historicos; a prioridade acima e o checklist representam o acompanhamento atual.
+
+**Execução local em 2026-10-10:** etapa 1 do [checklist de finalização](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md) implementada: Premium não libera artes; UI e serviço compartilham a regra de acesso; oferta e termos corrigidos. **75 testes unitários, lint e build debug aprovados.** Falta aceite em aparelho/Play; mudanças locais ainda não incorporadas à `main`. Usuário confirmou que houve somente compras de teste, sem cobrança real. O estado da `main` registrado abaixo não representa automaticamente essa árvore modificada.
+
+**Etapa 2 local em 2026-10-10:** G05/G08/G09/G16 implementados: canal oficial no relato, cache de localização/freio da MET excluídos de backup/transferência, logs minimizados em release e função de Geocoder sem uso removida. **78 testes, lint e build debug aprovados.** Seção de backup da política e três HTMLs atualizados. Por orientação do usuário, avaliações no app ficam com **Rafael**, com roteiro no checklist; seguem pendentes e não impedem avançar nas próximas implementações.
+
+**Etapa 3 em 2026-10-10:** [inventário por arte](../loja/catalogo-2026-10-10/README.md) preparado, sem mudar o catálogo do aplicativo ou o bucket. Após cortes: 71 cenas/75 artes com fundo; 237 variantes declaradas sem fundo local; 70 propostas de produtos pagos. Usuário reconfirmou objetivo de todo o acervo aprovado, nova arte como compra separada e ausência de packs no lançamento. Falta conciliar o inventário de 366 artes do Rafael, aprovar renderização, definir futuros efeitos/estilos no Premium e conferir ofertas/países/Console.
+
+**Etapa 4 local em 2026-10-10:** compra por arte, reconciliacao de direitos, catalogo com miniaturas e download solicitado integrados. 71 cenas/75 artes com arquivos, cinco amostras e 70 SKUs propostos. ZIPs locais em `dist/acervo-preparado/`, sem upload; miniaturas JPEG somam cerca de 2 MB. Falta URL publica do bucket, produtos ativos e aceite do Rafael; nao e versao pronta para publicar. Roteiro em [INTEGRACAO-ARTES-ACERVO-2026-10-10.md](INTEGRACAO-ARTES-ACERVO-2026-10-10.md). 84 testes aprovados, lint sem erros e builds debug/release aprovados; R8 emite avisos de metadados Kotlin, a avaliar no candidato. Politica: delta de backup em revisao 1.6, demais refinamentos legais na etapa 5.
+
+**Adaptacao R2/R8 em 11/10:** catalogo/miniaturas de 366 artes integrados, variantes remotas mescladas as cenas nativas e validacao de caminhos com hash adaptada. R8 9.1.29 integrado ao build e release minificada incluida na CI. Sem novo AAB, upload ou cadastro de produtos. Conferencia HTTP de seis ZIPs representativos aprovada; aceite de renderizacao, compras e producao com Rafael. Ver [adaptacao e roteiro](ADAPTACAO-R2-R8-2026-10-11.md).
+
+**Etapa 5 em 11/10:** textos canonicos refinados (privacidade 1.7, termos 1.4, contato 1.1), identificacao/canal unificados e atendimento de 60 dias incorporado. Geracao explicita sincroniza nove HTMLs e manifesto; checks locais e importador de Willian aprovados sem alterar seu front-end. Mantidos como rascunho: faltam aprovacao juridica, dominios/hospedagem, vigencia/versao aplicavel e processos de continuidade/transferencias/publico. Historico preservado; rascunhos pessoais nao publicados. Ver [entrega da etapa 5](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md).
+
+**Encaminhamento em 11/10:** usuario solicitou commit/push de todo o material pendente para Huppes. Registros locais antigos agora marcados como historicos; canal antigo e caminhos pessoais desnecessarios omitidos. Checklist e roteiro de passagem atualizados. Etapa 6 ainda depende do maior versionCode no Console (usuario nao sabe) e da avaliacao do Rafael (resultado ainda nao recebido). Nenhum novo AAB gerado. Ver [encaminhamento ao Huppes](ENCAMINHAMENTO-HUPPES-2026-10-11.md).
 
 ## Estado (confirmado em 2026-10-09)
+
+**Atualização do acervo em 11/10:** Rafael confirmou bucket existente, acessível na URL de testes. Conciliação do manifesto público confirma 71 cenas/366 artes após cortes: todas as 75 locais, mais 291; 54 variantes ausentes das declarações locais do motor. A PR #50 precisa adaptar caminhos com hash, manifesto WebP, catálogo e miniaturas antes de usar a URL. Não houve upload, novo build nem ajuste de R8 nesta conferência. O init script mencionado está apenas na máquina do Rafael. Evidências em [conciliação R2](../loja/conciliacao-2026-10-11/README.md). Esta atualização substitui a indicação anterior de bucket inexistente; endpoint de produção segue pendente.
 
 - **App**: versão **1.0.5, versionCode 6** na `main`. AAB assinado gerado em 06/10 (SHA-256 `19b88b3d…e353e6bb`). **Não está confirmado** que foi enviado ao Console nem que o código 6 está livre — só o Gabriel vê o Console.
 - **Gate**: `testDebugUnitTest lintDebug assembleDebug` verde, **69 testes** unitários (14 classes), CI verde na `main`.
@@ -24,13 +73,13 @@
 
 Detalhe e opções em `.lgpd/gaps.md` e `.lgpd/STATUS.md` — **ainda no PR #48 (rascunho), não na `main`**.
 
-1. **Escopo do lançamento** — 5 cenas embutidas agora e packs depois, ou catálogo remoto completo. O SPEC (29/09) diz catálogo completo; o Gabriel disse 5 cenas (05/10); o **Rafael não confirmou a mudança**. A Loja remota **não existe** no app (só o painel de debug baixa; `Acervo.BASE_PADRAO` vazio).
-2. **O que o Premium libera nas 5 cenas** — o código e os Termos §5.1 dizem "todas as artes"; a decisão de 04/10 e o SPEC dizem "só efeitos e estilos". Conferir no Console se houve compra real antes de mudar.
+1. **Escopo fechado em 10/10:** objetivo de todo o acervo aprovado, reconfirmado pelo usuário. Sem packs comerciais no lançamento; cada arte nova é compra separada. Falta conciliar/validar arquivos e implementar a Loja remota; o catálogo de produção não foi aprovado pelo inventário local.
+2. **Premium nas 5 cenas — decisão fechada e correção local implementada em 10/10.** Apenas efeitos/estilos. Termos §5.1 e interface atualizados; aceite em aparelho/Play ainda pendente. Usuário informou somente compras de teste.
 3. **Público 13+ ou 18+** (ECA Digital).
 4. **Encarregado** — designar o Rafael ou manter a dispensa de ATPP.
 5. **Retenção do atendimento** — 60 dias após resolver?
 6. **Qual texto legal vale** — o `.md` canônico (com `[PREENCHER]`) e os HTML divergem; e o que fazer com `docs/legal/revisao-2026-10-05/` (fora do Git).
-7. **Correções pequenas de código** (G05 e-mail do "Reportar problema", G08 backup, G09 log, G16 código morto).
+7. **Correções G05/G08/G09/G16 — implementadas localmente em 10/10.** Ver evidência acima; avaliação em aparelho pelo Rafael ainda pendente.
 8. **Advogado** — quem revisa (G03, G11, G12, G20) e quando.
 
 ## Em andamento / a fazer
@@ -54,7 +103,7 @@ Detalhe e opções em `.lgpd/gaps.md` e `.lgpd/STATUS.md` — **ainda no PR #48 
 ## Decisões tomadas (não reabrir sem motivo novo)
 
 - **Clima**: MET Norway (2026-10-03, a API gratuita da Open-Meteo é só não comercial); consulta **só com o wallpaper visível na home, tela acordada e desbloqueada** (2026-10-05, PR #46); freio persistente em 429/403.
-- **Monetização** (SPEC 29/09, reconfirmada 04/10): Premium **R$ 49,90**, compra única, só efeitos e estilos; cenários avulsos **R$ 1,99**. Packs comerciais ainda indefinidos. **O código ainda não separa os dois** (decisão pendente 2).
+- **Monetização**: Premium **R$ 49,90**, compra única, só efeitos e estilos; compra avulsa de **uma arte específica por R$ 1,99**, segundo o questionário do titular de 08/10. Sem packs comerciais no lançamento, confirmado em 10/10. Separação de Premium implementada localmente em 10/10; compra por arte integrada localmente; aceite pela Play pendente. Conferir o estado efetivo da versão distribuída.
 - **Acervo remoto (R2)**: objetivo de lançamento desde 29/09, a pedido do Rafael — **sujeito à decisão pendente 1**.
 - **Público 13+** (2026-10-04) — sujeito à decisão pendente 3.
 - **Prévia ao vivo fora da Home** (2026-08-10): fica no onboarding, no detalhe da Loja e no comparador do Premium.

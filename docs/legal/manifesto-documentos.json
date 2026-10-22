@@ -1,0 +1,72 @@
+{
+  "revisao": "2026-10-15",
+  "status": "rascunho_para_revisao",
+  "aprovado_para_publicacao": false,
+  "aprovacao_registro": null,
+  "vigencia": null,
+  "versao_app": null,
+  "dominio_publico": "https://sites.google.com/view/terra-live-wallpaper",
+  "controlador": "Rafael Huppes",
+  "contato": "suporteterrabr@gmail.com",
+  "paginas_publicas": {
+    "privacidade": "https://sites.google.com/view/terra-live-wallpaper/privacidade",
+    "termos": "https://sites.google.com/view/terra-live-wallpaper/termos",
+    "contato": "https://sites.google.com/view/terra-live-wallpaper/contato"
+  },
+  "publicacao_web": {
+    "data_informada_pelo_titular": "2026-10-15",
+    "plataforma": "Google Sites",
+    "estado": "publicado_pelo_titular_com_metadados_de_rascunho",
+    "verificacao": "URLs de navegação conferidas no navegador; seleção authuser removida dos links documentados. Verificação anônima independente não concluída nesta rodada."
+  },
+  "decisoes_teste": {
+    "data": "2026-10-15",
+    "pais": "BR",
+    "somente_maiores_de_idade": true,
+    "compras_somente_licenca": true,
+    "quantidade_contas_licenca_confirmada": null,
+    "revisao_aprovacao_responsavel": "Gabriel",
+    "revisao_aprovacao_concluida": false,
+    "versao_candidata_escopo": "Proxima versao apos os ajustes; numero e versionCode ainda dependem de conferencia no Console.",
+    "inicio_teste_confirmado": null,
+    "configuracao_fornecedores_verificada": false,
+    "premium_inclui_efeitos_estilos_futuros": true,
+    "artes_variantes_permanecem_separadas": true,
+    "continuidade_conteudo": "Intencao de nao remover; plano de excecao, disponibilidade e restauracao ainda em estudo."
+  },
+  "documentos": {
+    "privacidade": {
+      "versao": "1.14",
+      "fonte": "docs/legal/PRIVACIDADE.md",
+      "sha256_fonte": "6932ad78abb6b0aa7e22a14721cd8c46b4b8aaeee033d490976f7c258c8e449d",
+      "sha256_html": "b20462a9495e27a9c759af2d9dfd2df4d0ed6d14e16b78cf07479769aa6d612c",
+      "copias": [
+        "docs/privacidade/index.html",
+        "public_html/privacidade/index.html",
+        "android-app/app/src/main/assets/legal/privacidade/index.html"
+      ]
+    },
+    "termos": {
+      "versao": "1.8",
+      "fonte": "docs/legal/TERMOS.md",
+      "sha256_fonte": "b948bf07d5e47247616851648fdc9289e1f241b0e25739fbc5aa539ae205879e",
+      "sha256_html": "06d7ea6670a87ff9b1b5d66db08e0ea86f1820c5ba54059c0706982cbc2ef9f0",
+      "copias": [
+        "docs/termos/index.html",
+        "public_html/termos/index.html",
+        "android-app/app/src/main/assets/legal/termos/index.html"
+      ]
+    },
+    "contato": {
+      "versao": "1.6",
+      "fonte": "docs/legal/CONTATO.md",
+      "sha256_fonte": "c63fc60da9724fce4fbd791829f7626f4aa7ca89bb29ef41275c7cac6a6c74d8",
+      "sha256_html": "3778fb21f333e4661d1327562490118f6ff8a318e4dcb91eade18959078021f0",
+      "copias": [
+        "docs/contato/index.html",
+        "public_html/contato/index.html",
+        "android-app/app/src/main/assets/legal/contato/index.html"
+      ]
+    }
+  }
+}

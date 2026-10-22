@@ -196,6 +196,14 @@ private fun ListaAjustes(viewModel: MainViewModel, onNavegar: (TelaAjustes) -> U
             )
         }
 
+        GrupoAjustes(titulo = "Artes baixadas") {
+            LinhaAjuste(icone = Icons.Default.CleaningServices, rotulo = "Remover downloads", onClick = {
+                val removido = viewModel.removerDownloads()
+                Toast.makeText(context, if (removido) "Downloads removidos; compras preservadas."
+                    else "Troque para uma amostra gratuita e encerre o download antes de remover.", Toast.LENGTH_LONG).show()
+            })
+        }
+
         GrupoAjustes(titulo = "Ajuda") {
             LinhaAjuste(
                 icone = Icons.AutoMirrored.Filled.HelpOutline,

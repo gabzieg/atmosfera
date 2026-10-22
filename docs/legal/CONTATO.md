@@ -1,83 +1,49 @@
-# Contato e uso de dados — Terra - Live Wallpaper
+# Contato — Terra
 
-> **Texto canônico.** A página publicada
-> ([`docs/contato/index.html`](docs/contato/index.html)) é um espelho deste
-> arquivo. Ao mudar um, mude o outro no mesmo commit.
->
-> **Antes de publicar, preencha os `[PREENCHER: …]`** — os mesmos dados de
-> [PRIVACIDADE.md](PRIVACIDADE.md) e [TERMOS.md](TERMOS.md).
->
-> Esta página existe porque a tela de Ajustes do app abre um HTML local em vez
-> de um `mailto:` — decisão do usuário: além do endereço de contato, a página
-> precisa dizer **o que acontece com os dados** de quem escreve.
+**Página pública:** [https://sites.google.com/view/terra-live-wallpaper/contato](https://sites.google.com/view/terra-live-wallpaper/contato)
 
-**Última atualização:** 3 de outubro de 2026
+**Versão do documento:** 1.6
+**Última atualização:** 15 de outubro de 2026
+**Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
+**Aplica-se a:** Atendimento do Terra e próxima revisão de teste fechado, restrita a adultos no Brasil; versão de distribuição ainda a identificar.
+**Vigência:** A definir após aprovação da revisão correspondente.
 
----
+## Resumo
 
-## Como falar com a gente
+O controlador responsável pelo Terra e ponto focal de comunicação com titulares e com a ANPD é **Rafael Huppes, pessoa física**. Utilize o canal único [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com) para suporte técnico, dúvidas sobre compras/reembolsos e solicitações de privacidade e direitos sobre dados pessoais (LGPD).
 
-| Assunto | Canal |
-|---|---|
-| **Suporte, bug, sugestão** | [PREENCHER: e-mail de contato] |
-| **Privacidade e direitos do titular (LGPD)** | [PREENCHER: e-mail de contato] |
-| **Reembolso de compra** | Google Play — <https://play.google.com/store/account> (não conseguimos processar reembolso, é com o Google) |
-| **Autoridade brasileira de proteção de dados** | ANPD — <https://www.gov.br/anpd> |
+Esse contato não comprova designação formal de encarregado ou dispensa dessa designação. O enquadramento permanece em avaliação nesta revisão.
 
-Respondemos pedidos relativos a dados pessoais em até **15 dias**, prazo do
-art. 19, II da LGPD.
+## 1. Suporte técnico, relato de problemas e compras
 
-## O que informar num pedido de suporte
+Para atendimento mais ágil sobre funcionamento do aplicativo ou cenários:
 
-Quanto mais específico, mais rápido resolvemos. Ajuda muito:
+- **Pelo botão "Reportar problema" no aplicativo:** ao marcar os sintomas na tela de um cenário, o Terra abre o seu aplicativo de e-mail externo com um rascunho pré-preenchido contendo os sintomas selecionados e um bloco técnico (`cena`, `arte`, `efeito`/estilo ativo, códigos dos `sintomas`, versão do `app`, fabricante/modelo do `aparelho` e versão do `Android`). Nenhum dado é enviado automaticamente em segundo plano: você pode revisar, editar ou cancelar a mensagem antes de enviá-la.
+- **Por e-mail direto:** informe modelo do aparelho, versão do Android e do app, cenário/variante e o ocorrido. Capturas de tela são opcionais; antes de anexar, remova notificações ou dados pessoais de terceiros.
+- **Compras e reembolsos:** informe o problema encontrado e, somente se solicitado para localizar a transação na Google Play, o identificador do pedido (`GPA....`). Nunca envie senhas, dados de cartão de crédito, CPF ou fotos de documentos. Reembolsos podem ser solicitados diretamente na [Google Play](https://support.google.com/googleplay/answer/2479637?hl=pt-BR) ou pelo nosso suporte; o fluxo da plataforma não substitui nosso dever de atendimento ao consumidor.
 
-- modelo do aparelho e versão do Android;
-- versão do app (aparece em **Ajustes → Sobre**);
-- qual cenário e estilo estavam ativos;
-- o que você esperava que acontecesse e o que aconteceu;
-- se der, um print ou vídeo curto da tela.
+## 2. Exercício de direitos do titular (LGPD)
 
-**Não envie** senha, dados de cartão, CPF ou documento. Nunca pedimos isso, e
-não temos como usá-los — pagamentos são processados inteiramente pelo Google.
+Para solicitações baseadas nos **arts. 18 e 19 da Lei nº 13.709/2018 (LGPD)** — incluindo confirmação da existência de tratamento, acesso aos dados, correção, eliminação de registros de atendimento, informações sobre compartilhamento com fornecedores ou revogação de autorização — escreva para [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com) indicando no assunto ou no texto tratar-se de **solicitação de privacidade/LGPD**.
 
-### Identificação do controlador
-Para os fins da LGPD, o controlador de dados é **Rafael Huppes**.
+- **Dados mínimos:** descreva o pedido e, quando possível, escreva a partir do endereço usado no atendimento ou na participação no teste. Não é necessário ter chamado de suporte anterior para exercer seus direitos. Não envie cópias de documentos oficiais; eventual confirmação proporcional de titularidade só será solicitada se houver dúvida fundada para evitar acesso indevido por terceiros.
+- **Prazos legais de resposta:** pedidos de confirmação de existência ou de acesso a dados pessoais são respondidos em formato simplificado imediatamente, quando cabível, ou por declaração clara e completa em **até 15 (quinze) dias** contados do requerimento (art. 19, II da LGPD). Demais solicitações seguem os prazos legais pertinentes, distintos do tempo de diagnóstico de suporte técnico comum.
+- **Escopo:** o pedido pode abranger todos os dados pessoais sob controle do responsável pelo Terra, incluindo atendimento, listas de participantes do teste e eventuais registros administrativos identificáveis sob sua responsabilidade. A análise não se limita aos e-mails de suporte nem depende de existir conta própria no aplicativo. O atendimento considera os registros existentes, as responsabilidades de cada agente e os requisitos e limites legais de conservação. Limpar dados ou desinstalar o app remove os dados locais, mas não elimina automaticamente e-mails enviados, listas administrativas, histórico de compras na Google Play ou registros de fornecedores. Você pode usar as ferramentas da conta Google para dados sob controle desse serviço, sem perder o canal do Terra para esclarecer seu próprio tratamento e suas responsabilidades. O titular também pode peticionar perante a [ANPD](https://www.gov.br/anpd).
 
-## O que fazemos com os dados do seu contato
+## 3. Tratamento e retenção dos dados do atendimento
 
-Esta é a parte que a Política de Privacidade não cobre, porque trata do app —
-aqui trata-se do **e-mail que você nos envia**.
+Recebemos o endereço de e-mail remetente, o conteúdo da mensagem, os campos técnicos do rascunho (quando utilizados) e eventuais anexos enviados voluntariamente. As mensagens são processadas via **Gmail/Google**, com acesso restrito ao responsável (**Rafael Huppes**) e a eventual colaborador expressamente autorizado para resolver o chamado. Não utilizamos endereços de suporte para envio de publicidade ou marketing.
 
-| | |
-|---|---|
-| **O que recebemos** | O que você escrever: seu endereço de e-mail, o conteúdo da mensagem e qualquer anexo que você decidir mandar (print, vídeo). |
-| **Para quê** | Responder você e corrigir o problema relatado. Nada mais. |
-| **Base legal** | Execução de procedimento preliminar a pedido do titular (art. 7º, V da LGPD) e, para pedidos de direitos, cumprimento de obrigação legal (art. 7º, II). |
-| **Com quem é compartilhado** | Ninguém. A mensagem fica na caixa de e-mail do desenvolvedor, no provedor de e-mail utilizado. Não repassamos a terceiros, não usamos para marketing e não alimentamos lista de contatos. |
-| **Por quanto tempo** | Enquanto for útil para o atendimento e o histórico do caso; pedidos de direitos do titular ficam registrados pelo prazo necessário para comprovar o atendimento. Você pode pedir a exclusão a qualquer momento. |
-| **Seus direitos** | Os mesmos do art. 18 da LGPD — acesso, correção, eliminação, portabilidade e revogação. Escreva para o mesmo endereço pedindo. |
+As mensagens e anexos são mantidos pelo prazo de **60 dias após o encerramento do atendimento**, sendo eliminados da caixa de suporte ao término desse período. A conservação além de 60 dias ocorre apenas de forma restrita e fundamentada quando necessária para cumprimento de obrigação legal ou regulatória (art. 7º, II e art. 16, I da LGPD) ou para exercício regular de direitos em processo judicial, administrativo ou arbitral (art. 7º, VI). Consulte os detalhes completos na [Política de Privacidade](PRIVACIDADE.md) e nos [Termos de Uso](TERMOS.md).
 
-Importante: **o app em si continua não coletando nada disso.** Ele não tem
-formulário, não envia mensagem em segundo plano e não sabe o seu e-mail. O
-único dado pessoal tratado pelo aplicativo é a localização aproximada, para
-consultar o clima — detalhes em [PRIVACIDADE.md](PRIVACIDADE.md).
+## 4. Site e histórico
 
-## Resumo do que o app trata (atalho)
+As páginas públicas de documentos são hospedadas no Google Sites, sem formulários, anúncios ou analytics próprios adicionados pelo Terra; o Google pode tratar dados técnicos de conexão e segurança conforme sua própria política. As condições específicas das compras durante o período de teste fechado constam nos [Termos de Uso](TERMOS.md).
 
-Para não obrigar você a abrir a política inteira:
+Revisão 1.1 de 11/10/2026: canal oficial, responsável, retenção de 60 dias e atendimento de compras/privacidade. Revisão 1.2 de 15/10/2026: preparação no Google Sites e escopo de compras de licença no teste fechado. Revisão 1.3 de 15/10/2026: página concentrada em atendimento, dados e direitos.
 
-- **Localização aproximada** → enviada só à MET Norway (Instituto
-  Meteorológico da Noruega), arredondada para cerca de 1 km, para saber o clima.
-  Sem ela, o app usa São Paulo (SP) e funciona igual. Nunca vai pro servidor
-  de conteúdo abaixo.
-- **Preferências** (cenário, arte, estilo, Premium) → ficam só no aparelho.
-- **Último clima consultado** → cache local, sobrescrito a cada consulta.
-- **Compras** → processadas pelo Google Play; não vemos dados de pagamento.
-- **Download de cenários** → alguns vêm de um servidor de arquivos (Cloudflare
-  R2), baixado só quando você escolhe aplicar. Esse servidor não recebe sua
-  localização nem processa dado pessoal.
-- **Não existe** conta, login, anúncio, analytics, rastreamento ou banco de
-  dados de usuários do nosso lado.
+Revisão 1.4 de 15/10/2026: detalhamento dos campos pré-preenchidos na opção "Reportar problema" (`enviarRelato`), distinção entre chamados de suporte técnico e requisições de direitos do titular (arts. 18 e 19 da LGPD), e explicitação do responsável como ponto focal de comunicação com titulares e com a ANPD.
 
-Texto completo: [Política de Privacidade](PRIVACIDADE.md) ·
-[Termos de Uso](TERMOS.md)
+Revisão 1.5 de 15/10/2026: conciliação do escopo de adultos/Brasil no teste e distinção entre canal de contato e enquadramento de encarregado, preservado o detalhamento do relato e do atendimento. Sem aprovação ou nova vigência.
+
+Revisão 1.6 de 15/10/2026: pedidos de direitos abrangem dados identificáveis sob responsabilidade do Terra, incluindo participantes do teste e registros administrativos, sem exigir atendimento anterior. Sem aprovação ou nova vigência.

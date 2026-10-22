@@ -70,8 +70,8 @@ atmosfera/
   descreve a fronteira entre o motor (congelado) e o front, e a interface estável entre os dois.
 - **Vai publicar uma versão?** → [docs/dev/CHECKLIST_PUBLICACAO.md](docs/dev/CHECKLIST_PUBLICACAO.md)
 - **Mexeu em `weather/`, `billing/` ou no manifesto?** → confira se
-  [docs/legal/PRIVACIDADE.md](docs/legal/PRIVACIDADE.md) continua verdadeira (é o texto publicado, não
-  um rascunho) e replique a mudança em [`docs/privacidade/index.html`](docs/privacidade/index.html).
+  [docs/legal/PRIVACIDADE.md](docs/legal/PRIVACIDADE.md) corresponde ao comportamento. A revisão atual ainda é rascunho; use
+  `python scripts/sincronizar_documentos_legais.py` para gerar as três exportações. Ver [processo editorial](docs/legal/README.md).
 - **Usando Claude Code neste repo?** → [CLAUDE.md](CLAUDE.md) tem os comandos de build/verificação
   e as convenções do projeto pra não precisar reler tudo a cada sessão.
 
@@ -126,22 +126,83 @@ como "Atmosfera Teste".
 Location → lat/long → Send. Padrão do app sem permissão: São Paulo, SP
 (-25.3947, -51.4528).
 
-**Build de release:** gerar a keystore de produção uma vez só (guarde em local
-seguro — perdê-la impede publicar updates do mesmo app):
+**Build de release — candidato para teste:** use a chave de upload existente
+do aplicativo. Para atualizar o Terra, não gere nem substitua a chave. Na máquina
+segura de geração, confira JDK 17, SDK Android 36 e o wrapper do repositório.
+Antes de alterar `versionCode`, reconfira o maior código enviado e envios em
+andamento no Console; use um código maior e ainda não utilizado, preservando
+`com.terra.wallpaper`. O nome atual é `1.0.5`; mudá-lo exige decisão explícita.
 
-```bash
-keytool -genkey -v -keystore atmosfera-release.jks \
-  -alias atmosfera -keyalg RSA -keysize 2048 -validity 10000
+Identifique a revisão final em um checkout limpo separado, sem sobrescrever
+alterações de outro workspace. Na raiz, registre `git rev-parse HEAD`,
+`git branch --show-current` e `git status --short` (deve estar vazio), rode
+`git diff --check` e `python3 scripts/sincronizar_documentos_legais.py --check`.
+Uma árvore preparada sem commit ainda depende da definição/autorização dessa
+revisão; CI de outro commit não valida o candidato.
+
+Configure localmente `android-app/keystore.properties` conforme o exemplo,
+usando a assinatura existente e preenchendo também `playLicensePublicKey`
+com a chave pública de licenciamento do aplicativo no Play Console. Confira
+presença e correspondência dessa chave na máquina segura; o Gradle valida o
+formato Base64/RSA quando preenchida, mas aceita vazio. Sem esse arquivo o
+release pode compilar sem assinatura; com Billing vazio, compras são recusadas.
+Nunca envie senhas, keystore ou o conteúdo desse arquivo para Git/chat.
+
+Confirme com o responsável o endpoint HTTPS público do acervo para o teste.
+Release aceita URL vazia e não herda o bucket padrão do debug. No PowerShell,
+em `android-app/`, com os arquivos locais configurados, execute cada etapa e
+pare se houver erro:
+
+```powershell
+java -version
+.\gradlew.bat --version
+$acervoTeste = Read-Host 'Endpoint HTTPS publico confirmado para este teste'
+if ([string]::IsNullOrWhiteSpace($acervoTeste)) { throw 'Endpoint obrigatorio' }
+.\gradlew.bat clean testDebugUnitTest lintDebug assembleDebug assembleRelease bundleRelease "-PterraAcervoUrl=$acervoTeste"
 ```
 
-Copiar `android-app/keystore.properties.example` para
-`android-app/keystore.properties` e preencher `storeFile`/senhas — o
-`build.gradle` lê esse arquivo sozinho e assina o release automaticamente
-quando ele existir (sem ele, `assembleRelease` builda sem assinar; não afeta
-`assembleDebug` nem a CI). Gerar pelo Android Studio: **Build → Generate
-Signed Bundle/APK**, ou `./gradlew bundleRelease` no terminal. Nunca versione
-a keystore, as senhas nem `keystore.properties` — o `.gitignore` já cobre
-publicar, ver [docs/dev/CHECKLIST_PUBLICACAO.md](docs/dev/CHECKLIST_PUBLICACAO.md).
+Em Bash, o mesmo gate usa `./gradlew` e o argumento
+`-PterraAcervoUrl` com o endpoint confirmado. Confira localmente o BuildConfig
+gerado para release: `DEBUG=false`, `ACERVO_URL` igual ao endpoint confirmado e
+chave Billing presente e correspondente à configuração local. Registre apenas
+o resultado dessas conferências, sem copiar o conteúdo do arquivo.
+
+Verifique **o AAB final**, em `android-app/`, usando o JAR oficial do
+[bundletool](https://developer.android.com/tools/bundletool) já disponível no
+ambiente. Se a ferramenta faltar, registre a pendência antes de concluir o
+candidato. No PowerShell:
+
+```powershell
+$bundletoolJar = Read-Host 'Caminho do JAR bundletool existente'
+if (!(Test-Path -LiteralPath $bundletoolJar -PathType Leaf)) { throw 'JAR ausente' }
+$aab = 'app/build/outputs/bundle/release/app-release.aab'
+java -jar "$bundletoolJar" validate "--bundle=$aab"
+java -jar "$bundletoolJar" dump manifest "--bundle=$aab" --module=base
+jarsigner -verify -verbose -certs -strict "$aab"
+keytool -printcert -jarfile "$aab"
+Get-FileHash -Algorithm SHA256 "$aab"
+```
+
+No manifesto extraído, confira pacote, versão/código acordados, minSdk 26 e
+targetSdk 36; `debuggable` e `usesCleartextTraffic` não podem estar `true`, nem
+o alias `.debug.DebugLauncher` estar presente. A `DebugActivity` interna existe
+no manifesto principal e deve continuar sem exportação. Registre a verificação
+da assinatura e compare a impressão SHA-256 do certificado com o certificado
+de **upload** esperado, não com a chave pública Billing ou, se diferente, o
+certificado de assinatura dos APKs pela Play. Avisos de certificado autoassinado
+ou cadeia não confiável podem causar saída não zero no
+[`jarsigner -strict`](https://docs.oracle.com/en/java/javase/17/docs/specs/man/jarsigner.html):
+registre e avalie os motivos com o certificado esperado; falha de integridade,
+entrada sem assinatura ou identidade divergente impede concluir.
+
+Guarde o AAB e `app/build/outputs/mapping/release/mapping.txt` juntos em
+armazenamento privado do responsável. Registre revisão/branch, estado Git,
+versão, endpoint público, ferramentas usadas, resultados dos gates, SHA-256
+do AAB e impressão do certificado de upload no item de candidato do
+[checklist canônico](docs/dev/CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md).
+Essas verificações não comprovam compras/restauração em aparelho, correção de
+erros do Console ou aprovação pela Play. Gerar o candidato não autoriza upload
+ou distribuição.
 
 **Problemas comuns:**
 

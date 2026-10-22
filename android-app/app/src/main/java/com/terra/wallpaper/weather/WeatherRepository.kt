@@ -354,7 +354,7 @@ class WeatherRepository internal constructor(
                     precipMm15 = mm15,
                     fonte = "MET Norway · ${simbolo ?: "nuvens"}",
                 )
-                Log.d(TAG, "Clima obtido: $state")
+                if (BuildConfig.DEBUG) Log.d(TAG, "Clima obtido: $state")
                 Result.success(state)
             } catch (e: CancellationException) {
                 throw e
@@ -366,7 +366,8 @@ class WeatherRepository internal constructor(
                     freio.aoSerBarrado(e.response()?.headers()?.get("Retry-After")?.toLongOrNull())
                     Log.w(TAG, "MET respondeu ${e.code()}; freio ligado até ${freio.bloqueadoAteMs()}")
                 } else {
-                    Log.e(TAG, "Erro ao buscar clima: ${e.message}")
+                    if (BuildConfig.DEBUG) Log.e(TAG, "Erro ao buscar clima: ${e.message}")
+                    else Log.e(TAG, "Falha na consulta meteorológica (${e.javaClass.simpleName}).")
                 }
                 Result.failure(e)
             }

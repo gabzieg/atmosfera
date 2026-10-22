@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <full-backup-content>
+    <exclude domain="file" path="acervo/" />
     <!-- A posse é restaurada pelo Google Play, não pelo backup do aparelho. -->
     <exclude domain="sharedpref" path="atmosfera_plano.xml" />
+    <exclude domain="sharedpref" path="atmosfera_compras_artes.xml" />
+    <!-- Clima/localização e pausas do provedor são estado local, não portátil. -->
+    <exclude domain="sharedpref" path="atmosfera_weather_cache.xml" />
+    <exclude domain="sharedpref" path="atmosfera_met_freio.xml" />
 </full-backup-content>
