@@ -170,13 +170,15 @@ código, parte é titularidade legal.
 |---|---|---|
 | Textos legais e mantê-los em dia com o código | Gabriel | Mesmo dono dos arquivos acima |
 | **Data Safety Form** — conteúdo | Gabriel | É declaração sobre o que o **código** coleta. Declarar diferente do que o APK pede é a causa nº1 de rejeição — exige conhecer `weather/`, `LocationHelper` e o manifesto. Fonte atual: [matriz de 19/10](../../.lgpd/seguranca-dados-play-2026-10-19.md) |
-| Data Safety, IARC e demais telas — preenchimento | Rafael | Só ele acessa o Console (ver abaixo); Gabriel fornece as respostas e confere o resultado |
+| Data Safety, IARC e demais telas — preenchimento | Rafael (titular) | Gabriel fornece as respostas; a conta Google dele também abre o Console (ver abaixo) |
 | **Conta do Google Play Console** | Rafael Huppes | **Não delegável.** O titular é o publicador legal — recebe os pagamentos, assina os formulários fiscais, e é o **controlador** nomeado na política de privacidade e nos termos (Rafael Huppes, pessoa física, confirmado por Gabriel em 04/10) |
 
-**Acesso às contas (desde 15/10, confirmado por Gabriel):** só o Rafael acessa
-Play Console, Cloudflare R2 e Gmail de suporte. Toda conferência de Console
-chega ao Gabriel como relato ou print do Rafael — registre assim, não como
-observação direta. O Google Sites também foi publicado pelo Rafael; a publicação
+**Acesso às contas:** a conta de desenvolvedor *Rafael Huppes* (tipo pessoal)
+também abre com a conta Google do Gabriel — conferido no navegador em 22/10, sem
+conferir o nível de permissão. Isso corrige o registro de 15/10 de que só o
+Rafael acessava as contas; o estado do Console pode ser lido direto em vez de
+depender de print. Cloudflare R2 e Gmail de suporte seguem, pelo que se sabe, só
+com o Rafael. O Google Sites também foi publicado pelo Rafael; a publicação
 das revisões aprovadas passa ao Gabriel (combinado em 22/10), o que exige acesso
 de edição ao site ainda não registrado. (Até 22/10 esta tabela dizia "Conta:
 Gabriel", o que contradizia os textos legais.)

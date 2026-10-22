@@ -1,6 +1,6 @@
 # Terra — Tasks (fase atual)
 
-**Prioridade em 22/10:** candidato **7 / 1.0.5** gerado em 20/10 (`c1848a9`) e mesclado à `main` pelo PR #53; identidade, hashes e pendências no [diagnóstico](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md#atualização-em-22102026--candidato-7-identificado). Teste fechado ainda não iniciado: dois erros na versão da faixa, países a restringir ao Brasil, 9/11 tarefas do Console e zero adesões relatadas. Sequência em [A1–A8 do checklist](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md#a--antes-de-iniciar-o-teste-fechado). Os registros de 19/10 abaixo sobre "aguardar versionCode/candidato" estão superados.
+**Prioridade em 22/10:** candidato **7 / 1.0.5** gerado em 20/10 (`c1848a9`) e mesclado à `main` pelo PR #53; identidade, hashes e pendências no [diagnóstico](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md#atualização-em-22102026--candidato-7-identificado). Teste fechado ainda não iniciado. Conferido no Console em 22/10: o rascunho do fechado **não tem pacote** (causa dos dois erros), países já só Brasil, licenças salvas (7 contas), certificado de upload igual ao do AAB 7, declaração de **ID de publicidade pendente** (bloqueia envio), política com `?authuser=1` e 0 participantes. Sequência em [A1–A8 do checklist](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md#a--antes-de-iniciar-o-teste-fechado). Os registros de 19/10 abaixo sobre "aguardar versionCode/candidato" estão superados.
 
 **Prioridade em 19/10:** PR #52 incorporada e registros operacionais revisados. [Diagnóstico do teste fechado](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md) e auditor local de AAB preparados; pacote local de 06/10 reprovado por documentos desatualizados. Aguardar maior versionCode, composição do rascunho/certificado e configuração do Console para fechar candidato. Segurança dos dados e análise de Age Signals preparadas, sem SDK novo ou declaração final. Sete contas de licença informadas; checkout/adesões/contagem pendentes.
 
@@ -129,7 +129,7 @@ Fonte completa em [SPEC.md](SPEC.md) e `.github/CODEOWNERS`.
 | Documentos legais e conteúdo do Data Safety | Gabriel | Rascunhos Privacidade 1.14 / Termos 1.8 / Contato 1.6; faltam aprovação/vigência, republicação e validação jurídica |
 | Páginas legais (Google Sites) | Rafael publicou em 15/10; Gabriel publica as revisões aprovadas (22/10) | Público mostra 1.9 / 1.5 / 1.2 em 22/10; Gabriel precisa de acesso de edição ao site |
 | Site de apresentação (`terra.app`) | Willian | Retomou em outubro; sem domínio definido. As páginas legais não dependem dele |
-| Conta Play Console | Rafael (titular e controlador) | Único com acesso às contas desde 15/10; só `terra_premium` cadastrado, segundo relato de 21/10 |
+| Conta Play Console | Rafael (titular e controlador; conta pessoal) | A conta Google do Gabriel também acessa (conferido em 22/10). Só `terra_premium` cadastrado (conferido em 22/10) |
 | Cloudflare R2 | Rafael (titular) | Bucket de teste; sem URL de produção |
 
 ## Backlog (não puxar sem avisar)

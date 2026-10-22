@@ -277,7 +277,9 @@ olhando aquele arquivo. Quando alguém sair, corrija os documentos no mesmo dia.
 
 Compliance de publicação **não** é todo dele: o Data Safety Form declara o que
 o código coleta (área do Gabriel) e a conta do Play Console é do titular legal —
-**Rafael Huppes**, controlador nomeado na política e, desde 15/10, o único com
-acesso às contas (Console, R2, Gmail de suporte). O que vem do Console chega como
-relato/print dele. Divisão completa em [docs/dev/SPEC.md](docs/dev/SPEC.md) →
+**Rafael Huppes**, controlador nomeado na política (conta pessoal no Console). A
+conta Google do Gabriel também abre esse Console (conferido em 22/10, permissões
+não conferidas), então dá pra ler o estado direto em vez de depender de print —
+só leitura, salvo pedido explícito. R2 e Gmail de suporte: só o Rafael. Divisão
+completa em [docs/dev/SPEC.md](docs/dev/SPEC.md) →
 "Publicação na Play Store".

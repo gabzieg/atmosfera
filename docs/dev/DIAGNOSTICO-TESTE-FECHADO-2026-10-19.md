@@ -18,7 +18,26 @@ Supera a seção 1 abaixo quanto ao candidato: o AAB de 06/10 (código 6) contin
 
 Artefatos e relatório ficam fora do Git, em `output/terra-release-c1848a9-v7/`. O AAB não embute o hash do commit (`NO_SUPPORTED_VCS_FOUND`); o vínculo é documental.
 
-**Continua pendente:** comparar o certificado de upload e o pacote com o Console; incluir o código 7 no rascunho do teste fechado e registrar o texto integral dos dois erros. A disponibilidade do 7 no teste interno foi relatada por Rafael, não observada. Sequência atual em [A1–A8 do checklist](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md#a--antes-de-iniciar-o-teste-fechado).
+### Conferência direta no Console — 22/10/2026
+
+Leitura feita no navegador do Gabriel, cuja conta Google abre a conta de desenvolvedor *Rafael Huppes* (tipo **pessoal**). Nada foi salvo, enviado ou alterado.
+
+| Item | Observado |
+|---|---|
+| Causa dos dois erros | O rascunho do **Teste fechado – Alpha** ("Versão sem título") **não tem nenhum pacote** nem nome de versão. Uma versão vazia não adiciona pacote e não oferece atualização a quem já instalou, o que bate com as duas mensagens |
+| Teste interno | Código **7 (1.0.5)**, "Disponível para testadores internos", lançamento completo em 20/10 |
+| Biblioteca | Códigos 7, 6, 5, 3 e 1; **maior código: 7**, então o próximo build é 8 |
+| Certificado de upload | SHA-256 do Console **igual** ao do AAB 7 (`E0:18:F8:…:4D:E3:16`). Play App Signing ativo; o certificado de distribuição é outro, como esperado |
+| Países do fechado | **Somente Brasil** (1 de 178) |
+| Testadores do fechado | Lista "Testadores internos Terra", 7 contas; e-mail/URL de feedback vazio; 0 participantes no painel |
+| Teste de licença | Mesma lista selecionada e salva, `RESPOND_NORMALLY` |
+| Conteúdo do app | 9 declarações concluídas (Segurança dos dados em 18/10; demais em 17/10). **Pendente: ID de publicidade**, e o Console avisa que sem ela não aceita versões para Android 13+ |
+| Política de Privacidade | URL salva ainda com `?authuser=1` |
+| Público-alvo | 13–15, 16–17 e 18+ |
+| Classificação | 14 no Brasil |
+| Produtos | Só `terra_premium` (1 opção de compra) |
+
+**Continua pendente:** incluir o código 7 da biblioteca no rascunho do fechado, salvar e reconferir a validação; concluir a declaração de ID de publicidade; corrigir a URL da política. O hash do AAB enviado não aparece no Console; a correspondência com `0ed276df…` continua documental, embora o certificado de upload coincida. Sequência em [A1–A8 do checklist](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md#a--antes-de-iniciar-o-teste-fechado).
 
 ## Base incorporada e escopo
 
