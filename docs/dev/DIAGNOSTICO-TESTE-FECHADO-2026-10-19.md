@@ -1,5 +1,25 @@
 # Preparação do teste fechado — conferência de 19/10/2026
 
+## Atualização em 22/10/2026 — candidato 7 identificado
+
+Supera a seção 1 abaixo quanto ao candidato: o AAB de 06/10 (código 6) continua reprovado, e o substituto foi gerado em 20/10 no Windows, em checkout isolado e limpo, a partir do commit abaixo, mesclado à `main` pelo PR #53 (`7463558`). `android-app/` e `docs/legal/` da `main` nesse merge são idênticos aos do commit do candidato.
+
+| Item | Registro |
+|---|---|
+| Commit | `c1848a997c9d0bf49b4829659886b6294c4574df` (branch de origem `gabzieg/rafael-commit-test-project`) |
+| Identidade | `com.terra.wallpaper`, `versionName 1.0.5`, `versionCode 7`, minSdk 26, targetSdk 36 |
+| AAB | SHA-256 `0ed276df2a2d0d6f3610849a685b34d071a7cd5b4b4ec6f79520a40e50345280`, 94.604.586 bytes; `bundletool validate` 1.18.3 exit 0 |
+| Certificado de upload | SHA-256 `E0:18:F8:A8:DB:9B:8B:D3:C2:07:EA:A4:47:A5:3B:D5:02:F5:F6:0A:D7:22:49:48:C5:32:BA:B0:22:4D:E3:16`, igual ao do AAB 6 e ao da configuração local |
+| Assinatura | 1461 entradas de conteúdo cobertas, 0 sem assinatura. `jarsigner -strict` retorna 4 por certificado autoassinado/cadeia PKIX, sem timestamp e manifesto no fim do ZIP; examinado, não é defeito do pacote |
+| Mapping R8 | 9.1.29, SHA-256 `847cf29437aefdba5cde94948365df43f8623b4cd656dfb4c7b655ed8387c5d6`, idêntico ao embutido no AAB |
+| Acervo | `-PterraAcervoUrl=https://pub-722473b758b144279fc34ecb931a6045.r2.dev/` (bucket de testes; não é endpoint de produção) |
+| Documentos embutidos | Privacidade 1.14, Termos 1.8, Contato 1.6, com `status: rascunho_para_revisao`, `aprovado_para_publicacao: false` e `vigencia: null`. Aprovar e publicar no Sites não altera essa cópia |
+| Gates da geração | 98 testes sem falha, lint sem erros (38 avisos), builds debug/release e `bundleRelease`; JDK Temurin 17.0.20+8, Gradle 8.14.5 |
+
+Artefatos e relatório ficam fora do Git, em `output/terra-release-c1848a9-v7/`. O AAB não embute o hash do commit (`NO_SUPPORTED_VCS_FOUND`); o vínculo é documental.
+
+**Continua pendente:** comparar o certificado de upload e o pacote com o Console; incluir o código 7 no rascunho do teste fechado e registrar o texto integral dos dois erros. A disponibilidade do 7 no teste interno foi relatada por Rafael, não observada. Sequência atual em [A1–A8 do checklist](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md#a--antes-de-iniciar-o-teste-fechado).
+
 ## Base incorporada e escopo
 
 PR #50 permanece em rascunho, com `b85ed0a` publicado e checks build/secret-scan aprovados. PR #52 contém `c746d19`, atribuído no Git a Gabriel, com oito registros operacionais novos de LGPD. O usuário pediu reaproveitar essa entrega; incorporada por cherry-pick como `1f21454`, preservando os documentos mais recentes. Esta revisão ajusta os registros; não é merge da PR no GitHub.

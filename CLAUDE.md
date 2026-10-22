@@ -264,9 +264,11 @@ dependendo da resposta acima.)
 
 Há um terceiro (Willian, `@uWillianG`). Ele escreveu a política de privacidade
 (`2bb49ff`, 29/jul) e saiu em agosto; **voltou em outubro** e hoje cuida do site
-de apresentação (repositório próprio `terra.app`) e da hospedagem das páginas
-legais (abriu o PR #39). Domínio e hospedagem ainda **não estão definidos**, e o
-código do app continua com Gabriel e Rafael.
+de apresentação (repositório próprio `terra.app`, abriu o PR #39), ainda sem
+domínio definido. As **páginas legais não dependem dele**: estão no Google Sites
+(`sites.google.com/view/terra-live-wallpaper`), publicado pelo Rafael em 15/10, e
+as revisões aprovadas passam a ser publicadas pelo Gabriel (combinado em 22/10;
+exige acesso de edição ao site). O código do app continua com Gabriel e Rafael.
 
 Vale a lição, porque ela vai se repetir: a divisão de trabalho ficou apontando
 para ele por um mês depois de ele parar de contribuir. Isso é pior do que não ter
@@ -274,5 +276,8 @@ dono nenhum — com um nome errado no papel, todo mundo assume que alguém está
 olhando aquele arquivo. Quando alguém sair, corrija os documentos no mesmo dia.
 
 Compliance de publicação **não** é todo dele: o Data Safety Form declara o que
-o código coleta (área do Gabriel) e a conta do Play Console é do titular legal.
-Divisão completa em [docs/dev/SPEC.md](docs/dev/SPEC.md) → "Publicação na Play Store".
+o código coleta (área do Gabriel) e a conta do Play Console é do titular legal —
+**Rafael Huppes**, controlador nomeado na política e, desde 15/10, o único com
+acesso às contas (Console, R2, Gmail de suporte). O que vem do Console chega como
+relato/print dele. Divisão completa em [docs/dev/SPEC.md](docs/dev/SPEC.md) →
+"Publicação na Play Store".
