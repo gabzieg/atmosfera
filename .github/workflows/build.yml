@@ -32,7 +32,7 @@ jobs:
       # chamam `./gradlew`. Fixar a versão aqui TAMBÉM já criou divergência —
       # a CI ficou em 8.6 enquanto o wrapper local subia. Uma fonte só.
       - name: Preparar Gradle
-        uses: gradle/actions/setup-gradle@v6.3.0
+        uses: gradle/actions/setup-gradle@v6.4.0
 
       - name: Rodar testes unit
         working-directory: android-app
