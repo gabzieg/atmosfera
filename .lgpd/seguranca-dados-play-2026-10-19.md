@@ -2,6 +2,8 @@
 
 19/10/2026. Base: código da PR #50 e registros da PR #52 incorporados em `1f21454`. Esta é preparação para preenchimento, não formulário enviado ou declaração aprovada. O AAB local antigo, código 6, contém documentos desatualizados e não é o candidato final.
 
+**Atualização em 26/10/2026:** esta matriz de 19/10 permanece preservada como histórico da análise de pendências e foi **superada como guia operacional de preenchimento** pelas [respostas conservadoras propostas para o candidato 7 (`1.0.5`, `versionCode 7`, `c1848a9`)](seguranca-dados-respostas-candidato-7-2026-10-26.md), que cobrem pergunta por pergunta o formulário *Segurança dos dados* e a declaração de *ID de publicidade*. Nada foi salvo, enviado ou aprovado no Google Play Console, e A3 continua pendente (`[ ]`).
+
 ## Decisões por fluxo
 
 | Fluxo | O que já pode ser afirmado | O que precisa fechar no formulário |
