@@ -1,5 +1,7 @@
 # Retorno administrativo de Rafael — 17/10/2026
 
+**Atualização de 26/10:** consultar a [conferência A3 de 24–26/10](conferencia-a3-rafael-2026-10-26.md). Supera os estados antigos de logs R2, encaminhamento/filtros e ausência de evidência de agendamento da retenção; preserva as pendências e limitações explicitadas no novo registro.
+
 Registro das informações relatadas pelo responsável e de dois prints fornecidos na conversa. Não representa inspeção direta das contas, aprovação legal ou autorização para publicação. Nenhuma configuração remota foi alterada pelo assistente. Não contém lista de participantes ou credenciais.
 
 **Atualização de 19/10:** as constatações abaixo preservam a sequência histórica de 17/10. O print posterior de licenças confirmou a seleção de uma lista com sete contas; Rafael informou 9/11 no cadastro e seleção de todos os países, divergente do teste apenas Brasil. Salvamento, checkout, adesões novas e correção dos países não confirmados. Consulte o [consolidado para Gabriel](../docs/dev/RETORNO-GABRIEL-PLAY-CONSOLE-2026-10-19.md) para o estado mais recente, erros do AAB e revisão do formulário.
