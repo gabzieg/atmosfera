@@ -43,7 +43,7 @@ Leitura feita no navegador do Gabriel, cuja conta Google abre a conta de desenvo
 
 PR #50 permanece em rascunho, com `b85ed0a` publicado e checks build/secret-scan aprovados. PR #52 contém `c746d19`, atribuído no Git a Gabriel, com oito registros operacionais novos de LGPD. O usuário pediu reaproveitar essa entrega; incorporada por cherry-pick como `1f21454`, preservando os documentos mais recentes. Esta revisão ajusta os registros; não é merge da PR no GitHub.
 
-O usuário não tem acesso ao Console nem confirma se a versão contém AAB. Não foi localizado outro commit remoto posterior nas branches conferidas. Se Rafael tiver trabalho só local, ele ainda não integra esta base. Cinco arquivos não versionados de pesquisa/relatório de mercado foram preservados fora desta entrega.
+O usuário não tem acesso ao Console nem confirma se a versão contém AAB *(registro de 19/10 superado em 22/10: o Console da conta pessoal de Rafael Huppes também foi lido diretamente pelo Gabriel e o rascunho do fechado estava sem pacote — ver [conferência direta acima](#conferência-direta-no-console--22102026) e [SPEC.md](SPEC.md#publicação-na-play-store--quem-faz-o-quê) → "Acesso às contas")*. Não foi localizado outro commit remoto posterior nas branches conferidas. Se Rafael tiver trabalho só local, ele ainda não integra esta base. Cinco arquivos não versionados de pesquisa/relatório de mercado foram preservados fora desta entrega.
 
 ## 1. Versão e AAB
 
@@ -71,7 +71,7 @@ O certificado acima foi lido do AAB, sem acessar chaves ou senhas. `jarsigner` i
 3. Em Teste fechado → Gerenciar faixa → Editar versão, conferir os pacotes **incluídos**. Um upload na biblioteca não comprova inclusão na versão. Se o pacote correto já existe e está processado, verificar a opção de adicionar da biblioteca; não reenviar o mesmo código indiscriminadamente.
 4. Se a versão não muda nenhum pacote em relação à composição anterior, registrar a situação antes de gerar outra. Não apagar faixas ou rascunhos para tentar resolver sem entender a composição.
 5. Para os usuários elegíveis à atualização, conferir código maior do candidato, identidade e assinatura aplicáveis, SDK/ABI/features e catálogo/exclusões de dispositivos. Não alterar compatibilidade ou chave para contornar o erro.
-6. Após composição correta, verificar mensagens completas de erro e diferença de dispositivos suportados; a hipótese de rascunho vazio ainda não foi comprovada. Se houver processamento preso, usar o suporte do Console com os dados do caso.
+6. Após composição correta, verificar mensagens completas de erro e diferença de dispositivos suportados; a hipótese de rascunho vazio ainda não foi comprovada *(registro de 19/10 superado pela [conferência direta de 22/10](#conferência-direta-no-console--22102026), que confirmou o rascunho do fechado sem pacote; continua pendente incluir o código 7 da biblioteca e reconferir a validação)*. Se houver processamento preso, usar o suporte do Console com os dados do caso.
 
 Fontes: [preparar versões e incluir pacotes](https://support.google.com/googleplay/android-developer/answer/9859348?hl=pt-BR), [versionamento Android](https://developer.android.com/studio/publish/versioning?hl=pt-br). O `versionCode` seguinte não foi deduzido a partir do código 6 do repositório.
 
