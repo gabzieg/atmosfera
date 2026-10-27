@@ -37,8 +37,10 @@ Google Play Billing.
 **Consolidação da etapa 3 — 10/10/2026:** Gabriel reconfirmou todo o acervo
 **aprovado** como objetivo do lançamento, compra por **arte específica** e
 compra separada de cada nova variante futura. **Não haverá packs comerciais
-no lançamento.** A inclusão de futuros efeitos/estilos no Premium permanece
-a definir com Rafael; não prometer essa inclusão antes da definição.
+no lançamento.** Futuros efeitos/estilos **entram no Premium** sem nova
+compra, decisão de Rafael em 15/10 ([respostas](RESPOSTAS-RAFAEL-TESTE-FECHADO-2026-10-15.md));
+artes/variantes continuam compras separadas e não há promessa de frequência
+ou quantidade de lançamentos.
 O [inventário por arte](../loja/catalogo-2026-10-10/README.md) encontrou 75
 artes com fundo em 71 cenas após os cortes, além de 237 variantes declaradas
 sem fundo local. Isso não comprova o inventário remoto de 366 artes nem muda
@@ -52,7 +54,7 @@ abaixo substitui o modelo de 23/09 (5 cenas embarcadas como teto final).
 
 | Eixo | Regra | Preço |
 |---|---|---|
-| **Premium** | Compra única global. Libera **só os efeitos**: os 8 efeitos vivos + todos os estilos de efeito, em qualquer cenário. **Não** dá nenhum cenário/arte — nem os embarcados além da amostra grátis, nem os do acervo remoto. | **R$ 49,90** |
+| **Premium** | Compra única global. Libera **só os efeitos**: os 8 efeitos vivos + todos os estilos de efeito, em qualquer cenário, inclusive os futuros. **Não** dá nenhum cenário/arte — nem os embarcados além da amostra grátis, nem os do acervo remoto. | **R$ 49,90** |
 | **Cenários — 5 embarcados** | Cada um com uma arte grátis pra experimentar: cabana/pixel · jardim/ukiyoe · bruxa/clay · esfinge/vangogh · lavanda/aqua. As demais artes desses 5 cenários são compra avulsa (mesmo mecanismo dos remotos, mas os arquivos já estão no AAB). | Amostra grátis; demais artes avulsas |
 | **Artes — acervo remoto** | Baixadas sob demanda do Cloudflare R2 quando o usuário escolhe aplicar. Miniaturas no AAB; HD após a escolha. Posse de cada arte verificada pela Play, independentemente do Premium. Quantidade final depende da conciliação do inventário e do aceite Android. | **R$ 1,99 por arte específica**, conforme o questionário do titular de 08/10 e confirmação de compra separada das novas variantes em 10/10 |
 | **Packs comerciais** | **Não serão ofertados no lançamento**, decisão de Gabriel em 10/10. Pacote técnico de download não equivale a produto comercial. | Não aplicável nesta versão |
@@ -167,9 +169,19 @@ código, parte é titularidade legal.
 | Item | Quem | Por quê |
 |---|---|---|
 | Textos legais e mantê-los em dia com o código | Gabriel | Mesmo dono dos arquivos acima |
-| **Data Safety Form** | Gabriel | É declaração sobre o que o **código** coleta. Declarar diferente do que o APK pede é a causa nº1 de rejeição — exige conhecer `weather/`, `LocationHelper` e o manifesto. A tabela de rastreio em `CHECKLIST_PUBLICACAO.md` é a fonte |
-| Content Rating (IARC) | Quem estiver com o console aberto | Questionário de conteúdo, baixo risco |
-| **Conta do Google Play Console** | Gabriel | **Não delegável.** O titular é o publicador legal — recebe os pagamentos, assina os formulários fiscais, e é o **controlador** nomeado na política de privacidade e nos termos |
+| **Data Safety Form** — conteúdo | Gabriel | É declaração sobre o que o **código** coleta. Declarar diferente do que o APK pede é a causa nº1 de rejeição — exige conhecer `weather/`, `LocationHelper` e o manifesto. Fonte atual: [matriz de 19/10](../../.lgpd/seguranca-dados-play-2026-10-19.md) |
+| Data Safety, IARC e demais telas — preenchimento | Rafael (titular) | Gabriel fornece as respostas; a conta Google dele também abre o Console (ver abaixo) |
+| **Conta do Google Play Console** | Rafael Huppes | **Não delegável.** O titular é o publicador legal — recebe os pagamentos, assina os formulários fiscais, e é o **controlador** nomeado na política de privacidade e nos termos (Rafael Huppes, pessoa física, confirmado por Gabriel em 04/10) |
+
+**Acesso às contas:** a conta de desenvolvedor *Rafael Huppes* (tipo pessoal)
+também abre com a conta Google do Gabriel — conferido no navegador em 22/10, sem
+conferir o nível de permissão. Isso corrige o registro de 15/10 de que só o
+Rafael acessava as contas; o estado do Console pode ser lido direto em vez de
+depender de print. Cloudflare R2 e Gmail de suporte seguem, pelo que se sabe, só
+com o Rafael. O Google Sites também foi publicado pelo Rafael; a publicação
+das revisões aprovadas passa ao Gabriel (combinado em 22/10), o que exige acesso
+de edição ao site ainda não registrado. (Até 22/10 esta tabela dizia "Conta:
+Gabriel", o que contradizia os textos legais.)
 
 ## Versões travadas (não subir sem ler o motivo)
 

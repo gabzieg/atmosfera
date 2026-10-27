@@ -1,5 +1,9 @@
 # Terra — Tasks (fase atual)
 
+**Prioridade em 22/10:** candidato **7 / 1.0.5** gerado em 20/10 (`c1848a9`) e mesclado à `main` pelo PR #53; identidade, hashes e pendências no [diagnóstico](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md#atualização-em-22102026--candidato-7-identificado). Teste fechado ainda não iniciado. Conferido no Console em 22/10: o rascunho do fechado **não tem pacote** (causa dos dois erros), países já só Brasil, licenças salvas (7 contas), certificado de upload igual ao do AAB 7, declaração de **ID de publicidade pendente** (bloqueia envio), política com `?authuser=1` e 0 participantes. Sequência em [A1–A8 do checklist](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md#a--antes-de-iniciar-o-teste-fechado). Os registros de 19/10 abaixo sobre "aguardar versionCode/candidato" estão superados.
+
+**Prioridade em 19/10:** PR #52 incorporada e registros operacionais revisados. [Diagnóstico do teste fechado](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md) e auditor local de AAB preparados; pacote local de 06/10 reprovado por documentos desatualizados. Aguardar maior versionCode, composição do rascunho/certificado e configuração do Console para fechar candidato. Segurança dos dados e análise de Age Signals preparadas, sem SDK novo ou declaração final. Sete contas de licença informadas; checkout/adesões/contagem pendentes.
+
 **Conciliação atual em 15/10:** `0d36b4a` integrado; documentos 1.12/1.8/1.5 preparados. Adultos/Brasil no teste e futuros efeitos/estilos incluídos no Premium confirmados; artes separadas. Registros anteriores de regra de efeitos futuros pendente foram superados. Fornecedores, bases, governança, continuidade, candidato e aprovação continuam pendentes, conforme [D01–D10](../../.lgpd/gaps.md).
 
 ## Respostas de Rafael em 15/10 — atualização do escopo
@@ -63,7 +67,7 @@ Os registros datados abaixo sao historicos; a prioridade acima e o checklist rep
 
 **Atualização do acervo em 11/10:** Rafael confirmou bucket existente, acessível na URL de testes. Conciliação do manifesto público confirma 71 cenas/366 artes após cortes: todas as 75 locais, mais 291; 54 variantes ausentes das declarações locais do motor. A PR #50 precisa adaptar caminhos com hash, manifesto WebP, catálogo e miniaturas antes de usar a URL. Não houve upload, novo build nem ajuste de R8 nesta conferência. O init script mencionado está apenas na máquina do Rafael. Evidências em [conciliação R2](../loja/conciliacao-2026-10-11/README.md). Esta atualização substitui a indicação anterior de bucket inexistente; endpoint de produção segue pendente.
 
-- **App**: versão **1.0.5, versionCode 6** na `main`. AAB assinado gerado em 06/10 (SHA-256 `19b88b3d…e353e6bb`). **Não está confirmado** que foi enviado ao Console nem que o código 6 está livre — só o Gabriel vê o Console.
+- **App**: versão **1.0.5, versionCode 6** na `main`. AAB assinado gerado em 06/10 (SHA-256 `19b88b3d…e353e6bb`). **Não está confirmado** que foi enviado ao Console nem que o código 6 está livre — só o Gabriel vê o Console *(registro de 09/10 superado: o titular e controlador da conta pessoal no Play Console é Rafael Huppes, com leitura também aberta pelo Gabriel conferida em 22/10, e o candidato atual na `main` é o código 7 — ver prioridade de 22/10 no topo e [SPEC.md](SPEC.md#publicação-na-play-store--quem-faz-o-quê) → "Acesso às contas")*.
 - **Gate**: `testDebugUnitTest lintDebug assembleDebug` verde, **69 testes** unitários (14 classes), CI verde na `main`.
 - **Teste em aparelho do clima só na home (PR #46)**: **ainda não feito.** O emulador não sobe a partir do agente (virtualização negada no Windows); o Gabriel precisa ligá-lo, ou testar pelo teste interno em um celular. Roteiro em [CLIMA-SOMENTE-HOME.md](CLIMA-SOMENTE-HOME.md).
 - **Rafael**: sem commits novos desde o #46 (05/10 22:25).
@@ -122,9 +126,10 @@ Fonte completa em [SPEC.md](SPEC.md) e `.github/CODEOWNERS`.
 | `ui/`, `weather/`, `service/`, `billing/`, `debug/` | Gabriel | Ativo |
 | `engine/` + `assets/atmosfera/` | Gabriel e Rafael | O Rafael voltou a corrigir o motor em 23/09; combinar quem mexe em qual arquivo |
 | Clima só na home (`ClimaNaHome`) | Rafael (autor do #46) | Mesclado sem revisão de outra pessoa; falta o teste em aparelho |
-| Documentos legais e Data Safety | Gabriel | Faltam os `[PREENCHER]`, a hospedagem e a revisão jurídica |
-| Site de apresentação e hospedagem | Willian | Retomou em outubro; sem domínio definido |
-| Conta Play Console | Gabriel | Ativa (o produto `terra_premium` existe) |
+| Documentos legais e conteúdo do Data Safety | Gabriel | Rascunhos Privacidade 1.14 / Termos 1.8 / Contato 1.6; faltam aprovação/vigência, republicação e validação jurídica |
+| Páginas legais (Google Sites) | Rafael publicou em 15/10; Gabriel publica as revisões aprovadas (22/10) | Público mostra 1.9 / 1.5 / 1.2 em 22/10; Gabriel precisa de acesso de edição ao site |
+| Site de apresentação (`terra.app`) | Willian | Retomou em outubro; sem domínio definido. As páginas legais não dependem dele |
+| Conta Play Console | Rafael (titular e controlador; conta pessoal) | A conta Google do Gabriel também acessa (conferido em 22/10). Só `terra_premium` cadastrado (conferido em 22/10) |
 | Cloudflare R2 | Rafael (titular) | Bucket de teste; sem URL de produção |
 
 ## Backlog (não puxar sem avisar)

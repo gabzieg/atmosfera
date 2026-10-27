@@ -19,6 +19,19 @@
     "estado": "publicado_pelo_titular_com_metadados_de_rascunho",
     "verificacao": "URLs de navegação conferidas no navegador; seleção authuser removida dos links documentados. Verificação anônima independente não concluída nesta rodada."
   },
+  "situacao_teste_informada_2026_10_19": {
+    "fonte": "Mensagem de Rafael encaminhada pelo usuario; sem acesso ao Console nesta execucao",
+    "contas_selecionadas_na_lista_licenca_informadas": 7,
+    "contagem_adesoes_faixa_verificada": false,
+    "checkout_instrumento_teste_verificado": false,
+    "maior_version_code_console": null,
+    "aab_incluido_no_rascunho_confirmado": null,
+    "classificacao_indicativa_informada": "14 anos; resultado IARC nao conferido",
+    "erros_versao_relatados": [
+      "Nao permite atualizacao dos usuarios existentes",
+      "Versao nao adiciona nem remove pacotes"
+    ]
+  },
   "decisoes_teste": {
     "data": "2026-10-15",
     "pais": "BR",
