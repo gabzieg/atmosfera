@@ -1,0 +1,3 @@
+# 28/10/2026 — A5, PR #61: falso positivo no SHA-256 público da skill lgpd-encryption-keys.
+# Hash conferido contra o SKILL.md fixado no baseline; autorização do Gabriel.
+1950df933d7cbb2ec4e7408a2340cc4b53f26263:.lgpd/revisoes/2026-10-28-documentos/baseline.json:generic-api-key:71
