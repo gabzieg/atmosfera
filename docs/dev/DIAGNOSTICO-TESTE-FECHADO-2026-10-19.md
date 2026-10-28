@@ -39,6 +39,33 @@ Leitura feita no navegador do Gabriel, cuja conta Google abre a conta de desenvo
 
 **Continua pendente:** incluir o código 7 da biblioteca no rascunho do fechado, salvar e reconferir a validação; concluir a declaração de ID de publicidade; corrigir a URL da política. O hash do AAB enviado não aparece no Console; a correspondência com `0ed276df…` continua documental, embora o certificado de upload coincida. Sequência em [A1–A8 do checklist](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md#a--antes-de-iniciar-o-teste-fechado).
 
+**Situação posterior:** o “Continua pendente” acima é histórico: inclusão/salvamento/validação superados em [28/10](#composição-do-teste-fechado--28102026); AD_ID e URL já regularizados conforme [conferência de 27/10](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md#11-atualização-em-27102026--conferência-e-salvamento-no-console). O vínculo do hash continua documental; envio e aprovações permanecem pendentes.
+
+### Composição do teste fechado — 28/10/2026
+
+**Fonte e execução:** registro privado `.context/console-a1-a2-2026-10-28.md`, seções 1–4 e limites, sintetizado sem IDs, URLs privadas ou e-mails. O `niemeyer` (Claude Code) operou via `playwright-cli attach --extension`, no Brave do Gabriel, pela extensão Playwright MCP Bridge, apenas na aba do Console, cerca de **07:56–08:05 (Brasília)**. Gabriel autorizou incluir o 7 no rascunho fechado, conferir/corrigir país só Brasil, salvar e validar, **sem enviar**; testadores ficaram fora da autorização. O dev apenas registra essa evidência, sem abrir ou operar o Console.
+
+| Momento | Observado / executado |
+|---|---|
+| Antes | Painel: 3 de 5 tarefas do fechado; faltavam visualizar/confirmar e enviar. Faixa “Teste fechado - Alpha”: inativa, versão de rascunho, 1 país/região; “Versão sem título”, sem pacote, nome vazio e notas em 0 idioma. Brasil já segmentado, nada a corrigir. Lista “Testadores internos Terra” já marcada, 7 contas; grupos e feedback vazios; nada alterado nos testadores. Painel: **0 participantes**. |
+| Composição e salvamento | Biblioteca com códigos 7, 6, 5, 3 e 1; **somente o 7 adicionado**, sem novo upload. Pacote “7 (1.0.5)”, API 26+, SDK alvo 36, 4 layouts, 4 ABIs, 3 recursos obrigatórios. Nome automático “7 (1.0.5)”; notas não preenchidas. “Salvar como rascunho” confirmou alterações salvas; “Avançar” abriu “Visualizar e confirmar”. |
+| Validação | **0 erros, 1 aviso** para o código 7: “Este App Bundle contém código nativo, e você não fez upload dos símbolos de depuração. Recomendamos que você faça upload de um arquivo de símbolo para facilitar a análise e a depuração de falhas e ANRs.” Novas instalações: 89.8 MB, download estimado em 52s. |
+| Confirmação | “Salvar” confirmou “A alteração foi salva” e ofereceu acesso à Visão geral da publicação para enviar; escolhido **“Agora não”**. Faixa passou a “Ativo · Última versão: 7 (1.0.5) · 1 país / região”; versão com 1 código e **“Ainda não enviado para análise”**. “Ativo” nesse painel não comprova distribuição do fechado. |
+| Publicação | “Publicação gerenciada desativada”; mudanças ainda não enviadas, botão **“Enviar 13 mudanças para revisão” habilitado, não clicado**. Supera o bloqueio do botão pelas etapas do painel registrado em 27/10; mantém os bloqueios de aceite/autorização A3–A7. |
+| Verificações rápidas | Apareceram ao abrir a Visão geral após salvar, sem clique em enviar: até 14 minutos, ainda em execução às 08:02 (até 12 minutos). Às 08:04, após recarregar: “As mudanças podem ser enviadas para revisão. É possível que outros problemas sejam encontrados durante a análise do app.” Nenhum problema listado; botão habilitado e não clicado. Checagem prévia não equivale à revisão do Google. |
+| Envios | Atividades de envio sem envios recentes, reconferidas às 08:04: **nada enviado**. Rascunho salvo não inicia o teste fechado nem a contagem de B1; não há aprovação ou distribuição do fechado comprovada. |
+
+**O envio das 13 mudanças submeteria:**
+
+- Teste fechado - Alpha: 7 (1.0.5), “Iniciar o lançamento completo”; adicionar Brasil; remover sincronização de países com produção; retomar faixa; definir testadores pela lista “Testadores internos Terra”.
+- Página padrão pt-BR: idioma adicionado, nome “Terra - Live Wallpaper” e demais informações necessárias fornecidas.
+- Conteúdo do app: novo questionário de classificação, público-alvo **13 ou mais**, Política de Privacidade (`/privacidade`), declaração de anúncios, Segurança dos dados e Apps de saúde.
+- Configurações da loja: categoria App de Personalização. O bloco “O que você nos informou”, não publicado, também mostra instruções de login (todos ou alguns recursos restritos), ID de publicidade, Apps governamentais e recursos financeiros; não é uma contagem adicional às 13 mudanças.
+
+**Não enviar sem nova autorização e fechamento de A3–A7.** Com publicação gerenciada desativada, a aprovação publica logo em seguida para a lista de testadores. Público 13+ versus teste só com adultos continua decisão pendente; Segurança dos dados e textos legais ainda sem aprovação. Botão habilitado não libera envio, aprovação ou distribuição.
+
+**Testadores e limites:** a lista de 7 contas já está na faixa e é a mesma lista selecionada para licença em 22/10; não se reconferiu em 28/10 se as contas ainda coincidem nas duas configurações (A6). Com 0 participantes no painel, B1 continua aberto: exige ao menos **12 adesões contínuas por 14 dias**; **faltam no mínimo 5 contas além das 7**, todas com licença confirmada conforme A6, e as contas listadas ainda precisam aderir. Não houve cadastro, convite ou mudança de testadores. Conteúdo das instruções de login não foi aberto. A frase automática “As mudanças são enviadas assim que as verificações são concluídas” não comprovou envio: a ausência foi conferida em Atividades de envio, sem consulta a documentação oficial nesta sessão. Hash do AAB no Console e arquivamento completo de A2 não foram reconferidos; nenhum novo AAB, nota ou símbolo de depuração foi produzido.
+
 ## Base incorporada e escopo
 
 PR #50 permanece em rascunho, com `b85ed0a` publicado e checks build/secret-scan aprovados. PR #52 contém `c746d19`, atribuído no Git a Gabriel, com oito registros operacionais novos de LGPD. O usuário pediu reaproveitar essa entrega; incorporada por cherry-pick como `1f21454`, preservando os documentos mais recentes. Esta revisão ajusta os registros; não é merge da PR no GitHub.
@@ -71,7 +98,7 @@ O certificado acima foi lido do AAB, sem acessar chaves ou senhas. `jarsigner` i
 3. Em Teste fechado → Gerenciar faixa → Editar versão, conferir os pacotes **incluídos**. Um upload na biblioteca não comprova inclusão na versão. Se o pacote correto já existe e está processado, verificar a opção de adicionar da biblioteca; não reenviar o mesmo código indiscriminadamente.
 4. Se a versão não muda nenhum pacote em relação à composição anterior, registrar a situação antes de gerar outra. Não apagar faixas ou rascunhos para tentar resolver sem entender a composição.
 5. Para os usuários elegíveis à atualização, conferir código maior do candidato, identidade e assinatura aplicáveis, SDK/ABI/features e catálogo/exclusões de dispositivos. Não alterar compatibilidade ou chave para contornar o erro.
-6. Após composição correta, verificar mensagens completas de erro e diferença de dispositivos suportados; a hipótese de rascunho vazio ainda não foi comprovada *(registro de 19/10 superado pela [conferência direta de 22/10](#conferência-direta-no-console--22102026), que confirmou o rascunho do fechado sem pacote; continua pendente incluir o código 7 da biblioteca e reconferir a validação)*. Se houver processamento preso, usar o suporte do Console com os dados do caso.
+6. Após composição correta, verificar mensagens completas de erro e diferença de dispositivos suportados; a hipótese de rascunho vazio ainda não foi comprovada *(registro de 19/10 superado pela [conferência direta de 22/10](#conferência-direta-no-console--22102026), que confirmou o rascunho do fechado sem pacote; a pendência posterior de incluir o código 7 e reconferir a validação foi superada em [28/10](#composição-do-teste-fechado--28102026), com 0 erros)*. Se houver processamento preso, usar o suporte do Console com os dados do caso.
 
 Fontes: [preparar versões e incluir pacotes](https://support.google.com/googleplay/android-developer/answer/9859348?hl=pt-BR), [versionamento Android](https://developer.android.com/studio/publish/versioning?hl=pt-br). O `versionCode` seguinte não foi deduzido a partir do código 6 do repositório.
 
