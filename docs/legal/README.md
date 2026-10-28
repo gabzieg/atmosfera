@@ -1,6 +1,6 @@
 # Fonte editorial dos documentos do Terra
 
-Revisão de trabalho de 15/10/2026. Fontes únicas: `TERMOS.md` (1.8), `PRIVACIDADE.md` (1.14) e `CONTATO.md` (1.6). Os HTMLs são exportações; não editar cada cópia separadamente. O [registro de refinamento](../dev/REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md) reúne instruções internas e decisões pendentes. As versões refinadas não foram republicadas no Google Sites por esta execução.
+Revisão de trabalho de 28/10/2026, iniciada do zero a partir das fontes canônicas e do código atual. Fontes únicas: `TERMOS.md` (1.9), `PRIVACIDADE.md` (1.18) e `CONTATO.md` (1.9). A [nova revisão documental](../../.lgpd/revisoes/2026-10-28-documentos/REVISAO.md) registra achados e decisões pendentes; os registros anteriores abaixo são históricos e não foram usados como base desta rodada. Os HTMLs são exportações; não editar cada cópia separadamente. O [registro de refinamento](../dev/REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md) reúne instruções internas e decisões pendentes. As versões refinadas não foram republicadas no Google Sites por esta execução.
 
 ```powershell
 python scripts/sincronizar_documentos_legais.py
@@ -9,7 +9,17 @@ python scripts/sincronizar_documentos_legais.py --check
 
 O gerador usa somente a biblioteca padrão Python e o subconjunto Markdown dos três documentos. Preserva os estilos das páginas locais no modelo; não altera a apresentação da landing. Produz as nove cópias em `docs/`, `public_html/` e assets do app, e `manifesto-documentos.json` com versões e hashes. `--check` falha se fonte, modelo, manifesto ou uma cópia divergirem. A CI executa essa conferência; o teste Android também compara `public_html`.
 
-Estado editorial **rascunho para revisão**. O titular publicou o site no Google Sites em 15/10/2026. O endereço público foi registrado; vigência e versão de distribuição permanecem sem definição. Publicação web não comprova aprovação jurídica, início do teste ou envio ao Console. A configuração editorial `revisao.json` mantém `aprovado_para_publicacao=false`; o manifesto é gerado a partir dela. As versões são lidas dos textos, sem manter outra lista no código.
+## Sincronização nos pedidos ao agente
+
+A [skill `terra-documentos-legais`](../../.agents/skills/terra-documentos-legais/SKILL.md) inclui geração e conferência das cópias no próprio pedido de atualização dos documentos. É descoberta pelo Codex em `.agents/skills/` e pelo Claude Code pelo adaptador em `.claude/skills/`; também pode ser invocada pelo nome. Não é necessário pedir a exportação separadamente. A regra foi registrada a pedido do usuário em 28/10/2026.
+
+Ao modificar uma fonte, o agente atualiza a versão/data correspondente, concilia os documentos relacionados, executa o gerador e `--check`, e entrega Markdown, manifesto e HTMLs coerentes. Consultas sem atualização permanecem somente leitura. Edições feitas manualmente fora desse fluxo continuam exigindo os comandos acima; a CI recusa exportações divergentes.
+
+Essa automação cobre os arquivos locais versionados. Não publica no Google Sites nem atualiza aplicativos já instalados.
+
+## Estado editorial
+
+Estado editorial **rascunho para revisão**. O titular publicou o site no Google Sites em 15/10/2026. O endereço público foi registrado; os textos revisados destinam-se ao próximo pacote (código de versão 8), em preparação para teste fechado no Brasil; `versionName` ainda não definido. A vigência permanece a definir. Publicação web não comprova aprovação jurídica, início do teste ou envio ao Console. A configuração editorial `revisao.json` mantém `aprovado_para_publicacao=false`; o manifesto é gerado a partir dela. As versões são lidas dos textos, sem manter outra lista no código.
 
 Depois da avaliação e decisão do responsável, atualizar textos e `revisao.json`: registro de aprovação, vigência ISO, versão do app, domínio HTTPS e estado aprovado. O gerador recusa aprovação sem esses campos ou com metadados de rascunho ainda no texto. Preencher o JSON não executa revisão jurídica nem publica páginas; o registro deve corresponder a uma aprovação real.
 

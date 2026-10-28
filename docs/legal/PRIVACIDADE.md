@@ -2,11 +2,11 @@
 
 **Página pública:** [https://sites.google.com/view/terra-live-wallpaper/privacidade](https://sites.google.com/view/terra-live-wallpaper/privacidade)
 
-**Versão da política:** 1.14
-**Última atualização:** 15 de outubro de 2026
+**Versão da política:** 1.18
+**Última atualização:** 28 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
-**Aplica-se a:** Próxima versão destinada ao teste fechado no Brasil, somente com participantes adultos e entrega remota de artes. Número e código da versão de distribuição ainda serão identificados. Não descreve automaticamente o funcionamento de versões anteriores.
-**Vigência:** A definir após aprovação e identificação da versão correspondente.
+**Aplica-se a:** Próximo pacote (código de versão 8), em preparação para teste fechado no Brasil, somente com participantes adultos e entrega remota de artes. Não descreve automaticamente o funcionamento de versões anteriores.
+**Vigência:** A definir após aprovação da revisão correspondente.
 
 ## Resumo
 
@@ -19,7 +19,7 @@
 
 ## 1. Responsável, canal de comunicação e alcance
 
-**Rafael Huppes** (pessoa física) é o controlador responsável pelo tratamento de dados pessoais realizado pelo Terra e atende titulares e comunicações da Autoridade Nacional de Proteção de Dados (ANPD) pelo canal [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com). A indicação desse contato não comprova designação formal de encarregado nem enquadramento em dispensa; essa avaliação permanece pendente nesta revisão.
+**Rafael Huppes** (pessoa física) é o controlador responsável pelo tratamento de dados pessoais realizado pelo Terra e atende titulares e comunicações da Autoridade Nacional de Proteção de Dados (ANPD) pelo canal [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com). Na operação de teste fechado abrangida por esta revisão, o responsável pelo Terra se enquadra como agente de tratamento de pequeno porte e está dispensado de indicar encarregado, conforme o art. 11 da [Resolução CD/ANPD nº 2/2022](https://www.gov.br/anpd/pt-br/acesso-a-informacao/institucional/atos-normativos/regulamentacoes_anpd/resolucao-cd-anpd-no-2-de-27-de-janeiro-de-2022). O canal acima permanece disponível para solicitações dos titulares, sem afastar as demais obrigações de proteção de dados. O enquadramento será reavaliado se houver mudança no público, na escala ou nas operações de tratamento.
 
 Esta política abrange o aplicativo Android, o serviço de live wallpaper, as páginas públicas de documentos e o atendimento por e-mail. As páginas públicas são hospedadas no Google Sites, que pode tratar dados técnicos de navegação conforme a política do Google. Não foram adicionados formulários, anúncios, rastreadores ou analytics próprios às páginas. O tratamento realizado por MET Norway, Google e Cloudflare em suas respectivas operações é descrito nas seções abaixo.
 
@@ -75,7 +75,7 @@ O canal [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com) concentra tr
 
 As mensagens são processadas por meio do **Gmail/Google**, com acesso restrito ao responsável (**Rafael Huppes**) e a eventual colaborador expressamente autorizado para a resolução técnica do chamado. Os dados do atendimento nunca são utilizados para listas de marketing ou publicidade.
 
-O prazo de retenção das mensagens e anexos de suporte é de **60 dias após o encerramento do atendimento**, findos os quais os registros são excluídos da caixa de suporte. A conservação além desse prazo só ocorre, de forma restrita e fundamentada, quando indispensável para cumprimento de obrigação legal ou regulatória (art. 16, I da LGPD) ou para exercício regular de direitos em processo judicial, administrativo ou arbitral (art. 7º, VI). Não envie senhas, dados de cartão de crédito, CPF ou informações pessoais sensíveis; caso dados excessivos ou sensíveis sejam enviados incidentalmente em anexos, serão eliminados assim que identificados. Consulte também a página de [Contato](CONTATO.md).
+O prazo de retenção das mensagens e anexos de suporte é de **60 dias após o encerramento do atendimento**, findos os quais o responsável pelo suporte exclui definitivamente as mensagens e anexos, inclusive da lixeira e de eventuais cópias locais sob seu controle. A conservação além desse prazo só ocorre, de forma restrita e fundamentada, quando indispensável para cumprimento de obrigação legal ou regulatória (art. 16, I da LGPD) ou para exercício regular de direitos em processo judicial, administrativo ou arbitral (art. 7º, VI). Não envie senhas, dados de cartão de crédito, CPF ou informações pessoais sensíveis; caso dados excessivos ou sensíveis sejam enviados incidentalmente em anexos, serão eliminados assim que identificados. Consulte também a página de [Contato](CONTATO.md).
 
 ## 7. Finalidades e bases legais por operação
 
@@ -91,6 +91,8 @@ As finalidades do Terra e as hipóteses legais propostas para esta revisão est�
 | Atendimento de direitos do titular e resguardo jurídico | Responder requerimentos dos arts. 18 e 19 da LGPD e conservar prova estritamente necessária em caso de litígio ou obrigação legal | Cumprimento de obrigação legal ou regulatória (art. 7º, II) e exercício regular de direitos em processo (art. 7º, VI) |
 | Participação em teste fechado (quando aplicável) | Viabilizar a distribuição da versão de avaliação no Google Play Console e receber feedback dos testadores inscritos | Execução de procedimentos solicitados pelo participante inscrito (art. 7º, V) |
 
+A lista de participantes do teste fechado é mantida exclusivamente no Google Play Console, onde os testadores são adicionados diretamente para viabilizar sua participação no teste. Ao encerrar o teste fechado, o responsável pelo Terra remove os participantes dessa lista.
+
 O Terra não realiza venda de dados, criação de perfis comportamentais, rastreamento entre aplicativos ou treinamento de modelos de inteligência artificial com dados de usuários.
 
 ## 8. Fornecedores, papéis e tratamento internacional
@@ -100,7 +102,7 @@ Para executar as funcionalidades descritas, o aplicativo interage com os serviç
 | Serviço | Papel e dados envolvidos na operação | Localização / Transferência internacional e referência |
 |---|---|---|
 | MET Norway (Instituto Meteorológico da Noruega) | Provedor público da API meteorológica consultada diretamente pelo app; recebe IP, `User-Agent` técnico do Terra e coordenadas arredondadas a duas casas decimais, tratando seus logs sob termos próprios | Processamento na **Noruega** (país integrante do EEE coberto por decisão de adequação reconhecida pela **Resolução CD/ANPD nº 32/2026**). [Termos e privacidade da API](https://api.met.no/doc/TermsOfService) |
-| Google (Google Play Billing, Play services, Gmail e Google Sites) | Serviços de loja/faturamento, localização, backup, correio e hospedagem; os dados envolvidos dependem de cada operação descrita nesta política. Não se atribui um papel único a todos esses serviços | Infraestrutura global, sujeita aos termos aplicáveis a cada serviço e conta, ainda a conferir. [Política de Privacidade do Google](https://policies.google.com/privacy?hl=pt-BR) |
+| Google (Google Play Billing, Google Play Console, Play services, Gmail e Google Sites) | Serviços de loja/faturamento, administração da lista de testadores, localização, backup, correio e hospedagem; os dados envolvidos dependem de cada operação descrita nesta política. Não se atribui um papel único a todos esses serviços | Infraestrutura global, sujeita aos termos aplicáveis a cada serviço e conta, ainda a conferir. [Política de Privacidade do Google](https://policies.google.com/privacy?hl=pt-BR) |
 | Cloudflare (Cloudflare R2) | Infraestrutura de armazenamento e entrega de prévias e pacotes HD; recebe IP, caminho e dados técnicos. O papel na entrega e no tratamento próprio de segurança deve ser distinguido | Rede de armazenamento e entrega; existe DPA público, cuja aplicabilidade à conta ainda precisa ser confirmada. [Política de Privacidade da Cloudflare](https://www.cloudflare.com/privacypolicy/) |
 
 O aplicativo não recebe dados de cartão pelo Billing, mas recebe estados, produtos e comprovantes necessários às compras. Pedidos também podem ser tratados no Console ou no suporte. Não foram conferidos os logs/exportações e prazos disponíveis na conta Cloudflare, nem todos os registros mantidos pelos fornecedores; não se presume ausência de acesso ou controle administrativo sobre eles.
@@ -114,7 +116,8 @@ O aplicativo não recebe dados de cartão pelo Billing, mas recebe estados, prod
 | Cache de prévias de cenários | Armazenamento temporário em `cacheDir/terra_previas`; política de limpeza após cerca de 5 minutos sem uso e limite nominal de 24 MiB. A imagem aberta é preservada; a execução da limpeza pode ocorrer depois, inclusive na próxima abertura do app |
 | Preferências e direitos locais | Mantidos no aparelho enquanto o app estiver instalado, até limpeza de dados ou desinstalação (com direitos e clima excluídos do backup em nuvem) |
 | Pacotes HD de artes baixadas | Mantidos em `filesDir/acervo` até que você remova o download nas configurações do app, limpe os dados ou desinstale o aplicativo |
-| E-mails e anexos de suporte | Eliminados da caixa de atendimento em até **60 dias após o encerramento do chamado**, salvo conservação restrita e justificada para cumprimento de obrigação legal ou defesa em processo (art. 16 da LGPD) |
+| E-mails e anexos de suporte | Excluídos definitivamente pelo responsável pelo suporte, inclusive da lixeira e de eventuais cópias locais sob seu controle, em até **60 dias após o encerramento do chamado**, salvo conservação restrita e justificada para cumprimento de obrigação legal ou defesa em processo (art. 16 da LGPD) |
+| Lista de participantes do teste fechado | Mantida exclusivamente no Google Play Console durante o teste fechado; os participantes são removidos da lista pelo responsável pelo Terra ao encerrar o teste |
 | Pedidos na Google Play e logs de fornecedores | Mantidos pelos respectivos serviços conforme suas políticas e obrigações legais próprias; não são apagados pela desinstalação do aplicativo |
 
 ## 10. Direitos do titular e prazos de atendimento
@@ -161,3 +164,11 @@ Revisão 1.12 de 15/10/2026: conciliação com o teste de adultos no Brasil regi
 Revisão 1.13 de 15/10/2026: alcance dos direitos inclui registros identificáveis sob responsabilidade do Terra, além do suporte; esclarecida a reutilização de clima em cache após revogar localização e a limpeza conjunta de downloads, condicionada a arte nativa e ausência de download em andamento. Sem alteração funcional, aprovação ou nova vigência.
 
 Revisão 1.14 de 15/10/2026: identificado separadamente o cache HTTP do cliente meteorológico, sua capacidade nominal e persistência, conforme evidências da etapa 2. Sem alteração de código, aprovação ou nova vigência.
+
+Revisão 1.15 de 28/10/2026: identificação do candidato 1.0.5 (código de versão 7) para a nova revisão documental. Mantidos o estado de rascunho, as pendências de avaliação e a vigência a definir; sem aprovação ou comprovação de distribuição.
+
+Revisão 1.16 de 28/10/2026: informação do responsável sobre a lista de testadores mantida exclusivamente no Google Play Console e explicitação da rotina de exclusão definitiva do suporte em 60 dias, incluindo lixeira e eventuais cópias locais sob seu controle. O critério de retenção da lista de teste permanece pendente na revisão; sem aprovação ou nova vigência.
+
+Revisão 1.17 de 28/10/2026: definido pelo responsável que os participantes serão removidos da lista no Google Play Console ao encerrar o teste fechado; critério incluído na descrição da operação e na tabela de retenção. Superada a pendência sobre essa lista registrada na revisão 1.16. Sem aprovação ou nova vigência.
+
+Revisão 1.18 de 28/10/2026: conclusão da avaliação de dispensa de indicação de encarregado para a operação atual de teste fechado, com manutenção do controlador, do canal de atendimento e das demais obrigações de proteção de dados; reavaliação prevista em caso de mudança no público, na escala ou nas operações. Superada a pendência de enquadramento desta revisão. Sem aprovação ou nova vigência.

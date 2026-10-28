@@ -2,11 +2,11 @@
 
 **Página pública:** [https://sites.google.com/view/terra-live-wallpaper/termos](https://sites.google.com/view/terra-live-wallpaper/termos)
 
-**Versão dos termos:** 1.8
-**Última atualização:** 15 de outubro de 2026
+**Versão dos termos:** 1.9
+**Última atualização:** 28 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
-**Aplica-se a:** Próxima versão destinada ao teste fechado no Brasil, somente com participantes adultos, Premium separado das artes e acervo por download. Número e código da versão de distribuição ainda serão identificados.
-**Vigência:** A definir após aprovação e identificação da versão correspondente. Esta revisão não altera retroativamente compras anteriores.
+**Aplica-se a:** Próximo pacote (código de versão 8), em preparação para teste fechado no Brasil, somente com participantes adultos, Premium separado das artes e acervo por download.
+**Vigência:** A definir após aprovação da revisão correspondente. Esta revisão não altera retroativamente compras anteriores.
 
 ## Resumo
 
@@ -95,3 +95,5 @@ Revisão 1.5 de 15/10/2026: preparação no Google Sites e escopo de compras som
 Revisão 1.7 de 15/10/2026: consolidação das salvaguardas de proteção por padrão para adolescentes (13+), referência ao relato de problemas assistido por rascunho de e-mail e formalização das regras operacionais de continuidade, uso offline e restauração de artes adquiridas.
 
 Revisão 1.8 de 15/10/2026: conciliação com as decisões de Rafael registradas em 0d36b4a (adultos/Brasil no teste e futuros efeitos/estilos incluídos no Premium), preservado o refinamento local. Corrigidas garantias não comprovadas de autenticação e continuidade. A numeração distingue esta redação das duas versões de trabalho 1.7; sem aprovação ou nova vigência.
+
+Revisão 1.9 de 28/10/2026: identificação do candidato 1.0.5 (código de versão 7) para a nova revisão documental. Mantidos o estado de rascunho, as pendências de avaliação e a vigência a definir; sem aprovação ou comprovação de distribuição.

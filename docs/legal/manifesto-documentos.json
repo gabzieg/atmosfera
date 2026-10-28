@@ -1,10 +1,10 @@
 {
-  "revisao": "2026-10-15",
+  "revisao": "2026-10-28",
   "status": "rascunho_para_revisao",
   "aprovado_para_publicacao": false,
   "aprovacao_registro": null,
   "vigencia": null,
-  "versao_app": null,
+  "versao_app": "versionCode 8 (em preparacao; versionName a definir)",
   "dominio_publico": "https://sites.google.com/view/terra-live-wallpaper",
   "controlador": "Rafael Huppes",
   "contato": "suporteterrabr@gmail.com",
@@ -40,7 +40,7 @@
     "quantidade_contas_licenca_confirmada": null,
     "revisao_aprovacao_responsavel": "Gabriel",
     "revisao_aprovacao_concluida": false,
-    "versao_candidata_escopo": "Proxima versao apos os ajustes; numero e versionCode ainda dependem de conferencia no Console.",
+    "versao_candidata_escopo": "Proximo pacote (versionCode 8), decidido em 28/10/2026 para embarcar os textos revisados no teste fechado no Brasil. versionName ainda nao definido. Nao comprova geracao, envio, aprovacao ou distribuicao no Console.",
     "inicio_teste_confirmado": null,
     "configuracao_fornecedores_verificada": false,
     "premium_inclui_efeitos_estilos_futuros": true,
@@ -49,10 +49,10 @@
   },
   "documentos": {
     "privacidade": {
-      "versao": "1.14",
+      "versao": "1.18",
       "fonte": "docs/legal/PRIVACIDADE.md",
-      "sha256_fonte": "6932ad78abb6b0aa7e22a14721cd8c46b4b8aaeee033d490976f7c258c8e449d",
-      "sha256_html": "b20462a9495e27a9c759af2d9dfd2df4d0ed6d14e16b78cf07479769aa6d612c",
+      "sha256_fonte": "077ec05cb3f1d72d80dc4ac6f3d60fb7c02fb96cc1f6b5b29aa5a6db6d79637c",
+      "sha256_html": "8c6fa249f60dae47b8b3ec86e66f05fbb8a783f460798c6805085bcf95c7d2bf",
       "copias": [
         "docs/privacidade/index.html",
         "public_html/privacidade/index.html",
@@ -60,10 +60,10 @@
       ]
     },
     "termos": {
-      "versao": "1.8",
+      "versao": "1.9",
       "fonte": "docs/legal/TERMOS.md",
-      "sha256_fonte": "b948bf07d5e47247616851648fdc9289e1f241b0e25739fbc5aa539ae205879e",
-      "sha256_html": "06d7ea6670a87ff9b1b5d66db08e0ea86f1820c5ba54059c0706982cbc2ef9f0",
+      "sha256_fonte": "07bd81af99c8a1564f5e1da1953ba5cac60180c18bba98e0e33dad0fcda24dc8",
+      "sha256_html": "896b37b50f1396397a27e96bf8bf9b0a868ad8a8aa0891ff0be64865b4fd9678",
       "copias": [
         "docs/termos/index.html",
         "public_html/termos/index.html",
@@ -71,10 +71,10 @@
       ]
     },
     "contato": {
-      "versao": "1.6",
+      "versao": "1.9",
       "fonte": "docs/legal/CONTATO.md",
-      "sha256_fonte": "c63fc60da9724fce4fbd791829f7626f4aa7ca89bb29ef41275c7cac6a6c74d8",
-      "sha256_html": "3778fb21f333e4661d1327562490118f6ff8a318e4dcb91eade18959078021f0",
+      "sha256_fonte": "b5c5e71d1a0aba5d30b19e6b97471f7bc8cbbed323c87249b37bdfcb12bb4f3e",
+      "sha256_html": "ffd2bae828af138a9962cae208dc28f8427af84e25d08f37238b6dae612cebb7",
       "copias": [
         "docs/contato/index.html",
         "public_html/contato/index.html",

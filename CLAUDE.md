@@ -165,6 +165,10 @@ telas novas.
 
 Skills de projeto em `.claude/skills/`:
 
+- **`terra-documentos-legais`** — consulta e atualização dos documentos legais,
+  com geração e conferência do manifesto e das nove cópias HTML. Fonte
+  canônica em `.agents/skills/terra-documentos-legais/SKILL.md`.
+
 - **`run`** — build/instalar/abrir/tirar screenshot no emulador. Carregada
   quando o pedido for rodar ou testar visualmente o app.
 - **`abrir-pr`** — fluxo de pull request: decide se a mudança exige PR ou pode
