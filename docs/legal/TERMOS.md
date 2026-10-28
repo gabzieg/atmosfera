@@ -56,7 +56,7 @@ As cinco amostras gratuitas e as miniaturas do catálogo acompanham o aplicativo
 
 A instalação valida o hash SHA-256 completo e a integridade dos arquivos antes de ativar o cenário. Apagar downloads pelo aplicativo não cancela suas compras. **Uma vez baixada no aparelho e com o direito validado, a arte funciona offline**, sem depender de nova conexão ao servidor de pacotes para continuar sendo exibida no wallpaper.
 
-A consulta de compras à Google Play é iniciada automaticamente a cada abertura do aplicativo, inclusive para quem nunca comprou, quando a conexão com o serviço é estabelecida. Não exige acionar **Restaurar compras** e não inicia uma compra.
+Ao abrir o aplicativo e sempre que ele volta ao primeiro plano, o Terra consulta automaticamente as compras na Google Play, inclusive para quem nunca comprou, quando a conexão com o serviço está disponível. Ao estabelecer a conexão com a Play, também consulta os detalhes e preços dos produtos. Não exige acionar **Restaurar compras** e não inicia uma compra.
 
 Ao reinstalar o aplicativo ou trocar de aparelho, utilize a mesma conta Google e acione **Restaurar compras** para recuperar seus direitos e baixar novamente as variantes adquiridas. Falhas temporárias de rede durante a consulta à Google Play não revogam os direitos já validados localmente no dispositivo; contudo, reembolso, estorno ou cancelamento confirmado pela Google Play revoga o acesso correspondente.
 
@@ -100,4 +100,4 @@ Revisão 1.8 de 15/10/2026: conciliação com as decisões de Rafael registradas
 
 Revisão 1.9 de 28/10/2026: identificação do candidato 1.0.5 (código de versão 7) para a nova revisão documental. Mantidos o estado de rascunho, as pendências de avaliação e a vigência a definir; sem aprovação ou comprovação de distribuição. Por decisão do Gabriel em 28/10/2026, esta revisão passa a se aplicar ao próximo pacote (código de versão 8), em preparação para o teste fechado no Brasil; a identificação anterior do candidato 7 fica como histórico. `versionName` ainda não definido; mantidos o rascunho, a aprovação pendente e a vigência a definir.
 
-Revisão 1.10 de 28/10/2026: esclarecidas a exposição de IP em conexões automáticas independentemente da permissão de localização e a consulta automática de compras na abertura, em coerência com a Política de Privacidade 1.19. Mantidos o pacote 8, o rascunho, a aprovação pendente e a vigência a definir.
+Revisão 1.10 de 28/10/2026: esclarecidas a exposição de IP em conexões automáticas independentemente da permissão de localização e a consulta automática de compras na abertura e no retorno ao primeiro plano, além dos detalhes e preços na conexão com a Play, em coerência com a Política de Privacidade 1.19. Mantidos o pacote 8, o rascunho, a aprovação pendente e a vigência a definir.
