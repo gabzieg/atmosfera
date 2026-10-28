@@ -2,17 +2,17 @@
 
 **Página pública:** [https://sites.google.com/view/terra-live-wallpaper/contato](https://sites.google.com/view/terra-live-wallpaper/contato)
 
-**Versão do documento:** 1.6
-**Última atualização:** 15 de outubro de 2026
+**Versão do documento:** 1.9
+**Última atualização:** 28 de outubro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
-**Aplica-se a:** Atendimento do Terra e próxima revisão de teste fechado, restrita a adultos no Brasil; versão de distribuição ainda a identificar.
+**Aplica-se a:** Atendimento do Terra e próximo pacote (código de versão 8), em preparação para teste fechado restrito a adultos no Brasil.
 **Vigência:** A definir após aprovação da revisão correspondente.
 
 ## Resumo
 
 O controlador responsável pelo Terra e ponto focal de comunicação com titulares e com a ANPD é **Rafael Huppes, pessoa física**. Utilize o canal único [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com) para suporte técnico, dúvidas sobre compras/reembolsos e solicitações de privacidade e direitos sobre dados pessoais (LGPD).
 
-Esse contato não comprova designação formal de encarregado ou dispensa dessa designação. O enquadramento permanece em avaliação nesta revisão.
+Na operação de teste fechado abrangida por esta revisão, o responsável pelo Terra está dispensado de indicar encarregado por seu enquadramento como agente de tratamento de pequeno porte, conforme o art. 11 da [Resolução CD/ANPD nº 2/2022](https://www.gov.br/anpd/pt-br/acesso-a-informacao/institucional/atos-normativos/regulamentacoes_anpd/resolucao-cd-anpd-no-2-de-27-de-janeiro-de-2022). Rafael Huppes permanece como controlador e responsável pelo canal de atendimento aos titulares. O enquadramento será reavaliado se houver mudança no público, na escala ou nas operações de tratamento.
 
 ## 1. Suporte técnico, relato de problemas e compras
 
@@ -34,7 +34,7 @@ Para solicitações baseadas nos **arts. 18 e 19 da Lei nº 13.709/2018 (LGPD)**
 
 Recebemos o endereço de e-mail remetente, o conteúdo da mensagem, os campos técnicos do rascunho (quando utilizados) e eventuais anexos enviados voluntariamente. As mensagens são processadas via **Gmail/Google**, com acesso restrito ao responsável (**Rafael Huppes**) e a eventual colaborador expressamente autorizado para resolver o chamado. Não utilizamos endereços de suporte para envio de publicidade ou marketing.
 
-As mensagens e anexos são mantidos pelo prazo de **60 dias após o encerramento do atendimento**, sendo eliminados da caixa de suporte ao término desse período. A conservação além de 60 dias ocorre apenas de forma restrita e fundamentada quando necessária para cumprimento de obrigação legal ou regulatória (art. 7º, II e art. 16, I da LGPD) ou para exercício regular de direitos em processo judicial, administrativo ou arbitral (art. 7º, VI). Consulte os detalhes completos na [Política de Privacidade](PRIVACIDADE.md) e nos [Termos de Uso](TERMOS.md).
+As mensagens e anexos são mantidos pelo prazo de **60 dias após o encerramento do atendimento**, cabendo ao responsável pelo suporte registrar o encerramento e excluir definitivamente mensagens e anexos ao término desse período, inclusive da lixeira e de eventuais cópias locais sob seu controle. A conservação além de 60 dias ocorre apenas de forma restrita e fundamentada quando necessária para cumprimento de obrigação legal ou regulatória (art. 7º, II e art. 16, I da LGPD) ou para exercício regular de direitos em processo judicial, administrativo ou arbitral (art. 7º, VI). Consulte os detalhes completos na [Política de Privacidade](PRIVACIDADE.md) e nos [Termos de Uso](TERMOS.md).
 
 ## 4. Site e histórico
 
@@ -47,3 +47,9 @@ Revisão 1.4 de 15/10/2026: detalhamento dos campos pré-preenchidos na opção 
 Revisão 1.5 de 15/10/2026: conciliação do escopo de adultos/Brasil no teste e distinção entre canal de contato e enquadramento de encarregado, preservado o detalhamento do relato e do atendimento. Sem aprovação ou nova vigência.
 
 Revisão 1.6 de 15/10/2026: pedidos de direitos abrangem dados identificáveis sob responsabilidade do Terra, incluindo participantes do teste e registros administrativos, sem exigir atendimento anterior. Sem aprovação ou nova vigência.
+
+Revisão 1.7 de 28/10/2026: identificação do candidato 1.0.5 (código de versão 7) para a nova revisão documental. Mantidos o estado de rascunho, as pendências de avaliação e a vigência a definir; sem aprovação ou comprovação de distribuição.
+
+Revisão 1.8 de 28/10/2026: explicitação da rotina confirmada pelo responsável para encerramento e exclusão definitiva de mensagens e anexos do suporte após 60 dias, incluindo lixeira e eventuais cópias locais sob seu controle. Sem aprovação ou nova vigência.
+
+Revisão 1.9 de 28/10/2026: conclusão da avaliação de dispensa de indicação de encarregado para a operação atual de teste fechado, preservando o controlador e o canal de atendimento aos titulares. Superada a pendência de enquadramento; sem aprovação ou nova vigência. Por decisão do Gabriel em 28/10/2026, esta revisão passa a se aplicar ao próximo pacote (código de versão 8), em preparação para o teste fechado no Brasil; a identificação anterior do candidato 7 fica como histórico. `versionName` ainda não definido; mantidos o rascunho, a aprovação pendente e a vigência a definir.

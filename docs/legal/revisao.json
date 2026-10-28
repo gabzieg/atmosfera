@@ -1,5 +1,5 @@
 {
-  "revisao": "2026-10-15",
+  "revisao": "2026-10-28",
   "status": "rascunho_para_revisao",
   "aprovado_para_publicacao": false,
   "aprovacao_registro": null,
@@ -40,7 +40,7 @@
     "quantidade_contas_licenca_confirmada": null,
     "revisao_aprovacao_responsavel": "Gabriel",
     "revisao_aprovacao_concluida": false,
-    "versao_candidata_escopo": "Proxima versao apos os ajustes; numero e versionCode ainda dependem de conferencia no Console.",
+    "versao_candidata_escopo": "Proximo pacote (versionCode 8), decidido em 28/10/2026 para embarcar os textos revisados no teste fechado no Brasil. versionName ainda nao definido. Nao comprova geracao, envio, aprovacao ou distribuicao no Console.",
     "inicio_teste_confirmado": null,
     "configuracao_fornecedores_verificada": false,
     "premium_inclui_efeitos_estilos_futuros": true,
