@@ -1,6 +1,6 @@
 # Fonte editorial dos documentos do Terra
 
-Revisão de trabalho de 28/10/2026, iniciada do zero a partir das fontes canônicas e do código atual. Fontes únicas: `TERMOS.md` (1.9), `PRIVACIDADE.md` (1.18) e `CONTATO.md` (1.9). A [nova revisão documental](../../.lgpd/revisoes/2026-10-28-documentos/REVISAO.md) registra achados e decisões pendentes; os registros anteriores abaixo são históricos e não foram usados como base desta rodada. Os HTMLs são exportações; não editar cada cópia separadamente. O [registro de refinamento](../dev/REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md) reúne instruções internas e decisões pendentes. As versões refinadas não foram republicadas no Google Sites por esta execução.
+Revisão de trabalho de 28/10/2026, iniciada do zero a partir das fontes canônicas e do código atual. Fontes únicas: `TERMOS.md` (1.10), `PRIVACIDADE.md` (1.19) e `CONTATO.md` (1.9). A [nova revisão documental](../../.lgpd/revisoes/2026-10-28-documentos/REVISAO.md) registra achados e decisões pendentes; os registros anteriores abaixo são históricos e não foram usados como base desta rodada. Os HTMLs são exportações; não editar cada cópia separadamente. O [registro de refinamento](../dev/REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md) reúne instruções internas e decisões pendentes. As versões refinadas não foram republicadas no Google Sites por esta execução.
 
 ```powershell
 python scripts/sincronizar_documentos_legais.py
