@@ -29,7 +29,7 @@ Depois do cadastro, o app exibiu **Comprar R$ 1,99** e abriu o checkout correto.
 - Preço regular aprovado: R$ 1,99 por arte. Sem ofertas de desconto, aluguel, pré-venda ou compra em quantidade nesta preparação.
 - Alvo de disponibilidade: BR. O piloto ficou ativo em 174 países; revisar sua disponibilidade e a das futuras opções. Não presumir que a faixa fechada restrita a Brasil corrige o alcance de todas as ofertas futuras.
 - Oito artes de `estacionamento`/`natal` permanecem no inventário, identificadas como ocultas na vitrine do candidato 7. Preservar os IDs; ativação/visibilidade depende de decisão de catálogo, não de descarte silencioso.
-- Nomes/descrições comerciais devem ser conferidos com o catálogo antes da publicação; o CSV não inventa títulos a partir de nomes técnicos.
+- Títulos e descrição são gerados conforme o app e devem ser revisados antes da aplicação; fallbacks de slugs ficam marcados para revisão humana.
 
 Comandos na raiz:
 
@@ -48,7 +48,7 @@ A documentação Google informa que importação/exportação de produtos por CS
 
 1. Ler os produtos/opções atuais e comparar por ID com o inventário; preservar Premium e piloto e reportar divergências, sem apagar extras.
 2. Conferir títulos, tipo de compra, preço BR e países. Preparar somente os faltantes; não sobrescrever preços/estados extras sem conciliação.
-3. Cadastrar/ativar produtos e opções pelo acesso autorizado disponível; registrar contagem efetiva após leitura de confirmação. A permissão de preencher o catálogo não autoriza publicar a versão do app, cobrar compras reais ou contratar serviço.
+3. Após merge e autorização sobre o plano simulado, cadastrar pela API Publishing conforme o procedimento abaixo; registrar contagem efetiva após leitura de confirmação. A permissão de preencher o catálogo não autoriza publicar a versão do app, cobrar compras reais ou contratar serviço.
 4. Reabrir o app e conferir preços em amostra de artes; testar compra/cancelamento/restauração com conta licenciada e instrumento de teste.
 5. Corrigir diagnósticos de Billing se persistirem falhas em produtos ativos: código de resposta, mensagem e motivos dos produtos não retornados, sem dados pessoais/tokens.
 
@@ -57,3 +57,37 @@ Referências consultadas na sessão: [cadastro de produtos e gestão em massa](h
 ## Feedback para conversa oficial / Central de Execução
 
 Compra piloto Biblioteca — Van Gogh destravada após cadastro do produto `terra_arte_biblioteca_vangogh` e opção ativa por R$ 1,99. Checkout com instrumento de teste e sem cobrança comprovado no print; conclusão da compra relatada por Rafael. Sem mudança de APK/código de Billing. Próxima pendência: conciliar e cadastrar as demais artes usando o inventário de 361 IDs, revisar os países do piloto e testar restauração. Ajustes de wallpaper ficam em tarefa separada. Cadastro em massa não executado nesta entrega por bloqueio técnico da navegação.
+
+## Preparação pela API Publishing — decisão de 28/10
+
+O cadastro restante cabe ao niemeyer pela API Publishing, após merge e autorização explícita sobre o plano simulado. Esta preparação não executou cadastro, alteração de países nem nova compra. Alvo: **somente Brasil**, R$ 1,99, inclusive no piloto; Premium e produtos extras ficam intocados. As oito artes ocultas de `estacionamento`/`natal` mantêm IDs e ficam indisponíveis. Não criar desconto, aluguel, pré-venda ou compra em quantidade.
+
+O gerador acrescenta `titulo`, `descricao`, `estado_opcao` e `revisar_nomes` ao inventário. Usa as tabelas de `NomesCatalogo.nome` e `StoreTab.estiloNome`, inclusive o fallback literal e os sufixos que o app exibe; não inventa aliases nem converte números em romanos. Há **253 títulos marcados** (30 slugs de cenário, 50 de arte); a lista completa sai no gerador. Revisão humana dos nomes ainda pendente, exceto pelo título histórico do piloto aprovado em 29/10: **Biblioteca — Van Gogh**, preservado como exceção restrita apesar do fallback **Biblioteca — Vangogh** do app. A descrição real do piloto ainda precisa ser conciliada; outro título, descrição ou idioma divergente bloqueia toda aplicação. Título máximo observado: 37/55 caracteres; descrição única: “Arte para o wallpaper Terra. Compra única. Não inclui o Premium.” (64/200). Os limites são do recurso oficial [OneTimeProductListing](https://developers.google.com/android-publisher/api-ref/rest/v3/monetization.onetimeproducts#OneTimeProductListing).
+
+### Acesso e execução posterior
+
+O usuário prepara uma conta de serviço no Google Cloud, ativa a Google Play Android Developer API e convida essa conta no Play Console **somente para `com.terra.wallpaper`**, com **Gerenciar presença na loja** (Manage store presence). Essa é a permissão que inclui preços e produtos no [quadro oficial de permissões](https://support.google.com/googleplay/android-developer/answer/9844686?hl=en). Não conceder administrador, publicação de versões ou pedidos por rotina. Ver [configuração oficial de acesso à API](https://developers.google.com/android-publisher/getting_started). A disponibilidade desse acesso não foi verificada nesta entrega.
+
+Guarde a chave e o ambiente virtual fora de qualquer checkout. O script recusa chave dentro desta árvore, inclusive por symlink; recebe o caminho por `--credentials` ou `TERRA_PLAY_SERVICE_ACCOUNT_KEY`. Não imprime conteúdo da chave, token, e-mail da conta ou resposta bruta de erro. Não enviar chave ou logs de autenticação pelo chat. Dependências são exclusivas do operador, não da CI Android:
+
+```sh
+python3 -m venv "$HOME/.venvs/terra-play"
+"$HOME/.venvs/terra-play/bin/pip" install -r scripts/requirements-play.txt
+python3 scripts/preparar_produtos_play.py --check
+python3 -m unittest discover -s scripts -p 'test_cadastrar_produtos_play.py' -v
+"$HOME/.venvs/terra-play/bin/python" scripts/cadastrar_produtos_play.py
+```
+
+1. Sem `--apply`, o comando lista produtos/opções atuais e plano por ID: criar, ajustar, sem mudança, divergências e extras intocados. Nenhuma escrita; nem conversão de preços é chamada neste modo. O plano mostra nomes pendentes de revisão.
+2. Niemeyer revisa nomes, descrição, IDs, R$ 1,99, somente BR, opções indisponíveis das oito ocultas e o ajuste do piloto. Divergências de título, preço, estado, opção ou tipo bloqueiam toda aplicação; não são corrigidas automaticamente. As credenciais reais e a simulação contra o Console continuam pendentes.
+3. Após merge e autorização explícita do usuário sobre esse plano, o operador repete o comando com `--apply`. O script relê antes de agir. Se o estado mudou, interrompe. Não existe autorização de aplicação nesta fatia.
+4. Após aplicação, o comando relê o Console e relata ativos, DRAFT, INACTIVE, total indisponível e divergências separadamente. Não declara conclusão se restarem criações, ajustes ou divergências. Repetir a simulação deve deixar criar/ajustar/divergências vazios; os IDs sem mudança e extras continuam listados.
+5. Registrar contagem real sanitizada e conferir preços no app em uma amostra. A7, A8, B2, restauração e checkout adicional seguem pendentes; simulações não comprovam cadastro ou entrega de conteúdo real.
+
+### Contrato da API e limites
+
+Fontes oficiais conferidas em 29/10/2026: [list](https://developers.google.com/android-publisher/api-ref/rest/v3/monetization.onetimeproducts/list) com paginação e opções embutidas, [get](https://developers.google.com/android-publisher/api-ref/rest/v3/monetization.onetimeproducts/get) para reconferência, [patch](https://developers.google.com/android-publisher/api-ref/rest/v3/monetization.onetimeproducts/patch) para criação/ajuste, [batchUpdateStates](https://developers.google.com/android-publisher/api-ref/rest/v3/monetization.onetimeproducts.purchaseOptions/batchUpdateStates) para ativar somente novas opções visíveis e [convertRegionPrices](https://developers.google.com/android-publisher/api-ref/rest/v3/monetization/convertRegionPrices) para obter a versão atual das regiões. Da conversão só se usa `regionVersion.version`; nenhum preço estrangeiro convertido é aplicado.
+
+A criação envia uma única configuração regional, BR/BRL 1,99, `buyOption`, opção compatível e sem `newRegionsConfig`. O estado é output-only: não se envia `ACTIVE` no upsert. A API cria a opção em `DRAFT`; as visíveis são ativadas em chamada separada. As oito ocultas permanecem DRAFT, que não é retornado pela Billing Library, conforme [estados das opções](https://support.google.com/googleplay/android-developer/answer/16430488?hl=en); não se faz ativação intermediária. DRAFT atende ao objetivo de indisponibilidade aprovado e é contado separadamente de INACTIVE literal. No cenário simulado completo: 353 ACTIVE, 8 DRAFT e 0 INACTIVE; não são contagens reais do Console. Não se ativa uma opção preexistente divergente. Se houver falha entre criação e ativação, o DRAFT visível é divergência para conciliação humana; o script não o ativa silenciosamente na próxima execução.
+
+Para impedir sobrescrita numa criação concorrente, `allowMissing=true` usa máscara apenas do `productId` imutável (a máscara é ignorada quando o produto é criado). Em existente, preço/texto/opções ficam fora da máscara. O ajuste do piloto relê e preserva a opção e todos os preços, altera apenas `availability` fora do Brasil e nas regiões novas para `NO_LONGER_AVAILABLE` quando antes estavam `AVAILABLE`. A máscara é `purchaseOptions`, pois [FieldMask](https://protobuf.dev/reference/protobuf/google.protobuf/#field-mask) não atravessa campos repetidos. O estado é omitido e o título fica fora da máscara. A API não documenta precondição por ETag nesse método: o operador deve impedir edições concorrentes no Console durante a aplicação. Não há repetição automática de escrita após erro ou timeout; simule de novo e concilie.
