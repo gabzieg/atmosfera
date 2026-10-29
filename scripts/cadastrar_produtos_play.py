@@ -118,7 +118,8 @@ def planejar(linhas, atuais):
 
 def resumo(plano, atuais):
     conhecidos = {x["productId"]: x for x in atuais}
-    alvo = set(plano["sem_mudanca"]) | {x["product_id"] for x in plano["ajustar"]}
+    alvo = (set(plano["sem_mudanca"]) | {x["product_id"] for x in plano["ajustar"]}
+            | {x["product_id"] for x in plano["divergencias"]})
     estados = [p.get("state") for pid in alvo for p in conhecidos[pid].get("purchaseOptions", [])]
     return {"criar": len(plano["criar"]), "ajustar": len(plano["ajustar"]),
             "sem_mudanca": len(plano["sem_mudanca"]), "extras_intocados": len(plano["extras"]),

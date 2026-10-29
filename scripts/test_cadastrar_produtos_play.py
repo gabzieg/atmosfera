@@ -126,6 +126,24 @@ class CadastroTest(unittest.TestCase):
         self.assertEqual(api.escritas, [])
         self.assertEqual(api.produtos[produto['productId']], produto)
 
+    def test_resumo_conta_estados_divergentes_sem_incluir_extras(self):
+        # Incidente de 29/10/2026: leitura real retornou dez ACTIVE, resumo mostrou zero.
+        for estado in ['ACTIVE', 'DRAFT', 'INACTIVE']:
+            with self.subTest(estado=estado):
+                produto = existente(self.linhas[0])
+                produto['purchaseOptions'][0]['state'] = estado
+                produto['purchaseOptions'][0][play.REGIONS][0]['price']['units'] = '9'
+                premium = {'productId': 'terra_premium', 'purchaseOptions': [{'state': 'ACTIVE'}]}
+                api = ConsoleSimulado([produto, premium])
+                plano = self.executar(api)
+                contagens = play.resumo(plano, list(api.produtos.values()))
+                self.assertEqual(contagens['divergencias'], 1)
+                self.assertEqual(contagens['ativos_efetivos'], int(estado == 'ACTIVE'))
+                self.assertEqual(contagens['draft_efetivos'], int(estado == 'DRAFT'))
+                self.assertEqual(contagens['inativos_efetivos'], int(estado == 'INACTIVE'))
+                self.assertEqual(contagens['indisponiveis_efetivos'], int(estado != 'ACTIVE'))
+                self.assertEqual(api.escritas, [])
+
     def test_titulo_estado_tipo_regiao_e_opcao_divergentes(self):
         for alterar in [lambda p: p['listings'][0].update(title='Divergência fictícia'),
                         lambda p: p['purchaseOptions'][0].update(state='INACTIVE'),
