@@ -8,7 +8,7 @@ import os
 import sys
 from pathlib import Path
 
-from preparar_produtos_play import DESCRICAO, PILOTO, ROOT, TARGET, gerar
+from preparar_produtos_play import PILOTO, ROOT, TARGET, gerar
 
 PACKAGE = "com.terra.wallpaper"
 PRICE = {"currencyCode": "BRL", "units": "1", "nanos": 990000000}
@@ -28,7 +28,7 @@ def inventario():
 
 def produto_novo(linha):
     return {"packageName": PACKAGE, "productId": linha["product_id"],
-            "listings": [{"languageCode": "pt-BR", "title": linha["titulo"], "description": DESCRICAO}],
+            "listings": [{"languageCode": "pt-BR", "title": linha["titulo"], "description": linha["descricao"]}],
             "purchaseOptions": [{"purchaseOptionId": linha["purchase_option_id_proposto"],
                                  "buyOption": {"legacyCompatible": True},
                                  REGIONS: [{"regionCode": "BR", "price": PRICE.copy(),

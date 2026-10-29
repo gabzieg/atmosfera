@@ -2,6 +2,7 @@
 import contextlib
 import copy
 import io
+import json
 import tempfile
 import unittest
 from types import SimpleNamespace
@@ -87,6 +88,34 @@ class CadastroTest(unittest.TestCase):
         self.assertEqual([x['product_id'] for x in plano['ajustar']], [play.PILOTO])
         self.assertEqual(plano['divergencias'], [])
         self.assertEqual(api.escritas, [])
+
+    def test_dez_textos_aprovados_sao_preservados_e_cria_351(self):
+        # Decisão do usuário de 29/10/2026: preservar os dez textos reais existentes.
+        origem = play.TARGET.parent / 'TEXTOS-EXISTENTES.json'
+        aprovados = json.loads(origem.read_text())['produtos']
+        por_id = {x['product_id']: x for x in self.linhas}
+        produtos = []
+        for texto in aprovados:
+            produto = existente(por_id[texto['product_id']])
+            produto['listings'] = [{'languageCode': 'pt-BR', 'title': texto['titulo'], 'description': texto['descricao']}]
+            if produto['productId'] == play.PILOTO:
+                produto['purchaseOptions'] = self.piloto()['purchaseOptions']
+            produtos.append(produto)
+        api = ConsoleSimulado(produtos + [{'productId': 'terra_premium'}])
+        plano = self.executar(api)
+        self.assertEqual(len(plano['criar']), 351)
+        self.assertEqual(sum(x['estado_opcao'] == 'ACTIVE' for x in plano['criar']), 343)
+        self.assertEqual(sum(x['estado_opcao'] == 'INACTIVE' for x in plano['criar']), 8)
+        self.assertEqual(plano['divergencias'], [])
+        self.assertEqual(len(plano['ajustar']), 1)
+        self.assertEqual(len(plano['sem_mudanca']), 9)
+        self.executar(api, True)
+        for original in produtos:
+            atual = api.produtos[original['productId']]
+            self.assertEqual(atual['listings'], original['listings'])
+            if original['productId'] != play.PILOTO:
+                self.assertEqual(atual, original)
+        self.assertEqual(sum(c[0] == 'PATCH' and c[3]['allowMissing'] == 'false' for c in api.escritas), 1)
 
     def test_aplicar_rele_segunda_execucao_vazia_e_preserva_extras(self):
         premium = {'productId': 'terra_premium', 'listings': [{'title': 'Premium fictício'}]}

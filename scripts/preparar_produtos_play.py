@@ -3,6 +3,7 @@
 import argparse
 import csv
 import io
+import json
 import re
 from pathlib import Path
 
@@ -10,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "docs/loja/conciliacao-2026-10-11/ARTES-CONCILIADAS.csv"
 TARGET = ROOT / "docs/loja/produtos-play-2026-10-27/PRODUTOS.csv"
 PILOTO = "terra_arte_biblioteca_vangogh"
-TITULO_PILOTO = "Biblioteca — Van Gogh"  # Exceção aprovada pelo usuário em 29/10/2026.
+TEXTOS_EXISTENTES = TARGET.parent / "TEXTOS-EXISTENTES.json"
 DESCRICAO = "Arte para o wallpaper Terra. Compra única. Não inclui o Premium."
 APP = ROOT / "android-app/app/src/main/java/com/terra/wallpaper"
 
@@ -24,7 +25,24 @@ def nomes_apresentacao(caminho, declaracao):
     return nomes
 
 
+def textos_preservados():
+    """Baseline aprovado em 29/10/2026; não aprender textos novos do Console."""
+    dados = json.loads(TEXTOS_EXISTENTES.read_text(encoding="utf-8"))["produtos"]
+    por_id = {}
+    for item in dados:
+        pid = item["product_id"]
+        if pid in por_id or not item["titulo"].strip() or not item["descricao"].strip():
+            raise ValueError("Textos preservados duplicados ou vazios")
+        if len(item["titulo"]) > 55 or len(item["descricao"]) > 200:
+            raise ValueError(f"Texto preservado excede limite da Play: {pid}")
+        por_id[pid] = item
+    if len(por_id) != 10 or PILOTO not in por_id:
+        raise ValueError("Baseline deve preservar exatamente os dez produtos aprovados")
+    return por_id
+
+
 def gerar():
+    preservados = textos_preservados()
     cenarios = nomes_apresentacao(APP / "engine/NomesCatalogo.kt", "private val nomes = mapOf(")
     estilos = nomes_apresentacao(APP / "ui/StoreTab.kt", "private val NOMES_ESTILO:")
     with SOURCE.open(encoding="utf-8-sig", newline="") as arquivo:
@@ -38,7 +56,7 @@ def gerar():
     saida = io.StringIO(newline="")
     campos = ["product_id", "purchase_option_id_proposto", "preco_brl",
               "pais_alvo", "cenario", "arte", "vitrine_candidato_7",
-              "estado_console", "titulo", "descricao", "estado_opcao", "revisar_nomes"]
+              "estado_console", "titulo", "descricao", "estado_opcao", "revisar_nomes", "origem_textos"]
     writer = csv.DictWriter(saida, fieldnames=campos, lineterminator="\n")
     writer.writeheader()
     for arte in sorted(pagas, key=lambda item: item["produto_proposto"]):
@@ -60,18 +78,24 @@ def gerar():
                 revisar.append(f"{tipo}:{slug}")
         # Reproduz o fallback do app, sem inventar aliases ou numeração romana.
         titulo = f"{cenarios.get(cenario, cenario[:1].upper() + cenario[1:])} — {estilos.get(estilo, estilo[:1].upper() + estilo[1:])}"
-        if produto == PILOTO:
-            titulo = TITULO_PILOTO
-        if len(titulo) > 55 or len(DESCRICAO) > 200:
+        descricao = DESCRICAO
+        origem = "app"
+        if produto in preservados:
+            titulo, descricao = preservados[produto]["titulo"], preservados[produto]["descricao"]
+            revisar = []
+            origem = "console_preservado_2026-10-29"
+        if len(titulo) > 55 or len(descricao) > 200:
             raise ValueError(f"Texto excede limites da Play: {produto}")
         writer.writerow(dict(zip(campos, [produto, opcao, "1.99", "BR",
             arte["cenario"], arte["arte"],
             "oculta" if arte["cenario"] in {"natal", "estacionamento"} else "visivel",
             "piloto_ativo_compra_relatada" if produto == PILOTO else "nao_reconferido",
-            titulo, DESCRICAO, "INACTIVE" if cenario in {"natal", "estacionamento"} else "ACTIVE",
-            "|".join(revisar)])))
+            titulo, descricao, "INACTIVE" if cenario in {"natal", "estacionamento"} else "ACTIVE",
+            "|".join(revisar), origem])))
     if PILOTO not in produtos:
         raise ValueError("Produto piloto ausente")
+    if not preservados.keys() <= produtos:
+        raise ValueError("Baseline contém produto fora do inventário pago")
     return saida.getvalue()
 
 
@@ -92,7 +116,7 @@ def main():
     slugs = sorted({s for x in revisar for s in x["revisar_nomes"].split("|")})
     print(f"OK: 361 IDs únicos; 353 opções ativas; 8 inativas; 5 amostras excluídas; {len(revisar)} títulos para revisão")
     print("Revisar: " + ", ".join(slugs))
-    print(f"Máximo título: {max(len(x['titulo']) for x in linhas)}/55; descrição: {len(DESCRICAO)}/200; sem acesso ao Console")
+    print(f"Máximo título: {max(len(x['titulo']) for x in linhas)}/55; descrição padrão: {len(DESCRICAO)}/200; máximo descrição: {max(len(x['descricao']) for x in linhas)}/200; sem acesso ao Console")
 
 
 if __name__ == "__main__":

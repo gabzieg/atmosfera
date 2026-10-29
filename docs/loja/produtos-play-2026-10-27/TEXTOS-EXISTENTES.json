@@ -1,0 +1,55 @@
+{
+  "origem": "Leitura da API Publishing em 29/10/2026; preservação dos dez textos existentes aprovada pelo usuário em 29/10/2026. Não autoriza alterações no Console.",
+  "produtos": [
+    {
+      "product_id": "terra_arte_aldeiajapao_aqua",
+      "titulo": "Aldeia Japão — Aquarela",
+      "descricao": "Uma aldeia japonesa em aquarela, com cores delicadas e pinceladas suaves."
+    },
+    {
+      "product_id": "terra_arte_baobas_papelmache",
+      "titulo": "Baobás — Papel machê",
+      "descricao": "Uma paisagem de baobás em estilo papel machê, com textura e aparência artesanal."
+    },
+    {
+      "product_id": "terra_arte_biblioteca_clay",
+      "titulo": "Biblioteca — Clay",
+      "descricao": "Uma biblioteca em estilo de argila, com volumes suaves e aparência artesanal."
+    },
+    {
+      "product_id": "terra_arte_biblioteca_vangogh",
+      "titulo": "Biblioteca — Van Gogh",
+      "descricao": "Libera a arte Biblioteca no estilo Van Gogh para usar como wallpaper no Terra. Não inclui Premium nem outras artes."
+    },
+    {
+      "product_id": "terra_arte_cafeparis_papelmache",
+      "titulo": "Café Paris — Papel machê",
+      "descricao": "Um café parisiense em estilo papel machê, com textura e aparência artesanal."
+    },
+    {
+      "product_id": "terra_arte_himalaia_clay",
+      "titulo": "Himalaia — Clay",
+      "descricao": "Uma paisagem do Himalaia em estilo de argila, com formas e volumes modelados."
+    },
+    {
+      "product_id": "terra_arte_lavanda_ukiyoe",
+      "titulo": "Lavanda — Ukiyo-e",
+      "descricao": "Uma paisagem de lavanda inspirada nas gravuras japonesas ukiyo-e."
+    },
+    {
+      "product_id": "terra_arte_muralha_doodle",
+      "titulo": "Muralha — Doodle",
+      "descricao": "Uma muralha reinterpretada em traços livres, com o charme de um desenho feito à mão."
+    },
+    {
+      "product_id": "terra_arte_navio_aqua",
+      "titulo": "Navio — Aquarela",
+      "descricao": "Uma cena com navio em aquarela, com pinceladas suaves e cores fluidas."
+    },
+    {
+      "product_id": "terra_arte_navio_ukiyoe",
+      "titulo": "Navio — Ukiyo-e",
+      "descricao": "Uma cena com navio inspirada nas gravuras japonesas ukiyo-e."
+    }
+  ]
+}
