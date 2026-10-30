@@ -15,7 +15,7 @@ Registro consolidado em 26/10 a partir de relatos, prints e código fornecidos p
 
 ## Gmail de suporte e conexões
 
-- Conta relatada como Gmail pessoal; endereço operacional `suporteterrabr@gmail.com`.
+- Conta relatada como Gmail pessoal; endereço operacional omitido neste registro para manter a evidência sem e-mails.
 - Print de 25/10: seção Encaminhamento oferece somente adicionar endereço; nenhum destino configurado exibido. POP desativado. A tela IMAP não identifica clientes conectados.
 - Print de filtros de 25/10: lista sem filtros, portanto nenhum encaminhamento por filtro exibido; sem endereços bloqueados.
 - Preservados os relatos anteriores: ausência de delegados; Rafael não realizou downloads de mensagens/anexos. Não houve reconferência independente de todos os dispositivos/cópias.
