@@ -34,9 +34,11 @@ adb shell am start -n com.terra.wallpaper/.debug.ConsultaIdadeLauncher
 **Pare se a instalação indicar conflito de assinatura**, como
 `INSTALL_FAILED_UPDATE_INCOMPATIBLE`. Uma instalação da Play/release geralmente
 não aceita atualização com assinatura debug. Não desinstale, limpe dados ou
-remova downloads para resolver isso. Use um aparelho/perfil de teste separado
-já autorizado, ou coordene uma instalação compatível antes do ensaio. O comando
-`-r` não torna assinaturas diferentes compatíveis; mantenha o app atual intacto.
+remova downloads para resolver isso. Outro usuário/perfil no mesmo Android não
+resolve: o pacote instalado e sua assinatura valem para o aparelho inteiro. Use
+outro aparelho ou emulador já autorizado, com Play Store e conta testadora de
+licença, ou coordene uma instalação compatível antes do ensaio. O comando `-r`
+não torna assinaturas diferentes compatíveis; mantenha o app atual intacto.
 
 Também é possível abrir **“Terra — Idade (teste)”** na lista de aplicativos.
 A Activity não faz nenhuma consulta ao abrir. Leia a explicação e toque em
