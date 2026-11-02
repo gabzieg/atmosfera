@@ -1,5 +1,9 @@
 # CLAUDE.md
 
+@AGENTS.md
+
+Papéis e fluxo dos agentes (consultora e desenvolvedora, Friday): `AGENTS.md`, importado acima.
+
 Contexto do projeto Atmosfera para o Claude Code — leia isto antes de explorar
 a árvore de arquivos. Objetivo: não precisar reler o app inteiro a cada sessão.
 
@@ -163,21 +167,9 @@ telas novas.
 
 ## Skills
 
-Skills de projeto em `.claude/skills/`:
-
-- **`terra-documentos-legais`** — consulta e atualização dos documentos legais,
-  com geração e conferência do manifesto e das nove cópias HTML. Fonte
-  canônica em `.agents/skills/terra-documentos-legais/SKILL.md`.
-
-- **`run`** — build/instalar/abrir/tirar screenshot no emulador. Carregada
-  quando o pedido for rodar ou testar visualmente o app.
-- **`abrir-pr`** — fluxo de pull request: decide se a mudança exige PR ou pode
-  ir direto na `main`, nomeia a branch, roda o gate, revisa o diff (`/code-review`)
-  e abre o PR. **Toda mudança na `main` exige PR** (ruleset do servidor, ver
-  "Regras de PR") — a skill descreve o fluxo.
-
-Consistência de código (simplificação, revisão) pode usar as skills genéricas
-do Claude Code (`simplify`, `/code-review`) normalmente.
+O projeto não tem skills próprias desde 02/11/2026: o fluxo de PR, rodar o app e
+os documentos legais estão no `AGENTS.md`. As skills gerais do Friday e do
+Claude Code (`simplify`, `/code-review`) valem normalmente.
 
 ## Regras de PR (resumo)
 
@@ -224,7 +216,7 @@ Code bloqueia, com razão, que o agente enfraqueça proteção de branch sozinho
 
 Aprovação: **tudo → Gabriel**. O Rafael não revisa código de terceiros — mas
 desde 2026-09-23 volta a escrever o próprio (ver "O time" abaixo). Detalhes do
-fluxo em `.claude/skills/abrir-pr/SKILL.md`.
+fluxo no `AGENTS.md`.
 
 (Histórico: até 2026-09-19 este arquivo afirmava que nada era aplicado pelo
 servidor e que só `.github/` exigia PR — a lista de áreas de risco tinha
