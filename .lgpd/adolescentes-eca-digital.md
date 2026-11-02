@@ -1,5 +1,7 @@
 # ECA Digital e sinais de idade — avaliação contextual do Terra
 
+**Atualização de evidências em 02/11/2026:** [registro A4 e recrutamento adulto](a4-evidencias-recrutamento-2026-11-02.md). Prints comprovam resultado IARC concluído, Brasil 14 anos, sem descritor listado e com Compras no Aplicativo; superam a menção abaixo de resultado conhecido somente por relato. A causa dos 14 e a conciliação com 13+ não foram demonstradas. Rafael confirma participantes atuais adultos e recrutamento futuro somente adulto; procedimento documentado, execução individual não comprovada. A4 continua aberto, sem decisão técnica ou aprovação jurídica nova.
+
 Avaliação documental de **29/10/2026**, para A4. Recomendação técnica sujeita à
 **decisão de Gabriel e validação jurídica necessária**; nenhuma delas foi obtida
 nesta entrega. Público pretendido **13+**, teste fechado **somente adultos no

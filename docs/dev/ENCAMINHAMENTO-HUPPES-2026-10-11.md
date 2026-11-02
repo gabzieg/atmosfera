@@ -1,5 +1,7 @@
 # Encaminhamento ao Rafael — atualizado em 30/10/2026
 
+**Complemento de 02/11:** [evidências A4 e recrutamento adulto](../../.lgpd/a4-evidencias-recrutamento-2026-11-02.md): prints confirmam IARC Brasil 14 sem descritor listado, com Compras no Aplicativo; Rafael confirma participantes adultos e recrutamento futuro somente adulto. Procedimento registrado, sem comprovação individual ou fechamento de A4. CI do commit `85aaacd` desta passagem aprovada (build/secret-scan); PR #67 continua aberto em rascunho na conferência de 02/11. Não confundir a CI da passagem com a do novo registro.
+
 Esta passagem substitui o estado de 11/10 deste arquivo; o histórico permanece no Git. A fonte canônica dos critérios é o [checklist de finalização](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md), com acompanhamento em [TASKS](TASKS.md). O projeto ainda não está liberado para publicação.
 
 ## Entrega desta sessão
