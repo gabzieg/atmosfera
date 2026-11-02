@@ -1,5 +1,24 @@
 # Cadastro das artes na Play — compra piloto validada
 
+## Cadastro efetivo concluído em 30/10/2026
+
+Após integração do script na `main` (`7b9c68a`), Gabriel autorizou explicitamente o plano autenticado: criar 351 artes, ativar as 343 novas visíveis, manter oito ocultas em DRAFT e restringir o piloto ao Brasil, preservando os textos das dez artes existentes e o Premium. Inventário conferido e 18 testes de produtos aprovados antes da operação. O comando `cadastrar_produtos_play.py --apply` terminou com código 0; a releitura final do comando e uma segunda simulação independente confirmaram:
+
+| Resultado real na API Publishing | Contagem |
+|---|---|
+| Artes cadastradas e conciliadas | 361 |
+| Opções ACTIVE | 353 |
+| Opções DRAFT, ocultas e indisponíveis | 8 |
+| Opções INACTIVE | 0 |
+| Criações / ajustes / divergências restantes | 0 / 0 / 0 |
+| Produto extra preservado | `terra_premium` |
+
+As 361 opções têm preço BR de R$ 1,99 e disponibilidade regional somente BR, sem disponibilidade automática para novas regiões. O piloto `terra_arte_biblioteca_vangogh` foi corrigido; títulos, descrições, idiomas, IDs, tipos e estados conferem com o inventário aprovado. Os dez textos existentes foram preservados; os oito IDs de `estacionamento`/`natal` permanecem cadastrados sem ativação. Não houve mudança de código Android, envio/distribuição de versão ou compra nesta operação.
+
+**Encerrado:** cadastro e conciliação pela API. **Pendente:** amostra de preços no app, checkout com instrumento de teste e aceites de compra/entrega/restauração. A7, A8 e B2 não são encerrados integralmente por esse cadastro. Os relatos abaixo sobre cadastro restante são históricos, superados por este resultado; mantêm o procedimento e as decisões de origem.
+
+**Conferência no app bloqueada por ambiente, retorno de 30/10:** usuário encaminhou relato do Windows sem aparelho físico conectado e com dois emuladores sem conta Google logada: Pixel_Tablet com APK debug do ensaio de idade e Pixel_8 com 1.0.4 por sideload. Nenhum tem instalação pela Play; Loja/checkout não foram abertos, sem resultado de preços ou instrumento de teste. Para retomar, o usuário precisa disponibilizar ambiente com conta adulta testadora de licença, acesso à faixa interna e instalação pela Play. Cadastro pela API permanece concluído; este bloqueio não comprova defeito no app. Não houve autorização de desinstalação ou descarte de dados.
+
 Registro da sessão de 27/10/2026. Fontes: prints do Console e checkout, relato direto de Rafael e catálogo versionado. Não contém pedidos, contas pessoais, tokens ou recibos.
 
 ## Resultado e causa
