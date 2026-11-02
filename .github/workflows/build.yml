@@ -4,7 +4,7 @@ name: Build APK (Atmosfera)
 # manualmente. Não precisa de Android Studio nem PC potente: o GitHub faz o
 # build e disponibiliza o APK pra baixar e instalar no celular.
 #
-# Rodar em PR (não só no push) é o que dá sentido ao fluxo abrir-pr: o gate
+# Rodar em PR (não só no push) é o que dá sentido ao fluxo de PR: o gate
 # aparece verde/vermelho ANTES do merge, não depois.
 
 on:

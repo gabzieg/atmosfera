@@ -11,7 +11,7 @@ O gerador usa somente a biblioteca padrão Python e o subconjunto Markdown dos t
 
 ## Sincronização nos pedidos ao agente
 
-A [skill `terra-documentos-legais`](../../.agents/skills/terra-documentos-legais/SKILL.md) inclui geração e conferência das cópias no próprio pedido de atualização dos documentos. É descoberta pelo Codex em `.agents/skills/` e pelo Claude Code pelo adaptador em `.claude/skills/`; também pode ser invocada pelo nome. Não é necessário pedir a exportação separadamente. A regra foi registrada a pedido do usuário em 28/10/2026.
+A regra "Documentos legais" do [`AGENTS.md`](../../AGENTS.md) inclui geração e conferência das cópias no próprio pedido de atualização dos documentos; todo agente a lê. Não é necessário pedir a exportação separadamente. (Até 02/11/2026 isso era a skill `terra-documentos-legais`.) A regra foi registrada a pedido do usuário em 28/10/2026.
 
 Ao modificar uma fonte, o agente atualiza a versão/data correspondente, concilia os documentos relacionados, executa o gerador e `--check`, e entrega Markdown, manifesto e HTMLs coerentes. Consultas sem atualização permanecem somente leitura. Edições feitas manualmente fora desse fluxo continuam exigindo os comandos acima; a CI recusa exportações divergentes.
 
