@@ -68,16 +68,15 @@ Não escreva "testado" sem ter rodado: coisas que compilam ainda quebram na tela
 ## 3.5. Revisão do diff (passo separado, não é o mesmo que "gate verde")
 
 Gate verde (teste+lint+build) prova que o código roda — não prova que é a
-decisão certa. Antes de `git push`/`gh pr create`, rode `/code-review` no
-diff como passo próprio, especialmente em mudanças de código (não
-necessariamente pra doc solta).
+decisão certa. A revisão é da **consultora** (`atmosfera-lead`, `AGENTS.md`),
+que não escreveu o código: a desenvolvedora abre o PR em **draft** com o
+relatório no corpo e avisa a consultora; ela lê o diff inteiro e publica um
+único comentário com todos os achados. `/code-review` (ou `codex review`) é
+apoio de quem implementou antes de abrir o PR, não substitui esse parecer.
 
-**Honestidade sobre o limite disto:** isto é uma revisão do **mesmo modelo**
-que escreveu o código — pega inconsistência com convenção do `CLAUDE.md`,
-edge case esquecido, lógica capenga, mas **não substitui revisão humana**
-(o Gabriel enxerga contexto de produto e domínio que eu não tenho). Como a
-revisão é solo, o gate automático (teste+lint+build+gitleaks) é o revisor de
-verdade; o `/code-review` só levanta o piso do que chega até você.
+**Limite disto:** consultora e desenvolvedora são modelos; o Gabriel enxerga
+contexto de produto e domínio que eles não têm. O gate automático
+(teste+lint+build+gitleaks) continua sendo o piso que nada contorna.
 
 ## 4. Armadilhas que já morderam este projeto
 
@@ -130,7 +129,7 @@ convenção e fica pronto pro dia que o plano mudar. Quem cobra é você.
 - Uma resposta `502 Bad Gateway` do `gh pr merge` não significa que falhou:
   confira com `gh pr view <n> --json state,mergeCommit` antes de tentar de novo.
 
-Na prática: gate verde local → push → PR → CI verde → `gh pr merge --merge`.
+Na prática: gate verde local → push → PR em draft → revisão da consultora → `gh pr ready` → CI verde → `gh pr merge --merge` (pela consultora).
 
 Os documentos legais tinham revisor próprio (o Willian) até 2026-08-28, quando
 ele saiu do projeto. **Não substitua isso por uma cerimônia de PR consigo

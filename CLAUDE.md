@@ -1,5 +1,9 @@
 # CLAUDE.md
 
+@AGENTS.md
+
+Papéis e fluxo dos agentes (consultora e desenvolvedora, Friday): `AGENTS.md`, importado acima.
+
 Contexto do projeto Atmosfera para o Claude Code — leia isto antes de explorar
 a árvore de arquivos. Objetivo: não precisar reler o app inteiro a cada sessão.
 
