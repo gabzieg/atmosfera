@@ -1,5 +1,31 @@
 # A4 — evidências do Console e recrutamento adulto
 
+## Complemento de escopo — 04/11/2026
+
+Rafael reafirmou: o teste terá exclusivamente adultos, inclusive nos novos
+convites, e considera pouco provável uma exceção. Isso é relato e decisão
+operacional do responsável; não é prova de risco zero, aferição automática,
+aceite individual ou nova adesão. Não solicitar novamente a decisão sobre
+recrutamento adulto já confirmada.
+
+A proposta local de 04/11 recomendou ensaio de idade debug como próximo passo,
+mas essa recomendação não foi adotada como requisito pelo Rafael. Não há nesta
+entrega decisão técnica registrada exigindo consulta de idade ou controle etário
+no pacote 8 para o teste adulto. O ensaio existente permanece disponível se
+a revisão identificar necessidade concreta. Não apresentar sua execução como
+condição já aprovada, nem declarar dispensa legal de controles.
+
+Próximo resultado: Gabriel/revisão correspondente avaliar a suficiência das
+medidas para esta fase e registrar eventuais exigências adicionais com fundamento
+e impacto no pacote 8. A futura ampliação 13+ permanece em avaliação separada;
+não transformar automaticamente toda pendência dessa ampliação em requisito
+do teste adulto. A4 continua aberto conforme a avaliação existente; esta
+reafirmação não constitui aprovação técnica/jurídica ou autorização de envio.
+Nenhuma confirmação individual, compra, alteração no Console ou implantação de
+controle foi executada por esta atualização.
+
+O registro de 02/11 abaixo é histórico e mantém seus limites de evidência.
+
 Registro de 02/11/2026, pela conversa âncora com Rafael. Complementa a
 [avaliação contextual](adolescentes-eca-digital.md), sem substituir sua análise
 nem encerrar A4. Base desta atualização: `85aaacd`, passagem do PR #67,
