@@ -126,6 +126,15 @@ como "Atmosfera Teste".
 Location → lat/long → Send. Padrão do app sem permissão: São Paulo, SP
 (-25.3947, -51.4528).
 
+**Regressões dos produtos Play (sem rede):** na raiz do repositório, execute
+`python3 -B scripts/run_play_regressions.py` com Python 3.9 ou superior
+(a CI usa Python 3.12). O mesmo comando roda as suítes completas de cadastro e
+preparação no check obrigatório `build`, em PRs para `main` e pushes na `main`,
+com limite de dois minutos na CI. Usa apenas a biblioteca padrão, console
+simulado e arquivos versionados: não requer credenciais nem instalação de
+`requirements-play.txt`. Falha de teste ou ausência de testes em qualquer uma
+das suítes reprova o passo.
+
 **Build de release — candidato para teste:** use a chave de upload existente
 do aplicativo. Para atualizar o Terra, não gere nem substitua a chave. Na máquina
 segura de geração, confira JDK 17, SDK Android 36 e o wrapper do repositório.
