@@ -12,17 +12,23 @@ proposto, não publicação já feita. A nova redação requer aceite explícito
 
 Evento de vigência já escolhido pelo dono na #86: **dia real da publicação das
 três páginas**, não dia do PR/build ou da geração local. Não preencher data agora.
-**Procedimento proposto, ainda em decisão pela Friday:** revisar/aprovar o delta
-identificado por SHA; este PR permanece em draft e sem merge conforme a ativação.
-Antes de integrar/publicar as páginas legais revisadas, alinhar com a lead do site
-como impedir publicação involuntária de rascunho. Esse bloqueio é uma proposta,
-não política aprovada ou controle implementado; não impede preparação, build ou
-landing por inferência. Workflow#109 ainda não executado nesta tarefa.
-Com a decisão específica e publicação preparada, registrar aprovação/metadados/data
+**Decisão do dono em 09/11/2026, via Friday (correio20261109-165752-33ca8c):**
+publicar automaticamente somente revisão com `aprovado_para_publicacao=true`, após
+aceite explícito de cada revisão registrado pela lead. `false` não vai ao ar;
+manter a última versão aprovada. A primeira publicação depende do aceite do delta
+Pages#89. Sem referência anterior aprovada, não servir rascunho como fallback.
+O contrato do ponteiro aprovado no lado do site é coordenado pelas leads na #109;
+ainda não existe SHA Pages aprovado para fornecer. Não descobrir aprovação por
+versão, data ou commit recente: conferir registro e hashes no SHA indicado.
+
+Este PR permanece draft e sem merge conforme a ativação. Preparação/build/landing
+não são bloqueados por inferência; publicação legal respeita o contrato acima.
+Workflow#109 será preparado separadamente, sem hook real/secret/conta nesta tarefa.
+Com aceite específico e publicação preparada, registrar aprovação/metadados/data
 real, regenerar cópias e conferir as três páginas no evento autorizado, conciliando
 app/site/Console no marco#89. Se o evento não ocorrer, não declarar publicação ou
-vigência realizada. Este roteiro não cria hook, secret, workflow ou controle remoto.
-O gerador exige coerência editorial, mas sua saída não autoriza publicação.
+vigência realizada. O gerador exige coerência editorial; sua saída não autoriza
+publicação. Nenhum controle remoto é criado por este README.
 R03 do R2 fica preservado em seu escopo; mecanismo/configuração de Pages não é
 certificado por aquele aceite de risco. Fontes oficiais e limites na entrega da #89.
 
