@@ -79,10 +79,7 @@ report = {'bucket': bucket, 'storage_class': 'Standard', 'scenes': len(manifest[
 report_path = args.output / 'relatorio.json'
 if report_path.exists():
     previous = json.loads(report_path.read_text(encoding='utf-8'))
-    for field in ('public_access', 'public_base_url', 'public_manifest_url'):
-        if field in previous:
-            report[field] = previous[field]
-    if 'public_verification' in previous:
-        report['previous_public_verification'] = previous['public_verification']
+    from report import attach_public_history
+    report = attach_public_history(report, previous)
 report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
 print(json.dumps(report, ensure_ascii=False), flush=True)
