@@ -4,7 +4,7 @@
 
 **Próximo passo:** concluir a reorganização e a revisão do PR da [#84](https://github.com/gabzieg/atmosfera/issues/84), item **1.7**. Depois, a lead escolhe a próxima entrega liberada; as ações do dono estão discriminadas por dependência abaixo, sem executar a fila por esta tarefa.
 
-Retrato de 08/11/2026 e continuidade de 09/11: base **83c2a6f** (PR #83 integrado). Esta é a única fila operacional; ROADMAP, plano e checklist detalhado são referências históricas/roteiros. Não há porcentagem de produto inferida da contagem de itens.
+Conferência em **08/11/2026 BRT (09/11/2026 UTC)**: base **83c2a6f** (PR #83 integrado). Esta é a única fila operacional; ROADMAP, plano e checklist detalhado são referências históricas/roteiros. Não há porcentagem de produto inferida da contagem de itens.
 
 Fonte Android: **1.0.5/código 7**. **8 é planejado, não confirmado**: códigos/certificados serão conferidos no outro computador. AAB 7 histórico identificado; #75/#83 produziram APKs diagnósticos, não AAB final. Redação aceita **Privacidade 1.22 / Termos 1.12 / Contato 1.10**, ainda com metadados de rascunho. Geração final, instalação, Console, vigência, publicação e envio têm checkpoints próprios.
 
@@ -36,8 +36,8 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [ ] ⛔ **2.6** Vincule origem e licenças ao acervo distribuído — Agentes · Dependência: 2.5 · [#90](https://github.com/gabzieg/atmosfera/issues/90) · pronto com inventário por item, comprovação ou lacuna explícita; sem certificar autoria por imagem.
 - [ ] 🙋 **2.7** Identifique o conjunto final de catálogo e cortes do teste — Dono · ação · Dependência: nenhuma · acervo/candidato correspondentes ao conjunto revisado; oito ocultas não viram oferta por cadastro.
 - [ ] 🙋 **2.8** Defina a identificação comercial adequada antes de cobrar — Dono · decisão · Dependência: nenhuma · R07/C2: conjunto app/loja/página; sem publicar documento/endereço residencial por inferência.
-- [ ] 🙋 **2.9** Forneça somente condições operacionais ainda sem evidência — Dono · ação · Dependência: nenhuma · lacunas específicas de serviços/ROPA/risco; não repetir suporte, R06, R02 ou escolha R03 resolvidos.
-- [ ] 🙋 **2.10** Defina o destino de documentos pessoais históricos na branch e no PR #48 — Dono · decisão · Dependência: nenhuma · pendência da etapa antiga 5: preservar original e escopo privado; não presumir limpeza do histórico ou autorização de descarte.
+- [ ] 🙋 **2.9** Responda somente aos quesitos concretos ainda não respondidos — Dono · ação · Dependência: 3.8, 3.9 · a apuração inicial identifica lacunas específicas e efeito; somente depois a lead encaminha pedidos ao dono. Não repetir suporte, R06, R02 ou escolha R03 resolvidos.
+- [ ] 🙋 **2.10** Decida o destino de resíduo privado somente se a triagem comprovar sua existência — Dono · decisão · Dependência: 9.1 · PR #48 CLOSED sem merge; documentos já arquivados não voltam a pedido de descarte. #85 deve identificar eventual resíduo de branch/material privado sem ler/publicar conteúdo pessoal; se inexistente, dispensar esta ação com prova.
 
 ## Etapa 3 — Decisões e documentos
 
@@ -50,8 +50,8 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [ ] 🙋 **3.5** Defina metadados e evento/data real de vigência da distribuição — Dono · decisão · Dependência: 2.1, 3.4 · A5: sem data fictícia ou retroatividade; aprovação de publicação separada; JSON só muda com registro explícito.
 - [ ] 🙋 **3.6** Autorize e execute a publicação das páginas legais finais — Dono · ação · Dependência: 3.5 · Google Sites, três páginas e revisão identificadas; gerar HTML não publica.
 - [ ] ⛔ **3.7** Concilie metadados e correspondência app/site/Console — Agentes · Dependência: 3.5, 3.6, 5.3 · [#89](https://github.com/gabzieg/atmosfera/issues/89) · A5: páginas sem login/mobile/links e bytes/versões do candidato; pronto com diferenças resolvidas.
-- [ ] ⏳ **3.8** Consolide operações/bases e condições restantes dos serviços — Agentes · Dependência: 2.9 · [#91](https://github.com/gabzieg/atmosfera/issues/91) · D02/D03/D11/ROPA; aceites existentes reaproveitados; risco R03 informado sem exigir fornecedor ou outro mecanismo contra a escolha.
-- [ ] ⏳ **3.9** Consolide roteiro de incidente e avaliação de risco/impacto — Agentes · Dependência: 2.9 · [#92](https://github.com/gabzieg/atmosfera/issues/92) · D12/D13: responsáveis, cenário sanitizado e conclusão contextual; sem RIPD universal ou incidente real.
+- [ ] ⏳ **3.8** Consolide operações/bases e condições restantes dos serviços — Agentes · Dependência: nenhuma · [#91](https://github.com/gabzieg/atmosfera/issues/91) · D02/D03/D11/ROPA: iniciar inventário documental agora, separar conhecido de quesito indispensável em 2.9; entrega da apuração não é aceite final sem prova. Risco R03 preservado sem nova exigência de fornecedor.
+- [ ] ⏳ **3.9** Consolide roteiro de incidente e avaliação de risco/impacto — Agentes · Dependência: nenhuma · [#92](https://github.com/gabzieg/atmosfera/issues/92) · D12/D13: iniciar avaliação documental agora e identificar condições/responsáveis faltantes para 2.9; cenário sanitizado, sem RIPD universal ou incidente real; não certificar lacunas.
 - [x] ✅ **3.10** Defina retirada da lista Console e controle privado mínimo — Dono · decisão · Dependência: nenhuma · R04 e #77/6702874195: fim do teste; controles 18+/aceite/data/referência separados, não prova de preenchimento.
 - [x] ✅ **3.11** Confirme rotina declarada de suporte e direitos — Dono · ação · Dependência: nenhuma · R05/28-10: exclusão definitiva em 60 dias após encerrar, exceções justificadas; não auditoria individual.
 - [x] ✅ **3.12** Conclua enquadramento de encarregado no cenário avaliado — Dono · decisão · Dependência: nenhuma · R06/28-10 em revisão documental; controlador/canal preservados, sem extensão automática a 13+.
@@ -104,9 +104,9 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 **Objetivo:** Decidir e validar oferta comercial antes de distribuir. · **Pronto quando:** Acesso à produção, deveres comerciais e D0 comprovados.
 
 - [ ] 🙋 **7.1** Aceite o conjunto comercial e suas evidências antes da venda — Dono · decisão · Dependência: 2.6, 6.4, 6.5, 6.6, 6.10 · C1: cada arte anunciada com entrega/origem, cortes/ocultas/preços/países e versão final, não apenas relato visual.
-- [ ] ⏳ **7.2** Prepare continuidade, recuperação e exceções comerciais — Agentes · Dependência: 2.9 · [#93](https://github.com/gabzieg/atmosfera/issues/93) · R08/C1/C2: manutenção/retirada/restauração/encerramento/comunicação para decisão; sem promessa vitalícia.
+- [ ] ⏳ **7.2** Prepare continuidade, recuperação e exceções comerciais — Agentes · Dependência: nenhuma · [#93](https://github.com/gabzieg/atmosfera/issues/93) · R08/C1/C2: preparar plano documental agora, pedir só condições concretas indispensáveis; decisão antes da oferta comercial, sem promessa vitalícia.
 - [ ] 🙋 **7.3** Solicite e obtenha acesso à produção quando elegível — Dono · ação · Dependência: 6.7, 6.10 · C3: comprovação do teste/feedback e resposta do Google; prazo não garante aprovação.
-- [ ] 🙋 **7.4** Adote o plano comercial e confira deveres operacionais — Dono · decisão · Dependência: 2.8, 7.2, 3.8, 3.9 · C2: identificação/continuidade, suporte/direitos/condições reais; futuro 13+ tem marco próprio.
+- [ ] 🙋 **7.4** Adote o plano comercial e confira deveres operacionais — Dono · decisão · Dependência: 2.8, 2.9, 7.2, 3.8, 3.9 · C2: identificação/continuidade, suporte/direitos/condições reais; futuro 13+ tem marco próprio.
 - [ ] 🙋 **7.5** Autorize e publique a distribuição de produção — Dono · decisão · Dependência: 7.1, 7.3, 7.4, 3.7, 4.10 · C3: candidato/países/oferta identificados; teste adulto não autoriza cobrança real nem ampliação 13+.
 - [ ] 🙋 **7.6** Confira primeira disponibilidade pública e registre D0 — Dono · ação · Dependência: 7.5 · instale pela listagem autorizada, confira versão/legal/preços/amostras/compra/HD/aplicação e data real.
 
@@ -122,7 +122,7 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 
 **Objetivo:** Preservar cada intenção sem ativar trabalho futuro. · **Pronto quando:** Cada disposição/estudo tem gatilho, issue e resultado próprio.
 
-- [ ] ⏳ **9.1** Concilie o destino de PRs pendentes e deltas exclusivos — Agentes · Dependência: nenhuma · [#85](https://github.com/gabzieg/atmosfera/issues/85) · #43/#45/#55/#58/#70/#72/#80: disposição verificável, sem merge/fechamento em lote; raiz em #71; reconciliar também a proposta histórica de manifesto assinado, sem implementá-la por inferência.
+- [ ] ⏳ **9.1** Concilie o destino de PRs pendentes e deltas exclusivos — Agentes · Dependência: nenhuma · [#85](https://github.com/gabzieg/atmosfera/issues/85) · #43/#45/#55/#58/#70/#72/#80: disposição e deltas exclusivos, sem merge/fechamento em lote; raiz em #71. PR #48 fechado sem merge: identificar somente resíduo privado não comprovadamente destinado, antes de 2.10; preservar proposta histórica de manifesto assinado sem implementá-la.
 - [ ] ⏳ **9.2** Avalie cobertura de testes de comportamento/UI — Agentes · Dependência: 5.3, 6.5 · [#97](https://github.com/gabzieg/atmosfera/issues/97) · backlog: regressões conhecidas/prioridade, não nova infraestrutura ou instrumentação indiscriminada.
 - [ ] ⏳ **9.3** Avalie separação Gradle engine/app — Agentes · Dependência: nenhuma · [#98](https://github.com/gabzieg/atmosfera/issues/98) · backlog: impacto/resultado revisável; arquitetura nova exige checkpoint antes de implementar.
 - [ ] ⛔ **9.4** Prepare adequação da futura distribuição 13+ — Agentes · Dependência: 9.6 · [#99](https://github.com/gabzieg/atmosfera/issues/99) · IARC 14 / oferta aos 13 / sinais ou alternativa / supervisão / art. 24 / relatórios; fora da fase adulta, sem SDK/público alterados agora.
@@ -132,8 +132,10 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [ ] 🙋 **9.8** Decida promoções e evolução da apresentação comercial quando pertinentes — Dono · decisão · Dependência: 7.1 · proposta de R$ 0,99 não é oferta adotada; landing externa não bloqueia páginas legais nem cria tarefa a Willian; Premium R$ 49,90 / artes R$ 1,99 são valores registrados, não medição atual.
 - [x] ⚪ **9.9** Dispense o contrato FonteDeAssets abandonado — Agentes · Dependência: nenhuma · histórico ROADMAP / integração de 12/09: motor lê por carregar(Context/AssetManager+Acervo); não dispensa verificação de integridade em 6.5.
 - [x] ⚪ **9.10** Dispense packs comerciais no lançamento — Dono · decisão · Dependência: nenhuma · decisão de 10/10: cada arte nova é compra separada; pacotes técnicos de arquivo não são packs comerciais.
-- [x] ⚪ **9.11** Mantenha CodeQL descartado no escopo registrado — Agentes · Dependência: nenhuma · decisão de 29/07 / repositório privado free; reavaliar só se plano/visibilidade mudar; sem trocar proteção nesta tarefa.
+- [x] ⚪ **9.11** Mantenha CodeQL descartado no escopo registrado — Agentes · Dependência: nenhuma · decisão histórica de 29/07 no cenário então privado/free, preservada só nesse alcance. Em 08/11/2026, gh repo view --json visibility confirmou PUBLIC; reavaliação atual em 9.13, sem ativar CodeQL ou bloquear teste adulto.
 - [x] ⚪ **9.12** Não retome a otimização por bitmap reduzido refutada — Agentes · Dependência: nenhuma · TASKS histórico: Canvas(Bitmap) em software piorou de 25 para 38 ms naquela medição; não é benchmark atual.
+
+- [ ] ⏳ **9.13** Reavalie CodeQL diante da visibilidade pública atual — Agentes · Dependência: nenhuma · [#101](https://github.com/gabzieg/atmosfera/issues/101) · backlog: conclusão de aplicabilidade/custo/benefício; não habilitar/configurar ou mudar proteção/gate nesta tarefa.
 
 ## Correspondência com os marcos históricos
 
