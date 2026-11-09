@@ -2,15 +2,15 @@
 
 <a id="estado-vigente--08112026"></a>
 
-**Próximo passo:** após integrar o PR #58, priorizar a revisão focal de setup-gradle (**9.15**, PR #45 / #104), com atribuição e validação próprias. Códigos/certificados (**2.1**) continuam no outro computador; esta entrega não executa dependências, Console ou outras tarefas futuras.
+**Próximo passo:** concluir a revisão de setup-gradle (**9.15**, PR #45 / #104). Após o merge, recomendar o escopo documental/ferramentas R2 (**9.14**, #103), com atribuição própria e sem upload. Códigos/certificados (**2.1**) continuam no outro computador.
 
-**Aplicação deste retrato:** a conclusão proposta de **9.17** só vigora quando o [PR #58](https://github.com/gabzieg/atmosfera/pull/58) estiver MERGED após revisão e checks válidos. Até lá, a execução da [#106](https://github.com/gabzieg/atmosfera/issues/106#issuecomment-6738657034) permanece em andamento; não anunciar a conclusão ou a integração antes do recibo real.
+**Aplicação deste retrato:** **9.17** foi concluído pelo PR #58 MERGED em `5fa47b1`. A conclusão proposta de **9.15** só vigora quando o [PR #45](https://github.com/gabzieg/atmosfera/pull/45) estiver MERGED após revisão independente e checks válidos; até lá, a [#104](https://github.com/gabzieg/atmosfera/issues/104#issuecomment-6738894896) permanece em andamento.
 
-Conferência em **09/11/2026 BRT**: base **068e599** (PR #107 integrado). A reorganização **1.7** já foi integrada; sua condição de merge foi satisfeita. Esta é a única fila operacional; ROADMAP, plano e checklist detalhado são referências históricas/roteiros. Não há porcentagem de produto inferida da contagem de itens.
+Conferência em **09/11/2026 BRT**: base **5fa47b1** (PR #58 integrado). A reorganização **1.7** já foi integrada; sua condição de merge foi satisfeita. Esta é a única fila operacional; ROADMAP, plano e checklist detalhado são referências históricas/roteiros. Não há porcentagem de produto inferida da contagem de itens.
 
 Fonte Android: **1.0.5/código 7**. **8 é planejado, não confirmado**: códigos/certificados serão conferidos no outro computador. AAB 7 histórico identificado; #75/#83 produziram APKs diagnósticos, não AAB final. Redação aceita **Privacidade 1.22 / Termos 1.12 / Contato 1.10**, ainda com metadados de rascunho. Geração final, instalação, Console, vigência, publicação e envio têm checkpoints próprios.
 
-Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado; `[ ] 🔄` em andamento; `[ ] 🙋` ação/decisão do responsável; `[ ] ⛔` bloqueado; `[ ] ⏳` pendente/planejado. Agentes só executam quando a lead atribui a issue e o acesso/checkpoint está coberto. Rafael aparece apenas em atribuições históricas verificáveis; não recebe tarefa nova por esta lista. O acompanhamento permanece da lead; a exceção de reorganização delegada à dev na #84 terminou com o PR #102. No PR #58/#106, a lead preparou os estados e a dev apenas os versiona junto da exclusão restrita a `/output/`.
+Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado; `[ ] 🔄` em andamento; `[ ] 🙋` ação/decisão do responsável; `[ ] ⛔` bloqueado; `[ ] ⏳` pendente/planejado. Agentes só executam quando a lead atribui a issue e o acesso/checkpoint está coberto. Rafael aparece apenas em atribuições históricas verificáveis; não recebe tarefa nova por esta lista. O acompanhamento permanece da lead; a exceção de reorganização delegada à dev na #84 terminou com o PR #102. No PR #45/#104, a lead preparou os estados e a dev apenas os versiona junto da atualização de setup-gradle.
 
 ## Etapa 1 — Entregas e base
 
@@ -140,9 +140,9 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [ ] ⏳ **9.13** Reavalie CodeQL diante da visibilidade pública atual — Agentes · Dependência: nenhuma · [#101](https://github.com/gabzieg/atmosfera/issues/101) · backlog: conclusão de aplicabilidade/custo/benefício; não habilitar/configurar ou mudar proteção/gate nesta tarefa.
 
 - [ ] ⏳ **9.14** Atualize seletivamente guias e ferramentas R2 — Agentes · Dependência: 9.1 · [#103](https://github.com/gabzieg/atmosfera/issues/103) · PR #43 mantido com delta exclusivo; reconferir head/base e cumprir a validação própria antes de integrar. Planejado, sem execução nesta triagem.
-- [ ] ⏳ **9.15** Revise o upgrade de setup-gradle — Agentes · Dependência: 9.1 · [#104](https://github.com/gabzieg/atmosfera/issues/104) · PR #45 mantido com delta exclusivo; reconferir head/base e cumprir a validação própria antes de integrar. Planejado, sem execução nesta triagem.
+- [x] ✅ **9.15** Revise o upgrade de setup-gradle — Agentes · Dependência: 9.1 · [#104](https://github.com/gabzieg/atmosfera/issues/104) · conclusão proposta somente após [PR #45](https://github.com/gabzieg/atmosfera/pull/45) MERGED, com procedência/efeitos apurados, gate e revisão independente do head final; até lá, em andamento. Sem mudança de permissões, etapas ou proteção do repositório.
 - [ ] ⏳ **9.16** Revise compatibilidade e efeitos do upgrade de dependências — Agentes · Dependência: 9.1 · [#105](https://github.com/gabzieg/atmosfera/issues/105) · PR #55 mantido com delta exclusivo; reconferir head/base e cumprir a validação própria antes de integrar. Planejado, sem execução nesta triagem.
-- [x] ✅ **9.17** Concilie a exclusão de output da raiz — Agentes · Dependência: 9.1 · [#106](https://github.com/gabzieg/atmosfera/issues/106) · estado proposto após o [PR #58](https://github.com/gabzieg/atmosfera/pull/58) estar MERGED, com controles Git, gate e revisão. Antes do merge, a tarefa está em andamento; não há limpeza ou exclusão de arquivos de saída.
+- [x] ✅ **9.17** Concilie a exclusão de output da raiz — Agentes · Dependência: 9.1 · [#106](https://github.com/gabzieg/atmosfera/issues/106) · [PR #58](https://github.com/gabzieg/atmosfera/pull/58#issuecomment-6738894405) MERGED em `5fa47b1`, 09/11/2026 às 08:26:05 BRT; revisão, controles de escopo e checks aprovados; #106 fechada. Sem limpeza ou exclusão de arquivos de saída.
 
 A ideia histórica de manifesto assinado (backlog em `3c83a91`) não foi adotada como requisito do teste adulto. O contrato atual usa índice embarcado e hashes; isso não equivale a assinatura digital. Retomar segurança/cadeia de confiança só com motivo e escopo próprios, sem implementação implícita.
 
