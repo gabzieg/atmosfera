@@ -79,7 +79,7 @@ Compra piloto Biblioteca — Van Gogh destravada após cadastro do produto `terr
 
 ## Preparação pela API Publishing — decisão de 28/10
 
-O cadastro restante cabe ao niemeyer pela API Publishing, após merge e autorização explícita sobre o plano simulado. Esta preparação não executou cadastro, alteração de países nem nova compra. Alvo: **somente Brasil**, R$ 1,99, inclusive no piloto; Premium e produtos extras ficam intocados. As oito artes ocultas de `estacionamento`/`natal` mantêm IDs e ficam indisponíveis. Não criar desconto, aluguel, pré-venda ou compra em quantidade.
+O cadastro restante cabe à dev designada pela API Publishing, após merge e autorização explícita sobre o plano simulado. Esta preparação não executou cadastro, alteração de países nem nova compra. Alvo: **somente Brasil**, R$ 1,99, inclusive no piloto; Premium e produtos extras ficam intocados. As oito artes ocultas de `estacionamento`/`natal` mantêm IDs e ficam indisponíveis. Não criar desconto, aluguel, pré-venda ou compra em quantidade.
 
 O gerador acrescenta `titulo`, `descricao`, `estado_opcao`, `revisar_nomes` e `origem_textos` ao inventário. A precedência é: dez textos preservados do Console; nos demais produtos, nomes nativos de `Catalogo.embarcados`, outros nomes explícitos de `NomesCatalogo.nome`/`StoreTab.estiloNome`, complemento editorial aprovado e, somente para códigos futuros desconhecidos, fallback sinalizado. Isso reproduz a precedência de `Catalogo.carregar`/`nativa.copy` que a Loja exibe por `cenario.nome`, sem alterar o app.
 
@@ -102,7 +102,7 @@ python3 -m unittest discover -s scripts -p 'test_*produtos_play.py' -v
 ```
 
 1. Sem `--apply`, o comando lista produtos/opções atuais e plano por ID: criar, ajustar, sem mudança, divergências e extras intocados. Nenhuma escrita; nem conversão de preços é chamada neste modo. O plano mostra a origem dos nomes; códigos futuros sem nome explícito ficam marcados para revisão. O conjunto atual foi completado pelo mapa editorial aprovado.
-2. Niemeyer revisa a aplicação do mapa aprovado e o delta de nomes, descrição, IDs, R$ 1,99, somente BR, opções indisponíveis das oito ocultas e o ajuste do piloto. Divergências de título, preço, estado, opção ou tipo bloqueiam toda aplicação; não são corrigidas automaticamente. O acesso real de leitura foi confirmado; conciliar com `TEXTOS-EXISTENTES.json` e reler o catálogo antes da operação, pois ele pode mudar.
+2. A lead revisa a aplicação do mapa aprovado e o delta de nomes, descrição, IDs, R$ 1,99, somente BR, opções indisponíveis das oito ocultas e o ajuste do piloto. Divergências de título, preço, estado, opção ou tipo bloqueiam toda aplicação; não são corrigidas automaticamente. O acesso real de leitura foi confirmado; conciliar com `TEXTOS-EXISTENTES.json` e reler o catálogo antes da operação, pois ele pode mudar.
 3. Após merge e autorização explícita do usuário sobre esse plano, o operador repete o comando com `--apply`. O script relê antes de agir. Se o estado mudou, interrompe. Não existe autorização de aplicação nesta fatia.
 4. Após aplicação, o comando relê o Console e relata ativos, DRAFT, INACTIVE, total indisponível e divergências separadamente. Não declara conclusão se restarem criações, ajustes ou divergências. Repetir a simulação deve deixar criar/ajustar/divergências vazios; os IDs sem mudança e extras continuam listados.
 5. Registrar contagem real sanitizada e conferir preços no app em uma amostra. A7, A8, B2, restauração e checkout adicional seguem pendentes; simulações não comprovam cadastro ou entrega de conteúdo real.

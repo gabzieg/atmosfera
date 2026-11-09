@@ -1,5 +1,5 @@
 {
-  "revisao": "2026-10-28",
+  "revisao": "2026-11-08",
   "status": "rascunho_para_revisao",
   "aprovado_para_publicacao": false,
   "aprovacao_registro": null,
@@ -49,10 +49,10 @@
   },
   "documentos": {
     "privacidade": {
-      "versao": "1.19",
+      "versao": "1.22",
       "fonte": "docs/legal/PRIVACIDADE.md",
-      "sha256_fonte": "3050c216d984377b5fe1ce28e19d44aeb317c8044052a5b55f6bf1f6cb647049",
-      "sha256_html": "03e223d163453efb123cd37a5d58a38d92727b2599e6d8041e7118325142f067",
+      "sha256_fonte": "ba4a05db6b9cbcad0ec801549795d2b014399fffc30bcd6d5b8fa873fefdd9e5",
+      "sha256_html": "e700d7f4dd6936926c2690f37d936b7fb916f75949f661733b02f115855938d2",
       "copias": [
         "docs/privacidade/index.html",
         "public_html/privacidade/index.html",
@@ -60,10 +60,10 @@
       ]
     },
     "termos": {
-      "versao": "1.10",
+      "versao": "1.12",
       "fonte": "docs/legal/TERMOS.md",
-      "sha256_fonte": "176b389d327baf4f6857767d7065f44649bf3be395fba1542b0f80bb68e30efa",
-      "sha256_html": "844f2bef4042ddb1f260e7e7b8472e4e80dc587ff494f5432630d5419e7e46e2",
+      "sha256_fonte": "7c75e5090978675651887a1b5fbbfe52ef368ae0f6a1152869a0362e89da011a",
+      "sha256_html": "047c42efc57225e100f0a92725b4dc1ecabfcb222dface91d97d24fb70f3e94a",
       "copias": [
         "docs/termos/index.html",
         "public_html/termos/index.html",
@@ -71,10 +71,10 @@
       ]
     },
     "contato": {
-      "versao": "1.9",
+      "versao": "1.10",
       "fonte": "docs/legal/CONTATO.md",
-      "sha256_fonte": "ff09407bdbcddc50b2bae1ecea88446143576145f7892bffaec47c44bd869bad",
-      "sha256_html": "327bc09f235c55fa302fb644082e2236a871183d8f90d650c9f0cfa7dd88be4b",
+      "sha256_fonte": "05c9cf2e8760e03ee38fa513b45a0e9eaaf5aef6e0729edade6c844b8991df05",
+      "sha256_html": "bf3a19fc02e7ac1fea751fe32fa93a2abee0af471359f1cb6168df55cc0f222e",
       "copias": [
         "docs/contato/index.html",
         "public_html/contato/index.html",

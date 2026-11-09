@@ -1,5 +1,22 @@
 # Hipóteses de bases legais — para avaliação
 
+**Aceite posterior limitado:** [redação 1.22/1.12/1.10 aceita em 08/11](https://github.com/gabzieg/atmosfera/issues/77#issuecomment-6729200287), sem aprovação em bloco de bases, mecanismo internacional ou publicação. O histórico editorial abaixo não é uma nova pergunta de aprovação da mesma redação.
+
+## Caminho editorial de 07/11, conciliado em 08/11/2026
+
+[Proposta delimitada R02](https://github.com/gabzieg/atmosfera/issues/77#issuecomment-6702834769) e [localização por etapa](https://github.com/gabzieg/atmosfera/issues/77#issuecomment-6702846434): o dono escolheu consolidar as hipóteses de preferências/arquivos, compras/restauração, prévia/entrega e suporte solicitado, com finalidade e necessidade próprias, sem aprovação de todas as bases. A redação concreta da proposta está na Política §7 (revisão 1.21), evitando copiar a tabela inteira em cada registro.
+
+- A01: hipótese da função regional solicitada, não do funcionamento integral do app; separar obtenção, transmissão à MET, último registro e cache HTTP. Permissão não é consentimento genérico. O [aceite delimitado de 07/11 via Friday](https://github.com/gabzieg/atmosfera/issues/78#issuecomment-6703628811) encerrou a pendência de justificativa da retenção do último clima/cache HTTP no teste adulto, sem prazo máximo fixo, mantendo informação e exclusão descritas. Não repetir a pergunta nem estender a necessidade universal, novas finalidades, logs externos ou público futuro. A redação final e demais fundamentos não receberam aprovação em bloco.
+- A02/A03/A04/A05: delimitar dados necessários às operações solicitadas. Arquivo genérico não é automaticamente dado pessoal; logística de entrega não autoriza finalidade adicional de logs; atendimento contratual, obrigação identificada e defesa concreta não são fundamentos intercambiáveis para toda mensagem. Nenhuma guarda ilimitada ou base em nome do fornecedor foi aprovada.
+- A07: retirada da lista Console ao fim do teste já definida em 28/10. Controle mínimo separado de confirmação 18+/aceite, data e referência foi escolhido em 07/11, com local/acesso/descarte próprios conforme [registro A4](a4-evidencias-recrutamento-2026-11-02.md); procedimento não comprova preenchimento nem encerra a análise da base por finalidade.
+- A06/A08: Sites de texto/links e Gmail comum foram declarados; condições próprias dos serviços, logs de segurança e balanceamento necessário continuam não concluídos. Para Cloudflare, [vendors](vendors.md) concilia self-service/DPA, logs opcionais desativados e critérios de retenção; o residual material internacional permanece, sem escolher novo fundamento. Sem LIA final, consentimento ou base aprovada por inferência.
+
+O dono declarou “Eu mesmo vou decidir”, substituindo a expectativa anterior de revisão externa. A lead fornece recomendações fundamentadas para decisão, sem simular parecer de terceiro ou dispensar lacunas reais. Sem contratação/contato, nova interface de consentimento, mudança de código ou aprovação integral por esta proposta.
+
+## Hipóteses de 15/10 — histórico de preparação
+
+A tabela e as condições abaixo preservam a análise de entrada. Onde ainda pedem rotina/retenção da lista, considerar as resoluções posteriores: não reabrir esses fatos como perguntas novas. As demais hipóteses continuam sujeitas à análise e ao aceite delimitados acima.
+
 **Etapa 2:** hipóteses abaixo confrontadas com as [evidências de implementação e serviços](evidencias-privacidade-etapa2.md). A preparação não escolhe base em nome do responsável. O teste atual é de adultos/Brasil; nenhuma nova coleta ou finalidade foi autorizada por esta análise.
 
 **Conciliação com `0d36b4a`:** recrutamento do teste restrito a adultos no Brasil. As hipóteses abaixo não foram aprovadas só por terem sido inseridas na política. Privacidade 1.12 identifica esse caráter proposto; eventual ampliação a 13+ mantém análise específica pendente.
