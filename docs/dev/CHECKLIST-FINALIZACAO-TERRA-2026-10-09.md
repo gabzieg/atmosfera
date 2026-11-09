@@ -1,5 +1,21 @@
 # Checklist de finalização do Terra — acompanhamento em 19/10/2026
 
+**Referência, não fila operacional.** O andamento inteiro está no [checklist TASKS](TASKS.md), por itens/estado/responsável/dependência. As decisões e contagens do conteúdo abaixo são retratos nas datas indicadas, não uma medição atual nem novas tarefas. Fonte atual: 1.0.5/código 7; código8 apenas planejado, não confirmado; AAB 7 histórico e APKs diagnósticos do #83 não são o candidato final. Redação1.22/1.12/1.10 aceita; A4 adulta decidida e R03 com decisão de risco registrada/mecanismo não demonstrado. Não repetir esses aceites.
+
+| Assunto desta referência | Destino operacional |
+|---|---|
+| Configuração, segurança e licenças | TASKS etapa 2 |
+| Documentos, governança, risco e correspondência | TASKS etapa 3 |
+| Ficha, declarações, IARC, público, contato e revisor | TASKS etapa 4 |
+| A1/A2/candidato e configuração da faixa | TASKS etapa 5; A1 histórico em 4.8 |
+| A6/A8 e B1–B4/roteiros de aparelho | TASKS etapa 6 |
+| C1–C3/produção, oferta comercial e continuidade | TASKS etapa 7 |
+| D0–D60/operação | TASKS etapa 8 |
+| Dependências, PAD adiado e outras evoluções | TASKS etapa 9 |
+
+<details>
+<summary>Histórico e roteiros preservados — estados antigos superados por TASKS</summary>
+
 **A4 em 02/11/2026:** [evidências e recrutamento adulto](../../.lgpd/a4-evidencias-recrutamento-2026-11-02.md): resultado IARC Brasil 14 e ausência de descritor listado comprovados por prints, com Compras no Aplicativo; causa e conciliação com 13+ pendentes. Rafael confirma participantes atuais adultos e futuros convites somente adultos. Procedimento documentado, sem comprovação individual/adesões nesta entrega. Isso avança evidências de A4, sem encerrá-lo nem comprovar revisão integral do acervo, controles etários, aprovação jurídica ou liberação do teste.
 
 **Cadastro de produtos em 30/10/2026:** subitem de cadastro de A7 concluído após autorização explícita sobre o plano: 351 artes criadas, piloto restrito a Brasil e textos existentes/Premium preservados. Releitura final e segunda simulação confirmaram **361 artes, 353 ACTIVE, 8 DRAFT indisponíveis, 0 INACTIVE e zero criações/ajustes/divergências restantes**; todas com preço BR R$ 1,99 e disponibilidade somente Brasil, sem novas regiões habilitadas. [Registro da operação](../loja/produtos-play-2026-10-27/README.md#cadastro-efetivo-concluído-em-30102026). Supera as pendências de cadastro de 28–29/10 abaixo; A7 permanece aberto pela conferência no app e demais critérios, A8/B2 pendentes. Nenhum envio/distribuição de versão ou compra executado.
@@ -31,14 +47,14 @@ A identificação do candidato destrava a conferência final das declarações e
 
 | Feito | Ação/dependência | Responsável | Evidência para encerrar |
 |---|---|---|---|
-| [x] | A1. Diagnosticar os dois erros ([roteiro do Console](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md#conferência-necessária-no-console--rafael); **22/10: causa identificada, rascunho do fechado sem pacote** — [conferência](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md#conferência-direta-no-console--22102026)): AAB incluído e processado, composição da versão, maior `versionCode`, identidade/assinatura e compatibilidade/segmentação | Gabriel, com dados do Console fornecidos por Rafael | Metadados sanitizados do pacote e versão, comparação dos códigos/segmentação e causa demonstrada; sem credenciais ou listas de contas. **Concluído em 28/10:** causa de 22/10 confirmada antes da inclusão exclusiva do 7; salvamento e validação com 0 erros — [evidência](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md#composição-do-teste-fechado--28102026). |
-| [ ] | A2. Corrigir a causa comprovada de A1, identificar um candidato e reconferir a validação da versão | Gabriel | Branch/commit, versionName/versionCode, SHA-256 do AAB, certificados públicos pertinentes, configuração e mapping R8 arquivados; pacote correto processado e erros resolvidos no Console. Gabriel reconfirmou em 20/10 que 6 (1.0.5) é a última versão; código 7 preparado no fonte, sem AAB gerado. Se houver novo envio antes da geração, reconferir o código. Preparação independente: [roteiro de release](../../README.md#rodando-o-projeto) atualizado localmente para configuração e verificação do candidato; ainda sem novo AAB. Em 20/10, Gabriel indicou o endpoint R2 de testes e confirmou ambiente Windows/Billing utilizáveis; 12 arquivos de amostra (ZIPs, prévias e miniaturas de três artes) acessíveis por HTTPS, com tamanho/hash conferidos contra o catálogo embarcado. Revisão de geração, execução dos gates no Windows e AAB final continuam pendentes; gate Android neste Mac não iniciou por falta de Java. Essa preparação não conclui A1/A2. |
-| [ ] | A3. Validar Segurança dos dados contra A2 e fornecedores reais ([matriz de 19/10](../../.lgpd/seguranca-dados-play-2026-10-19.md); **26/10: respostas conservadoras propostas para o candidato 7** em [respostas propostas](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md), nada salvo/enviado/aprovado no Console; **27/10:** [reinspeção do AAB 7 no Windows](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md#10-atualização-em-27102026--reinspeção-do-aab-7-no-windows) sem `AD_ID` no manifesto final e sem alívio de resposta; **27/10, posterior:** [conferência e salvamento no Console](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md#11-atualização-em-27102026--conferência-e-salvamento-no-console): só o 7 ativo no Teste interno, demais versões arquivadas, maior código 7, AD_ID salvo como Não em 24/10, política sem `?authuser=1` desde 22/10; Segurança dos dados salva com autorização às 19:59, com finalidades e URL alinhadas; nada enviado para revisão ou aprovado, A3 continua aberto) | Gabriel; Rafael confirma configurações das contas | Revisão sanitizada do formulário: MET/Cloudflare/Billing/suporte, IPs/identificadores, exceções de compartilhamento, prévias automáticas e coleta obrigatória/opcional; manifesto/SDKs/endpoints e informação/permissão de localização conferidos no candidato. Aprovação registrada, sem presumir ausência de compartilhamento. |
-| [ ] | A4. Registrar análise ECA Digital, possível acesso por adolescentes e necessidade/desenho de sinais de idade ([registro](../../.lgpd/adolescentes-eca-digital.md)) | Gabriel, com validação jurídica necessária | **29/10: avaliação contextual preparada**, com matriz, evidências/limites do produto e recomendação condicionada por fase. **A4 segue aberto e bloqueia envio:** faltam evidência IARC/acervo/sinais, decisão de Gabriel e validação jurídica necessária; medidas exigidas devem ser comprovadas. Público 13+ e teste adulto preservados; nenhum SDK adotado. |
-| [ ] | A5. Aprovar revisão/vigência dos textos aplicáveis e conferir app/site/Console após A2–A4 | Gabriel aprova; publicação pelo responsável pelo site | Revisão local de 28/10: Privacidade 1.19 / Termos 1.10 / Contato 1.9 para o pacote 8, ainda sem aprovação/vigência ou republicação. [D1–D7 da Segurança dos dados](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md#8-divergências-identificadas-entre-esta-proposta-e-as-fontes-locais-privacidademd-114--termosmd-18) conciliados no texto na parte 1b ([desfecho por item e evidências](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md#12-conciliação-editorial-d1d7--28102026-a5-parte-1b)): D1–D4/D6 esclarecidos, D5/D7 superados como divergências de redação. Respostas conservadoras preservadas, sem alterar Console. Aprovação/vigência e republicação ficam para a fatia 2; A4 e pendências de fornecedores/SDKs permanecem abertos. Exige revisão aprovada identificada, páginas HTTPS sem login e no celular, links sem seleção de conta, conteúdo sincronizado e vigência ligada ao candidato. Gerar HTML não republica Sites. |
-| [ ] | A6. Conferir Brasil na faixa e demais telas pertinentes, licenças e configuração dos instrumentos de teste | Rafael | Configuração salva e divergência de todos os países resolvida. Cadastrar e confirmar licença de todos os participantes que terão acesso à interface de compras, inclusive quem pretende usar apenas o gratuito; ampliar a cobertura das sete contas antes de convite/distribuição. Sem licença confirmada, não liberar o candidato ao participante no fluxo atual. Evidência sanitizada, sem dados pessoais no Git; instrumentos no checkout em A8. |
-| [ ] | A7. Fechar configuração impeditiva e disponibilizar candidato na faixa para conferência, após A2–A6 | Gabriel e Rafael conforme acesso | Itens restantes identificados e resolvidos, contatos/ficha/recursos e produtos necessários ao roteiro conferidos; mínimos seguros de instalação, informação, uso gratuito e entrega definidos e comprovados. Publicação e convites exigem autorização correspondente. |
-| [ ] | A8. Com o candidato acessível pela Play, conferir conta e instrumento de teste antes de concluir cada compra | Rafael | Conferir no respectivo checkout a conta já licenciada em A6 e o instrumento de teste, sem cobrança real; sem essa confirmação, não concluir a compra. Não é necessário que todos comprem; as 12 adesões de B1 não substituem a licença de todos que terão acesso à compra. |
+| concluído naquele registro | A1. Diagnosticar os dois erros ([roteiro do Console](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md#conferência-necessária-no-console--rafael); **22/10: causa identificada, rascunho do fechado sem pacote** — [conferência](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md#conferência-direta-no-console--22102026)): AAB incluído e processado, composição da versão, maior `versionCode`, identidade/assinatura e compatibilidade/segmentação | Gabriel, com dados do Console fornecidos por Rafael | Metadados sanitizados do pacote e versão, comparação dos códigos/segmentação e causa demonstrada; sem credenciais ou listas de contas. **Concluído em 28/10:** causa de 22/10 confirmada antes da inclusão exclusiva do 7; salvamento e validação com 0 erros — [evidência](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md#composição-do-teste-fechado--28102026). |
+| pendente naquele registro | A2. Corrigir a causa comprovada de A1, identificar um candidato e reconferir a validação da versão | Gabriel | Branch/commit, versionName/versionCode, SHA-256 do AAB, certificados públicos pertinentes, configuração e mapping R8 arquivados; pacote correto processado e erros resolvidos no Console. Gabriel reconfirmou em 20/10 que 6 (1.0.5) é a última versão; código 7 preparado no fonte, sem AAB gerado. Se houver novo envio antes da geração, reconferir o código. Preparação independente: [roteiro de release](../../README.md#rodando-o-projeto) atualizado localmente para configuração e verificação do candidato; ainda sem novo AAB. Em 20/10, Gabriel indicou o endpoint R2 de testes e confirmou ambiente Windows/Billing utilizáveis; 12 arquivos de amostra (ZIPs, prévias e miniaturas de três artes) acessíveis por HTTPS, com tamanho/hash conferidos contra o catálogo embarcado. Revisão de geração, execução dos gates no Windows e AAB final continuam pendentes; gate Android neste Mac não iniciou por falta de Java. Essa preparação não conclui A1/A2. |
+| pendente naquele registro | A3. Validar Segurança dos dados contra A2 e fornecedores reais ([matriz de 19/10](../../.lgpd/seguranca-dados-play-2026-10-19.md); **26/10: respostas conservadoras propostas para o candidato 7** em [respostas propostas](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md), nada salvo/enviado/aprovado no Console; **27/10:** [reinspeção do AAB 7 no Windows](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md#10-atualização-em-27102026--reinspeção-do-aab-7-no-windows) sem `AD_ID` no manifesto final e sem alívio de resposta; **27/10, posterior:** [conferência e salvamento no Console](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md#11-atualização-em-27102026--conferência-e-salvamento-no-console): só o 7 ativo no Teste interno, demais versões arquivadas, maior código 7, AD_ID salvo como Não em 24/10, política sem `?authuser=1` desde 22/10; Segurança dos dados salva com autorização às 19:59, com finalidades e URL alinhadas; nada enviado para revisão ou aprovado, A3 continua aberto) | Gabriel; Rafael confirma configurações das contas | Revisão sanitizada do formulário: MET/Cloudflare/Billing/suporte, IPs/identificadores, exceções de compartilhamento, prévias automáticas e coleta obrigatória/opcional; manifesto/SDKs/endpoints e informação/permissão de localização conferidos no candidato. Aprovação registrada, sem presumir ausência de compartilhamento. |
+| pendente naquele registro | A4. Registrar análise ECA Digital, possível acesso por adolescentes e necessidade/desenho de sinais de idade ([registro](../../.lgpd/adolescentes-eca-digital.md)) | Gabriel, com validação jurídica necessária | **29/10: avaliação contextual preparada**, com matriz, evidências/limites do produto e recomendação condicionada por fase. **A4 segue aberto e bloqueia envio:** faltam evidência IARC/acervo/sinais, decisão de Gabriel e validação jurídica necessária; medidas exigidas devem ser comprovadas. Público 13+ e teste adulto preservados; nenhum SDK adotado. |
+| pendente naquele registro | A5. Aprovar revisão/vigência dos textos aplicáveis e conferir app/site/Console após A2–A4 | Gabriel aprova; publicação pelo responsável pelo site | Revisão local de 28/10: Privacidade 1.19 / Termos 1.10 / Contato 1.9 para o pacote 8, ainda sem aprovação/vigência ou republicação. [D1–D7 da Segurança dos dados](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md#8-divergências-identificadas-entre-esta-proposta-e-as-fontes-locais-privacidademd-114--termosmd-18) conciliados no texto na parte 1b ([desfecho por item e evidências](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md#12-conciliação-editorial-d1d7--28102026-a5-parte-1b)): D1–D4/D6 esclarecidos, D5/D7 superados como divergências de redação. Respostas conservadoras preservadas, sem alterar Console. Aprovação/vigência e republicação ficam para a fatia 2; A4 e pendências de fornecedores/SDKs permanecem abertos. Exige revisão aprovada identificada, páginas HTTPS sem login e no celular, links sem seleção de conta, conteúdo sincronizado e vigência ligada ao candidato. Gerar HTML não republica Sites. |
+| pendente naquele registro | A6. Conferir Brasil na faixa e demais telas pertinentes, licenças e configuração dos instrumentos de teste | Rafael | Configuração salva e divergência de todos os países resolvida. Cadastrar e confirmar licença de todos os participantes que terão acesso à interface de compras, inclusive quem pretende usar apenas o gratuito; ampliar a cobertura das sete contas antes de convite/distribuição. Sem licença confirmada, não liberar o candidato ao participante no fluxo atual. Evidência sanitizada, sem dados pessoais no Git; instrumentos no checkout em A8. |
+| pendente naquele registro | A7. Fechar configuração impeditiva e disponibilizar candidato na faixa para conferência, após A2–A6 | Gabriel e Rafael conforme acesso | Itens restantes identificados e resolvidos, contatos/ficha/recursos e produtos necessários ao roteiro conferidos; mínimos seguros de instalação, informação, uso gratuito e entrega definidos e comprovados. Publicação e convites exigem autorização correspondente. |
+| pendente naquele registro | A8. Com o candidato acessível pela Play, conferir conta e instrumento de teste antes de concluir cada compra | Rafael | Conferir no respectivo checkout a conta já licenciada em A6 e o instrumento de teste, sem cobrança real; sem essa confirmação, não concluir a compra. Não é necessário que todos comprem; as 12 adesões de B1 não substituem a licença de todos que terão acesso à compra. |
 
 Não marcar A7 apenas por CI verde. Aceites completos visuais, de catálogo, compras e desempenho permanecem nos roteiros detalhados e serão executados durante o teste; falhas impeditivas conhecidas precisam ser resolvidas antes da distribuição.
 
@@ -69,10 +85,10 @@ Fontes oficiais consultadas em 22/10: [acesso do revisor](https://support.google
 
 | Feito | Ação/dependência | Responsável | Evidência para encerrar |
 |---|---|---|---|
-| [ ] | B1. Completar adesões elegíveis e acompanhar o requisito conforme as adesões mostradas no Console | Rafael | Contagem e início efetivo registrados sem e-mails; para o requisito relatado, pelo menos 12 inscritos continuamente por 14 dias. Lista de licença, convite e instalação não substituem adesão; checkout não inicia nem reinicia a contagem. |
-| [ ] | B2. Executar compras Premium/artes com instrumentos de teste, direitos e entrega | Rafael; Gabriel corrige defeitos | Resultado por versão/commit: compra, pendência, cancelamento/erro, download, aplicação, reinício, reinstalação/restauração, revogação/reembolso e offline. Premium não libera artes. |
-| [ ] | B3. Executar aceites das etapas 1–4 e 6 abaixo em aparelhos representativos | Rafael; Gabriel corrige defeitos | Clima só na home, permissão negada/revogada, bloqueio, backup, suporte, logs release, isolamento debug, catálogo, efeitos, memória/bateria/estabilidade e compatibilidade registrados por aparelho e candidato. |
-| [ ] | B4. Consolidar feedback e validar correções no artefato correspondente | Gabriel e Rafael | Defeitos e retestes identificados, requisito contínuo acompanhado; não conceder aceite só por passar 14 dias. |
+| pendente naquele registro | B1. Completar adesões elegíveis e acompanhar o requisito conforme as adesões mostradas no Console | Rafael | Contagem e início efetivo registrados sem e-mails; para o requisito relatado, pelo menos 12 inscritos continuamente por 14 dias. Lista de licença, convite e instalação não substituem adesão; checkout não inicia nem reinicia a contagem. |
+| pendente naquele registro | B2. Executar compras Premium/artes com instrumentos de teste, direitos e entrega | Rafael; Gabriel corrige defeitos | Resultado por versão/commit: compra, pendência, cancelamento/erro, download, aplicação, reinício, reinstalação/restauração, revogação/reembolso e offline. Premium não libera artes. |
+| pendente naquele registro | B3. Executar aceites das etapas 1–4 e 6 abaixo em aparelhos representativos | Rafael; Gabriel corrige defeitos | Clima só na home, permissão negada/revogada, bloqueio, backup, suporte, logs release, isolamento debug, catálogo, efeitos, memória/bateria/estabilidade e compatibilidade registrados por aparelho e candidato. |
+| pendente naquele registro | B4. Consolidar feedback e validar correções no artefato correspondente | Gabriel e Rafael | Defeitos e retestes identificados, requisito contínuo acompanhado; não conceder aceite só por passar 14 dias. |
 
 Referência: [requisitos oficiais de teste](https://support.google.com/googleplay/android-developer/answer/14151465?hl=pt-BR). Confirmar o requisito efetivo da conta; cumprir o prazo não concede acesso automático à produção.
 
@@ -80,9 +96,9 @@ Referência: [requisitos oficiais de teste](https://support.google.com/googlepla
 
 | Feito | Ação/dependência | Responsável | Evidência para encerrar |
 |---|---|---|---|
-| [ ] | C1. Consolidar aceites e correções de B, catálogo anunciado, produtos/preços, licenças e continuidade/retirada | Gabriel e Rafael | Etapas 1–6 aprovadas para a revisão final; cada arte anunciada tem entrega e origem/licença verificadas, oferta corresponde ao Console e plano de exceção/continuidade está definido. |
-| [ ] | C2. Fechar operação e requisitos legais/comerciais pertinentes | Gabriel valida; Rafael comprova contas/operação | Endpoint adequado, fornecedores/bases/governança, suporte/direitos/retenção em operação, documentos aprovados e verificações de perfil/pagamentos exigidas ao titular comprovados; avaliação ECA/público registrada. |
-| [ ] | C3. Obter acesso à produção e autorização de distribuição | Gabriel e titular da conta | Requisito do teste atendido, acesso aprovado, ficha/declarações e candidato conferidos; só então executar etapas 8–9. Teste fechado não autoriza cobrança real. |
+| pendente naquele registro | C1. Consolidar aceites e correções de B, catálogo anunciado, produtos/preços, licenças e continuidade/retirada | Gabriel e Rafael | Etapas 1–6 aprovadas para a revisão final; cada arte anunciada tem entrega e origem/licença verificadas, oferta corresponde ao Console e plano de exceção/continuidade está definido. |
+| pendente naquele registro | C2. Fechar operação e requisitos legais/comerciais pertinentes | Gabriel valida; Rafael comprova contas/operação | Endpoint adequado, fornecedores/bases/governança, suporte/direitos/retenção em operação, documentos aprovados e verificações de perfil/pagamentos exigidas ao titular comprovados; avaliação ECA/público registrada. |
+| pendente naquele registro | C3. Obter acesso à produção e autorização de distribuição | Gabriel e titular da conta | Requisito do teste atendido, acesso aprovado, ficha/declarações e candidato conferidos; só então executar etapas 8–9. Teste fechado não autoriza cobrança real. |
 
 Fontes para as revisões pendentes: [Segurança dos dados](https://support.google.com/googleplay/android-developer/answer/10787469?hl=pt-BR) e [ANPD/ECA Digital](https://www.gov.br/anpd/pt-br/assuntos/eca-digital). Estas referências não constituem parecer ou aprovação.
 
@@ -98,28 +114,28 @@ Histórico: [entrega das etapas 1/2](PROMPT-RAFAEL-AVALIACAO-ETAPAS-1-2-E-CATALO
 
 ## Decisões registradas — alcance e limites
 
-- [x] Premium `terra_premium`: compra única de R$ 49,90, apenas efeitos e estilos. Não libera artes pagas.
-- [x] Compra avulsa registrada pelo titular: R$ 1,99 por arte específica, não por todas as variantes do cenário.
-- [x] Canal oficial de suporte e privacidade: `suporteterrabr@gmail.com`.
-- [x] Responsável indicado: Rafael Huppes, pessoa física. Validar os papéis jurídicos na etapa 5.
+- Registro histórico concluído: Premium `terra_premium`: compra única de R$ 49,90, apenas efeitos e estilos. Não libera artes pagas.
+- Registro histórico concluído: Compra avulsa registrada pelo titular: R$ 1,99 por arte específica, não por todas as variantes do cenário.
+- Registro histórico concluído: Canal oficial de suporte e privacidade: `suporteterrabr@gmail.com`.
+- Registro histórico concluído: Responsável indicado: Rafael Huppes, pessoa física. Validar os papéis jurídicos na etapa 5.
 - Registro histórico de público 13+ em 09/10; teste restrito a adultos conforme decisão de 15/10. IARC 14 no Brasil foi relatado em 19/10. Público-alvo do produto e avaliação ECA continuam pendentes, sem conclusão por esses registros.
-- [x] Retenção do atendimento registrada: até 60 dias após resolução, ressalvadas obrigação legal ou defesa em processo. Aplicar aos registros controlados pela equipe.
-- [x] **Confirmado pelo usuário em 09/10: ocorreram somente compras de teste, sem cobrança real.** Não foi identificado comprador real a migrar nesta informação; o relato não é uma exportação auditada do Console.
-- [x] Provedor de clima: MET Norway. Código passou a consultar somente com wallpaper na home, tela acordada e desbloqueada; worker legado não consulta. Falta aceite em aparelho.
+- Registro histórico concluído: Retenção do atendimento registrada: até 60 dias após resolução, ressalvadas obrigação legal ou defesa em processo. Aplicar aos registros controlados pela equipe.
+- Registro histórico concluído: **Confirmado pelo usuário em 09/10: ocorreram somente compras de teste, sem cobrança real.** Não foi identificado comprador real a migrar nesta informação; o relato não é uma exportação auditada do Console.
+- Registro histórico concluído: Provedor de clima: MET Norway. Código passou a consultar somente com wallpaper na home, tela acordada e desbloqueada; worker legado não consulta. Falta aceite em aparelho.
 
 ## 1. Corrigir a separação entre Premium e artes — implementação local validada
 
 **Objetivo:** comprar Premium nunca concede o direito a uma arte paga. As cinco amostras continuam utilizáveis.
 
-- [x] Conferir os caminhos de seleção, aplicação e leitura pelo serviço, incluindo `isSceneUnlocked()`, `isArtUnlocked()` e `ArteFundo.atual()`.
-- [x] Separar autorização de arte da autorização de efeito. UI e serviço usam `AcessoArte`; Premium não participa da autorização de arte. O antigo indicador de compra por cenário não libera variantes.
-- [x] Impedir que uma arte paga previamente selecionada por compra de teste continue aplicada sem direito válido após a atualização: leitura retorna a amostra do mesmo cenário.
-- [x] Manter seleção/uso das cinco amostras gratuitas independente do Premium. A regra de autorização é local e não exige rede; aceite offline em aparelho ainda faz parte da conferência abaixo.
-- [x] Corrigir descrições em Premium, Loja e tutoriais e a cláusula Premium dos termos (revisão 1.3, três cópias HTML sincronizadas).
-- [x] Correção inicial em 10/10: arte bloqueada não encaminha à compra de Premium. A compra individual foi integrada depois, na etapa 4; conferir a jornada no candidato pela Play.
-- [x] Especificar regressões: seis testes em `AcessoArteTest` cobrem amostras, variantes pagas, preferências antigas, troca entre cenários, arte inexistente e destrave de debug. Seleção/aplicação valida o direito no código; fluxo de compra/restauração e interface serão conferidos em aparelho.
-- [x] Executar testes unitários, lint e build de debug apropriados à mudança: **75 testes, zero falhas/erros; lint sem erros (com warnings existentes); assembleDebug aprovado**. Testes/build repetidos depois da atualização dos termos.
-- [ ] Registrar resultado em aparelho/versão Play antes do aceite final de publicação.
+- Registro histórico concluído: Conferir os caminhos de seleção, aplicação e leitura pelo serviço, incluindo `isSceneUnlocked()`, `isArtUnlocked()` e `ArteFundo.atual()`.
+- Registro histórico concluído: Separar autorização de arte da autorização de efeito. UI e serviço usam `AcessoArte`; Premium não participa da autorização de arte. O antigo indicador de compra por cenário não libera variantes.
+- Registro histórico concluído: Impedir que uma arte paga previamente selecionada por compra de teste continue aplicada sem direito válido após a atualização: leitura retorna a amostra do mesmo cenário.
+- Registro histórico concluído: Manter seleção/uso das cinco amostras gratuitas independente do Premium. A regra de autorização é local e não exige rede; aceite offline em aparelho ainda faz parte da conferência abaixo.
+- Registro histórico concluído: Corrigir descrições em Premium, Loja e tutoriais e a cláusula Premium dos termos (revisão 1.3, três cópias HTML sincronizadas).
+- Registro histórico concluído: Correção inicial em 10/10: arte bloqueada não encaminha à compra de Premium. A compra individual foi integrada depois, na etapa 4; conferir a jornada no candidato pela Play.
+- Registro histórico concluído: Especificar regressões: seis testes em `AcessoArteTest` cobrem amostras, variantes pagas, preferências antigas, troca entre cenários, arte inexistente e destrave de debug. Seleção/aplicação valida o direito no código; fluxo de compra/restauração e interface serão conferidos em aparelho.
+- Registro histórico concluído: Executar testes unitários, lint e build de debug apropriados à mudança: **75 testes, zero falhas/erros; lint sem erros (com warnings existentes); assembleDebug aprovado**. Testes/build repetidos depois da atualização dos termos.
+- Critério histórico a conferir na fila atual: Registrar resultado em aparelho/versão Play antes do aceite final de publicação.
 
 **Aceite:** UI e wallpaper aplicam o mesmo direito; Premium afeta somente efeitos/estilos; o usuário não é induzido a comprar Premium para receber arte.
 
@@ -138,14 +154,14 @@ Não havia aparelho/emulador conectado na execução de 10/10. Artefato para a c
 
 ## 2. Corrigir os quatro pontos técnicos de privacidade — implementação local validada
 
-- [x] G05: “Reportar problema” passa a usar `suporteterrabr@gmail.com`, igual ao canal oficial. Conferência no cliente de e-mail fica no roteiro do Rafael.
-- [x] G08: excluir `atmosfera_weather_cache.xml` e `atmosfera_met_freio.xml` do backup legado, cloud-backup e device-transfer. Manter exclusão de `atmosfera_plano.xml` e preferências comuns elegíveis. Três testes verificam as regras e sua ligação ao manifesto; não apaga automaticamente backups antigos.
-- [x] G09: remover o log com latitude/longitude; falhas de localização usam mensagem genérica. Detalhes do estado meteorológico e das exceções ficam restritos a debug; release registra apenas diagnóstico genérico/tipo da falha, além dos códigos de bloqueio do provedor.
-- [x] G16: remover `nomeDoLugar()`, imports e tabela de estados sem uso. Não foi introduzido outro serviço de localização/geocodificação. São Paulo/SP permanece o local padrão; a cidade real não passa a ser resolvida por este ajuste. Nomes legados no cache podem aparecer enquanto ainda aplicáveis.
-- [x] Conferir estaticamente o fluxo atual: sem permissão, `LocationHelper` retorna São Paulo/SP; `ClimaNaHome` limita consultas; o worker legado não consulta. O teste dinâmico de revogação e transições de tela segue pendente.
-- [x] Executar os checks afetados: **78 testes unitários, zero falhas/erros; lint sem erros e build de debug aprovados**. Alterações nas regras de backup agora invalidam o resultado dos testes no Gradle.
-- [x] Atualizar a seção de backup da política e manter os HTMLs de `docs/`, `public_html/` e assets idênticos. Demais refinamentos jurídicos/editoriais continuam na etapa 5.
-- [ ] Rafael: validar destinatário, restauração/backup, diagnóstico de release, indicação do local e localização negada/revogada em aparelho, conforme roteiro abaixo.
+- Registro histórico concluído: G05: “Reportar problema” passa a usar `suporteterrabr@gmail.com`, igual ao canal oficial. Conferência no cliente de e-mail fica no roteiro do Rafael.
+- Registro histórico concluído: G08: excluir `atmosfera_weather_cache.xml` e `atmosfera_met_freio.xml` do backup legado, cloud-backup e device-transfer. Manter exclusão de `atmosfera_plano.xml` e preferências comuns elegíveis. Três testes verificam as regras e sua ligação ao manifesto; não apaga automaticamente backups antigos.
+- Registro histórico concluído: G09: remover o log com latitude/longitude; falhas de localização usam mensagem genérica. Detalhes do estado meteorológico e das exceções ficam restritos a debug; release registra apenas diagnóstico genérico/tipo da falha, além dos códigos de bloqueio do provedor.
+- Registro histórico concluído: G16: remover `nomeDoLugar()`, imports e tabela de estados sem uso. Não foi introduzido outro serviço de localização/geocodificação. São Paulo/SP permanece o local padrão; a cidade real não passa a ser resolvida por este ajuste. Nomes legados no cache podem aparecer enquanto ainda aplicáveis.
+- Registro histórico concluído: Conferir estaticamente o fluxo atual: sem permissão, `LocationHelper` retorna São Paulo/SP; `ClimaNaHome` limita consultas; o worker legado não consulta. O teste dinâmico de revogação e transições de tela segue pendente.
+- Registro histórico concluído: Executar os checks afetados: **78 testes unitários, zero falhas/erros; lint sem erros e build de debug aprovados**. Alterações nas regras de backup agora invalidam o resultado dos testes no Gradle.
+- Registro histórico concluído: Atualizar a seção de backup da política e manter os HTMLs de `docs/`, `public_html/` e assets idênticos. Demais refinamentos jurídicos/editoriais continuam na etapa 5.
+- Critério histórico a conferir na fila atual: Rafael: validar destinatário, restauração/backup, diagnóstico de release, indicação do local e localização negada/revogada em aparelho, conforme roteiro abaixo.
 
 **Aceite:** canal, backup, diagnósticos e localização correspondem ao comportamento descrito nos textos refinados.
 
@@ -165,18 +181,18 @@ Conferir separadamente backups produzidos por versões antigas: a nova configura
 
 **Avanço em 10/10:** [inventário por arte](../loja/catalogo-2026-10-10/README.md) gerado a partir da fonte local, com CSV, JSON, hashes e propostas de produto. Nenhuma consulta/cadastro no Console, publicação no bucket ou avaliação visual por esta execução.
 
-- [x] Escopo reconfirmado pelo usuário em 10/10: **todo o acervo aprovado** como objetivo do lançamento. Não substituir por um lote menor sem nova decisão; testar por lotes não altera a oferta pretendida.
-- [x] Conferir a fonte local após os cortes: **71 cenas/75 artes com fundo**, cinco gratuitas e 70 pagas candidatas. O motor declara 312 variantes após exclusões, **237 sem fundo local**; há declaração duplicada de `vale/cartoon`. CSV/JSON preparados, sem aprovação de renderização.
-- [ ] Concluir aceite do catálogo conciliado na adaptação de 11/10 e v2 de 13/10: manifesto de 71 cenas/366 artes, vitrine de 69 cenas/358 artes/67 cards; conferir composição e renderização no candidato. A conciliação técnica não aprova a oferta final.
-- [x] Separar amostras, artes pagas e exclusões na tabela. Os sete temas excluídos não recebem proposta de produto; `timessquare`, `ogro` e `eiffel` ainda existem no acervo local e permanecem identificados como excluídos, sem apagar os arquivos.
-- [ ] Conferir cortes no manifesto de produção e artefato efetivamente distribuído. Inventário local não é manifesto de publicação.
-- [x] Preparar tabela por arte: identificação, origem, arquivos, hashes, dimensões, bytes, miniaturas, preço regular e ID de produto **proposto**. Console e teste Android marcados como não verificados; miniaturas dedicadas ausentes identificadas.
-- [x] Novas artes/variantes: **cada arte nova será uma compra separada**, confirmado pelo usuário em 10/10.
-- [x] Regra confirmada em 15/10: futuros efeitos/estilos incluídos no Premium, artes separadas, sem promessa de frequência de lançamentos. Conferir correspondência da oferta no candidato.
-- [x] **Sem packs comerciais no lançamento**, confirmado pelo usuário em 10/10. Pacotes de arquivo para download são outro conceito.
-- [ ] Configurar preço regular e ofertas reais de R$ 0,99, sem confundir preço promocional com uma nova posse.
-- [ ] Conferir países de oferta/distribuição e preços correspondentes.
-- [ ] Preservar registros de origem e licenças das artes, fontes, sprites e dados meteorológicos, com revisão dos itens efetivamente distribuídos.
+- Registro histórico concluído: Escopo reconfirmado pelo usuário em 10/10: **todo o acervo aprovado** como objetivo do lançamento. Não substituir por um lote menor sem nova decisão; testar por lotes não altera a oferta pretendida.
+- Registro histórico concluído: Conferir a fonte local após os cortes: **71 cenas/75 artes com fundo**, cinco gratuitas e 70 pagas candidatas. O motor declara 312 variantes após exclusões, **237 sem fundo local**; há declaração duplicada de `vale/cartoon`. CSV/JSON preparados, sem aprovação de renderização.
+- Critério histórico a conferir na fila atual: Concluir aceite do catálogo conciliado na adaptação de 11/10 e v2 de 13/10: manifesto de 71 cenas/366 artes, vitrine de 69 cenas/358 artes/67 cards; conferir composição e renderização no candidato. A conciliação técnica não aprova a oferta final.
+- Registro histórico concluído: Separar amostras, artes pagas e exclusões na tabela. Os sete temas excluídos não recebem proposta de produto; `timessquare`, `ogro` e `eiffel` ainda existem no acervo local e permanecem identificados como excluídos, sem apagar os arquivos.
+- Critério histórico a conferir na fila atual: Conferir cortes no manifesto de produção e artefato efetivamente distribuído. Inventário local não é manifesto de publicação.
+- Registro histórico concluído: Preparar tabela por arte: identificação, origem, arquivos, hashes, dimensões, bytes, miniaturas, preço regular e ID de produto **proposto**. Console e teste Android marcados como não verificados; miniaturas dedicadas ausentes identificadas.
+- Registro histórico concluído: Novas artes/variantes: **cada arte nova será uma compra separada**, confirmado pelo usuário em 10/10.
+- Registro histórico concluído: Regra confirmada em 15/10: futuros efeitos/estilos incluídos no Premium, artes separadas, sem promessa de frequência de lançamentos. Conferir correspondência da oferta no candidato.
+- Registro histórico concluído: **Sem packs comerciais no lançamento**, confirmado pelo usuário em 10/10. Pacotes de arquivo para download são outro conceito.
+- Critério histórico a conferir na fila atual: Configurar preço regular e ofertas reais de R$ 0,99, sem confundir preço promocional com uma nova posse.
+- Critério histórico a conferir na fila atual: Conferir países de oferta/distribuição e preços correspondentes.
+- Critério histórico a conferir na fila atual: Preservar registros de origem e licenças das artes, fontes, sprites e dados meteorológicos, com revisão dos itens efetivamente distribuídos.
 
 **Aceite:** existe uma lista única do que o usuário pode experimentar, comprar e receber. O inventário não contém produto sem entrega correspondente.
 
@@ -187,16 +203,16 @@ Conferir separadamente backups produzidos por versões antigas: a nova configura
 
 **Dependência para aceite:** catálogo/produtos da etapa 3 aprovados. Por solicitação do usuário, implementação adiantada em 10/10 com arquivos disponíveis; isso não conclui a etapa 3. Ver [integração e roteiro](INTEGRACAO-ARTES-ACERVO-2026-10-10.md).
 
-- [x] Modelar posse por cenário + arte e associar os produtos pagos correspondentes; não usar um direito por cenário para liberar todas as variantes.
-- [ ] Validar pela Play a integração de produtos/preços, compra, estados pendentes, confirmação, restauração e revogação; implementação não encerra o aceite.
-- [x] Catálogo/miniaturas integrados, ampliados para 366 artes na adaptação R2 e refinados na v2; aprovação visual/completude da oferta pendentes.
-- [ ] Configurar endpoint de produção do bucket e conferir controles de upload/acesso. Não incluir credenciais no aplicativo.
-- [ ] Verificar origem/integridade de manifesto e pacotes, versionamento e compatibilidade com o motor.
-- [ ] Validar o download integrado: tamanho, progresso, cancelamento, repetição, instalação segura e falhas compreensíveis.
-- [ ] Preservar o wallpaper ativo quando houver falta de rede/espaço, interrupção ou pacote inválido.
-- [ ] Validar limpeza de arquivos e uso offline do conteúdo instalado.
-- [ ] Testar compra → download → aplicação → reinício → reinstalação/restauração → novo download.
-- [ ] Validar visualmente cada arte anunciada no Android; ampliar catálogo por lotes conferidos.
+- Registro histórico concluído: Modelar posse por cenário + arte e associar os produtos pagos correspondentes; não usar um direito por cenário para liberar todas as variantes.
+- Critério histórico a conferir na fila atual: Validar pela Play a integração de produtos/preços, compra, estados pendentes, confirmação, restauração e revogação; implementação não encerra o aceite.
+- Registro histórico concluído: Catálogo/miniaturas integrados, ampliados para 366 artes na adaptação R2 e refinados na v2; aprovação visual/completude da oferta pendentes.
+- Critério histórico a conferir na fila atual: Configurar endpoint de produção do bucket e conferir controles de upload/acesso. Não incluir credenciais no aplicativo.
+- Critério histórico a conferir na fila atual: Verificar origem/integridade de manifesto e pacotes, versionamento e compatibilidade com o motor.
+- Critério histórico a conferir na fila atual: Validar o download integrado: tamanho, progresso, cancelamento, repetição, instalação segura e falhas compreensíveis.
+- Critério histórico a conferir na fila atual: Preservar o wallpaper ativo quando houver falta de rede/espaço, interrupção ou pacote inválido.
+- Critério histórico a conferir na fila atual: Validar limpeza de arquivos e uso offline do conteúdo instalado.
+- Critério histórico a conferir na fila atual: Testar compra → download → aplicação → reinício → reinstalação/restauração → novo download.
+- Critério histórico a conferir na fila atual: Validar visualmente cada arte anunciada no Android; ampliar catálogo por lotes conferidos.
 
 **Aceite:** cada arte paga é entregue e utilizável; Premium e posse da arte permanecem independentes em todos os estados.
 
@@ -204,16 +220,16 @@ Conferir separadamente backups produzidos por versões antigas: a nova configura
 
 **Execucao editorial de 11/10:** fontes canonicas atualizadas: privacidade 1.7, termos 1.4, contato 1.1. Nove HTMLs gerados, hashes/estado registrados, checks de fidelidade e importador de Willian conferidos. Revisao continua rascunho; nao houve publicacao nem aprovacao juridica. Ver [entrega e pendencias](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md).
 
-- [x] Reconciliar SPEC, TASKS, plano de lancamento e pos-lancamento com a oferta atual; preservar planos anteriores como historico.
-- [x] Refinar fontes canonicas para clima na home, compras por arte, R2, canal oficial e atendimento de 60 dias; preservar rascunhos de 05/10 como registros historicos.
-- [x] Consolidar fontes, versoes editoriais, modelo e manifesto de integridade; sincronizar docs, public_html e assets.
-- [ ] Definir vigencia real e versao de distribuicao aplicavel, inclusive teste/compras anteriores; registrar aprovacao efetiva.
-- [ ] Validar papeis, bases legais, transferencias, publico 13+/ECA Digital, licencas e continuidade do conteudo adquirido. Resposta do titular nao equivale a parecer juridico.
-- [ ] Conferir cookies, registros, formulários e tratamento real do site publicado no Google Sites; domínio próprio não é condição para o teste. Conciliar a revisão pública com as fontes aprovadas.
-- [x] Preparar geracao/exportacao explicita e testar compatibilidade com o importador, sem alterar o front-end de Willian.
-- [x] Conferir texto, metadados, links relativos e historico; ampliar o check para as tres copias e a fonte canonica. Atualizar site nao altera apps instalados.
-- [ ] Importar a revisao aprovada, publicar e verificar as tres paginas HTTPS sem login e com metadados finais.
-- [ ] Decidir o tratamento de documentos pessoais na branch do Rafael e no PR #48, sem presumir apagamento do historico. Os registros locais foram versionados como historicos por solicitacao do usuario, com dados internos desnecessarios omitidos.
+- Registro histórico concluído: Reconciliar SPEC, TASKS, plano de lancamento e pos-lancamento com a oferta atual; preservar planos anteriores como historico.
+- Registro histórico concluído: Refinar fontes canonicas para clima na home, compras por arte, R2, canal oficial e atendimento de 60 dias; preservar rascunhos de 05/10 como registros historicos.
+- Registro histórico concluído: Consolidar fontes, versoes editoriais, modelo e manifesto de integridade; sincronizar docs, public_html e assets.
+- Critério histórico a conferir na fila atual: Definir vigencia real e versao de distribuicao aplicavel, inclusive teste/compras anteriores; registrar aprovacao efetiva.
+- Critério histórico a conferir na fila atual: Validar papeis, bases legais, transferencias, publico 13+/ECA Digital, licencas e continuidade do conteudo adquirido. Resposta do titular nao equivale a parecer juridico.
+- Critério histórico a conferir na fila atual: Conferir cookies, registros, formulários e tratamento real do site publicado no Google Sites; domínio próprio não é condição para o teste. Conciliar a revisão pública com as fontes aprovadas.
+- Registro histórico concluído: Preparar geracao/exportacao explicita e testar compatibilidade com o importador, sem alterar o front-end de Willian.
+- Registro histórico concluído: Conferir texto, metadados, links relativos e historico; ampliar o check para as tres copias e a fonte canonica. Atualizar site nao altera apps instalados.
+- Critério histórico a conferir na fila atual: Importar a revisao aprovada, publicar e verificar as tres paginas HTTPS sem login e com metadados finais.
+- Critério histórico a conferir na fila atual: Decidir o tratamento de documentos pessoais na branch do Rafael e no PR #48, sem presumir apagamento do historico. Os registros locais foram versionados como historicos por solicitacao do usuario, com dados internos desnecessarios omitidos.
 
 **Aceite:** comportamento, oferta, documentos e paginas publicas coerentes para a mesma revisao aprovada, sem confundir preparacao editorial com validacao juridica ou publicacao.
 
@@ -221,28 +237,28 @@ Conferir separadamente backups produzidos por versões antigas: a nova configura
 
 **Registro histórico de 11/10, superado pelo quadro de 19/10:** CI da revisao `6dffa5a` aprovada (build e varredura de segredos). Usuario ainda nao sabe o maior versionCode enviado e nao recebeu o resultado da avaliacao de Rafael. A versao do projeto segue codigo 6/1.0.5; nenhum novo AAB foi gerado para envio. Validacao em aparelho permanece com Rafael. Ver [encaminhamento](ENCAMINHAMENTO-HUPPES-2026-10-11.md).
 
-- [ ] Resolver defeitos conhecidos das jornadas ofertadas; não confundir CI aprovada com aceite do produto.
-- [ ] Validar instalação limpa online/offline, onboarding e atualização de uma versão de teste anterior.
-- [ ] Testar clima na home, tela bloqueada/apagada, app por cima, retomada e instalação sem cache.
-- [ ] Testar efeitos, brilho, rolagem, trocas de arte e recriação do wallpaper.
-- [ ] Medir memória, bateria, estabilidade e compatibilidade em aparelhos representativos; verificar requisitos de páginas de memória de 16 KB aplicáveis.
-- [ ] Conferir certificado de upload, Play App Signing, acesso autorizado às chaves e armazenamento seguro, sem ler/publicar senhas no relatório.
-- [ ] Pendência de segurança ainda sem evidência de fechamento: responsável confirmar senha da chave de upload em gerenciador seguro, remoção da cópia em texto desprotegido e backup protegido da chave em dois locais separados. Registrar somente confirmação, sem caminhos pessoais, senhas ou cópia da chave; esta conferência não requer ler credenciais nem gerar nova chave.
-- [ ] Conferir `versionCode` disponível no Console antes do build destinado ao envio.
-- [ ] Gerar AAB da revisão aprovada com configuração versionada; arquivar commit, hash, certificado, mapping e notas de versão.
-- [ ] Testar o artefato distribuído pela Play, incluindo compra/restauração e relatórios de pré-lançamento.
+- Critério histórico a conferir na fila atual: Resolver defeitos conhecidos das jornadas ofertadas; não confundir CI aprovada com aceite do produto.
+- Critério histórico a conferir na fila atual: Validar instalação limpa online/offline, onboarding e atualização de uma versão de teste anterior.
+- Critério histórico a conferir na fila atual: Testar clima na home, tela bloqueada/apagada, app por cima, retomada e instalação sem cache.
+- Critério histórico a conferir na fila atual: Testar efeitos, brilho, rolagem, trocas de arte e recriação do wallpaper.
+- Critério histórico a conferir na fila atual: Medir memória, bateria, estabilidade e compatibilidade em aparelhos representativos; verificar requisitos de páginas de memória de 16 KB aplicáveis.
+- Critério histórico a conferir na fila atual: Conferir certificado de upload, Play App Signing, acesso autorizado às chaves e armazenamento seguro, sem ler/publicar senhas no relatório.
+- Critério histórico a conferir na fila atual: Pendência de segurança ainda sem evidência de fechamento: responsável confirmar senha da chave de upload em gerenciador seguro, remoção da cópia em texto desprotegido e backup protegido da chave em dois locais separados. Registrar somente confirmação, sem caminhos pessoais, senhas ou cópia da chave; esta conferência não requer ler credenciais nem gerar nova chave.
+- Critério histórico a conferir na fila atual: Conferir `versionCode` disponível no Console antes do build destinado ao envio.
+- Critério histórico a conferir na fila atual: Gerar AAB da revisão aprovada com configuração versionada; arquivar commit, hash, certificado, mapping e notas de versão.
+- Critério histórico a conferir na fila atual: Testar o artefato distribuído pela Play, incluindo compra/restauração e relatórios de pré-lançamento.
 
 **Aceite:** há um único candidato identificado e testado, sem defeito conhecido que impeça usar o gratuito ou receber o conteúdo comprado.
 
 ## 7. Concluir configuração e teste fechado no Play Console
 
-- [ ] Conferir titularidade, verificações e perfil de pagamentos efetivamente exigidos pela conta.
-- [ ] Configurar produtos e preços da oferta final; conferir chave pública de compras no build sem expor configuração privada.
-- [ ] Concluir Segurança dos dados, classificação IARC, público-alvo, anúncios, acesso e demais declarações pertinentes.
-- [ ] Atualizar ficha, contato, ícone, gráfico e screenshots do app real; não anunciar artes ou recursos indisponíveis.
-- [ ] Definir roteiro e registrar coordenação do teste fechado pelo responsável já indicado.
-- [ ] Cumprir o requisito aplicável de pelo menos 12 participantes inscritos continuamente por 14 dias; teste interno não substitui essa faixa.
-- [ ] Registrar feedback, correções e uso real; solicitar acesso à produção quando elegível.
+- Critério histórico a conferir na fila atual: Conferir titularidade, verificações e perfil de pagamentos efetivamente exigidos pela conta.
+- Critério histórico a conferir na fila atual: Configurar produtos e preços da oferta final; conferir chave pública de compras no build sem expor configuração privada.
+- Critério histórico a conferir na fila atual: Concluir Segurança dos dados, classificação IARC, público-alvo, anúncios, acesso e demais declarações pertinentes.
+- Critério histórico a conferir na fila atual: Atualizar ficha, contato, ícone, gráfico e screenshots do app real; não anunciar artes ou recursos indisponíveis.
+- Critério histórico a conferir na fila atual: Definir roteiro e registrar coordenação do teste fechado pelo responsável já indicado.
+- Critério histórico a conferir na fila atual: Cumprir o requisito aplicável de pelo menos 12 participantes inscritos continuamente por 14 dias; teste interno não substitui essa faixa.
+- Critério histórico a conferir na fila atual: Registrar feedback, correções e uso real; solicitar acesso à produção quando elegível.
 
 **Aceite:** Console sem pendências impeditivas, teste exigido comprovado e acesso à produção aprovado.
 
@@ -250,20 +266,22 @@ Referência: [requisitos oficiais de teste](https://support.google.com/googlepla
 
 ## 8. Publicar e verificar a primeira distribuição
 
-- [ ] Enviar a versão aprovada e acompanhar revisão/respostas do Google.
-- [ ] Conferir países, oferta e primeira disponibilidade pública.
-- [ ] Instalar pela listagem pública e verificar versão, links legais, preço, amostras, compra, entrega e aplicação.
-- [ ] Registrar a data real de lançamento e os canais de atendimento/operação.
+- Critério histórico a conferir na fila atual: Enviar a versão aprovada e acompanhar revisão/respostas do Google.
+- Critério histórico a conferir na fila atual: Conferir países, oferta e primeira disponibilidade pública.
+- Critério histórico a conferir na fila atual: Instalar pela listagem pública e verificar versão, links legais, preço, amostras, compra, entrega e aplicação.
+- Critério histórico a conferir na fila atual: Registrar a data real de lançamento e os canais de atendimento/operação.
 
 **Aceite:** aplicativo aprovado e distribuído com oferta e conteúdo conferidos; envio para revisão não será marcado como publicação concluída.
 
 ## 9. Operar depois da publicação
 
-- [ ] D0–D2: conferir instalação pública, falhas, compras, suporte, clima e downloads.
-- [ ] D3–D7: priorizar falhas de pagamento/entrega, crashes, ANRs e consumo excessivo; validar correções antes de distribuir updates.
-- [ ] Semanalmente: revisar custos do bucket, disponibilidade, pedidos/reembolsos e feedback; ampliar artes apenas com teste e oferta configurada.
-- [ ] Aplicar retenção de 60 dias ao atendimento encerrado, com preservação justificada das exceções e controle de acesso.
-- [ ] Manter histórico do acervo e arquivos necessários à restauração de compras; definir recuperação de falha e continuidade.
-- [ ] Revisar documentos e declarações quando houver nova finalidade, fornecedor ou funcionalidade.
+- Critério histórico a conferir na fila atual: D0–D2: conferir instalação pública, falhas, compras, suporte, clima e downloads.
+- Critério histórico a conferir na fila atual: D3–D7: priorizar falhas de pagamento/entrega, crashes, ANRs e consumo excessivo; validar correções antes de distribuir updates.
+- Critério histórico a conferir na fila atual: Semanalmente: revisar custos do bucket, disponibilidade, pedidos/reembolsos e feedback; ampliar artes apenas com teste e oferta configurada.
+- Critério histórico a conferir na fila atual: Aplicar retenção de 60 dias ao atendimento encerrado, com preservação justificada das exceções e controle de acesso.
+- Critério histórico a conferir na fila atual: Manter histórico do acervo e arquivos necessários à restauração de compras; definir recuperação de falha e continuidade.
+- Critério histórico a conferir na fila atual: Revisar documentos e declarações quando houver nova finalidade, fornecedor ou funcionalidade.
 
 **Aceite:** responsáveis executam a rotina e mantêm evidências. A frequência de novas artes não será tratada como promessa automática ao consumidor.
+
+</details>

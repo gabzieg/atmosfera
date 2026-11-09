@@ -36,8 +36,8 @@ O fluxo é o do Friday (`~/Friday`, skill `dev-methodology`): a consultora `atmo
 tarefa, revisa o PR e mescla; a desenvolvedora `atmosfera-dev` (ou `atmosfera-dev2`, mantendo nomes existentes; uma por worktree) implementa com teste e abre o PR em draft. Qualquer modelo e qualquer ferramenta em qualquer papel; quem
 implementou não revisa. Aqui ficam só as decisões deste projeto, que prevalecem sobre a skill.
 
-- **Checklist:** `docs/dev/TASKS.md` (o que está em andamento) e `docs/dev/ROADMAP.md` (fases), não a issue «Plano» da
-  skill; só a consultora os edita, no mesmo PR da entrega.
+- **Checklist:** `docs/dev/TASKS.md` é a fila operacional única; ROADMAP/plano/checklist detalhado preservam referências e roteiros,
+  não filas concorrentes. Não migrar para issue «Plano»; a consultora mantém o acompanhamento no mesmo PR da entrega.
 - **Gate:** `cd android-app && ./gradlew testDebugUnitTest lintDebug assembleDebug` no commit final, mais a verificação
   visual quando a tela muda (abaixo); o check `build` do GitHub é obrigatório no PR (ruleset). Sem a fila de CI da
   máquina. O `lintDebug` tem baseline (`app/lint-baseline.xml`): a CI só quebra em erro novo; não conserte aviso antigo
@@ -45,7 +45,9 @@ implementou não revisa. Aqui ficam só as decisões deste projeto, que prevalec
 - **PR e merge:** como em "Regras de PR" do `docs/dev/CONTEXTO_TECNICO.md`: toda mudança na `main` por PR, branch saindo da `main`
   atualizada (`front/`, `motor/`, `fix/`, `doc/` ou `chore/<slug>`), corpo no template (O que muda / Por que agora /
   Como verificar, só itens feitos marcados), merge commit (não squash), 0 aprovações exigidas. A consultora mescla
-  com autorização específica vigente, depois do `build` verde e da própria revisão; mudança de ruleset ou de configuração do repositório é só do Gabriel.
+  após revisão independente e `build` obrigatório verde, sem nova pergunta rotineira de merge (delegação do dono em 08/11/2026,
+  PR #83/6729652687). AAB final, instalação, Console, publicação, vigência e envio continuam checkpoints do dono via Friday;
+  mudança de ruleset ou de configuração do repositório é só do Gabriel.
 - **Rafael:** não recebe tarefa nem decisão que o Gabriel não tenha atribuído.
 
 ## Rodar o app e conferir a tela
