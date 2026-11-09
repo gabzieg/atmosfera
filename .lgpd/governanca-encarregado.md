@@ -1,5 +1,11 @@
 # Enquadramento como agente de pequeno porte e encarregado — registro de decisão
 
+**Estado vigente em 09/11/2026, base `8c1a40e`, conciliação #91:** D05/R06 resolvido documentalmente para o cenário avaliado em 28/10. A [conclusão após confirmação do requisito financeiro](revisoes/2026-10-28-documentos/REVISAO.md#r06--conclusão-após-confirmação-do-requisito-financeiro-28102026) registra a dispensa de indicação, mantendo controlador e canal das fontes aprovadas. Não há decisão A/B, confirmação de receita ou ato de designação a pedir novamente para esse cenário. A informação financeira não é reproduzida aqui; a conclusão conserva a origem e os limites da avaliação anterior, sem auditoria financeira ou decisão da ANPD.
+
+Público, escala, agente, operações ou determinação superveniente exigem reavaliação pertinente; não estender o resultado ao futuro 13+ ou comércio por inferência. Redação 1.22/1.12/1.10 aceita, ainda com metadados de rascunho; esta conciliação não muda fonte legal nem concede dispensa universal. Ver [ROPA atual](ropa.md) e [A4](a4-evidencias-recrutamento-2026-11-02.md). O estudo normativo/opções abaixo fica como histórico, não fila de perguntas ou nova orientação normativa.
+
+## Histórico de 16–19/10 — decisão pendente superada em 28/10
+
 **Versão**: 0.1 · **Data**: 2026-10-16 · **Estado: decisão pendente (D05)** · Fonte: Resolução CD/ANPD nº 2/2022 (texto conferido em gov.br em 2026-10-16) e LGPD art. 41.
 
 Este registro **não presume** que o Terra é agente de tratamento de pequeno porte, nem que pessoa física dispensa o encarregado. Organiza o que a norma pede para a decisão ser tomada e documentada.
