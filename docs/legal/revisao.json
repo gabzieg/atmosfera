@@ -1,8 +1,8 @@
 {
   "revisao": "2026-11-09",
-  "status": "rascunho_para_revisao",
-  "aprovado_para_publicacao": false,
-  "aprovacao_registro": null,
+  "status": "aprovado_para_publicacao",
+  "aprovado_para_publicacao": true,
+  "aprovacao_registro": "https://github.com/gabzieg/atmosfera/pull/110#issuecomment-6750038090",
   "vigencia": null,
   "versao_app": null,
   "dominio_publico": "https://terrawallpaper.com.br",
@@ -51,7 +51,7 @@
     "plataforma": "Cloudflare Pages",
     "dominio": "https://terrawallpaper.com.br",
     "analytics": false,
-    "estado": "proposta_pendente_de_aprovacao_da_redacao_e_publicacao",
+    "estado": "redacao_aprovada_aguardando_evento_real_de_publicacao",
     "vigencia_evento": "Data real de publicação das três páginas legais; não antecipar"
   }
 }

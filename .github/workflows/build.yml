@@ -30,6 +30,10 @@ jobs:
         timeout-minutes: 2
         run: python3 -B scripts/run_play_regressions.py
 
+      - name: Testar aprovação editorial e vigência sem publicar
+        timeout-minutes: 2
+        run: python3 -B -m unittest discover -s scripts -p 'test_documentos_legais.py' -v
+
       # #103, 09/11/2026: hashes e nomes devem ser aceitos pelo consumidor Android.
       - name: Conferir contrato do catálogo R2 sem publicação
         timeout-minutes: 2

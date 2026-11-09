@@ -6,9 +6,8 @@ Proposta de redação **Privacidade1.23/Termos1.13/Contato1.11**, base `d8ed440`
 para Cloudflare Pages em `https://terrawallpaper.com.br`, sem analytics. O aceite
 anterior de1.22/1.12/1.10 não aprova este delta. `publicacao_web` no JSON conserva
 o histórico Google Sites; domínio/URLs e `publicacao_proposta` indicam o destino
-proposto, não publicação já feita. A nova redação requer aceite explícito via Friday.
-`aprovado_para_publicacao=false`, `aprovacao_registro=null`, `vigencia=null` e
-`versao_app=null` permanecem. Histórico editorial abaixo não prevalece sobre esta proposta.
+proposto, não publicação já feita. O dono aprovou este conjunto via Friday em09/11, registro [6750038090](https://github.com/gabzieg/atmosfera/pull/110#issuecomment-6750038090); não é publicação executada.
+`aprovado_para_publicacao=true`, estado `aprovado_para_publicacao` e registro de aceite identificam a aprovação editorial. `vigencia=null` e `versao_app=null` permanecem até os eventos próprios. Histórico editorial abaixo não prevalece sobre esta proposta.
 
 Evento de vigência já escolhido pelo dono na #86: **dia real da publicação das
 três páginas**, não dia do PR/build ou da geração local. Não preencher data agora.
@@ -83,3 +82,21 @@ Para aceite e entrega ao site, consultar [ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-1
 ## Respostas do titular integradas em 15/10
 
 Preservado o refinamento editorial de Gabriel em `1bd5a70`. As respostas posteriores restringem o teste a adultos no Brasil e definem futuros efeitos/estilos inclusos no Premium. Gabriel é o responsável pela revisão/aprovação final; esse aceite não foi presumido. Detalhes e pendências em [registro de respostas](../dev/RESPOSTAS-RAFAEL-TESTE-FECHADO-2026-10-15.md).
+
+## Contrato de aprovação editorial e vigência — #89
+
+O JSON canônico distingue false/rascunho, true/aprovado_para_publicacao (aceite
+identificado, sem data/candidato) e true/aprovado (data real/versão identificada e
+cabeçalhos coerentes). Os três Markdown aceitos em1737e17 são preservados byte a
+byte: não existe segunda redação. Somente a apresentação dos campos Estado e
+Vigência é derivada do JSON pelo sincronizador enquanto a vigência está pendente;
+corpo, versão e escopo não são substituídos. Hashes da fonte continuam os aceitos,
+hashes HTML refletem a apresentação derivada. Header histórico de revisão na
+fonte não revoga o aceite registrado; HTML não afirma publicação já executada.
+
+bool não estrito, referência pública/estado/domínio inválidos ou data inválida
+são rejeitados; estado efetivo mantém exigência de data/versão e fonte alinhada.
+--check não escreve e recusa cópia divergente. Atualizar vigência/cabeçalhos no
+evento real depende da autorização correspondente, sem relógio ou candidato
+inferido. #109/site devem consumir o mesmo contrato, sem exigir data fictícia
+para reconhecer aceite editorial; nenhuma chamada real ou publicação nesta tarefa.
