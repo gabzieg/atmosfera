@@ -1,5 +1,7 @@
 # Atmosfera — Roadmap
 
+> Estado vigente em 08/11/2026: o acompanhamento operacional está em [TASKS — estado vigente](TASKS.md#estado-vigente--08112026), com os critérios A1–A8 no [checklist de finalização](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md). A [#82](https://github.com/gabzieg/atmosfera/issues/82) prepara PR draft da composição aprovada sobre `2140f81`; entrega/gates/revisão e integração ainda pendentes. R02/retenção e A4 foram decididos apenas para o teste adulto; R03 tem decisão de negócio registrada com mecanismo internacional não demonstrado. Redação 1.22/1.12/1.10 aceita, sem aprovação de publicação/vigência. A2/A3/A5–A8 continuam parciais/abertos; código 8 planejado, não confirmado. Leitura Play fica no outro computador. Nenhum AAB final, instalação, merge, publicação ou envio autorizado por esta preparação. Distribuição 13+ permanece bloqueada. As seções datadas abaixo são históricas no que contrariar esse estado.
+
 > Atualização de 11/10/2026: o roteiro vigente é [CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md). A oferta atual separa Premium de artes individuais; o R2 já existe e o catálogo tem 366 artes após cortes. Os documentos canônicos estão em revisão, com vigência/versão de distribuição pendentes; ver [etapa 5](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md). As seções abaixo preservam registros anteriores e não substituem essas decisões nem as declarações atuais exigidas pelo Console.
 
 

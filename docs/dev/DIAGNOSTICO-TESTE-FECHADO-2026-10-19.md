@@ -43,7 +43,7 @@ Leitura feita no navegador do Gabriel, cuja conta Google abre a conta de desenvo
 
 ### Composição do teste fechado — 28/10/2026
 
-**Fonte e execução:** registro privado `.context/console-a1-a2-2026-10-28.md`, seções 1–4 e limites, sintetizado sem IDs, URLs privadas ou e-mails. O `niemeyer` (Claude Code) operou via `playwright-cli attach --extension`, no Brave do Gabriel, pela extensão Playwright MCP Bridge, apenas na aba do Console, cerca de **07:56–08:05 (Brasília)**. Gabriel autorizou incluir o 7 no rascunho fechado, conferir/corrigir país só Brasil, salvar e validar, **sem enviar**; testadores ficaram fora da autorização. O dev apenas registra essa evidência, sem abrir ou operar o Console.
+**Fonte e execução:** registro privado `.context/console-a1-a2-2026-10-28.md`, seções 1–4 e limites, sintetizado sem IDs, URLs privadas ou e-mails. O `agente da etapa` (Claude Code) operou via `playwright-cli attach --extension`, no Brave do Gabriel, pela extensão Playwright MCP Bridge, apenas na aba do Console, cerca de **07:56–08:05 (Brasília)**. Gabriel autorizou incluir o 7 no rascunho fechado, conferir/corrigir país só Brasil, salvar e validar, **sem enviar**; testadores ficaram fora da autorização. O dev apenas registra essa evidência, sem abrir ou operar o Console.
 
 | Momento | Observado / executado |
 |---|---|

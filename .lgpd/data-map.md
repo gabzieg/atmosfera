@@ -1,5 +1,17 @@
 # Mapa preliminar de dados — Terra
 
+**Atualização de 08/11/2026, delta da proposta #78:** as oito atividades históricas abaixo são preservadas. Este complemento concilia o [controle mínimo e respostas](https://github.com/gabzieg/atmosfera/issues/77#issuecomment-6702874195), o aceite R02 e a evidência Cloudflare posteriores, sem criar/preencher registro real, acessar conta ou aprovar bases em bloco.
+
+| Atividade | Complemento atual / distinção de evidência |
+|---|---|
+| A01 | [Justificativa de retenção aceita em 07/11](https://github.com/gabzieg/atmosfera/issues/78#issuecomment-6703628811) para o teste adulto, sem prazo máximo fixo, mantendo informação/exclusão. Após retirada da permissão, não há novas leituras, mas último registro/coordenadas e cache HTTP não são automaticamente apagados. Não estender o aceite a necessidade universal, público futuro, novas finalidades ou logs externos; validade HTTP não é exclusão física. |
+| A05 | Gmail comum/gratuito por declaração de 07/11. Rotina de encerramento e exclusão definitiva do suporte, incluindo lixeira/cópias sob controle, já confirmada em 28/10; isso não é auditoria de descarte individual ou dos sistemas do provedor. |
+| A06 | Sites limitado a texto/links por declaração; cookies/tratamento próprios da hospedagem não verificados. Não presumir ausência total de transmissão. |
+| A07 | Lista de distribuição no Console, com remoção ao encerrar o teste, distinta do controle de maioridade/aceite. Para este último: somente confirmação 18+, aceite, data e referência privada da resposta, sem documento/nascimento; arquivo protegido no computador do responsável, fora de checkouts/Git, acesso restrito e descarte ao fim do teste, salvo necessidade específica justificada. Procedimento escolhido não comprova registros existentes, licença, adesão ou instalação Play; não aplicar os 60 dias do suporte por analogia. |
+| A04/A08 | Decisão de negócio registrada em 08/11, mecanismo internacional a confirmar conforme [registro](https://github.com/gabzieg/atmosfera/issues/77#issuecomment-6729114471); escolha não é mecanismo nem base adotada. Cloudflare é operador na entrega por conta do Terra, com registros próprios separados. Cloudflare parcialmente conferida em 07/11: self-service/DPA incorporado e Data Access Logs do bucket desativados. Retenção do tratamento por conta segue critérios do Annex 1; registros próprios seguem critérios distintos da política do fornecedor. [Conclusão aceita e limites](https://github.com/gabzieg/atmosfera/issues/77#issuecomment-6714896460): resta mecanismo/enquadramento internacional para o aceite operacional, sem exigir prazo único ou classificar todos os pacotes. Não se provaram escopos exclusivos, todas as exportações ou ausência de logs próprios. |
+
+## Inventário de 15/10 — histórico e evidência técnica de entrada
+
 **Complemento da etapa 2:** além do último clima em SharedPreferences, `WeatherRepository` mantém cache HTTP OkHttp em `cacheDir/clima-met`, com limite nominal de 512 KiB. Esse cache pode conter URLs com coordenadas, respostas e metadados de consultas; validade HTTP não equivale a exclusão física. As oito atividades continuam as mesmas: o armazenamento adicional integra A01. Logs reais, contas administrativas e listas de participantes não foram acessados.
 
 **Conciliação com `0d36b4a`:** teste somente com adultos no Brasil. O público adolescente continua como objetivo posterior, sem aceite de medidas presumido. As oito atividades abaixo permanecem inventário preliminar; confirmações administrativas não foram realizadas.

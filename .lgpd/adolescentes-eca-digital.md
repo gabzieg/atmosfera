@@ -1,5 +1,9 @@
 # ECA Digital e sinais de idade — avaliação contextual do Terra
 
+**Atualização de 08/11/2026:** conforme [decisão de Gabriel](https://github.com/gabzieg/atmosfera/issues/78#issuecomment-6728437711) e [revisão da lead](https://github.com/gabzieg/atmosfera/issues/78#issuecomment-6728454405), A4 está concluída no escopo da decisão do responsável para o teste fechado adulto/Brasil, com lista fechada. Não exige controle etário no app antes dessa fase; mantém recrutamento adulto, controle privado mínimo de confirmações/aceites, resposta a indício de menor e revisão visual declarada do acervo. São medidas escolhidas, sem prova de execução individual. A suficiência é conclusão contextual de Gabriel, sem parecer jurídico externo ou dispensa universal de deveres. A distribuição 13+ continua bloqueada. A declaração de Gabriel de decidir também como controlador nesta matéria fica atribuída a ele; não altera a identificação de Rafael na Política nem presume ato separado de Rafael. O ensaio complementar relatado no outro computador produziu NOT_SHARED após recusa voluntária, sem nova consulta automática; não prova SHARED, supervisão, proteção no release ou cobertura brasileira. R03 e A2/A3/A5–A8 continuam independentes. Os registros anteriores abaixo são históricos no que foi superado por esta decisão.
+
+**Complemento de 07/11/2026:** [registro A4, seção 5](a4-evidencias-recrutamento-2026-11-02.md#5-decisões-posteriores-e-relato-do-dono--07112026) concilia controle privado, resposta a indício de menor e cobertura/resultado visual declarados pelo dono. Não é inspeção da dev, mudança de IARC ou conclusão de A4. A expectativa de revisor externo foi substituída por decisão do dono com recomendações fundamentadas, sem contratação/contato previsto. A avaliação datada abaixo é preservada; não transforma escolhas de proposta em dispensa ou implementação já exigida.
+
 **Atualização de evidências em 02/11/2026:** [registro A4 e recrutamento adulto](a4-evidencias-recrutamento-2026-11-02.md). Prints comprovam resultado IARC concluído, Brasil 14 anos, sem descritor listado e com Compras no Aplicativo; superam a menção abaixo de resultado conhecido somente por relato. A causa dos 14 e a conciliação com 13+ não foram demonstradas. Rafael confirma participantes atuais adultos e recrutamento futuro somente adulto; procedimento documentado, execução individual não comprovada. A4 continua aberto, sem decisão técnica ou aprovação jurídica nova.
 
 Avaliação documental de **29/10/2026**, para A4. Recomendação técnica sujeita à
@@ -188,20 +192,21 @@ alterado nesta avaliação.**
 
 ## 6. Decisão por fase e aceites necessários
 
-| Fase | Conclusão recomendada e bloqueio | Quem resolve / evidência de saída |
+| Fase | Decisão e limites | Evidência de saída / pendências |
 |---|---|---|
-| Teste fechado adulto/Brasil | **A4 continua bloqueante.** O recrutamento reduz exposição operacional, mas não elimina o enquadramento do produto 13+. Não há base nesta análise para exigir universalmente documento/biometria, nem para liberar o teste sem decisão sobre recepção de sinais e demais medidas aplicáveis | Gabriel decide com validação jurídica e adoção pelo controlador; Rafael comprova recrutamento/configuração sem expor listas. Registrar se medidas prévias são necessárias ou qual solução fundamentada permite essa fase. Demais gates A2/A3/A5–A8 continuam independentes. |
-| Futura distribuição 13+ | **Bloqueada para ampliação** até adequação demonstrada. IARC/acervo, recepção de sinais ou alternativa fundamentada, proteções por padrão, supervisão e dados ainda têm lacunas | Gabriel/Rafael fecham evidências e eventual nova fatia de implementação; jurídico valida enquadramento/suficiência e controlador adota decisão. Conferir tudo no candidato efetivo antes de distribuir. |
+| Teste fechado adulto/Brasil, lista fechada | **A4 concluída na decisão do responsável em 08/11/2026.** Gabriel considera suficientes as medidas organizacionais registradas, sem controle etário prévio no app. Não é dispensa geral, parecer externo ou conformidade integral | [decisão de Gabriel](https://github.com/gabzieg/atmosfera/issues/78#issuecomment-6728437711) e [revisão da lead](https://github.com/gabzieg/atmosfera/issues/78#issuecomment-6728454405). Relato do ensaio debug complementar: recusa voluntária → NOT_SHARED, sem nova consulta automática. Não comprova execução individual das medidas, SHARED, supervisão, proteção release ou cobertura brasileira. R03 e A2/A3/A5–A8 independentes. |
+| Futura distribuição 13+ | **Bloqueada para ampliação** | Demonstrar sinais ou alternativa, conciliar oferta aos 13 anos/IARC 14, proteções por padrão, supervisão, alcance do art. 24 e relatórios. Decisão adulta e ensaio debug não cumprem esses itens. |
 
 - [x] Avaliação contextual/documental produzida, com fontes, matriz e limites.
-- [ ] Resultado IARC, descritores e conciliação da oferta aos 13 anos comprovados.
-- [ ] Acervo integral/efeitos e candidato efetivo conferidos por Rafael/Gabriel.
-- [ ] Disponibilidade e adequação dos sinais/alternativa demonstradas.
-- [ ] Gabriel registra decisão por fase; controlador adota as medidas e há
-  validação jurídica necessária, incluindo supervisão e eventuais relatórios.
-- [ ] Medidas exigidas pela decisão implementadas e validadas em fatia própria,
-  se necessárias; dados/documentos/declarações conciliados antes da distribuição.
+- [x] Resultado IARC Brasil 14 e ausência de descritor listado documentados em 02/11; causa não demonstrada.
+- [x] Revisão visual de todo o acervo previsto para o teste declarada por Gabriel, sem inspeção independente nem vínculo quantitativo ao candidato final.
+- [x] Decisão A4 de Gabriel para o teste fechado adulto/Brasil registrada e revisada, sem parecer externo; não altera identificação do controlador nos textos.
+- [x] Relato complementar do ensaio debug no outro computador registrado: NOT_SHARED após recusa; não é requisito nem prova de cobertura da fase futura.
+- [ ] Conciliação da oferta aos 13 anos com IARC/acervo e candidato efetivo demonstrada.
+- [ ] Disponibilidade e adequação dos sinais ou alternativa para distribuição 13+ demonstradas.
+- [ ] Supervisão, alcance do art. 24, avaliação de impacto/relatórios e demais salvaguardas 13+ resolvidos.
+- [ ] Medidas exigidas para ampliação implementadas e validadas, quando necessárias; dados/documentos/declarações conciliados antes da distribuição.
 
-**Fechamento:** esta entrega conclui a preparação documental solicitada, não A4.
-A decisão seguinte é de Gabriel, com as evidências de Rafael e validação jurídica;
-nenhum envio, publicação, convite ou ampliação de público fica autorizado.
+**Gatilhos de reabertura da decisão adulta:** indício de menor; teste aberto, link público ou convite fora da lista fechada; produção/13+; função com outro dado pessoal, coleta de idade ou conteúdo além do acervo revisado; mudança relevante de IARC ou regras Play/ANPD sobre sinais.
+
+**Fechamento:** conciliação documental local da decisão adulta; não aprova textos, publica, gera candidato ou autoriza envio/convites. A integração versionada continua pendente.
