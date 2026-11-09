@@ -2,15 +2,15 @@
 
 <a id="estado-vigente--08112026"></a>
 
-**Próximo passo:** após a integração, conferir códigos/certificados no outro computador (**2.1**) e a lead escolher a próxima entrega liberada. A fila não é executada por esta alteração.
+**Próximo passo:** concluir a revisão do upgrade de dependências (**9.16**, PR #55 / #105), prioridade executável do autopilot autorizado em09/11. Depois, conferir os itens restantes e checkpoints; roteiro documental **3.9/#92** permanece recomendado, sem execução por este PR. Códigos/certificados (**2.1**) continuam no outro computador.
 
-**Estado-alvo condicionado:** a conclusão de **1.7** abaixo só vigora quando o [PR #102](https://github.com/gabzieg/atmosfera/pull/102) estiver **MERGED**. Antes disso, o estado real da reorganização permanece em revisão no PR #102 e na [#84](https://github.com/gabzieg/atmosfera/issues/84), sem conclusão anunciada.
+**Aplicação deste retrato:** **3.8** foi concluído documentalmente pelo PR #108 MERGED em `22a89d5`, sem certificar condições operacionais. A conclusão proposta de **9.16** só vigora quando o [PR #55](https://github.com/gabzieg/atmosfera/pull/55) estiver MERGED após revisão e checks válidos; até lá, a #105 permanece em andamento. Integração de dependências não escolhe candidato nem aprova runtime/aparelho/Windows.
 
-Conferência em **08/11/2026 BRT (09/11/2026 UTC)**: base **83c2a6f** (PR #83 integrado). Esta é a única fila operacional; ROADMAP, plano e checklist detalhado são referências históricas/roteiros. Não há porcentagem de produto inferida da contagem de itens.
+Conferência em **09/11/2026 BRT**: base **22a89d5** (PR #108 integrado). A reorganização **1.7** já foi integrada; sua condição de merge foi satisfeita. Esta é a única fila operacional; ROADMAP, plano e checklist detalhado são referências históricas/roteiros. Não há porcentagem de produto inferida da contagem de itens.
 
 Fonte Android: **1.0.5/código 7**. **8 é planejado, não confirmado**: códigos/certificados serão conferidos no outro computador. AAB 7 histórico identificado; #75/#83 produziram APKs diagnósticos, não AAB final. Redação aceita **Privacidade 1.22 / Termos 1.12 / Contato 1.10**, ainda com metadados de rascunho. Geração final, instalação, Console, vigência, publicação e envio têm checkpoints próprios.
 
-Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado; `[ ] 🔄` em andamento; `[ ] 🙋` ação/decisão do responsável; `[ ] ⛔` bloqueado; `[ ] ⏳` pendente/planejado. Agentes só executam quando a lead atribui a issue e o acesso/checkpoint está coberto. Rafael aparece apenas em atribuições históricas verificáveis; não recebe tarefa nova por esta lista. O acompanhamento permanece da lead; a dev edita esta reorganização por delegação excepcional da #84.
+Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado; `[ ] 🔄` em andamento; `[ ] 🙋` ação/decisão do responsável; `[ ] ⛔` bloqueado; `[ ] ⏳` pendente/planejado. Agentes só executam quando a lead atribui a issue e o acesso/checkpoint está coberto. Rafael aparece apenas em atribuições históricas verificáveis; não recebe tarefa nova por esta lista. O acompanhamento permanece da lead; a exceção de reorganização delegada à dev na #84 terminou com o PR #102. Na entrega da #105, a lead preparou os estados e a dev apenas os versiona junto do upgrade revisado.
 
 ## Etapa 1 — Entregas e base
 
@@ -22,8 +22,8 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [x] ✅ **1.4** Prepare a proposta documental local — Agentes · Dependência: nenhuma · [#78](https://github.com/gabzieg/atmosfera/issues/78) · deltas aceitos e fontes aprovadas; integração em 1.6.
 - [x] ✅ **1.5** Prepare os pré-requisitos do candidato por leitura — Agentes · Dependência: nenhuma · [#81](https://github.com/gabzieg/atmosfera/issues/81) · aceite 6729449967 na #81; sem geração.
 - [x] ✅ **1.6** Integre a composição editorial e regras — Agentes · Dependência: nenhuma · [#82](https://github.com/gabzieg/atmosfera/issues/82) · PR #83 merge 83c2a6f, revisão e checks aprovados; não encerra candidato.
-- [x] ✅ **1.7** Reorganize este checklist e suas referências — Agentes · Dependência: nenhuma · [#84](https://github.com/gabzieg/atmosfera/issues/84) · concluído somente com a integração do [PR #102](https://github.com/gabzieg/atmosfera/pull/102) em estado MERGED; marca proposta para a main, ainda não vigente antes do merge.
-- [ ] ⏳ **1.8** Concilie a raiz antiga e preserve as intenções locais — Agentes · Dependência: nenhuma · [#71](https://github.com/gabzieg/atmosfera/issues/71) · PR #72 existente; pronto com backup/compare/destinos e aceite, sem reset.
+- [x] ✅ **1.7** Reorganize este checklist e suas referências — Agentes · Dependência: nenhuma · [#84](https://github.com/gabzieg/atmosfera/issues/84) · [PR #102](https://github.com/gabzieg/atmosfera/pull/102) MERGED em `629d22c`, 08/11 às 23:41:49 BRT; #84 fechada. Recibo real conferido, sem condição de integração pendente.
+- [ ] ⏳ **1.8** Concilie a raiz antiga e preserve as intenções locais — Agentes · Dependência: nenhuma · [#71](https://github.com/gabzieg/atmosfera/issues/71) · PR #72 encerrado por superação de acompanhamento na triagem #85; #71 continua aberta e a raiz não foi conciliada. Pronto com backup, comparação, destinos e aceite, sem reset.
 - [x] ✅ **1.9** Implemente direitos separados, prévias/HD e privacidade técnica — Agentes · Dependência: nenhuma · código integrado antes de c1848a9; roteiros das etapas 1–4; aceite dinâmico em 6.5.
 
 ## Etapa 2 — Entradas privadas e conteúdo
@@ -39,7 +39,7 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [ ] 🙋 **2.7** Identifique o conjunto final de catálogo e cortes do teste — Dono · ação · Dependência: nenhuma · acervo/candidato correspondentes ao conjunto revisado; oito ocultas não viram oferta por cadastro.
 - [ ] 🙋 **2.8** Defina a identificação comercial adequada antes de cobrar — Dono · decisão · Dependência: nenhuma · R07/C2: conjunto app/loja/página; sem publicar documento/endereço residencial por inferência.
 - [ ] 🙋 **2.9** Responda somente aos quesitos concretos ainda não respondidos — Dono · ação · Dependência: 3.8, 3.9 · a apuração inicial identifica lacunas específicas e efeito; somente depois a lead encaminha pedidos ao dono. Não repetir suporte, R06, R02 ou escolha R03 resolvidos.
-- [ ] 🙋 **2.10** Decida o destino de resíduo privado somente se a triagem comprovar sua existência — Dono · decisão · Dependência: 9.1 · PR #48 CLOSED sem merge; documentos já arquivados não voltam a pedido de descarte. #85 deve identificar eventual resíduo de branch/material privado sem ler/publicar conteúdo pessoal; se inexistente, dispensar esta ação com prova.
+- [x] ⚪ **2.10** Dispense a cobrança genérica de destino de resíduo privado neste marco — Dono · decisão · Dependência: 9.1 · triagem [#85](https://github.com/gabzieg/atmosfera/issues/85#issuecomment-6738298435): sem evidência concreta do gatilho. Não prova inexistência ou eliminação de todo material; #48 fechado sem merge e documentos já arquivados não são reabertos. Só resíduo específico comprovado na #71 habilita quesito e escopo próprios.
 
 ## Etapa 3 — Decisões e documentos
 
@@ -52,7 +52,7 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [ ] 🙋 **3.5** Defina metadados e evento/data real de vigência da distribuição — Dono · decisão · Dependência: 2.1, 3.4 · A5: sem data fictícia ou retroatividade; aprovação de publicação separada; JSON só muda com registro explícito.
 - [ ] 🙋 **3.6** Autorize e execute a publicação das páginas legais finais — Dono · ação · Dependência: 3.5 · Google Sites, três páginas e revisão identificadas; gerar HTML não publica.
 - [ ] ⛔ **3.7** Concilie metadados e correspondência app/site/Console — Agentes · Dependência: 3.5, 3.6, 5.3 · [#89](https://github.com/gabzieg/atmosfera/issues/89) · A5: páginas sem login/mobile/links e bytes/versões do candidato; pronto com diferenças resolvidas.
-- [ ] ⏳ **3.8** Consolide operações/bases e condições restantes dos serviços — Agentes · Dependência: nenhuma · [#91](https://github.com/gabzieg/atmosfera/issues/91) · D02/D03/D11/ROPA: iniciar inventário documental agora, separar conhecido de quesito indispensável em 2.9; entrega da apuração não é aceite final sem prova. Risco R03 preservado sem nova exigência de fornecedor.
+- [x] ✅ **3.8** Consolide operações/bases e condições restantes dos serviços — Agentes · Dependência: nenhuma · [#91](https://github.com/gabzieg/atmosfera/issues/91) · [PR #108](https://github.com/gabzieg/atmosfera/pull/108#issuecomment-6745549298) MERGED em `22a89d5`, 09/11/2026 às13:37:09 BRT; apuração documental A01–A08 revisada, #91 fechada. Lacunas com destinos existentes; não é adoção integral das bases, mecanismo demonstrado ou execução auditada. Residual R03 preservado.
 - [ ] ⏳ **3.9** Consolide roteiro de incidente e avaliação de risco/impacto — Agentes · Dependência: nenhuma · [#92](https://github.com/gabzieg/atmosfera/issues/92) · D12/D13: iniciar avaliação documental agora e identificar condições/responsáveis faltantes para 2.9; cenário sanitizado, sem RIPD universal ou incidente real; não certificar lacunas.
 - [x] ✅ **3.10** Defina retirada da lista Console e controle privado mínimo — Dono · decisão · Dependência: nenhuma · R04 e #77/6702874195: fim do teste; controles 18+/aceite/data/referência separados, não prova de preenchimento.
 - [x] ✅ **3.11** Confirme rotina declarada de suporte e direitos — Dono · ação · Dependência: nenhuma · R05/28-10: exclusão definitiva em 60 dias após encerrar, exceções justificadas; não auditoria individual.
@@ -124,7 +124,7 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 
 **Objetivo:** Preservar cada intenção sem ativar trabalho futuro. · **Pronto quando:** Cada disposição/estudo tem gatilho, issue e resultado próprio.
 
-- [ ] ⏳ **9.1** Concilie o destino de PRs pendentes e deltas exclusivos — Agentes · Dependência: nenhuma · [#85](https://github.com/gabzieg/atmosfera/issues/85) · #43/#45/#55/#58/#70/#72/#80: disposição e deltas exclusivos, sem merge/fechamento em lote; raiz em #71. PR #48 fechado sem merge: identificar somente resíduo privado não comprovadamente destinado, antes de 2.10; preservar proposta histórica de manifesto assinado sem implementá-la.
+- [x] ✅ **9.1** Concilie o destino de PRs pendentes e deltas exclusivos — Agentes · Dependência: nenhuma · [#85](https://github.com/gabzieg/atmosfera/issues/85) · matriz aceita em 09/11; #70/#72/#80 fechados por superação sem apagar branches. #71/raiz permanece aberta. Deltas exclusivos de #43/#45/#55/#58 em 9.14–9.17; ausência de gatilho privado em 2.10 não certifica eliminação de dados.
 - [ ] ⏳ **9.2** Avalie cobertura de testes de comportamento/UI — Agentes · Dependência: 5.3, 6.5 · [#97](https://github.com/gabzieg/atmosfera/issues/97) · backlog: regressões conhecidas/prioridade, não nova infraestrutura ou instrumentação indiscriminada.
 - [ ] ⏳ **9.3** Avalie separação Gradle engine/app — Agentes · Dependência: nenhuma · [#98](https://github.com/gabzieg/atmosfera/issues/98) · backlog: impacto/resultado revisável; arquitetura nova exige checkpoint antes de implementar.
 - [ ] ⛔ **9.4** Prepare adequação da futura distribuição 13+ — Agentes · Dependência: 9.6 · [#99](https://github.com/gabzieg/atmosfera/issues/99) · IARC 14 / oferta aos 13 / sinais ou alternativa / supervisão / art. 24 / relatórios; fora da fase adulta, sem SDK/público alterados agora.
@@ -138,6 +138,13 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [x] ⚪ **9.12** Não retome a otimização por bitmap reduzido refutada — Agentes · Dependência: nenhuma · TASKS histórico: Canvas(Bitmap) em software piorou de 25 para 38 ms naquela medição; não é benchmark atual.
 
 - [ ] ⏳ **9.13** Reavalie CodeQL diante da visibilidade pública atual — Agentes · Dependência: nenhuma · [#101](https://github.com/gabzieg/atmosfera/issues/101) · backlog: conclusão de aplicabilidade/custo/benefício; não habilitar/configurar ou mudar proteção/gate nesta tarefa.
+
+- [x] ✅ **9.14** Atualize seletivamente guias e ferramentas R2 — Agentes · Dependência: 9.1 · [#103](https://github.com/gabzieg/atmosfera/issues/103) · [PR #43](https://github.com/gabzieg/atmosfera/pull/43#issuecomment-6739634553) MERGED em `8c1a40e`, 09/11/2026 às 09:06:03 BRT; revisão dos ajustes e checks aprovados; #103 fechada. Sem executar uploader/CLI, upload, consulta de bucket ou publicação.
+- [x] ✅ **9.15** Revise o upgrade de setup-gradle — Agentes · Dependência: 9.1 · [#104](https://github.com/gabzieg/atmosfera/issues/104) · [PR #45](https://github.com/gabzieg/atmosfera/pull/45#issuecomment-6739123716) MERGED em `eb245b4`, 09/11/2026 às 08:38:12 BRT; revisão independente e checks aprovados; #104 fechada. Permissões e etapas preservadas.
+- [x] ✅ **9.16** Revise compatibilidade e efeitos do upgrade de dependências — Agentes · Dependência: 9.1 · [#105](https://github.com/gabzieg/atmosfera/issues/105) · conclusão proposta somente após [PR #55](https://github.com/gabzieg/atmosfera/pull/55) MERGED, com procedência/compatibilidade, gate e revisão do head final; até lá, em andamento. Runtime de tema/localização/renderização/rede real e Windows não ensaiados; aceites do candidato em #94/#95 permanecem próprios.
+- [x] ✅ **9.17** Concilie a exclusão de output da raiz — Agentes · Dependência: 9.1 · [#106](https://github.com/gabzieg/atmosfera/issues/106) · [PR #58](https://github.com/gabzieg/atmosfera/pull/58#issuecomment-6738894405) MERGED em `5fa47b1`, 09/11/2026 às 08:26:05 BRT; revisão, controles de escopo e checks aprovados; #106 fechada. Sem limpeza ou exclusão de arquivos de saída.
+
+A ideia histórica de manifesto assinado (backlog em `3c83a91`) não foi adotada como requisito do teste adulto. O contrato atual usa índice embarcado e hashes; isso não equivale a assinatura digital. Retomar segurança/cadeia de confiança só com motivo e escopo próprios, sem implementação implícita.
 
 ## Correspondência com os marcos históricos
 

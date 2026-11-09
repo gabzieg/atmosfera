@@ -27,7 +27,7 @@ nativo sobre uma arte de fundo fixa (sprites, não vídeo/imagens pré-renderiza
 | **Clima** | MET Norway Locationforecast 2.0 (gratuita para uso comercial, sem chave, CC BY 4.0) |
 | **Localização** | Google Play Services FusedLocationProvider |
 | **Compras** | Google Play Billing 9.1.0 |
-| **Build** | Kotlin 2.4.10 · AGP 8.13.2 · Gradle 8.14.5 · JDK 17 · compileSdk/targetSdk 36 · minSdk 26 |
+| **Build** | Kotlin 2.4.21 · AGP 8.13.2 · Gradle 8.14.6 · JDK 17 · compileSdk/targetSdk 36 · minSdk 26 |
 
 ## Cenários
 

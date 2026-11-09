@@ -71,7 +71,7 @@ adb shell am start -n com.terra.wallpaper/.debug.DebugLauncher   # painel de deb
 SDK Android local: `android-app/local.properties` (`sdk.dir`) — já configurado
 nesta máquina, não precisa de `ANDROID_HOME`.
 
-**JDK 17 obrigatório.** A versão do Gradle (8.14.5) vem do **wrapper**
+**JDK 17 obrigatório.** A versão do Gradle (8.14.6) vem do **wrapper**
 (`android-app/gradle/wrapper/gradle-wrapper.properties`) — a CI usa `./gradlew`
 e não pina versão própria, justamente pra não divergir de novo. JDK 25+ (ex.: o
 JBR embutido no Android Studio) quebra o build com
@@ -101,6 +101,16 @@ A trava histórica "Kotlin 1.9.23 / Billing 6.2.1" **acabou em 2026-08-08**: foi
 migrada de uma vez para Kotlin 2.4.10 + Billing 9.1.0 + AGP 8.13.2 + Gradle
 8.14.5 + `compileSdk`/`targetSdk` 36. O motor (`engine/`) compilou **sem uma
 linha alterada** — ele só usa `android.graphics` e stdlib.
+
+Atualização de dependências da #105 (09/11/2026): Kotlin 2.4.21 e Gradle
+8.14.6; AGP 8.13.2/JDK 17/SDK 36/minSdk 26 e Billing 9.1.0 preservados.
+O catálogo `libs.versions.toml` é a fonte das demais versões. O override R8
+9.1.29 de `android-app/build.gradle` continua necessário à família Kotlin 2.4;
+não interpretar o documento histórico de migração AGP 9 como migração executada.
+O wrapper JAR coincide com o checksum oficial 8.14.6; scripts coincidem com
+saída gerada pelo Gradle 8.14.6 em projeto sintético. Isso não comprova execução
+em Windows ou runtime Android. Apuração/gate/limites no PR da #105; sem candidato,
+instalação, AAB final ou SDK novo inferidos do upgrade.
 
 Duas exigências do Google, ambas com o **mesmo prazo: 31/ago/2026** (extensão
 mediante pedido até 01/nov/2026). Não são opcionais para publicar:

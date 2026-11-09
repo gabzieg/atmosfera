@@ -1,5 +1,13 @@
 # Hipóteses de bases legais — para avaliação
 
+**Conciliação de 09/11/2026, base `8c1a40e`, #91:** a [ROPA atual](ropa.md) delimita as oito finalidades e a diferença entre **hipótese de base**, **redação aceita** e **decisão operacional adotada**. Não foi localizada adoção integral dos fundamentos por finalidade apenas por aceitar Privacidade 1.22/Termos 1.12/Contato 1.10; essa hipótese foi rejeitada documentalmente. Nenhuma nova base, LIA, consentimento ou requisito de coleta é criado aqui.
+
+R02 encerrou a justificativa de retenção para teste adulto, não aprovou todas as alternativas A01. A02/A03/A04/A05 conservam proposta delimitada de serviço solicitado, sem autorizar finalidades adicionais ou guarda genérica. A05 separa suporte, dever identificado e defesa concreta; R05/rotina já declarada não exige nova pergunta. A07: retirada Console/local/descarte do controle separado já decididos; confirmação 18+/aceite não equivale a consentimento genérico de dados. A06/A08 continuam com avaliação própria por operação, sem atribuir base ao provedor ou LIA concluída.
+
+R06/D05 não está pendente no cenário avaliado. A4 adulta é decisão contextual do responsável, não aceite universal das bases nem liberação 13+. R03 preserva decisão de negócio e mecanismo internacional não demonstrado, sem condicionar esta apuração a fornecedor. Lacunas materiais e destino operacional estão na ROPA/TASKS; não há quesito novo indispensável para concluir a conciliação documental. Não se repetiu pesquisa normativa nem se alterou redação aceita.
+
+## Caminho analítico anterior — não reabre decisões superadas
+
 **Aceite posterior limitado:** [redação 1.22/1.12/1.10 aceita em 08/11](https://github.com/gabzieg/atmosfera/issues/77#issuecomment-6729200287), sem aprovação em bloco de bases, mecanismo internacional ou publicação. O histórico editorial abaixo não é uma nova pergunta de aprovação da mesma redação.
 
 ## Caminho editorial de 07/11, conciliado em 08/11/2026

@@ -30,6 +30,11 @@ jobs:
         timeout-minutes: 2
         run: python3 -B scripts/run_play_regressions.py
 
+      # #103, 09/11/2026: hashes e nomes devem ser aceitos pelo consumidor Android.
+      - name: Conferir contrato do catálogo R2 sem publicação
+        timeout-minutes: 2
+        run: python3 -B -m unittest discover -s tools/r2 -p 'test_*.py' -v
+
       - name: Instalar JDK 17
         uses: actions/setup-java@v6
         with:
@@ -41,7 +46,7 @@ jobs:
       # chamam `./gradlew`. Fixar a versão aqui TAMBÉM já criou divergência —
       # a CI ficou em 8.6 enquanto o wrapper local subia. Uma fonte só.
       - name: Preparar Gradle
-        uses: gradle/actions/setup-gradle@v6.3.0
+        uses: gradle/actions/setup-gradle@v6.4.1
 
       - name: Rodar testes unit
         working-directory: android-app
