@@ -1,5 +1,13 @@
 # Rotinas propostas — atendimento, direitos e retenção
 
+**Estado vigente em 09/11/2026, base `8c1a40e`, #91:** a espera por adoção genérica foi superada pela [declaração de 28/10](revisoes/2026-10-28-documentos/REVISAO.md#continuação--informações-operacionais-do-usuário-28102026). Rotina/responsável de encerramento e retenção do suporte confirmados no marco documental; triagem/resposta a direitos conserva roteiro e limite de execução não auditada. Exclusão definitiva em 60 dias após o encerramento do atendimento, incluindo lixeira e cópias locais controladas, exceções justificadas. A análise não auditou atendimento individual nem eliminação dos sistemas do provedor. Os passos de triagem/vencimento abaixo continuam roteiro útil, não prova de execução ou automação validada integralmente.
+
+Lista de distribuição: Console, retirada no encerramento do teste, decisão 28/10. Controle separado de maioridade/aceite/data/referência: arquivo protegido no computador do responsável, acesso restrito e fora de checkouts/Git; descarte ao encerrar teste, salvo necessidade específica justificada (07/11). Sem documento/nascimento nem novo serviço online; A4 adulta decidida em 08/11, sem barreira etária prévia exigida nessa fase. [Origem e limites](a4-evidencias-recrutamento-2026-11-02.md). Não reabrir local/retirada/descarte como decisão nova nem estender o prazo de suporte a esses registros.
+
+Pendências de execução conservam destino operacional na [ROPA](ropa.md)/TASKS; não inventar prazo de registros mínimos, cópias ou finalidade não identificada. Ensaio fictício não é descarte real. Nenhum dado individual ou conta foi consultado nesta conciliação; fontes legais aprovadas/metadados intactos.
+
+## Roteiro de 15/10 — adotar/confirmar novamente não é pendência vigente
+
 Preparação em 15/10/2026, **aguardando adoção e execução por Rafael**. A regra de 60 dias do suporte já foi decidida; os passos abaixo tornam sua execução verificável. Não foi acessada ou alterada a caixa de e-mail. Referências: LGPD arts. 6º, 15–19 e 46; [evidências e fontes](evidencias-privacidade-etapa2.md).
 
 ## Suporte e pedidos de direitos

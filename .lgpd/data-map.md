@@ -1,5 +1,13 @@
 # Mapa preliminar de dados — Terra
 
+**Conciliação vigente em 09/11/2026, base `8c1a40e`, #91:** a [ROPA 0.2](ropa.md) reúne A01–A08 com finalidade/dados/papéis/retenção/base proposta e evidência C (código), D (declaração/decisão), P (documento público analisado antes) e E (ensaio não realizado). O mapa abaixo conserva a história sem transformar desconhecimento antigo em nova pergunta. R06/D05, R05/suporte e R04/lista foram resolvidos documentalmente em 28/10; R02 em 07/11; A4 adulta em 08/11. Redação 1.22/1.12/1.10 aceita, sem adoção integral de bases por inferência ou promoção de rascunho/vigência.
+
+A02 inclui preferências elegíveis a backup separadas de HD/direitos/clima excluídos pelas regras XML; exclusão declarada não remove cópias antigas. A03 mantém confirmação/restauração via Play e flags locais, sem banco próprio de tokens identificado nas rotinas lidas. A08: logging HTTP só debug e callbacks Billing ainda têm mensagens técnicas; ausência de SDK dedicado no catálogo declarado não certifica transitivas/manifesto mesclado nem logs reais do candidato. Caches, pacote e fontes de prova constam na ROPA; nenhum ensaio/aparelho/conta foi usado aqui.
+
+**R03 atual:** escolha “Assumir o risco e registrar” concluída; mecanismo internacional não demonstrado. A frase histórica “a confirmar” descreve esse limite, não nova cobrança ao fornecedor ou ao dono. Cloudflare operador na entrega por conta do Terra, registros próprios separados. Não reabrir adesão/aplicabilidade genéricas ou retenção já analisada; ver vendors.
+
+## Atualizações e inventário anteriores — preservados com os limites da conciliação atual
+
 **Atualização de 08/11/2026, delta da proposta #78:** as oito atividades históricas abaixo são preservadas. Este complemento concilia o [controle mínimo e respostas](https://github.com/gabzieg/atmosfera/issues/77#issuecomment-6702874195), o aceite R02 e a evidência Cloudflare posteriores, sem criar/preencher registro real, acessar conta ou aprovar bases em bloco.
 
 | Atividade | Complemento atual / distinção de evidência |
