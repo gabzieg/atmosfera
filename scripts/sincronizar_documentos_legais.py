@@ -106,7 +106,7 @@ def gerar(check=False):
             header = re.sub(r'^\*\*Estado:\*\*.*$',
                             '**Estado:** Redação aprovada para publicação; publicação não comprovada.',
                             header, flags=re.MULTILINE)
-            header = re.sub(r'^\*\*Vigência:\*\*.*$',
+            header = re.sub(r'^\*\*Vigência:\*\*.*?(?= Esta revisão|$)',
                             '**Vigência:** Pendente do evento real de publicação das três páginas.',
                             header, flags=re.MULTILINE)
         summary, content = rest.split("\n## 1.", 1)

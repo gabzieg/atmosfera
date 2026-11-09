@@ -23,7 +23,7 @@ class ApprovalTest(unittest.TestCase):
                          vigencia=None, versao_app=None, dominio_publico='https://example.invalid')
         self.source = ('# Teste\n**Versão:** 1.0\n'
                        '**Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.\n'
-                       '**Vigência:** A definir\n\n## Resumo\nResumo sintético.\n\n## 1. Conteúdo\nCorpo preservado.\n')
+                       '**Vigência:** A definir após publicação. Esta revisão não retroage sobre compras anteriores nem suspende a transparência dos tratamentos anteriores.\n\n## Resumo\nResumo sintético.\n\n## 1. Conteúdo\nCorpo preservado.\n')
         for name in legal.DOCS.values():
             (folder / (name + '.md')).write_text(self.source)
 
@@ -44,6 +44,12 @@ class ApprovalTest(unittest.TestCase):
         self.assertTrue(manifest['aprovado_para_publicacao'])
         self.assertIsNone(manifest['vigencia'])
         self.assertEqual(sum(1 for _ in self.root.rglob('index.html')), 9)
+
+    def test_pending_presentation_preserves_nonretroactivity_and_transparency(self):
+        self.generate()
+        content = (self.root / 'docs/privacidade/index.html').read_text()
+        self.assertIn('não retroage sobre compras anteriores', content)
+        self.assertIn('nem suspende a transparência dos tratamentos anteriores', content)
 
     def test_check_never_writes_and_rejects_changed_copy(self):
         self.generate()
