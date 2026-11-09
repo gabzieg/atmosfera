@@ -1,5 +1,13 @@
 # Decisão: migrar para AGP 9.x (não baixar o Kotlin) — 2026-09-18
 
+**Registro histórico de 18/09, preservado.** O código da base `22a89d5` usa
+AGP 8.13.2 com override R8 9.1.29; este documento não prova que a migração
+AGP 9 foi executada nem autoriza retomá-la na #105. O upgrade da #105 mantém
+AGP/R8/JDK/SDK/minSdk e atualiza Kotlin 2.4.21/Gradle 8.14.6. Referências
+“hoje” e ensaios abaixo pertencem à data histórica, não ao novo commit.
+Compatibilidade e prova do head final ficam no PR da #105; execução no
+Windows/aparelho/candidato não foi realizada por esta atualização.
+
 ## O achado que motivou isto
 
 `bundleRelease` com Kotlin 2.4.10 emite avisos repetidos do R8 ("An error
