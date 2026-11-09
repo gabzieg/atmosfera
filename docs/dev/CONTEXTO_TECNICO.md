@@ -208,7 +208,7 @@ PR pra si mesmo — melhora com guarda automático. A mudança foi feita pelo
 Gabriel na interface do GitHub: o classificador do modo automático do Claude
 Code bloqueia, com razão, que o agente enfraqueça proteção de branch sozinho.
 
-Aprovação: **tudo → Gabriel**. O Rafael não revisa código de terceiros — mas
+Integração de PR: **lead após revisão independente e build verde**, por delegação do dono em 08/11/2026 ([registro](https://github.com/gabzieg/atmosfera/pull/83#issuecomment-6729652687)). Checkpoints de AAB final, instalação, Console, publicação, vigência e envio continuam com Gabriel via Friday. O Rafael não revisa código de terceiros — mas
 desde 2026-09-23 volta a escrever o próprio (ver "O time" abaixo). Detalhes do
 fluxo no `AGENTS.md`.
 

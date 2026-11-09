@@ -1,178 +1,158 @@
-# Terra — Tasks (fase atual)
+# Atmosfera — checklist operacional
 
-## Estado vigente — 08/11/2026
+<a id="estado-vigente--08112026"></a>
 
-Este quadro concilia os registros posteriores ao diagnóstico integrado em `2140f81`. Os episódios abaixo são históricos onde superados; não reabrir decisões nem usar o estado antigo como fila atual.
+**Próximo passo:** concluir a reorganização e a revisão do PR da [#84](https://github.com/gabzieg/atmosfera/issues/84), item **1.7**. Depois, a lead escolhe a próxima entrega liberada; as ações do dono estão discriminadas por dependência abaixo, sem executar a fila por esta tarefa.
 
-- **Em execução — [#82](https://github.com/gabzieg/atmosfera/issues/82):** composição editorial em branch `doc/82-composicao-editorial`, base `2140f81`. Dev prepara diff, gates e PR draft; lead acompanha/revisa. Autorização de 08/11 às 21:38 BRT inclui APKs diagnósticos dos gates, sem AAB final, instalação, merge ou publicação. Entrega de PR/gates/revisão ainda pendente; não declarar integrado.
-- **Preparações concluídas:** #73/#74 (regressões) e #75/#76 (diagnóstico) integradas; [#77](https://github.com/gabzieg/atmosfera/issues/77) entregou dossiê e mantém os comentários de continuidade; [#78](https://github.com/gabzieg/atmosfera/issues/78) entregou proposta local revisada, sem PR próprio; [#81](https://github.com/gabzieg/atmosfera/issues/81#issuecomment-6729449967) concluiu composição/pré-requisitos por leitura. Esses marcos não encerram candidato, A2 ou envio.
-- **R02/retenção:** [aceite delimitado](https://github.com/gabzieg/atmosfera/issues/78#issuecomment-6703628811) da justificativa de retenção do último clima/cache para o teste adulto, sem prazo máximo fixo, com informação/exclusão. Não ampliar a outras finalidades/logs externos/público futuro nem repetir a pergunta.
-- **A4/fase adulta:** [decisão do responsável](https://github.com/gabzieg/atmosfera/issues/78#issuecomment-6728437711) concluída para teste fechado adulto/Brasil/lista fechada, com medidas organizacionais e gatilhos registrados; [conciliação aceita](https://github.com/gabzieg/atmosfera/issues/78#issuecomment-6728491700). Ensaio no outro computador relatou NOT_SHARED após recusa voluntária, sem provar SHARED, supervisão, proteção release ou cobertura brasileira. Sem SDK/controle etário prévio exigido na decisão dessa fase. Distribuição 13+ continua bloqueada; não repetir A4 por rotina.
-- **R03/Cloudflare:** self-service/DPA e configurações parciais conferidos; operador na entrega por conta do cliente, registros próprios separados. [Decisão de negócio do dono](https://github.com/gabzieg/atmosfera/issues/77#issuecomment-6729114471) registrada e [delta aceito](https://github.com/gabzieg/atmosfera/issues/77#issuecomment-6729157069). Mecanismo internacional não demonstrado: risco assumido não é mecanismo, conformidade ou consentimento. Não contatar fornecedor nem repetir escolha do dono.
-- **A5/redação:** [aceite de 08/11 às 21:15 BRT](https://github.com/gabzieg/atmosfera/issues/77#issuecomment-6729200287) somente de Privacidade **1.22**, Termos **1.12**, Contato **1.10**, identificados por hashes no registro. A5 segue parcial: vigência/metadados finais, publicação e correspondência app/site/Console/candidato pendentes. JSON permanece rascunho; não afirmar que o dono leu individualmente os arquivos antes de aprovar.
-- **A2/candidato:** fonte **1.0.5/código 7** preservada, **8 planejado e não confirmado**. Gates diagnósticos anteriores não provam o futuro commit/binário. Faltam composição integrada, código atual Play, endpoint/configuração legítima de Billing/upload e evidências do ambiente final, certificados e mapping/configuração do mesmo build. Não reutilizar artefato/mapping diagnóstico como final. Ajuste visual antigo sem especificação não cria novo bloqueio sem achado concreto.
-- **Play e demais aceites:** dono escolheu conferir códigos enviados/em andamento e certificados públicos no **outro computador**; nenhuma leitura Console aqui autorizada nesta etapa. A3/A6–A8 e testes/compras/licenças continuam independentes; cadastro de produtos já concluído não os encerra. Não atribuir tarefa ao Rafael pela coluna histórica de documentos.
-- **Preservação/integração:** principal antiga e originais intactos; #71 aberta, #70/#72/#80 não integrados. #82 concilia intenções/regras e registros sobrepostos sem cherry-pick automático, sem fechar PRs concorrentes por inferência. **#79 cancelada**, não retomar. Lead organiza/revisa; dev executa; perguntas do dono via Friday. Notificações permanecem suspensas e correio segue funcionando; nenhuma autorização de autopilot deriva desta entrega.
+Retrato de 08/11/2026 e continuidade de 09/11: base **83c2a6f** (PR #83 integrado). Esta é a única fila operacional; ROADMAP, plano e checklist detalhado são referências históricas/roteiros. Não há porcentagem de produto inferida da contagem de itens.
 
-**Próximo:** dev entrega o PR draft da issue #82 com provas no mesmo commit; lead revisa sem repetir gate válido. Depois, tratar somente dependências concretas do candidato e a leitura Play no ambiente escolhido. AAB final, instalação, merge, publicação, vigência e envio mantêm seus checkpoints específicos.
+Fonte Android: **1.0.5/código 7**. **8 é planejado, não confirmado**: códigos/certificados serão conferidos no outro computador. AAB 7 histórico identificado; #75/#83 produziram APKs diagnósticos, não AAB final. Redação aceita **Privacidade 1.22 / Termos 1.12 / Contato 1.10**, ainda com metadados de rascunho. Geração final, instalação, Console, vigência, publicação e envio têm checkpoints próprios.
 
-## Registros anteriores — histórico onde superado
+Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado; `[ ] 🔄` em andamento; `[ ] 🙋` ação/decisão do responsável; `[ ] ⛔` bloqueado; `[ ] ⏳` pendente/planejado. Agentes só executam quando a lead atribui a issue e o acesso/checkpoint está coberto. Rafael aparece apenas em atribuições históricas verificáveis; não recebe tarefa nova por esta lista. O acompanhamento permanece da lead; a dev edita esta reorganização por delegação excepcional da #84.
 
-**Preparação do pacote 8 em 06/11 — [issue #75](https://github.com/gabzieg/atmosfera/issues/75) em andamento:** Gabriel escolheu preparar em paralelo à validação de A4, conforme [decisão e limites](https://github.com/gabzieg/atmosfera/pull/70#issuecomment-6699922776). Worktree própria da main `5f22212`; inventário de composição, builds diagnósticos e dependências para o candidato final a cargo da dev. Sem acrescentar controle etário release, aprovar textos ou liberar envio. Código 8 é alvo planejado, condicionado à reconferência dos códigos do Console; nome atual 1.0.5 preservado. Ajustes visuais sem especificação devem ser identificados como pendência, não implementados por inferência. Revisão e entrega final ainda pendentes neste registro.
+## Etapa 1 — Entregas e base
 
-**Regressões Play em 06/11 — [issue #73](https://github.com/gabzieg/atmosfera/issues/73) concluída:** [PR #74](https://github.com/gabzieg/atmosfera/pull/74) revisado e mergeado com autorização de Gabriel em `5f22212`. Duas suítes Python incluídas no check obrigatório `build`, com recusa de suíte vazia e falha propagada. Evidências no PR: 18 testes Python, controles vermelho/verde/ausência e gate Android local com 108 testes; build e secret-scan do head `ed49d3c` aprovados. Nenhuma operação Play ou distribuição realizada; A4/A7/A8 permanecem independentes.
+**Objetivo:** Preservar o que foi entregue e distinguir diagnóstico de candidato. · **Pronto quando:** Entregas integradas com prova e raiz conciliada sem perda.
 
-**Retomada e sequência:** a [issue #71](https://github.com/gabzieg/atmosfera/issues/71) tem preparação isolada no [PR #72](https://github.com/gabzieg/atmosfera/pull/72); pasta principal e divergências de regras continuam preservadas, sem integração autorizada. O [PR #70](https://github.com/gabzieg/atmosfera/pull/70) recebeu revisão documental e proposta por fase; atualização da branch/gates e autorização de merge continuam pendentes. A escolha de preparar o pacote 8 não conclui A4: suficiência das medidas para o teste adulto e validação necessária permanecem pendentes, assim como aprovação/vigência/publicação dos textos e verificações Play. A preparação não depende de integrar a #71 nem incorpora o #70 incidentalmente.
+- [x] ✅ **1.1** Integre as regressões Play — Agentes · Dependência: nenhuma · [#73](https://github.com/gabzieg/atmosfera/issues/73) · PR #74 integrado em 5f22212; controles de falha documentados.
+- [x] ✅ **1.2** Entregue o diagnóstico de build e composição — Agentes · Dependência: nenhuma · [#75](https://github.com/gabzieg/atmosfera/issues/75) · PR #76 / 2140f81; diagnóstico 7, não AAB final.
+- [x] ✅ **1.3** Conclua o dossiê R01–R10 — Agentes · Dependência: nenhuma · [#77](https://github.com/gabzieg/atmosfera/issues/77) · dossiê aceito; comentários preservam continuação, sem reabrir issue.
+- [x] ✅ **1.4** Prepare a proposta documental local — Agentes · Dependência: nenhuma · [#78](https://github.com/gabzieg/atmosfera/issues/78) · deltas aceitos e fontes aprovadas; integração em 1.6.
+- [x] ✅ **1.5** Prepare os pré-requisitos do candidato por leitura — Agentes · Dependência: nenhuma · [#81](https://github.com/gabzieg/atmosfera/issues/81) · aceite 6729449967 na #81; sem geração.
+- [x] ✅ **1.6** Integre a composição editorial e regras — Agentes · Dependência: nenhuma · [#82](https://github.com/gabzieg/atmosfera/issues/82) · PR #83 merge 83c2a6f, revisão e checks aprovados; não encerra candidato.
+- [ ] 🔄 **1.7** Reorganize este checklist e suas referências — Agentes · Dependência: nenhuma · [#84](https://github.com/gabzieg/atmosfera/issues/84) · pronto com PR único revisado/integrado; esta entrega não executa a fila.
+- [ ] ⏳ **1.8** Concilie a raiz antiga e preserve as intenções locais — Agentes · Dependência: nenhuma · [#71](https://github.com/gabzieg/atmosfera/issues/71) · PR #72 existente; pronto com backup/compare/destinos e aceite, sem reset.
+- [x] ✅ **1.9** Implemente direitos separados, prévias/HD e privacidade técnica — Agentes · Dependência: nenhuma · código integrado antes de c1848a9; roteiros das etapas 1–4; aceite dinâmico em 6.5.
 
-**A4 em 02/11:** [evidências IARC e procedimento de recrutamento adulto](../../.lgpd/a4-evidencias-recrutamento-2026-11-02.md) registrados. Prints: dez declarações prontas para revisão, IARC concluída em 17/10, Brasil 14, sem descritor listado, Compras no Aplicativo. Não comprova aprovação da publicação nem causa dos 14. Rafael confirma todos os participantes atuais maiores de 18 e recrutamento futuro somente adulto; confirmações individuais/aceites e adesões não comprovados nesta atualização. A4 segue aberto: próxima ação é preparar proposta técnica por fase com impacto no pacote 8 para revisão de Gabriel. Dados pessoais/controle individual fora do Git; não repetir cadastro Play ou pedir novamente os prints já transcritos.
+## Etapa 2 — Entradas privadas e conteúdo
 
-**Conferência Play em 30/10 — bloqueio de ambiente:** retorno encaminhado pelo usuário: sem aparelho físico conectado; Pixel_Tablet só com debug e Pixel_8 com 1.0.4 por sideload, ambos sem conta Google. Nenhuma instalação pela Play ou Loja/checkout conferido. Usuário precisa disponibilizar conta adulta licenciada e instalação pela faixa interna antes da amostra de preços/checkout. [Dependência e limites](../loja/produtos-play-2026-10-27/README.md#cadastro-efetivo-concluído-em-30102026). Cadastro abaixo permanece concluído; sem autorização de desinstalação ou perda de dados.
+**Objetivo:** Obter entradas legítimas sem expor segredos. · **Pronto quando:** Configuração, códigos e direitos vinculados ao conjunto.
 
-**Cadastro Play em 30/10 — concluído:** aplicação do plano explicitamente autorizada por Gabriel, após integração em `7b9c68a`: 351 artes criadas e países do piloto corrigidos. Releitura após aplicação e segunda simulação confirmaram **361 artes conciliadas: 353 ACTIVE, 8 DRAFT indisponíveis, 0 INACTIVE; zero criações, ajustes ou divergências restantes**. Todas com preço BR de R$ 1,99 e disponibilidade somente Brasil, sem novas regiões habilitadas; dez textos existentes e Premium preservados. [Resultado e limites](../loja/produtos-play-2026-10-27/README.md#cadastro-efetivo-concluído-em-30102026). Supera a pendência de cadastro dos registros de 28–29/10 abaixo. Próxima conferência desta frente: preços no app em amostra e checkout de teste; A7/A8/B2 seguem abertos pelos demais critérios. A4 continua bloqueante; nenhum AAB enviado ou teste fechado iniciado nesta operação.
+- [ ] 🙋 **2.1** Confira códigos enviados/em andamento e certificados públicos no outro computador — Dono · ação · Dependência: nenhuma · máximo atual e certificados upload/distribuição sanitizados; 8 só planejado.
+- [ ] 🙋 **2.2** Confirme proteção e backup da chave de upload — Dono · ação · Dependência: nenhuma · senha em gerenciador, cópia desprotegida removida, chave em dois locais protegidos; sem ler/enviar segredo.
+- [ ] 🙋 **2.3** Disponibilize ambiente e configuração legítima de Billing/upload — Dono · ação · Dependência: 2.2 · JDK/SDK, Python 3.11+/bundletool CLI e configuração existente conferidos no ambiente final; não enviar valores.
+- [ ] 🙋 **2.4** Confirme o endpoint e a composição remota para o candidato — Dono · decisão · Dependência: nenhuma · endpoint explícito autorizado; default debug não vira release por inferência.
+- [ ] 🙋 **2.5** Forneça referências privadas de origem e licenças do conteúdo — Dono · ação · Dependência: nenhuma · artes/fontes/sprites/clima e versões correspondentes, sem anexar dados pessoais.
+- [ ] ⛔ **2.6** Vincule origem e licenças ao acervo distribuído — Agentes · Dependência: 2.5 · [#90](https://github.com/gabzieg/atmosfera/issues/90) · pronto com inventário por item, comprovação ou lacuna explícita; sem certificar autoria por imagem.
+- [ ] 🙋 **2.7** Identifique o conjunto final de catálogo e cortes do teste — Dono · ação · Dependência: nenhuma · acervo/candidato correspondentes ao conjunto revisado; oito ocultas não viram oferta por cadastro.
+- [ ] 🙋 **2.8** Defina a identificação comercial adequada antes de cobrar — Dono · decisão · Dependência: nenhuma · R07/C2: conjunto app/loja/página; sem publicar documento/endereço residencial por inferência.
+- [ ] 🙋 **2.9** Forneça somente condições operacionais ainda sem evidência — Dono · ação · Dependência: nenhuma · lacunas específicas de serviços/ROPA/risco; não repetir suporte, R06, R02 ou escolha R03 resolvidos.
+- [ ] 🙋 **2.10** Defina o destino de documentos pessoais históricos na branch e no PR #48 — Dono · decisão · Dependência: nenhuma · pendência da etapa antiga 5: preservar original e escopo privado; não presumir limpeza do histórico ou autorização de descarte.
 
-**A4 em 29/10:** [avaliação contextual ECA Digital](../../.lgpd/adolescentes-eca-digital.md) preparada sobre `820e098`, com matriz e recomendação de sinais/alternativa condicionada a IARC/acervo, disponibilidade e validação jurídica. Público 13+ e teste adulto/Brasil preservados. **A4 permanece aberto e bloqueante para envio**: Gabriel precisa registrar decisão por fase, com evidências de Rafael e validação jurídica necessária; não houve integração, alteração de textos públicos, Console, AAB ou distribuição.
+## Etapa 3 — Decisões e documentos
 
-**A7 em 29/10:** leitura da API confirmou dez artes ativas + Premium; faltam 351 artes. Usuário aprovou preservar os dez títulos/descrições existentes, registrados no baseline `TEXTOS-EXISTENTES.json`; padrão único somente para os novos. Mapa editorial aprovado em 29/10, versionado em `NOMENCLATURA.json`, completa 26 cenários e 50 códigos de arte preservando nomes explícitos do app e IDs; inventário atual com 361 títulos únicos e zero lacunas, sujeito à revisão do delta N1. Todas as dez têm preço BR R$ 1,99; piloto ainda em 174 países e com novas regiões habilitadas, ajuste previsto para somente Brasil. Consulta de leitura autorizada e concluída; aplicação permanece condicionada à revisão, merge e autorização sobre o plano. [Inventário e procedimento](../loja/produtos-play-2026-10-27/README.md). A7/A8/B2 continuam abertos.
+**Objetivo:** Manter aceites e pendências no alcance correto. · **Pronto quando:** Metadados/publicação e correspondência demonstrados, sem conformidade inventada.
 
-**Prioridade/decisões em 28/10:** público 13+ mantido, com teste fechado somente com adultos; revisão de Privacidade 1.19 / Termos 1.10 / Contato 1.9 integrada às fontes e cópias locais, ainda sem aprovação/vigência e sem republicação no Sites. Decidido o próximo pacote, código de versão 8, para embarcar esses textos e os ajustes visuais relatados; `versionName` ainda não definido. Cadastro dos 360 produtos de arte restantes de 361 pelo niemeyer via API Publishing, com simulação por padrão e aplicação somente após merge e autorização explícita sobre o plano; somente Brasil, R$ 1,99 por arte, inclusive no piloto, e oito opções ocultas indisponíveis; o piloto `terra_arte_biblioteca_vangogh` já foi cadastrado pelo Rafael em 27/10, conforme [registro e procedimento A7](../loja/produtos-play-2026-10-27/README.md). Inventário e script em preparação local; cadastro restante, revisão humana de nomes e conferência de preços no app ainda pendentes. Conta de serviço a cargo do usuário, chave fora do Git e permissão mínima de Gerenciar presença na loja, conforme a fonte oficial citada no procedimento. Autorizado PR dos commits pendentes da branch `fix/premium-privacidade-etapas-1-2`. A5 continua aberto: aprovação, publicação e conferência app/site/Console pendentes. A redação de 28/10 é a versão nova, posterior à Segurança dos dados salva em 27/10; [D1–D7 da Segurança dos dados](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md#8-divergências-identificadas-entre-esta-proposta-e-as-fontes-locais-privacidademd-114--termosmd-18) foram conciliados no texto na parte 1b de A5 (Privacidade 1.19 / Termos 1.10; Contato 1.9 preservado), com evidências e limites na [seção 12](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md#12-conciliação-editorial-d1d7--28102026-a5-parte-1b). D5/D7 superados como divergências de redação; mantidas as suposições conservadoras. Console não alterado; eventual mudança exige evidência. A5 segue aberto para aprovação/vigência e republicação na fatia 2; A4 permanece aberto.
+- [x] ✅ **3.1** Decida a justificativa de retenção do clima para o teste adulto — Dono · decisão · Dependência: nenhuma · R02: #78/6703628811; sem prazo máximo fixo, informação/exclusão preservadas.
+- [x] ✅ **3.2** Conclua A4 somente para a lista fechada adulta/Brasil — Dono · decisão · Dependência: nenhuma · #78/6728437711 e revisão 6728454405; sem controle etário prévio exigido; gatilhos/13+ preservados.
+- [x] ✅ **3.3** Registre a decisão de risco R03 — Dono · decisão · Dependência: nenhuma · #77/6729114471: assumir risco e registrar; mecanismo internacional NÃO demonstrado, não há nova escolha a cobrar.
+- [x] ✅ **3.4** Aprove somente a redação 1.22/1.12/1.10 — Dono · decisão · Dependência: nenhuma · #77/6729200287, hashes preservados; A5/redação não é publicação/vigência/conformidade.
+- [ ] 🙋 **3.5** Defina metadados e evento/data real de vigência da distribuição — Dono · decisão · Dependência: 2.1, 3.4 · A5: sem data fictícia ou retroatividade; aprovação de publicação separada; JSON só muda com registro explícito.
+- [ ] 🙋 **3.6** Autorize e execute a publicação das páginas legais finais — Dono · ação · Dependência: 3.5 · Google Sites, três páginas e revisão identificadas; gerar HTML não publica.
+- [ ] ⛔ **3.7** Concilie metadados e correspondência app/site/Console — Agentes · Dependência: 3.5, 3.6, 5.3 · [#89](https://github.com/gabzieg/atmosfera/issues/89) · A5: páginas sem login/mobile/links e bytes/versões do candidato; pronto com diferenças resolvidas.
+- [ ] ⏳ **3.8** Consolide operações/bases e condições restantes dos serviços — Agentes · Dependência: 2.9 · [#91](https://github.com/gabzieg/atmosfera/issues/91) · D02/D03/D11/ROPA; aceites existentes reaproveitados; risco R03 informado sem exigir fornecedor ou outro mecanismo contra a escolha.
+- [ ] ⏳ **3.9** Consolide roteiro de incidente e avaliação de risco/impacto — Agentes · Dependência: 2.9 · [#92](https://github.com/gabzieg/atmosfera/issues/92) · D12/D13: responsáveis, cenário sanitizado e conclusão contextual; sem RIPD universal ou incidente real.
+- [x] ✅ **3.10** Defina retirada da lista Console e controle privado mínimo — Dono · decisão · Dependência: nenhuma · R04 e #77/6702874195: fim do teste; controles 18+/aceite/data/referência separados, não prova de preenchimento.
+- [x] ✅ **3.11** Confirme rotina declarada de suporte e direitos — Dono · ação · Dependência: nenhuma · R05/28-10: exclusão definitiva em 60 dias após encerrar, exceções justificadas; não auditoria individual.
+- [x] ✅ **3.12** Conclua enquadramento de encarregado no cenário avaliado — Dono · decisão · Dependência: nenhuma · R06/28-10 em revisão documental; controlador/canal preservados, sem extensão automática a 13+.
 
-**Prioridade em 28/10:** código **7 (1.0.5)** incluído sozinho da biblioteca no rascunho fechado, salvo e validado com **0 erros e 1 aviso** de símbolos nativos; A1 concluído, A2 avançou mas falta comprovar arquivamento da configuração R8 e registro do certificado de distribuição pertinente. [Registro e limites](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md#composição-do-teste-fechado--28102026). Brasil e lista de 7 contas já selecionados, 0 participantes; faltam no mínimo 5 contas além das 7, todas com licença conforme A6, e 12 adesões contínuas por 14 dias em B1. **Não enviar o rascunho com o pacote 7**, que embute Privacidade 1.14 / Termos 1.8 / Contato 1.6: o pacote 8 o substituirá após preparação e conferência. Botão de enviar 13 mudanças habilitado na conferência do rascunho com o 7, **não clicado**: nada enviado, aprovado ou distribuído no fechado; publicação gerenciada desativada faria a aprovação publicar logo em seguida para a lista. Próxima ação: completar evidências de A2 e bloqueios A3–A7, incluindo avaliação de ECA Digital para público 13+ (teste adulto mantido pela decisão acima) e aprovações de Segurança dos dados/textos, antes de pedir autorização para envio. A3–A8, B e C continuam abertos; associação antecipada autorizada em 28/10 não libera envio.
+## Etapa 4 — Play e apresentação
 
-**Prioridade em 22/10:** candidato **7 / 1.0.5** gerado em 20/10 (`c1848a9`) e mesclado à `main` pelo PR #53; identidade, hashes e pendências no [diagnóstico](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md#atualização-em-22102026--candidato-7-identificado). Teste fechado ainda não iniciado. Conferido no Console em 22/10: o rascunho do fechado **não tem pacote** (causa dos dois erros), países já só Brasil, licenças salvas (7 contas), certificado de upload igual ao do AAB 7, declaração de **ID de publicidade pendente** (bloqueia envio), política com `?authuser=1` e 0 participantes. Sequência em [A1–A8 do checklist](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md#a--antes-de-iniciar-o-teste-fechado). Os registros de 19/10 abaixo sobre "aguardar versionCode/candidato" estão superados. **Nota de 28/10:** a afirmação de rascunho sem pacote foi superada pela inclusão/salvamento/validação do 7 acima; AD_ID e URL já regularizados conforme [conferência de 27/10](../../.lgpd/seguranca-dados-respostas-candidato-7-2026-10-26.md#11-atualização-em-27102026--conferência-e-salvamento-no-console). O registro de 22/10 é histórico nesses pontos.
+**Objetivo:** Separar cadastro histórico de aceite final. · **Pronto quando:** Ficha/declarações/acesso correspondem ao candidato.
 
-**Prioridade em 19/10:** PR #52 incorporada e registros operacionais revisados. [Diagnóstico do teste fechado](DIAGNOSTICO-TESTE-FECHADO-2026-10-19.md) e auditor local de AAB preparados; pacote local de 06/10 reprovado por documentos desatualizados. Aguardar maior versionCode, composição do rascunho/certificado e configuração do Console para fechar candidato. Segurança dos dados e análise de Age Signals preparadas, sem SDK novo ou declaração final. Sete contas de licença informadas; checkout/adesões/contagem pendentes.
+- [ ] ⛔ **4.1** Confronte Data Safety e SDKs com o candidato final — Agentes · Dependência: 5.3 · [#87](https://github.com/gabzieg/atmosfera/issues/87) · A3: prévias automáticas, IP/coordenadas/caches/compras/suporte; hipótese conservadora não é medição de todos os envios.
+- [ ] ⏳ **4.2** Prepare ficha, recursos visuais e contato público do app real — Agentes · Dependência: 2.7, 5.3 · [#88](https://github.com/gabzieg/atmosfera/issues/88) · descrição/ícone/screenshots/feature graphic correspondem ao candidato; não anunciar conteúdo indisponível.
+- [ ] ⏳ **4.3** Prepare e comprove instruções de acesso pago do revisor — Agentes · Dependência: 5.3 · [#88](https://github.com/gabzieg/atmosfera/issues/88) · Premium/artes separados, inglês, método aplicável demonstrado; não presumir licença ou comprar para o revisor.
+- [ ] ⛔ **4.4** Concilie anúncios, IARC, público-alvo e declarações finais — Agentes · Dependência: 5.3 · [#87](https://github.com/gabzieg/atmosfera/issues/87) · A3/A7: separar classificação 14, adulto no teste e futuro 13+; pronto com proposta precisa e limites.
+- [x] ✅ **4.5** Salve AD_ID e Segurança dos dados no marco histórico — Dono · ação · Dependência: nenhuma · registro 27-10 §11.3: AD_ID Não, 9 subtipos/8 categorias; salvo, não enviado/aprovado.
+- [x] ✅ **4.6** Documente o resultado IARC — Dono · ação · Dependência: nenhuma · envio 17-10, prints 02-11: Brasil 14/sem descritor listado; causa e adequação aos 13 não demonstradas.
+- [x] ✅ **4.7** Concilie produtos/países/preços no cadastro — Agentes · Dependência: nenhuma · registro de 30/10: 361 artes, 353 ACTIVE / 8 DRAFT, BR / R$ 1,99; Premium e dez textos preservados; não prova preço atual no app.
+- [x] ✅ **4.8** Corrija a composição histórica e Brasil na faixa — Dono · ação · Dependência: nenhuma · A1/28-10: só 7 no rascunho fechado, validação com 0 erros / 1 aviso, sem envio.
+- [ ] 🙋 **4.9** Confira perfil/verificações/pagamentos e contato exigidos pela conta — Dono · ação · Dependência: nenhuma · A7/C2: só campos aplicáveis e contatos aprovados, sem dados pessoais no Git; não repetir criação de conta já existente.
+- [ ] 🙋 **4.10** Autorize e salve somente deltas finais de ficha/declarações — Dono · ação · Dependência: 4.1, 4.2, 4.3, 4.4, 4.9 · escopo exato Console; salvo distinto de enviar/aprovar; não alterar respostas conservadoras por operador presumido.
+- [ ] ⛔ **4.11** Confira os mínimos seguros antes de disponibilizar a faixa — Agentes · Dependência: 5.3, 6.8 · [#94](https://github.com/gabzieg/atmosfera/issues/94) · A7: instalação/informação/uso gratuito/entrega sem falha impeditiva conhecida; roteiro autorizado, sem exigir todos os aceites completos de B antes de iniciar.
 
-**Conciliação atual em 15/10:** `0d36b4a` integrado; documentos 1.12/1.8/1.5 preparados. Adultos/Brasil no teste e futuros efeitos/estilos incluídos no Premium confirmados; artes separadas. Registros anteriores de regra de efeitos futuros pendente foram superados. Fornecedores, bases, governança, continuidade, candidato e aprovação continuam pendentes, conforme [D01–D10](../../.lgpd/gaps.md).
+## Etapa 5 — Candidato e distribuição de teste
 
-## Respostas de Rafael em 15/10 — atualização do escopo
+**Objetivo:** Identificar um único candidato e controlar cada checkpoint. · **Pronto quando:** AAB auditado e faixa disponibilizada com autorização.
 
-Teste fechado exclusivamente no Brasil, somente com adultos e contas de licença. Gabriel fará a revisão/aprovação final dos textos, ainda pendente. O candidato é a próxima versão após os ajustes; número/versionCode e data inicial dependem de conferência no Console. Quantidade de contas e configuração efetiva de licença não confirmadas. Premium inclui futuros efeitos e estilos, preservadas artes/variantes separadas. Intenção de não retirar conteúdo, com plano de exceção ainda em estudo. Logs, retenção e acesso dos fornecedores seguem sem definição/verificação.
+- [ ] 🙋 **5.0** Autorize a geração final no commit e ambiente identificados — Dono · decisão · Dependência: 5.1 · AAB final/assinatura/configuração específicos; diagnóstico 7 não é candidato de envio.
+- [ ] ⛔ **5.1** Fixe composição, código e configuração do candidato — Agentes · Dependência: 2.1, 2.3, 2.4, 3.5 · [#86](https://github.com/gabzieg/atmosfera/issues/86) · A2: SHA atual integrado, nome 1.0.5 preservado, código superior ao máximo conferido; sem presumir 8 livre.
+- [ ] ⛔ **5.2** Gere o AAB autorizado e arquive sua procedência — Agentes · Dependência: 5.0, 5.1 · [#86](https://github.com/gabzieg/atmosfera/issues/86) · AAB/hash/certificado/mapping/configuração R8 do mesmo build; sem chaves no diff.
+- [ ] ⛔ **5.3** Audite identidade, assinatura, manifesto e textos do AAB — Agentes · Dependência: 5.2 · [#86](https://github.com/gabzieg/atmosfera/issues/86) · bundletool validate/auditor, certificado upload/distribuição, SDKs/permissões/textos e limites; não reciclar mapping diagnóstico.
+- [ ] 🙋 **5.4** Associe e valide o candidato na faixa com autorização específica — Dono · ação · Dependência: 5.3, 4.10, 4.11, 3.7, 6.3 · A2/A7: processamento, composição/atualização, erros resolvidos e publicação gerenciada conferidos; sem enviar por inferência.
+- [ ] 🙋 **5.5** Autorize o envio do teste fechado e acompanhe a revisão — Dono · decisão · Dependência: 5.4, 6.1 · envio/revisão Google separados de disponibilização; aprovação pode publicar conforme configuração, escopo explícito.
+- [ ] 🙋 **5.6** Registre a disponibilidade efetiva do candidato na faixa — Dono · ação · Dependência: 5.5 · versão/candidato aprovado e acessível; não inferir início dos 14 dias.
 
-Este registro supera as pendências de decisão sobre país, participantes menores, responsável pela revisão e inclusão de efeitos/estilos futuros nos registros anteriores. Não confirma configuração do Console, aprovação jurídica ou início da contagem. Fontes locais 1.11/1.7/1.3 precisam de revisão e republicação no Sites; geração de HTML não altera páginas públicas.
+## Etapa 6 — Teste fechado
 
-Detalhe: [respostas e roteiro para iniciar o teste](RESPOSTAS-RAFAEL-TESTE-FECHADO-2026-10-15.md).
+**Objetivo:** Comprovar adesão, uso, direitos e resultados. · **Pronto quando:** Requisito aplicável e aceites funcionais/compatibilidade demonstrados.
 
+- [ ] 🙋 **6.1** Defina a coordenação e o roteiro do teste — Dono · decisão · Dependência: nenhuma · responsável, canal de feedback e orientação compras sem cobrança; coordenador não inventado.
+- [ ] ⏳ **6.2** Recrute somente adultos e mantenha confirmações/aceites mínimos — Rafael · Dependência: 6.1 · atribuição histórica de 02/11, não nova delegação; fora do Git, acesso restrito e descarte ao fim do teste; declarações não comprovam registros individuais.
+- [ ] 🙋 **6.3** Confirme licenças de todos que terão acesso às compras — Dono · ação · Dependência: 6.2 · A6: Brasil / contas licenciadas e instrumentos; lista de 7 histórica não é cobertura atual; não expor participantes.
+- [ ] ⏳ **6.4** Confira conta/instrumento antes de cada compra de teste — Rafael · Dependência: 5.6, 6.3 · A8/B2, atribuição histórica: sem indicação inequívoca de teste cancele; Premium/arte/pendência/cancelamento/restauração/reembolso/HD/offline separados.
+- [ ] ⛔ **6.5** Consolide aceites funcionais e visuais por candidato — Agentes · Dependência: 5.6, 6.8 · [#94](https://github.com/gabzieg/atmosfera/issues/94) · B2/B3: direitos gratuitos/Premium/arte, catálogo/efeitos, onboarding/upgrade, clima/transições/revogação/cache, suporte/backup/logs, download/falha/espaço/cancelamento/limpeza/offline; defeitos e retestes por aparelho.
+- [ ] ⛔ **6.6** Meça desempenho e compatibilidade em aparelhos definidos — Agentes · Dependência: 5.3, 6.8 · [#95](https://github.com/gabzieg/atmosfera/issues/95) · B3: memória/bateria/estabilidade, Android antigo / minSdk 26 e aplicabilidade de 16 KB; esperado/ruído antes de medir, sem mudar minSdk por inferência.
+- [ ] ⏳ **6.7** Acompanhe inscrições contínuas e requisito aplicável do teste — Rafael · Dependência: 6.9 · B1, atribuição histórica: comprovar 12 inscritos / 14 dias no painel quando exigidos; lista/licença/instalação não são adesão nem produção automática.
+- [ ] 🙋 **6.8** Disponibilize aparelho/conta e autorize instalação/ensaios exatos — Dono · ação · Dependência: 5.3 · sem ligar emulador, desinstalar ou apagar dados por inferência; Play/conta adulta licenciada para compras, debug sem override não substitui release.
+- [ ] ⏳ **6.9** Convide e registre adesões efetivas ao fechado autorizado — Rafael · Dependência: 5.6, 6.2, 6.3 · B1: atribuição histórica; convite individual/saída do interno / adesão ao fechado e instalação são etapas distintas; sem mensagem nesta tarefa.
+- [ ] 🙋 **6.10** Consolide feedback e priorize defeitos encontrados — Dono · ação · Dependência: 6.5, 6.6 · B4: uso real e resultados por candidato; correções precisam de issues concretas e reteste, não só prazo decorrido.
 
-**Refinamento editorial em 15/10:** etapa 5 com Privacidade 1.10, Termos 1.6 e Contato 1.3; instruções internas e decisões no [registro de refinamento](REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md). Textos continuam rascunhos, sem aprovação/vigência ou republicação no Google Sites. Referências anteriores a 1.9/1.5/1.2 são históricas.
+## Etapa 7 — Produção e cobrança
 
-## Site publicado em 15/10/2026
+**Objetivo:** Decidir e validar oferta comercial antes de distribuir. · **Pronto quando:** Acesso à produção, deveres comerciais e D0 comprovados.
 
-Rafael informou a publicação do Google Sites. Links conferidos na navegação, documentados sem seleção de conta:
+- [ ] 🙋 **7.1** Aceite o conjunto comercial e suas evidências antes da venda — Dono · decisão · Dependência: 2.6, 6.4, 6.5, 6.6, 6.10 · C1: cada arte anunciada com entrega/origem, cortes/ocultas/preços/países e versão final, não apenas relato visual.
+- [ ] ⏳ **7.2** Prepare continuidade, recuperação e exceções comerciais — Agentes · Dependência: 2.9 · [#93](https://github.com/gabzieg/atmosfera/issues/93) · R08/C1/C2: manutenção/retirada/restauração/encerramento/comunicação para decisão; sem promessa vitalícia.
+- [ ] 🙋 **7.3** Solicite e obtenha acesso à produção quando elegível — Dono · ação · Dependência: 6.7, 6.10 · C3: comprovação do teste/feedback e resposta do Google; prazo não garante aprovação.
+- [ ] 🙋 **7.4** Adote o plano comercial e confira deveres operacionais — Dono · decisão · Dependência: 2.8, 7.2, 3.8, 3.9 · C2: identificação/continuidade, suporte/direitos/condições reais; futuro 13+ tem marco próprio.
+- [ ] 🙋 **7.5** Autorize e publique a distribuição de produção — Dono · decisão · Dependência: 7.1, 7.3, 7.4, 3.7, 4.10 · C3: candidato/países/oferta identificados; teste adulto não autoriza cobrança real nem ampliação 13+.
+- [ ] 🙋 **7.6** Confira primeira disponibilidade pública e registre D0 — Dono · ação · Dependência: 7.5 · instale pela listagem autorizada, confira versão/legal/preços/amostras/compra/HD/aplicação e data real.
 
-| Destino | URL |
+## Etapa 8 — Operação
+
+**Objetivo:** Executar suporte e acompanhamento após distribuição. · **Pronto quando:** Rotinas D0–D60 e continuidade têm evidências.
+
+- [ ] ⏳ **8.1** Execute suporte, direitos e retenção sob sua responsabilidade — Rafael · Dependência: 5.6 · atribuição histórica R05: excluir definitivamente em 60 dias após encerramento, lixeira/cópias próprias, exceções justificadas; registros privados, não logs do fornecedor.
+- [ ] ⛔ **8.2** Consolide a operação técnica D0–D60 — Agentes · Dependência: 7.6 · [#96](https://github.com/gabzieg/atmosfera/issues/96) · disponibilidade/crashes / ANRs/custos/consumo/regressões/restauração e prioridades por período; sem infraestrutura/conta nova inferida.
+- [ ] 🙋 **8.3** Acompanhe custos, reembolsos e evolução de conteúdo — Dono · ação · Dependência: 7.6 · rotinas semanais e D30–60; arte nova só com direitos/arquivos/motor/oferta/aceite; não sobrescrever objetos de versões instaladas; sem promessa de frequência.
+
+## Etapa 9 — Pendências paralelas e backlog
+
+**Objetivo:** Preservar cada intenção sem ativar trabalho futuro. · **Pronto quando:** Cada disposição/estudo tem gatilho, issue e resultado próprio.
+
+- [ ] ⏳ **9.1** Concilie o destino de PRs pendentes e deltas exclusivos — Agentes · Dependência: nenhuma · [#85](https://github.com/gabzieg/atmosfera/issues/85) · #43/#45/#55/#58/#70/#72/#80: disposição verificável, sem merge/fechamento em lote; raiz em #71; reconciliar também a proposta histórica de manifesto assinado, sem implementá-la por inferência.
+- [ ] ⏳ **9.2** Avalie cobertura de testes de comportamento/UI — Agentes · Dependência: 5.3, 6.5 · [#97](https://github.com/gabzieg/atmosfera/issues/97) · backlog: regressões conhecidas/prioridade, não nova infraestrutura ou instrumentação indiscriminada.
+- [ ] ⏳ **9.3** Avalie separação Gradle engine/app — Agentes · Dependência: nenhuma · [#98](https://github.com/gabzieg/atmosfera/issues/98) · backlog: impacto/resultado revisável; arquitetura nova exige checkpoint antes de implementar.
+- [ ] ⛔ **9.4** Prepare adequação da futura distribuição 13+ — Agentes · Dependência: 9.6 · [#99](https://github.com/gabzieg/atmosfera/issues/99) · IARC 14 / oferta aos 13 / sinais ou alternativa / supervisão / art. 24 / relatórios; fora da fase adulta, sem SDK/público alterados agora.
+- [ ] ⛔ **9.5** Reavalie entrega por PAD somente com gatilho de retomada — Agentes · Dependência: 9.7 · [#100](https://github.com/gabzieg/atmosfera/issues/100) · ADIADO, não cancelado; R2 é o desenho atual, sem estudar/implementar PAD nesta entrega.
+- [ ] 🙋 **9.6** Defina momento e escopo de executar a ampliação 13+ — Dono · decisão · Dependência: nenhuma · público futuro pretendido já registrado; decidir execução/adequação, não reabrir alvo adulto aceito.
+- [ ] 🙋 **9.7** Priorize eventual retomada PAD quando houver motivo concreto — Dono · decisão · Dependência: nenhuma · backlog adiado; nenhuma necessidade presumida ou compromisso de implementação.
+- [ ] 🙋 **9.8** Decida promoções e evolução da apresentação comercial quando pertinentes — Dono · decisão · Dependência: 7.1 · proposta de R$ 0,99 não é oferta adotada; landing externa não bloqueia páginas legais nem cria tarefa a Willian; Premium R$ 49,90 / artes R$ 1,99 são valores registrados, não medição atual.
+- [x] ⚪ **9.9** Dispense o contrato FonteDeAssets abandonado — Agentes · Dependência: nenhuma · histórico ROADMAP / integração de 12/09: motor lê por carregar(Context/AssetManager+Acervo); não dispensa verificação de integridade em 6.5.
+- [x] ⚪ **9.10** Dispense packs comerciais no lançamento — Dono · decisão · Dependência: nenhuma · decisão de 10/10: cada arte nova é compra separada; pacotes técnicos de arquivo não são packs comerciais.
+- [x] ⚪ **9.11** Mantenha CodeQL descartado no escopo registrado — Agentes · Dependência: nenhuma · decisão de 29/07 / repositório privado free; reavaliar só se plano/visibilidade mudar; sem trocar proteção nesta tarefa.
+- [x] ⚪ **9.12** Não retome a otimização por bitmap reduzido refutada — Agentes · Dependência: nenhuma · TASKS histórico: Canvas(Bitmap) em software piorou de 25 para 38 ms naquela medição; não é benchmark atual.
+
+## Correspondência com os marcos históricos
+
+| Marco | Itens desta fila / limite |
 |---|---|
-| Site | https://sites.google.com/view/terra-live-wallpaper |
-| Política de Privacidade — campo do Console | https://sites.google.com/view/terra-live-wallpaper/privacidade |
-| Termos | https://sites.google.com/view/terra-live-wallpaper/termos |
-| Contato | https://sites.google.com/view/terra-live-wallpaper/contato |
+| A1 | 4.8 feito em 28/10; validação do próximo candidato em 5.4 |
+| A2 | 2.1–2.4 e 5.0–5.4; diagnósticos 1.2/1.5/1.6 não o encerram |
+| A3 | 4.1/4.4/4.10; salvamento 4.5 não é envio/aprovação |
+| A4 | 3.2 concluído no adulto; 9.4/9.6 para 13+, gatilhos no registro A4 |
+| A5 | redação 3.4 feita; vigência/publicação/correspondência 3.5–3.7 pendentes |
+| A6 | 6.2/6.3; licença não é adesão |
+| A7 | 2.7/4.2–4.4/4.7/4.9/4.10/5.4–5.6; cadastro 4.7 não prova entrega |
+| A8 | 6.4; conferir instrumento antes de cada checkout |
+| B1/B2/B3/B4 | respectivamente 6.7/6.9,6.4/6.5,6.5/6.6/6.8,6.10 |
+| C1/C2/C3 | respectivamente 7.1/7.2,2.8/3.8/3.9/7.4,7.3/7.5/7.6 |
+| Etapas antigas 1–4/6 | código 1.9; comprovação no aparelho/catálogo/licenças em 2.6/2.7/6.4–6.6 |
+| Etapa antiga 5/D01–D13/R01–R10 | 3.1–3.12/2.8/2.6/4.1/5.3; preservados [gaps](../../.lgpd/gaps.md), [revisão](../../.lgpd/revisoes/2026-10-28-documentos/REVISAO.md) e limites R03 |
+| Etapas antigas 7–9 e fases ROADMAP | etapas 4–9 desta fila, com [roteiros históricos](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md) e [operação](OPERACAO-POS-LANCAMENTO.md) |
 
-Compras do teste: somente contas testadoras de licença, conforme decisão do titular em 15/10. Falta conferir a configuração efetiva das contas e dos instrumentos de pagamento. O site está publicado com metadados de rascunho; publicação não significa aprovação jurídica, vigência do candidato, cadastro no Console ou começo dos 14 dias. Ainda é necessário conferir o acesso sem login em sessão anônima e conciliar versão/vigência/textos do artefato. Alterações nas fontes locais exigem republicação no Google Sites; gerar os HTMLs não modifica o site.
+Decisões de oferta preservadas: cinco amostras gratuitas, Premium só efeitos/estilos (inclui futuros efeitos/estilos, sem frequência prometida), artes individuais, sem anúncios. MET é o provedor de clima, com consultas somente na home elegível; cache/revogação/backup têm os limites descritos na Política. Prévia ao vivo permanece no onboarding/detalhe/Premium, fora da Home pela medição histórica; cenário sem asset é filtrado por verificação real. AGP 9 foi testado/revertido conforme [decisão](DECISAO-AGP-9-MIGRACAO.md), sem novo upgrade por esta lista.
 
-
-> Estado do trabalho em andamento, literalmente agora. Diferente do
-> `ROADMAP.md` (fases do produto até publicar), isto é o dia a dia — o que
-> está pela metade, o que decidir, o que testar. Atualizar sempre que algo
-> muda de status, não deixar ficar mentiroso.
->
-> **Histórico de trabalho concluído não mora aqui** — mora no `git log`, que
-> não desatualiza. Este arquivo ficou dois meses parado (2026-08-10 → 2026-10-09)
-> justamente por acumular item feito e referenciar uma branch que já tinha sido
-> mesclada.
-
-**Última atualização:** 2026-10-15. V2 publicada na PR #50 @ `e9a221f` e incorporada à cópia local. Build e secret-scan do GitHub aprovados; reconferência local de 17 testes direcionados sem falhas/erros e sincronização legal conferida. PR permanece em rascunho; avaliação em aparelho/Play, produtos, produção, documentos aprovados e versionCode continuam pendentes. Nenhum novo AAB.
-
-**Prioridade definida em 14/10 por Rafael:** preparar documentação e declarações para iniciar o teste fechado. Compras, wallpapers, efeitos e nomes serão avaliados durante os 14 dias. Domínio próprio não é necessário; Google Sites/Blogger públicos são opções. Ver [preparação legal do teste](PREPARACAO-LEGAL-TESTE-FECHADO-2026-10-14.md) e guia do Console atualizado. Google Sites e URLs registrados em 15/10; compras somente com contas de licença confirmadas pelo titular. Configuração efetiva das contas, versão/vigência e aprovação dos textos permanecem pendentes.
-
-**Integração da v2 em 13/10:** ajustes funcionais aplicados sobre `8ec0993` na branch `fix/premium-privacidade-etapas-1-2`, para revisão na PR #50. Prévias/cache, navegação, cadeados, controles debug independentes, nomes e agrupamentos integrados. Vitrine: 69 cenas/358 artes/67 cards; manifesto e miniaturas preservam 71 cenas/366 artes. Estacionamento (`estacionamento`) e Feira de Natal (`natal`) ficam temporariamente fora da vitrine; Chalé/Sala de Natal permanecem. Validação desta integração: 98 testes sem falhas, lint sem erros, builds debug/release e conferência dos documentos aprovados; aparelho/Play, produtos, produção, documentos legais e candidato AAB continuam pendentes. Ver [entrega da v2](AVALIACAO-V2-RAFAEL-2026-10-13.md).
-
-Os registros datados abaixo sao historicos; a prioridade acima e o checklist representam o acompanhamento atual.
-
-**Execução local em 2026-10-10:** etapa 1 do [checklist de finalização](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md) implementada: Premium não libera artes; UI e serviço compartilham a regra de acesso; oferta e termos corrigidos. **75 testes unitários, lint e build debug aprovados.** Falta aceite em aparelho/Play; mudanças locais ainda não incorporadas à `main`. Usuário confirmou que houve somente compras de teste, sem cobrança real. O estado da `main` registrado abaixo não representa automaticamente essa árvore modificada.
-
-**Etapa 2 local em 2026-10-10:** G05/G08/G09/G16 implementados: canal oficial no relato, cache de localização/freio da MET excluídos de backup/transferência, logs minimizados em release e função de Geocoder sem uso removida. **78 testes, lint e build debug aprovados.** Seção de backup da política e três HTMLs atualizados. Por orientação do usuário, avaliações no app ficam com **Rafael**, com roteiro no checklist; seguem pendentes e não impedem avançar nas próximas implementações.
-
-**Etapa 3 em 2026-10-10:** [inventário por arte](../loja/catalogo-2026-10-10/README.md) preparado, sem mudar o catálogo do aplicativo ou o bucket. Após cortes: 71 cenas/75 artes com fundo; 237 variantes declaradas sem fundo local; 70 propostas de produtos pagos. Usuário reconfirmou objetivo de todo o acervo aprovado, nova arte como compra separada e ausência de packs no lançamento. Falta conciliar o inventário de 366 artes do Rafael, aprovar renderização, definir futuros efeitos/estilos no Premium e conferir ofertas/países/Console.
-
-**Etapa 4 local em 2026-10-10:** compra por arte, reconciliacao de direitos, catalogo com miniaturas e download solicitado integrados. 71 cenas/75 artes com arquivos, cinco amostras e 70 SKUs propostos. ZIPs locais em `dist/acervo-preparado/`, sem upload; miniaturas JPEG somam cerca de 2 MB. Falta URL publica do bucket, produtos ativos e aceite do Rafael; nao e versao pronta para publicar. Roteiro em [INTEGRACAO-ARTES-ACERVO-2026-10-10.md](INTEGRACAO-ARTES-ACERVO-2026-10-10.md). 84 testes aprovados, lint sem erros e builds debug/release aprovados; R8 emite avisos de metadados Kotlin, a avaliar no candidato. Politica: delta de backup em revisao 1.6, demais refinamentos legais na etapa 5.
-
-**Adaptacao R2/R8 em 11/10:** catalogo/miniaturas de 366 artes integrados, variantes remotas mescladas as cenas nativas e validacao de caminhos com hash adaptada. R8 9.1.29 integrado ao build e release minificada incluida na CI. Sem novo AAB, upload ou cadastro de produtos. Conferencia HTTP de seis ZIPs representativos aprovada; aceite de renderizacao, compras e producao com Rafael. Ver [adaptacao e roteiro](ADAPTACAO-R2-R8-2026-10-11.md).
-
-**Etapa 5 em 11/10:** textos canonicos refinados (privacidade 1.7, termos 1.4, contato 1.1), identificacao/canal unificados e atendimento de 60 dias incorporado. Geracao explicita sincroniza nove HTMLs e manifesto; checks locais e importador de Willian aprovados sem alterar seu front-end. Mantidos como rascunho: faltam aprovacao juridica, dominios/hospedagem, vigencia/versao aplicavel e processos de continuidade/transferencias/publico. Historico preservado; rascunhos pessoais nao publicados. Ver [entrega da etapa 5](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md).
-
-**Encaminhamento em 11/10:** usuario solicitou commit/push de todo o material pendente para Huppes. Registros locais antigos agora marcados como historicos; canal antigo e caminhos pessoais desnecessarios omitidos. Checklist e roteiro de passagem atualizados. Etapa 6 ainda depende do maior versionCode no Console (usuario nao sabe) e da avaliacao do Rafael (resultado ainda nao recebido). Nenhum novo AAB gerado. Ver [encaminhamento ao Huppes](ENCAMINHAMENTO-HUPPES-2026-10-11.md).
-
-## Estado (confirmado em 2026-10-09)
-
-**Atualização do acervo em 11/10:** Rafael confirmou bucket existente, acessível na URL de testes. Conciliação do manifesto público confirma 71 cenas/366 artes após cortes: todas as 75 locais, mais 291; 54 variantes ausentes das declarações locais do motor. A PR #50 precisa adaptar caminhos com hash, manifesto WebP, catálogo e miniaturas antes de usar a URL. Não houve upload, novo build nem ajuste de R8 nesta conferência. O init script mencionado está apenas na máquina do Rafael. Evidências em [conciliação R2](../loja/conciliacao-2026-10-11/README.md). Esta atualização substitui a indicação anterior de bucket inexistente; endpoint de produção segue pendente.
-
-- **App**: versão **1.0.5, versionCode 6** na `main`. AAB assinado gerado em 06/10 (SHA-256 `19b88b3d…e353e6bb`). **Não está confirmado** que foi enviado ao Console nem que o código 6 está livre — só o Gabriel vê o Console *(registro de 09/10 superado: o titular e controlador da conta pessoal no Play Console é Rafael Huppes, com leitura também aberta pelo Gabriel conferida em 22/10, e o candidato atual na `main` é o código 7 — ver prioridade de 22/10 no topo e [SPEC.md](SPEC.md#publicação-na-play-store--quem-faz-o-quê) → "Acesso às contas")*.
-- **Gate**: `testDebugUnitTest lintDebug assembleDebug` verde, **69 testes** unitários (14 classes), CI verde na `main`.
-- **Teste em aparelho do clima só na home (PR #46)**: **ainda não feito.** O emulador não sobe a partir do agente (virtualização negada no Windows); o Gabriel precisa ligá-lo, ou testar pelo teste interno em um celular. Roteiro em [CLIMA-SOMENTE-HOME.md](CLIMA-SOMENTE-HOME.md).
-- **Rafael**: sem commits novos desde o #46 (05/10 22:25).
-- **PRs abertos**: #43 (Rafael, **rascunho**: documentação do R2), #48 (**rascunho**: estrutura `.lgpd/` e índice `docs/README.md`), #45 e #47 (Dependabot — **#47 espera teste em celular**; mexe em bibliotecas do app).
-
-## Decisões pendentes do Gabriel
-
-Detalhe e opções em `.lgpd/gaps.md` e `.lgpd/STATUS.md` — **ainda no PR #48 (rascunho), não na `main`**.
-
-1. **Escopo fechado em 10/10:** objetivo de todo o acervo aprovado, reconfirmado pelo usuário. Sem packs comerciais no lançamento; cada arte nova é compra separada. Falta conciliar/validar arquivos e implementar a Loja remota; o catálogo de produção não foi aprovado pelo inventário local.
-2. **Premium nas 5 cenas — decisão fechada e correção local implementada em 10/10.** Apenas efeitos/estilos. Termos §5.1 e interface atualizados; aceite em aparelho/Play ainda pendente. Usuário informou somente compras de teste.
-3. **Público 13+ ou 18+** (ECA Digital).
-4. **Encarregado** — designar o Rafael ou manter a dispensa de ATPP.
-5. **Retenção do atendimento** — 60 dias após resolver?
-6. **Qual texto legal vale** — o `.md` canônico (com `[PREENCHER]`) e os HTML divergem; e o que fazer com `docs/legal/revisao-2026-10-05/` (fora do Git).
-7. **Correções G05/G08/G09/G16 — implementadas localmente em 10/10.** Ver evidência acima; avaliação em aparelho pelo Rafael ainda pendente.
-8. **Advogado** — quem revisa (G03, G11, G12, G20) e quando.
-
-## Em andamento / a fazer
-
-- [ ] **Teste em aparelho do #46**: clima atualizando ao voltar à home; instalação nova sem cache (a tela Início mostra "Carregando clima…" até o wallpaper rodar?); nome da cidade (a função que o resolvia não é mais chamada); nenhuma consulta com app aberto, tela apagada ou bloqueada.
-- [ ] **Subir o AAB 1.0.5 no teste interno** e conferir o código 6.
-- [ ] **Play Console**: Data Safety, IARC, público-alvo, ficha da loja, contato do app (o perfil público ainda usa e-mail pessoal), chave de licença `playLicensePublicKey`, produtos (hoje só `terra_premium`).
-- [ ] **Teste fechado**: 12 testadores por 14 dias seguidos; **o coordenador ainda não foi definido** (pergunta 22 do Rafael).
-- [ ] **Medir o motor em aparelho antigo** — decide o `minSdk 26`.
-- [ ] **Compra de verdade no teste**: precisa de conta Google logada; o AVD não tem.
-- [ ] **Ficha da loja** ([loja/FICHA.md](../loja/FICHA.md)): ainda descreve cenários que não estão no app; revisar quando o escopo (decisão 1) fechar.
-- [ ] **Registro de autoria/licença das artes e sprites** (pergunta 19 do Rafael). Os estilos `pixel_mario` e `pixel_zelda` já saíram do código; `Estilo.kt` tem 16 estilos.
-- [ ] **Conformidade**: lacunas G01–G21 em `.lgpd/gaps.md`.
-
-## Esperando outras pessoas
-
-- **Willian** — domínio, hospedagem e publicação das 3 páginas legais (a política precisa de URL pública para o Console).
-- **Rafael** — marcar o #43 como pronto; registro de licenças; revisão jurídica; operação do R2 (só se o catálogo remoto entrar).
-- **Segurança da chave de upload** (ainda aberto; o agente não lê o arquivo): a senha continua em texto em `C:\Users\gbrus\Chaves\SENHA-LEIA-E-APAGUE.txt` — mover para um gerenciador de senhas e apagar o `.txt`; e **backup do `.jks` em dois lugares**. Não enviar a chave ao Rafael: o AAB pode ser gerado por aqui ou por um fluxo na CI.
-
-## Decisões tomadas (não reabrir sem motivo novo)
-
-- **Clima**: MET Norway (2026-10-03, a API gratuita da Open-Meteo é só não comercial); consulta **só com o wallpaper visível na home, tela acordada e desbloqueada** (2026-10-05, PR #46); freio persistente em 429/403.
-- **Monetização**: Premium **R$ 49,90**, compra única, só efeitos e estilos; compra avulsa de **uma arte específica por R$ 1,99**, segundo o questionário do titular de 08/10. Sem packs comerciais no lançamento, confirmado em 10/10. Separação de Premium implementada localmente em 10/10; compra por arte integrada localmente; aceite pela Play pendente. Conferir o estado efetivo da versão distribuída.
-- **Acervo remoto (R2)**: objetivo de lançamento desde 29/09, a pedido do Rafael — **sujeito à decisão pendente 1**.
-- **Público 13+** (2026-10-04) — sujeito à decisão pendente 3.
-- **Prévia ao vivo fora da Home** (2026-08-10): fica no onboarding, no detalhe da Loja e no comparador do Premium.
-- **Descartado: desenhar a cena em bitmap reduzido e ampliar** (`Canvas(Bitmap)` é software; piorou de 25 ms para 38 ms).
-- **Cenário sem asset some da Loja por verificação real** (`cenarioTemAsset` em `ui/components/SceneThumbnail.kt`), não por lista fixa.
-- **Toda mudança na `main` entra por PR**, 0 aprovações, CI `build` obrigatória, merge commit (ver `CLAUDE.md`).
-- **Sem anúncios** no lançamento; **CodeQL descartado** (repositório privado em plano free).
-- **AGP 9 não** (testado e revertido em 09/2026: passou na CI e o app não abria) — ver [DECISAO-AGP-9-MIGRACAO.md](DECISAO-AGP-9-MIGRACAO.md). O Dependabot está configurado para não propor os majors que quebram.
-
-## Quem toca o quê
-
-Fonte completa em [SPEC.md](SPEC.md) e `.github/CODEOWNERS`.
-
-| Setor | Dono | Estado |
-|---|---|---|
-| `ui/`, `weather/`, `service/`, `billing/`, `debug/` | Gabriel | Ativo |
-| `engine/` + `assets/atmosfera/` | Gabriel e Rafael | O Rafael voltou a corrigir o motor em 23/09; combinar quem mexe em qual arquivo |
-| Clima só na home (`ClimaNaHome`) | Rafael (autor do #46) | Mesclado sem revisão de outra pessoa; falta o teste em aparelho |
-| Documentos legais e conteúdo do Data Safety | Gabriel | Rascunhos Privacidade 1.14 / Termos 1.8 / Contato 1.6; faltam aprovação/vigência, republicação e validação jurídica |
-| Páginas legais (Google Sites) | Rafael publicou em 15/10; Gabriel publica as revisões aprovadas (22/10) | Público mostra 1.9 / 1.5 / 1.2 em 22/10; Gabriel precisa de acesso de edição ao site |
-| Site de apresentação (`terra.app`) | Willian | Retomou em outubro; sem domínio definido. As páginas legais não dependem dele |
-| Conta Play Console | Rafael (titular e controlador; conta pessoal) | A conta Google do Gabriel também acessa (conferido em 22/10). Só `terra_premium` cadastrado (conferido em 22/10) |
-| Cloudflare R2 | Rafael (titular) | Bucket de teste; sem URL de produção |
-
-## Backlog (não puxar sem avisar)
-
-- Loja remota no app: listar o manifesto, comprar, baixar com progresso e aplicar; preencher `BASE_PADRAO`; manifesto assinado. **Só depois da decisão pendente 1.**
-- Cobertura de teste de comportamento na UI (hoje só testes JVM; zero instrumentado).
-- Revisão cruzada entre `TERMOS.md` e `PRIVACIDADE.md`: foram escritos por autores diferentes, em momentos diferentes (o `.lgpd/` já cobre a Política; falta cruzar com os Termos §5).
-- Módulos Gradle `:engine`/`:app`.
+Não há tarefa nova para resolver R03 por outro caminho: **3.3 é decisão concluída; mecanismo não demonstrado é risco/informação preservada**, sem consentimento, renúncia ou conformidade integral. Não repetir suporte/R06/R02/A4/redação por terem sido aceitos. #79 cancelada permanece cancelada. O correio funciona com notificações suspensas; nenhuma ativação de autopilot foi autorizada por este checklist.
