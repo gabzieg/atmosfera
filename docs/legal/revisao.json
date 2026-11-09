@@ -1,0 +1,50 @@
+{
+  "revisao": "2026-11-08",
+  "status": "rascunho_para_revisao",
+  "aprovado_para_publicacao": false,
+  "aprovacao_registro": null,
+  "vigencia": null,
+  "versao_app": null,
+  "dominio_publico": "https://sites.google.com/view/terra-live-wallpaper",
+  "controlador": "Rafael Huppes",
+  "contato": "suporteterrabr@gmail.com",
+  "paginas_publicas": {
+    "privacidade": "https://sites.google.com/view/terra-live-wallpaper/privacidade",
+    "termos": "https://sites.google.com/view/terra-live-wallpaper/termos",
+    "contato": "https://sites.google.com/view/terra-live-wallpaper/contato"
+  },
+  "publicacao_web": {
+    "data_informada_pelo_titular": "2026-10-15",
+    "plataforma": "Google Sites",
+    "estado": "publicado_pelo_titular_com_metadados_de_rascunho",
+    "verificacao": "URLs de navegação conferidas no navegador; seleção authuser removida dos links documentados. Verificação anônima independente não concluída nesta rodada."
+  },
+  "situacao_teste_informada_2026_10_19": {
+    "fonte": "Mensagem de Rafael encaminhada pelo usuario; sem acesso ao Console nesta execucao",
+    "contas_selecionadas_na_lista_licenca_informadas": 7,
+    "contagem_adesoes_faixa_verificada": false,
+    "checkout_instrumento_teste_verificado": false,
+    "maior_version_code_console": null,
+    "aab_incluido_no_rascunho_confirmado": null,
+    "classificacao_indicativa_informada": "14 anos; resultado IARC nao conferido",
+    "erros_versao_relatados": [
+      "Nao permite atualizacao dos usuarios existentes",
+      "Versao nao adiciona nem remove pacotes"
+    ]
+  },
+  "decisoes_teste": {
+    "data": "2026-10-15",
+    "pais": "BR",
+    "somente_maiores_de_idade": true,
+    "compras_somente_licenca": true,
+    "quantidade_contas_licenca_confirmada": null,
+    "revisao_aprovacao_responsavel": "Gabriel",
+    "revisao_aprovacao_concluida": false,
+    "versao_candidata_escopo": "Proximo pacote (versionCode 8), decidido em 28/10/2026 para embarcar os textos revisados no teste fechado no Brasil. versionName ainda nao definido. Nao comprova geracao, envio, aprovacao ou distribuicao no Console.",
+    "inicio_teste_confirmado": null,
+    "configuracao_fornecedores_verificada": false,
+    "premium_inclui_efeitos_estilos_futuros": true,
+    "artes_variantes_permanecem_separadas": true,
+    "continuidade_conteudo": "Intencao de nao remover; plano de excecao, disponibilidade e restauracao ainda em estudo."
+  }
+}

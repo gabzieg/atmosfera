@@ -188,7 +188,8 @@ class EffectEngine(val estado: SceneState = SceneState()) {
         val dArte = raizAcervo?.let { Acervo.pastaArte(it, cenaId, arte) }
         val dCena = raizAcervo?.let { Acervo.pastaCena(it, cenaId) }
         fun baixado(d: File?, base: String): Bitmap? {
-            val f = File(d ?: return null, "$base.webp")
+            val pasta = d ?: return null
+            val f = File(pasta, "$base.webp").takeIf { it.exists() } ?: File(pasta, "$base.png")
             return if (f.exists()) BitmapFactory.decodeFile(f.path) else null
         }
         fundo = baixado(dArte, "fundo") ?: bmp(fp + "fundo.png")

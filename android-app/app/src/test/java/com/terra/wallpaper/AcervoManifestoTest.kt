@@ -13,6 +13,18 @@ import org.junit.Test
  */
 class AcervoManifestoTest {
 
+    @Test fun `caminho com hash completo e aceito mas travessia e divergencia sao negadas`() {
+        val sha = "a".repeat(64)
+        Acervo.validarArquivo(Acervo.ArquivoRemoto("pack/cabana/pixel.$sha.zip", 100, sha))
+        for (path in listOf("pack/../pixel.$sha.zip", "https://outro/pack/cabana/pixel.zip",
+            "pack/cabana/pixel.${"b".repeat(64)}.zip")) {
+            assertTrue(runCatching { Acervo.validarArquivo(Acervo.ArquivoRemoto(path, 100, sha)) }.isFailure)
+        }
+        assertTrue(runCatching {
+            Acervo.validarArquivo(Acervo.ArquivoRemoto("pack/cabana/pixel.zip", 100, sha.take(16)))
+        }.isFailure)
+    }
+
     /** Recorte real da saída do pacote_cenas.py (cena porto, arte pixel). */
     private val json = """
         {"versao":1,"formato":"webp","qualidade":92,
@@ -121,4 +133,25 @@ class AcervoManifestoTest {
 
     private fun temp(): java.io.File =
         java.nio.file.Files.createTempDirectory("acervo").toFile().also { it.deleteOnExit() }
+
+    @Test fun `pacote vazio preserva instalacao anterior e limpa temporario`() {
+        val destino = java.io.File(temp(), "arte")
+        val original = zip("fundo.png" to "original")
+        Acervo.extrairZip(original, sha16(original), destino)
+        val vazio = zip()
+        assertTrue(runCatching { Acervo.extrairZip(vazio, sha16(vazio), destino) }.isFailure)
+        assertEquals("original", java.io.File(destino, "fundo.png").readText())
+        assertTrue(!java.io.File(destino.path + ".tmp").exists())
+    }
+
+    @Test fun `hash completo diferente preserva pacote anterior`() {
+        val destino = java.io.File(temp(), "arte")
+        val original = zip("fundo.png" to "original")
+        Acervo.extrairZip(original, sha16(original), destino)
+        val completo = java.security.MessageDigest.getInstance("SHA-256").digest(original)
+            .joinToString("") { "%02x".format(it) }
+        val alterado = completo.dropLast(1) + if (completo.last() == '0') "1" else "0"
+        assertTrue(runCatching { Acervo.extrairZip(original, alterado, destino) }.isFailure)
+        assertEquals("original", java.io.File(destino, "fundo.png").readText())
+    }
 }

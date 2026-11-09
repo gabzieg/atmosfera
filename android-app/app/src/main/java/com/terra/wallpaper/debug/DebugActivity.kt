@@ -218,12 +218,12 @@ class DebugActivity : AppCompatActivity() {
         col.addView(nevoaSlider)
 
         // Premium
-        col.addView(switch("Premium (efeitos vivos)", Plano.isPremium(this)) { on ->
-            Plano.setPremium(this, on); preview.recarregar()
+        col.addView(switch("Simular Premium (efeitos)", DebugOverride.premiumTeste(this)) { on ->
+            DebugOverride.setPremiumTeste(this, on); preview.recarregar()
         })
 
         // Simula o acesso Premium às artes no emulador, onde não há Play Store.
-        col.addView(switch("Destravar Premium (teste)", DebugOverride.destravarPagos(this)) { on ->
+        col.addView(switch("Liberar artes para avaliação", DebugOverride.destravarPagos(this)) { on ->
             DebugOverride.setDestravarPagos(this, on)
             Toast.makeText(
                 this,

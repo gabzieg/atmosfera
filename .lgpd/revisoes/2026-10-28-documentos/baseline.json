@@ -1,0 +1,121 @@
+{
+  "data": "2026-10-28",
+  "escopo": "Revisão documental independente, rodada 1; sem reutilizar avaliações anteriores.",
+  "commit": "0f7adc2a4a5bb29d91a92048c53180adb8df7356",
+  "branch": "gabzieg/legal-documents-review",
+  "candidato": {
+    "versionCode": 7,
+    "versionName": "1.0.5",
+    "fonte": "android-app/app/build.gradle"
+  },
+  "documentos": {
+    "docs/legal/PRIVACIDADE.md": {
+      "sha256": "6932ad78abb6b0aa7e22a14721cd8c46b4b8aaeee033d490976f7c258c8e449d",
+      "linhas": 163
+    },
+    "docs/legal/TERMOS.md": {
+      "sha256": "b948bf07d5e47247616851648fdc9289e1f241b0e25739fbc5aa539ae205879e",
+      "linhas": 97
+    },
+    "docs/legal/CONTATO.md": {
+      "sha256": "c63fc60da9724fce4fbd791829f7626f4aa7ca89bb29ef41275c7cac6a6c74d8",
+      "linhas": 49
+    },
+    "docs/legal/README.md": {
+      "sha256": "cf9e8768dc45465efcc0be9eece5301b6ff276126114b016b0fc7fe4f4c330b9",
+      "linhas": 35
+    },
+    "docs/legal/revisao.json": {
+      "sha256": "439e1758bd329db8ae412173974d94d8a752cc318411fa8e6025208804803917",
+      "linhas": 50
+    },
+    "docs/legal/manifesto-documentos.json": {
+      "sha256": "8e966f18ab4ce3b47011696c09a1e9033f1629d07ff50e91ca895f9bc0cf11cb",
+      "linhas": 85
+    }
+  },
+  "codigo_consultado_sha256": {
+    "android-app/app/build.gradle": "1eba91aa7fc8577ed24091cebaf433f9d850c5f1d334601d0c4f670e1d23a11a",
+    "android-app/app/src/main/AndroidManifest.xml": "21b39cd690d7a5fcbcaafeb67a197ee7d78b66b28af7c0cd0d15a247e35abd4c",
+    "android-app/app/src/main/java/com/terra/wallpaper/weather/WeatherRepository.kt": "a9ecb3271094189d70f967e3a17929214afdf3258204c588b727ea3270e99b99",
+    "android-app/app/src/main/java/com/terra/wallpaper/weather/LocationHelper.kt": "a8cf4c9e036b44bdc99097c6215a4a35ac357dc1ef253fa7dabdf030012d5032",
+    "android-app/app/src/main/java/com/terra/wallpaper/weather/WeatherWorker.kt": "eb31c2b013720cf44738b8652aeff37c069908da8537e404d92dd920d7ca2060",
+    "android-app/app/src/main/java/com/terra/wallpaper/service/AtmosferaWallpaperService.kt": "3b30067cc0363176e956eed4d4906448f1d20777a108f20b7d107ca72cc9375b",
+    "android-app/app/src/main/java/com/terra/wallpaper/engine/CachePrevias.kt": "bad2df8fc9030e9e4bf70274999f023d0f3a880d28d1a8e78932f7dee4d14048",
+    "android-app/app/src/main/java/com/terra/wallpaper/ui/components/ReportarProblemaDialog.kt": "219b8ac428a4dfeece441d542286f1accac687dce06c7d29a4d77af6a1db3d7d",
+    "android-app/app/src/main/res/xml/backup_rules.xml": "395bfa3329b64e152cb3425d8c8a52ff4c08fc52273e82ecd3499cb24c493d0e",
+    "android-app/app/src/main/res/xml/data_extraction_rules.xml": "0310bb4e5bd037714f95a73013ea2b5d70c58da7f4898721ae84e0402cdd1085"
+  },
+  "ferramentas": {
+    "repositorio": "https://github.com/goul4rt/lgpd-skills",
+    "commit": "d85d79abeeb37cb99fc0785e735a9ca790698a77",
+    "instalacao": "pasta privada local (caminho omitido)",
+    "descoberta_automatica_global": false,
+    "skill_aplicada": "lgpd-privacy-policy",
+    "skills_consultadas": [
+      "lgpd-audit",
+      "lgpd-dpo-encarregado",
+      "lgpd-international-transfer",
+      "lgpd-eca-digital-minors"
+    ],
+    "skill_sha256": {
+      "lgpd-anonymization": "92273bc421eb917bef903daea5e1f007b52c01fa16743652715f7534d2d69ae3",
+      "lgpd-audit": "34f946145e3f2ae62f2e1fa10d0c8024a6e35538171d71b244fb6fb66be9aa1c",
+      "lgpd-audit-logging": "38ed46da64a524545bf823c3e0d614810742f86e4a6e2737d25c571612a6000e",
+      "lgpd-consent-schema": "ab8492a8383e026d4d6851da264c3830a7c43175d0eb6c9fc2dfdb62c56fb827",
+      "lgpd-data-mapping": "a3b3d1641c1deb355f228a228eb0cc2d94b1d6233b978bc7d9b6aff5e26534d2",
+      "lgpd-dpa": "2216664d1087e19ed8e453dc7c09eae1a49b98061b10031d02935ff3a37ce8ad",
+      "lgpd-dpo-encarregado": "8e054dae24880939bf0d050f440ea1f33287a035a3462f76c3fc5d9f89d1d8f5",
+      "lgpd-dsar": "e3bf336da7b31656b69e99dbb8ce7fcc54a41ecb084d77d77c3243b4579b75a0",
+      "lgpd-eca-digital-minors": "343f49964f65d38874bc477029b6946b2a879adc72be062d836237a822b9dba3",
+      "lgpd-encryption-keys": "061574cb81da93aedd612ab659a02afebc8e25de29f9419dbdce8e88dbe8e9a9",
+      "lgpd-escritorio": "9fbba03c91f6bd4fa1b2767f46788cda6f63358219c6543f8eb85ffe30514bd2",
+      "lgpd-incident-response": "904c6f96b6405d75f6c9fd1129acf0ddbdd3b12d43e5906b72843bd20af10155",
+      "lgpd-international-transfer": "296f192055cae49f62742bdda8b9e0d7c6e3332a677763d2511ec803795cc6ae",
+      "lgpd-legacy-retrofit": "221c83898c66a000d0c958978444b39defc57b4264b5193033472d52a3aba2fb",
+      "lgpd-legal-basis": "05a4a1a27d37d1485c277e436cdb08bfdd4ca87dab94313111ef5da31e6682ac",
+      "lgpd-privacy-policy": "75b2c6568977aab900bcfe5cd171664b6f944ba8b7febb490afc43c8d7035924",
+      "lgpd-retention-erasure": "6f424dd14c8ca332ccfcaff3b9ff2d4218fffbe2b5d20b8233564ed3f3f057cf",
+      "lgpd-ripd": "203cf07be6350c607c942858b3b319051a7beb38c123d14f3806f345816eaf72",
+      "lgpd-ropa": "5b284d88da69787e5280ec73aea129579ad97c1c5b3ad9d73ce25ca262f22caa",
+      "lgpd-vendor-audit": "8878f07a88d71ff61772746290b63f4434f3722f5431b2db7f1feb48a07132a4"
+    },
+    "zip_sha256": "8ba1c3f00e1dd5d184cac895fcd9ff26fa8ff586437bded6acb44081205477bf",
+    "zip_uso": "Critérios organizacionais compatíveis; escopo original de escritório de advocacia não adotado para o app."
+  },
+  "paginas_publicas": [
+    {
+      "pagina": "privacidade",
+      "http": 200,
+      "url_final": "https://sites.google.com/view/terra-live-wallpaper/privacidade",
+      "versoes_encontradas": [
+        "Versão da política: 1.9 Última atualização: 15 de outubro de 2026 Estado: Documento em revisão; "
+      ],
+      "texto_terra": true
+    },
+    {
+      "pagina": "termos",
+      "http": 200,
+      "url_final": "https://sites.google.com/view/terra-live-wallpaper/termos",
+      "versoes_encontradas": [
+        "Versão dos termos: 1.5 Última atualização: 15 de outubro de 2026 Estado: Documento em revisão; a"
+      ],
+      "texto_terra": true
+    },
+    {
+      "pagina": "contato",
+      "http": 200,
+      "url_final": "https://sites.google.com/view/terra-live-wallpaper/contato",
+      "versoes_encontradas": [
+        "Versão do documento: 1.2 Última atualização: 15 de outubro de 2026 Estado: Documento em revisão;"
+      ],
+      "texto_terra": true
+    }
+  ],
+  "limites": [
+    "Sem acesso a contas de fornecedores ou Console",
+    "Sem teste de runtime ou auditoria integral do código",
+    "Sem aprovação jurídica, vigência, publicação ou distribuição",
+    "Textos históricos e revisões anteriores não usados como evidência"
+  ]
+}

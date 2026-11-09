@@ -5,33 +5,23 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
- * Trava o invariante que já quebrou uma vez: o TTL do cache precisa ser **menor**
- * que o período do worker.
- *
- * O bug original: `WeatherCache` usava TTL fixo de 30min enquanto o usuário podia
- * escolher 15min em Ajustes. O worker acordava aos 15min, `isStale` devolvia false
- * (dado ainda "fresco" pelos 30min fixos) e a busca era pulada — a opção de 15min
- * não fazia absolutamente nada, e o build passava porque compilar não prova efeito.
+ * O cache cobre todo o intervalo escolhido: sair e voltar à home não antecipa
+ * consulta como acontecia com a antiga margem de 10% do worker.
  */
 class IntervaloClimaTest {
 
     @Test
-    fun `TTL e sempre menor que o periodo, senao o worker pula a busca`() {
+    fun `cache cobre todo o intervalo escolhido`() {
         IntervaloClima.OPCOES_MIN.forEach { minutos ->
             val periodoMs = minutos * 60_000L
             val ttl = IntervaloClima.ttlMs(minutos)
-            assertTrue(
-                "TTL de ${minutos}min ($ttl ms) precisa ser < período ($periodoMs ms), " +
-                    "senão o dado ainda conta como fresco quando o worker acorda",
-                ttl < periodoMs,
-            )
+            assertEquals(periodoMs, ttl)
         }
     }
 
     @Test
     fun `TTL nao e curto demais a ponto de buscar antes da hora`() {
-        // Margem de 10%: perto o bastante do período pra não gerar busca extra,
-        // longe o bastante da fronteira pra não depender de milissegundos.
+        // Cada preferência precisa preservar sua duração real.
         IntervaloClima.OPCOES_MIN.forEach { minutos ->
             val periodoMs = minutos * 60_000L
             assertTrue(

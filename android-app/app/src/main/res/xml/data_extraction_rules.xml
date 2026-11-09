@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <data-extraction-rules>
     <cloud-backup>
+        <exclude domain="file" path="acervo/" />
         <exclude domain="sharedpref" path="atmosfera_plano.xml" />
+        <exclude domain="sharedpref" path="atmosfera_compras_artes.xml" />
+        <exclude domain="sharedpref" path="atmosfera_weather_cache.xml" />
+        <exclude domain="sharedpref" path="atmosfera_met_freio.xml" />
     </cloud-backup>
     <device-transfer>
+        <exclude domain="file" path="acervo/" />
         <exclude domain="sharedpref" path="atmosfera_plano.xml" />
+        <exclude domain="sharedpref" path="atmosfera_compras_artes.xml" />
+        <exclude domain="sharedpref" path="atmosfera_weather_cache.xml" />
+        <exclude domain="sharedpref" path="atmosfera_met_freio.xml" />
     </device-transfer>
 </data-extraction-rules>

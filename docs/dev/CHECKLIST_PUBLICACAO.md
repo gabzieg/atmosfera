@@ -1,5 +1,22 @@
 # Checklist de publicação — Google Play
 
+## Site publicado em 15/10/2026
+
+Rafael informou a publicação do Google Sites. Links conferidos na navegação, documentados sem seleção de conta:
+
+| Destino | URL |
+|---|---|
+| Site | https://sites.google.com/view/terra-live-wallpaper |
+| Política de Privacidade — campo do Console | https://sites.google.com/view/terra-live-wallpaper/privacidade |
+| Termos | https://sites.google.com/view/terra-live-wallpaper/termos |
+| Contato | https://sites.google.com/view/terra-live-wallpaper/contato |
+
+Compras do teste: somente contas testadoras de licença, conforme decisão do titular em 15/10. Falta conferir a configuração efetiva das contas e dos instrumentos de pagamento. O site está publicado com metadados de rascunho; publicação não significa aprovação jurídica, vigência do candidato, cadastro no Console ou começo dos 14 dias. Ainda é necessário conferir o acesso sem login em sessão anônima e conciliar versão/vigência/textos do artefato. Alterações nas fontes locais exigem republicação no Google Sites; gerar os HTMLs não modifica o site.
+
+
+> Atualização de 11/10/2026: o roteiro vigente é [CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md). A oferta atual separa Premium de artes individuais; o R2 já existe e o catálogo tem 366 artes após cortes. Os documentos canônicos estão em revisão, com vigência/versão de distribuição pendentes; ver [etapa 5](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md). As seções abaixo preservam registros anteriores e não substituem essas decisões nem as declarações atuais exigidas pelo Console.
+
+
 > Ver também: [README.md](../../README.md) (visão geral + build de release).
 >
 > Este arquivo substitui o antigo `estrutura.md`, que era uma resposta
@@ -13,11 +30,11 @@
 |---|---|---|
 | `INTERNET` / `ACCESS_NETWORK_STATE` | `weather/WeatherRepository.kt` | Buscar o clima na MET Norway |
 | `ACCESS_COARSE_LOCATION` | `weather/LocationHelper.kt` | O wallpaper reage ao clima da região do usuário — é a funcionalidade principal do app. **Só aproximada**: `ACCESS_FINE_LOCATION` foi removida em 2026-08-08 por não ter uso real (ver comentário no manifesto) |
-| `RECEIVE_BOOT_COMPLETED` | `weather/BootReceiver.kt` | Reagendar a atualização periódica de clima após reiniciar o aparelho |
 
-Nenhuma outra permissão deveria existir — se aparecer uma nova no manifesto,
-confirme que tem uso real antes de publicar (o Google compara o Data Safety
-Form declarado com o que o APK realmente pede).
+Essa tabela cobre as permissões diretamente declaradas pelo aplicativo.
+WorkManager e outras dependências podem acrescentar permissões técnicas ao
+manifesto mesclado. Conferir o manifesto do AAB final e justificar cada permissão
+antes de publicar; o Google compara a declaração com o artefato enviado.
 
 ## Dados coletados
 
@@ -127,14 +144,15 @@ Form declarado com o que o APK realmente pede).
 
   Sem urgência pra build local/debug — tudo embarcado serve pra teste. Bloqueia
   só a build de **release** que for pra Play Store.
-- [ ] **⚠️ Propriedade intelectual nos estilos de efeito** — `engine/Estilo.kt`
-  declara `pixel_mario` e `pixel_zelda`. São marcas da Nintendo. Se os sprites
-  forem derivados dos jogos, o risco não é rejeição de ficha: é **remoção do app
-  e possível suspensão da conta de desenvolvedor**, sob o processo de denúncia de
-  IP da Play, que é rápido e não espera argumentação. Confirmar a origem da arte
-  com o Rafael antes de qualquer publicação; na dúvida, remover do catálogo.
-  Vale a mesma checagem para o resto dos packs — arte gerada a partir de obra
-  protegida é problema mesmo quando o nome não denuncia.
+- [ ] **⚠️ Propriedade intelectual da arte** — `pixel_mario` e `pixel_zelda`
+  (marcas da Nintendo) **já saíram** de `engine/Estilo.kt`, que hoje tem 16
+  estilos. O risco que sobra é o mesmo, agora para o resto: se qualquer sprite ou
+  cenário for derivado de obra protegida, o risco não é rejeição de ficha, é
+  **remoção do app e possível suspensão da conta**, sob o processo de denúncia de
+  IP da Play, que é rápido e não espera argumentação. Falta o registro de autoria
+  e licença das artes e sprites que vão no lançamento (pergunta 19 do Rafael) —
+  arte gerada a partir de obra protegida é problema mesmo quando o nome não
+  denuncia.
 - [x] **Produto no Play Console**: `terra_premium` criado como produto único,
   compra não consumível. A versão inicial não vende cenários avulsos.
 - [ ] **Chave de licenciamento**: preencher `playLicensePublicKey` em
@@ -216,6 +234,9 @@ Form declarado com o que o APK realmente pede).
   da MET: 20 req/s somando TODOS os usuários — acima disso exige acordo ou
   proxy com cache. Com o cache HTTP e o intervalo mínimo de 15 min, isso só
   pesa com dezenas de milhares de aparelhos ativos.
+  - **Atualizado em 05/10/2026:** freio de 429/403 e cache HTTP preservados. Consultas somente pelo serviço na home visível, com tela interativa e aparelho desbloqueado; prévias e companion não consultam. Jitter cancelável de até 15 s distribui consultas enquanto em uso.
+  - [x] **Decisão posterior do titular: clima somente na home.** Substitui a decisão de 04/10 de manter consultas periódicas fora de uso. Removidos pontos de agendamento e receiver próprio de boot. WeatherWorker permanece sem rede para neutralizar filas antigas; Application cancela trabalhos de clima por nome e tag, inclusive pontuais, preservando outros trabalhos.
+  - [ ] **Validar visibilidade/lock screen em aparelho real.** Testes automatizados não garantem os callbacks de todos os launchers/fabricantes. Conferir ausência de consultas com home oculta, aparelho bloqueado, tela apagada e prévias, além da aquisição de localização com a permissão aproximada disponível. Nenhuma permissão de localização em segundo plano foi adicionada.
 
 ## Antes de cada release (recorrente)
 
@@ -304,7 +325,8 @@ corrigida no mesmo PR.
 | `WeatherRepository.kt` — base URL `api.met.no`, HTTPS, sem chave de API, coordenadas arredondadas (`coordenada()`) | 3.1, 6.1, 9 |
 | `WeatherCache.kt` — TTL derivado do intervalo escolhido, delta ~5 km, só o registro mais recente | 3.1, 8 |
 | `IntervaloClima.kt` — opções 15/30/60 min, padrão 30 | 3.1 ("intervalo escolhido por você"), 8 |
-| `BootReceiver.kt` / `WeatherWorker` — período = intervalo escolhido | 3.1 ("verificação periódica") |
+| `ClimaNaHome.kt` / `AtmosferaWallpaperService.kt` — sessão visível/desbloqueada, cancelável | 3.1 ("somente na tela inicial") |
+| `WeatherWorker.kt` — migração sem consultas; filas antigas canceladas | 3.1, 5 |
 | `BillingManager.kt` — só `ProductType.INAPP`, compra única, sem `SUBS` | Privacidade 3.5 e 9; **Termos §5.1** ("não há assinatura") — passar a vender assinatura invalida os dois |
 | `BillingManager.kt` — só resultado da compra + verificação de assinatura | 3.5, 9 |
 | `Plano.kt`, `Cena.kt`, `Estilo.kt` — prefs locais | 3.4 |

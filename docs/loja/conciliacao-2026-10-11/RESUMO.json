@@ -1,0 +1,16 @@
+{
+  "data": "2026-10-11",
+  "url_manifesto": "https://pub-722473b758b144279fc34ecb931a6045.r2.dev/manifest.json",
+  "sha256_snapshot": "4306657a9f6ec050643975a3afbd4fb909b72070fa2a41347c8df8f8edf17c43",
+  "cenas_brutas": 74,
+  "artes_brutas": 389,
+  "cenas_apos_cortes": 71,
+  "artes_apos_cortes": 366,
+  "artes_com_hd_local": 75,
+  "artes_sem_hd_local": 291,
+  "artes_nao_declaradas_motor_local": 54,
+  "skus_pagos_propostos": 361,
+  "descritores_com_hash_completo_no_nome": 1169,
+  "bytes_pacotes_comuns_e_artes": 361641111,
+  "arquivos_hd_baixados_nesta_conferencia": 0
+}

@@ -1,7 +1,7 @@
 <!--
 Título em português, no imperativo: "Corrige vazamento ao trocar de cenário".
 Quando o PR é obrigatório, o que pode ir direto na main e os escape hatches:
-.claude/skills/abrir-pr/SKILL.md
+AGENTS.md (Fluxo) e CLAUDE.md (Regras de PR)
 -->
 
 ## O que muda

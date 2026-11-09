@@ -3,7 +3,6 @@ package com.terra.wallpaper.billing
 import android.app.Activity
 import android.content.Context
 import android.util.Log
-import androidx.preference.PreferenceManager
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
@@ -16,7 +15,6 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.terra.wallpaper.engine.Catalogo
-import com.terra.wallpaper.engine.Cena
 import com.terra.wallpaper.BuildConfig
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,12 +26,10 @@ class BillingManager(
 
     companion object {
         const val PRODUTO_PREMIUM = "terra_premium"
-        const val PREF_AVULSO_PREFIX = "comprou_avulso_"
         private const val TAG = "BillingManager"
 
     }
 
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     private var detalhesMap: Map<String, ProductDetails> = emptyMap()
     private var ofertasMap: Map<String, ProductDetails.OneTimePurchaseOfferDetails> = emptyMap()
     val premiumConfigurado: Boolean = BuildConfig.PLAY_LICENSE_PUBLIC_KEY.isNotBlank()
@@ -81,42 +77,30 @@ class BillingManager(
     override fun onBillingServiceDisconnected() { /* reconecta no próximo conectar() */ }
 
     private fun consultar() {
-        val skus = mutableListOf(PRODUTO_PREMIUM)
-        Catalogo.cenarios.mapNotNull { it.productId }.forEach { skus.add(it) }
-
-        val productList = skus.map {
-            QueryProductDetailsParams.Product.newBuilder()
-                .setProductId(it)
-                .setProductType(BillingClient.ProductType.INAPP)
-                .build()
-        }
-
-        val params = QueryProductDetailsParams.newBuilder().setProductList(productList).build()
-        // Billing 8 trocou a lista crua do callback por um QueryProductDetailsResult,
-        // que separa o que veio (`productDetailsList`) do que NÃO veio
-        // (`unfetchedProductList`, com o motivo). Antes, produto inexistente
-        // simplesmente sumia da resposta sem deixar rastro.
-        client.queryProductDetailsAsync(params) { resultado, detalhes ->
-            if (resultado.responseCode != BillingClient.BillingResponseCode.OK) {
-                Log.w(TAG, "Consulta de produtos falhou: ${resultado.debugMessage}")
-                return@queryProductDetailsAsync
+        val lotes = (listOf(PRODUTO_PREMIUM) + Catalogo.produtosArtes()).distinct().chunked(20)
+        detalhesMap = emptyMap(); ofertasMap = emptyMap(); _precos.value = emptyMap()
+        fun consultarLote(indice: Int) {
+            if (indice >= lotes.size) return
+            val produtos = lotes[indice].map {
+                QueryProductDetailsParams.Product.newBuilder().setProductId(it)
+                    .setProductType(BillingClient.ProductType.INAPP).build()
             }
-            detalhes.unfetchedProductList.forEach {
-                Log.w(TAG, "Produto não encontrado no Play: ${it.productId} (status ${it.statusCode})")
+            client.queryProductDetailsAsync(QueryProductDetailsParams.newBuilder().setProductList(produtos).build()) { resultado, resposta ->
+                if (resultado.responseCode == BillingClient.BillingResponseCode.OK) {
+                    detalhesMap = detalhesMap + resposta.productDetailsList.associateBy { it.productId }
+                    ofertasMap = detalhesMap.mapNotNull { (id, pd) ->
+                        val oferta = pd.oneTimePurchaseOfferDetailsList
+                            ?.filter { it.rentalDetails == null && it.preorderDetails == null }
+                            ?.minByOrNull { it.priceAmountMicros }
+                            ?: pd.oneTimePurchaseOfferDetails?.takeIf { it.rentalDetails == null && it.preorderDetails == null }
+                        oferta?.let { id to it }
+                    }.toMap()
+                    _precos.value = ofertasMap.mapValues { it.value.formattedPrice }
+                }
+                consultarLote(indice + 1)
             }
-            detalhesMap = detalhes.productDetailsList.associateBy { it.productId }
-            // Seleciona a opção de compra permanente, sem aluguel ou pré-venda.
-            // O mesmo token que define o preço mostrado deve abrir o checkout.
-            ofertasMap = detalhesMap.mapNotNull { (id, pd) ->
-                val oferta = pd.oneTimePurchaseOfferDetailsList
-                    ?.firstOrNull { it.rentalDetails == null && it.preorderDetails == null && it.offerId == null }
-                    ?: pd.oneTimePurchaseOfferDetails?.takeIf {
-                        it.rentalDetails == null && it.preorderDetails == null
-                    }
-                oferta?.let { id to it }
-            }.toMap()
-            _precos.value = ofertasMap.mapValues { it.value.formattedPrice }
         }
+        consultarLote(0)
     }
 
     fun restaurar() {
@@ -128,9 +112,8 @@ class BillingManager(
                 Log.w(TAG, "Restauração de compras falhou: ${resultado.debugMessage}")
                 return@queryPurchasesAsync
             }
-            // `aplicarCena = false`: restaurar acontece a cada abertura do app.
-            // Trocar o cenário aqui sobrescreveria a escolha do usuário toda vez.
-            compras.forEach { processar(it, aplicarCena = false) }
+            // Restaurar direitos nunca baixa nem aplica arte automaticamente.
+            compras.forEach { processar(it) }
             reconciliar(compras)
         }
     }
@@ -157,36 +140,23 @@ class BillingManager(
             onMudou(false)
         }
 
-        Catalogo.cenarios.forEach { cenario ->
-            val pid = cenario.productId ?: return@forEach
-            if (pid !in ativos && isAvulsoDesbloqueado(cenario.id)) {
-                Log.w(TAG, "Cenário ${cenario.id} não consta mais nas compras ativas — revogando.")
-                prefs.edit().putBoolean(PREF_AVULSO_PREFIX + cenario.id, false).apply()
-                // Se o cenário revogado é justamente o que está no ar, o wallpaper
-                // ficaria exibindo conteúdo pago não mais possuído. Volta pro padrão.
-                if (Cena.atual(context) == cenario.id) {
-                    Log.w(TAG, "Cenário revogado estava ativo — voltando para ${Catalogo.padrao.id}.")
-                    Cena.definir(context, Catalogo.padrao.id)
-                }
-            }
-        }
+        ComprasArte.reconciliar(context, ativos.intersect(Catalogo.produtosArtes()))
+        onMudou(Plano.isPremium(context))
     }
 
     fun comprar(activity: Activity, productId: String = PRODUTO_PREMIUM) {
         if (!premiumConfigurado) {
-            if (productId == PRODUTO_PREMIUM) {
-                _mensagemPremium.value = "Compra indisponível: configuração do Google Play pendente."
-            }
+            _mensagemPremium.value = "Compra indisponível: configuração do Google Play pendente."
             return
         }
         val pd = detalhesMap[productId]
         val oferta = ofertasMap[productId]
         if (pd == null || oferta == null) {
             Log.w(TAG, "Compra de $productId ignorada: produto ou oferta não carregado do Play.")
-            if (productId == PRODUTO_PREMIUM) _mensagemPremium.value = "O Google Play ainda não carregou o Premium. Tente novamente."
+            _mensagemPremium.value = "O Google Play ainda não carregou este produto. Tente novamente."
             return
         }
-        if (productId == PRODUTO_PREMIUM) _mensagemPremium.value = null
+        _mensagemPremium.value = null
         val produtoParams = BillingFlowParams.ProductDetailsParams.newBuilder()
             .setProductDetails(pd)
         oferta.offerToken?.let { produtoParams.setOfferToken(it) }
@@ -199,7 +169,7 @@ class BillingManager(
         val resultado = client.launchBillingFlow(activity, flow)
         if (resultado.responseCode != BillingClient.BillingResponseCode.OK) {
             Log.w(TAG, "Não foi possível abrir a compra de $productId: ${resultado.debugMessage}")
-            if (productId == PRODUTO_PREMIUM) _mensagemPremium.value = "Não foi possível abrir a compra. Verifique a Play Store e tente novamente."
+            _mensagemPremium.value = "Não foi possível abrir a compra. Verifique a Play Store e tente novamente."
         }
     }
 
@@ -209,9 +179,8 @@ class BillingManager(
         // auditoria: a UI nunca sabe por que a compra não completou.
         when (result.responseCode) {
             BillingClient.BillingResponseCode.OK -> {
-                // Compra recém-fechada: aqui aplicar o cenário é o comportamento
-                // desejado — o usuário acabou de comprar aquele cenário.
-                compras?.forEach { processar(it, aplicarCena = true) }
+                // Concede o direito; download/aplicacao dependem de acao do usuario.
+                compras?.forEach { processar(it) }
                 if (compras.isNullOrEmpty()) _mensagemPremium.value = "A compra não foi confirmada. Tente restaurar ou comprar novamente."
             }
             BillingClient.BillingResponseCode.USER_CANCELED -> {
@@ -240,18 +209,18 @@ class BillingManager(
         val valida = AssinaturaCompra.valida(
             BuildConfig.PLAY_LICENSE_PUBLIC_KEY, p.originalJson, p.signature
         )
-        if (!valida) Log.w(TAG, "Assinatura inválida ou chave ausente na compra ${p.orderId}.")
+        if (!valida) Log.w(TAG, "Assinatura inválida ou chave ausente na compra [pedido].")
         return valida
     }
 
-    private fun processar(p: Purchase, aplicarCena: Boolean) {
-        if (p.purchaseState == Purchase.PurchaseState.PENDING && PRODUTO_PREMIUM in p.products) {
-            _mensagemPremium.value = "Pagamento pendente. O Premium será liberado após a confirmação pelo Google Play."
+    private fun processar(p: Purchase) {
+        if (p.purchaseState == Purchase.PurchaseState.PENDING) {
+            _mensagemPremium.value = "Pagamento pendente. O conteudo será liberado após a confirmação pelo Google Play."
             return
         }
         if (p.purchaseState == Purchase.PurchaseState.PURCHASED && !assinaturaValida(p)) {
-            Log.w(TAG, "Compra ${p.orderId} rejeitada: assinatura inválida.")
-            if (PRODUTO_PREMIUM in p.products) _mensagemPremium.value = "Não foi possível validar a compra. Verifique a configuração do Google Play."
+            Log.w(TAG, "Compra [pedido] rejeitada: assinatura inválida.")
+            _mensagemPremium.value = "Não foi possível validar a compra. Verifique a configuração do Google Play."
             return
         }
         if (p.purchaseState == Purchase.PurchaseState.PURCHASED) {
@@ -267,10 +236,8 @@ class BillingManager(
                     // isso escondia exatamente o cenário que o prazo de 3 dias
                     // pune — logar é o mínimo pra dar pra diagnosticar em campo.
                     if (resultado.responseCode != BillingClient.BillingResponseCode.OK) {
-                        Log.w(TAG, "Falha ao confirmar compra ${p.orderId}: ${resultado.debugMessage}")
-                        if (PRODUTO_PREMIUM in p.products) {
-                            _mensagemPremium.value = "Premium liberado, mas a confirmação ao Google Play falhou. Abra o app novamente para tentar de novo."
-                        }
+                        Log.w(TAG, "Falha ao confirmar compra [pedido]: ${resultado.debugMessage}")
+                        _mensagemPremium.value = "A confirmação ao Google Play falhou. Abra o app novamente para tentar de novo."
                     }
                 }
             }
@@ -281,18 +248,14 @@ class BillingManager(
                     onMudou(true)
                     _mensagemPremium.value = null
                 } else {
-                    val cenario = Catalogo.cenarios.firstOrNull { it.productId == productId }
-                    if (cenario != null) {
-                        prefs.edit().putBoolean(PREF_AVULSO_PREFIX + cenario.id, true).apply()
-                        if (aplicarCena) Cena.definir(context, cenario.id)
+                    if (productId in Catalogo.produtosArtes()) {
+                        ComprasArte.conceder(context, productId)
+                        onMudou(Plano.isPremium(context))
+                        _mensagemPremium.value = null
                     }
                 }
             }
         }
-    }
-
-    fun isAvulsoDesbloqueado(cenarioId: String): Boolean {
-        return prefs.getBoolean(PREF_AVULSO_PREFIX + cenarioId, false)
     }
 
     /**

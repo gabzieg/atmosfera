@@ -14,7 +14,6 @@
       mais do que o app usa. Não readicionar sem um uso real.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".AtmosferaApp"
@@ -83,15 +82,6 @@
                 android:name="android.service.wallpaper"
                 android:resource="@xml/wallpaper_info" />
         </service>
-
-        <!-- ── Worker para atualização periódica do clima ─────────────── -->
-        <receiver
-            android:name=".weather.BootReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
 
     </application>
 </manifest>

@@ -39,3 +39,9 @@
 # Mas "funciona porque o otimizador foi tolerante" não é garantia nenhuma, e
 # quando formos pro AGP 10 (obrigatório algum dia) isto deixa de ser opcional.
 -keep class * extends androidx.room.RoomDatabase { <init>(); }
+
+# Bundled remote-catalog manifest parsed by Gson.
+-keep class com.terra.wallpaper.engine.Acervo$Manifesto { *; }
+-keep class com.terra.wallpaper.engine.Acervo$CenaPack { *; }
+-keep class com.terra.wallpaper.engine.Acervo$ArtePack { *; }
+-keep class com.terra.wallpaper.engine.Acervo$ArquivoRemoto { *; }

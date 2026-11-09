@@ -52,12 +52,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.terra.wallpaper.engine.Catalogo
 import com.terra.wallpaper.engine.Estilos
+import com.terra.wallpaper.engine.Acervo
+import android.app.Activity
+import androidx.compose.material3.LinearProgressIndicator
 import com.terra.wallpaper.service.AtmosferaWallpaperService
 import androidx.compose.material3.TextButton
 import com.terra.wallpaper.ui.components.ConfirmarWallpaperDialog
 import com.terra.wallpaper.ui.components.ReportarProblemaDialog
 import com.terra.wallpaper.ui.components.EngineLivePreview
 import com.terra.wallpaper.ui.components.SceneThumbnail
+import com.terra.wallpaper.ui.components.ScenePreview
 import com.terra.wallpaper.ui.theme.Radius
 import com.terra.wallpaper.ui.theme.Spacing
 
@@ -72,13 +76,21 @@ import com.terra.wallpaper.ui.theme.Spacing
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> Unit, onVerPremium: (String?) -> Unit) {
+fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> Unit, onVerPremium: (String?) -> Unit,
+    onAbrirCenario: (String) -> Unit) {
     val cenario = Catalogo.por(sceneId) ?: return
     val currentSceneId by viewModel.currentSceneId.collectAsState()
     val currentArt by viewModel.currentArt.collectAsState()
     val currentEffectStyle by viewModel.currentEffectStyle.collectAsState()
     val isPremium by viewModel.isPremium.collectAsState()
+    val compras by viewModel.artesCompradas.collectAsState()
+    val revisaoAcesso by viewModel.revisaoAcesso.collectAsState()
+    val precos by viewModel.billingManager.precos.collectAsState()
+    val mensagemCompra by viewModel.billingManager.mensagemPremium.collectAsState()
+    val download by viewModel.downloadArte.collectAsState()
     val context = LocalContext.current
+    val activity = generateSequence(context) { (it as? android.content.ContextWrapper)?.baseContext }
+        .filterIsInstance<Activity>().firstOrNull()
 
     val isActiveScene = currentSceneId == sceneId
     val artes = artesDoCenario(sceneId)
@@ -86,8 +98,14 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
     // global, e mexer nela olhando outro cenário trocava a arte do wallpaper que
     // está no ar (e, com arte grátis avulsa, podia pôr no ar uma arte paga).
     var arteExibida by remember(sceneId) { mutableStateOf(viewModel.arteInicial(cenario)) }
-    val isActive = isActiveScene && currentArt == arteExibida
-    val isUnlocked = viewModel.isArtUnlocked(cenario, arteExibida)
+    val isUnlocked = remember(cenario, arteExibida, compras, revisaoAcesso) {
+        viewModel.isArtUnlocked(cenario, arteExibida)
+    }
+    val instalada = viewModel.arteInstalada(cenario, arteExibida)
+    val produto = Catalogo.produtoArte(cenario, arteExibida)
+    val preco = precos[produto]
+    val baixando = download.id == "$sceneId/$arteExibida" && download.progresso != null
+    val isActive = isUnlocked && isActiveScene && currentArt == arteExibida
     var mostrarConfirmacao by remember { mutableStateOf(false) }
     var mostrarReporte by remember { mutableStateOf(false) }
 
@@ -123,8 +141,10 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                 mostrarConfirmacao = false
                 // o serviço desenha o par salvo: sem isto ele abria o cenário
                 // de antes, não o que está na tela
-                if (isUnlocked) viewModel.aplicar(sceneId, arteExibida)
-                aplicarWallpaper()
+                if (isUnlocked) {
+                    viewModel.aplicar(sceneId, arteExibida)
+                    aplicarWallpaper()
+                }
             },
             onDismiss = { mostrarConfirmacao = false },
         )
@@ -144,8 +164,8 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
         // motor pinta além da altura da View — sem isso a chuva vaza por cima do
         // nome, dos botões e da seção de estilos abaixo.
         Box(modifier = Modifier.fillMaxWidth().height(340.dp).clipToBounds()) {
-            SceneThumbnail(sceneId = sceneId, arte = arteExibida, modifier = Modifier.fillMaxSize())
-            EngineLivePreview(
+            ScenePreview(sceneId = sceneId, arte = arteExibida, remota = !instalada, modifier = Modifier.fillMaxSize())
+            if (instalada) EngineLivePreview(
                 sceneId = sceneId,
                 arte = arteExibida,
                 estilo = currentEffectStyle,
@@ -160,6 +180,14 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
             ) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar", tint = Color.White)
             }
+            if (!isUnlocked) Row(
+                modifier = Modifier.align(Alignment.BottomEnd).padding(Spacing.md)
+                    .background(Color.Black.copy(alpha = 0.65f), RoundedCornerShape(Radius.pill)).padding(Spacing.sm),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(Icons.Default.Lock, contentDescription = "Arte não adquirida", tint = Color.White)
+                Text("Arte não adquirida", color = Color.White)
+            }
         }
 
         Column(
@@ -170,15 +198,27 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text("CENÁRIO", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, fontWeight = FontWeight.SemiBold)
-                    Text(cenario.nome, style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground)
+                    Text(Catalogo.por(Catalogo.familia(sceneId))?.nome ?: cenario.nome,
+                        style = MaterialTheme.typography.headlineSmall, color = MaterialTheme.colorScheme.onBackground)
                 }
                 Spacer(Modifier.width(Spacing.md))
-                AcaoPrincipal(
+                if (isUnlocked) AcaoPrincipal(
                     isActive = isActive,
                     isUnlocked = isUnlocked,
-                    onAplicar = { viewModel.aplicar(sceneId, arteExibida) },
-                    onVerPremium = { onVerPremium(null) },
+                    onAplicar = { viewModel.baixarEAplicar(cenario, arteExibida) },
+                    textoAplicar = if (instalada) "Aplicar" else "Baixar e aplicar",
+                    enabled = !baixando && viewModel.entregaDisponivel(cenario, arteExibida),
                 )
+                else Button(
+                    enabled = produto != null && preco != null && viewModel.entregaDisponivel(cenario, arteExibida) && activity != null,
+                    onClick = { if (produto != null && activity != null) viewModel.buyScene(activity, produto) },
+                    shape = RoundedCornerShape(Radius.pill),
+                ) { Text(if (preco != null) "Comprar $preco" else "Compra indisponível") }
+            }
+
+            if (!instalada) {
+                val bytes = Acervo.bytesParaBaixar(context, sceneId, arteExibida)
+                Text(String.format(java.util.Locale.forLanguageTag("pt-BR"), "Download: %.1f MB", bytes / (1024f * 1024f)))
             }
 
             // ── Ações secundárias em pílula ─────────────────────────────
@@ -187,8 +227,9 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                     texto = "Definir wallpaper",
                     modifier = Modifier.weight(1f),
                     onClick = {
-                        if (isUnlocked) mostrarConfirmacao = true else onVerPremium(null)
+                        if (isUnlocked) mostrarConfirmacao = true
                     },
+                    enabled = isUnlocked && instalada,
                 )
                 PilulaAcao(
                     icone = Icons.Default.Share,
@@ -204,6 +245,36 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                 )
             }
 
+            if (!isUnlocked) {
+                Text(
+                    "Esta arte é uma compra individual e não está incluída no Premium." +
+                        if (preco == null || !viewModel.entregaDisponivel(cenario, arteExibida)) " A compra está indisponível no momento." else "",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            if (baixando) {
+                LinearProgressIndicator(progress = { download.progresso ?: 0f }, modifier = Modifier.fillMaxWidth())
+                TextButton(onClick = { viewModel.cancelarDownload() }) { Text("Cancelar download") }
+            }
+            if (!instalada && !viewModel.entregaDisponivel(cenario, arteExibida)) {
+                Text("Download indisponível no momento. As artes já instaladas continuam disponíveis.", style = MaterialTheme.typography.bodySmall)
+            }
+            download.mensagem?.takeIf { download.id == "$sceneId/$arteExibida" || download.id.isEmpty() }?.let {
+                Text(it, style = MaterialTheme.typography.bodySmall)
+            }
+            mensagemCompra?.let { Text(it, style = MaterialTheme.typography.bodySmall) }
+
+            val ambientes = Catalogo.ambientes(sceneId)
+            if (ambientes.size > 1) SecaoDetalhe(titulo = "Ambiente") {
+                Row(horizontalArrangement = Arrangement.spacedBy(Spacing.sm)) {
+                    ambientes.forEach { ambiente ->
+                        OutlinedButton(onClick = { onAbrirCenario(ambiente.id) }, enabled = ambiente.id != sceneId) {
+                            Text(Catalogo.nomeAmbiente(ambiente.id))
+                        }
+                    }
+                }
+            }
             // ── Seção: arte do cenário (só quem tem variantes) ──────────
             if (artes.size > 1) {
                 SecaoDetalhe(titulo = "Arte do cenário") {
@@ -221,11 +292,10 @@ fun SceneDetailScreen(sceneId: String, viewModel: MainViewModel, onBack: () -> U
                                 arte = arte,
                                 selecionada = arte == arteExibida,
                                 bloqueada = !viewModel.isArtUnlocked(cenario, arte),
-                                gratis = arte in cenario.artesGratis && !viewModel.isSceneUnlocked(cenario),
+                                gratis = arte in cenario.artesGratis,
                                 onClick = {
                                     arteExibida = arte
-                                    // no cenário que já está no ar, trocar a arte é trocar o wallpaper
-                                    if (isActiveScene && viewModel.isArtUnlocked(cenario, arte)) viewModel.setArt(arte)
+                                    // Seleção é apenas prévia; o wallpaper só muda em Aplicar.
                                 },
                             )
                         }
@@ -290,20 +360,22 @@ private fun AcaoPrincipal(
     isActive: Boolean,
     isUnlocked: Boolean,
     onAplicar: () -> Unit,
-    onVerPremium: () -> Unit,
+    textoAplicar: String = "Aplicar",
+    enabled: Boolean = true,
 ) {
     when {
-        isActive -> Row(verticalAlignment = Alignment.CenterVertically) {
+        isActive && isUnlocked -> Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Default.Check, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
             Spacer(Modifier.width(Spacing.xs))
             Text("Atual", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.titleMedium)
         }
-        isUnlocked -> Button(onClick = onAplicar, shape = RoundedCornerShape(Radius.pill)) { Text("Aplicar") }
+        isUnlocked -> Button(onClick = onAplicar, enabled = enabled, shape = RoundedCornerShape(Radius.pill)) { Text(textoAplicar) }
         else -> Button(
-            onClick = onVerPremium,
+            onClick = {},
+            enabled = false,
             shape = RoundedCornerShape(Radius.pill),
         ) {
-            Text("Ver Premium")
+            Text("Arte indisponível")
         }
     }
 }
@@ -314,9 +386,10 @@ private fun PilulaAcao(
     texto: String,
     modifier: Modifier = Modifier,
     icone: androidx.compose.ui.graphics.vector.ImageVector? = null,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
-    OutlinedButton(onClick = onClick, shape = RoundedCornerShape(Radius.pill), modifier = modifier) {
+    OutlinedButton(onClick = onClick, enabled = enabled, shape = RoundedCornerShape(Radius.pill), modifier = modifier) {
         if (icone != null) {
             Icon(icone, contentDescription = null, modifier = Modifier.size(18.dp))
             Spacer(Modifier.width(Spacing.sm))

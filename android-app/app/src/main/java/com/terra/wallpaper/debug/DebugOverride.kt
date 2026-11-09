@@ -26,6 +26,7 @@ object DebugOverride {
     private const val K_HORA = "hora"           // -1 = relógio real
     private const val K_NEVOA = "nevoa"         // -1 = derivada da condição
     private const val K_DESTRAVAR = "destravar" // conteúdo Premium liberado p/ teste
+    private const val K_PREMIUM_TESTE = "premium_teste"
 
     private fun p(c: Context) = c.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
@@ -74,6 +75,8 @@ object DebugOverride {
 
     fun setDestravarPagos(c: Context, v: Boolean) =
         p(c).edit().putBoolean(K_DESTRAVAR, v).apply()
+    fun premiumTeste(c: Context): Boolean = BuildConfig.DEBUG && p(c).getBoolean(K_PREMIUM_TESTE, false)
+    fun setPremiumTeste(c: Context, v: Boolean) = p(c).edit().putBoolean(K_PREMIUM_TESTE, v).apply()
 
     /** Código WMO equivalente ao nível de neve escolhido (casa com SceneState). */
     private fun weatherCodeNeve(nivel: Int) = when (nivel) {

@@ -5,7 +5,7 @@
 #   gh api .../branches/main/protection
 #   → 403 "Upgrade to GitHub Pro or make this repository public"
 # Então isto NÃO pede revisor sozinho hoje — é convenção + arquivo pronto pro
-# dia que o plano/visibilidade mudar. A regra real vive na skill abrir-pr.
+# dia que o plano/visibilidade mudar. A regra real vive no AGENTS.md e no ruleset.
 #
 # Desde 2026-09-11 o projeto é efetivamente solo (Gabriel): o Rafael só publica
 # releases de novos packs de wallpaper (conteúdo), e engine/ passou a ser do

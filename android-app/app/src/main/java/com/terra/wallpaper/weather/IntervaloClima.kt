@@ -8,11 +8,7 @@ import androidx.preference.PreferenceManager
  * `object` sobre `SharedPreferences`, mesmo padrão de [com.terra.wallpaper.billing.Plano]
  * e `Cena` — o projeto não tem injeção de dependência.
  *
- * Existe pra que a chave da preferência não fique repetida solta em
- * `MainViewModel`/`MainActivity`/`BootReceiver`, e pra derivar o TTL do cache
- * do valor escolhido: sem isso, escolher 15min não tinha efeito nenhum, porque
- * o [WeatherCache] considerava o dado fresco por 30min fixos e o worker pulava
- * a busca.
+ * O intervalo só vale durante uma sessão elegível na home.
  */
 object IntervaloClima {
 
@@ -31,13 +27,10 @@ object IntervaloClima {
     /**
      * Por quanto tempo o clima em cache conta como fresco.
      *
-     * 90% do intervalo, de propósito: se o TTL fosse igual ao período do worker,
-     * a checagem cairia exatamente na fronteira e um atraso de milissegundos
-     * faria `isStale` devolver false, pulando a busca daquele ciclo. A margem
-     * garante que o dado já esteja vencido quando o worker acorda. (O
-     * WorkManager pode disparar depois do período, nunca antes.)
+     * Sem margem de 10%: voltar à home não deve antecipar consultas.
+     * WeatherCache considera vencido também o instante exato do prazo.
      */
     fun ttlMs(context: Context): Long = ttlMs(atual(context))
 
-    fun ttlMs(minutos: Int): Long = minutos * 60_000L * 9 / 10
+    fun ttlMs(minutos: Int): Long = minutos * 60_000L
 }

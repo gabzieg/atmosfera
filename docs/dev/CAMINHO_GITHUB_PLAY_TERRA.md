@@ -1,34 +1,24 @@
-# Como esta atualização chega ao aplicativo
+# Como as mudanças chegam ao aplicativo
 
-Estado verificado em 04/10/2026, tomando como base a main d3b0cc2 (PR #41).
+Conferência de fonte em09/11/2026, base `eb245b4`. O roteiro original de04/10 fica histórico nos commits do PR43; este texto separa procedimentos válidos do estado atual. A fila é [TASKS](TASKS.md).
 
-## Três publicações diferentes
+## Três entregas distintas
 
-1. **R2:** armazena os arquivos do acervo. O catálogo de testes já foi enviado: 74 cenas, 389 artes, 1242 arquivos referenciados, 440.656.483 bytes. Os nomes contêm hashes para evitar que uma arte nova seja confundida com uma versão antiga em cache.
-2. **GitHub:** guarda código, documentação e ferramentas. Esta atualização registra as informações técnicas verificadas e a ferramenta de upload reutilizável. Não altera o aplicativo Android. As alterações antigas da pasta local foram preservadas e não foram transportadas automaticamente sobre a main recente.
-3. **Play Console:** recebe um novo Android App Bundle assinado (.aab). Uma branch ou PR no GitHub não atualiza o app instalado. O upload de imagens para o R2 também não atualiza sozinho o catálogo e os produtos da loja.
+1. **R2:** arquivos do acervo; o envio histórico de04/10 não comprova o bucket atual. Ver [BUCKET-R2](BUCKET-R2.md) e [entrada da ferramenta](../../tools/r2/README.md). Upload não atualiza sozinho índice embarcado, mapeamento, compra ou produtos Play.
+2. **GitHub:** código, fontes e ferramentas entram por PR/revisão/checks. Nem merge nem publicação de HTML demonstram site público, instalação ou aprovação comercial. Esta entrega não executa uploader/CLI.
+3. **Play Console:** recebe AAB assinado em tarefa própria. App instalado não muda com um PR ou imagem enviada ao R2. Destino/faixa/convite/envio dependem de escopo vigente, sem assumir teste interno/produção pelo roteiro antigo.
 
-## Antes de enviar um novo AAB
+## Antes do build/envio autorizado
 
-- Concluir a integração de download na versão atual: engine/Acervo.kt ainda tem BASE_PADRAO vazio, e o acesso ao acervo remoto está nas ferramentas de debug. Validar o caminho completo de compra, download, cancelamento, integridade e aplicação no motor.
-- Usar com.terra.wallpaper e terra_premium. Não empacotar automaticamente a cópia local antiga com com.atmosfera.wallpaper.
-- Resolver os textos/links legais e testar o cliente Android contra o bucket público. A verificação HTTP identificada funcionou, mas o cliente Python padrão recebeu 403; isso não comprova falha nem sucesso no Android.
-- Gerar a versão na máquina que possui a chave de upload e a configuração privada de assinatura. Esta máquina não possui keystore.properties nem keystore encontrado no workspace. CLAUDE.md registra a chave na máquina do responsável pelo build. Não criar uma nova chave para substituir a identidade do app sem necessidade; não enviar chave privada ou senhas por Git/chat.
-- A versão interna verificada é 1.0.4, código 5. O próximo upload exige código de versão disponível e maior que os já usados; conferir o Console imediatamente antes do build.
-- Rodar os checks do projeto e os testes reais necessários. Então gerar bundleRelease assinado e verificar pacote, assinatura, versão e configuração de compra.
+- `com.terra.wallpaper`; fonte atual1.0.5/código7 no `android-app/app/build.gradle`. Código8 é planejado, não confirmado: conferir usados/disponíveis e certificados no outro computador antes de gerar candidato. A versão1.0.4/código5 era a conferência de outubro.
+- Premium continua `terra_premium`; catálogo/produtos/mapeamento têm validação própria. Não empacotar automaticamente cópia antiga com `com.atmosfera.wallpaper`.
+- Motor já tem download; conferir no alvo compra/download/cancelamento/integridade/aplicação. `Acervo.BASE_PADRAO` vem do BuildConfig, e release usa índice embarcado; não é mais uma constante vazia a preencher. Fonte embarcada71cenas/366artes não mede bucket ou disponibilidade.
+- Política1.22/Termos1.12/Contato1.10 têm redação aceita, metadados ainda de rascunho. Fontes canônicas em `docs/legal/`, publicação/vigência dependem de decisão. Não voltar à política1.3 ou ao público13+ pelo guia antigo. R02/A4/R03 e teste adulto permanecem conforme decisões vigentes; plano futuro13+ não está liberado.
+- Assinatura: usar chave/configuração privada existente na máquina autorizada; não criar identidade nova por ausência local. Localizar certificados/códigos é etapa própria, não convite para buscar credenciais nesta árvore ou pedir segredo no chat.
+- Gate do projeto no commit final e ensaio real pertinente precedem candidato; `bundleRelease`/instalação/envio não foram executados nesta tarefa. APKs diagnósticos não são AAB final nem prova de instalação.
 
-## Envio pelo Console
+## Publicação e testes
 
-Destino inicial sugerido: **Teste interno**. Testar e lançar → Teste → Teste interno → Criar nova versão → enviar AAB → informar notas → revisar os avisos → salvar/publicar na faixa de testes. Os nomes dos controles podem variar; conferir o estado real antes de enviar.
+No Console autorizado, conferir faixa e rótulos reais antes de enviar AAB/notas/revisar avisos/publicar. Teste interno, fechado e produção são marcos distintos; requisitos/exigências vigentes ficam no plano/Console, não se deduzem dos números de outubro. Nenhuma autorização de produção é criada por este documento.
 
-Esta preparação não enviou um AAB novo. Para fornecer o artefato: **qual é o caminho ou link do AAB assinado, gerado com as correções atuais, e qual o versionCode?** Alternativamente, o responsável pelo build pode gerar na máquina que já possui a assinatura. A assinatura não é requisito para publicar apenas documentos no GitHub.
-
-O teste fechado está separado do interno. O Console verificado exige concluir a configuração do app, reunir pelo menos 12 participantes por 14 dias contínuos e solicitar acesso de produção. Não há autorização de produção obtida nesta revisão.
-
-## Acervo de testes e produção
-
-URL de testes: https://pub-722473b758b144279fc34ecb931a6045.r2.dev/
-
-Manifesto: https://pub-722473b758b144279fc34ecb931a6045.r2.dev/manifest.json
-
-A Cloudflare destina r2.dev a desenvolvimento e aplica limites próprios. Para o lançamento público, preparar domínio personalizado ou uma solução de entrega de produção adequada. A compra controla o uso no app, mas os arquivos públicos podem ser copiados fora dele.
+Endereço público de testes e limitações em BUCKET-R2. Para entrega de produção, definir domínio/forma de entrega e validar acesso sob escopo próprio. Arquivos públicos podem ser copiados fora do app, mesmo com compra controlada pela Play.

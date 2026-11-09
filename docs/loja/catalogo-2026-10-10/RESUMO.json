@@ -1,0 +1,33 @@
+{
+  "data_inventario": "2026-10-10",
+  "escopo": "arquivos_locais_e_declaracoes_motor_sem_consulta_bucket_console",
+  "motor_sha256": "34ee3ea1318b81b74af87e5e12c5df25bb4947d122b26d00aa4ae38d6476a0d5",
+  "avisos_motor": [
+    "variante_duplicada_no_motor:vale/cartoon"
+  ],
+  "exclusoes_cenas": [
+    "budokai",
+    "burj",
+    "eiffel",
+    "konoha",
+    "ogro",
+    "simpsons",
+    "timessquare"
+  ],
+  "exclusoes_sprites": [
+    "pixel_retro",
+    "pixel_retro_2"
+  ],
+  "sprites_excluidos_presentes": [],
+  "linhas_total": 367,
+  "linhas_apos_exclusoes": 312,
+  "cenas_com_fundo_apos_exclusoes": 71,
+  "artes_com_fundo_apos_exclusoes": 75,
+  "artes_sem_fundo_apos_exclusoes": 237,
+  "amostras_com_fundo": 5,
+  "produtos_propostos_com_fundo": 70,
+  "status_apos_exclusoes": {
+    "arquivos_pendentes": 237,
+    "arquivos_presentes_nao_testada": 75
+  }
+}

@@ -41,8 +41,6 @@ class PermissoesDeclaradasTest {
         // Localização APROXIMADA apenas — escolhe a cidade do clima.
         // Não readicionar ACCESS_FINE_LOCATION sem uso real (ver KDoc).
         "android.permission.ACCESS_COARSE_LOCATION",
-        // Reagendar a atualização periódica de clima após reiniciar o aparelho.
-        "android.permission.RECEIVE_BOOT_COMPLETED",
     )
 
     /** Testes JVM rodam com working dir = `android-app/app`. */

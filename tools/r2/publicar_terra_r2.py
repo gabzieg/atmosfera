@@ -19,31 +19,17 @@ source = args.dist.resolve()
 args.output.mkdir(parents=True, exist_ok=True)
 manifest = json.loads((source / 'manifest.json').read_text(encoding='utf-8'))
 excluded = {'simpsons', 'budokai', 'konoha', 'burj'}
-manifest['cenas'] = {k: v for k, v in manifest['cenas'].items() if k not in excluded}
-files = {}
+# A preparação é testada separadamente; importar catalog não executa este CLI.
+from catalog import prepare_catalog
 
-def collect(value):
-    if isinstance(value, dict):
-        if 'arquivo' in value:
-            original = (source / value['arquivo']).resolve()
-            if not original.is_relative_to(source):
-                raise ValueError('Arquivo fora do diretório do acervo')
-            data = original.read_bytes()
-            digest = hashlib.sha256(data).hexdigest()
-            if len(data) != value['bytes'] or not digest.startswith(value['sha256']):
-                raise ValueError('Integridade inválida: ' + value['arquivo'])
-            relative = Path(value['arquivo'])
-            # Cada alteração gera outra URL, compatível com cache immutable.
-            key = (relative.parent / (relative.stem + '.' + digest + relative.suffix)).as_posix()
-            value['arquivo'] = key
-            files[key] = original
-        for child in value.values():
-            collect(child)
-    elif isinstance(value, list):
-        for child in value:
-            collect(child)
+def read_source(name):
+    original = (source / name).resolve()
+    if not original.is_relative_to(source):
+        raise ValueError('Arquivo fora do diretório do acervo')
+    return original.read_bytes()
 
-collect(manifest)
+manifest, references = prepare_catalog(manifest, read_source)
+files = {key: source / name for key, name in references.items()}
 data = json.dumps(manifest, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
 if args.dry_run:
     (args.output / 'manifest.json').write_bytes(data)
