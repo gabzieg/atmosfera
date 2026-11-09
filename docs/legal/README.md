@@ -1,6 +1,32 @@
 # Fonte editorial dos documentos do Terra
 
-Revisão de trabalho de 08/11/2026, consolidada a partir da rodada de 28/10 e das decisões registradas na [#77](https://github.com/gabzieg/atmosfera/issues/77), em proposta local para a [#78](https://github.com/gabzieg/atmosfera/issues/78). Fontes únicas: `TERMOS.md` (1.12), `PRIVACIDADE.md` (1.22) e `CONTATO.md` (1.10). A [nova revisão documental](../../.lgpd/revisoes/2026-10-28-documentos/REVISAO.md) registra achados e decisões pendentes; os registros anteriores abaixo são históricos, enquanto as decisões consideradas nesta consolidação estão referenciadas na #77, sem adotar conteúdo antigo como instrução. Os HTMLs são exportações; não editar cada cópia separadamente. O [registro de refinamento](../dev/REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md) reúne instruções internas e decisões pendentes. As versões refinadas não foram republicadas no Google Sites por esta execução.
+## Proposta Pages — #89, 09/11/2026
+
+Proposta de redação **Privacidade1.23/Termos1.13/Contato1.11**, base `d8ed440`,
+para Cloudflare Pages em `https://terrawallpaper.com.br`, sem analytics. O aceite
+anterior de1.22/1.12/1.10 não aprova este delta. `publicacao_web` no JSON conserva
+o histórico Google Sites; domínio/URLs e `publicacao_proposta` indicam o destino
+proposto, não publicação já feita. A nova redação requer aceite explícito via Friday.
+`aprovado_para_publicacao=false`, `aprovacao_registro=null`, `vigencia=null` e
+`versao_app=null` permanecem. Histórico editorial abaixo não prevalece sobre esta proposta.
+
+Evento de vigência já escolhido pelo dono na #86: **dia real da publicação das
+três páginas**, não dia do PR/build ou da geração local. Não preencher data agora.
+**Procedimento proposto, ainda em decisão pela Friday:** revisar/aprovar o delta
+identificado por SHA; este PR permanece em draft e sem merge conforme a ativação.
+Antes de integrar/publicar as páginas legais revisadas, alinhar com a lead do site
+como impedir publicação involuntária de rascunho. Esse bloqueio é uma proposta,
+não política aprovada ou controle implementado; não impede preparação, build ou
+landing por inferência. Workflow#109 ainda não executado nesta tarefa.
+Com a decisão específica e publicação preparada, registrar aprovação/metadados/data
+real, regenerar cópias e conferir as três páginas no evento autorizado, conciliando
+app/site/Console no marco#89. Se o evento não ocorrer, não declarar publicação ou
+vigência realizada. Este roteiro não cria hook, secret, workflow ou controle remoto.
+O gerador exige coerência editorial, mas sua saída não autoriza publicação.
+R03 do R2 fica preservado em seu escopo; mecanismo/configuração de Pages não é
+certificado por aquele aceite de risco. Fontes oficiais e limites na entrega da #89.
+
+Revisão de trabalho de 08/11/2026, consolidada a partir da rodada de 28/10 e das decisões registradas na [#77](https://github.com/gabzieg/atmosfera/issues/77), em proposta local para a [#78](https://github.com/gabzieg/atmosfera/issues/78). Fontes únicas: `TERMOS.md` (1.13), `PRIVACIDADE.md` (1.23) e `CONTATO.md` (1.11). A [nova revisão documental](../../.lgpd/revisoes/2026-10-28-documentos/REVISAO.md) registra achados e decisões pendentes; os registros anteriores abaixo são históricos, enquanto as decisões consideradas nesta consolidação estão referenciadas na #77, sem adotar conteúdo antigo como instrução. Os HTMLs são exportações; não editar cada cópia separadamente. O [registro de refinamento](../dev/REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md) reúne instruções internas e decisões pendentes. As versões refinadas não foram republicadas no Google Sites por esta execução.
 
 ```powershell
 python scripts/sincronizar_documentos_legais.py
