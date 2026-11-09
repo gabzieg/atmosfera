@@ -2,11 +2,11 @@
 
 **Página pública:** [https://sites.google.com/view/terra-live-wallpaper/termos](https://sites.google.com/view/terra-live-wallpaper/termos)
 
-**Versão dos termos:** 1.8
-**Última atualização:** 15 de outubro de 2026
+**Versão dos termos:** 1.12
+**Última atualização:** 8 de novembro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
-**Aplica-se a:** Próxima versão destinada ao teste fechado no Brasil, somente com participantes adultos, Premium separado das artes e acervo por download. Número e código da versão de distribuição ainda serão identificados.
-**Vigência:** A definir após aprovação e identificação da versão correspondente. Esta revisão não altera retroativamente compras anteriores.
+**Aplica-se a:** Próximo pacote (código de versão 8), em preparação para teste fechado no Brasil, somente com participantes adultos, Premium separado das artes e acervo por download.
+**Vigência:** A definir na disponibilização efetiva da versão final do teste, após aprovação e publicação destes textos, com registro da data real. Esta revisão não retroage sobre compras anteriores nem suspende a transparência dos tratamentos realizados antes desse evento.
 
 ## Resumo
 
@@ -26,7 +26,9 @@ O Terra é oferecido por **Rafael Huppes, pessoa física**, responsável pelo ap
 
 Leia estes termos e a [Política de Privacidade](PRIVACIDADE.md) antes de usar o aplicativo ou adquirir conteúdo. Nesta fase de teste fechado, a participação é restrita a pessoas com **18 anos ou mais, no Brasil**. O público pretendido para distribuição posterior é de **13 anos ou mais**, sujeito à avaliação e revisão correspondente antes da ampliação. A restrição de recrutamento não implementa aferição de idade no aplicativo nem comprova, por si só, o atendimento às obrigações de proteção de adolescentes.
 
-O aplicativo não possui cadastro de conta própria, rede social, chat, publicação de conteúdo de usuários, anúncios comportamentais ou mecânicas de recompensa aleatória. A localização aproximada depende de permissão no Android e possui alternativa funcional em São Paulo, SP. Compras são processadas pela Google Play; a autenticação e eventuais aprovações familiares dependem das configurações e das regras aplicáveis à conta e ao dispositivo. O Terra não implementa controle parental próprio nesta revisão.
+Se houver indício de menor participando do teste adulto, o procedimento previsto é suspender a participação afetada, orientar a interrupção do uso, restringir o acesso à faixa pelos meios efetivamente disponíveis e revisar o caso e as medidas. Restringir a faixa não apaga remotamente o aplicativo instalado nem garante bloqueio técnico de seu uso. O mero indício não determina pausa automática de todos os demais participantes; mantêm-se as medidas organizacionais escolhidas para a fase adulta. A decisão do responsável para esta lista fechada considera suficiente esse conjunto, sem exigir controle etário prévio no aplicativo. Essa conclusão é específica do teste adulto; não constitui dispensa geral de deveres, conformidade integral ou liberação da distribuição 13+.
+
+O aplicativo não possui cadastro de conta própria, rede social, chat, publicação de conteúdo de usuários, anúncios comportamentais ou mecânicas de recompensa aleatória. A leitura da localização aproximada depende de permissão no Android e possui alternativa funcional em São Paulo, SP. Conexões automáticas de clima, prévias e compras expõem o IP aos fornecedores mesmo sem essa permissão, permitindo inferir localização aproximada, conforme a Política de Privacidade. Compras são processadas pela Google Play; a autenticação e eventuais aprovações familiares dependem das configurações e das regras aplicáveis à conta e ao dispositivo. O Terra não implementa controle parental próprio nesta revisão.
 
 ## 3. Funcionalidade e clima
 
@@ -55,6 +57,8 @@ Confira sempre o produto, o preço final, a moeda e as condições exibidas pela
 As cinco amostras gratuitas e as miniaturas do catálogo acompanham o aplicativo. As variantes adicionais em alta definição (HD) são entregues sob demanda via **Cloudflare R2** quando você seleciona **Baixar e aplicar**. Ao visualizar uma variante não instalada na loja, o app busca automaticamente uma prévia intermediária temporária sem exigir compra. Comprar ou restaurar direitos não baixa automaticamente todas as artes do catálogo, evitando consumo indevido de internet e espaço.
 
 A instalação valida o hash SHA-256 completo e a integridade dos arquivos antes de ativar o cenário. Apagar downloads pelo aplicativo não cancela suas compras. **Uma vez baixada no aparelho e com o direito validado, a arte funciona offline**, sem depender de nova conexão ao servidor de pacotes para continuar sendo exibida no wallpaper.
+
+Ao abrir o aplicativo e sempre que ele volta ao primeiro plano, o Terra consulta automaticamente as compras na Google Play, inclusive para quem nunca comprou, quando a conexão com o serviço está disponível. Ao estabelecer a conexão com a Play, também consulta os detalhes e preços dos produtos. Não exige acionar **Restaurar compras** e não inicia uma compra.
 
 Ao reinstalar o aplicativo ou trocar de aparelho, utilize a mesma conta Google e acione **Restaurar compras** para recuperar seus direitos e baixar novamente as variantes adquiridas. Falhas temporárias de rede durante a consulta à Google Play não revogam os direitos já validados localmente no dispositivo; contudo, reembolso, estorno ou cancelamento confirmado pela Google Play revoga o acesso correspondente.
 
@@ -95,3 +99,12 @@ Revisão 1.5 de 15/10/2026: preparação no Google Sites e escopo de compras som
 Revisão 1.7 de 15/10/2026: consolidação das salvaguardas de proteção por padrão para adolescentes (13+), referência ao relato de problemas assistido por rascunho de e-mail e formalização das regras operacionais de continuidade, uso offline e restauração de artes adquiridas.
 
 Revisão 1.8 de 15/10/2026: conciliação com as decisões de Rafael registradas em 0d36b4a (adultos/Brasil no teste e futuros efeitos/estilos incluídos no Premium), preservado o refinamento local. Corrigidas garantias não comprovadas de autenticação e continuidade. A numeração distingue esta redação das duas versões de trabalho 1.7; sem aprovação ou nova vigência.
+
+Revisão 1.9 de 28/10/2026: identificação do candidato 1.0.5 (código de versão 7) para a nova revisão documental. Mantidos o estado de rascunho, as pendências de avaliação e a vigência a definir; sem aprovação ou comprovação de distribuição. Por decisão do Gabriel em 28/10/2026, esta revisão passa a se aplicar ao próximo pacote (código de versão 8), em preparação para o teste fechado no Brasil; a identificação anterior do candidato 7 fica como histórico. `versionName` ainda não definido; mantidos o rascunho, a aprovação pendente e a vigência a definir.
+
+Revisão 1.10 de 28/10/2026: esclarecidas a exposição de IP em conexões automáticas independentemente da permissão de localização e a consulta automática de compras na abertura e no retorno ao primeiro plano, além dos detalhes e preços na conexão com a Play, em coerência com a Política de Privacidade 1.19. Mantidos o pacote 8, o rascunho, a aprovação pendente e a vigência a definir.
+
+Revisão 1.11 de 07/11/2026: proposta editorial de procedimento para indício de menor no teste adulto, com suspensão da participação afetada e revisão, sem promessa de remoção remota ou barreira implementada. Evento de vigência condicionado à disponibilização efetiva da versão final depois da aprovação e publicação dos textos, sem data fictícia, retroatividade sobre compras ou suspensão da transparência anterior. Mantidos rascunho, limites da fase adulta e pendências de avaliação, sem liberação do teste.
+
+
+Revisão 1.12 de 08/11/2026: conciliação da decisão do responsável para o teste fechado adulto/Brasil, preservando os limites para distribuição 13+, rascunho e ausência de aprovação/vigência.

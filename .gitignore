@@ -55,3 +55,6 @@ keystore.properties
 secrets.properties
 local.properties
 .env
+
+# Artefatos de agentes, worktrees e evidências privadas do projeto
+local/

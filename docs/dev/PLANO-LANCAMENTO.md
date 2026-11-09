@@ -1,5 +1,21 @@
 # Plano de lançamento — atualizado em 13/10/2026
 
+**Referência, não fila operacional.** O andamento inteiro está no [checklist TASKS](TASKS.md), por itens/estado/responsável/dependência. As decisões e contagens do conteúdo abaixo são retratos nas datas indicadas, não uma medição atual nem novas tarefas. Fonte atual: 1.0.5/código 7; código8 apenas planejado, não confirmado; AAB 7 histórico e APKs diagnósticos do #83 não são o candidato final. Redação1.22/1.12/1.10 aceita; A4 adulta decidida e R03 com decisão de risco registrada/mecanismo não demonstrado. Não repetir esses aceites.
+
+| Assunto desta referência | Destino operacional |
+|---|---|
+| Configuração, segurança e licenças | TASKS etapa 2 |
+| Documentos, governança, risco e correspondência | TASKS etapa 3 |
+| Ficha, declarações, IARC, público, contato e revisor | TASKS etapa 4 |
+| A1/A2/candidato e configuração da faixa | TASKS etapa 5; A1 histórico em 4.8 |
+| A6/A8 e B1–B4/roteiros de aparelho | TASKS etapa 6 |
+| C1–C3/produção, oferta comercial e continuidade | TASKS etapa 7 |
+| D0–D60/operação | TASKS etapa 8 |
+| Dependências, PAD adiado e outras evoluções | TASKS etapa 9 |
+
+<details>
+<summary>Histórico e roteiros preservados — estados antigos superados por TASKS</summary>
+
 ## Site publicado em 15/10/2026
 
 Rafael informou a publicação do Google Sites. Links conferidos na navegação, documentados sem seleção de conta:
@@ -35,3 +51,5 @@ Roteiro vigente: [checklist de finalização](CHECKLIST-FINALIZACAO-TERRA-2026-1
 9. Solicitar/publicar quando aprovado; registrar data real e iniciar [operação pós-lançamento](OPERACAO-POS-LANCAMENTO.md).
 
 Não fixar data comercial antes de resolver essas pendências. Builds e hashes comprovam artefatos, não parecer jurídico, aceite visual ou entrega comercial.
+
+</details>

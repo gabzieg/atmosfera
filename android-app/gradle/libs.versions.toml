@@ -31,6 +31,7 @@ material = "1.11.0"
 work = "2.9.0"
 preference = "1.2.1"
 playServicesLocation = "21.2.0"
+ageSignals = "0.0.4"
 billing = "9.1.0"                  # v8+ é exigência do Google (ver aviso acima)
 activityCompose = "1.8.2"
 navigationCompose = "2.7.7"
@@ -57,6 +58,7 @@ androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preference" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
+play-age-signals = { module = "com.google.android.play:age-signals", version.ref = "ageSignals" }
 billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billing" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 compose-ui = { module = "androidx.compose.ui:ui" }

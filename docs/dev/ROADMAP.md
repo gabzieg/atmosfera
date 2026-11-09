@@ -1,5 +1,23 @@
 # Atmosfera — Roadmap
 
+**Referência, não fila operacional.** O andamento inteiro está no [checklist TASKS](TASKS.md), por itens/estado/responsável/dependência. As decisões e contagens do conteúdo abaixo são retratos nas datas indicadas, não uma medição atual nem novas tarefas. Fonte atual: 1.0.5/código 7; código8 apenas planejado, não confirmado; AAB 7 histórico e APKs diagnósticos do #83 não são o candidato final. Redação1.22/1.12/1.10 aceita; A4 adulta decidida e R03 com decisão de risco registrada/mecanismo não demonstrado. Não repetir esses aceites.
+
+| Assunto desta referência | Destino operacional |
+|---|---|
+| Configuração, segurança e licenças | TASKS etapa 2 |
+| Documentos, governança, risco e correspondência | TASKS etapa 3 |
+| Ficha, declarações, IARC, público, contato e revisor | TASKS etapa 4 |
+| A1/A2/candidato e configuração da faixa | TASKS etapa 5; A1 histórico em 4.8 |
+| A6/A8 e B1–B4/roteiros de aparelho | TASKS etapa 6 |
+| C1–C3/produção, oferta comercial e continuidade | TASKS etapa 7 |
+| D0–D60/operação | TASKS etapa 8 |
+| Dependências, PAD adiado e outras evoluções | TASKS etapa 9 |
+
+<details>
+<summary>Histórico e roteiros preservados — estados antigos superados por TASKS</summary>
+
+> Estado vigente em 08/11/2026: o acompanhamento operacional está em [TASKS — estado vigente](TASKS.md#estado-vigente--08112026), com os critérios A1–A8 no [checklist de finalização](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md). A [#82](https://github.com/gabzieg/atmosfera/issues/82) prepara PR draft da composição aprovada sobre `2140f81`; entrega/gates/revisão e integração ainda pendentes. R02/retenção e A4 foram decididos apenas para o teste adulto; R03 tem decisão de negócio registrada com mecanismo internacional não demonstrado. Redação 1.22/1.12/1.10 aceita, sem aprovação de publicação/vigência. A2/A3/A5–A8 continuam parciais/abertos; código 8 planejado, não confirmado. Leitura Play fica no outro computador. Nenhum AAB final, instalação, merge, publicação ou envio autorizado por esta preparação. Distribuição 13+ permanece bloqueada. As seções datadas abaixo são históricas no que contrariar esse estado.
+
 > Atualização de 11/10/2026: o roteiro vigente é [CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md](CHECKLIST-FINALIZACAO-TERRA-2026-10-09.md). A oferta atual separa Premium de artes individuais; o R2 já existe e o catálogo tem 366 artes após cortes. Os documentos canônicos estão em revisão, com vigência/versão de distribuição pendentes; ver [etapa 5](ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-11.md). As seções abaixo preservam registros anteriores e não substituem essas decisões nem as declarações atuais exigidas pelo Console.
 
 
@@ -54,13 +72,13 @@ não dinheiro.
 regressão de teste/lint/segredo seja pega antes do merge, não depois.
 
 **Critério de saída:**
-- [x] `test/` existe com cobertura da lógica pura de clima (mapeamento WMO,
+- Registro histórico concluído: `test/` existe com cobertura da lógica pura de clima (mapeamento WMO,
   parse de hora) — `WeatherMappingTest.kt`
-- [x] CI roda em `pull_request`, não só `push` na `main`
-- [x] CI roda testes + lint (com baseline) + `assembleDebug` + varredura de
+- Registro histórico concluído: CI roda em `pull_request`, não só `push` na `main`
+- Registro histórico concluído: CI roda testes + lint (com baseline) + `assembleDebug` + varredura de
   segredo (`gitleaks`) em toda mudança
-- [x] Versões centralizadas em `gradle/libs.versions.toml`
-- [x] Fluxo de PR documentado (`.claude/skills/abrir-pr/`, `CODEOWNERS`,
+- Registro histórico concluído: Versões centralizadas em `gradle/libs.versions.toml`
+- Registro histórico concluído: Fluxo de PR documentado (`.claude/skills/abrir-pr/`, `CODEOWNERS`,
   template de PR)
 
 **Limite conhecido desta fase — o gate não vê comportamento.** Ele prova que
@@ -75,14 +93,14 @@ rodavam e pareciam certas. Ver "Trabalho contínuo" no fim deste arquivo.
 publicável na Play Store.
 
 **Critério de saída:**
-- [x] `signingConfig` no `build.gradle` lendo `keystore.properties`
+- Registro histórico concluído: `signingConfig` no `build.gradle` lendo `keystore.properties`
   (gitignored) — código pronto, mergeado
-- [x] Keystore de produção gerada (`keytool`, RSA 2048, validade até dez/2053)
+- Registro histórico concluído: Keystore de produção gerada (`keytool`, RSA 2048, validade até dez/2053)
   e guardada **fora da árvore do repositório** (`C:\Users\gbrus\Chaves\`) —
   regenerada em 2026-08-04 (a original desapareceu desta máquina; nada tinha
   sido publicado ainda, então a troca foi gratuita), com senha forte
   (28 caracteres, alfanumérica + símbolos) já definida na regeneração
-- [x] `keystore.properties` preenchido localmente e `bundleRelease` testado:
+- Registro histórico concluído: `keystore.properties` preenchido localmente e `bundleRelease` testado:
   gera `app-release.aab` (~22,2 MB) assinado, conferido com
   `keytool -printcert -jarfile` em 2026-08-08 — certificado SHA256withRSA
   `Válido de: 04/08/2026`, batendo com a keystore atual (não a antiga)
@@ -102,10 +120,10 @@ do snapshot do motor de 2026-08-09, que levou `assets/atmosfera/` de 14,7 MB pra
 **Objetivo:** compra real fechando, não só código que compila.
 
 **Critério de saída:**
-- [x] Produto `terra_premium` criado no Play Console como compra única não
+- Registro histórico concluído: Produto `terra_premium` criado no Play Console como compra única não
   consumível. A versão inicial não vende cenários avulsos.
-- [ ] `playLicensePublicKey` preenchida em `android-app/keystore.properties`
-- [ ] Fluxo de compra testado em teste fechado/sandbox: comprar, restaurar,
+- Critério histórico a conferir na fila atual: `playLicensePublicKey` preenchida em `android-app/keystore.properties`
+- Critério histórico a conferir na fila atual: Fluxo de compra testado em teste fechado/sandbox: comprar, restaurar,
   confirmar que `Plano.setPremium`/`Cena.definir` disparam certo
 
 **Bloqueia em:** conta do Play Console (ver "Status atual").
@@ -123,14 +141,14 @@ conteúdo pago sem conta, use o painel de debug → "Destravar cenários pagos
 independente de qualidade de código.
 
 **Critério de saída:**
-- [ ] Política de privacidade publicada por URL (cobre coleta de localização)
+- Critério histórico a conferir na fila atual: Política de privacidade publicada por URL (cobre coleta de localização)
   — texto pronto; falta preencher os `[PREENCHER]` e **decidir a hospedagem**
   (repo é privado no plano free: GitHub Pages exige Pro ou repo público;
   alternativa é Netlify/Cloudflare Pages)
-- [ ] Data Safety Form preenchido no Play Console — respostas derivadas do
+- Critério histórico a conferir na fila atual: Data Safety Form preenchido no Play Console — respostas derivadas do
   código em [GUIA_PLAY_CONSOLE.md](GUIA_PLAY_CONSOLE.md); **só aparece depois
   do app criado no console**
-- [ ] Content Rating Questionnaire (IARC) preenchido — respostas prontas no
+- Critério histórico a conferir na fila atual: Content Rating Questionnaire (IARC) preenchido — respostas prontas no
   mesmo guia; espera-se Livre/L
 
 **Já feito além do critério:** Termos de Uso e página de Contato escritos
@@ -257,19 +275,19 @@ Efeito colateral que vale por si: uma `FonteDeAssets` falsa permite testar
 justamente porque tocá-lo exige `AssetManager`.
 
 **Critério de saída:**
-- [ ] Mapa explícito de grátis vs pago, por cenário e por estilo — **curadoria do
+- Critério histórico a conferir na fila atual: Mapa explícito de grátis vs pago, por cenário e por estilo — **curadoria do
   Gabriel (desde 2026-09-11)**, incluindo fases da lua e os demais efeitos. A
   "Regra de estilos" em [SPEC.md](SPEC.md) é provisória e vale até essa definição chegar
-- [ ] Tamanho do pack decidido (ver "Tamanho dos packs" acima) — o teto de 50
+- Critério histórico a conferir na fila atual: Tamanho do pack decidido (ver "Tamanho dos packs" acima) — o teto de 50
   packs é a restrição real, não o de 2 GB
-- [ ] Asset packs configurados; **AAB base medido** e sem arte paga dentro
-- [~] `FonteDeAssets` **revertido** na integração de 2026-09-12 — o motor do
+- Critério histórico a conferir na fila atual: Asset packs configurados; **AAB base medido** e sem arte paga dentro
+- Registro histórico revisto: `FonteDeAssets` **revertido** na integração de 2026-09-12 — o motor do
   Rafael venceu e lê por `carregar(Context/AssetManager + Acervo)`.
   `FonteDeAssets.kt`, `ConteudoEmbarcado.kt` e o `ContratoFonteDeAssetsTest` foram
   removidos. O objetivo (ler conteúdo baixado sem embarcar tudo) fica com o
   `Acervo`, não com essa interface
-- [ ] Compra → download → cenário aplicável, testado ponta a ponta
-- [ ] Falha/interrupção de download tratada na UI, sem crash e sem cenário
+- Critério histórico a conferir na fila atual: Compra → download → cenário aplicável, testado ponta a ponta
+- Critério histórico a conferir na fila atual: Falha/interrupção de download tratada na UI, sem crash e sem cenário
   meio-carregado
 
 **Guarda obrigatória, não opcional.** Mesmo agora que o `engine/` é nosso
@@ -301,21 +319,21 @@ isso está combinado. Bloqueia só o release destinado à Play Store.
 **Objetivo:** listagem pronta pra revisão do Google.
 
 **Critério de saída:**
-- [x] Screenshots reais do app rodando — **6 capturas em `docs/loja/`**
+- Registro histórico concluído: Screenshots reais do app rodando — **6 capturas em `docs/loja/`**
   (onboarding, wallpaper aplicado no launcher, Início, Loja, detalhe com
   prévia ao vivo, Premium), feitas em 2026-08-25 e validadas uma a uma contra
   as regras da Play: 1080×1920, razão 1,78 (teto é 2:1), PNG 24-bit sem canal
   alfa. Ver [docs/loja/README.md](../loja/README.md)
-- [x] **Feature graphic 1024×500** — `docs/loja/feature-graphic-1024x500.png`,
+- Registro histórico concluído: **Feature graphic 1024×500** — `docs/loja/feature-graphic-1024x500.png`,
   composto a partir da arte existente: fundo escuro do app, três ladrilhos
   (cabana/fiordes/tanque) e o bloco kicker+título+tagline no padrão do próprio
   app. PNG 24-bit sem alfa, validado
-- [x] **Ícone 512×512** — `docs/loja/icone-512.png`: recorte da cabana, escolhido
+- Registro histórico concluído: **Ícone 512×512** — `docs/loja/icone-512.png`: recorte da cabana, escolhido
   por legibilidade no tamanho real de ícone. Substituiu a montanha vetorial, que
   era genérica e tinha o sol fora da zona segura do adaptive icon. **O ícone do
   app foi trocado junto** (`res/mipmap-*`), senão ficha e aparelho mostrariam
   ícones diferentes. Verificado na gaveta de apps do emulador
-- [x] Descrição curta (80 caracteres) + longa (4.000) — rascunho em
+- Registro histórico concluído: Descrição curta (80 caracteres) + longa (4.000) — rascunho em
   [docs/loja/FICHA.md](../loja/FICHA.md), com contagem de caracteres conferida
   e uma tabela ligando cada afirmação ao código que a sustenta. **Falta a
   revisão do Gabriel** antes de ir pro Console
@@ -334,9 +352,9 @@ custo de entrada hoje.
 reais antes de liberar produção, pegar bug de última hora.
 
 **Critério de saída:**
-- [ ] Faixa de teste fechado criada no Play Console, testers convidados
-- [ ] Sem crash/ANR novo relatado durante o período mínimo de teste
-- [ ] Promoção pra produção
+- Critério histórico a conferir na fila atual: Faixa de teste fechado criada no Play Console, testers convidados
+- Critério histórico a conferir na fila atual: Sem crash/ANR novo relatado durante o período mínimo de teste
+- Critério histórico a conferir na fila atual: Promoção pra produção
 
 **Bloqueia em:** Fases 1–5 completas.
 
@@ -370,3 +388,5 @@ reais antes de liberar produção, pegar bug de última hora.
   em contrato de compilador, não só convenção de pasta. Desde 2026-09-11 o motor
   é nosso, então não depende mais de coordenar com o Rafael; concorre com a
   Fase 4, que já vai mexer no mesmo contrato do motor.
+
+</details>

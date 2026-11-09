@@ -172,6 +172,9 @@ dependencies {
     implementation libs.androidx.preference.ktx
     implementation libs.play.services.location
 
+    // Diagnóstico manual de idade: SDK ausente do runtime de release.
+    debugImplementation libs.play.age.signals
+
     // Google Play Billing — Premium por compra única (v8+ exigido pelo Google, ver toml)
     implementation libs.billing.ktx
 
