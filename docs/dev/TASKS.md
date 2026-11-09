@@ -2,7 +2,9 @@
 
 <a id="estado-vigente--08112026"></a>
 
-**Próximo passo:** concluir a reorganização e a revisão do PR da [#84](https://github.com/gabzieg/atmosfera/issues/84), item **1.7**. Depois, a lead escolhe a próxima entrega liberada; as ações do dono estão discriminadas por dependência abaixo, sem executar a fila por esta tarefa.
+**Próximo passo:** após a integração, conferir códigos/certificados no outro computador (**2.1**) e a lead escolher a próxima entrega liberada. A fila não é executada por esta alteração.
+
+**Estado-alvo condicionado:** a conclusão de **1.7** abaixo só vigora quando o [PR #102](https://github.com/gabzieg/atmosfera/pull/102) estiver **MERGED**. Antes disso, o estado real da reorganização permanece em revisão no PR #102 e na [#84](https://github.com/gabzieg/atmosfera/issues/84), sem conclusão anunciada.
 
 Conferência em **08/11/2026 BRT (09/11/2026 UTC)**: base **83c2a6f** (PR #83 integrado). Esta é a única fila operacional; ROADMAP, plano e checklist detalhado são referências históricas/roteiros. Não há porcentagem de produto inferida da contagem de itens.
 
@@ -20,7 +22,7 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [x] ✅ **1.4** Prepare a proposta documental local — Agentes · Dependência: nenhuma · [#78](https://github.com/gabzieg/atmosfera/issues/78) · deltas aceitos e fontes aprovadas; integração em 1.6.
 - [x] ✅ **1.5** Prepare os pré-requisitos do candidato por leitura — Agentes · Dependência: nenhuma · [#81](https://github.com/gabzieg/atmosfera/issues/81) · aceite 6729449967 na #81; sem geração.
 - [x] ✅ **1.6** Integre a composição editorial e regras — Agentes · Dependência: nenhuma · [#82](https://github.com/gabzieg/atmosfera/issues/82) · PR #83 merge 83c2a6f, revisão e checks aprovados; não encerra candidato.
-- [ ] 🔄 **1.7** Reorganize este checklist e suas referências — Agentes · Dependência: nenhuma · [#84](https://github.com/gabzieg/atmosfera/issues/84) · pronto com PR único revisado/integrado; esta entrega não executa a fila.
+- [x] ✅ **1.7** Reorganize este checklist e suas referências — Agentes · Dependência: nenhuma · [#84](https://github.com/gabzieg/atmosfera/issues/84) · concluído somente com a integração do [PR #102](https://github.com/gabzieg/atmosfera/pull/102) em estado MERGED; marca proposta para a main, ainda não vigente antes do merge.
 - [ ] ⏳ **1.8** Concilie a raiz antiga e preserve as intenções locais — Agentes · Dependência: nenhuma · [#71](https://github.com/gabzieg/atmosfera/issues/71) · PR #72 existente; pronto com backup/compare/destinos e aceite, sem reset.
 - [x] ✅ **1.9** Implemente direitos separados, prévias/HD e privacidade técnica — Agentes · Dependência: nenhuma · código integrado antes de c1848a9; roteiros das etapas 1–4; aceite dinâmico em 6.5.
 
