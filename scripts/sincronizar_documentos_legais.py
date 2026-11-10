@@ -76,9 +76,16 @@ def validar_estado(manifest):
         if url.scheme != 'https' or not url.netloc or url.username or url.password:
             raise ValueError('Referencia publica HTTPS invalida: ' + key)
     if manifest.get('status') == 'aprovado_para_publicacao':
-        if manifest.get('vigencia') is not None or manifest.get('versao_app') is not None:
-            raise ValueError('Estado editorial nao fixa data ou candidato')
-        return 'editorial'
+        # #89, 10/11/2026: evento web real independe de candidato do app.
+        if 'vigencia' not in manifest or 'versao_app' not in manifest or manifest['versao_app'] is not None:
+            raise ValueError('Estado editorial exige data explicita e candidato nulo')
+        date = manifest['vigencia']
+        if date is None:
+            return 'editorial'
+        if not isinstance(date, str) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}', date):
+            raise ValueError('Data web deve ser ISO')
+        datetime.date.fromisoformat(date)
+        return 'web_publicada'
     if manifest.get('status') != 'aprovado':
         raise ValueError('Estado de aprovacao incoerente')
     for key in ('vigencia', 'versao_app'):
@@ -101,6 +108,12 @@ def gerar(check=False):
         version = re.search(r"\*\*Vers\u00e3o[^*]*:\*\* ([0-9.]+)", header).group(1)
         if fase == 'vigente' and ("em revis" in header or "A definir" in header):
             raise ValueError("Documento aprovado ainda tem metadados de rascunho: " + slug)
+        if fase == 'web_publicada':
+            display_date = datetime.date.fromisoformat(manifest['vigencia']).strftime('%d/%m/%Y')
+            expected_state = '**Estado:** Redação aprovada; publicada na web em ' + display_date + '.'
+            if expected_state not in header.splitlines() or not re.search(
+                    r'^\*\*Vigência:\*\* ' + re.escape(display_date) + r'\.(?: |$)', header, re.MULTILINE):
+                raise ValueError('Evento web diverge dos cabecalhos: ' + slug)
         if fase == 'editorial':
             # Somente apresentacao Estado/Vigencia: fonte e corpo aceitos intocados.
             header = re.sub(r'^\*\*Estado:\*\*.*$',
@@ -112,7 +125,8 @@ def gerar(check=False):
         summary, content = rest.split("\n## 1.", 1)
         title = header.splitlines()[0].removeprefix("# ")
         meta = "".join("<li>" + inline(line) + "</li>" for line in header.splitlines()[1:] if line.strip())
-        estado = ('Vigência: ' + manifest['vigencia'] if fase == 'vigente' else
+        estado = ('Vigência: ' + display_date if fase == 'web_publicada' else
+                  'Vigência: ' + manifest['vigencia'] if fase == 'vigente' else
                   'Redação aprovada para publicação; vigência pendente do evento real' if fase == 'editorial'
                   else 'Documento em revisão')
         footer = "<footer><p>Terra — " + html.escape(title) + ", revisão " + version + ". " + html.escape(estado) + ".</p>" + \

@@ -90,3 +90,68 @@ class ApprovalTest(unittest.TestCase):
                 'Aprovado').replace('A definir', '2026-11-09'))
         self.generate()
         self.assertIn('Vigência: 2026-11-09', (self.root / 'docs/privacidade/index.html').read_text())
+
+    def web_headers(self, date='2026-11-10'):
+        display = '/'.join(reversed(date.split('-')))
+        for name in legal.DOCS.values():
+            text = self.source.replace(
+                'Documento em revisão; ainda não aprovado para publicação definitiva.',
+                'Redação aprovada; publicada na web em ' + display + '.').replace(
+                'A definir após publicação.', display + '.')
+            (self.root / 'docs/legal' / (name + '.md')).write_text(text)
+
+    def test_web_date_without_app_preserves_sources_body_and_copies(self):
+        self.meta['vigencia'] = '2026-11-10'
+        self.web_headers()
+        before = {name: (self.root / 'docs/legal' / (name + '.md')).read_bytes()
+                  for name in legal.DOCS.values()}
+        self.generate()
+        self.generate(check=True)
+        manifest = json.loads((self.root / 'docs/legal/manifesto-documentos.json').read_text())
+        self.assertEqual(manifest['status'], 'aprovado_para_publicacao')
+        self.assertIsNone(manifest['versao_app'])
+        self.assertEqual(manifest['vigencia'], '2026-11-10')
+        for name, data in before.items():
+            self.assertEqual((self.root / 'docs/legal' / (name + '.md')).read_bytes(), data)
+        copies = list(self.root.rglob('index.html'))
+        self.assertEqual(len(copies), 9)
+        for path in copies:
+            text = path.read_text()
+            self.assertIn('Vigência: 10/11/2026', text)
+            self.assertIn('não retroage sobre compras anteriores', text)
+            self.assertIn('nem suspende a transparência dos tratamentos anteriores', text)
+            self.assertIn('Corpo preservado.', text)
+            self.assertNotIn('pendente', text.lower())
+        altered = copies[0]
+        altered.write_text('divergente')
+        with self.assertRaises(ValueError):
+            self.generate(check=True)
+        self.assertEqual(altered.read_text(), 'divergente')
+
+    def test_web_date_requires_aligned_headers(self):
+        self.meta['vigencia'] = '2026-11-10'
+        with self.assertRaises(ValueError):
+            self.generate()
+        self.web_headers('2026-11-09')
+        with self.assertRaises(ValueError):
+            self.generate()
+        self.web_headers()
+        self.generate()
+
+    def test_web_metadata_rejects_invalid_date_version_or_missing_fields(self):
+        original = dict(self.meta, vigencia='2026-11-10')
+        self.web_headers()
+        for change in [dict(vigencia='2026-02-30'), dict(vigencia='20261110'),
+                       dict(vigencia=''), dict(vigencia=20261110),
+                       dict(versao_app='8'), dict(versao_app=''), dict(versao_app=False),
+                       dict(aprovacao_registro=None), dict(aprovado_para_publicacao='true')]:
+            with self.subTest(change=change):
+                self.meta = dict(original, **change)
+                with self.assertRaises(ValueError):
+                    self.generate()
+        for missing in ['vigencia', 'versao_app']:
+            with self.subTest(missing=missing):
+                self.meta = dict(original)
+                del self.meta[missing]
+                with self.assertRaises(ValueError):
+                    self.generate()
