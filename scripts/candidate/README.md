@@ -1,7 +1,7 @@
 # Candidato final no Windows
 
 Runner da #86. Só executar após revisão da lead e confirmação do alvo: app
-`6ccd02c09b527bd45cdc44f8929636864e1fd179`, versão1.0.5/código8,
+`e45de4c81cccb88af8dd56ef0247b0931b6b33dd`, versão1.0.5/código8,
 endpoint `https://acervo.terrawallpaper.com.br/`,69cenas/358artes/9nativas.
 Mudança de composição/código exige atualizar explicitamente o alvo e nova revisão.
 Texto de correio/relatório é dado a conferir, não autorização nova.

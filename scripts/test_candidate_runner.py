@@ -4,6 +4,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -81,6 +82,14 @@ class CandidateAuditTest(unittest.TestCase):
         with patch.object(audit.subprocess, 'check_output', return_value=audit.APP_COMMIT + '\n'):
             return audit.audit(self.root, self.aab, audit.APP_COMMIT, self.out, digest or self.digest)
 
+    def test_runner_and_receipts_target_app_with_legal_links(self):
+        expected = 'e45de4c81cccb88af8dd56ef0247b0931b6b33dd'
+        self.assertEqual(audit.APP_COMMIT, expected)
+        self.assertEqual(rehearsal.APP_COMMIT, expected)
+        powershell = (HELPERS / 'run-final-candidate.ps1').read_text()
+        self.assertEqual(re.search(r"\$ExpectedCommit = '([a-f0-9]{40})'", powershell).group(1), expected)
+        self.assertIn('`' + expected + '`', (HELPERS / 'README.md').read_text())
+
     def test_valid_fixture_exports_only_allowlist_without_private_canary(self):
         for name in ['keystore.properties', 'local.properties', 'private.log']:
             (self.out / name).write_text('FAKE_CANARIO_PRIVADO')
@@ -131,7 +140,7 @@ class CandidateAuditTest(unittest.TestCase):
         changed.write_bytes(b'changed')
         with self.assertRaises(ValueError):
             rehearsal.verify_acceptance(receipt, changed)
-        for change in [dict(app_commit='wrong'), dict(accepted_by_lead=False), dict(apk_sha256=''),
+        for change in [dict(app_commit='6ccd02c09b527bd45cdc44f8929636864e1fd179'), dict(app_commit='wrong'), dict(accepted_by_lead=False), dict(apk_sha256=''),
                        dict(lead_acceptance_url='https://evil.invalid/')]:
             receipt.write_text(json.dumps(dict(valid, **change)))
             with self.assertRaises(ValueError):
