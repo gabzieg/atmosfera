@@ -2,7 +2,6 @@ package com.terra.wallpaper.ui
 
 import android.graphics.Color as AndroidColor
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
@@ -26,7 +25,7 @@ import androidx.compose.ui.viewinterop.AndroidView
  *
  * JavaScript fica DESLIGADO de propósito: as páginas são texto estático, não
  * precisam, e ligar aumentaria a superfície de ataque à toa. A navegação é
- * presa aos assets — link externo é ignorado em vez de abrir dentro da WebView.
+ * presa aos três documentos locais; links canônicos só saem por clique para app externo.
  */
 enum class PaginaLegal(val arquivo: String, val titulo: String) {
     PRIVACIDADE("privacidade/index.html", "Política de Privacidade"),
@@ -63,16 +62,7 @@ fun LegalWebViewScreen(pagina: PaginaLegal, onBack: () -> Unit) {
                     settings.javaScriptEnabled = false
                     settings.allowFileAccess = true
                     settings.allowContentAccess = false
-                    webViewClient = object : WebViewClient() {
-                        override fun shouldOverrideUrlLoading(
-                            view: WebView?,
-                            request: android.webkit.WebResourceRequest?,
-                        ): Boolean {
-                            // Só navega dentro dos assets; link externo não abre aqui.
-                            val url = request?.url?.toString().orEmpty()
-                            return !url.startsWith("file:///android_asset/")
-                        }
-                    }
+                    webViewClient = LegalWebViewClient(context)
                 }
             },
             update = { view ->

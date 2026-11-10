@@ -2,7 +2,7 @@
 
 <a id="estado-vigente--08112026"></a>
 
-**Próximo passo:** Concluir ListaA/links/revisor e revisar runnerduasfases da#86. Ensaio pelo dono noWindows (Friday145057), semcompras/contaPlay/apagardados; APK/capturas antes deAAB. Segurança doslinks pendente, composiçãoPR113/6ccd02c sujeita a novoSHA. Final só após ensaioaceito;5.2/5.3não concluídos.
+**Próximo passo:** Revisar/integrar links autorizados86/89 e atualizarSHAfixo runner antesensaioWindows. Runner114 integrado em9ec8575; concluir revisão115/gate/CI e depois atualizar alvo fixo runner antesWindows;4.3padrão/2.8foraAPK decididos. Ensaio pelo dono semcompras/contaPlay/apagardados;5.2–5.3pendentes.
 
 **Aplicação deste retrato:** recibos das decisões09/11 já constam nas issues #86/#90. Esta atualização documental só chega à main após integração autorizada do PR; a redação Pages tem aceite editorial específico no PR #110/6750038090; integração não encerra 3.7/#89 nem comprova publicação.
 
@@ -51,7 +51,7 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [x] ✅ **3.4** Aprove somente a redação 1.22/1.12/1.10 — Dono · decisão · Dependência: nenhuma · #77/6729200287, hashes preservados; A5/redação não é publicação/vigência/conformidade.
 - [x] ✅ **3.5** Defina evento de vigência — Dono · decisão09/11: dia real da publicação das três páginas, data registrada em3.6, sem antecipar/retroagir. [Recibo](https://github.com/gabzieg/atmosfera/issues/86#issuecomment-6748507255). Não aprova redação Pages nem publicação.
 - [x] ✅ **3.6** Publicação Pages realizada em10/11/2026 conforme reciboFriday20261110-112500-6f5bf8 e [apuração6769948368](https://github.com/gabzieg/atmosfera/issues/89#issuecomment-6769948368), versões1.23/1.13/1.11. Conferência pública com DNS explícito, não todos os resolvedores; atualização canônica da vigência ainda em revisão nesta entrega.
-- [ ] 🔄 **3.7** Concilie metadados e correspondência app/site/Console — Agentes · [#89](https://github.com/gabzieg/atmosfera/issues/89) · PR112 integrado29a312c9; vigência10/11/2026 nas três páginas, conferência6770360901. Correspondência final com candidato/app/Console pendente na86/89.
+- [ ] 🔄 **3.7** Concilie app/site/Console — #89/#86 · textos1.23/1.13/1.11/data10/11 correspondem; links exatos autorizadosFriday145406/6774961944 emrevisão. NovoSHA/ensaioWindows/capturas e AAB/Console pendentes.
 - [x] ✅ **3.8** Consolide operações/bases e condições restantes dos serviços — Agentes · Dependência: nenhuma · [#91](https://github.com/gabzieg/atmosfera/issues/91) · [PR #108](https://github.com/gabzieg/atmosfera/pull/108#issuecomment-6745549298) MERGED em `22a89d5`, 09/11/2026 às13:37:09 BRT; apuração documental A01–A08 revisada, #91 fechada. Lacunas com destinos existentes; não é adoção integral das bases, mecanismo demonstrado ou execução auditada. Residual R03 preservado.
 - [ ] ⏳ **3.9** Consolide roteiro de incidente e avaliação de risco/impacto — Agentes · Dependência: nenhuma · [#92](https://github.com/gabzieg/atmosfera/issues/92) · D12/D13: iniciar avaliação documental agora e identificar condições/responsáveis faltantes para 2.9; cenário sanitizado, sem RIPD universal ou incidente real; não certificar lacunas.
 - [x] ✅ **3.10** Defina retirada da lista Console e controle privado mínimo — Dono · decisão · Dependência: nenhuma · R04 e #77/6702874195: fim do teste; controles 18+/aceite/data/referência separados, não prova de preenchimento.
@@ -64,7 +64,7 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 
 - [ ] ⛔ **4.1** Confronte Data Safety e SDKs com o candidato final — Agentes · Dependência: 5.3 · [#87](https://github.com/gabzieg/atmosfera/issues/87) · A3: prévias automáticas, IP/coordenadas/caches/compras/suporte; hipótese conservadora não é medição de todos os envios.
 - [ ] ⏳ **4.2** Prepare ficha, recursos visuais e contato público do app real — Agentes · Dependência: 2.7, 5.3 · [#88](https://github.com/gabzieg/atmosfera/issues/88) · descrição/ícone/screenshots/feature graphic correspondem ao candidato; não anunciar conteúdo indisponível.
-- [ ] ⏳ **4.3** Prepare e comprove instruções de acesso pago do revisor — Agentes · Dependência: 5.3 · [#88](https://github.com/gabzieg/atmosfera/issues/88) · Premium/artes separados, inglês, método aplicável demonstrado; não presumir licença ou comprar para o revisor.
+- [ ] 🔄 **4.3** Prepare instruções externas revisor — #88 · Friday145406/6774962413: semlogin/gratuitofuncional/pagoBillingpadrão, semmudançaAPK/suporte; riscoaceitocódigo9seGoogleexigirmétodo. Não provaacesso irrestrito nemConsolefeito.
 - [ ] ⛔ **4.4** Concilie anúncios, IARC, público-alvo e declarações finais — Agentes · Dependência: 5.3 · [#87](https://github.com/gabzieg/atmosfera/issues/87) · A3/A7: separar classificação 14, adulto no teste e futuro 13+; pronto com proposta precisa e limites.
 - [x] ✅ **4.5** Salve AD_ID e Segurança dos dados no marco histórico — Dono · ação · Dependência: nenhuma · registro 27-10 §11.3: AD_ID Não, 9 subtipos/8 categorias; salvo, não enviado/aprovado.
 - [x] ✅ **4.6** Documente o resultado IARC — Dono · ação · Dependência: nenhuma · envio 17-10, prints 02-11: Brasil 14/sem descritor listado; causa e adequação aos 13 não demonstradas.
