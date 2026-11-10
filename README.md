@@ -135,6 +135,23 @@ simulado e arquivos versionados: não requer credenciais nem instalação de
 `requirements-play.txt`. Falha de teste ou ausência de testes em qualquer uma
 das suítes reprova o passo.
 
+**Composição do candidato (#86, decisão2.7):** estacionamento/natal/eiffel/ogro/timessquare
+são não finalizadas, preservadas no histórico Git e no grupo do TASKS, fora dos índices
+embarcados e dos assets do candidato. As sete exclusões anteriores e sprites
+pixel_retro/pixel_retro_2 continuam fora. Configurações históricas de Cenas e objetos
+remotos não são apagados por esse recorte. Antes de congelar a composição:
+
+```bash
+python3 -B scripts/candidate_catalog.py
+python3 -B -m unittest discover -s scripts -p 'test_candidate_catalog.py' -v
+```
+
+O primeiro comando apenas confere pares, referências com hash completo, miniaturas,
+produtos e camadas nativas. `--apply` recorta explicitamente os dois índices locais
+e remove assets vedados; não importa manifesto remoto, não baixa artes nem toca no
+bucket. O importador reutiliza a mesma política e não reintroduz as famílias não
+finalizadas. No Windows, usar `py` no lugar de `python3`. Controle no check `build`.
+
 **Build de release — candidato para teste:** use a chave de upload existente
 do aplicativo. Para atualizar o Terra, não gere nem substitua a chave. Na máquina
 segura de geração, confira JDK 17, SDK Android 36 e o wrapper do repositório.
@@ -157,17 +174,23 @@ formato Base64/RSA quando preenchida, mas aceita vazio. Sem esse arquivo o
 release pode compilar sem assinatura; com Billing vazio, compras são recusadas.
 Nunca envie senhas, keystore ou o conteúdo desse arquivo para Git/chat.
 
-Confirme com o responsável o endpoint HTTPS público do acervo para o teste.
-Release aceita URL vazia e não herda o bucket padrão do debug. No PowerShell,
+Endpoint aprovado pelo dono para o candidato: `https://acervo.terrawallpaper.com.br/`
+(#86, decisão de09/11/2026, recibo6748608436; conferência pública10/11). Release aceita URL vazia e não herda o bucket padrão do debug;
+passe explicitamente o endpoint aprovado. Geração/assinatura abaixo dependem do
+checkpoint5.0 no SHA/código/ambiente identificados, não da existência deste roteiro. No PowerShell,
 em `android-app/`, com os arquivos locais configurados, execute cada etapa e
 pare se houver erro:
 
 ```powershell
+$ErrorActionPreference = 'Stop'
 java -version
+if ($LASTEXITCODE -ne 0) { throw 'Java indisponivel' }
 .\gradlew.bat --version
-$acervoTeste = Read-Host 'Endpoint HTTPS publico confirmado para este teste'
+if ($LASTEXITCODE -ne 0) { throw 'Gradle indisponivel' }
+$acervoTeste = 'https://acervo.terrawallpaper.com.br/'
 if ([string]::IsNullOrWhiteSpace($acervoTeste)) { throw 'Endpoint obrigatorio' }
 .\gradlew.bat clean testDebugUnitTest lintDebug assembleDebug assembleRelease bundleRelease "-PterraAcervoUrl=$acervoTeste"
+if ($LASTEXITCODE -ne 0) { throw 'Gate/geracao falhou' }
 ```
 
 Em Bash, o mesmo gate usa `./gradlew` e o argumento
@@ -182,13 +205,18 @@ ambiente. Se a ferramenta faltar, registre a pendência antes de concluir o
 candidato. No PowerShell:
 
 ```powershell
+$ErrorActionPreference = 'Stop'
 $bundletoolJar = Read-Host 'Caminho do JAR bundletool existente'
 if (!(Test-Path -LiteralPath $bundletoolJar -PathType Leaf)) { throw 'JAR ausente' }
 $aab = 'app/build/outputs/bundle/release/app-release.aab'
 java -jar "$bundletoolJar" validate "--bundle=$aab"
+if ($LASTEXITCODE -ne 0) { throw 'Bundle invalido' }
 java -jar "$bundletoolJar" dump manifest "--bundle=$aab" --module=base
+if ($LASTEXITCODE -ne 0) { throw 'Manifesto indisponivel' }
 jarsigner -verify -verbose -certs -strict "$aab"
+if ($LASTEXITCODE -ne 0) { throw 'Verificacao de assinatura exige classificacao antes de seguir' }
 keytool -printcert -jarfile "$aab"
+if ($LASTEXITCODE -ne 0) { throw 'Certificado indisponivel' }
 Get-FileHash -Algorithm SHA256 "$aab"
 ```
 

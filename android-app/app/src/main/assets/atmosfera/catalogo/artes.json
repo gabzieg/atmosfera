@@ -805,34 +805,6 @@
     "miniatura": "atmosfera/miniaturas/esfinge__xilogravura.webp"
   },
   {
-    "cena": "estacionamento",
-    "arte": "aqua",
-    "embarcada": false,
-    "produto": "terra_arte_estacionamento_aqua",
-    "miniatura": "atmosfera/miniaturas/estacionamento__aqua.webp"
-  },
-  {
-    "cena": "estacionamento",
-    "arte": "pixel",
-    "embarcada": false,
-    "produto": "terra_arte_estacionamento_pixel",
-    "miniatura": "atmosfera/miniaturas/estacionamento__pixel.webp"
-  },
-  {
-    "cena": "estacionamento",
-    "arte": "ukiyoe",
-    "embarcada": false,
-    "produto": "terra_arte_estacionamento_ukiyoe",
-    "miniatura": "atmosfera/miniaturas/estacionamento__ukiyoe.webp"
-  },
-  {
-    "cena": "estacionamento",
-    "arte": "vangogh",
-    "embarcada": false,
-    "produto": "terra_arte_estacionamento_vangogh",
-    "miniatura": "atmosfera/miniaturas/estacionamento__vangogh.webp"
-  },
-  {
     "cena": "estrada",
     "arte": "aqua",
     "embarcada": false,
@@ -1349,34 +1321,6 @@
     "embarcada": false,
     "produto": "terra_arte_mureta_xilogravura",
     "miniatura": "atmosfera/miniaturas/mureta__xilogravura.webp"
-  },
-  {
-    "cena": "natal",
-    "arte": "aqua",
-    "embarcada": false,
-    "produto": "terra_arte_natal_aqua",
-    "miniatura": "atmosfera/miniaturas/natal__aqua.webp"
-  },
-  {
-    "cena": "natal",
-    "arte": "pixel",
-    "embarcada": false,
-    "produto": "terra_arte_natal_pixel",
-    "miniatura": "atmosfera/miniaturas/natal__pixel.webp"
-  },
-  {
-    "cena": "natal",
-    "arte": "ukiyoe",
-    "embarcada": false,
-    "produto": "terra_arte_natal_ukiyoe",
-    "miniatura": "atmosfera/miniaturas/natal__ukiyoe.webp"
-  },
-  {
-    "cena": "natal",
-    "arte": "vangogh",
-    "embarcada": false,
-    "produto": "terra_arte_natal_vangogh",
-    "miniatura": "atmosfera/miniaturas/natal__vangogh.webp"
   },
   {
     "cena": "natalchale",

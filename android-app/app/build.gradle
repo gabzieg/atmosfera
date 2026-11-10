@@ -24,7 +24,7 @@ android {
         applicationId "com.terra.wallpaper"
         minSdk 26
         targetSdk 36
-        versionCode 7
+        versionCode 8
         versionName "1.0.5"
         def terraAcervoUrl = providers.gradleProperty('terraAcervoUrl').getOrElse('')
         if (terraAcervoUrl && !(terraAcervoUrl ==~ /https:\/\/[A-Za-z0-9.-]+(?::[0-9]+)?\/[A-Za-z0-9_\/.\-]*/)) {
