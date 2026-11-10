@@ -8,13 +8,10 @@ import urllib.parse
 import urllib.request
 from pathlib import Path
 
-EXCLUIDOS = {"simpsons", "budokai", "konoha", "timessquare", "burj", "ogro", "eiffel"}
+from candidate_catalog import FORA_DO_CANDIDATO, NATIVAS, GRATIS
+
+EXCLUIDOS = FORA_DO_CANDIDATO
 RAIZ = Path(__file__).resolve().parents[1]
-NATIVAS = {("cabana", "pixel"), ("bruxa", "pixel"), ("bruxa", "clay"),
-           ("lavanda", "pixel"), ("lavanda", "aqua"), ("esfinge", "pixel"),
-           ("esfinge", "vangogh"), ("jardim", "pixel"), ("jardim", "ukiyoe")}
-GRATIS = {("cabana", "pixel"), ("bruxa", "clay"), ("lavanda", "aqua"),
-          ("esfinge", "vangogh"), ("jardim", "ukiyoe")}
 
 
 def normalizar(descritor):

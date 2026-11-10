@@ -38,6 +38,10 @@ jobs:
         timeout-minutes: 2
         run: python3 -B -m unittest discover -s scripts -p 'test_disparar_site_legal.py' -v
 
+      - name: Conferir composição do candidato sem rede
+        timeout-minutes: 2
+        run: python3 -B -m unittest discover -s scripts -p 'test_candidate_catalog.py' -v
+
       # #103, 09/11/2026: hashes e nomes devem ser aceitos pelo consumidor Android.
       - name: Conferir contrato do catálogo R2 sem publicação
         timeout-minutes: 2
