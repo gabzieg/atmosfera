@@ -4,6 +4,7 @@
 param(
     [ValidateSet('Rehearsal','Final')][string]$Phase = 'Rehearsal',
     [string]$AcceptedRehearsalReceipt,
+    [string]$RehearsalApk,
     [string]$AdbExecutable = 'adb',
     [Parameter(Mandatory=$true)][string]$Repository,
     [Parameter(Mandatory=$true)][string]$BundletoolJar,
@@ -72,8 +73,9 @@ try {
     $resolvedProperties = (Resolve-Path -LiteralPath $ExistingProperties).Path
     $resolvedAcceptance = $null
     if ($Phase -eq 'Final') {
-        if (!$AcceptedRehearsalReceipt -or !$ExpectedUploadSha256) { throw 'Final exige referencia e aceite anterior' }
+        if (!$AcceptedRehearsalReceipt -or !$ExpectedUploadSha256 -or !$RehearsalApk) { throw 'Final exige APK, referencia e aceite anterior' }
         $resolvedAcceptance = (Resolve-Path -LiteralPath $AcceptedRehearsalReceipt).Path
+        $resolvedRehearsalApk = (Resolve-Path -LiteralPath $RehearsalApk).Path
     }
     $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
     $artifactRelative = 'local/private/candidate-final-' + $ExpectedCommit.Substring(0,12) + '-' + $stamp
@@ -97,7 +99,7 @@ try {
     if ($javaVersion -notmatch 'version "17[.\"]') { throw 'Java17 obrigatorio' }
     Invoke-Checked 'python-version' 'py' @('-3','-c','import sys; assert sys.version_info >= (3,11); print(sys.version.split()[0])')
     if ($Phase -eq 'Final') {
-        Invoke-Checked 'rehearsal-acceptance' 'py' @('-3',(Join-Path $PSScriptRoot 'rehearsal.py'),'--acceptance',$resolvedAcceptance)
+        Invoke-Checked 'rehearsal-acceptance' 'py' @('-3',(Join-Path $PSScriptRoot 'rehearsal.py'),'--acceptance',$resolvedAcceptance,'--apk',$resolvedRehearsalApk)
     } else {
         Invoke-Checked 'devices' $AdbExecutable @('devices')
         Invoke-Checked 'device-check' 'py' @('-3',(Join-Path $PSScriptRoot 'rehearsal.py'),'--check-device','--output',$artifactDirectory)

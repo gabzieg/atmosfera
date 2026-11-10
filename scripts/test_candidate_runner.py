@@ -121,15 +121,21 @@ class CandidateAuditTest(unittest.TestCase):
         device_log.write_text('List of devices attached\nFAKE_PRIVATE_SERIAL device\n')
         rehearsal.verify_device(self.out)
         receipt = self.out / 'accepted.json'
-        valid = dict(app_commit=audit.APP_COMMIT, apk_sha256='a' * 64, accepted_by_lead=True,
+        valid = dict(app_commit=audit.APP_COMMIT, apk_sha256=audit.file_sha256(self.aab), accepted_by_lead=True,
                      lead_acceptance_url='https://github.com/gabzieg/atmosfera/issues/86#issuecomment-123')
         receipt.write_text(json.dumps(valid))
-        rehearsal.verify_acceptance(receipt)
+        rehearsal.verify_acceptance(receipt, self.aab)
+        with self.assertRaises(ValueError):
+            rehearsal.verify_acceptance(receipt, self.root / 'missing.apk')
+        changed = self.root / 'wrong.apk'
+        changed.write_bytes(b'changed')
+        with self.assertRaises(ValueError):
+            rehearsal.verify_acceptance(receipt, changed)
         for change in [dict(app_commit='wrong'), dict(accepted_by_lead=False), dict(apk_sha256=''),
                        dict(lead_acceptance_url='https://evil.invalid/')]:
             receipt.write_text(json.dumps(dict(valid, **change)))
             with self.assertRaises(ValueError):
-                rehearsal.verify_acceptance(receipt)
+                rehearsal.verify_acceptance(receipt, self.aab)
 
     def test_rehearsal_exports_apk_and_receipt_without_serial(self):
         (self.out / 'devices.log').write_text('List of devices attached\nFAKE_PRIVATE_SERIAL device\n')

@@ -70,12 +70,12 @@ por conta própria. Ajuste de app exige novoSHA/ensaio afetado e novoaceite.
 
 Somente após aceite do ensaio/ListaA/SHAcongelado, a lead fornece comandoFinal e
 recibo com `app_commit`, `apk_sha256`, `accepted_by_lead=true` e
-`lead_acceptance_url` do comentário86 correspondente. O runner valida formato/SHA;
+`lead_acceptance_url` do comentário86 correspondente. O runner valida formato/SHA e compara o hash do APK local aceito;
 **isso não autentica conteúdo/autor do link**: a lead confere o original antes da
 liberação. Não fabrique aceite nem reutilize recibo de outroSHA.
 
 ```powershell
-& '.\run-final-candidate.ps1' -Phase Final -Repository 'C:\projetos\atmosfera' -BundletoolJar 'C:\ferramentas\bundletool-all-1.18.3.jar' -ExistingProperties 'C:\projetos\atmosfera\android-app\keystore.properties' -ExpectedUploadSha256 '<SHA256 publico anterior>' -AcceptedRehearsalReceipt 'C:\ensaio\accepted-rehearsal.json'
+& '.\run-final-candidate.ps1' -Phase Final -Repository 'C:\projetos\atmosfera' -BundletoolJar 'C:\ferramentas\bundletool-all-1.18.3.jar' -ExistingProperties 'C:\projetos\atmosfera\android-app\keystore.properties' -ExpectedUploadSha256 '<SHA256 publico anterior>' -AcceptedRehearsalReceipt 'C:\ensaio\accepted-rehearsal.json' -RehearsalApk 'C:\ensaio\app-debug.apk'
 ```
 
 Para referência de AAB anteriormente aceito, use

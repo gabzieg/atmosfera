@@ -18,13 +18,15 @@ def verify_device(output):
         raise ValueError('Exige um unico aparelho autorizado e online')
 
 
-def verify_acceptance(path):
+def verify_acceptance(path, apk):
     receipt = read_json(path)
     if (receipt.get('app_commit') != APP_COMMIT or receipt.get('accepted_by_lead') is not True
             or not re.fullmatch(r'[a-f0-9]{64}', receipt.get('apk_sha256', ''))
             or not re.fullmatch(r'https://github\.com/gabzieg/atmosfera/issues/86#issuecomment-[0-9]+',
                                 receipt.get('lead_acceptance_url', ''))):
         raise ValueError('Aceite de ensaio ausente/invalido para SHA fixo')
+    if not apk or not apk.is_file() or file_sha256(apk) != receipt['apk_sha256']:
+        raise ValueError('APK diverge do hash aceito no ensaio')
     # Formato/link não autenticam conteúdo: a lead confere o original antes de liberar.
     return receipt
 
@@ -67,7 +69,7 @@ def main():
     args = parser.parse_args()
     try:
         if args.acceptance:
-            verify_acceptance(args.acceptance)
+            verify_acceptance(args.acceptance, args.apk)
         elif args.check_device:
             verify_device(args.output)
         else:
