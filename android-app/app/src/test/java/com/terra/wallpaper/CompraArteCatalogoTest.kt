@@ -60,7 +60,9 @@ class CompraArteCatalogoTest {
     @Test fun manifestoFixaHashCompletoParaTodosOsPacotes() {
         val manifesto = context.assets.open("atmosfera/catalogo/manifest.json")
             .bufferedReader().use { Acervo.Manifesto.parse(it.readText()) }
-        assertEquals(71, manifesto.cenas.size)
+        // #86, 10/11/2026: o manifesto também deve retirar as famílias ocultas.
+        val paresElegiveis = Catalogo.cenarios.associate { it.id to it.artes.toSet() }
+        assertEquals(paresElegiveis, manifesto.cenas.mapValues { it.value.artes.keys })
         manifesto.cenas.values.forEach { cena ->
             assertTrue(cena.cena.sha256.matches(Regex("[a-f0-9]{64}")))
             cena.artes.values.forEach {
