@@ -3,7 +3,7 @@
   "status": "aprovado_para_publicacao",
   "aprovado_para_publicacao": true,
   "aprovacao_registro": "https://github.com/gabzieg/atmosfera/pull/110#issuecomment-6750038090",
-  "vigencia": null,
+  "vigencia": "2026-11-10",
   "versao_app": null,
   "dominio_publico": "https://terrawallpaper.com.br",
   "controlador": "Rafael Huppes",
@@ -14,10 +14,12 @@
     "contato": "https://terrawallpaper.com.br/contato"
   },
   "publicacao_web": {
-    "data_informada_pelo_titular": "2026-10-15",
-    "plataforma": "Google Sites",
-    "estado": "publicado_pelo_titular_com_metadados_de_rascunho",
-    "verificacao": "URLs de navegação conferidas no navegador; seleção authuser removida dos links documentados. Verificação anônima independente não concluída nesta rodada."
+    "data_informada_pela_friday": "2026-11-10",
+    "plataforma": "Cloudflare Pages",
+    "estado": "publicado_com_vigencia_web_sem_candidato_app",
+    "registro_evento": "https://github.com/gabzieg/atmosfera/issues/89#issuecomment-6769882123",
+    "verificacao": "Três rotas curtas HTTP200 e versões1.23/1.13/1.11 conferidas em10/11/2026 com resolução DNS explícita e certificado HTTPS validado; provenance ac82bd7 e hashes do manifesto/fonte/HTML compatíveis. DNS padrão local falhou; não comprova propagação universal ou dia histórico da primeira publicação sem o recibo Friday.",
+    "registro_verificacao": "https://github.com/gabzieg/atmosfera/issues/89#issuecomment-6769948368"
   },
   "situacao_teste_informada_2026_10_19": {
     "fonte": "Mensagem de Rafael encaminhada pelo usuario; sem acesso ao Console nesta execucao",
@@ -51,15 +53,23 @@
     "plataforma": "Cloudflare Pages",
     "dominio": "https://terrawallpaper.com.br",
     "analytics": false,
-    "estado": "redacao_aprovada_aguardando_evento_real_de_publicacao",
+    "estado": "publicacao_real_informada_e_observada_em_2026_11_10",
     "vigencia_evento": "Data real de publicação das três páginas legais; não antecipar"
   },
+  "historico_publicacao_web": [
+    {
+      "data_informada_pelo_titular": "2026-10-15",
+      "plataforma": "Google Sites",
+      "estado": "publicado_pelo_titular_com_metadados_de_rascunho",
+      "verificacao": "URLs de navegação conferidas no navegador; seleção authuser removida dos links documentados. Verificação anônima independente não concluída nesta rodada."
+    }
+  ],
   "documentos": {
     "privacidade": {
       "versao": "1.23",
       "fonte": "docs/legal/PRIVACIDADE.md",
-      "sha256_fonte": "8c24ace777d0ebfc508f8ac41e13ecf3bd79b390166830cb8c17dbd7b9b7f859",
-      "sha256_html": "2e8ff9f85c20b54ee5347e00de14a893e35880b6d94731a6cbaf11c50a835a85",
+      "sha256_fonte": "2e9a709ac42f6037e989f49ebea7b1e0f2cdb0d67a25376e697a2111cba4d208",
+      "sha256_html": "8d421f8fa39d9822cb0d72d89d0337d3bbd9c6318e19439d99325f756908f9ff",
       "copias": [
         "docs/privacidade/index.html",
         "public_html/privacidade/index.html",
@@ -69,8 +79,8 @@
     "termos": {
       "versao": "1.13",
       "fonte": "docs/legal/TERMOS.md",
-      "sha256_fonte": "0d1a0be9ebfc7c2ec1089cdc1180cbd601297e1be9603f27dac929a8f060d5fd",
-      "sha256_html": "4157e411ad34985d56d52f409bba5ece2e92c2b7d6bc20404362ce7b20b81082",
+      "sha256_fonte": "07e3c4ebedbdc9d71e5dbf57b60d14d4ae8f09ccc40d0edfbcff07515a9e310f",
+      "sha256_html": "73b3d03861cfac4dd58ae2561eedb39dae1fb27b2d4a19efd2de2bc8d0583c0f",
       "copias": [
         "docs/termos/index.html",
         "public_html/termos/index.html",
@@ -80,8 +90,8 @@
     "contato": {
       "versao": "1.11",
       "fonte": "docs/legal/CONTATO.md",
-      "sha256_fonte": "34d760d00950cfd3fd0544938797b87b87ed112524185e401d2c89547a38c8c3",
-      "sha256_html": "61c003dbf4072d898c20f4e5757a6bc338a90ca66580cd4e48a2e4e9c41d7802",
+      "sha256_fonte": "cbc6f3e9e822e3c1a4733630e7a9141257429140a6b6a0ec6e5e2858a8cf8b6c",
+      "sha256_html": "d241b24cb34dea84343d22081fe8bca8b6d157c021caee49341d8973b089b893",
       "copias": [
         "docs/contato/index.html",
         "public_html/contato/index.html",

@@ -51,8 +51,8 @@ class TriggerTest(unittest.TestCase):
         self.assertEqual(self.run_trigger(''), 'missing_hook')
         self.post.assert_not_called()
 
-    def test_editorial_with_invented_date_fails_without_hook(self):
-        self.meta.update(status='aprovado_para_publicacao', versao_app=None)
+    def test_editorial_with_invalid_date_fails_without_hook(self):
+        self.meta.update(status='aprovado_para_publicacao', vigencia='2026-02-30', versao_app=None)
         with self.assertRaises(ValueError):
             self.run_trigger('')
         self.post.assert_not_called()
@@ -161,3 +161,14 @@ class TriggerTest(unittest.TestCase):
 
     def test_redirect_is_refused(self):
         self.assertIsNone(site.NoRedirect().redirect_request(None, None, 302, '', {}, 'https://other.invalid'))
+
+    def test_web_date_null_app_posts_once(self):
+        self.meta.update(status='aprovado_para_publicacao', vigencia='2026-11-10', versao_app=None)
+        self.assertEqual(self.run_trigger(), 'requested')
+        self.post.assert_called_once_with(self.hook)
+
+    def test_web_date_null_app_missing_hook_is_explicit_skip(self):
+        self.meta.update(status='aprovado_para_publicacao', vigencia='2026-11-10', versao_app=None)
+        self.assertEqual(self.run_trigger(''), 'missing_hook')
+        self.post.assert_not_called()
+        self.assertIn('ausente', self.messages[0])

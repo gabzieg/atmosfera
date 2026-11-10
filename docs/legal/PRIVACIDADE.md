@@ -4,9 +4,9 @@
 
 **Versão da política:** 1.23
 **Última atualização:** 9 de novembro de 2026
-**Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
+**Estado:** Redação aprovada; publicada na web em 10/11/2026.
 **Aplica-se a:** Próximo pacote (código de versão 8), em preparação para teste fechado no Brasil, somente com participantes adultos e entrega remota de artes. Não descreve automaticamente o funcionamento de versões anteriores.
-**Vigência:** A definir pela data real da publicação das três páginas legais, após aprovação explícita desta redação. A data será registrada no evento de publicação; não é antecipada por esta proposta. Esta revisão não retroage sobre compras anteriores nem suspende a transparência dos tratamentos anteriores.
+**Vigência:** 10/11/2026. Esta revisão não retroage sobre compras anteriores nem suspende a transparência dos tratamentos anteriores.
 
 ## Resumo
 

@@ -1,35 +1,44 @@
 # Fonte editorial dos documentos do Terra
 
-## Proposta Pages — #89, 09/11/2026
+## Publicação Pages e vigência web — #89, 10/11/2026
 
-Proposta de redação **Privacidade1.23/Termos1.13/Contato1.11**, base `d8ed440`,
-para Cloudflare Pages em `https://terrawallpaper.com.br`, sem analytics. O aceite
-anterior de1.22/1.12/1.10 não aprova este delta. `publicacao_web` no JSON conserva
-o histórico Google Sites; domínio/URLs e `publicacao_proposta` indicam o destino
-proposto, não publicação já feita. O dono aprovou este conjunto via Friday em09/11, registro [6750038090](https://github.com/gabzieg/atmosfera/pull/110#issuecomment-6750038090); não é publicação executada.
-`aprovado_para_publicacao=true`, estado `aprovado_para_publicacao` e registro de aceite identificam a aprovação editorial. `vigencia=null` e `versao_app=null` permanecem até os eventos próprios. Histórico editorial abaixo não prevalece sobre esta proposta.
+**Privacidade1.23/Termos1.13/Contato1.11** aprovadas pelo dono no
+[registro6750038090](https://github.com/gabzieg/atmosfera/pull/110#issuecomment-6750038090),
+integradas pelo PR110 em916e4340; automação #109 integrada pelo PR111 emac82bd7.
+O aceite anterior1.22/1.12/1.10 não foi ampliado por inferência: há aceite específico Pages.
 
-Evento de vigência já escolhido pelo dono na #86: **dia real da publicação das
-três páginas**, não dia do PR/build ou da geração local. Não preencher data agora.
-**Decisão do dono em 09/11/2026, via Friday (correio20261109-165752-33ca8c):**
-publicar automaticamente somente revisão com `aprovado_para_publicacao=true`, após
-aceite explícito de cada revisão registrado pela lead. `false` não vai ao ar;
-manter a última versão aprovada. A primeira publicação depende do aceite do delta
-Pages#89. Sem referência anterior aprovada, não servir rascunho como fallback.
-O contrato do ponteiro aprovado no lado do site é coordenado pelas leads na #109;
-ainda não existe SHA Pages aprovado para fornecer. Não descobrir aprovação por
-versão, data ou commit recente: conferir registro e hashes no SHA indicado.
+Publicação em `https://terrawallpaper.com.br` informada pela Friday no
+[recibo6769882123](https://github.com/gabzieg/atmosfera/issues/89#issuecomment-6769882123).
+As três rotas públicas responderam200, versões1.23/1.13/1.11 e proveniênciaac82bd7,
+na [apuração6769948368](https://github.com/gabzieg/atmosfera/issues/89#issuecomment-6769948368).
+DNS padrão local falhou; a conferência usou resolução explícita de IP consultado
+em dois resolvedores públicos e validação do certificado HTTPS. Não comprova
+propagação em todos os resolvedores. Data histórica informada pela Friday,
+coerente com a observação pública de10/11, sem inferência de primeira publicação pelo GET.
 
-Este PR permanece draft e sem merge conforme a ativação. Preparação/build/landing
-não são bloqueados por inferência; publicação legal respeita o contrato acima.
-Workflow#109 será preparado separadamente, sem hook real/secret/conta nesta tarefa.
-Com aceite específico e publicação preparada, registrar aprovação/metadados/data
-real, regenerar cópias e conferir as três páginas no evento autorizado, conciliando
-app/site/Console no marco#89. Se o evento não ocorrer, não declarar publicação ou
-vigência realizada. O gerador exige coerência editorial; sua saída não autoriza
-publicação. Nenhum controle remoto é criado por este README.
-R03 do R2 fica preservado em seu escopo; mecanismo/configuração de Pages não é
-certificado por aquele aceite de risco. Fontes oficiais e limites na entrega da #89.
+Conforme evento escolhido pelo dono na#86, **vigência web:10/11/2026**, dia real
+informado da publicação das três páginas. JSON mantém `aprovado_para_publicacao=true`,
+status `aprovado_para_publicacao` e aceite original; `vigencia=2026-11-10` é independente
+de `versao_app=null`. Não há candidato, instalação, Console ou distribuição comprovados.
+`publicacao_web` registra Pages; `historico_publicacao_web` conserva o registro Google Sites.
+Versões e corpo editorial permanecem; somente Estado/Vigência das fontes registram o evento.
+
+**Decisão do dono em09/11/2026 via Friday20261109-165752-33ca8c:** publicar automaticamente
+somente revisão explicitamente aprovada. False preserva a última aprovada, sem fallback
+de rascunho. Referência aprovada inicial916e4340/hashd4c585c3/aceite6750038090 foi fornecida
+ao site; conferir registro/hashes no SHA selecionado, sem inferir aprovação por recência.
+O site resolve main uma vez e valida a revisão; proveniência pública observadaac82bd7,
+com o mesmo manifesto da referência inicial. Secret/hook configurados e teste55188984
+são relato Friday, sem inspeção pela dev; nenhuma chamada manual nesta tarefa.
+
+Este registro prepara metadados/exportações coerentes; merge legal com hook ativo pode
+solicitar republicação, autorizada pelo dono via Friday112947/registro6769984719,
+condicionada à revisão independente e CI verde antes do merge pela lead. Não afirma
+execução futura do workflow nem atualização de app instalado. Correspondência final
+app/candidato/Console permanece na#89. Gerar não é publicar; R03 do R2 conserva seu escopo,
+sem certificar mecanismo/configuração Pages por analogia.
+
+## Histórico editorial de 08/11/2026
 
 Revisão de trabalho de 08/11/2026, consolidada a partir da rodada de 28/10 e das decisões registradas na [#77](https://github.com/gabzieg/atmosfera/issues/77), em proposta local para a [#78](https://github.com/gabzieg/atmosfera/issues/78). Fontes únicas: `TERMOS.md` (1.13), `PRIVACIDADE.md` (1.23) e `CONTATO.md` (1.11). A [nova revisão documental](../../.lgpd/revisoes/2026-10-28-documentos/REVISAO.md) registra achados e decisões pendentes; os registros anteriores abaixo são históricos, enquanto as decisões consideradas nesta consolidação estão referenciadas na #77, sem adotar conteúdo antigo como instrução. Os HTMLs são exportações; não editar cada cópia separadamente. O [registro de refinamento](../dev/REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md) reúne instruções internas e decisões pendentes. As versões refinadas não foram republicadas no Google Sites por esta execução.
 
@@ -48,7 +57,9 @@ Ao modificar uma fonte, o agente atualiza a versão/data correspondente, concili
 
 Essa automação cobre os arquivos locais versionados. Não publica no Google Sites nem atualiza aplicativos já instalados.
 
-## Estado editorial
+## Estado editorial histórico — 08/11/2026
+
+O retrato abaixo é histórico; estado atual e evento web estão na abertura deste README.
 
 **Aceite parcial de redação em 08/11/2026:** [registro e hashes do conjunto 1.22/1.12/1.10](https://github.com/gabzieg/atmosfera/issues/77#issuecomment-6729200287). Aprova somente a redação identificada, sem comprovar leitura individual, aprovação jurídica integral, mecanismo internacional, vigência, publicação ou envio. Os metadados públicos continuam rascunho e não foram promovidos a aprovação final. A composição versionada é preparada na [#82](https://github.com/gabzieg/atmosfera/issues/82); a #78 preserva a origem local do conjunto.
 
@@ -85,18 +96,21 @@ Preservado o refinamento editorial de Gabriel em `1bd5a70`. As respostas posteri
 
 ## Contrato de aprovação editorial e vigência — #89
 
-O JSON canônico distingue false/rascunho, true/aprovado_para_publicacao (aceite
-identificado, sem data/candidato) e true/aprovado (data real/versão identificada e
-cabeçalhos coerentes). Os três Markdown aceitos em1737e17 são preservados byte a
-byte: não existe segunda redação. Somente a apresentação dos campos Estado e
-Vigência é derivada do JSON pelo sincronizador enquanto a vigência está pendente;
-corpo, versão e escopo não são substituídos. Hashes da fonte continuam os aceitos,
-hashes HTML refletem a apresentação derivada. Header histórico de revisão na
-fonte não revoga o aceite registrado; HTML não afirma publicação já executada.
+O JSON canônico distingue false/rascunho; true/aprovado_para_publicacao com aceite
+identificado e versao_app explicitamente nula, com vigencia nula antes do evento ou
+ISO real depois da publicação web; e o estado legado true/aprovado, que continua
+exigindo data/versão identificadas e fontes coerentes. Status editorial é aprovação;
+data web não significa candidato do app. Campos ausentes, datas impossíveis ou fora
+do formato ISO, bool frouxo, registro/domínio inválidos e candidato inventado são recusados.
 
-bool não estrito, referência pública/estado/domínio inválidos ou data inválida
-são rejeitados; estado efetivo mantém exigência de data/versão e fonte alinhada.
---check não escreve e recusa cópia divergente. Atualizar vigência/cabeçalhos no
-evento real depende da autorização correspondente, sem relógio ou candidato
-inferido. #109/site devem consumir o mesmo contrato, sem exigir data fictícia
-para reconhecer aceite editorial; nenhuma chamada real ou publicação nesta tarefa.
+Antes do evento, somente apresentação Estado/Vigência é derivada do JSON, preservando
+fontes aceitas. Após o evento, cabeçalhos Estado/Vigência das fontes registram10/11/2026,
+com ressalvas de não retroatividade/transparência intactas; gerador confere coerência
+com a data canônica e apresenta vigência nas nove cópias/rodapés. Corpo, versão editorial,
+escopo e Última atualização de9/11 permanecem. Hashes de fonte/HTML mudam em consequência
+desse delta de metadados autorizado, sem nova redação substantiva.
+
+--check não escreve e recusa cópia divergente; #109 reutiliza validar_estado/exports.
+Nenhum teste exige hook real ou versão fictícia; integração/republicação seguem
+autorização operacional recebida na#89/6769984719, limitada ao evento e condicionada
+à revisão/CI e conferência posterior. Decisão técnica na#89/6769969019.
