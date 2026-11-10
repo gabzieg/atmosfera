@@ -2,7 +2,7 @@
 
 <a id="estado-vigente--08112026"></a>
 
-**Próximo passo:** Revisar/integrar links autorizados86/89 e atualizarSHAfixo runner antesensaioWindows. Runner114emrevisão/CI;4.3padrão/2.8foraAPK decididos. Ensaio pelo dono semcompras/contaPlay/apagardados;5.2–5.3pendentes.
+**Próximo passo:** Revisar/integrar links autorizados86/89 e atualizarSHAfixo runner antesensaioWindows. Runner114 integrado em9ec8575; concluir revisão115/gate/CI e depois atualizar alvo fixo runner antesWindows;4.3padrão/2.8foraAPK decididos. Ensaio pelo dono semcompras/contaPlay/apagardados;5.2–5.3pendentes.
 
 **Aplicação deste retrato:** recibos das decisões09/11 já constam nas issues #86/#90. Esta atualização documental só chega à main após integração autorizada do PR; a redação Pages tem aceite editorial específico no PR #110/6750038090; integração não encerra 3.7/#89 nem comprova publicação.
 
@@ -37,7 +37,7 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [x] ✅ **2.5** Forneça origem do conteúdo — Dono · atendido no alcance declarado07/10/c1b95ec, itens5/19: artes restantes próprias/GPT; licença genérica de terceiros encerrada por declaração, sem auditoria independente. [Recibo](https://github.com/gabzieg/atmosfera/issues/90#issuecomment-6748711328). Tipografia e vínculo por item continuam2.6/#90.
 - [ ] ⏳ **2.6** Vincule origem e licenças ao acervo distribuído — Agentes · Dependência: declaração2.5 recebida; tipografia/vínculo por item por conferir · [#90](https://github.com/gabzieg/atmosfera/issues/90) · pronto com inventário por item, comprovação ou lacuna explícita; sem certificar autoria por imagem.
 - [x] ✅ **2.7** Defina conjunto do teste — Dono · decidido09/11: estacionamento/natal/eiffel/ogro/timessquare não finalizadas, fora do candidato, em escopo separado abaixo. Sete exclusões anteriores e sprites pixel_retro/pixel_retro_2 preservados. [Recibo](https://github.com/gabzieg/atmosfera/issues/86#issuecomment-6748832903). Ausência física/recorte ainda execução#86, não comprovada por ocultação.
-- [ ] 🙋 **2.8** Defina a identificação comercial adequada antes de cobrar — Dono · decisão · Dependência: nenhuma · R07/C2: conjunto app/loja/página; sem publicar documento/endereço residencial por inferência.
+- [ ] 🙋 **2.8** Defina identificação comercial externa antes oferta — Dono · Friday144610/6774761983: fora do app neste testeadultosemcobrança; identidade/canal atuais. DadosConsole/site antesoferta; não bloqueiaAPK nem significa concluído.
 - [ ] 🙋 **2.9** Responda somente aos quesitos concretos ainda não respondidos — Dono · ação · Dependência: 3.8, 3.9 · a apuração inicial identifica lacunas específicas e efeito; somente depois a lead encaminha pedidos ao dono. Não repetir suporte, R06, R02 ou escolha R03 resolvidos.
 - [x] ⚪ **2.10** Dispense a cobrança genérica de destino de resíduo privado neste marco — Dono · decisão · Dependência: 9.1 · triagem [#85](https://github.com/gabzieg/atmosfera/issues/85#issuecomment-6738298435): sem evidência concreta do gatilho. Não prova inexistência ou eliminação de todo material; #48 fechado sem merge e documentos já arquivados não são reabertos. Só resíduo específico comprovado na #71 habilita quesito e escopo próprios.
 
@@ -78,10 +78,10 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 
 **Objetivo:** Identificar um único candidato e controlar cada checkpoint. · **Pronto quando:** AAB auditado e faixa disponibilizada com autorização.
 
-- [ ] 🙋 **5.0** Autorize a geração final no commit e ambiente identificados — Dono · decisão · Dependência: 5.1 · AAB final/assinatura/configuração específicos; diagnóstico 7 não é candidato de envio.
-- [ ] 🔄 **5.1** Fixe composição, código e configuração do candidato — Agentes · [#86](https://github.com/gabzieg/atmosfera/issues/86) · preparação em revisão:69cenas/358artes/9nativas conforme recibo6773757656, não candidato final. Endpoint aprovado; máximo7 e código8 livre confirmados pelo dono10/11 via Friday140906; candidato1.0.5/código8, bump nesta entrega. AmbienteWindows existente; falta SHA integrado/checkpoint5.0.
-- [ ] ⛔ **5.2** Gere o AAB autorizado e arquive sua procedência — Agentes · Dependência: 5.0, 5.1 · [#86](https://github.com/gabzieg/atmosfera/issues/86) · AAB/hash/certificado/mapping/configuração R8 do mesmo build; sem chaves no diff.
-- [ ] ⛔ **5.3** Audite identidade, assinatura, manifesto e textos do AAB — Agentes · Dependência: 5.2 · [#86](https://github.com/gabzieg/atmosfera/issues/86) · bundletool validate/auditor, certificado upload/distribuição, SDKs/permissões/textos e limites; não reciclar mapping diagnóstico.
+- [x] ✅ **5.0** Autorize geração/assinatura/auditoria — Dono · autorização direta até5.3, escolhaFriday141754 de rodar scriptWindows; recibo6774210235. SHA operacional refixado apósListaA; não executar referência provisória.
+- [ ] 🔄 **5.1** Fixe composição/código/configuração — Agentes · #86 · PR113 integrado6ccd02c,1.0.5/código8,69cenas/358artes/9nativas/endpointaprovado. ListaA pode exigir novoSHA; configuração/assinatura/ensaio não comprovados.
+- [ ] 🔄 **5.2** Gere AAB assinado/procedência — Agentes/donoexecutorWindows · #86 · runnerduasfases em revisão: Rehearsal padrão gera APK sembundlefinal; Final exige ensaio do mesmoSHA/hash e aceite da lead. ListaA/ensaio/refixaçãoSHA pendentes; AABfinal não gerado.
+- [ ] ⛔ **5.3** Audite o mesmo AAB final — Agentes · dependência5.2 · #86 · identidade/assinatura/manifesto/acervo/legais/mapping/configuração do mesmo build. Helper não é auditoriarealizada; semConsole/envio.
 - [ ] 🙋 **5.4** Associe e valide o candidato na faixa com autorização específica — Dono · ação · Dependência: 5.3, 4.10, 4.11, 3.7, 6.3 · A2/A7: processamento, composição/atualização, erros resolvidos e publicação gerenciada conferidos; sem enviar por inferência.
 - [ ] 🙋 **5.5** Autorize o envio do teste fechado e acompanhe a revisão — Dono · decisão · Dependência: 5.4, 6.1 · envio/revisão Google separados de disponibilização; aprovação pode publicar conforme configuração, escopo explícito.
 - [ ] 🙋 **5.6** Registre a disponibilidade efetiva do candidato na faixa — Dono · ação · Dependência: 5.5 · versão/candidato aprovado e acessível; não inferir início dos 14 dias.
@@ -97,7 +97,7 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [ ] ⛔ **6.5** Consolide aceites funcionais e visuais por candidato — Agentes · Dependência: 5.6, 6.8 · [#94](https://github.com/gabzieg/atmosfera/issues/94) · B2/B3: direitos gratuitos/Premium/arte, catálogo/efeitos, onboarding/upgrade, clima/transições/revogação/cache, suporte/backup/logs, download/falha/espaço/cancelamento/limpeza/offline; defeitos e retestes por aparelho.
 - [ ] ⛔ **6.6** Meça desempenho e compatibilidade em aparelhos definidos — Agentes · Dependência: 5.3, 6.8 · [#95](https://github.com/gabzieg/atmosfera/issues/95) · B3: memória/bateria/estabilidade, Android antigo / minSdk 26 e aplicabilidade de 16 KB; esperado/ruído antes de medir, sem mudar minSdk por inferência.
 - [ ] ⏳ **6.7** Acompanhe inscrições contínuas e requisito aplicável do teste — Rafael · Dependência: 6.9 · B1, atribuição histórica: comprovar 12 inscritos / 14 dias no painel quando exigidos; lista/licença/instalação não são adesão nem produção automática.
-- [ ] 🔄 **6.8** Execute ensaio noWindows — Donoexecutor · Friday145057/6774894925: mesmoSHA,semcompras/contaPlay/apagardados. Roteiro/capturasem preparo, nãoensaiado; DebugnãoatestareleaseR8/Billing/performancefinal.
+- [ ] 🔄 **6.8** Execute ensaio prévio no Windows e devolva evidências — Dono executor · decisãoFriday145057/6774894925: Windows existente, mesmoSHA, semcompras/contaPlay/apagardados. APK/roteiro/capturas em preparo no runner; instalação manual, parar se assinatura incompatível/deviceausente. Não ensaiado ainda; BillingR8/performancefinal não inferidos deDebug.
 - [ ] ⏳ **6.9** Convide e registre adesões efetivas ao fechado autorizado — Rafael · Dependência: 5.6, 6.2, 6.3 · B1: atribuição histórica; convite individual/saída do interno / adesão ao fechado e instalação são etapas distintas; sem mensagem nesta tarefa.
 - [ ] 🙋 **6.10** Consolide feedback e priorize defeitos encontrados — Dono · ação · Dependência: 6.5, 6.6 · B4: uso real e resultados por candidato; correções precisam de issues concretas e reteste, não só prazo decorrido.
 
