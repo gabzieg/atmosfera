@@ -10,13 +10,25 @@ foreach($definition in $definitions){. ([scriptblock]::Create($definition.Extent
 $repositoryRoot = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $artifactDirectory=Join-Path $repositoryRoot ('local/tmp/runner-test-' + [guid]::NewGuid().ToString() + ' with space')
 New-Item -ItemType Directory -Force -Path $artifactDirectory|Out-Null
+$originalPath=$env:PATH
 try {
-$python=(Get-Command python3 -CommandType Application).Source
+# #114, 10/11/2026: vários ApplicationInfo não podem virar um caminho concatenado.
+$fixturePython=@(Get-Command python3 -CommandType Application -ErrorAction Stop)[0].Source
+foreach($folder in @('first','second')) {
+    $directory=Join-Path $artifactDirectory $folder
+    New-Item -ItemType Directory -Path $directory|Out-Null
+    New-Item -ItemType SymbolicLink -Path (Join-Path $directory 'python3') -Target $fixturePython|Out-Null
+}
+$env:PATH=(Join-Path $artifactDirectory 'first')+[IO.Path]::PathSeparator+(Join-Path $artifactDirectory 'second')+[IO.Path]::PathSeparator+$originalPath
+if(@(Get-Command python3 -CommandType Application).Count -lt 2){throw 'Fixture PATH nao reproduziu multiplos executaveis'}
+$python=@(Get-Command python3 -CommandType Application -ErrorAction Stop)[0].Source
 $testArguments=@('espaco no caminho','aspas"internas','fim\','&naoexecutar','')
 $expected=ConvertTo-Json -InputObject $testArguments -Compress
 Invoke-Checked 'arguments' $python (@('-c','import sys,json;print(json.dumps(sys.argv[1:]))')+$testArguments)
 $received=Get-Content -LiteralPath (Join-Path $artifactDirectory 'arguments.log') -Raw | ConvertFrom-Json
 if((ConvertTo-Json -InputObject $received -Compress) -ne $expected){throw 'Argumentos alterados'}
+Invoke-Checked 'multiple-path' 'python3' @('-c','print("single execution")')
+if((Get-Content -LiteralPath (Join-Path $artifactDirectory 'multiple-path.log') -Raw).Trim() -ne 'single execution'){throw 'Resolucao PATH nao executou uma vez'}
 Invoke-Checked 'stderr-success' $python @('-c','import sys;sys.stderr.write("FAKE_CANARIO_PRIVADO");sys.exit(0)')
 if((Get-Content -LiteralPath (Join-Path $artifactDirectory 'stderr-success.stderr.log') -Raw) -ne 'FAKE_CANARIO_PRIVADO'){throw 'Stderr nao capturado'}
 $failed=$false
@@ -39,5 +51,6 @@ if($script:recordedArguments -contains 'bundleRelease'){throw 'Ensaio gerou AAB'
 Write-Output 'FIM testes PowerShell: sintaxe, argumentos, stderr0, exit9 e comando ausente conferidos; sem build/assinatura'
 
 } finally {
+    $env:PATH=$originalPath
     Remove-Item -LiteralPath $artifactDirectory -Recurse -Force
 }

@@ -28,7 +28,7 @@ function Quote-NativeArgument {
 function Invoke-Native {
     param([string]$Stage, [string]$Executable, [string[]]$CommandArguments)
     $script:candidateStage = $Stage
-    $resolvedExecutable = (Get-Command $Executable -CommandType Application -ErrorAction Stop).Source
+    $resolvedExecutable = @(Get-Command $Executable -CommandType Application -ErrorAction Stop)[0].Source
     $startInfo = New-Object System.Diagnostics.ProcessStartInfo
     $startInfo.UseShellExecute = $false
     $startInfo.CreateNoWindow = $true
