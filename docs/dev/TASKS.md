@@ -172,4 +172,4 @@ Não há tarefa nova para resolver R03 por outro caminho: **3.3 é decisão conc
 
 Estacionamento (`estacionamento`), Natal (`natal`), Eiffel (`eiffel`), Ogro (`ogro`) e Times Square (`timessquare`) ficam fora do candidato atual, aguardando decisão de Rafael conforme dono09/11. Sem nova atribuição a ele. Não são oferta ou implementação liberadas. Recorte local/índices/assets ainda deve ser preparado na #86; bucket não pode ser alterado sem checkpoint. Sete exclusões anteriores e dois sprites vedados permanecem.
 
-Automação legal: [#109](https://github.com/gabzieg/atmosfera/issues/109), solicitada pelo dono09/11; implementação atribuída à atmosfera-dev, PR desta entrega em revisão; contrato canônico do #110 integrado. Hook/secret e publicação real permanecem checkpoints; nenhum POST real nas provas.
+Automação legal: [#109](https://github.com/gabzieg/atmosfera/issues/109), solicitada pelo dono09/11; implementação atribuída à atmosfera-dev, [PR #111](https://github.com/gabzieg/atmosfera/pull/111) em revisão; contrato canônico do #110 integrado. Hook/secret e publicação real permanecem checkpoints; nenhum POST real nas provas.
