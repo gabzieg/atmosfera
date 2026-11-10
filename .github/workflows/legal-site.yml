@@ -1,0 +1,25 @@
+name: Atualizar site legal aprovado
+
+on:
+  push:
+    branches: [main]
+    paths: ['docs/legal/**']
+
+permissions:
+  contents: read
+
+jobs:
+  request-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
+        with:
+          python-version: '3.12'
+      - name: Validar revisão e solicitar build somente se aprovada
+        env:
+          TERRA_SITE_DEPLOY_HOOK: ${{ secrets.TERRA_SITE_DEPLOY_HOOK }}
+        run: python3 -B scripts/disparar_site_legal.py

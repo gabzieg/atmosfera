@@ -2,7 +2,7 @@
 
 <a id="estado-vigente--08112026"></a>
 
-**Próximo passo:** concluir revisão independente e integração do PR #110 após checks do head final. Redação Pages 1.23/1.13/1.11 aceita pelo dono no registro 6750038090; publicação real e correspondência final #89 permanecem pendentes. Depois, retomar #109 com o contrato canônico de aprovação, sem chamada real ao hook.
+**Próximo passo:** Revisar a entrega da automação legal #109 após contrato canônico integrado pelo PR #110 (916e4340); site recebeu SHA/hash/aceite para pin e build. Publicação real e correspondência final #89 continuam pendentes.
 
 **Aplicação deste retrato:** recibos das decisões09/11 já constam nas issues #86/#90. Esta atualização documental só chega à main após integração autorizada do PR; a redação Pages tem aceite editorial específico no PR #110/6750038090; integração não encerra 3.7/#89 nem comprova publicação.
 
@@ -51,7 +51,7 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [x] ✅ **3.4** Aprove somente a redação 1.22/1.12/1.10 — Dono · decisão · Dependência: nenhuma · #77/6729200287, hashes preservados; A5/redação não é publicação/vigência/conformidade.
 - [x] ✅ **3.5** Defina evento de vigência — Dono · decisão09/11: dia real da publicação das três páginas, data registrada em3.6, sem antecipar/retroagir. [Recibo](https://github.com/gabzieg/atmosfera/issues/86#issuecomment-6748507255). Não aprova redação Pages nem publicação.
 - [ ] 🙋 **3.6** Autorize e execute a publicação das páginas legais finais — Dono · ação · Dependência: 3.5 · Cloudflare Pages, três páginas e revisão identificadas; Google Sites é histórico. Aceite editorial não comprova publicação; registrar data real somente após o evento.
-- [ ] 🔄 **3.7** Concilie metadados e correspondência app/site/Console — Agentes · [#89](https://github.com/gabzieg/atmosfera/issues/89) · redação Pages aceita no PR #110/6750038090; PR entregue aguarda integração após revisão/checks. Publicação/candidato e correspondência final pendentes, sem Closes#89.
+- [ ] 🔄 **3.7** Concilie metadados e correspondência app/site/Console — Agentes · [#89](https://github.com/gabzieg/atmosfera/issues/89) · redação Pages aceita no PR #110/6750038090; PR #110 integrado em916e4340 em10/11/2026, com revisão independente e build/secret-scan verdes. Publicação/candidato e correspondência final pendentes, sem Closes#89.
 - [x] ✅ **3.8** Consolide operações/bases e condições restantes dos serviços — Agentes · Dependência: nenhuma · [#91](https://github.com/gabzieg/atmosfera/issues/91) · [PR #108](https://github.com/gabzieg/atmosfera/pull/108#issuecomment-6745549298) MERGED em `22a89d5`, 09/11/2026 às13:37:09 BRT; apuração documental A01–A08 revisada, #91 fechada. Lacunas com destinos existentes; não é adoção integral das bases, mecanismo demonstrado ou execução auditada. Residual R03 preservado.
 - [ ] ⏳ **3.9** Consolide roteiro de incidente e avaliação de risco/impacto — Agentes · Dependência: nenhuma · [#92](https://github.com/gabzieg/atmosfera/issues/92) · D12/D13: iniciar avaliação documental agora e identificar condições/responsáveis faltantes para 2.9; cenário sanitizado, sem RIPD universal ou incidente real; não certificar lacunas.
 - [x] ✅ **3.10** Defina retirada da lista Console e controle privado mínimo — Dono · decisão · Dependência: nenhuma · R04 e #77/6702874195: fim do teste; controles 18+/aceite/data/referência separados, não prova de preenchimento.
@@ -172,4 +172,4 @@ Não há tarefa nova para resolver R03 por outro caminho: **3.3 é decisão conc
 
 Estacionamento (`estacionamento`), Natal (`natal`), Eiffel (`eiffel`), Ogro (`ogro`) e Times Square (`timessquare`) ficam fora do candidato atual, aguardando decisão de Rafael conforme dono09/11. Sem nova atribuição a ele. Não são oferta ou implementação liberadas. Recorte local/índices/assets ainda deve ser preparado na #86; bucket não pode ser alterado sem checkpoint. Sete exclusões anteriores e dois sprites vedados permanecem.
 
-Automação legal: [#109](https://github.com/gabzieg/atmosfera/issues/109), solicitada pelo dono09/11; atribuída à atmosfera-dev, preparação preservada sem commit na worktree issue-109; retomar após integração #110 e alinhamento com validar_estado canônico. Só revisão aprovada dispara; false preserva última aprovada, sem fallback de rascunho. Hook/secret com dono; sem chamada real nesta preparação.
+Automação legal: [#109](https://github.com/gabzieg/atmosfera/issues/109), solicitada pelo dono09/11; implementação atribuída à atmosfera-dev, PR desta entrega em revisão; contrato canônico do #110 integrado. Hook/secret e publicação real permanecem checkpoints; nenhum POST real nas provas.
