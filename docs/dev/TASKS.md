@@ -2,7 +2,7 @@
 
 <a id="estado-vigente--08112026"></a>
 
-**Próximo passo:** Concluir Lista A pré-geração na #86 e revisar runner Windows independente. Composição1.0.5/código8 integradaPR113/6ccd02c; SHA sujeito a novo congelamento após correções. Segurança3.7/aparelho6.8 aguardamFriday. Não gerar AAB antes Lista A/ensaio/SHA;5.2/5.3 pendentes.
+**Próximo passo:** Concluir ListaA/links/revisor e revisar runnerduasfases da#86. Ensaio pelo dono noWindows (Friday145057), semcompras/contaPlay/apagardados; APK/capturas antes deAAB. Segurança doslinks pendente, composiçãoPR113/6ccd02c sujeita a novoSHA. Final só após ensaioaceito;5.2/5.3não concluídos.
 
 **Aplicação deste retrato:** recibos das decisões09/11 já constam nas issues #86/#90. Esta atualização documental só chega à main após integração autorizada do PR; a redação Pages tem aceite editorial específico no PR #110/6750038090; integração não encerra 3.7/#89 nem comprova publicação.
 
@@ -80,7 +80,7 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 
 - [x] ✅ **5.0** Autorize geração/assinatura/auditoria — Dono · autorização direta até5.3, escolhaFriday141754 de rodar scriptWindows; recibo6774210235. SHA operacional refixado apósListaA; não executar referência provisória.
 - [ ] 🔄 **5.1** Fixe composição/código/configuração — Agentes · #86 · PR113 integrado6ccd02c,1.0.5/código8,69cenas/358artes/9nativas/endpointaprovado. ListaA pode exigir novoSHA; configuração/assinatura/ensaio não comprovados.
-- [ ] 🔄 **5.2** Gere AAB assinado/procedência — Agentes/donoexecutorWindows · #86 · runnerindependente em revisão, provas/limites6774841056; não liberado antesListaA/ensaio/SHA. AABfinal não gerado.
+- [ ] 🔄 **5.2** Gere AAB assinado/procedência — Agentes/donoexecutorWindows · #86 · runnerduasfases em revisão: Rehearsal padrão gera APK sembundlefinal; Final exige ensaio do mesmoSHA/hash e aceite da lead. ListaA/ensaio/refixaçãoSHA pendentes; AABfinal não gerado.
 - [ ] ⛔ **5.3** Audite o mesmo AAB final — Agentes · dependência5.2 · #86 · identidade/assinatura/manifesto/acervo/legais/mapping/configuração do mesmo build. Helper não é auditoriarealizada; semConsole/envio.
 - [ ] 🙋 **5.4** Associe e valide o candidato na faixa com autorização específica — Dono · ação · Dependência: 5.3, 4.10, 4.11, 3.7, 6.3 · A2/A7: processamento, composição/atualização, erros resolvidos e publicação gerenciada conferidos; sem enviar por inferência.
 - [ ] 🙋 **5.5** Autorize o envio do teste fechado e acompanhe a revisão — Dono · decisão · Dependência: 5.4, 6.1 · envio/revisão Google separados de disponibilização; aprovação pode publicar conforme configuração, escopo explícito.
@@ -97,7 +97,7 @@ Legenda: `[x] ✅` feito com evidência; `[x] ⚪` dispensado no escopo indicado
 - [ ] ⛔ **6.5** Consolide aceites funcionais e visuais por candidato — Agentes · Dependência: 5.6, 6.8 · [#94](https://github.com/gabzieg/atmosfera/issues/94) · B2/B3: direitos gratuitos/Premium/arte, catálogo/efeitos, onboarding/upgrade, clima/transições/revogação/cache, suporte/backup/logs, download/falha/espaço/cancelamento/limpeza/offline; defeitos e retestes por aparelho.
 - [ ] ⛔ **6.6** Meça desempenho e compatibilidade em aparelhos definidos — Agentes · Dependência: 5.3, 6.8 · [#95](https://github.com/gabzieg/atmosfera/issues/95) · B3: memória/bateria/estabilidade, Android antigo / minSdk 26 e aplicabilidade de 16 KB; esperado/ruído antes de medir, sem mudar minSdk por inferência.
 - [ ] ⏳ **6.7** Acompanhe inscrições contínuas e requisito aplicável do teste — Rafael · Dependência: 6.9 · B1, atribuição histórica: comprovar 12 inscritos / 14 dias no painel quando exigidos; lista/licença/instalação não são adesão nem produção automática.
-- [ ] 🙋 **6.8** Disponibilize aparelho/conta e autorize instalação/ensaios exatos — Dono · ação · Dependência: 5.3 · sem ligar emulador, desinstalar ou apagar dados por inferência; Play/conta adulta licenciada para compras, debug sem override não substitui release.
+- [ ] 🔄 **6.8** Execute ensaio prévio no Windows e devolva evidências — Dono executor · decisãoFriday145057/6774894925: Windows existente, mesmoSHA, semcompras/contaPlay/apagardados. APK/roteiro/capturas em preparo no runner; instalação manual, parar se assinatura incompatível/deviceausente. Não ensaiado ainda; BillingR8/performancefinal não inferidos deDebug.
 - [ ] ⏳ **6.9** Convide e registre adesões efetivas ao fechado autorizado — Rafael · Dependência: 5.6, 6.2, 6.3 · B1: atribuição histórica; convite individual/saída do interno / adesão ao fechado e instalação são etapas distintas; sem mensagem nesta tarefa.
 - [ ] 🙋 **6.10** Consolide feedback e priorize defeitos encontrados — Dono · ação · Dependência: 6.5, 6.6 · B4: uso real e resultados por candidato; correções precisam de issues concretas e reteste, não só prazo decorrido.
 

@@ -7,6 +7,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import unittest
 from unittest.mock import patch
 import zipfile
@@ -18,6 +19,10 @@ HELPERS = ROOT / 'scripts/candidate'
 spec = importlib.util.spec_from_file_location('verify_final_candidate', HELPERS / 'verify_final_candidate.py')
 audit = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(audit)
+sys_path_before = list(sys.path)
+sys.path.insert(0, str(HELPERS))
+import rehearsal
+sys.path[:] = sys_path_before
 
 
 class CandidateAuditTest(unittest.TestCase):
@@ -105,6 +110,40 @@ class CandidateAuditTest(unittest.TestCase):
             (self.out / 'tools-public.json').write_text(json.dumps(value))
             with self.assertRaises(ValueError):
                 self.run_audit()
+
+    def test_rehearsal_device_and_acceptance_fail_closed(self):
+        device_log = self.out / 'devices.log'
+        for text in ['List of devices attached\n', 'List of devices attached\na device\nb device\n',
+                     'List of devices attached\na unauthorized\n', 'List of devices attached\na offline\n']:
+            device_log.write_text(text)
+            with self.assertRaises(ValueError):
+                rehearsal.verify_device(self.out)
+        device_log.write_text('List of devices attached\nFAKE_PRIVATE_SERIAL device\n')
+        rehearsal.verify_device(self.out)
+        receipt = self.out / 'accepted.json'
+        valid = dict(app_commit=audit.APP_COMMIT, apk_sha256='a' * 64, accepted_by_lead=True,
+                     lead_acceptance_url='https://github.com/gabzieg/atmosfera/issues/86#issuecomment-123')
+        receipt.write_text(json.dumps(valid))
+        rehearsal.verify_acceptance(receipt)
+        for change in [dict(app_commit='wrong'), dict(accepted_by_lead=False), dict(apk_sha256=''),
+                       dict(lead_acceptance_url='https://evil.invalid/')]:
+            receipt.write_text(json.dumps(dict(valid, **change)))
+            with self.assertRaises(ValueError):
+                rehearsal.verify_acceptance(receipt)
+
+    def test_rehearsal_exports_apk_and_receipt_without_serial(self):
+        (self.out / 'devices.log').write_text('List of devices attached\nFAKE_PRIVATE_SERIAL device\n')
+        apk = self.root / 'app-debug.apk'
+        with zipfile.ZipFile(apk, 'w') as package:
+            for name, data in self.entries.items():
+                if name.startswith('base/assets/'):
+                    package.writestr(name[len('base/'):], data)
+        with patch.object(rehearsal.subprocess, 'check_output', return_value=audit.APP_COMMIT + '\n'):
+            result = rehearsal.export_rehearsal(self.root, apk, self.out)
+        self.assertFalse(result['accepted_by_lead'])
+        with zipfile.ZipFile(self.out / 'rehearsal-package.zip') as package:
+            self.assertEqual(set(package.namelist()), {'app-debug.apk', 'rehearsal-receipt.json'})
+            self.assertNotIn(b'FAKE_PRIVATE_SERIAL', package.read('rehearsal-receipt.json'))
 
     def test_extra_missing_and_modified_assets_rejected(self):
         original = dict(self.entries)

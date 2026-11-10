@@ -2,10 +2,13 @@
 # #86: executar no Windows existente. Não envia nada nem altera chaves/políticas.
 [CmdletBinding()]
 param(
+    [ValidateSet('Rehearsal','Final')][string]$Phase = 'Rehearsal',
+    [string]$AcceptedRehearsalReceipt,
+    [string]$AdbExecutable = 'adb',
     [Parameter(Mandatory=$true)][string]$Repository,
     [Parameter(Mandatory=$true)][string]$BundletoolJar,
     [Parameter(Mandatory=$true)][string]$ExistingProperties,
-    [Parameter(Mandatory=$true)][ValidatePattern('^[a-fA-F0-9:]{64,95}$')][string]$ExpectedUploadSha256,
+    [ValidatePattern('^[a-fA-F0-9:]{64,95}$')][string]$ExpectedUploadSha256,
     [ValidateSet('previously_confirmed_upload_certificate','previously_accepted_aab')][string]$CertificateReference = 'previously_confirmed_upload_certificate'
 )
 $ExpectedCommit = '6ccd02c09b527bd45cdc44f8929636864e1fd179'
@@ -67,6 +70,11 @@ try {
     $repoRoot = (Resolve-Path -LiteralPath $Repository).Path
     $resolvedBundletool = (Resolve-Path -LiteralPath $BundletoolJar).Path
     $resolvedProperties = (Resolve-Path -LiteralPath $ExistingProperties).Path
+    $resolvedAcceptance = $null
+    if ($Phase -eq 'Final') {
+        if (!$AcceptedRehearsalReceipt -or !$ExpectedUploadSha256) { throw 'Final exige referencia e aceite anterior' }
+        $resolvedAcceptance = (Resolve-Path -LiteralPath $AcceptedRehearsalReceipt).Path
+    }
     $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
     $artifactRelative = 'local/private/candidate-final-' + $ExpectedCommit.Substring(0,12) + '-' + $stamp
     $artifactDirectory = Join-Path $repoRoot $artifactRelative
@@ -88,6 +96,12 @@ try {
     $javaVersion = (Get-Content -LiteralPath (Join-Path $artifactDirectory 'java-version.log') -Raw) + (Get-Content -LiteralPath (Join-Path $artifactDirectory 'java-version.stderr.log') -Raw)
     if ($javaVersion -notmatch 'version "17[.\"]') { throw 'Java17 obrigatorio' }
     Invoke-Checked 'python-version' 'py' @('-3','-c','import sys; assert sys.version_info >= (3,11); print(sys.version.split()[0])')
+    if ($Phase -eq 'Final') {
+        Invoke-Checked 'rehearsal-acceptance' 'py' @('-3',(Join-Path $PSScriptRoot 'rehearsal.py'),'--acceptance',$resolvedAcceptance)
+    } else {
+        Invoke-Checked 'devices' $AdbExecutable @('devices')
+        Invoke-Checked 'device-check' 'py' @('-3',(Join-Path $PSScriptRoot 'rehearsal.py'),'--check-device','--output',$artifactDirectory)
+    }
     Invoke-Checked 'bundletool-version' 'java' @('-jar',$resolvedBundletool,'version')
     $publicTools = @{
         powershell = $PSVersionTable.PSVersion.ToString()
@@ -111,6 +125,11 @@ try {
     Invoke-Checked 'legal-check' 'py' @('-3','scripts/sincronizar_documentos_legais.py','--check')
     Invoke-Checked 'whitespace' 'git' @('diff','--check')
     Set-Location -LiteralPath (Join-Path $buildCheckout 'android-app')
+    if ($Phase -eq 'Rehearsal') {
+        Invoke-Checked 'gradle-rehearsal' '.\gradlew.bat' @('testDebugUnitTest','lintDebug','assembleDebug','-PterraAcervoUrl=https://acervo.terrawallpaper.com.br/')
+        $apk = Join-Path $buildCheckout 'android-app/app/build/outputs/apk/debug/app-debug.apk'
+        Invoke-Checked 'rehearsal-export' 'py' @('-3',(Join-Path $PSScriptRoot 'rehearsal.py'),'--root',$buildCheckout,'--apk',$apk,'--output',$artifactDirectory)
+    } else {
     Invoke-Checked 'gradle-final' '.\gradlew.bat' @('clean','testDebugUnitTest','lintDebug','assembleDebug','assembleRelease','bundleRelease','-PterraAcervoUrl=https://acervo.terrawallpaper.com.br/')
     $aab = Join-Path $buildCheckout 'android-app/app/build/outputs/bundle/release/app-release.aab'
     Invoke-Checked 'bundle-validate' 'java' @('-jar',$resolvedBundletool,'validate',('--bundle=' + $aab))
@@ -122,6 +141,7 @@ try {
     $strictExit = Invoke-Native 'signature-strict' 'jarsigner' @('-J-Duser.language=en','-J-Duser.country=US','-verify','-verbose','-certs','-strict',$aab)
     @{ exit_code = $strictExit; certificate_reference = $CertificateReference } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $artifactDirectory 'strict-result.json') -Encoding UTF8
     Invoke-Checked 'audit-final' 'py' @('-3',(Join-Path $PSScriptRoot 'verify_final_candidate.py'),'--root',$buildCheckout,'--aab',$aab,'--commit',$ExpectedCommit,'--output',$artifactDirectory,'--expected-upload-sha256',$ExpectedUploadSha256)
+    }
     Set-Location -LiteralPath $buildCheckout
     Invoke-Checked 'git-status-final' 'git' @('status','--porcelain')
     if ((Get-Content -LiteralPath (Join-Path $artifactDirectory 'git-status-final.log') -Raw).Trim()) { throw 'Estado Git final divergente' }
@@ -141,6 +161,11 @@ try {
     Set-Location $initialLocation
 }
 
+if ($Phase -eq 'Rehearsal') {
+    Write-Output 'FIM preparo ensaio: APK gerado; execucao/capturas/aceite ainda pendentes; sem AAB/instalacao'
+    Write-Output ('Pacote do ensaio: ' + $artifactRelative + '/rehearsal-package.zip; seguir README antes de instalar')
+} else {
     Write-Output 'FIM candidato: geracao e auditorias locais aprovadas; sem upload/instalacao'
     Write-Output ('Devolver somente: ' + $artifactRelative + '/candidate-receipt.zip; nao enviar a pasta inteira')
     Get-Content -LiteralPath (Join-Path $artifactDirectory 'provenance-final.json') -Raw | Write-Output
+}

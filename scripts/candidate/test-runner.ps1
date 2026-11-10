@@ -25,6 +25,17 @@ if(!$failed){throw 'Codigo nao-zero foi engolido'}
 $failed=$false
 try {Invoke-Checked 'missing-command' 'fake-candidate-command-that-does-not-exist' @()}catch{$failed=$true}
 if(!$failed){throw 'Comando ausente nao falhou'}
+# Executa somente o ramo de build de ensaio com fronteira nativa simulada.
+$rehearsalBranch=$ast.Find({param($n) $n -is [System.Management.Automation.Language.IfStatementAst] -and $n.Extent.Text.Contains("'gradle-rehearsal'")},$true)
+if(!$rehearsalBranch){throw 'Ramo de ensaio ausente'}
+$script:recordedStages=@()
+$script:recordedArguments=@()
+function Invoke-Checked {param($Stage,$Executable,$CommandArguments) $script:recordedStages+=@($Stage);$script:recordedArguments+=@($CommandArguments)}
+$Phase='Rehearsal';$buildCheckout=$artifactDirectory
+$helperDirectory=$PSScriptRoot
+. ([scriptblock]::Create($rehearsalBranch.Extent.Text.Replace('$PSScriptRoot','$helperDirectory')))
+if(($script:recordedStages -join ',') -ne 'gradle-rehearsal,rehearsal-export'){throw 'Ensaio entrou em finalizacao'}
+if($script:recordedArguments -contains 'bundleRelease'){throw 'Ensaio gerou AAB'}
 Write-Output 'FIM testes PowerShell: sintaxe, argumentos, stderr0, exit9 e comando ausente conferidos; sem build/assinatura'
 
 } finally {

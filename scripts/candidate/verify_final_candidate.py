@@ -216,7 +216,7 @@ def audit(root, aab, commit, output, expected_cert):
         legal_manifest_sha256=file_sha256(root / 'docs/legal/manifesto-documentos.json'),
         artifacts=artifacts,
         runner_files={path.name: file_sha256(path) for path in Path(__file__).parent.iterdir()
-                      if path.name in {'run-final-candidate.ps1', 'PrepareSigning.java', 'VerifySignature.java', 'verify_final_candidate.py'}},
+                      if path.name in {'run-final-candidate.ps1', 'PrepareSigning.java', 'VerifySignature.java', 'verify_final_candidate.py', 'rehearsal.py'}},
         limits=[
             'BuildConfig gerado e auxiliar: valor no dexAAB nao foi demonstrado por essa leitura; auditoria5.3 deve conferir o artefato',
             'Sem Console/upload/instalacao/jornadas Billing',

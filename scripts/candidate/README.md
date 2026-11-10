@@ -12,14 +12,70 @@ No Windows existente autorizado, use Java17/SDK36, Python3.11+ pelo `py`,
 Git, bundletoolCLI existente e PowerShell5.1+. Preserve a chave e a configuração
 privada que já funcionam. Não copie esses arquivos para outro computador.
 
-1. Obtenha os quatro arquivos do runner do commit revisado e confira os SHA256
+1. Obtenha os cinco arquivos do runner do commit revisado e confira os SHA256
    registrados na entrega. Mantenha-os juntos numa pasta local.
 2. Tenha o SHA256 público do certificado de upload já conferido anteriormente
    ou de um AAB anteriormente aceito. Não extraia a referência do AAB novo.
 3. Execute, substituindo somente caminhos locais e fingerprint público:
 
 ```powershell
-& '.\run-final-candidate.ps1' -Repository 'C:\projetos\atmosfera' -BundletoolJar 'C:\ferramentas\bundletool-all-1.18.3.jar' -ExistingProperties 'C:\projetos\atmosfera\android-app\keystore.properties' -ExpectedUploadSha256 '<SHA256 publico anterior>' -CertificateReference 'previously_confirmed_upload_certificate'
+& '.\run-final-candidate.ps1' -Phase Rehearsal -AdbExecutable 'C:\Android\Sdk\platform-tools\adb.exe' -Repository 'C:\projetos\atmosfera' -BundletoolJar 'C:\ferramentas\bundletool-all-1.18.3.jar' -ExistingProperties 'C:\projetos\atmosfera\android-app\keystore.properties'
+```
+
+A fase padrão `Rehearsal` gera somente APKdebug/recibo; não instala nem geraAAB.
+Exige exatamente um aparelho conectado/online/autorizado no `adb devices`; lista
+zero/ambígua/offline para antes do build. Logs com serial ficam privados.
+
+## Ensaio pelo dono e aceite
+
+Extraia `rehearsal-package.zip` localmente. Confira o SHA256 do APK com
+`Get-FileHash .\app-debug.apk -Algorithm SHA256` contra `rehearsal-receipt.json`.
+Use somente aparelho/perfil existente autorizado para ensaio. Não subir AVD,
+conectar contaPlay, comprar ou apagar dados. Antes de instalar, confira localmente
+se o pacote já existe com `adb shell pm path com.terra.wallpaper`; se existe e a
+identidade/assinatura de atualização for incerta, pare e devolva a falha àlead.
+Nunca desinstale/clear para contornar incompatibilidade. A assinatura debug é
+auxiliar; não é certificado de uploadAAB nem prova de releaseR8/Billing.
+
+Depois de autorização e revisão do alvo, comandos locais com o adb existente:
+
+```powershell
+adb devices
+adb install -r '.\app-debug.apk'
+adb shell am start -n com.terra.wallpaper/.ui.MainActivity
+adb shell "dumpsys window | findstr mCurrentFocus"
+```
+
+Pare em qualquer erro, aparelho ambíguo ou conflito de assinatura. Não use
+`-d`,uninstall,clear,restauração de backup ou root. Dados/wallpaper existentes
+precisam ser preservados; aplicarwallpaper somente no perfil de teste autorizado.
+
+Roteiro: onboarding/permissãonegada/cidadepadrão; catálogo/itensgrátis e nativos;
+escolher/aplicar wallpaper e conferir visibilidade; três documentosoffline com
+versões/data; links externos só após implementação aprovada de3.7; transições
+home/outroapp/telabloqueada; rede/falhas de download apenas na superfície já
+autorizada, sem conceder direito pago. Registrar passo/esperado/observado/erro.
+SemPlay não atestar compras/restauração/acessorevisor. Latência de rede/cache é
+ruído esperado; crash,arteinvisível,perda de dados ou acesso indevido são falhas.
+
+Capture somente telas do app sem notificações/contas/dados pessoais, por exemplo
+`adb shell screencap -p /data/local/tmp/terra-rehearsal.png` e
+`adb pull /data/local/tmp/terra-rehearsal.png .\terra-rehearsal.png`.
+Confira visualmente antes de compartilhar; recibo não inclui serial/logs do adb.
+Devolva recibo do ensaio, resultados e capturas sanitizadas. A lead confere o
+mesmoSHA/APKhash e só então fornece recibo de aceite; não marque `accepted_by_lead`
+por conta própria. Ajuste de app exige novoSHA/ensaio afetado e novoaceite.
+
+## Finalização separada
+
+Somente após aceite do ensaio/ListaA/SHAcongelado, a lead fornece comandoFinal e
+recibo com `app_commit`, `apk_sha256`, `accepted_by_lead=true` e
+`lead_acceptance_url` do comentário86 correspondente. O runner valida formato/SHA;
+**isso não autentica conteúdo/autor do link**: a lead confere o original antes da
+liberação. Não fabrique aceite nem reutilize recibo de outroSHA.
+
+```powershell
+& '.\run-final-candidate.ps1' -Phase Final -Repository 'C:\projetos\atmosfera' -BundletoolJar 'C:\ferramentas\bundletool-all-1.18.3.jar' -ExistingProperties 'C:\projetos\atmosfera\android-app\keystore.properties' -ExpectedUploadSha256 '<SHA256 publico anterior>' -AcceptedRehearsalReceipt 'C:\ensaio\accepted-rehearsal.json'
 ```
 
 Para referência de AAB anteriormente aceito, use
@@ -36,7 +92,8 @@ fim; a chave permanece no lugar original. Builds/logs ficam no Windows.
 
 ## Devolver
 
-Só houve sucesso se apareceu `FIM candidato`. Devolva **somente** o
+Na faseFinal, só houve sucesso se apareceu `FIM candidato`. Na faseRehearsal,
+`FIM preparo ensaio` significa APKpreparado, não execução/aceite no aparelho. Devolva **somente** o
 `candidate-receipt.zip` indicado. Em falha, devolva só a linha `FALHA candidato`;
 não envie a pasta inteira ou logs brutos. O ZIP contém lista fechada:
 AAB, mapping, configuraçãoR8, manifesto, procedência, classificação de assinatura,
