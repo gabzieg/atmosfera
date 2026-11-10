@@ -1,12 +1,12 @@
 # Contato — Terra
 
-**Página pública:** [https://sites.google.com/view/terra-live-wallpaper/contato](https://sites.google.com/view/terra-live-wallpaper/contato)
+**Página pública:** [https://terrawallpaper.com.br/contato](https://terrawallpaper.com.br/contato)
 
-**Versão do documento:** 1.10
-**Última atualização:** 7 de novembro de 2026
+**Versão do documento:** 1.11
+**Última atualização:** 9 de novembro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
 **Aplica-se a:** Atendimento do Terra e próximo pacote (código de versão 8), em preparação para teste fechado restrito a adultos no Brasil.
-**Vigência:** A definir na disponibilização efetiva da versão final do teste, após aprovação e publicação destes textos, com registro da data real. Esta revisão não retroage sobre compras anteriores nem suspende a transparência dos tratamentos realizados antes desse evento.
+**Vigência:** A definir pela data real da publicação das três páginas legais, após aprovação explícita desta redação. A data será registrada no evento de publicação; não é antecipada por esta proposta. Esta revisão não retroage sobre compras anteriores nem suspende a transparência dos tratamentos anteriores.
 
 ## Resumo
 
@@ -40,7 +40,7 @@ Está previsto um controle separado de confirmações do teste, com finalidade e
 
 ## 4. Site e histórico
 
-As páginas públicas de documentos são hospedadas no Google Sites e foram declaradas como somente texto e links, sem formulários, vídeos incorporados, anúncios ou analytics próprios adicionados pelo Terra; o Google pode tratar dados técnicos de conexão e segurança conforme sua própria política. As condições específicas das compras durante o período de teste fechado constam nos [Termos de Uso](TERMOS.md).
+A hospedagem proposta para as páginas legais em terrawallpaper.com.br é Cloudflare Pages, com configuração definida sem analytics, anúncios, formulários ou vídeos incorporados pelo Terra. A entrega e a segurança podem envolver IP e outros dados técnicos; isso não equivale à ausência universal de registros ou cookies do provedor. A [Política de Privacidade](PRIVACIDADE.md) descreve o alcance e os limites dessa mudança, ainda sujeita à aprovação e à publicação efetiva. As condições específicas das compras durante o período de teste fechado constam nos [Termos de Uso](TERMOS.md).
 
 Revisão 1.1 de 11/10/2026: canal oficial, responsável, retenção de 60 dias e atendimento de compras/privacidade. Revisão 1.2 de 15/10/2026: preparação no Google Sites e escopo de compras de licença no teste fechado. Revisão 1.3 de 15/10/2026: página concentrada em atendimento, dados e direitos.
 
@@ -57,3 +57,5 @@ Revisão 1.8 de 28/10/2026: explicitação da rotina confirmada pelo responsáve
 Revisão 1.9 de 28/10/2026: conclusão da avaliação de dispensa de indicação de encarregado para a operação atual de teste fechado, preservando o controlador e o canal de atendimento aos titulares. Superada a pendência de enquadramento; sem aprovação ou nova vigência. Por decisão do Gabriel em 28/10/2026, esta revisão passa a se aplicar ao próximo pacote (código de versão 8), em preparação para o teste fechado no Brasil; a identificação anterior do candidato 7 fica como histórico. `versionName` ainda não definido; mantidos o rascunho, a aprovação pendente e a vigência a definir.
 
 Revisão 1.10 de 07/11/2026: proposta editorial sobre o controle mínimo separado de maioridade/aceite e sua regra própria de acesso/descarte; Gmail comum/gratuito e Sites somente texto/links, sem negar tratamento próprio dos serviços. Preservada a rotina de suporte já confirmada e seus limites de comprovação. Evento de vigência previsto para a disponibilização final após aprovação/publicação, sem data inventada, retroatividade ou suspensão da transparência anterior. Mantidos rascunho e ausência de aprovação.
+
+Revisão 1.11 de 09/11/2026: proposta específica para Cloudflare Pages em terrawallpaper.com.br, sem analytics; atualização de endereços e do evento de vigência já decidido. Mantidos rascunho, ausência de aprovação da nova redação, data concreta de vigência nula e ausência de publicação por esta revisão.

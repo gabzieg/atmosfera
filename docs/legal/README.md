@@ -1,6 +1,37 @@
 # Fonte editorial dos documentos do Terra
 
-Revisão de trabalho de 08/11/2026, consolidada a partir da rodada de 28/10 e das decisões registradas na [#77](https://github.com/gabzieg/atmosfera/issues/77), em proposta local para a [#78](https://github.com/gabzieg/atmosfera/issues/78). Fontes únicas: `TERMOS.md` (1.12), `PRIVACIDADE.md` (1.22) e `CONTATO.md` (1.10). A [nova revisão documental](../../.lgpd/revisoes/2026-10-28-documentos/REVISAO.md) registra achados e decisões pendentes; os registros anteriores abaixo são históricos, enquanto as decisões consideradas nesta consolidação estão referenciadas na #77, sem adotar conteúdo antigo como instrução. Os HTMLs são exportações; não editar cada cópia separadamente. O [registro de refinamento](../dev/REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md) reúne instruções internas e decisões pendentes. As versões refinadas não foram republicadas no Google Sites por esta execução.
+## Proposta Pages — #89, 09/11/2026
+
+Proposta de redação **Privacidade1.23/Termos1.13/Contato1.11**, base `d8ed440`,
+para Cloudflare Pages em `https://terrawallpaper.com.br`, sem analytics. O aceite
+anterior de1.22/1.12/1.10 não aprova este delta. `publicacao_web` no JSON conserva
+o histórico Google Sites; domínio/URLs e `publicacao_proposta` indicam o destino
+proposto, não publicação já feita. O dono aprovou este conjunto via Friday em09/11, registro [6750038090](https://github.com/gabzieg/atmosfera/pull/110#issuecomment-6750038090); não é publicação executada.
+`aprovado_para_publicacao=true`, estado `aprovado_para_publicacao` e registro de aceite identificam a aprovação editorial. `vigencia=null` e `versao_app=null` permanecem até os eventos próprios. Histórico editorial abaixo não prevalece sobre esta proposta.
+
+Evento de vigência já escolhido pelo dono na #86: **dia real da publicação das
+três páginas**, não dia do PR/build ou da geração local. Não preencher data agora.
+**Decisão do dono em 09/11/2026, via Friday (correio20261109-165752-33ca8c):**
+publicar automaticamente somente revisão com `aprovado_para_publicacao=true`, após
+aceite explícito de cada revisão registrado pela lead. `false` não vai ao ar;
+manter a última versão aprovada. A primeira publicação depende do aceite do delta
+Pages#89. Sem referência anterior aprovada, não servir rascunho como fallback.
+O contrato do ponteiro aprovado no lado do site é coordenado pelas leads na #109;
+ainda não existe SHA Pages aprovado para fornecer. Não descobrir aprovação por
+versão, data ou commit recente: conferir registro e hashes no SHA indicado.
+
+Este PR permanece draft e sem merge conforme a ativação. Preparação/build/landing
+não são bloqueados por inferência; publicação legal respeita o contrato acima.
+Workflow#109 será preparado separadamente, sem hook real/secret/conta nesta tarefa.
+Com aceite específico e publicação preparada, registrar aprovação/metadados/data
+real, regenerar cópias e conferir as três páginas no evento autorizado, conciliando
+app/site/Console no marco#89. Se o evento não ocorrer, não declarar publicação ou
+vigência realizada. O gerador exige coerência editorial; sua saída não autoriza
+publicação. Nenhum controle remoto é criado por este README.
+R03 do R2 fica preservado em seu escopo; mecanismo/configuração de Pages não é
+certificado por aquele aceite de risco. Fontes oficiais e limites na entrega da #89.
+
+Revisão de trabalho de 08/11/2026, consolidada a partir da rodada de 28/10 e das decisões registradas na [#77](https://github.com/gabzieg/atmosfera/issues/77), em proposta local para a [#78](https://github.com/gabzieg/atmosfera/issues/78). Fontes únicas: `TERMOS.md` (1.13), `PRIVACIDADE.md` (1.23) e `CONTATO.md` (1.11). A [nova revisão documental](../../.lgpd/revisoes/2026-10-28-documentos/REVISAO.md) registra achados e decisões pendentes; os registros anteriores abaixo são históricos, enquanto as decisões consideradas nesta consolidação estão referenciadas na #77, sem adotar conteúdo antigo como instrução. Os HTMLs são exportações; não editar cada cópia separadamente. O [registro de refinamento](../dev/REFINAMENTO-EDITORIAL-LEGAL-2026-10-15.md) reúne instruções internas e decisões pendentes. As versões refinadas não foram republicadas no Google Sites por esta execução.
 
 ```powershell
 python scripts/sincronizar_documentos_legais.py
@@ -51,3 +82,21 @@ Para aceite e entrega ao site, consultar [ETAPA-5-DOCUMENTOS-E-LANDING-2026-10-1
 ## Respostas do titular integradas em 15/10
 
 Preservado o refinamento editorial de Gabriel em `1bd5a70`. As respostas posteriores restringem o teste a adultos no Brasil e definem futuros efeitos/estilos inclusos no Premium. Gabriel é o responsável pela revisão/aprovação final; esse aceite não foi presumido. Detalhes e pendências em [registro de respostas](../dev/RESPOSTAS-RAFAEL-TESTE-FECHADO-2026-10-15.md).
+
+## Contrato de aprovação editorial e vigência — #89
+
+O JSON canônico distingue false/rascunho, true/aprovado_para_publicacao (aceite
+identificado, sem data/candidato) e true/aprovado (data real/versão identificada e
+cabeçalhos coerentes). Os três Markdown aceitos em1737e17 são preservados byte a
+byte: não existe segunda redação. Somente a apresentação dos campos Estado e
+Vigência é derivada do JSON pelo sincronizador enquanto a vigência está pendente;
+corpo, versão e escopo não são substituídos. Hashes da fonte continuam os aceitos,
+hashes HTML refletem a apresentação derivada. Header histórico de revisão na
+fonte não revoga o aceite registrado; HTML não afirma publicação já executada.
+
+bool não estrito, referência pública/estado/domínio inválidos ou data inválida
+são rejeitados; estado efetivo mantém exigência de data/versão e fonte alinhada.
+--check não escreve e recusa cópia divergente. Atualizar vigência/cabeçalhos no
+evento real depende da autorização correspondente, sem relógio ou candidato
+inferido. #109/site devem consumir o mesmo contrato, sem exigir data fictícia
+para reconhecer aceite editorial; nenhuma chamada real ou publicação nesta tarefa.

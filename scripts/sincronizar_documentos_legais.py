@@ -6,6 +6,7 @@ import html
 import json
 import re
 from pathlib import Path
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = {"privacidade": "PRIVACIDADE", "termos": "TERMOS", "contato": "CONTATO"}
@@ -58,16 +59,39 @@ def render(text):
     return "\n".join(result)
 
 
+def validar_estado(manifest):
+    """#89, 09/11/2026: aceite editorial não inventa vigência/candidato."""
+    approved = manifest.get('aprovado_para_publicacao')
+    if type(approved) is not bool:
+        raise ValueError('Aprovacao deve ser booleana')
+    if not approved:
+        if manifest.get('status') != 'rascunho_para_revisao':
+            raise ValueError('Estado de rascunho incoerente')
+        return 'rascunho'
+    for key in ('aprovacao_registro', 'dominio_publico'):
+        value = manifest.get(key)
+        if not isinstance(value, str) or not value.strip():
+            raise ValueError('Aprovacao sem identificacao: ' + key)
+        url = urlsplit(value)
+        if url.scheme != 'https' or not url.netloc or url.username or url.password:
+            raise ValueError('Referencia publica HTTPS invalida: ' + key)
+    if manifest.get('status') == 'aprovado_para_publicacao':
+        if manifest.get('vigencia') is not None or manifest.get('versao_app') is not None:
+            raise ValueError('Estado editorial nao fixa data ou candidato')
+        return 'editorial'
+    if manifest.get('status') != 'aprovado':
+        raise ValueError('Estado de aprovacao incoerente')
+    for key in ('vigencia', 'versao_app'):
+        if not isinstance(manifest.get(key), str) or not manifest[key].strip():
+            raise ValueError('Aprovacao efetiva sem identificacao: ' + key)
+    datetime.date.fromisoformat(manifest['vigencia'])
+    return 'vigente'
+
+
 def gerar(check=False):
     template = (ROOT / "docs/legal/modelo.html").read_text(encoding="utf-8")
     manifest = json.loads((ROOT / "docs/legal/revisao.json").read_text(encoding="utf-8"))
-    if manifest["aprovado_para_publicacao"]:
-        for campo in ("aprovacao_registro", "vigencia", "versao_app", "dominio_publico"):
-            if not manifest.get(campo): raise ValueError("Aprovacao sem identificacao: " + campo)
-        datetime.date.fromisoformat(manifest["vigencia"])
-        if not manifest["dominio_publico"].startswith("https://"): raise ValueError("Dominio deve usar HTTPS")
-        if manifest["status"] != "aprovado": raise ValueError("Estado de aprovacao incoerente")
-    elif manifest["status"] != "rascunho_para_revisao": raise ValueError("Estado de rascunho incoerente")
+    fase = validar_estado(manifest)
     manifest["documentos"] = {}
     expected = {}
     for slug, name in DOCS.items():
@@ -75,12 +99,22 @@ def gerar(check=False):
         md = src.read_text(encoding="utf-8")
         header, rest = md.split("\n## Resumo\n", 1)
         version = re.search(r"\*\*Vers\u00e3o[^*]*:\*\* ([0-9.]+)", header).group(1)
-        if manifest["aprovado_para_publicacao"] and ("em revis" in header or "A definir" in header):
+        if fase == 'vigente' and ("em revis" in header or "A definir" in header):
             raise ValueError("Documento aprovado ainda tem metadados de rascunho: " + slug)
+        if fase == 'editorial':
+            # Somente apresentacao Estado/Vigencia: fonte e corpo aceitos intocados.
+            header = re.sub(r'^\*\*Estado:\*\*.*$',
+                            '**Estado:** Redação aprovada para publicação; publicação não comprovada.',
+                            header, flags=re.MULTILINE)
+            header = re.sub(r'^\*\*Vigência:\*\*.*?(?= Esta revisão|$)',
+                            '**Vigência:** Pendente do evento real de publicação das três páginas.',
+                            header, flags=re.MULTILINE)
         summary, content = rest.split("\n## 1.", 1)
         title = header.splitlines()[0].removeprefix("# ")
         meta = "".join("<li>" + inline(line) + "</li>" for line in header.splitlines()[1:] if line.strip())
-        estado = "Vigência: " + manifest["vigencia"] if manifest["aprovado_para_publicacao"] else "Documento em revisão"
+        estado = ('Vigência: ' + manifest['vigencia'] if fase == 'vigente' else
+                  'Redação aprovada para publicação; vigência pendente do evento real' if fase == 'editorial'
+                  else 'Documento em revisão')
         footer = "<footer><p>Terra — " + html.escape(title) + ", revisão " + version + ". " + html.escape(estado) + ".</p>" + \
                  '<p><a href="../privacidade/">Privacidade</a> · <a href="../termos/">Termos</a> · <a href="../contato/">Contato</a></p></footer>'
         body = "<header><h1>" + html.escape(title) + '</h1><ul class="meta">' + meta + "</ul></header>\n" + \

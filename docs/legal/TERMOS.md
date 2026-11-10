@@ -1,12 +1,12 @@
 # Termos de Uso — Terra
 
-**Página pública:** [https://sites.google.com/view/terra-live-wallpaper/termos](https://sites.google.com/view/terra-live-wallpaper/termos)
+**Página pública:** [https://terrawallpaper.com.br/termos](https://terrawallpaper.com.br/termos)
 
-**Versão dos termos:** 1.12
-**Última atualização:** 8 de novembro de 2026
+**Versão dos termos:** 1.13
+**Última atualização:** 9 de novembro de 2026
 **Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.
 **Aplica-se a:** Próximo pacote (código de versão 8), em preparação para teste fechado no Brasil, somente com participantes adultos, Premium separado das artes e acervo por download.
-**Vigência:** A definir na disponibilização efetiva da versão final do teste, após aprovação e publicação destes textos, com registro da data real. Esta revisão não retroage sobre compras anteriores nem suspende a transparência dos tratamentos realizados antes desse evento.
+**Vigência:** A definir pela data real da publicação das três páginas legais, após aprovação explícita desta redação. A data será registrada no evento de publicação; não é antecipada por esta proposta. Esta revisão não retroage sobre compras anteriores nem suspende a transparência dos tratamentos anteriores.
 
 ## Resumo
 
@@ -20,7 +20,7 @@ Esta revisão foi preparada para o teste fechado. Nesse teste, as compras devem 
 
 ## 1. Responsável
 
-O Terra é oferecido por **Rafael Huppes, pessoa física**, responsável pelo aplicativo e pelo atendimento aos usuários e titulares de dados. Canal oficial: [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com). Os documentos públicos estão disponíveis em https://sites.google.com/view/terra-live-wallpaper; um domínio próprio poderá ser conectado posteriormente. A cópia embutida no aplicativo acompanha a respectiva versão instalada; atualizar o site não modifica automaticamente versões já instaladas.
+O Terra é oferecido por **Rafael Huppes, pessoa física**, responsável pelo aplicativo e pelo atendimento aos usuários e titulares de dados. Canal oficial: [suporteterrabr@gmail.com](mailto:suporteterrabr@gmail.com). O endereço previsto para a publicação dos documentos públicos é https://terrawallpaper.com.br, na hospedagem Cloudflare Pages, após aprovação desta revisão e publicação efetiva. A cópia embutida no aplicativo acompanha a respectiva versão instalada; atualizar o site não modifica automaticamente versões já instaladas.
 
 ## 2. Uso, público e proteção de adolescentes
 
@@ -108,3 +108,5 @@ Revisão 1.11 de 07/11/2026: proposta editorial de procedimento para indício de
 
 
 Revisão 1.12 de 08/11/2026: conciliação da decisão do responsável para o teste fechado adulto/Brasil, preservando os limites para distribuição 13+, rascunho e ausência de aprovação/vigência.
+
+Revisão 1.13 de 09/11/2026: proposta específica para Cloudflare Pages em terrawallpaper.com.br, sem analytics; atualização de endereços e do evento de vigência já decidido. Mantidos rascunho, ausência de aprovação da nova redação, data concreta de vigência nula e ausência de publicação por esta revisão.

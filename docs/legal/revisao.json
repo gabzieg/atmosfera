@@ -1,17 +1,17 @@
 {
-  "revisao": "2026-11-08",
-  "status": "rascunho_para_revisao",
-  "aprovado_para_publicacao": false,
-  "aprovacao_registro": null,
+  "revisao": "2026-11-09",
+  "status": "aprovado_para_publicacao",
+  "aprovado_para_publicacao": true,
+  "aprovacao_registro": "https://github.com/gabzieg/atmosfera/pull/110#issuecomment-6750038090",
   "vigencia": null,
   "versao_app": null,
-  "dominio_publico": "https://sites.google.com/view/terra-live-wallpaper",
+  "dominio_publico": "https://terrawallpaper.com.br",
   "controlador": "Rafael Huppes",
   "contato": "suporteterrabr@gmail.com",
   "paginas_publicas": {
-    "privacidade": "https://sites.google.com/view/terra-live-wallpaper/privacidade",
-    "termos": "https://sites.google.com/view/terra-live-wallpaper/termos",
-    "contato": "https://sites.google.com/view/terra-live-wallpaper/contato"
+    "privacidade": "https://terrawallpaper.com.br/privacidade",
+    "termos": "https://terrawallpaper.com.br/termos",
+    "contato": "https://terrawallpaper.com.br/contato"
   },
   "publicacao_web": {
     "data_informada_pelo_titular": "2026-10-15",
@@ -46,5 +46,12 @@
     "premium_inclui_efeitos_estilos_futuros": true,
     "artes_variantes_permanecem_separadas": true,
     "continuidade_conteudo": "Intencao de nao remover; plano de excecao, disponibilidade e restauracao ainda em estudo."
+  },
+  "publicacao_proposta": {
+    "plataforma": "Cloudflare Pages",
+    "dominio": "https://terrawallpaper.com.br",
+    "analytics": false,
+    "estado": "redacao_aprovada_aguardando_evento_real_de_publicacao",
+    "vigencia_evento": "Data real de publicação das três páginas legais; não antecipar"
   }
 }
