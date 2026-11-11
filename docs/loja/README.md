@@ -1,3 +1,69 @@
+# Material da listagem — Terra / candidato 8
+
+Proposta de 11/11/2026 para revisão editorial e visual na [#88](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6804730825).
+Não publicada nem cadastrada no Console. Textos e acesso em inglês estão na [FICHA.md](FICHA.md).
+App de origem: `e82a0c66e8a747b019fa67cac600b3738610eb8c` (1.0.5/código 8).
+
+## Propostas atuais
+
+| JPEG para revisão/cadastro futuro | Fonte SVG editável | Conteúdo |
+|---|---|---|
+| [Início](candidate-8-proposal/01-home.jpg) | [SVG](candidate-8-proposal/01-home.svg) | Localização negada, clima salvo e aviso de local padrão |
+| [Loja](candidate-8-proposal/02-store.jpg) | [SVG](candidate-8-proposal/02-store.svg) | Catálogo e amostras grátis; bloqueios pagos visíveis |
+| [Prévia](candidate-8-proposal/03-wallpaper-preview.jpg) | [SVG](candidate-8-proposal/03-wallpaper-preview.svg) | Casa da bruxa/Clay grátis, prévia dentro do app; não é captura do launcher |
+| [Feature graphic](candidate-8-proposal/feature-graphic.jpg) | [SVG](candidate-8-proposal/feature-graphic.svg) | Terra com miniaturas Cabana/Pixel, Bruxa/Clay e Lavanda/Pixel |
+
+![Proposta de feature graphic Terra](candidate-8-proposal/feature-graphic.jpg)
+
+Os três screenshots são JPEG RGB de **1080×2160**, razão 2:1, sem canal alfa.
+O banner é JPEG RGB de **1024×500**, sem canal alfa. Medidos com Pillow em
+11/11/2026; hashes, dimensões, fontes e método no [registro de proveniência](candidate-8-proposal/provenance.json).
+Atendem aos limites de arquivo/dimensões consultados nas [regras oficiais da Play](https://support.google.com/googleplay/android-developer/answer/9866151?hl=en),
+sem constituir aceite editorial ou garantia de aprovação pela loja.
+
+## Enquadramento e reprodução
+
+Originais do ensaio `e82a0c6` preservados fora do Git: `01-negada-com-cache.png`,
+`04-catalogo-gratis.png` e `05-wallpaper-aplicado.png`, todos 1080×2400 RGBA.
+Cada SVG incorpora o PNG integral, escala ambos os eixos por 0,9 para 972×2160,
+e acrescenta 54 px de margem em cada lateral. Nenhum corte, reconstrução ou
+mudança na UI. A escala não revela conteúdo além do viewport original.
+A imagem de início documenta uma condição real de teste, sujeita a escolha editorial;
+o pacote não representa cobertura de todas as telas ou prova de compras.
+
+O banner incorpora miniaturas exatas do catálogo desse commit, sem geração de arte.
+Lavanda/Pixel é arte paga; o banner não promete que as três artes sejam gratuitas.
+As miniaturas são encaixadas proporcionalmente, sem recorte. O SVG mantém suas fontes
+incorporadas e o texto editável; a tipografia é Helvetica/Arial com fallback sans-serif.
+Os JPEG entregues fixam a renderização inspecionada, independentemente da fonte instalada.
+
+Exportação realizada com Chromium headless shell local, viewport igual ao SVG,
+escala de dispositivo 1 e sem barras de rolagem. Exemplo (ajustar o executável local):
+
+```bash
+chrome-headless-shell --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
+  --window-size=1080,2160 --screenshot=/caminho/01-home.png \
+  file:///caminho/01-home.svg
+sips -s format jpeg -s formatOptions 95 /caminho/01-home.png --out /caminho/01-home.jpg
+```
+
+Para o banner usar viewport 1024,500. SVG é fonte de revisão; não é formato de upload.
+A tentativa com miniatura Quick Look produziu canvas quadrado e corte: foi descartada,
+não redimensionada para disfarçar o corte. Os quatro JPEG finais foram abertos e
+inspecionados. Essa conferência valida a composição exportada, não um novo ensaio do app.
+Não houve recaptura, novo AVD, conta, compra, destrave de debug ou acesso ao Console.
+
+## Histórico preservado
+
+Os arquivos PNG da raiz desta pasta e o conteúdo abaixo são históricos de agosto,
+não capturas do candidato 8. A feature antiga usa Atmosfera; não deve ser confundida
+com a proposta Terra. O ícone existente não foi substituído nem revalidado nesta tarefa.
+As instruções antigas de AVD/debug abaixo explicam a produção histórica; não são
+roteiro atual de acesso do revisor. A redação anterior e as decisões do dono estão no
+[histórico da ficha](history/listing-before-candidate-8.md).
+
+---
+
 # Ficha da Play Store — material gráfico
 
 Capturas de tela para a listagem do Terra na Google Play (Fase 5 do
