@@ -1,7 +1,7 @@
 # Ficha da Play Store — candidato 8
 
-Pacote do PR #119 aprovado editorialmente em 11/11/2026; complemento final abaixo
-proposto para revisão. Não salvo no Console.
+Pacote editorial dos PRs #119/#120 aprovado em 11/11/2026. Estado do cadastro
+registrado pelos recibos citados abaixo; esta atualização não opera o Console.
 Decisão e limites: [#88/6807363318](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6807363318).
 App `e82a0c66e8a747b019fa67cac600b3738610eb8c`, versão 1.0.5/código 8.
 Escopo e limites: [#88/6804730825](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6804730825).
@@ -61,23 +61,41 @@ A restauração se limita a direitos existentes, sem garantir recuperação irre
 Sem preço fixo, garantia de acesso pago ao revisor ou promessa de toda arte incluída no Premium.
 O nome “Jardim” se refere à amostra do catálogo; não representa catálogo limitado a cinco cenas.
 
-## Acesso ao app — texto efetivo em inglês
+## Acesso ao app — literal efetivamente salvo em inglês
 
-Decisão [4.3 de 10/11](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6774962413):
-acesso padrão sem login próprio; gratuito funcional; compras no Billing padrão.
-Texto pronto para revisão e posterior cadastro autorizado, não acesso irrestrito demonstrado:
+Registro de 11/11/2026, conforme [recibo da Friday](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6808816898)
+e [conferência independente da contagem](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6808828316).
+Esta atualização documental reproduz o recibo, sem nova leitura ou gravação do Console:
 
 ```text
-Terra does not require an in-app account or login. Open the app, complete onboarding and open Loja (Store). Free sample artwork is available in Cabana na floresta, Casa da bruxa, Campo de lavanda, Esfinge and Jardim. Select artwork marked grátis (free), then use Aplicar or Definir wallpaper and confirm in the Android wallpaper picker. Location permission is optional: without it, future weather requests use São Paulo, Brazil; saved weather may be displayed until a new update is available. Weather requests run while the wallpaper is active on the home screen.
-
-Premium effects and effect styles are a one-time Google Play Billing purchase. Paid artwork is sold separately and is not included in Premium. Paid features use the standard Google Play purchase flow; there is no separate app login or access code. Restoring purchases restores valid existing entitlements and does not grant new purchases. This build does not provide an unrestricted reviewer account or a special unlock mechanism. If paid products are unavailable in the current environment, the free samples remain usable.
+No in-app account or login is required. Open the app, finish onboarding and go to Loja (Store). Free sample artwork (marked grátis) is available in Cabana na floresta, Casa da bruxa, Campo de lavanda, Esfinge and Jardim; use Aplicar or Definir wallpaper and confirm in the Android picker. Location is optional (default: São Paulo). Premium effects and paid artwork use standard Google Play Billing; there is no reviewer account, access code or unlock. Free samples remain usable without purchases.
 ```
 
-1088 caracteres, incluindo LF. Limite específico do campo e fragmentação em
-instruções devem ser conferidos no cadastro autorizado; nenhum limite foi inventado.
+**497 caracteres / 499 bytes UTF-8**, sem LF final; com uma LF final, 498 caracteres /
+500 bytes. Cabe no limite observado de 500 caracteres do campo “outras informações”.
+As cercas Markdown e a quebra que encerra o bloco não integram o parágrafo a colar.
+
+**Decisão final do dono em 11/11/2026:** [“É sim, e acabou.”](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6809152318)
+Manter o estado relatado: “Alguma parte restrita?” = Sim, entrada acima, caixa marcada
+e registro “Conta de administrador” intocado. Assunto encerrado nesse escopo; não
+reabrir a escolha, iniciar consulta ou implementar método/código 9 por iniciativa da sessão.
+A decisão preserva o acesso padrão sem login próprio, gratuito funcional e Billing padrão;
+não demonstra acesso pago irrestrito, compra/restauração testadas ou aprovação do Google.
+Não oferece conta, senha, cupom, licença ou destrave especial por inferência.
+
+**Histórico preservado, não substituir o literal salvo por proposta anterior:**
+
+- Bloco de 1.088 caracteres do PR #119, mantido no [registro versionado anterior](https://github.com/gabzieg/atmosfera/blob/69add300040be7ea41eac6ab2ccbb1015c849704/docs/loja/FICHA.md):
+  inadequado para colar integralmente nesse campo de 500; não era transcrição do Console.
+- [Proposta de 459 caracteres](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6808577134):
+  redação distinta; não foi o texto efetivamente salvo. A orientação de restauração permanece
+  na descrição longa; sua ausência no literal 497 não cria promessa nova.
+- [Relato do cancelamento e estado então incerto](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6808565796):
+  não se atribui causa ou perda definitiva por aproximação; o recibo posterior e a decisão
+  final acima identificam o estado a preservar.
+
 Amostras grátis foram exercitadas no ensaio; Premium, compras e restauração não foram.
-Se Google exigir outro método, mantém-se o risco aceito de mudança do APK/código 9.
-Não oferecer conta/senha/cupom/licença ou destrave secreto por inferência.
+Salvar instruções ou encerrar sua decisão não autoriza envio, publicação ou distribuição.
 
 ## Evidência e limites da redação
 
@@ -102,8 +120,9 @@ Público adulto/Brasil do teste e obrigações comerciais futuras mantêm suas d
 As propostas visuais usam somente capturas/arte do candidato identificado, sem
 fabricar partes da UI ou demonstrar recursos pagos não ensaiados.
 SVG é fonte editável de revisão, não arquivo aceito para upload na Play.
-Exportações JPEG acompanham as fontes. O pacote PR #119 tem aceite editorial/visual;
-as duas linhas finais acima aguardam revisão técnica/editorial da redação equivalente.
+Exportações JPEG acompanham as fontes. Pacote final revisado no PR #120;
+[editorial salvo como rascunho](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6807783324),
+sem equivaler a publicação. O acesso tem seu recibo e decisão final acima.
 
 ## Deltas aprovados para o pacote final 4.10
 
@@ -115,6 +134,9 @@ as duas linhas finais acima aguardam revisão técnica/editorial da redação eq
   Conferir o campo público correto; não alterar login, recuperação ou pagamentos.
 - Título e ícone sem troca; nenhum outro campo recebe aprovação por inferência.
 
-Aprovação editorial não autoriza salvar. Apresentar este pacote final e obter autorização
-específica 4.10 antes de qualquer escrita no Console. Envio/revisão/distribuição 5.4–5.5
-continuam separados; auditoria do AAB/ZIP original 5.3 fica por último, sem dispensa.
+O subconjunto editorial recebeu [autorização específica de salvamento](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6807653860);
+[contato público executado](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6808684875)
+e instruções registradas acima não encerram todas as dependências de 4.10.
+A auditoria local 5.1–5.3 foi [aceita pela lead](https://github.com/gabzieg/atmosfera/issues/86#issuecomment-6810026542);
+não demonstra compra/instalação/entrega HD ou aprovação Google. Envio/revisão/distribuição
+5.4–5.5 continuam separados e exigem autorização específica.
