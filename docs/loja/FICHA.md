@@ -1,207 +1,94 @@
-# Ficha da Play Store — textos
+# Ficha da Play Store — candidato 8
 
-Rascunho para colar no Play Console. Escrito a partir do comportamento real do
-app, não de promessa: cada afirmação abaixo tem código por trás (ver
-"Verificação" no fim).
+Proposta editorial de 11/11/2026, para revisão; não salva no Console.
+App `e82a0c66e8a747b019fa67cac600b3738610eb8c`, versão 1.0.5/código 8.
+Escopo e limites: [#88/6804730825](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6804730825).
 
-> **Revisar antes de publicar.** Descrição de loja é peça de marketing e de
-> compliance ao mesmo tempo: afirmação que o app não cumpre é motivo de
-> rejeição e de avaliação ruim.
->
-> **Há quatro decisões em aberto** — ver "Em aberto" no fim do arquivo. Uma
-> delas é bloqueio, não preferência.
+## Título — decisão preservada
 
----
-
-## Título (máx. 30 caracteres)
-
-```
+```text
 Terra - Live Wallpaper
 ```
 
-23 caracteres. Praticamente o mesmo nome que o Android mostra no seletor de
-papel de parede (`wallpaper_label` em `strings.xml`), que hoje traz um travessão
-— **divergem só na pontuação**.
+22 caracteres; limite 30. Nome decidido em 28/08/2026, preservado sem nova escolha.
 
-**Decidido em 2026-08-28, com o custo conhecido.** Dez alternativas foram
-comparadas e a recomendação técnica era `Atmosfera: Papel de Parede`, por dois
-motivos que continuam valendo:
+## Descrição curta
 
-- O título é o campo de maior peso no ranking da Play, e este não contém
-  nenhuma palavra da categoria. Ninguém busca "atmosfera"; busca-se "papel de
-  parede animado".
-- "Clima ao Vivo" pode ser lido como app de previsão do tempo, o que atrai
-  usuário errado — e avaliação ruim é o eixo sensível deste mercado.
+**Decisão anterior do dono, 28/08/2026, ainda não substituída:**
 
-A escolha foi manter o nome mesmo assim. **A consequência prática é que a
-descoberta passa a depender inteiramente das descrições**, já que o título não
-carrega palavra-chave nenhuma. Ver "Em aberto" → item 5.
-
-Verificado: existem 8+ apps chamados "Atmosfera" na Play (clube de tênis,
-estúdio de yoga, gestão de condomínio), **nenhum em clima ou papel de parede** —
-não há colisão na nossa categoria. Isso é checagem de nome na loja, **não de
-marca registrada**: consulta ao INPI é assunto à parte.
-
-## Descrição curta (máx. 80 caracteres)
-
-```
+```text
 Papel de parede animado: quando chove lá fora, chove na sua tela.
 ```
 
-65 caracteres. **Decidida em 2026-08-28**, depois de comparar sete versões.
+65 caracteres; limite 80. Não usar a proposta abaixo como se já estivesse aprovada.
 
-**Por que esta.** Ela é a única que faz as duas coisas ao mesmo tempo. As palavras
-que as pessoas digitam — "papel de parede animado" — ficam **no começo**, que é
-onde pesam mais; e a segunda metade entrega a imagem concreta que gruda na
-cabeça. As candidatas anteriores escolhiam entre exemplificar *ou* ser
-encontrada:
+**Proposta sujeita a aceite editorial:**
 
-- *"O papel de parede que chove quando está chovendo lá fora."* (57) — memorável,
-  mas sem "animado", que é modificador buscado junto.
-- *"Papel de parede animado que segue o clima real da sua região."* (61) — as
-  palavras certas, mas chapada, sem imagem.
-- *"Uma cena viva na sua tela, que muda com o tempo lá fora."* (56) — **descartada
-  de saída**: zero palavra-chave. Com o título também sem nenhuma, o app ficaria
-  invisível na busca.
-
-**Ela conserta o buraco que o título deixou.** Na listagem, as duas aparecem
-coladas:
-
-> **Atmosfera Clima Ao Vivo**
-> Papel de parede animado: quando chove lá fora, chove na sua tela.
-
-O título diz "clima", a curta diz "papel de parede animado". Uma cobre a lacuna
-da outra.
-
-Uma versão mais longa (*"…que segue a chuva, o sol e a lua da sua região."*, 71)
-cobria mais termos, mas lê como lista. A descrição longa já cobre chuva, neve,
-sol, lua e vento com folga, e é ela que a Play indexa por inteiro — a curta rende
-mais sendo boa de ler.
-
-## Descrição longa (máx. 4.000 caracteres)
-
-```
-Não é uma imagem. É uma cena viva.
-
-O Terra é um papel de parede animado que desenha um cenário quadro a quadro no seu celular e faz ele seguir o tempo de verdade da sua região. Se está chovendo lá fora, chove na sua tela. Anoiteceu? As janelas acendem e as estrelas saem.
-
-O QUE A CENA ACOMPANHA
-• Chuva, neve, névoa e céu nublado, conforme a previsão real
-• A hora do dia — amanhecer, tarde, noite — com a luz mudando junto
-• O nascer e o pôr do sol da sua região
-• A temperatura e o vento
-
-COMO FUNCIONA
-Escolha um cenário, escolha a arte dele e escolha o estilo dos efeitos. Depois é só aplicar como papel de parede: a cena passa a rodar na sua tela inicial e na tela de bloqueio. Dá para trocar quando quiser, quantas vezes quiser, sem perder nada do que já comprou.
-
-CENÁRIOS E ESTILOS
-Uma cabana na floresta, uma casa de bruxa, um campo de lavanda, a Esfinge e um jardim japonês. Cada cenário vem em mais de uma arte — pixel art, argila, aquarela, ukiyo-e e outras — e você escolhe separadamente o estilo dos efeitos. A combinação é sua.
-
-O QUE É GRÁTIS
-Cada um dos cinco cenários oferece uma arte gratuita, com clima real e ciclo de dia e noite.
-
-O QUE É PAGO
-• Premium: uma compra única que liga todos os estilos e os oito efeitos vivos em qualquer cenário — raios, rajadas de vento, vagalumes, fumaça de chaminé, acúmulo de neve, estrela cadente, lampiões acendendo e fases da lua.
-• Cenários: cada um é compra avulsa — as demais artes dos cinco cenários iniciais, e o restante do catálogo, baixado sob demanda quando você aplica.
-
-<!-- ⚠️ Corrigido em 29/09: Premium não dá mais "todas as artes dos cinco
-cenários" — só efeitos, em qualquer cenário. Ver SPEC.md > Monetização. Esta
-seção continua incompleta: falta refletir o catálogo remoto (69 cenários,
-PROPOSTA-PREMIUM-ACERVO-REMOTO-2026-09-28.md) — reescrever por completo só
-depois da Etapa A (congelar contrato) travar o que de fato entra na vitrine.
-Não é urgente: longe do lançamento real. -->
-
-SEM ASSINATURA. SEM ANÚNCIO.
-Compra única de verdade: você paga uma vez e acabou. Não há mensalidade, não há renovação e não existe anúncio em lugar nenhum do app — nem na versão gratuita.
-
-PARA QUEM É
-Para quem gosta de tela calma e quer um papel de parede que muda sozinho, sem precisar mexer. Se você já achou bonito ver a chuva pela janela, a ideia é essa.
-
-Uma coisa que é justo dizer antes de você instalar: o Atmosfera NÃO é um app de previsão do tempo. Ele usa o clima para desenhar a cena, mas não mostra previsão para os próximos dias, alertas, radar nem mapas. Se é previsão que você procura, este não é o app.
-
-SOBRE A SUA LOCALIZAÇÃO
-O Atmosfera usa a localização aproximada apenas para consultar a previsão do tempo. Não há cadastro, não há conta e não há rastreamento. E se você preferir não dar a permissão, o app funciona igual, com o clima de uma cidade padrão.
-
-REQUISITOS
-Android 8.0 ou mais recente. A internet é usada só para atualizar o clima de tempos em tempos — e, se você ficar sem conexão, a cena continua rodando normalmente com a última informação recebida.
+```text
+Papel de parede animado com cenas, clima e ciclo de dia e noite.
 ```
 
----
+64 caracteres; limite 80. Evita promessa de coincidência instantânea entre
+chuva local e wallpaper, especialmente com cache, conexão ausente ou local padrão.
+As justificativas e alternativas do dono foram preservadas no
+[histórico integral](history/listing-before-candidate-8.md).
 
-## Verificação — o que sustenta cada afirmação
+## Descrição longa — proposta para revisão
 
-| Afirmação | Onde está no código |
-|---|---|
-| "desenha quadro a quadro" | `engine/EffectEngine.draw()`, `Canvas` a ~30 fps no `AtmosferaWallpaperService` |
-| "segue o tempo de verdade" | `weather/WeatherRepository` (MET Norway), `SceneState.aplicarClima` |
-| "nascer e pôr do sol" | `WeatherState.sunriseHour` / `sunsetHour` |
-| "Cabana é gratuita" | `engine/Catalogo.kt` — único com `gratis = true` |
-| Os 8 efeitos do Premium | `ui/PremiumScreen.kt` → `EFEITOS_PREMIUM`, lidos de `estado.premium` no motor |
-| "compra única, sem assinatura" | `billing/BillingManager` usa só `ProductType.INAPP`, nenhum `SUBS` |
-| "não existe anúncio" | Nenhum SDK de ads no projeto — ver `SPEC.md` → Não-objetivos |
-| "localização aproximada" | Só `ACCESS_COARSE_LOCATION` no manifesto; `ACCESS_FINE` removida em 2026-08-08 |
-| "funciona sem a permissão" | `weather/LocationHelper` cai para cidade padrão (São Paulo, SP) |
-| "Android 8.0 ou mais recente" | `minSdk 26` em `app/build.gradle` |
-| "sem conexão, a cena continua rodando" | `weather/WeatherCache` guarda a última leitura; o motor desenha a partir do `SceneState`, sem depender de rede |
-| "sem perder nada do que já comprou" | Compras são não-consumíveis (`INAPP`) e `Cena`/`ArteFundo`/`EstiloEfeito` são prefs locais — trocar de cenário não revoga posse |
+```text
+Terra é um papel de parede animado com cenas que acompanham o clima e o ciclo de dia e noite.
 
-## Decisões de redação
+Escolha um cenário e sua arte, veja a prévia e confirme a aplicação no seletor de papel de parede do Android. O catálogo reúne diferentes cenários e estilos visuais. Há amostras gratuitas em Cabana na floresta, Casa da bruxa, Campo de lavanda, Esfinge e Jardim.
 
-**Cinco cenários no lançamento.** Esse número corresponde ao catálogo embarcado
-e deve ser revisto se um pack futuro for publicado.
+O clima pode trazer chuva, neve, névoa e nuvens à cena. A atualização ocorre com o wallpaper ativo na tela inicial e depende de conexão. Sem conexão, o clima salvo continua disponível. A localização aproximada é opcional: sem permissão, as próximas consultas usam São Paulo, SP. O dado salvo pode ser de outra região e sua procedência aparece no app.
 
-**Sem preço no texto.** Preço vive no Play Console e muda; repetir na descrição
-cria duas fontes de verdade.
+Premium é uma compra única para efeitos e estilos de efeito. As artes pagas são compras individuais e não estão incluídas no Premium. Os preços e a disponibilidade dos produtos aparecem pela Google Play. O download das artes remotas depende de conexão e de acesso à arte.
 
-**A cidade padrão não é nomeada.** No app ela aparece como São Paulo, SP — na
-ficha isso só geraria dúvida em quem não é da região.
+O app não exige cadastro próprio. Documentos de Privacidade, Termos e Contato ficam disponíveis no app, inclusive offline. Requer Android 8.0 ou mais recente.
+```
 
-**"fases da lua" aparece só no Premium.** O tier grátis mostra a lua, mas as
-fases são efeito pago (`estado.premium` no motor) — dizer o contrário nos dois
-lugares seria contradição dentro da própria descrição.
+1141 caracteres, incluindo quebras de linha LF; limite 4.000.
+Sem preço fixo, garantia de acesso pago ao revisor ou promessa de toda arte incluída no Premium.
+O nome “Jardim” se refere à amostra do catálogo; não representa catálogo limitado a cinco cenas.
 
----
+## Acesso ao app — texto efetivo em inglês
 
-## Em aberto — decisões do Gabriel
+Decisão [4.3 de 10/11](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6774962413):
+acesso padrão sem login próprio; gratuito funcional; compras no Billing padrão.
+Texto pronto para revisão e posterior cadastro autorizado, não acesso irrestrito demonstrado:
 
-Quatro pontos que o rascunho não resolve sozinho. O terceiro é bloqueio; os
-outros três são preferência.
+```text
+Terra does not require an in-app account or login. Open the app, complete onboarding and open Loja (Store). Free sample artwork is available in Cabana na floresta, Casa da bruxa, Campo de lavanda, Esfinge and Jardim. Select artwork marked grátis (free), then use Aplicar or Definir wallpaper and confirm in the Android wallpaper picker. Location permission is optional: without it, future weather requests use São Paulo, Brazil; saved weather may be displayed until a new update is available. Weather requests run while the wallpaper is active on the home screen.
 
-### ~~1. Qual descrição curta~~ — resolvido em 2026-08-28
+Premium effects and effect styles are a one-time Google Play Billing purchase. Paid artwork is sold separately and is not included in Premium. Paid features use the standard Google Play purchase flow; there is no separate app login or access code. Restoring purchases restores valid existing entitlements and does not grant new purchases. This build does not provide an unrestricted reviewer account or a special unlock mechanism. If paid products are unavailable in the current environment, the free samples remain usable.
+```
 
-O impasse era entre memorabilidade e descoberta. Resolvido escrevendo uma versão
-nova que faz as duas: palavras-chave na frente, imagem concreta atrás. Ver a
-seção "Descrição curta" acima.
+1088 caracteres, incluindo LF. Limite específico do campo e fragmentação em
+instruções devem ser conferidos no cadastro autorizado; nenhum limite foi inventado.
+Amostras grátis foram exercitadas no ensaio; Premium, compras e restauração não foram.
+Se Google exigir outro método, mantém-se o risco aceito de mudança do APK/código 9.
+Não oferecer conta/senha/cupom/licença ou destrave secreto por inferência.
 
-### 2. Incluir números ou não
+## Evidência e limites da redação
 
-"9 cenários e 27 estilos" vende mais do que "uma cabana, uma vila norueguesa…".
-Ficou de fora porque esses números mudam a cada snapshot do motor e a descrição
-envelheceria em silêncio. **Só incluir se alguém assumir mantê-los a cada
-release.**
+| Afirmação | Fonte no candidato | Limite |
+|---|---|---|
+| Artes gratuitas separadas do Premium | Catalogo, MainViewModel e ensaio e82a0c6 | Uma amostra aplicada; não atestar todas as artes |
+| Premium e artes em compras únicas separadas | BillingManager/Plano/ComprasArte | Preços e disponibilidade dependem Play; compra não ensaiada |
+| Clima/cache e localização opcional | LocationHelper/serviço, HomeTab e ensaio | Sem cache e nova região não exercitados no aparelho |
+| Consultas na home ativa | AtmosferaWallpaperService | Sem garantia de atualização instantânea |
+| Documentos offline | Assets e ensaio | Não significa Console atualizado ou auditoria jurídica nova |
+| Android 8.0+ | minSdk 26 | Compatibilidade em todos os aparelhos não demonstrada |
 
-### ~~3. A descrição promete cenários que talvez não estejam à venda~~ — resolvido em 2026-09-23
+Retiradas do rascunho anterior: internet “só” para clima, ausência universal de
+rastreamento, venda por cenário inteiro e garantia de wallpaper na tela de bloqueio.
+Nenhuma mudança de oferta, preço, contato, app ou documentos legais nesta proposta.
+Público adulto/Brasil do teste e obrigações comerciais futuras mantêm suas decisões próprias.
 
-A descrição agora cita somente cabana, bruxa, lavanda, Esfinge e jardim, os cinco
-cenários presentes no catálogo e no AAB do lançamento.
+## Material visual e publicação
 
-### ~~5. A descrição longa não contém "papel de parede"~~ — resolvido em 2026-08-28
-
-O texto longo não usava a expressão uma única vez: falava em "cenário", "cena" e
-"celular". Com o título sem palavra da categoria, isso deixava o app quase
-invisível para quem busca o termo que as pessoas de fato digitam.
-
-Corrigido na expansão do texto: a expressão agora aparece no primeiro parágrafo
-(antes da dobra, que é o trecho que mais pesa), em "COMO FUNCIONA" e em "PARA
-QUEM É".
-
-### 4. Confirmar "fases da lua" como Premium — curadoria do Gabriel (2026-09-11)
-
-É a única afirmação da descrição que **não foi verificada direto no motor** — foi
-deduzida da lista `EFEITOS_PREMIUM` em `ui/PremiumScreen.kt`. Se o tier grátis já
-mostrar as fases, a descrição está errada nos dois lugares onde toca no assunto.
-
-Deixou de ser uma checagem de código e virou decisão de produto: a definição do
-que é grátis e do que é pago entre as fases da lua e os demais efeitos é curadoria
-do Gabriel (esteve com o Rafael entre 2026-08-28 e 2026-09-11). Só ajustar o texto
-depois que a linha estiver traçada — mudar agora é retrabalho.
+[README](README.md) identifica os recursos atuais e o histórico.
+As propostas visuais usam somente capturas/arte do candidato identificado, sem
+fabricar partes da UI ou demonstrar recursos pagos não ensaiados.
+SVG é fonte editável de revisão, não arquivo aceito para upload na Play.
+Exportações JPEG acompanham as fontes. Aceite editorial/visual e cadastro externo continuam pendentes.

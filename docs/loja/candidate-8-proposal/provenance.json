@@ -1,0 +1,106 @@
+{
+  "status": "proposta_para_revisao_nao_publicada",
+  "app_commit": "e82a0c66e8a747b019fa67cac600b3738610eb8c",
+  "date": "2026-11-11",
+  "sources": [
+    {
+      "file": "01-home.svg",
+      "source": "01-negada-com-cache.png",
+      "source_sha256": "a65ea7283d71ab1c0d2467e2d1afe198d610ed0bc3b75d5852bfde3b234a1e75",
+      "source_width": 1080,
+      "source_height": 2400,
+      "scale": 0.9,
+      "canvas": [
+        1080,
+        2160
+      ],
+      "offset": [
+        54,
+        0
+      ],
+      "cropped": false
+    },
+    {
+      "file": "02-store.svg",
+      "source": "04-catalogo-gratis.png",
+      "source_sha256": "61587cd7b19f6f63ee2a0217f73cbac0a7e433dfb800896a80d569507dfd78b3",
+      "source_width": 1080,
+      "source_height": 2400,
+      "scale": 0.9,
+      "canvas": [
+        1080,
+        2160
+      ],
+      "offset": [
+        54,
+        0
+      ],
+      "cropped": false
+    },
+    {
+      "file": "03-wallpaper-preview.svg",
+      "source": "05-wallpaper-aplicado.png",
+      "source_sha256": "e83bc4fb1b68dc10c56ae13eebb5b79ab37869fe4a72c2e88f18e5a1afb1e3b6",
+      "source_width": 1080,
+      "source_height": 2400,
+      "scale": 0.9,
+      "canvas": [
+        1080,
+        2160
+      ],
+      "offset": [
+        54,
+        0
+      ],
+      "cropped": false
+    },
+    {
+      "feature_source": "android-app/app/src/main/assets/atmosfera/miniaturas/cabana__pixel.webp",
+      "sha256": "98adbc20344e0d987b858e4550c520bcd35e3ec5acda8de910975cb786783515"
+    },
+    {
+      "feature_source": "android-app/app/src/main/assets/atmosfera/miniaturas/bruxa__clay.webp",
+      "sha256": "d56e62c00f03d3fd178e8ba1c9c7b6d93fcfd3e8ab4704bd947c84245f4a5788"
+    },
+    {
+      "feature_source": "android-app/app/src/main/assets/atmosfera/miniaturas/lavanda__pixel.webp",
+      "sha256": "09237fa56806052bec8e74877141276d16f2b275d841a7de501e21d1cab7ad60"
+    }
+  ],
+  "method": "Composicao SVG nativa: capturas integrais e miniaturas existentes; sem geracao de imagem/alteracao da UI",
+  "exports": [
+    {
+      "file": "01-home.jpg",
+      "sha256": "620c2d8573e5c6598be0a7cc1ec85607f647a6610c06ceed3548621f3df54e98",
+      "width": 1080,
+      "height": 2160,
+      "mode": "RGB",
+      "format": "JPEG"
+    },
+    {
+      "file": "02-store.jpg",
+      "sha256": "a02c6c178a933237908bff41a4d110bf8954d81131dc78e8f43283d87385fe08",
+      "width": 1080,
+      "height": 2160,
+      "mode": "RGB",
+      "format": "JPEG"
+    },
+    {
+      "file": "03-wallpaper-preview.jpg",
+      "sha256": "3e1807be4bae581a15c6d3d7ce78776f2a7a01f513b81bd05d3ad92854111e9c",
+      "width": 1080,
+      "height": 2160,
+      "mode": "RGB",
+      "format": "JPEG"
+    },
+    {
+      "file": "feature-graphic.jpg",
+      "sha256": "355d5e9817427eb8e2a5d451bdd7891ec5462c89bea8bbd7f5cb4c309a18cf30",
+      "width": 1024,
+      "height": 500,
+      "mode": "RGB",
+      "format": "JPEG"
+    }
+  ],
+  "renderer": "Chromium headless shell 1243; viewport igual ao SVG; device scale factor 1; JPEG via sips qualidade 95"
+}
