@@ -14,7 +14,7 @@ import sys
 import xml.etree.ElementTree as ET
 import zipfile
 
-APP_COMMIT = 'e45de4c81cccb88af8dd56ef0247b0931b6b33dd'
+APP_COMMIT = 'e82a0c66e8a747b019fa67cac600b3738610eb8c'
 ENDPOINT = 'https://acervo.terrawallpaper.com.br/'
 ANDROID = '{http://schemas.android.com/apk/res/android}'
 PUBLIC_FILES = (

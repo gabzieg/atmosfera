@@ -82,8 +82,8 @@ class CandidateAuditTest(unittest.TestCase):
         with patch.object(audit.subprocess, 'check_output', return_value=audit.APP_COMMIT + '\n'):
             return audit.audit(self.root, self.aab, audit.APP_COMMIT, self.out, digest or self.digest)
 
-    def test_runner_and_receipts_target_app_with_legal_links(self):
-        expected = 'e45de4c81cccb88af8dd56ef0247b0931b6b33dd'
+    def test_runner_and_receipts_target_integrated_permission_fix(self):
+        expected = 'e82a0c66e8a747b019fa67cac600b3738610eb8c'
         self.assertEqual(audit.APP_COMMIT, expected)
         self.assertEqual(rehearsal.APP_COMMIT, expected)
         powershell = (HELPERS / 'run-final-candidate.ps1').read_text()
@@ -155,7 +155,7 @@ class CandidateAuditTest(unittest.TestCase):
         changed.write_bytes(b'changed')
         with self.assertRaises(ValueError):
             rehearsal.verify_acceptance(receipt, changed)
-        for change in [dict(app_commit='6ccd02c09b527bd45cdc44f8929636864e1fd179'), dict(app_commit='wrong'), dict(accepted_by_lead=False), dict(apk_sha256=''),
+        for change in [dict(app_commit='e45de4c81cccb88af8dd56ef0247b0931b6b33dd'), dict(app_commit='6ccd02c09b527bd45cdc44f8929636864e1fd179'), dict(app_commit='wrong'), dict(accepted_by_lead=False), dict(apk_sha256=''),
                        dict(lead_acceptance_url='https://evil.invalid/')]:
             receipt.write_text(json.dumps(dict(valid, **change)))
             with self.assertRaises(ValueError):
@@ -233,7 +233,7 @@ class CandidateAuditTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.run_audit()
 
-    def test_pending_app_target_blocks_both_phases_before_any_operation(self):
+    def test_configured_target_reaches_preflight_without_side_effects(self):
         pwsh = os.environ.get('CANDIDATE_PWSH') or shutil.which('pwsh')
         self.assertIsNotNone(pwsh)
         before = set(self.root.rglob('*'))
@@ -244,7 +244,8 @@ class CandidateAuditTest(unittest.TestCase):
                 '-ExistingProperties', str(self.root / 'missing.properties')], capture_output=True,
                 text=True, timeout=15)
             self.assertEqual(result.returncode, 1)
-            self.assertIn('FALHA candidato: etapa target-refresh-required', result.stdout)
+            self.assertIn('FALHA candidato: etapa preflight;', result.stdout)
+            self.assertNotIn('target-refresh-required', result.stdout)
             self.assertNotIn('FIM candidato', result.stdout)
             self.assertEqual(set(self.root.rglob('*')), before)
 

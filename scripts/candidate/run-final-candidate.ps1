@@ -12,8 +12,8 @@ param(
     [ValidatePattern('^[a-fA-F0-9:]{64,95}$')][string]$ExpectedUploadSha256,
     [ValidateSet('previously_confirmed_upload_certificate','previously_accepted_aab')][string]$CertificateReference = 'previously_confirmed_upload_certificate'
 )
-$ExpectedCommit = 'e45de4c81cccb88af8dd56ef0247b0931b6b33dd'
-$AppTargetReady = $false
+$ExpectedCommit = 'e82a0c66e8a747b019fa67cac600b3738610eb8c'
+$AppTargetReady = $true
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $initialLocation = Get-Location

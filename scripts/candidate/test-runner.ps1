@@ -37,7 +37,7 @@ if(!$failed){throw 'Codigo nao-zero foi engolido'}
 $failed=$false
 try {Invoke-Checked 'missing-command' 'fake-candidate-command-that-does-not-exist' @()}catch{$failed=$true}
 if(!$failed){throw 'Comando ausente nao falhou'}
-# Só o guard, sem executar operações mesmo no controle válido futuro.
+# Guard configurável: controle bloqueado e configuração atual, sem operações.
 $AppTargetReady=$false
 $failed=$false
 try { Assert-AppTargetReady } catch { $failed=$true }
@@ -59,6 +59,33 @@ try {
     if ((Read-NativeLog (Join-Path $artifactDirectory 'utf8.log')).Trim() -ne '1') { throw 'Python filho sem UTF8' }
     if ($env:PYTHONUTF8 -ne '0') { throw 'Ambiente original alterado' }
 } finally { $env:PYTHONUTF8=$utf8Before }
+# O ramo público Final continua exigindo os três insumos antes do build.
+$finalInputs=$ast.Find({param($n) $n -is [System.Management.Automation.Language.IfStatementAst] -and $n.Extent.Text.Contains('Final exige APK, referencia e aceite anterior')},$true)
+if (!$finalInputs) { throw 'Guard Final ausente' }
+$fakeReceipt=Join-Path $artifactDirectory 'accepted-fixture.json'
+$fakeApk=Join-Path $artifactDirectory 'fixture.apk'
+[IO.File]::WriteAllText($fakeReceipt, '{}')
+[IO.File]::WriteAllText($fakeApk, 'FAKE_NOT_AN_APK')
+$Phase='Final'
+foreach ($missing in @('receipt','apk','certificate')) {
+    $AcceptedRehearsalReceipt=$fakeReceipt
+    $RehearsalApk=$fakeApk
+    $ExpectedUploadSha256='0' * 64
+    switch ($missing) {
+        'receipt' { $AcceptedRehearsalReceipt=$null }
+        'apk' { $RehearsalApk=$null }
+        'certificate' { $ExpectedUploadSha256=$null }
+    }
+    $failed=$false
+    try { . ([scriptblock]::Create($finalInputs.Extent.Text)) } catch { $failed=$true }
+    if (!$failed) { throw 'Final aceitou insumo ausente' }
+}
+# Apenas valida presença/paths; conteúdo SHA/hash é validado nos testes Python.
+$AcceptedRehearsalReceipt=$fakeReceipt
+$RehearsalApk=$fakeApk
+$ExpectedUploadSha256='0' * 64
+. ([scriptblock]::Create($finalInputs.Extent.Text))
+if ($resolvedAcceptance -ne $fakeReceipt -or $resolvedRehearsalApk -ne $fakeApk) { throw 'Paths do aceite nao preservados' }
 # Executa somente o ramo de build de ensaio com fronteira nativa simulada.
 $rehearsalBranch=$ast.Find({param($n) $n -is [System.Management.Automation.Language.IfStatementAst] -and $n.Extent.Text.Contains("'gradle-rehearsal'")},$true)
 if(!$rehearsalBranch){throw 'Ramo de ensaio ausente'}
