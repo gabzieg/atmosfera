@@ -1,6 +1,8 @@
 # Ficha da Play Store — candidato 8
 
-Proposta editorial de 11/11/2026, para revisão; não salva no Console.
+Pacote do PR #119 aprovado editorialmente em 11/11/2026; complemento final abaixo
+proposto para revisão. Não salvo no Console.
+Decisão e limites: [#88/6807363318](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6807363318).
 App `e82a0c66e8a747b019fa67cac600b3738610eb8c`, versão 1.0.5/código 8.
 Escopo e limites: [#88/6804730825](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6804730825).
 
@@ -14,15 +16,15 @@ Terra - Live Wallpaper
 
 ## Descrição curta
 
-**Decisão anterior do dono, 28/08/2026, ainda não substituída:**
+**Histórico: decisão do dono em 28/08/2026, substituída editorialmente em 11/11/2026:**
 
 ```text
 Papel de parede animado: quando chove lá fora, chove na sua tela.
 ```
 
-65 caracteres; limite 80. Não usar a proposta abaixo como se já estivesse aprovada.
+65 caracteres; limite 80. Mantida como histórico, não como texto para o próximo cadastro.
 
-**Proposta sujeita a aceite editorial:**
+**Descrição aprovada para o pacote final:**
 
 ```text
 Papel de parede animado com cenas, clima e ciclo de dia e noite.
@@ -33,7 +35,7 @@ chuva local e wallpaper, especialmente com cache, conexão ausente ou local padr
 As justificativas e alternativas do dono foram preservadas no
 [histórico integral](history/listing-before-candidate-8.md).
 
-## Descrição longa — proposta para revisão
+## Descrição longa — pacote aprovado com complemento para revisão
 
 ```text
 Terra é um papel de parede animado com cenas que acompanham o clima e o ciclo de dia e noite.
@@ -45,9 +47,17 @@ O clima pode trazer chuva, neve, névoa e nuvens à cena. A atualização ocorre
 Premium é uma compra única para efeitos e estilos de efeito. As artes pagas são compras individuais e não estão incluídas no Premium. Os preços e a disponibilidade dos produtos aparecem pela Google Play. O download das artes remotas depende de conexão e de acesso à arte.
 
 O app não exige cadastro próprio. Documentos de Privacidade, Termos e Contato ficam disponíveis no app, inclusive offline. Requer Android 8.0 ou mais recente.
+
+Suporte oficial: suporteterrabr@gmail.com
+Para restaurar compras existentes, use a mesma conta Google utilizada na compra.
 ```
 
-1141 caracteres, incluindo quebras de linha LF; limite 4.000.
+1265 caracteres, incluindo quebras de linha LF; limite 4.000.
+As duas linhas finais são redação equivalente proposta para revisão; não são
+transcrição literal do Console, cujo texto exato não foi consultado nesta tarefa.
+O canal é o suporte público já aprovado, não endereço pessoal do perfil.
+A restauração se limita a direitos existentes, sem garantir recuperação irrestrita.
+
 Sem preço fixo, garantia de acesso pago ao revisor ou promessa de toda arte incluída no Premium.
 O nome “Jardim” se refere à amostra do catálogo; não representa catálogo limitado a cinco cenas.
 
@@ -82,7 +92,8 @@ Não oferecer conta/senha/cupom/licença ou destrave secreto por inferência.
 
 Retiradas do rascunho anterior: internet “só” para clima, ausência universal de
 rastreamento, venda por cenário inteiro e garantia de wallpaper na tela de bloqueio.
-Nenhuma mudança de oferta, preço, contato, app ou documentos legais nesta proposta.
+Nenhuma mudança de oferta, preço, app ou documentos legais neste ajuste.
+O canal de suporte permanece o aprovado; o delta de contato do perfil está abaixo.
 Público adulto/Brasil do teste e obrigações comerciais futuras mantêm suas decisões próprias.
 
 ## Material visual e publicação
@@ -91,4 +102,19 @@ Público adulto/Brasil do teste e obrigações comerciais futuras mantêm suas d
 As propostas visuais usam somente capturas/arte do candidato identificado, sem
 fabricar partes da UI ou demonstrar recursos pagos não ensaiados.
 SVG é fonte editável de revisão, não arquivo aceito para upload na Play.
-Exportações JPEG acompanham as fontes. Aceite editorial/visual e cadastro externo continuam pendentes.
+Exportações JPEG acompanham as fontes. O pacote PR #119 tem aceite editorial/visual;
+as duas linhas finais acima aguardam revisão técnica/editorial da redação equivalente.
+
+## Deltas aprovados para o pacote final 4.10
+
+- Curta e longa do PR #119, com as duas linhas finais de suporte/restauração acima.
+- Substituir os oito screenshots antigos pelos três JPEG revisados, na ordem do README;
+  substituir o banner pelo feature graphic Terra do mesmo pacote. Fontes/imagens preservadas.
+- Contato público do desenvolvedor: substituir o endereço pessoal pelo canal oficial
+  de suporte já aprovado, conforme [decisão #88/6807347126](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6807347126).
+  Conferir o campo público correto; não alterar login, recuperação ou pagamentos.
+- Título e ícone sem troca; nenhum outro campo recebe aprovação por inferência.
+
+Aprovação editorial não autoriza salvar. Apresentar este pacote final e obter autorização
+específica 4.10 antes de qualquer escrita no Console. Envio/revisão/distribuição 5.4–5.5
+continuam separados; auditoria do AAB/ZIP original 5.3 fica por último, sem dispensa.
