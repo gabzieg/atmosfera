@@ -61,6 +61,8 @@ play-services-location = { module = "com.google.android.gms:play-services-locati
 play-age-signals = { module = "com.google.android.play:age-signals", version.ref = "ageSignals" }
 billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billing" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }

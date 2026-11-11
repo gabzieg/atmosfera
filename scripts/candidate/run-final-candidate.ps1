@@ -13,17 +13,28 @@ param(
     [ValidateSet('previously_confirmed_upload_certificate','previously_accepted_aab')][string]$CertificateReference = 'previously_confirmed_upload_certificate'
 )
 $ExpectedCommit = 'e45de4c81cccb88af8dd56ef0247b0931b6b33dd'
+$AppTargetReady = $false
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $initialLocation = Get-Location
 $script:candidateStage = 'preflight'
 $temporaryProperties = $null
 $temporaryLocalProperties = $null
+function Assert-AppTargetReady {
+    if (!$AppTargetReady) { throw 'Runner bloqueado ate fixar e revisar o novo SHA do app' }
+}
 function Quote-NativeArgument {
     param([string]$Value)
+    # #86, 11/11/2026: py.exe precisa receber o seletor -3 sem aspas.
+    if ($Value -match '^[A-Za-z0-9_./:=+\-]+$') { return $Value }
     $escaped = [regex]::Replace($Value, '(\\*)"', { param($m) ('\' * ($m.Groups[1].Value.Length * 2 + 1)) + '"' })
     $escaped = [regex]::Replace($escaped, '(\\+)$', '$1$1')
     return '"' + $escaped + '"'
+}
+function Read-NativeLog {
+    param([string]$Path)
+    # Log de git status limpo tem zero bytes no PS5.1; ausente continua erro.
+    return [System.IO.File]::ReadAllText($Path, [System.Text.Encoding]::UTF8)
 }
 function Invoke-Native {
     param([string]$Stage, [string]$Executable, [string[]]$CommandArguments)
@@ -33,6 +44,8 @@ function Invoke-Native {
     $startInfo.UseShellExecute = $false
     $startInfo.CreateNoWindow = $true
     $startInfo.WorkingDirectory = (Get-Location).Path
+    # Só o processo filho: não muda o ambiente do dono e alcança testes Python.
+    $startInfo.EnvironmentVariables['PYTHONUTF8'] = '1'
     $startInfo.RedirectStandardOutput = $true
     $startInfo.RedirectStandardError = $true
     $quoted = @($CommandArguments | ForEach-Object { Quote-NativeArgument $_ }) -join ' '
@@ -67,6 +80,10 @@ function Invoke-Checked {
     if ($exitStatus -ne 0) { throw 'Etapa falhou; classificar log privado antes de seguir' }
 }
 try {
+    # #86, 11/11/2026: novo app precisa de alvo fixo revisto após integração.
+    $script:candidateStage = 'target-refresh-required'
+    Assert-AppTargetReady
+    $script:candidateStage = 'preflight'
     if ([Environment]::OSVersion.Platform -ne [PlatformID]::Win32NT) { throw 'Execucao real somente no Windows autorizado' }
     $repoRoot = (Resolve-Path -LiteralPath $Repository).Path
     $resolvedBundletool = (Resolve-Path -LiteralPath $BundletoolJar).Path
@@ -85,19 +102,20 @@ try {
     Set-Location -LiteralPath $repoRoot
     Invoke-Checked 'git-fetch' 'git' @('fetch','origin','main')
     Invoke-Checked 'git-commit' 'git' @('rev-parse',('--verify'),($ExpectedCommit + '^{commit}'))
-    if ((Get-Content -LiteralPath (Join-Path $artifactDirectory 'git-commit.log') -Raw).Trim() -ne $ExpectedCommit) { throw 'Commit indisponivel' }
+    if ((Read-NativeLog (Join-Path $artifactDirectory 'git-commit.log')).Trim() -ne $ExpectedCommit) { throw 'Commit indisponivel' }
     $buildCheckout = Join-Path $repoRoot ('local/worktrees/candidate-' + $ExpectedCommit.Substring(0,12) + '-' + $stamp)
     if (Test-Path -LiteralPath $buildCheckout) { throw 'Checkout ja existe; preservar trabalho' }
     Invoke-Checked 'worktree-create' 'git' @('worktree','add','--detach',$buildCheckout,$ExpectedCommit)
     Set-Location -LiteralPath $buildCheckout
     Invoke-Checked 'git-head' 'git' @('rev-parse','HEAD')
-    if ((Get-Content -LiteralPath (Join-Path $artifactDirectory 'git-head.log') -Raw).Trim() -ne $ExpectedCommit) { throw 'SHA incorreto' }
+    if ((Read-NativeLog (Join-Path $artifactDirectory 'git-head.log')).Trim() -ne $ExpectedCommit) { throw 'SHA incorreto' }
     Invoke-Checked 'git-status' 'git' @('status','--porcelain')
-    if ((Get-Content -LiteralPath (Join-Path $artifactDirectory 'git-status.log') -Raw).Trim()) { throw 'Checkout deve estar limpo' }
+    if ((Read-NativeLog (Join-Path $artifactDirectory 'git-status.log')).Trim()) { throw 'Checkout deve estar limpo' }
     Invoke-Checked 'java-version' 'java' @('-version')
-    $javaVersion = (Get-Content -LiteralPath (Join-Path $artifactDirectory 'java-version.log') -Raw) + (Get-Content -LiteralPath (Join-Path $artifactDirectory 'java-version.stderr.log') -Raw)
+    $javaVersion = (Read-NativeLog (Join-Path $artifactDirectory 'java-version.log')) + (Read-NativeLog (Join-Path $artifactDirectory 'java-version.stderr.log'))
     if ($javaVersion -notmatch 'version "17[.\"]') { throw 'Java17 obrigatorio' }
     Invoke-Checked 'python-version' 'py' @('-3','-c','import sys; assert sys.version_info >= (3,11); print(sys.version.split()[0])')
+    Invoke-Checked 'symlink-preflight' 'py' @('-3',(Join-Path $PSScriptRoot 'rehearsal.py'),'--check-environment','--output',$artifactDirectory)
     if ($Phase -eq 'Final') {
         Invoke-Checked 'rehearsal-acceptance' 'py' @('-3',(Join-Path $PSScriptRoot 'rehearsal.py'),'--acceptance',$resolvedAcceptance,'--apk',$resolvedRehearsalApk)
     } else {
@@ -108,8 +126,8 @@ try {
     $publicTools = @{
         powershell = $PSVersionTable.PSVersion.ToString()
         java = ([regex]::Match($javaVersion, 'version "(17[0-9A-Za-z.+_-]*)"')).Groups[1].Value
-        python = (Get-Content -LiteralPath (Join-Path $artifactDirectory 'python-version.log') -Raw).Trim()
-        bundletool = (Get-Content -LiteralPath (Join-Path $artifactDirectory 'bundletool-version.log') -Raw).Trim()
+        python = (Read-NativeLog (Join-Path $artifactDirectory 'python-version.log')).Trim()
+        bundletool = (Read-NativeLog (Join-Path $artifactDirectory 'bundletool-version.log')).Trim()
     }
     $publicTools | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $artifactDirectory 'tools-public.json') -Encoding UTF8
     $propertiesDestination = Join-Path $buildCheckout 'android-app/keystore.properties'
@@ -146,8 +164,12 @@ try {
     }
     Set-Location -LiteralPath $buildCheckout
     Invoke-Checked 'git-status-final' 'git' @('status','--porcelain')
-    if ((Get-Content -LiteralPath (Join-Path $artifactDirectory 'git-status-final.log') -Raw).Trim()) { throw 'Estado Git final divergente' }
+    if ((Read-NativeLog (Join-Path $artifactDirectory 'git-status-final.log')).Trim()) { throw 'Estado Git final divergente' }
 } catch {
+    if ($script:candidateStage -eq 'target-refresh-required') {
+        Write-Output 'FALHA candidato: etapa target-refresh-required; aguardar novo SHA fixo revisado apos integracao; nao retirar trava localmente'
+        exit 1
+    }
     Write-Output ('FALHA candidato: etapa ' + $script:candidateStage + '; nao compartilhar logs/configuracao privados; devolver somente esta linha')
     exit 1
 } finally {
@@ -169,5 +191,5 @@ if ($Phase -eq 'Rehearsal') {
 } else {
     Write-Output 'FIM candidato: geracao e auditorias locais aprovadas; sem upload/instalacao'
     Write-Output ('Devolver somente: ' + $artifactRelative + '/candidate-receipt.zip; nao enviar a pasta inteira')
-    Get-Content -LiteralPath (Join-Path $artifactDirectory 'provenance-final.json') -Raw | Write-Output
+    Read-NativeLog (Join-Path $artifactDirectory 'provenance-final.json') | Write-Output
 }

@@ -17,7 +17,7 @@ class ApprovalTest(unittest.TestCase):
         self.root = Path(self.tmp.name)
         folder = self.root / 'docs/legal'
         folder.mkdir(parents=True)
-        (folder / 'modelo.html').write_text('{{title}}{{body}}')
+        (folder / 'modelo.html').write_text('{{title}}{{body}}', encoding='utf-8')
         self.meta = dict(status='aprovado_para_publicacao', aprovado_para_publicacao=True,
                          aprovacao_registro='https://github.com/example/repo/issues/1#issuecomment-1',
                          vigencia=None, versao_app=None, dominio_publico='https://example.invalid')
@@ -25,29 +25,43 @@ class ApprovalTest(unittest.TestCase):
                        '**Estado:** Documento em revisão; ainda não aprovado para publicação definitiva.\n'
                        '**Vigência:** A definir após publicação. Esta revisão não retroage sobre compras anteriores nem suspende a transparência dos tratamentos anteriores.\n\n## Resumo\nResumo sintético.\n\n## 1. Conteúdo\nCorpo preservado.\n')
         for name in legal.DOCS.values():
-            (folder / (name + '.md')).write_text(self.source)
+            (folder / (name + '.md')).write_text(self.source, encoding='utf-8')
 
     def generate(self, check=False):
-        (self.root / 'docs/legal/revisao.json').write_text(json.dumps(self.meta))
+        (self.root / 'docs/legal/revisao.json').write_text(json.dumps(self.meta), encoding='utf-8')
         with patch.object(legal, 'ROOT', self.root), contextlib.redirect_stdout(io.StringIO()):
             legal.gerar(check)
+
+    def test_fixture_is_utf8_even_with_windows_legacy_default(self):
+        original_open = io.open
+        def legacy_open(file, mode='r', buffering=-1, encoding=None, *args, **kwargs):
+            if 'b' not in mode and encoding is None:
+                encoding = 'cp1252'
+            return original_open(file, mode, buffering, encoding, *args, **kwargs)
+        fixture = ApprovalTest('test_approved_without_date_preserves_sources_and_marks_pending')
+        with patch('io.open', side_effect=legacy_open):
+            fixture.setUp()
+            try:
+                fixture.test_approved_without_date_preserves_sources_and_marks_pending()
+            finally:
+                fixture.doCleanups()
 
     def test_approved_without_date_preserves_sources_and_marks_pending(self):
         self.generate()
         for name in legal.DOCS.values():
-            self.assertEqual((self.root / 'docs/legal' / (name + '.md')).read_text(), self.source)
-        content = (self.root / 'docs/privacidade/index.html').read_text()
+            self.assertEqual((self.root / 'docs/legal' / (name + '.md')).read_text(encoding='utf-8'), self.source)
+        content = (self.root / 'docs/privacidade/index.html').read_text(encoding='utf-8')
         self.assertIn('Redação aprovada para publicação', content)
         self.assertIn('pendente do evento real', content)
         self.assertIn('Corpo preservado.', content)
-        manifest = json.loads((self.root / 'docs/legal/manifesto-documentos.json').read_text())
+        manifest = json.loads((self.root / 'docs/legal/manifesto-documentos.json').read_text(encoding='utf-8'))
         self.assertTrue(manifest['aprovado_para_publicacao'])
         self.assertIsNone(manifest['vigencia'])
         self.assertEqual(sum(1 for _ in self.root.rglob('index.html')), 9)
 
     def test_pending_presentation_preserves_nonretroactivity_and_transparency(self):
         self.generate()
-        content = (self.root / 'docs/privacidade/index.html').read_text()
+        content = (self.root / 'docs/privacidade/index.html').read_text(encoding='utf-8')
         self.assertIn('não retroage sobre compras anteriores', content)
         self.assertIn('nem suspende a transparência dos tratamentos anteriores', content)
 
@@ -57,16 +71,16 @@ class ApprovalTest(unittest.TestCase):
         self.generate(check=True)
         self.assertEqual(before, {p: p.read_bytes() for p in self.root.rglob('*') if p.is_file()})
         p = self.root / 'public_html/termos/index.html'
-        p.write_text('divergente')
+        p.write_text('divergente', encoding='utf-8')
         with self.assertRaises(ValueError):
             self.generate(check=True)
-        self.assertEqual(p.read_text(), 'divergente')
+        self.assertEqual(p.read_text(encoding='utf-8'), 'divergente')
 
     def test_draft_still_renders_as_draft(self):
         self.meta.update(status='rascunho_para_revisao', aprovado_para_publicacao=False,
                          aprovacao_registro=None)
         self.generate()
-        self.assertIn('Documento em revisão', (self.root / 'docs/contato/index.html').read_text())
+        self.assertIn('Documento em revisão', (self.root / 'docs/contato/index.html').read_text(encoding='utf-8'))
 
     def test_invalid_metadata_is_rejected(self):
         original = dict(self.meta)
@@ -87,9 +101,9 @@ class ApprovalTest(unittest.TestCase):
         for name in legal.DOCS.values():
             (folder / (name + '.md')).write_text(self.source.replace(
                 'Documento em revisão; ainda não aprovado para publicação definitiva.',
-                'Aprovado').replace('A definir', '2026-11-09'))
+                'Aprovado').replace('A definir', '2026-11-09'), encoding='utf-8')
         self.generate()
-        self.assertIn('Vigência: 2026-11-09', (self.root / 'docs/privacidade/index.html').read_text())
+        self.assertIn('Vigência: 2026-11-09', (self.root / 'docs/privacidade/index.html').read_text(encoding='utf-8'))
 
     def web_headers(self, date='2026-11-10'):
         display = '/'.join(reversed(date.split('-')))
@@ -98,7 +112,7 @@ class ApprovalTest(unittest.TestCase):
                 'Documento em revisão; ainda não aprovado para publicação definitiva.',
                 'Redação aprovada; publicada na web em ' + display + '.').replace(
                 'A definir após publicação.', display + '.')
-            (self.root / 'docs/legal' / (name + '.md')).write_text(text)
+            (self.root / 'docs/legal' / (name + '.md')).write_text(text, encoding='utf-8')
 
     def test_web_date_without_app_preserves_sources_body_and_copies(self):
         self.meta['vigencia'] = '2026-11-10'
@@ -107,7 +121,7 @@ class ApprovalTest(unittest.TestCase):
                   for name in legal.DOCS.values()}
         self.generate()
         self.generate(check=True)
-        manifest = json.loads((self.root / 'docs/legal/manifesto-documentos.json').read_text())
+        manifest = json.loads((self.root / 'docs/legal/manifesto-documentos.json').read_text(encoding='utf-8'))
         self.assertEqual(manifest['status'], 'aprovado_para_publicacao')
         self.assertIsNone(manifest['versao_app'])
         self.assertEqual(manifest['vigencia'], '2026-11-10')
@@ -116,17 +130,17 @@ class ApprovalTest(unittest.TestCase):
         copies = list(self.root.rglob('index.html'))
         self.assertEqual(len(copies), 9)
         for path in copies:
-            text = path.read_text()
+            text = path.read_text(encoding='utf-8')
             self.assertIn('Vigência: 10/11/2026', text)
             self.assertIn('não retroage sobre compras anteriores', text)
             self.assertIn('nem suspende a transparência dos tratamentos anteriores', text)
             self.assertIn('Corpo preservado.', text)
             self.assertNotIn('pendente', text.lower())
         altered = copies[0]
-        altered.write_text('divergente')
+        altered.write_text('divergente', encoding='utf-8')
         with self.assertRaises(ValueError):
             self.generate(check=True)
-        self.assertEqual(altered.read_text(), 'divergente')
+        self.assertEqual(altered.read_text(encoding='utf-8'), 'divergente')
 
     def test_web_date_requires_aligned_headers(self):
         self.meta['vigencia'] = '2026-11-10'

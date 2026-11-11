@@ -37,6 +37,28 @@ if(!$failed){throw 'Codigo nao-zero foi engolido'}
 $failed=$false
 try {Invoke-Checked 'missing-command' 'fake-candidate-command-that-does-not-exist' @()}catch{$failed=$true}
 if(!$failed){throw 'Comando ausente nao falhou'}
+# Só o guard, sem executar operações mesmo no controle válido futuro.
+$AppTargetReady=$false
+$failed=$false
+try { Assert-AppTargetReady } catch { $failed=$true }
+if (!$failed) { throw 'Alvo pendente nao bloqueou' }
+$AppTargetReady=$true
+Assert-AppTargetReady
+# #86, 11/11/2026: regressões do ensaio PS5.1, sem executar o runner completo.
+if ((Quote-NativeArgument '-3') -ne '-3') { throw 'Seletor py deve permanecer sem aspas' }
+$emptyLog=Join-Path $artifactDirectory 'empty.log'
+[IO.File]::WriteAllText($emptyLog, '')
+if ((Read-NativeLog $emptyLog) -ne '') { throw 'Log vazio nao normalizado' }
+$failed=$false
+try { Read-NativeLog (Join-Path $artifactDirectory 'missing.log') } catch { $failed=$true }
+if (!$failed) { throw 'Arquivo ausente foi tratado como vazio' }
+$utf8Before=$env:PYTHONUTF8
+try {
+    $env:PYTHONUTF8='0'
+    Invoke-Checked 'utf8' $python @('-c','import sys; print(sys.flags.utf8_mode)')
+    if ((Read-NativeLog (Join-Path $artifactDirectory 'utf8.log')).Trim() -ne '1') { throw 'Python filho sem UTF8' }
+    if ($env:PYTHONUTF8 -ne '0') { throw 'Ambiente original alterado' }
+} finally { $env:PYTHONUTF8=$utf8Before }
 # Executa somente o ramo de build de ensaio com fronteira nativa simulada.
 $rehearsalBranch=$ast.Find({param($n) $n -is [System.Management.Automation.Language.IfStatementAst] -and $n.Extent.Text.Contains("'gradle-rehearsal'")},$true)
 if(!$rehearsalBranch){throw 'Ramo de ensaio ausente'}

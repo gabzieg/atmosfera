@@ -165,6 +165,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application), S
 
     /** O companion mostra o último clima salvo; só o wallpaper na home consulta. */
     fun refreshWeather() {
+        // #86, 11/11/2026: onResume também deve refletir revogação nos Ajustes.
+        // Só observa a permissão e o cache; a consulta continua no wallpaper.
+        _hasLocationPermission.value = checkPermission()
         _weatherState.value = weatherCache.get()
         _climaInfo.value = ClimaInfo(weatherCache.lugar(), weatherCache.ultimaBuscaMs(),
             weatherCache.localPadrao())

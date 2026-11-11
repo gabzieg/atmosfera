@@ -434,7 +434,7 @@ private fun PassoLocalizacao(
                 sceneId = sceneId,
                 arte = arte,
                 titulo = "Sem permissão",
-                corpo = "Funciona igual, com o clima de São Paulo, SP.",
+                corpo = "Usa São Paulo, SP nas consultas de clima, feitas com o wallpaper ativo na tela inicial.",
                 destaque = false,
                 modifier = Modifier.weight(1f),
             )

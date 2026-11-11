@@ -120,6 +120,21 @@ class CandidateAuditTest(unittest.TestCase):
             with self.assertRaises(ValueError):
                 self.run_audit()
 
+    def test_symlink_preflight_checks_real_resolution_and_cleans_up(self):
+        before = set(self.out.iterdir())
+        rehearsal.verify_environment(self.out)
+        self.assertEqual(set(self.out.iterdir()), before)
+        with patch.object(Path, 'symlink_to', side_effect=OSError(1314, 'FAKE_PRIVATE_PATH')):
+            with self.assertRaisesRegex(ValueError, 'sem suporte a symlink'):
+                rehearsal.verify_environment(self.out)
+        self.assertEqual(set(self.out.iterdir()), before)
+        # CLI falha fechada e não expõe exceção/caminho privado.
+        with patch.object(sys, 'argv', ['rehearsal.py', '--check-environment', '--output', str(self.out)]), \
+                patch.object(Path, 'symlink_to', side_effect=OSError(1314, 'FAKE_PRIVATE_PATH')), \
+                patch('builtins.print') as output:
+            self.assertEqual(rehearsal.main(), 1)
+        self.assertNotIn('FAKE_PRIVATE_PATH', str(output.call_args_list))
+
     def test_rehearsal_device_and_acceptance_fail_closed(self):
         device_log = self.out / 'devices.log'
         for text in ['List of devices attached\n', 'List of devices attached\na device\nb device\n',
@@ -217,6 +232,21 @@ class CandidateAuditTest(unittest.TestCase):
         (self.r8 / 'configuration.txt').write_text('-injars C:\\Users\\FAKE_OWNER\\input.jar\n')
         with self.assertRaises(ValueError):
             self.run_audit()
+
+    def test_pending_app_target_blocks_both_phases_before_any_operation(self):
+        pwsh = os.environ.get('CANDIDATE_PWSH') or shutil.which('pwsh')
+        self.assertIsNotNone(pwsh)
+        before = set(self.root.rglob('*'))
+        for phase in ['Rehearsal', 'Final']:
+            result = subprocess.run([pwsh, '-NoProfile', '-NonInteractive', '-File',
+                str(HELPERS / 'run-final-candidate.ps1'), '-Phase', phase,
+                '-Repository', str(self.root), '-BundletoolJar', str(self.root / 'missing.jar'),
+                '-ExistingProperties', str(self.root / 'missing.properties')], capture_output=True,
+                text=True, timeout=15)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn('FALHA candidato: etapa target-refresh-required', result.stdout)
+            self.assertNotIn('FIM candidato', result.stdout)
+            self.assertEqual(set(self.root.rglob('*')), before)
 
     def test_powershell_syntax_and_native_failure_controls(self):
         pwsh = os.environ.get('CANDIDATE_PWSH') or shutil.which('pwsh')
