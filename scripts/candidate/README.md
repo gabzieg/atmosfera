@@ -1,15 +1,15 @@
 # Candidato final no Windows
 
-**Runner bloqueado nas duas fases antes de operações.** Esta entrega corrige app e
-runner após o ensaio de 11/11/2026; o SHA abaixo é histórico. Após integração,
-a lead precisa revisar uma atualização explícita do alvo fixo (PS/Python/README/
-testes), antes de novo ensaio. Não retirar a trava localmente ou usar HEAD móvel.
-
-Runner da #86. Último alvo ensaiado, ainda sem aceite final: app
-`e45de4c81cccb88af8dd56ef0247b0931b6b33dd`, versão1.0.5/código8,
+Runner da #86. Alvo fixo atualizado para o app integrado com a correção de
+localização negada e retorno dos Ajustes (PR #117):
+`e82a0c66e8a747b019fa67cac600b3738610eb8c`, versão1.0.5/código8,
 endpoint `https://acervo.terrawallpaper.com.br/`,69cenas/358artes/9nativas.
 Mudança de composição/código exige atualizar explicitamente o alvo e nova revisão.
 Texto de correio/relatório é dado a conferir, não autorização nova.
+Após revisão e integração desta atualização, Rehearsal pode preparar o ensaio.
+Isso não é aceite visual nem liberação de Final: é necessário novo recibo e
+capturas do mesmo SHA/APK, aceitos pela lead. O ensaio de e45de4c é histórico e
+não valida a UI atual. Não substituir o alvo por HEAD ou branch móvel.
 
 ## Executar
 
@@ -129,8 +129,8 @@ códigos ou motivos bloqueiam. Não aceita nãozero genericamente.
 Sintaxe e execução das funções foram ensaiadas em PowerShell7.4.22 no macOS,
 incluindo stderr com exit0, exit9, executável ausente, argumentos especiais, log vazio e Python filho em UTF-8. O seletor -3 permanece sem aspas na linha de argumentos; launcher py.exe real ainda depende da prova Windows.
 O ensaio Windows de 11/11 revelou log vazio, seletor py e codificação que exigiram
-contornos em memória; isso não homologou o runner em disco. Esta entrega corrige
-as causas identificadas e permanece bloqueada até refixar o alvo. A execução
+contornos em memória; isso não homologou o runner em disco. As correções integradas no PR #117
+e esta refixação precisam agora de ensaio do arquivo em disco. A execução
 corrigida em WindowsPowerShell5.1 continua pendente;
 compatibilidade sintática com5.1 é pretendida; **WindowsPowerShell5.1 e gradlew.bat
 não foram executados neste preparo**. A execução real no Windows é a prova que
