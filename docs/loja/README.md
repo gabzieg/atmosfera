@@ -1,6 +1,6 @@
 # Material da listagem — Terra / candidato 8
 
-Proposta de 11/11/2026 para revisão editorial e visual na [#88](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6804730825).
+Pacote de 11/11/2026 aprovado editorial e visualmente em [88/6807363318](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6807363318), preparado na [#88](https://github.com/gabzieg/atmosfera/issues/88#issuecomment-6804730825).
 Não publicada nem cadastrada no Console. Textos e acesso em inglês estão na [FICHA.md](FICHA.md).
 App de origem: `e82a0c66e8a747b019fa67cac600b3738610eb8c` (1.0.5/código 8).
 
@@ -19,7 +19,7 @@ Os três screenshots são JPEG RGB de **1080×2160**, razão 2:1, sem canal alfa
 O banner é JPEG RGB de **1024×500**, sem canal alfa. Medidos com Pillow em
 11/11/2026; hashes, dimensões, fontes e método no [registro de proveniência](candidate-8-proposal/provenance.json).
 Atendem aos limites de arquivo/dimensões consultados nas [regras oficiais da Play](https://support.google.com/googleplay/android-developer/answer/9866151?hl=en),
-sem constituir aceite editorial ou garantia de aprovação pela loja.
+sem constituir garantia de aprovação pela loja. O aceite do dono não autoriza cadastro.
 
 ## Enquadramento e reprodução
 
@@ -28,7 +28,7 @@ Originais do ensaio `e82a0c6` preservados fora do Git: `01-negada-com-cache.png`
 Cada SVG incorpora o PNG integral, escala ambos os eixos por 0,9 para 972×2160,
 e acrescenta 54 px de margem em cada lateral. Nenhum corte, reconstrução ou
 mudança na UI. A escala não revela conteúdo além do viewport original.
-A imagem de início documenta uma condição real de teste, sujeita a escolha editorial;
+A imagem de início documenta uma condição real de teste, incluída no pacote aprovado;
 o pacote não representa cobertura de todas as telas ou prova de compras.
 
 O banner incorpora miniaturas exatas do catálogo desse commit, sem geração de arte.
