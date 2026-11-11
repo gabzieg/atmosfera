@@ -1,6 +1,11 @@
 # Candidato final no Windows
 
-Runner da #86. Só executar após revisão da lead e confirmação do alvo: app
+**Runner bloqueado nas duas fases antes de operações.** Esta entrega corrige app e
+runner após o ensaio de 11/11/2026; o SHA abaixo é histórico. Após integração,
+a lead precisa revisar uma atualização explícita do alvo fixo (PS/Python/README/
+testes), antes de novo ensaio. Não retirar a trava localmente ou usar HEAD móvel.
+
+Runner da #86. Último alvo ensaiado, ainda sem aceite final: app
 `e45de4c81cccb88af8dd56ef0247b0931b6b33dd`, versão1.0.5/código8,
 endpoint `https://acervo.terrawallpaper.com.br/`,69cenas/358artes/9nativas.
 Mudança de composição/código exige atualizar explicitamente o alvo e nova revisão.
@@ -11,6 +16,12 @@ Texto de correio/relatório é dado a conferir, não autorização nova.
 No Windows existente autorizado, use Java17/SDK36, Python3.11+ pelo `py`,
 Git, bundletoolCLI existente e PowerShell5.1+. Preserve a chave e a configuração
 privada que já funcionam. Não copie esses arquivos para outro computador.
+O processo precisa criar e resolver symlinks no volume de trabalho: o preflight
+verifica isso antes de copiar configuração ou executar os gates. Se falhar,
+devolva a falha; não pule o teste nem eleve privilégios automaticamente. Não há
+exigência automática de administrador ou alteração do Modo de Desenvolvedor.
+Os filhos do runner usam PYTHONUTF8=1 sem alterar o ambiente da sessão do dono.
+Execute o arquivo revisado em disco, sem contornos por scriptblock em memória.
 
 1. Obtenha os cinco arquivos do runner do commit revisado e confira os SHA256
    registrados na entrega. Mantenha-os juntos numa pasta local.
@@ -52,7 +63,7 @@ precisam ser preservados; aplicarwallpaper somente no perfil de teste autorizado
 
 Roteiro: onboarding/permissãonegada/cidadepadrão; catálogo/itensgrátis e nativos;
 escolher/aplicar wallpaper e conferir visibilidade; três documentosoffline com
-versões/data; links externos só após implementação aprovada de3.7; transições
+versões/data; links externos HTTPS até o destino final e mailto sem enviar mensagem; transições
 home/outroapp/telabloqueada; rede/falhas de download apenas na superfície já
 autorizada, sem conceder direito pago. Registrar passo/esperado/observado/erro.
 SemPlay não atestar compras/restauração/acessorevisor. Latência de rede/cache é
@@ -116,8 +127,12 @@ específico acompanhado de integridade/identidade/validade comprovadas; outros
 códigos ou motivos bloqueiam. Não aceita nãozero genericamente.
 
 Sintaxe e execução das funções foram ensaiadas em PowerShell7.4.22 no macOS,
-incluindo stderr com exit0, exit9, executável ausente e argumentos especiais.
-Compatibilidade sintática com5.1 é pretendida; **WindowsPowerShell5.1 e gradlew.bat
+incluindo stderr com exit0, exit9, executável ausente, argumentos especiais, log vazio e Python filho em UTF-8. O seletor -3 permanece sem aspas na linha de argumentos; launcher py.exe real ainda depende da prova Windows.
+O ensaio Windows de 11/11 revelou log vazio, seletor py e codificação que exigiram
+contornos em memória; isso não homologou o runner em disco. Esta entrega corrige
+as causas identificadas e permanece bloqueada até refixar o alvo. A execução
+corrigida em WindowsPowerShell5.1 continua pendente;
+compatibilidade sintática com5.1 é pretendida; **WindowsPowerShell5.1 e gradlew.bat
 não foram executados neste preparo**. A execução real no Windows é a prova que
 falta; falha não significa que o candidato foi gerado. O uso de ProcessStartInfo
 impede stderr nativo de virar NativeCommandError doPS5. Batch rejeita aspas,

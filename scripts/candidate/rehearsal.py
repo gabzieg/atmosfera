@@ -4,9 +4,26 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import tempfile
 import zipfile
 
 from verify_final_candidate import APP_COMMIT, file_sha256, read_json, read_log
+
+
+def verify_environment(output):
+    # #86, 11/11/2026: play-tests exige resolução real de symlink no Windows.
+    # Testa o mesmo volume/processo antes de copiar configurações ou rodar gates.
+    try:
+        with tempfile.TemporaryDirectory(prefix='symlink-check-', dir=output) as folder:
+            root = Path(folder)
+            target = root / 'target.txt'
+            target.write_bytes(b'fixture')
+            link = root / 'link.txt'
+            link.symlink_to(target)
+            if not link.is_symlink() or link.resolve() != target.resolve() or link.read_bytes() != b'fixture':
+                raise ValueError('Symlink nao resolveu o alvo')
+    except OSError as error:
+        raise ValueError('Processo sem suporte a symlink no volume de trabalho') from error
 
 
 def verify_device(output):
@@ -63,21 +80,30 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--acceptance', type=Path)
     parser.add_argument('--check-device', action='store_true')
+    parser.add_argument('--check-environment', action='store_true')
     parser.add_argument('--root', type=Path)
     parser.add_argument('--apk', type=Path)
     parser.add_argument('--output', type=Path)
     args = parser.parse_args()
     try:
-        if args.acceptance:
+        if args.check_environment:
+            verify_environment(args.output)
+        elif args.acceptance:
             verify_acceptance(args.acceptance, args.apk)
         elif args.check_device:
             verify_device(args.output)
         else:
             export_rehearsal(args.root, args.apk, args.output)
     except Exception:
+        if args.check_environment:
+            print('FALHA pre-requisito: symlink indisponivel; devolver falha sem pular gate ou elevar privilegios automaticamente')
+            return 1
         print('FALHA ensaio: aparelho, fonte, pacote ou aceite divergente; nao enviar log privado')
         return 1
-    print('FIM preparo ensaio: 0; nao equivale a execucao/aceite no aparelho')
+    if args.check_environment:
+        print('FIM pre-requisito symlink: 0')
+    else:
+        print('FIM preparo ensaio: 0; nao equivale a execucao/aceite no aparelho')
     return 0
 
 

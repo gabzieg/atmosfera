@@ -30,7 +30,6 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -65,6 +64,7 @@ import com.terra.wallpaper.ui.components.ConfirmarWallpaperDialog
 import com.terra.wallpaper.ui.components.cenarioTemAsset
 import com.terra.wallpaper.ui.components.SceneThumbnail
 import com.terra.wallpaper.ui.components.StatChip
+import com.terra.wallpaper.ui.theme.Spacing
 import com.terra.wallpaper.weather.WeatherState
 
 @Composable
@@ -113,53 +113,22 @@ fun HomeTab(viewModel: MainViewModel) {
             color = MaterialTheme.colorScheme.onBackground,
         )
 
-        // Este card deixou de ser o primeiro contato do app — quem pede a
-        // permissão agora é o passo 3 do onboarding, depois de já ter mostrado
-        // valor. Aqui ele sobrou como FALLBACK: para quem recusou no onboarding,
-        // escolheu "continuar com a cidade padrão", ou revogou depois nos
-        // ajustes do sistema. Sem ele, essas pessoas não teriam como voltar
-        // atrás sem procurar nas configurações do Android.
-        if (!hasLocationPermission) {
-            PermissionOnboardingCard(
-                onClick = {
-                    locationPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
-                }
-            )
-        } else {
-            WeatherHeroCard(
-                sceneId = currentSceneId,
-                arte = currentArt,
-                weatherState = weatherState,
-                climaInfo = climaInfo,
-                onRefresh = { viewModel.refreshWeather() },
-            )
+        HomeWeatherSection(
+            hasLocationPermission, currentSceneId, currentArt, weatherState, climaInfo,
+            onRefresh = { viewModel.refreshWeather() },
+            onPermission = { locationPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION) },
+        )
 
-            if (weatherState != null) {
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
-                    StatChip(
-                        value = "${weatherState!!.feelsLikeCelsius.toInt()}°C",
-                        label = "Sensação",
-                        modifier = Modifier.weight(1f),
-                    )
-                    StatChip(
-                        value = "${weatherState!!.windspeedKmh.toInt()} km/h",
-                        label = "Vento",
-                        modifier = Modifier.weight(1f),
-                    )
-                }
-            }
+        MeusCenarios(
+            cenarios = meusCenarios,
+            atual = currentSceneId,
+            // cada cenário na arte que o usuário TEM nele (no jardim grátis
+            // é o ukiyo-e, não a arte global do momento)
+            arteDe = { viewModel.arteInicial(it) },
+            onEscolher = { viewModel.setScene(it) },
+        )
 
-            MeusCenarios(
-                cenarios = meusCenarios,
-                atual = currentSceneId,
-                // cada cenário na arte que o usuário TEM nele (no jardim grátis
-                // é o ukiyo-e, não a arte global do momento)
-                arteDe = { viewModel.arteInicial(it) },
-                onEscolher = { viewModel.setScene(it) },
-            )
-
-            SetWallpaperCta(onDefinir = { mostrarConfirmacao = true })
-        }
+        SetWallpaperCta(onDefinir = { mostrarConfirmacao = true })
     }
 
     if (mostrarConfirmacao) {
@@ -206,13 +175,13 @@ private fun PermissionOnboardingCard(onClick: () -> Unit) {
             )
             Spacer(Modifier.height(12.dp))
             Text(
-                "Permissão de localização",
+                "Local padrão: São Paulo, SP",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface,
             )
             Spacer(Modifier.height(6.dp))
             Text(
-                "Precisamos da sua localização aproximada para o papel de parede reagir ao clima real da sua região.",
+                "Sem localização, as próximas consultas usam São Paulo, SP. O clima exibido é o último salvo, que pode ser de outra região. Para usar sua região nas próximas consultas, conceda a localização aproximada.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -376,10 +345,11 @@ private fun WeatherHeroCard(
                     .padding(20.dp),
             ) {
                 if (weatherState == null) {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp, color = Color.White)
-                        Text("Carregando clima…", color = Color.White, style = MaterialTheme.typography.bodyMedium)
-                    }
+                    Text(
+                        "Ainda não há clima salvo. Ative o wallpaper na tela inicial para consultar quando houver conexão.",
+                        color = Color.White,
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
                 } else {
                     Column {
                         // Sem emoji de clima: a condição já vem no texto abaixo
@@ -468,4 +438,34 @@ private fun SetWallpaperCta(onDefinir: () -> Unit) {
 private fun isAtmosferaWallpaperActive(context: Context): Boolean {
     val info = WallpaperManager.getInstance(context).wallpaperInfo
     return info != null && info.packageName == context.packageName
+}
+
+@Composable
+internal fun HomeWeatherSection(
+    hasLocationPermission: Boolean,
+    sceneId: String,
+    arte: String,
+    weatherState: WeatherState?,
+    climaInfo: ClimaInfo,
+    onRefresh: () -> Unit,
+    onPermission: () -> Unit,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(Spacing.lg)) {
+        if (!hasLocationPermission) PermissionOnboardingCard(onClick = onPermission)
+        WeatherHeroCard(sceneId, arte, weatherState, climaInfo, onRefresh)
+        if (weatherState != null) {
+            Row(horizontalArrangement = Arrangement.spacedBy(Spacing.md), modifier = Modifier.fillMaxWidth()) {
+                StatChip(
+                    value = "${weatherState.feelsLikeCelsius.toInt()}°C",
+                    label = "Sensação",
+                    modifier = Modifier.weight(1f),
+                )
+                StatChip(
+                    value = "${weatherState.windspeedKmh.toInt()} km/h",
+                    label = "Vento",
+                    modifier = Modifier.weight(1f),
+                )
+            }
+        }
+    }
 }
